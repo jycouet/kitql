@@ -1,0 +1,47 @@
+{
+  "name": "@kitql/all-in",
+  "version": "0.0.1",
+  "license": "MIT",
+  "scripts": {
+    "test": "jest --no-watchman --config ../../jest.config.js",
+    "prepack": "bob prepack"
+  },
+  "devDependencies": {},
+  "dependencies": {
+    "@graphql-codegen/cli": "2.3.1",
+    "@graphql-codegen/graphql-modules-preset": "2.3.2",
+    "@graphql-codegen/typed-document-node": "2.2.2",
+    "@graphql-codegen/typescript": "2.4.2",
+    "@graphql-codegen/typescript-operations": "2.2.2",
+    "@graphql-codegen/typescript-resolvers": "2.4.3",
+    "@kitql/client": "0.0.9",
+    "@kitql/graphql-codegen": "0.0.9"
+  },
+  "peerDependencies": {
+    "graphql": "^15.0.0 || ^16.0.0"
+  },
+  "main": "dist/index.js",
+  "module": "dist/index.mjs",
+  "exports": {
+    "./package.json": "./package.json",
+    ".": {
+      "require": "./dist/index.js",
+      "import": "./dist/index.mjs"
+    },
+    "./*": {
+      "require": "./dist/*.js",
+      "import": "./dist/*.mjs"
+    }
+  },
+  "typings": "dist/index.d.ts",
+  "typescript": {
+    "definition": "dist/index.d.ts"
+  },
+  "buildOptions": {
+    "input": "./src/index.ts"
+  },
+  "publishConfig": {
+    "directory": "dist",
+    "access": "public"
+  }
+}
