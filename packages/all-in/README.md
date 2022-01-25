@@ -1,6 +1,6 @@
 # KitQL - all-in
 
-_A set of tools, helping **you** building efficient apps in a fast way._
+[KitQL](https://github.com/jycouet/kitql#kitql), _A set of tools, helping **you** building efficient apps in a fast way._
 
 <p align="center">
   <img src="../../logo.svg" width="100" />
@@ -29,7 +29,7 @@ projects:
     extensions:
       endpoints:
         default:
-          url: "http://localhost:3777/api/graphql"
+          url: 'http://localhost:3777/api/graphql'
       codegen:
         generates:
           ./src/lib/modules/:
@@ -48,7 +48,7 @@ projects:
 
           ./src/lib/graphql/_kitql/graphqlStores.ts:
             plugins:
-              - "@kitql/graphql-codegen"
+              - '@kitql/graphql-codegen'
             config:
               importBaseTypesFrom: $lib/graphql/_kitql/graphqlTypes
 
