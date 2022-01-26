@@ -1,30 +1,22 @@
 {
-	"name": "@kitql/all-in",
-	"version": "0.0.3",
-	"license": "MIT",
+	"name": "@kitql/vite-plugin-watch-and-run",
+	"version": "0.0.2",
+	"description": "vite-plugin that will watch some files and run a package.json script on change",
 	"repository": {
 		"type": "git",
 		"url": "https://github.com/jycouet/kitql.git",
-		"directory": "packages/all-in"
+		"directory": "packages/vite-plugin-watch-and-run",
+		"homepage": "https://github.com/jycouet/kitql/tree/main/packages/vite-plugin-watch-and-run#readme"
 	},
+	"license": "MIT",
 	"scripts": {
+		"lint": "eslint **/*.ts",
 		"test": "jest --no-watchman --config ../../jest.config.js",
 		"prepack": "bob prepack"
 	},
-	"devDependencies": {},
 	"dependencies": {
-		"@graphql-codegen/cli": "2.3.1",
-		"@graphql-codegen/graphql-modules-preset": "2.3.2",
-		"@graphql-codegen/typed-document-node": "2.2.2",
-		"@graphql-codegen/typescript": "2.4.2",
-		"@graphql-codegen/typescript-operations": "2.2.2",
-		"@graphql-codegen/typescript-resolvers": "2.4.3",
-		"@kitql/client": "0.0.9",
-		"@kitql/graphql-codegen": "0.0.9",
-		"@kitql/vite-plugin-watch-and-run": "0.0.2"
-	},
-	"peerDependencies": {
-		"graphql": "^15.0.0 || ^16.0.0"
+		"minimatch": "^3.0.4",
+		"tslib": "~2.3.0"
 	},
 	"main": "dist/index.js",
 	"module": "dist/index.mjs",

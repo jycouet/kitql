@@ -23,6 +23,7 @@ You have 3 main options to use `KitQL`:
 - Pick and choose the tools you need (advanced)
   - [KitQL - client](https://github.com/jycouet/kitql/tree/main/packages/client)
   - [KitQL - graphql-codegen](https://github.com/jycouet/kitql/tree/main/packages/graphql-codegen)
+  - [KitQL - vite-plugin-watch-and-run](https://github.com/jycouet/kitql/tree/main/packages/vite-plugin-watch-and-run)
 
 <br /><br />
 
