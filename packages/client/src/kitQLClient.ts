@@ -1,6 +1,9 @@
+import { print } from 'graphql';
+
 export type ClientSettings = {
 	url: string;
 	cacheMs?: number;
+	credentials?: 'include' | string;
 };
 
 export type RequestSettings = {
@@ -49,13 +52,15 @@ export const defaultStoreValue = {
 export class KitQLClient {
 	private url: string;
 	private cacheMs: number;
+	private credentials: 'include' | string;
 
 	private cache = {};
 
 	constructor(options: ClientSettings) {
-		const { url, cacheMs } = options || {};
+		const { url, cacheMs, credentials } = options || {};
 		this.url = url;
 		this.cacheMs = cacheMs || 1000 * 60 * 3;
+		this.credentials = credentials;
 	}
 
 	public async request<D, V>({
@@ -91,9 +96,9 @@ export class KitQLClient {
 		try {
 			const res = await fetchToUse(this.url, {
 				method: 'POST',
-				credentials: 'include',
+				credentials: this.credentials,
 				headers: { 'Content-Type': 'application/json' },
-				body: JSON.stringify({ query: document, variables })
+				body: JSON.stringify({ query: print(document), variables })
 			});
 
 			if (res.status !== 200) {
