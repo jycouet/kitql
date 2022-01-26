@@ -1,0 +1,9 @@
+query GetAllCountriesOfContinent($code: ID!) {
+	continent(code: $code) {
+		...continentFrag
+		countries {
+			code
+			name
+		}
+	}
+}

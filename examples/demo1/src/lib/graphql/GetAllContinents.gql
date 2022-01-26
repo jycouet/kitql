@@ -1,0 +1,10 @@
+query GetAllContinents {
+	continents {
+		...continentFrag
+	}
+}
+
+fragment continentFrag on Continent {
+	name
+	code
+}
