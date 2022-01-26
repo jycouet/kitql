@@ -14,6 +14,13 @@ Typical CodeGen file (`.graphqlrc.yaml`)
 # ...
 codegen:
   generates:
+    ./graphql/_kitql/graphqlTypes.ts:
+      plugins:
+        - typescript
+        - typescript-resolvers
+        - typescript-operations
+        - typed-document-node
+
     ./graphql/_kitql/graphqlStores.ts:
       plugins:
         - '@kitql/graphql-codegen'
