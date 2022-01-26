@@ -1,6 +1,6 @@
 {
 	"name": "@kitql/all-in",
-	"version": "0.0.3",
+	"version": "0.0.7",
 	"license": "MIT",
 	"repository": {
 		"type": "git",
@@ -17,10 +17,12 @@
 		"@graphql-codegen/graphql-modules-preset": "2.3.2",
 		"@graphql-codegen/typed-document-node": "2.2.2",
 		"@graphql-codegen/typescript": "2.4.2",
+		"@graphql-codegen/typescript-document-nodes": "2.2.2",
 		"@graphql-codegen/typescript-operations": "2.2.2",
 		"@graphql-codegen/typescript-resolvers": "2.4.3",
-		"@kitql/client": "0.0.9",
-		"@kitql/graphql-codegen": "0.0.9",
+		"@graphql-typed-document-node/core": "3.1.1",
+		"@kitql/client": "0.0.13",
+		"@kitql/graphql-codegen": "0.0.11",
 		"@kitql/vite-plugin-watch-and-run": "0.0.2"
 	},
 	"peerDependencies": {

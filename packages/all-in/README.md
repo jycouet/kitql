@@ -13,7 +13,7 @@
 (step 0, if it's not done, create a [sveltekit project](https://kit.svelte.dev/) with everything `true` 🙃)
 
 ```bash
-yarn add @kitQL/all-in
+yarn add @kitql/all-in
 ```
 
 ## 2️⃣ Create a `.graphqlrc.yaml` at the root of your project
@@ -63,15 +63,39 @@ projects:
 
 ```json
 "scripts": {
-  "dev": "svelte-kit dev --port 3178",
-  "gen": "graphql-codegen --config ./.graphqlrc.yaml",
+  "prepare": "yarn gen",                                // will run the codegen after yarn install
+  "dev": "svelte-kit dev --port 3178",                  // adapt the port to your needs
+  "gen": "graphql-codegen --config ./.graphqlrc.yaml",  // run codegen with the right config file
 }
 ```
 
-## 4️⃣ Run the app
+## 4️⃣ Install the plugin Watch & Run
+
+In your `svelte.config.js` add a watchAndRun with the following configuration:
+
+```js
+import watchAndRun from './vite-plugin-watch-and-run.js';
+
+/** @type {import('@sveltejs/kit').Config} */
+const config = {
+	kit: {
+		vite: {
+			plugins: [
+				watchAndRun({
+					watch: '*.+(gql|graphql)',
+					run: 'yarn gen'
+				})
+			]
+		}
+	}
+};
+
+export default config;
+```
+
+## 5️⃣ Run
 
 ```bash
-yarn gen
 yarn dev
 ```
 
