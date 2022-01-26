@@ -31,6 +31,8 @@ You have 3 main options to use `KitQL`:
 
 ## Demo 1
 
+_SvelteKit & GraphQL client with SSR & caching_
+
 ```bash
 # Get the first demo app
 npx degit github:jycouet/kitql/examples/demo1 gqlkit-demo1
