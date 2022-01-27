@@ -4,6 +4,10 @@ export type ClientSettings = {
 	url: string;
 	cacheMs?: number;
 	credentials?: 'include' | string;
+	/**
+	 * Default to `false`. But if you have a great server, put this to true! ;)
+	 */
+	astMode?: boolean;
 };
 
 export type RequestSettings = {
@@ -53,6 +57,7 @@ export class KitQLClient {
 	private url: string;
 	private cacheMs: number;
 	private credentials: 'include' | string;
+	private astMode: boolean;
 
 	private cache = {};
 
@@ -61,6 +66,7 @@ export class KitQLClient {
 		this.url = url;
 		this.cacheMs = cacheMs || 1000 * 60 * 3;
 		this.credentials = credentials;
+		this.astMode = options.astMode || false;
 	}
 
 	public async request<D, V>({
@@ -98,7 +104,10 @@ export class KitQLClient {
 				method: 'POST',
 				credentials: this.credentials,
 				headers: { 'Content-Type': 'application/json' },
-				body: JSON.stringify({ query: print(document), variables })
+				body: JSON.stringify({
+					query: this.astMode ? document : print(document),
+					variables
+				})
 			});
 
 			if (res.status !== 200) {
