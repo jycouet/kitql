@@ -8,6 +8,10 @@
 
 # ⚡How to - client
 
+```bash
+yarn add -D @kitql/client
+```
+
 To use, KitQL Client, create an instance of it in file
 `./src/lib/graphql/kitQL.ts`
 

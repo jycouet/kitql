@@ -8,6 +8,10 @@
 
 # ⚡How to - vite-plugin-watch-and-run
 
+```bash
+yarn add @kitql/vite-plugin-watch-and-run
+```
+
 In your `svelte.config.js` add a watchAndRun with the following configuration:
 
 - watch: a glob pattern to watch for changes

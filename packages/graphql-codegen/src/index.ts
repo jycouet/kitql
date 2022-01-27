@@ -121,9 +121,9 @@ export const plugin: PluginFunction<Record<string, any>, Types.ComplexPluginOutp
 		.filter(Boolean);
 
 	let prepend = [];
-	prepend.push(`import { kitQLClient } from '../kitQL';`);
+	prepend.push(`import { kitQLClient } from '../kitQLClient';`);
 	prepend.push(
-		`import { defaultStoreValue, RequestStatus, type RequestParameters, type RequestResult } from '../kitQL';`
+		`import { defaultStoreValue, RequestStatus, type RequestParameters, type RequestResult } from '@kitql/client';`
 	);
 	if (config.importBaseTypesFrom) {
 		prepend.push(`import * as Types from "${config.importBaseTypesFrom}";`);

@@ -1,16 +1,33 @@
 import { print } from 'graphql';
 
 export type ClientSettings = {
-	url: string;
-	cacheMs?: number;
-	credentials?: 'include' | string;
 	/**
-	 * Default to `false`. But if you have a great server, put this to true! ;)
+	 * url of your graphql endpoint.
 	 */
-	astMode?: boolean;
+	url: string;
+
+	/**
+	 * Default Cache in miliseconds (can be overwritten at Query level, so `cacheMs:0` force a network call)
+	 */
+	cacheMs?: number;
+	/**
+	 * Default to `omit` (secure by default). More info there: https://developer.mozilla.org/en-US/docs/Web/API/Request/credentials
+	 */
+	credentials?: 'omit' | 'same-origin' | 'include';
+	/**
+	 * Default to `ast`. But if your server is a bit legacy, you can go back to `string`
+	 */
+	queryMode?: 'string' | 'ast';
+	/**
+	 * Default to `/graphql+json`. But if your server is a bit legacy, you can go back to `/json`
+	 */
+	headersContentType?: 'application/graphql+json' | 'application/json';
 };
 
 export type RequestSettings = {
+	/**
+	 * Cache in miliseconds for the Query (so `cacheMs:0` force a network call)
+	 */
 	cacheMs: number;
 };
 
@@ -57,7 +74,8 @@ export class KitQLClient {
 	private url: string;
 	private cacheMs: number;
 	private credentials: 'include' | string;
-	private astMode: boolean;
+	private queryMode: 'string' | 'ast';
+	private headersContentType: 'application/graphql+json' | 'application/json';
 
 	private cache = {};
 
@@ -66,7 +84,8 @@ export class KitQLClient {
 		this.url = url;
 		this.cacheMs = cacheMs || 1000 * 60 * 3;
 		this.credentials = credentials;
-		this.astMode = options.astMode || false;
+		this.queryMode = options.queryMode || 'ast';
+		this.headersContentType = options.headersContentType || 'application/graphql+json';
 	}
 
 	public async request<D, V>({
@@ -103,9 +122,9 @@ export class KitQLClient {
 			const res = await fetchToUse(this.url, {
 				method: 'POST',
 				credentials: this.credentials,
-				headers: { 'Content-Type': 'application/json' },
+				headers: { 'Content-Type': this.headersContentType },
 				body: JSON.stringify({
-					query: this.astMode ? document : print(document),
+					query: this.queryMode === 'string' ? print(document) : document,
 					variables
 				})
 			});
