@@ -1,4 +1,5 @@
 import { print } from 'graphql';
+import { Maybe } from 'graphql/jsutils/Maybe';
 
 export type ClientSettings = {
 	/**
@@ -46,10 +47,10 @@ export enum RequestFrom {
 }
 
 export declare type ResponseResult<D, V> = {
-	date: number | null;
-	variables: V;
-	data: D | null;
-	errors: Error[] | null;
+	date: number;
+	variables?: V;
+	data?: D | null;
+	errors?: Error[] | null;
 	from: RequestFrom;
 };
 
@@ -59,7 +60,7 @@ export declare type RequestResult<D, V> = {
 
 export const defaultStoreValue = {
 	status: RequestStatus.NEVER,
-	date: null,
+	date: new Date().getTime(),
 	variables: null,
 	data: null,
 	errors: null,
@@ -99,7 +100,7 @@ export class KitQLClient {
 			if (xMs < (cacheMs || this.cacheMs)) {
 				return { ...this.cache[key], from: RequestFrom.CACHE };
 			} else {
-				// remove from cache?
+				// remove from cache? No need, it will be overwritten anyway!
 			}
 		}
 
@@ -124,7 +125,11 @@ export class KitQLClient {
 			});
 
 			if (res.status !== 200) {
-				dateToReturn.errors = [res.statusText];
+				if (res.statusText === '') {
+					dateToReturn.errors = [new Error(`${res.status} - ${await res.text()}`)];
+				} else {
+					dateToReturn.errors = [new Error(`${res.status} - ${res.statusText}`)];
+				}
 				return dateToReturn;
 			}
 
