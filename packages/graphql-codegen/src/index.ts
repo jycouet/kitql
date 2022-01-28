@@ -22,7 +22,6 @@ export const plugin: PluginFunction<Record<string, any>, Types.ComplexPluginOutp
 	documents,
 	config
 ) => {
-	console.log(`config`, config);
 	const allAst = concatAST(documents.map(v => v.document));
 	const convertName = convertFactory(config);
 	const operationResultSuffix = getConfigValue(config.operationResultSuffix, '');
