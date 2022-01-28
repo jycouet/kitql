@@ -27,11 +27,13 @@ const config = {
 	kit: {
 		vite: {
 			plugins: [
-				watchAndRun({
-					watch: '*.+(gql|graphql)',
-					run: 'yarn gen'
-					// delay: 1000, Optional parameter to delay the run command.
-				})
+				watchAndRun([
+					{
+						watch: '**/*.(gql|graphql)',
+						run: 'yarn gen'
+						// delay: 500, Optional parameter to delay the run command.
+					}
+				])
 			]
 		}
 	}
