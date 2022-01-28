@@ -15,10 +15,6 @@ export type ClientSettings = {
 	 */
 	credentials?: 'omit' | 'same-origin' | 'include';
 	/**
-	 * Default to `ast`. But if your server is a bit legacy, you can go back to `string`
-	 */
-	queryMode?: 'string' | 'ast';
-	/**
 	 * Default to `/graphql+json`. But if your server is a bit legacy, you can go back to `/json`
 	 */
 	headersContentType?: 'application/graphql+json' | 'application/json';
@@ -74,7 +70,6 @@ export class KitQLClient {
 	private url: string;
 	private cacheMs: number;
 	private credentials: 'include' | string;
-	private queryMode: 'string' | 'ast';
 	private headersContentType: 'application/graphql+json' | 'application/json';
 
 	private cache = {};
@@ -84,7 +79,6 @@ export class KitQLClient {
 		this.url = url;
 		this.cacheMs = cacheMs || 1000 * 60 * 3;
 		this.credentials = credentials;
-		this.queryMode = options.queryMode || 'ast';
 		this.headersContentType = options.headersContentType || 'application/graphql+json';
 	}
 
@@ -124,7 +118,7 @@ export class KitQLClient {
 				credentials: this.credentials,
 				headers: { 'Content-Type': this.headersContentType },
 				body: JSON.stringify({
-					query: this.queryMode === 'string' ? print(document) : document,
+					query: print(document),
 					variables
 				})
 			});
