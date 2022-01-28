@@ -16,10 +16,12 @@ const config = {
 
 		vite: {
 			plugins: [
-				watchAndRun({
-					watch: '*.+(gql|graphql)',
-					run: 'yarn gen'
-				})
+				watchAndRun([
+					{
+						watch: '**/*.(gql|graphql)',
+						run: 'yarn gen'
+					}
+				])
 			]
 		}
 	}

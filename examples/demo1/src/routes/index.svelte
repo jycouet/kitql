@@ -34,7 +34,7 @@
 	<div>
 		<h2>Continents</h2>
 		<ul>
-			{#each $GetAllContinentsQueryStore.data.continents as continent}
+			{#each $GetAllContinentsQueryStore.data?.continents as continent}
 				<li class="allSpace">
 					<p>{continent?.name}</p>
 					<button on:click={() => show(continent?.code)}>Get Countries -></button>
@@ -51,7 +51,7 @@
 		<h4>
 			<pre>Form: {$GetAllCountriesOfContinentQueryStore.from}, Status: {$GetAllCountriesOfContinentQueryStore.status}</pre>
 		</h4>
-		{#if $GetAllCountriesOfContinentQueryStore.data}
+		{#if $GetAllCountriesOfContinentQueryStore.data.continent}
 			<Continent />
 		{/if}
 	</div>
