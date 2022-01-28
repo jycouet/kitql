@@ -1,5 +1,4 @@
-import minimatch from 'minimatch';
-import path from 'path';
+import micromatch from 'micromatch';
 import { spawn } from 'child_process';
 
 function getGreen(str) {
@@ -10,73 +9,121 @@ function getRed(str) {
 	return '\u001B[31m' + str + '\x1b[0m';
 }
 
-export default function watchAndRun(
-	{ watch, run, delay }: { watch: string | null; run: string | null; delay: number | null } = {
-		watch: null,
-		run: null,
-		delay: 1000
-	}
-) {
-	if (!watch) {
-		throw new Error('plugin watchAndRun, `watch` is missing.');
-	}
-	if (!run) {
-		throw new Error('plugin watchAndRun, `run` is missing.');
+function getBlue(str) {
+	return '\u001B[34m' + str + '\x1b[0m';
+}
+
+function log(str) {
+	console.log(`${getBlue('[vite-plugin-watch-and-run]')} ${str}`);
+}
+
+export type Options = {
+	/**
+	 * watch files to trigger the run action (glob format)
+	 */
+	watch: string;
+	/**
+	 * run command (yarn gen for example!)
+	 */
+	run: string;
+	/**
+	 * Delay before running the run command (in ms) (default to 500ms if not set)
+	 */
+	delay: number | null;
+};
+
+export type StateDetail = {
+	run: string;
+	delay: number;
+	isRunnig: boolean;
+};
+
+function checkConf(params: Options[]) {
+	if (!Array.isArray(params)) {
+		throw new Error('plugin watchAndRun, `params` needs to be an array.');
 	}
 
-	delay = delay || 1000;
+	let paramsChecked: Record<string, StateDetail> = {};
+
+	for (let i = 0; i < params.length; i++) {
+		const param = params[i];
+		if (!param.watch) {
+			throw new Error('plugin watch-and-run, `watch` is missing.');
+		}
+		if (!param.run) {
+			throw new Error('plugin watch-and-run, `run` is missing.');
+		}
+
+		paramsChecked[param.watch] = {
+			run: param.run,
+			delay: param.delay || 500,
+			isRunnig: false
+		};
+	}
+
+	return paramsChecked;
+}
+
+export default function watchAndRun(params: Options[]) {
+	// check params, throw Errors if not valid and return a new object representing the state of the plugin
+	let pluginState = checkConf(params);
 
 	return {
 		name: 'watch-and-run', // this name will show up in warnings and errors
 
 		configureServer(server) {
-			let isRunning = false;
-
 			const watcher = async absolutePath => {
-				// Do we need to run?
-				let pathToWatch = watch.startsWith('*') ? watch : path.join(server.config.root, watch);
-				if (!minimatch(absolutePath, pathToWatch, { matchBase: true })) {
-					isRunning = false;
+				if (absolutePath.endsWith('svelte.config.js')) {
+					log(
+						`Sorry, I don't handle config change on the fly! ` +
+							`So you need to restart the server to apply the new config for watchAndRun. ` +
+							`If you know how to do this, please help me on github ;).`
+					);
 					return;
 				}
 
-				// Let's say that we are running even if it's not true yet!
-				if (isRunning) {
-					return;
-				}
-				isRunning = true;
-				// Run after a delay
-				setTimeout(() => {
-					let pathToWatch = watch.startsWith('*') ? watch : path.join(server.config.root, watch);
-					if (!minimatch(absolutePath, pathToWatch, { matchBase: true })) {
-						isRunning = false;
-						return;
+				for (const globToWatch in pluginState) {
+					const param = pluginState[globToWatch];
+					// log(`glob  : `, globToWatch);
+					// log(`watch : `, absolutePath);
+					if (!param.isRunnig && micromatch.isMatch(absolutePath, globToWatch)) {
+						pluginState[globToWatch].isRunnig = true;
+
+						log(
+							`${getGreen('✔')} Thx to ${getGreen(globToWatch)}, ` +
+								`triggered by ${getGreen(absolutePath)}, ` +
+								`we will wait ${param.delay}ms and run ${getGreen(param.run)}.`
+						);
+
+						// Run after a delay
+						setTimeout(() => {
+							var child = spawn(param.run, [], { shell: true });
+
+							//spit stdout to screen
+							child.stdout.on('data', function(data) {
+								process.stdout.write(data.toString());
+							});
+
+							//spit stderr to screen
+							child.stderr.on('data', function(data) {
+								process.stdout.write(data.toString());
+							});
+
+							child.on('close', function(code) {
+								if (code === 0) {
+									log(`${getGreen('✔')} finished ${getGreen('successfully')}`);
+								} else {
+									log(`${'❌'} finished with some ${getRed('errors')}`);
+								}
+								param.isRunnig = false;
+							});
+
+							return;
+						}, param.delay);
 					}
+				}
 
-					var child = spawn(run, [], { shell: true });
-
-					//spit stdout to screen
-					child.stdout.on('data', function(data) {
-						process.stdout.write(data.toString());
-					});
-
-					//spit stderr to screen
-					child.stderr.on('data', function(data) {
-						process.stdout.write(data.toString());
-					});
-
-					child.on('close', function(code) {
-						console.log('');
-						if (code === 0) {
-							console.log(`  ${getGreen('✔')} watch-and-run finished ${getGreen('successfully')}`);
-						} else {
-							console.log(`  ${'❌'} watch-and-run finished with some ${getRed('errors')}`);
-						}
-						isRunning = false;
-					});
-
-					return;
-				}, delay);
+				return;
 			};
 
 			// Vite file watcher
