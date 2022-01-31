@@ -94,7 +94,7 @@ export class KitQLClient {
 		const key = JSON.stringify({ cacheKey, variables });
 
 		// Check the cache
-		if (this.cache[key] !== undefined) {
+		if (cacheMs !== 0 && this.cache[key] !== undefined) {
 			const xMs = new Date().getTime() - this.cache[key].date;
 			// cache time of the query or od the default config
 			if (xMs < (cacheMs || this.cacheMs)) {
