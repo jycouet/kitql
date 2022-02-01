@@ -73,15 +73,6 @@ export default function watchAndRun(params: Options[]) {
 
 		configureServer(server) {
 			const watcher = async absolutePath => {
-				if (absolutePath.endsWith('svelte.config.js')) {
-					log(
-						`Sorry, I don't handle config change on the fly! ` +
-							`So you need to restart the server to apply the new config for watchAndRun. ` +
-							`If you know how to do this, please help me on github ;).`
-					);
-					return;
-				}
-
 				for (const globToWatch in pluginState) {
 					const param = pluginState[globToWatch];
 					// log(`glob  : `, globToWatch);
