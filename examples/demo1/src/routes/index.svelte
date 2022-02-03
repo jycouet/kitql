@@ -51,7 +51,7 @@
 		<h4>
 			<pre>Form: {$GetAllCountriesOfContinentQueryStore.from}, Status: {$GetAllCountriesOfContinentQueryStore.status}</pre>
 		</h4>
-		{#if $GetAllCountriesOfContinentQueryStore.data.continent}
+		{#if $GetAllCountriesOfContinentQueryStore.data?.continent}
 			<Continent />
 		{/if}
 	</div>
