@@ -1,6 +1,6 @@
 {
 	"name": "@kitql/vite-plugin-watch-and-run",
-	"version": "0.0.5",
+	"version": "0.0.6",
 	"description": "vite-plugin that will watch some files and run a package.json script on change",
 	"repository": {
 		"type": "git",
@@ -15,8 +15,8 @@
 		"prepack": "bob prepack"
 	},
 	"dependencies": {
-		"micromatch": "^4.0.4",
-		"tslib": "~2.3.0"
+		"micromatch": "4.0.4",
+		"tslib": "2.3.1"
 	},
 	"main": "dist/index.js",
 	"module": "dist/index.mjs",

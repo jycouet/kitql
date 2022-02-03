@@ -5,11 +5,13 @@
 	"private": true,
 	"license": "MIT",
 	"scripts": {
+		"dev": "yarn build && yarn workspace @kitql/template dev",
 		"test": "jest",
 		"test:watch": "jest --watch",
 		"build": "tsc --project tsconfig.json && bob build",
 		"release": "yarn build && changeset publish",
-		"reset": "git clean -xdf"
+		"reset": "git clean -xdf",
+		"update": "npm exec --workspaces -- npx ncu -u -p yarn"
 	},
 	"workspaces": {
 		"packages": [
@@ -17,18 +19,18 @@
 		]
 	},
 	"devDependencies": {
-		"@babel/preset-env": "^7.16.11",
-		"@babel/preset-typescript": "^7.16.7",
-		"@changesets/cli": "^2.19.0",
+		"@babel/preset-env": "7.16.11",
+		"@babel/preset-typescript": "7.16.7",
+		"@changesets/cli": "2.20.0",
 		"@types/jest": "27.4.0",
 		"bob-the-bundler": "1.6.1",
-		"graphql": "16.2.0",
+		"graphql": "16.3.0",
 		"jest": "27.4.7",
 		"ts-jest": "27.1.3",
 		"typescript": "4.5.5"
 	},
 	"resolutions": {
-		"graphql": "16.2.0"
+		"graphql": "16.3.0"
 	},
 	"engines": {
 		"node": "16.13.1"
