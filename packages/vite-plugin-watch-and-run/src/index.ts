@@ -75,8 +75,6 @@ export default function watchAndRun(params: Options[]) {
 			const watcher = async absolutePath => {
 				for (const globToWatch in pluginState) {
 					const param = pluginState[globToWatch];
-					// log(`glob  : `, globToWatch);
-					// log(`watch : `, absolutePath);
 					if (!param.isRunnig && micromatch.isMatch(absolutePath, globToWatch)) {
 						pluginState[globToWatch].isRunnig = true;
 

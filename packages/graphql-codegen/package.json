@@ -1,6 +1,6 @@
 {
 	"name": "@kitql/graphql-codegen",
-	"version": "0.0.14",
+	"version": "0.0.15",
 	"description": "GraphQL Code Generator plugin to generate SvelteKit stores in kitql context",
 	"repository": {
 		"type": "git",
@@ -46,5 +46,12 @@
 	"publishConfig": {
 		"directory": "dist",
 		"access": "public"
+	},
+	"engines": {
+		"node": "17.4.0"
+	},
+	"volta": {
+		"node": "17.4.0",
+		"yarn": "1.22.17"
 	}
 }

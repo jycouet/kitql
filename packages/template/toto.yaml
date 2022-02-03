@@ -1,0 +1,39 @@
+replacesList:
+  - contratFTName:
+      - contrat: '[FTName % camelcase]'
+        Contrat: '[FTName % pascalcase]'
+  - peopleFTName:
+      - people: '[FTName % camelcase]'
+        People: '[FTName % pascalcase]'
+        peo_le: '[FTName % snakecase]'
+        peo-le: '[FTName % paramcase]'
+        Interlocuteur: '[label % sentencecase]'
+  - contratPeriodeFTName:
+      - ContratPeriode: '[FTName % pascalcase]'
+        contrat_periode: '[FTName % snakecase]'
+
+up:
+  - basePathTo: '/home/jycouet/udev/gh/my-minion-mr/.fttemplates/module-NewEntity'
+    replacesList:
+      - peopleFTName
+    basePathFrom: '/home/jycouet/udev/gh/my-minion-mr/packages/main/src/lib/modules/people'
+    files:
+      - index.ts
+      - ui/CREATE.People.svelte
+      - ui/DELETE.People.svelte
+      - ui/EDIT.People.svelte
+      - ui/EDGE.People.svelte
+
+  - basePathTo: '/home/jycouet/udev/gh/my-minion-mr/.fttemplates/module-NewEntity'
+    replacesList:
+      - contratPeriodeFTName
+    basePathFrom: '/home/jycouet/udev/gh/my-minion-mr/packages/main/src/lib/modules/contratPeriode'
+    files:
+      - providers/DbContratPeriode.ts
+
+  - basePathTo: '/home/jycouet/udev/gh/my-minion-mr/.fttemplates/module-Route'
+    replacesList:
+      - peopleFTName
+    basePathFrom: '/home/jycouet/udev/gh/my-minion-mr/packages/main/src/routes/app/people'
+    files:
+      - index.svelte

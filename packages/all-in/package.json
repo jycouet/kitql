@@ -1,6 +1,6 @@
 {
 	"name": "@kitql/all-in",
-	"version": "0.0.17",
+	"version": "0.0.19",
 	"license": "MIT",
 	"repository": {
 		"type": "git",
@@ -21,8 +21,8 @@
 		"@graphql-codegen/typescript-operations": "2.2.4",
 		"@graphql-codegen/typescript-resolvers": "2.5.0",
 		"@graphql-typed-document-node/core": "3.1.1",
-		"@kitql/client": "0.0.20",
-		"@kitql/graphql-codegen": "0.0.14",
+		"@kitql/client": "0.0.21",
+		"@kitql/graphql-codegen": "0.0.15",
 		"@kitql/vite-plugin-watch-and-run": "0.0.6"
 	},
 	"peerDependencies": {
@@ -51,5 +51,12 @@
 	"publishConfig": {
 		"directory": "dist",
 		"access": "public"
+	},
+	"engines": {
+		"node": "17.4.0"
+	},
+	"volta": {
+		"node": "17.4.0",
+		"yarn": "1.22.17"
 	}
 }

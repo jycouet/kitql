@@ -1,12 +1,11 @@
 import { print } from 'graphql';
-import { Maybe } from 'graphql/jsutils/Maybe';
+import { Log, logCyan, logGreen } from '@kitql/helper';
 
 export type ClientSettings = {
 	/**
 	 * url of your graphql endpoint.
 	 */
 	url: string;
-
 	/**
 	 * Default Cache in miliseconds (can be overwritten at Query level, so `cacheMs:0` force a network call)
 	 */
@@ -19,6 +18,10 @@ export type ClientSettings = {
 	 * Default to `/graphql+json`. But if your server is a bit legacy, you can go back to `/json`
 	 */
 	headersContentType?: 'application/graphql+json' | 'application/json';
+	/**
+	 * Default to `all`.
+	 */
+	logType?: 'all' | 'server' | 'none';
 };
 
 export type RequestSettings = {
@@ -70,10 +73,12 @@ export const defaultStoreValue = {
 export class KitQLClient {
 	private url: string;
 	private cacheMs: number;
-	private credentials: 'include' | string;
+	private credentials: 'omit' | 'same-origin' | 'include';
 	private headersContentType: 'application/graphql+json' | 'application/json';
+	private logType: 'all' | 'server' | 'none';
 
 	private cache = {};
+	private log: Log;
 
 	constructor(options: ClientSettings) {
 		const { url, cacheMs, credentials } = options || {};
@@ -81,6 +86,8 @@ export class KitQLClient {
 		this.cacheMs = cacheMs || 1000 * 60 * 3;
 		this.credentials = credentials;
 		this.headersContentType = options.headersContentType || 'application/graphql+json';
+		this.logType = options.logType || 'all';
+		this.log = new Log('KitQL Client');
 	}
 
 	public async request<D, V>({
@@ -88,22 +95,55 @@ export class KitQLClient {
 		document,
 		variables,
 		cacheKey,
-		cacheMs
+		cacheMs,
+		browser
 	}): Promise<ResponseResult<D, V>> {
 		//Cache key... Relys on the order of the variables :s
 		const key = JSON.stringify({ cacheKey, variables });
+
+		const needToLog = this.logType === 'all' || (this.logType === 'server' && !browser);
 
 		// Check the cache
 		if (cacheMs !== 0 && this.cache[key] !== undefined) {
 			const xMs = new Date().getTime() - this.cache[key].date;
 			// cache time of the query or od the default config
 			if (xMs < (cacheMs || this.cacheMs)) {
+				if (needToLog) {
+					this.log.info(
+						`${logCyan('Mode:')} ` +
+							`${logGreen(browser ? 'browser' : 'ssr')}, ` +
+							`${logCyan('From:')} ${logGreen('CACHE')},   ` +
+							`${logCyan('Operation:')} ${logGreen(cacheKey)}`
+					);
+				}
+
 				return { ...this.cache[key], from: RequestFrom.CACHE };
 			} else {
 				// remove from cache? No need, it will be overwritten anyway!
 			}
 		}
 
+		if (needToLog) {
+			this.log.info(
+				`${logCyan('Mode:')} ` +
+					`${logGreen(browser ? 'browser' : 'ssr')}, ` +
+					`${logCyan('From:')} ${logGreen('NETWORK')}, ` +
+					`${logCyan('Operation:')} ${logGreen(cacheKey)}`
+			);
+		}
+
+		// If
+		//   1/ we are in SSR
+		//   2/ we don't provide a fetch function
+		//   3/ credentials is 'include'
+		//      => You are probably doing something wrong!
+		if (!browser && !skFetch && this.credentials === 'include') {
+			this.log.error(
+				`I think that either:` +
+					`\n\t\t1/ you forgot to provide \`fetch\`! As we are in SSR & include here. > ${cacheKey}({ fetch: ??? })` +
+					`\n\t\t2/ you should run this in a browser only.`
+			);
+		}
 		const fetchToUse = skFetch ? skFetch : fetch;
 
 		let dateToReturn: ResponseResult<D, V> = {

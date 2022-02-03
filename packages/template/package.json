@@ -1,21 +1,25 @@
 {
-	"name": "@kitql/client",
-	"version": "0.0.21",
+	"name": "@kitql/template",
+	"version": "0.0.1",
+	"description": "KitQL template",
 	"repository": {
 		"type": "git",
 		"url": "https://github.com/jycouet/kitql.git",
-		"directory": "packages/client"
+		"directory": "packages/template"
 	},
+	"type": "module",
 	"license": "MIT",
 	"scripts": {
+		"dev": "node ./dist/index",
 		"lint": "eslint **/*.ts",
 		"test": "jest --no-watchman --config ../../jest.config.js",
 		"prepack": "bob prepack"
 	},
 	"dependencies": {
-		"@kitql/helper": "0.0.2",
-		"graphql": "16.3.0"
+		"tslib": "2.3.1",
+		"yaml": "1.10.2"
 	},
+	"peerDependencies": {},
 	"main": "dist/index.js",
 	"module": "dist/index.mjs",
 	"exports": {

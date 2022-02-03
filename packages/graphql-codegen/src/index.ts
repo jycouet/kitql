@@ -104,7 +104,8 @@ export const plugin: PluginFunction<Record<string, any>, Types.ComplexPluginOutp
 				lines.push(`		variables,`);
 				lines.push(`		skFetch: fetch,`);
 				lines.push(`		cacheKey: "${operationResultType}",`);
-				lines.push(`		cacheMs`);
+				lines.push(`		cacheMs,`);
+				lines.push(`		browser`);
 				lines.push(`	});`);
 				lines.push(`	const result = { status: RequestStatus.DONE, ...res, variables };`);
 				lines.push(`	${storeTypeName}.set(result);`);
@@ -120,14 +121,15 @@ export const plugin: PluginFunction<Record<string, any>, Types.ComplexPluginOutp
 		.filter(Boolean);
 
 	let prepend = [];
-	prepend.push(`import { kitQLClient } from '../kitQLClient';`);
-	prepend.push(
-		`import { defaultStoreValue, RequestStatus, type RequestParameters, type RequestResult } from '@kitql/client';`
-	);
+	prepend.push(`import { browser } from '$app/env';`);
 	if (config.importBaseTypesFrom) {
 		prepend.push(`import * as Types from "${config.importBaseTypesFrom}";`);
 	}
+	prepend.push(
+		`import { defaultStoreValue, RequestStatus, type RequestParameters, type RequestResult } from '@kitql/client';`
+	);
 	prepend.push(`import { writable } from 'svelte/store';`);
+	prepend.push(`import { kitQLClient } from '../kitQLClient';`);
 
 	// To separate prepend & Content
 	prepend.push(' ');
