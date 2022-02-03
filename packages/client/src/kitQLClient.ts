@@ -19,9 +19,9 @@ export type ClientSettings = {
 	 */
 	headersContentType?: 'application/graphql+json' | 'application/json';
 	/**
-	 * Default to `all`.
+	 * Default to `[]` no logs!.
 	 */
-	logType?: 'all' | 'server' | 'none';
+	logType?: ('server' | 'client' | 'info' | 'debug')[];
 };
 
 export type RequestSettings = {
@@ -75,7 +75,7 @@ export class KitQLClient {
 	private cacheMs: number;
 	private credentials: 'omit' | 'same-origin' | 'include';
 	private headersContentType: 'application/graphql+json' | 'application/json';
-	private logType: 'all' | 'server' | 'none';
+	private logType: ('server' | 'client' | 'info' | 'debug')[];
 
 	private cache = {};
 	private log: Log;
@@ -86,7 +86,7 @@ export class KitQLClient {
 		this.cacheMs = cacheMs || 1000 * 60 * 3;
 		this.credentials = credentials;
 		this.headersContentType = options.headersContentType || 'application/graphql+json';
-		this.logType = options.logType || 'all';
+		this.logType = options.logType || [];
 		this.log = new Log('KitQL Client');
 	}
 
@@ -101,14 +101,17 @@ export class KitQLClient {
 		//Cache key... Relys on the order of the variables :s
 		const key = JSON.stringify({ cacheKey, variables });
 
-		const needToLog = this.logType === 'all' || (this.logType === 'server' && !browser);
+		const browserAndWantLog = browser && this.logType.includes('client');
+		const serverAndWantLog = !browser && this.logType.includes('server');
+		const wantLogInfo = this.logType.includes('info') && (browserAndWantLog || serverAndWantLog);
+		const wantLogDebug = this.logType.includes('debug') && (browserAndWantLog || serverAndWantLog);
 
 		// Check the cache
 		if (cacheMs !== 0 && this.cache[key] !== undefined) {
 			const xMs = new Date().getTime() - this.cache[key].date;
 			// cache time of the query or od the default config
 			if (xMs < (cacheMs || this.cacheMs)) {
-				if (needToLog) {
+				if (wantLogInfo) {
 					this.log.info(
 						`${logCyan('Mode:')} ` +
 							`${logGreen(browser ? 'browser' : 'ssr')}, ` +
@@ -123,7 +126,7 @@ export class KitQLClient {
 			}
 		}
 
-		if (needToLog) {
+		if (wantLogInfo) {
 			this.log.info(
 				`${logCyan('Mode:')} ` +
 					`${logGreen(browser ? 'browser' : 'ssr')}, ` +
@@ -145,6 +148,9 @@ export class KitQLClient {
 			);
 		}
 		const fetchToUse = skFetch ? skFetch : fetch;
+		if (wantLogDebug) {
+			this.log.info(`${logCyan('fetchToUse:')} ` + `${skFetch ? 'SvelteKit Fetch' : 'fetch'}`);
+		}
 
 		let dateToReturn: ResponseResult<D, V> = {
 			date: new Date().getTime(),
@@ -174,6 +180,10 @@ export class KitQLClient {
 			}
 
 			let dataJson = await res.json();
+
+			if (wantLogDebug) {
+				this.log.info(`${logCyan('dataJson:')} ` + `${JSON.stringify(dataJson, null, 2)}`);
+			}
 			if (dataJson.errors) {
 				dateToReturn.errors = dataJson.errors;
 				return dateToReturn;
