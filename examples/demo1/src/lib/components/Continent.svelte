@@ -14,10 +14,22 @@
 	<KitQlInfo store={$GetAllCountriesOfContinentQueryStore} />
 
 	{#if $GetAllCountriesOfContinentQueryStore.data?.continent}
-		<ul>
-			{#each $GetAllCountriesOfContinentQueryStore.data?.continent.countries as country}
-				<li>{country.name}</li>
+		<div class="country">
+			{#each $GetAllCountriesOfContinentQueryStore.data?.continent.countries as country, i}
+				{#if i < 10}
+					<div>
+						{country.name}
+					</div>
+				{:else}
+					.
+				{/if}
 			{/each}
-		</ul>
+		</div>
 	{/if}
 </div>
+
+<style>
+	.country {
+		font-size: small;
+	}
+</style>
