@@ -19,9 +19,9 @@ export type ClientSettings = {
 	 */
 	headersContentType?: 'application/graphql+json' | 'application/json';
 	/**
-	 * Default to `[]` no logs!.
+	 * Default to `[]` => no logs!.
 	 */
-	logType?: ('server' | 'client' | 'info' | 'debug')[];
+	logType?: ('server' | 'client' | 'operation' | 'operationAndvariables' | 'rawResult')[];
 };
 
 export type RequestSettings = {
@@ -46,6 +46,7 @@ export enum RequestStatus {
 export enum RequestFrom {
 	'NODATA' = 'NODATA',
 	'NETWORK' = 'NETWORK',
+	'SSR' = 'SSR',
 	'CACHE' = 'CACHE'
 }
 
@@ -75,7 +76,7 @@ export class KitQLClient {
 	private cacheMs: number;
 	private credentials: 'omit' | 'same-origin' | 'include';
 	private headersContentType: 'application/graphql+json' | 'application/json';
-	private logType: ('server' | 'client' | 'info' | 'debug')[];
+	private logType: ('server' | 'client' | 'operation' | 'operationAndvariables' | 'rawResult')[];
 
 	private cache = {};
 	private log: Log;
@@ -88,6 +89,21 @@ export class KitQLClient {
 		this.headersContentType = options.headersContentType || 'application/graphql+json';
 		this.logType = options.logType || [];
 		this.log = new Log('KitQL Client');
+	}
+
+	private logOperation(
+		browser: boolean,
+		from: RequestFrom,
+		operation: string,
+		variables: string | null = null
+	) {
+		this.log.info(
+			`${logCyan('Mode:')} ` +
+				`${logGreen(browser ? 'browser' : 'server')}, ` +
+				`${logCyan('From:')} ${logGreen(from)}, ${new Array(7 - from.length + 1).join(' ')}` +
+				`${logCyan('Operation:')} ${logGreen(operation)}` +
+				`${variables ? `, ${logCyan('Variables:')} ${logGreen(variables)}` : ``}`
+		);
 	}
 
 	public async request<D, V>({
@@ -103,44 +119,37 @@ export class KitQLClient {
 
 		const browserAndWantLog = browser && this.logType.includes('client');
 		const serverAndWantLog = !browser && this.logType.includes('server');
-		const wantLogInfo = this.logType.includes('info') && (browserAndWantLog || serverAndWantLog);
-		const wantLogDebug = this.logType.includes('debug') && (browserAndWantLog || serverAndWantLog);
+		const logOp = this.logType.includes('operation') && (browserAndWantLog || serverAndWantLog);
+		const logOpVar =
+			this.logType.includes('operationAndvariables') && (browserAndWantLog || serverAndWantLog);
+		const logRawResult =
+			this.logType.includes('rawResult') && (browserAndWantLog || serverAndWantLog);
 
-		// Check the cache
-		if (cacheMs !== 0 && this.cache[key] !== undefined) {
-			const xMs = new Date().getTime() - this.cache[key].date;
-			// cache time of the query or od the default config
-			if (xMs < (cacheMs || this.cacheMs)) {
-				if (wantLogInfo) {
-					this.log.info(
-						`${logCyan('Mode:')} ` +
-							`${logGreen(browser ? 'browser' : 'ssr')}, ` +
-							`${logCyan('From:')} ${logGreen('CACHE')},   ` +
-							`${logCyan('Operation:')} ${logGreen(cacheKey)}`
-					);
+		// No caching in the server for now! (Need to have a session identification to not mix things up)
+		if (browser) {
+			// Check the cache
+			if (cacheMs !== 0 && this.cache[key] !== undefined) {
+				const xMs = new Date().getTime() - this.cache[key].date;
+				// cache time of the query or od the default config
+				if (xMs < (cacheMs || this.cacheMs)) {
+					if (logOpVar) {
+						this.logOperation(browser, RequestFrom.CACHE, cacheKey, JSON.stringify(variables));
+					} else if (logOp) {
+						this.logOperation(browser, RequestFrom.CACHE, cacheKey);
+					}
+
+					return { ...this.cache[key], from: RequestFrom.CACHE };
+				} else {
+					// remove from cache? No need, it will be overwritten anyway!
 				}
-
-				return { ...this.cache[key], from: RequestFrom.CACHE };
-			} else {
-				// remove from cache? No need, it will be overwritten anyway!
 			}
-		}
-
-		if (wantLogInfo) {
-			this.log.info(
-				`${logCyan('Mode:')} ` +
-					`${logGreen(browser ? 'browser' : 'ssr')}, ` +
-					`${logCyan('From:')} ${logGreen('NETWORK')}, ` +
-					`${logCyan('Operation:')} ${logGreen(cacheKey)}`
-			);
 		}
 
 		// If
 		//   1/ we are in SSR
 		//   2/ we don't provide a fetch function
-		//   3/ credentials is 'include'
 		//      => You are probably doing something wrong!
-		if (!browser && !skFetch && this.credentials === 'include') {
+		if (!browser && !skFetch) {
 			this.log.error(
 				`I think that either:` +
 					`\n\t\t1/ you forgot to provide \`fetch\`! As we are in SSR & include here. > ${cacheKey}({ fetch: ??? })` +
@@ -148,9 +157,6 @@ export class KitQLClient {
 			);
 		}
 		const fetchToUse = skFetch ? skFetch : fetch;
-		if (wantLogDebug) {
-			this.log.info(`${logCyan('fetchToUse:')} ` + `${skFetch ? 'SvelteKit Fetch' : 'fetch'}`);
-		}
 
 		let dateToReturn: ResponseResult<D, V> = {
 			date: new Date().getTime(),
@@ -159,6 +165,7 @@ export class KitQLClient {
 			data: null,
 			errors: null
 		};
+
 		try {
 			const res = await fetchToUse(this.url, {
 				method: 'POST',
@@ -169,6 +176,16 @@ export class KitQLClient {
 					variables
 				})
 			});
+
+			if (res.url === '') {
+				// In the browser we see a flickering from NETWORK to SSR, because it's the Real SSR coming with a from network... Replaced by the SSR side!
+				dateToReturn.from = RequestFrom.SSR;
+			}
+			if (logOpVar) {
+				this.logOperation(browser, dateToReturn.from, cacheKey, JSON.stringify(variables));
+			} else if (logOp) {
+				this.logOperation(browser, dateToReturn.from, cacheKey);
+			}
 
 			if (res.status !== 200) {
 				if (res.statusText === '') {
@@ -181,8 +198,8 @@ export class KitQLClient {
 
 			let dataJson = await res.json();
 
-			if (wantLogDebug) {
-				this.log.info(`${logCyan('dataJson:')} ` + `${JSON.stringify(dataJson, null, 2)}`);
+			if (logRawResult) {
+				this.log.info(`${logCyan('dataJson:')} ` + `${JSON.stringify(dataJson)}`);
 			}
 			if (dataJson.errors) {
 				dateToReturn.errors = dataJson.errors;
