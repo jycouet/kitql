@@ -34,11 +34,11 @@ You have 3 main options to use `KitQL`:
 _SvelteKit & GraphQL client with SSR & caching_
 
 ```bash
-# Get the first demo app
-npx degit github:jycouet/kitql/examples/demo1 gqlkit-demo1
+# Get the first demo app (will create a folder: kitql-demo1)
+npx degit github:jycouet/kitql/examples/demo1 kitql-demo1
 
 # Navigate to the new folder
-cd gqlkit-demo1
+cd kitql-demo1
 
 # Install everything
 yarn
