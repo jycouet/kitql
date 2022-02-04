@@ -1,21 +1,18 @@
 <script context="module" lang="ts">
 	import Continent from '$lib/components/Continent.svelte';
+	import Continents from '$lib/components/Continents.svelte';
 	import {
 		GetAllContinentsQuery,
-		GetAllContinentsQueryStore,
-		GetAllCountriesOfContinentQuery,
-		GetAllCountriesOfContinentQueryStore
+		GetAllCountriesOfContinentQuery
 	} from '$lib/graphql/_kitql/graphqlStores';
 
-	export async function load({ fetch }) {
+	export async function load({ fetch, url }) {
 		await GetAllContinentsQuery({ fetch });
+		let code = url.searchParams.get('focus');
+		if (code) {
+			await GetAllCountriesOfContinentQuery({ fetch, variables: { code } });
+		}
 		return {};
-	}
-</script>
-
-<script lang="ts">
-	async function show(code: string) {
-		await GetAllCountriesOfContinentQuery({ variables: { code } });
 	}
 </script>
 
@@ -30,43 +27,15 @@
 </p>
 
 <hr />
-<div class="grid">
-	<div>
-		<h2>Continents</h2>
-		<ul>
-			{#each $GetAllContinentsQueryStore.data?.continents as continent}
-				<li class="allSpace">
-					<p>{continent?.name}</p>
-					<button on:click={() => show(continent?.code)}>Get Countries -></button>
-				</li>
-			{/each}
-		</ul>
-	</div>
 
-	<div>
-		<h2>
-			Contient: {$GetAllCountriesOfContinentQueryStore.data?.continent?.name ||
-				'_select something_'}
-		</h2>
-		<h4>
-			<pre>Form: {$GetAllCountriesOfContinentQueryStore.from}, Status: {$GetAllCountriesOfContinentQueryStore.status}</pre>
-		</h4>
-		{#if $GetAllCountriesOfContinentQueryStore.data?.continent}
-			<Continent />
-		{/if}
-	</div>
+<div class="grid">
+	<Continents />
+	<Continent />
 </div>
 
 <style>
-	.allSpace {
-		display: flex;
-		flex: 1;
-		justify-content: space-between;
-	}
-
-	h4 {
-		background-color: gray;
-		padding: 0.5rem 0.5rem 0.5rem 0.5rem;
+	:root {
+		background-color: rgba(68, 68, 68, 0.1);
 	}
 	.grid {
 		display: grid;
@@ -74,9 +43,6 @@
 		grid-gap: 1rem;
 	}
 
-	li {
-		padding: 0.5rem;
-	}
 	.vAlign {
 		display: flex;
 		align-items: center;

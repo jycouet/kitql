@@ -1,0 +1,25 @@
+export function queryStringApprend(
+	searchParams: URLSearchParams,
+	queryString: Record<string, string>
+) {
+	let query = {};
+
+	// 1 Destructure searchParams
+	searchParams.forEach((v, k) => {
+		query[k] = v;
+	});
+
+	// 2 Upset with our queryString
+	for (const key in queryString) {
+		query[key] = queryString[key];
+	}
+
+	// 3 Transform in a table
+	let qs = [];
+	for (const key in query) {
+		qs.push(`${key}=${query[key]}`);
+	}
+
+	// 4 send back the Query String
+	return qs.sort().join('&');
+}

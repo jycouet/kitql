@@ -912,10 +912,10 @@
     "@jridgewell/resolve-uri" "^3.0.3"
     sourcemap-codec "1.4.8"
 
-"@kitql/all-in@0.0.20":
-  version "0.0.20"
-  resolved "https://registry.yarnpkg.com/@kitql/all-in/-/all-in-0.0.20.tgz#3a5d9188803ebed38f7d91c9a1d3ceef40fbe168"
-  integrity sha512-fbl4ghxWo3V+yrnUD4XzSa785pq/Ns1qhnW0x+V/jbMJz+UE5olEapIo6bCbBY6ltHo9eCvbAzTfV49oZ8ZuUA==
+"@kitql/all-in@0.0.23":
+  version "0.0.23"
+  resolved "https://registry.yarnpkg.com/@kitql/all-in/-/all-in-0.0.23.tgz#d41a359220406bcd636ffa3e4b3c1a3842d89f32"
+  integrity sha512-Ro0WHfuqpnEnILc4ttDk+PhPs/gtZTGCecKl5MBAgkaTr5LcFI2KfPG1nGjnZ/n6NY2C1NAE3dbgyRPEiQ25mg==
   dependencies:
     "@graphql-codegen/cli" "2.5.0"
     "@graphql-codegen/graphql-modules-preset" "2.3.3"
@@ -925,14 +925,14 @@
     "@graphql-codegen/typescript-operations" "2.2.4"
     "@graphql-codegen/typescript-resolvers" "2.5.0"
     "@graphql-typed-document-node/core" "3.1.1"
-    "@kitql/client" "0.0.22"
+    "@kitql/client" "0.0.25"
     "@kitql/graphql-codegen" "0.0.15"
     "@kitql/vite-plugin-watch-and-run" "0.0.6"
 
-"@kitql/client@0.0.22":
-  version "0.0.22"
-  resolved "https://registry.yarnpkg.com/@kitql/client/-/client-0.0.22.tgz#58136dd9a13bd82e5b2511655cbbcaa472640f5e"
-  integrity sha512-+UlXBxx5w7umvg2fZxws9TbO87+KMB+5h4mMPkY2YtVHqfWehu8BECeNd6LE5RibRTT+BUny0EaimWr4UwpNEw==
+"@kitql/client@0.0.25":
+  version "0.0.25"
+  resolved "https://registry.yarnpkg.com/@kitql/client/-/client-0.0.25.tgz#9c4e07802e90b2337d22cde10c8621a0c24922ba"
+  integrity sha512-c6qGQfzVz10pLfuuPdU7LpMazhN7ieL5Q2WUELdOXuEecOa9t+Op54kMVjMhqfRmgY4OqLc9ABzfzlcGTJ6dAA==
   dependencies:
     "@kitql/helper" "0.0.3"
     graphql "16.3.0"
@@ -1819,6 +1819,18 @@ cross-spawn@^7.0.2:
     path-key "^3.1.0"
     shebang-command "^2.0.0"
     which "^2.0.1"
+
+cross-undici-fetch@0.1.16:
+  version "0.1.16"
+  resolved "https://registry.yarnpkg.com/cross-undici-fetch/-/cross-undici-fetch-0.1.16.tgz#48ce18c701c7cf8053afe3c1d7e4d62a1952e0cc"
+  integrity sha512-VoL+4GLbq2R7cfpM3wc3RClV6boUAjbpZ485YHsIeBnWYUi4osdDZhh1ohk9+BjrLvAvwmvQwZC5rTEIVQ2eVQ==
+  dependencies:
+    abort-controller "^3.0.0"
+    form-data-encoder "^1.7.1"
+    formdata-node "^4.3.1"
+    node-fetch "^2.6.5"
+    undici "^4.9.3"
+    web-streams-polyfill "^3.2.0"
 
 cross-undici-fetch@^0.1.19:
   version "0.1.23"
@@ -3388,7 +3400,7 @@ node-domexception@1.0.0:
   resolved "https://registry.yarnpkg.com/node-domexception/-/node-domexception-1.0.0.tgz#6888db46a1f71c0b76b3f7555016b63fe64766e5"
   integrity sha512-/jKZoMpw0F8GRwl4/eLROPA3cfcXtLApP0QzLmUT/HuPCZWyB7IY9ZrMeKw2O/nFIqPQB3PVM9aYm0F312AXDQ==
 
-node-fetch@2.6.7, node-fetch@^2.6.1, node-fetch@^2.6.7:
+node-fetch@2.6.7, node-fetch@^2.6.1, node-fetch@^2.6.5, node-fetch@^2.6.7:
   version "2.6.7"
   resolved "https://registry.yarnpkg.com/node-fetch/-/node-fetch-2.6.7.tgz#24de9fba827e3b4ae44dc8b20256a379160052ad"
   integrity sha512-ZjMPFEfVx5j+y2yF35Kzx5sF7kDzxuDj6ziH4FFbOp87zKDZNx8yExJIb05OGF4Nlt9IHFIMBkRl41VdvcNdbQ==
