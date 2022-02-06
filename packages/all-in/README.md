@@ -18,43 +18,7 @@ yarn add @kitql/all-in
 
 ## 2️⃣ Create a `.graphqlrc.yaml` at the root of your project
 
-```yaml
-# Typical File for extension: vscode-graphql & CodeGen!
-projects:
-  default:
-    schema:
-      - ./src/lib/modules/**/typedefs/*.graphql
-    documents:
-      - ./src/lib/modules/**/graphql/*.gql
-    extensions:
-      endpoints:
-        default:
-          url: 'http://localhost:3777/api/graphql'
-      codegen:
-        generates:
-          ./src/lib/modules/:
-            preset: graphql-modules
-            presetConfig:
-              baseTypesPath: ../graphql/_kitql/graphqlTypes.ts
-              importBaseTypesFrom: $lib/graphql/_kitql/graphqlTypes
-              filename: _kitql/moduleTypes.ts
-            plugins:
-              - typescript
-              - typescript-resolvers
-              - typescript-operations
-              - typed-document-node
-            config:
-              contextType: $lib/graphql/yogaApp#IYogaContext
-
-          ./src/lib/graphql/_kitql/graphqlStores.ts:
-            plugins:
-              - '@kitql/graphql-codegen'
-            config:
-              importBaseTypesFrom: $lib/graphql/_kitql/graphqlTypes
-
-        config:
-          useTypeImports: true
-```
+[Like in the Demo 1](https://raw.githubusercontent.com/jycouet/kitql/main/examples/demo1/.graphqlrc.yaml)
 
 ## 3️⃣ update your `package.json`
 
@@ -64,7 +28,7 @@ projects:
 ```json
 "scripts": {
   "prepare": "yarn gen",                                // will run the codegen after yarn install
-  "dev": "svelte-kit dev --port 3178",                  // adapt the port to your needs
+  "dev": "svelte-kit dev --port 3777",                  // adapt the port to your needs
   "gen": "graphql-codegen --config ./.graphqlrc.yaml",  // run codegen with the right config file
 }
 ```
@@ -94,6 +58,40 @@ const config = {
 
 export default config;
 ```
+
+## 5️⃣ Add some operations & mutations
+
+Like this file for example: [demo1/src/lib/graphql/GetAllContinents.gql](https://raw.githubusercontent.com/jycouet/kitql/main/examples/demo1/src/lib/graphql/GetAllContinents.gql)
+
+_If you were not running your app, run `yarn gen` manually_
+
+## 6️⃣ Use your operations & mutations
+
+```html
+<!-- For SSR -->
+<script context="module" lang="ts">
+	export async function load({ fetch }) {
+		await GetAllContinentsQuery({ fetch }); // Filling GetAllContinentsQueryStore
+		return {};
+	}
+</script>
+
+<!-- Or in a svelte component -->
+<script lang="ts">
+	await GetAllContinentsQuery(); // Filling GetAllContinentsQueryStore
+</script>
+
+<!-- Using the store where you want in the app -->
+<ul>
+	{#each $GetAllContinentsQueryStore.data?.continents as continent}
+	<li>
+		<p>{continent?.name}</p>
+	</li>
+	{/each}
+</ul>
+```
+
+7️⃣8️⃣9️⃣
 
 ## 5️⃣ Run
 

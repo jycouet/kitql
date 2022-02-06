@@ -8,9 +8,9 @@
 
 🚧🚧🚧🚧🚧🚧🚧🚧🚧
 
-v0 UNDER CONSTRUCTION
+UNDER CONSTRUCTION
 
-_(Please be kind, it's not ready yet we are Day 0. I will let you know when you can have fun 🥳 (in alpha, and it's not yet alpha))_
+If you want to see day to day progress please check twitter: [jycouet](https://twitter.com/jycouet/status/1486052645567672324)
 
 🚧🚧🚧🚧🚧🚧🚧🚧🚧
 

@@ -2,7 +2,7 @@
 projects:
   default:
     schema:
-      - ./src/lib/graphql/schema.json # or https://countries.trevorblades.com/graphql
+      - ./src/lib/graphql/introspectionSchema.json # or https://countries.trevorblades.com/graphql
     documents:
       - '**/*.gql'
     extensions:

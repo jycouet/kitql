@@ -26,7 +26,7 @@ export type ClientSettings = {
 
 export type RequestSettings = {
 	/**
-	 * Cache in miliseconds for the Query (so `cacheMs:0` force a network call)
+	 * Cache in miliseconds for the Query (so `cache:0` force a network call)
 	 */
 	cache: number;
 };
@@ -73,18 +73,18 @@ export const defaultStoreValue = {
 
 export class KitQLClient {
 	private url: string;
-	private cacheMs: number;
+	private cache: number;
 	private credentials: 'omit' | 'same-origin' | 'include';
 	private headersContentType: 'application/graphql+json' | 'application/json';
 	private logType: ('server' | 'client' | 'operation' | 'operationAndvariables' | 'rawResult')[];
 
-	private cache = {};
+	private cacheData = {};
 	private log: Log;
 
 	constructor(options: ClientSettings) {
-		const { url, defaultCache: cacheMs, credentials } = options || {};
+		const { url, defaultCache, credentials } = options || {};
 		this.url = url;
-		this.cacheMs = cacheMs || 1000 * 60 * 3;
+		this.cache = defaultCache || 1000 * 60 * 3;
 		this.credentials = credentials;
 		this.headersContentType = options.headersContentType || 'application/graphql+json';
 		this.logType = options.logType || [];
@@ -111,7 +111,7 @@ export class KitQLClient {
 		document,
 		variables,
 		cacheKey,
-		cacheMs,
+		cache,
 		browser
 	}): Promise<ResponseResult<D, V>> {
 		//Cache key... Relys on the order of the variables :s
@@ -128,17 +128,17 @@ export class KitQLClient {
 		// No caching in the server for now! (Need to have a session identification to not mix things up)
 		if (browser) {
 			// Check the cache
-			if (cacheMs !== 0 && this.cache[key] !== undefined) {
-				const xMs = new Date().getTime() - this.cache[key].date;
+			if (cache !== 0 && this.cacheData[key] !== undefined) {
+				const xMs = new Date().getTime() - this.cacheData[key].date;
 				// cache time of the query or od the default config
-				if (xMs < (cacheMs || this.cacheMs)) {
+				if (xMs < (cache || this.cache)) {
 					if (logOpVar) {
 						this.logOperation(browser, RequestFrom.CACHE, cacheKey, JSON.stringify(variables));
 					} else if (logOp) {
 						this.logOperation(browser, RequestFrom.CACHE, cacheKey);
 					}
 
-					return { ...this.cache[key], from: RequestFrom.CACHE };
+					return { ...this.cacheData[key], from: RequestFrom.CACHE };
 				} else {
 					// remove from cache? No need, it will be overwritten anyway!
 				}
@@ -207,7 +207,7 @@ export class KitQLClient {
 			}
 
 			dateToReturn.data = dataJson.data;
-			this.cache[key] = dateToReturn;
+			this.cacheData[key] = dateToReturn;
 
 			return dateToReturn;
 		} catch (errors) {

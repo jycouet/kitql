@@ -88,9 +88,9 @@ export const plugin: PluginFunction<Record<string, any>, Types.ComplexPluginOutp
 				lines.push(`		return { ...c, status: RequestStatus.LOADING };`);
 				lines.push(`	});`);
 				lines.push(`	let { fetch, variables, settings } = params || {};`);
-				lines.push(`  let { cacheMs } = settings || {};`);
+				lines.push(`  let { cache } = settings || {};`);
 				if (operationType === 'Mutation') {
-					lines.push(`  cacheMs = 0 // It's a Mutation!`);
+					lines.push(`  cache = 0 // It's a Mutation!`);
 				}
 				lines.push(``);
 				lines.push(`  if (variables === undefined) {`);
@@ -104,7 +104,7 @@ export const plugin: PluginFunction<Record<string, any>, Types.ComplexPluginOutp
 				lines.push(`		variables,`);
 				lines.push(`		skFetch: fetch,`);
 				lines.push(`		cacheKey: "${operationResultType}",`);
-				lines.push(`		cacheMs,`);
+				lines.push(`		cache,`);
 				lines.push(`		browser`);
 				lines.push(`	});`);
 				lines.push(`	const result = { status: RequestStatus.DONE, ...res, variables };`);

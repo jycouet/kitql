@@ -4,7 +4,7 @@
 	"license": "MIT",
 	"scripts": {
 		"prepare": "yarn gen",
-		"dev": "svelte-kit dev",
+		"dev": "svelte-kit dev --port 3777",
 		"gen": "graphql-codegen --config ./.graphqlrc.yaml",
 		"build": "svelte-kit build",
 		"package": "svelte-kit package",
@@ -32,7 +32,7 @@
 		"typescript": "4.5.5"
 	},
 	"dependencies": {
-		"@kitql/all-in": "0.0.26",
+		"@kitql/all-in": "0.0.28",
 		"graphql": "15.8.0"
 	},
 	"type": "module",
