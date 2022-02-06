@@ -20,7 +20,7 @@ In your `svelte.config.js` add a watchAndRun with the following configuration:
 _(for now it's only codegen, but later it will be more!)_
 
 ```js
-import watchAndRun from './vite-plugin-watch-and-run.js';
+import watchAndRun from '@kitql/vite-plugin-watch-and-run';
 
 /** @type {import('@sveltejs/kit').Config} */
 const config = {
