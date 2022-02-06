@@ -1,3 +1,14 @@
+/**
+ * Add things to the queryString.
+ *
+ * Normal usage:
+ * ```
+ * goto(`?${queryStringApprend($page.url.searchParams, { focus: "Hello" })}`);
+ * ```
+ * @param searchParams usually: $page.url.searchParams
+ * @param queryString an object with key value pairs, something like { focus: "Hello" }
+ * @returns a sorted query string
+ */
 export function queryStringApprend(
 	searchParams: URLSearchParams,
 	queryString: Record<string, string>

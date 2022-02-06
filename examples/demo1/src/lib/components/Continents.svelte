@@ -1,14 +1,11 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
-
-	import { getStores, page } from '$app/stores';
-
+	import { page } from '$app/stores';
 	import {
 		GetAllContinentsQuery,
-		GetAllContinentsQueryStore,
-		GetAllCountriesOfContinentQuery
+		GetAllContinentsQueryStore
 	} from '$lib/graphql/_kitql/graphqlStores';
-	import { queryStringApprend } from '$lib/helper/utils';
+	import { queryStringApprend } from '@kitql/helper';
 	import KitQlInfo from './KitQLInfo.svelte';
 
 	async function query() {
@@ -16,7 +13,7 @@
 	}
 
 	async function force() {
-		await GetAllContinentsQuery({ settings: { cacheMs: 0 } });
+		await GetAllContinentsQuery({ settings: { cache: 0 } });
 	}
 
 	async function details(code: string) {
