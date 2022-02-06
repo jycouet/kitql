@@ -7,9 +7,9 @@ export type ClientSettings = {
 	 */
 	url: string;
 	/**
-	 * Default Cache in miliseconds (can be overwritten at Query level, so `cacheMs:0` force a network call)
+	 * Default Cache in miliseconds (can be overwritten at Query level, so `cache:0` force a network call)
 	 */
-	cacheMs?: number;
+	defaultCache?: number;
 	/**
 	 * Default to `omit` (secure by default). More info there: https://developer.mozilla.org/en-US/docs/Web/API/Request/credentials
 	 */
@@ -28,7 +28,7 @@ export type RequestSettings = {
 	/**
 	 * Cache in miliseconds for the Query (so `cacheMs:0` force a network call)
 	 */
-	cacheMs: number;
+	cache: number;
 };
 
 export type RequestParameters<V> = {
@@ -82,7 +82,7 @@ export class KitQLClient {
 	private log: Log;
 
 	constructor(options: ClientSettings) {
-		const { url, cacheMs, credentials } = options || {};
+		const { url, defaultCache: cacheMs, credentials } = options || {};
 		this.url = url;
 		this.cacheMs = cacheMs || 1000 * 60 * 3;
 		this.credentials = credentials;
@@ -98,9 +98,9 @@ export class KitQLClient {
 		variables: string | null = null
 	) {
 		this.log.info(
-			`${logCyan('Mode:')} ` +
-				`${logGreen(browser ? 'browser' : 'server')}, ` +
-				`${logCyan('From:')} ${logGreen(from)}, ${new Array(7 - from.length + 1).join(' ')}` +
+			// `${logCyan('Mode:')} ` +
+			// 	`${logGreen(browser ? 'browser' : 'server')}, ` +
+			`${logCyan('From:')} ${logGreen(from)}, ${new Array(7 - from.length + 1).join(' ')}` +
 				`${logCyan('Operation:')} ${logGreen(operation)}` +
 				`${variables ? `, ${logCyan('Variables:')} ${logGreen(variables)}` : ``}`
 		);
