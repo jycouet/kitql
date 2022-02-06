@@ -13,7 +13,7 @@
 (step 0, if it's not done, create a [sveltekit project](https://kit.svelte.dev/) with everything `true` 🙃)
 
 ```bash
-yarn add @kitql/all-in
+yarn add @kitql/all-in graphql
 ```
 
 ## 2️⃣ Create a `.graphqlrc.yaml` at the root of your project
