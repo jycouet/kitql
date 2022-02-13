@@ -10,7 +10,8 @@
 
 UNDER CONSTRUCTION
 
-If you want to see day to day progress please check twitter: [jycouet](https://twitter.com/jycouet/status/1486052645567672324)
+- Day by day progress, check [twitter - jycouet](https://twitter.com/jycouet/status/1486052645567672324)
+- Video explanations, check [Youtube - KitQL - The native SvelteKit library for GraphQL](https://www.youtube.com/watch?v=6pH4fnFN70w)
 
 🚧🚧🚧🚧🚧🚧🚧🚧🚧
 
