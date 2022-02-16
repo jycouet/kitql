@@ -8,6 +8,8 @@
 		"dev": "yarn build && yarn workspace @kitql/template dev",
 		"test": "jest",
 		"test:watch": "jest --watch",
+		"clean": "yarn workspaces run clean",
+		"prebuild": "yarn clean",
 		"build": "tsc --project tsconfig.json && bob build",
 		"release": "yarn build && changeset publish",
 		"reset": "git clean -xdf",

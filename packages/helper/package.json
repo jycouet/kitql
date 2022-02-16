@@ -1,6 +1,6 @@
 {
 	"name": "@kitql/helper",
-	"version": "0.0.4",
+	"version": "0.0.5",
 	"repository": {
 		"type": "git",
 		"url": "https://github.com/jycouet/kitql.git",
@@ -8,12 +8,13 @@
 	},
 	"license": "MIT",
 	"scripts": {
+		"clean": "rm -rf ./dist",
 		"lint": "eslint **/*.ts",
 		"test": "jest --no-watchman --config ../../jest.config.js",
 		"prepack": "bob prepack"
 	},
 	"dependencies": {
-		"pino": "7.6.5",
+		"pino": "7.8.0",
 		"pino-pretty": "7.5.1"
 	},
 	"main": "dist/index.js",

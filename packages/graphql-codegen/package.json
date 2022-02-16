@@ -1,6 +1,6 @@
 {
 	"name": "@kitql/graphql-codegen",
-	"version": "0.0.16",
+	"version": "0.0.17",
 	"description": "GraphQL Code Generator plugin to generate SvelteKit stores in kitql context",
 	"repository": {
 		"type": "git",
@@ -9,13 +9,14 @@
 	},
 	"license": "MIT",
 	"scripts": {
+		"clean": "rm -rf ./dist",
 		"lint": "eslint **/*.ts",
 		"test": "jest --no-watchman --config ../../jest.config.js",
 		"prepack": "bob prepack"
 	},
 	"dependencies": {
-		"@graphql-codegen/plugin-helpers": "2.4.0",
-		"@graphql-codegen/visitor-plugin-common": "2.6.0",
+		"@graphql-codegen/plugin-helpers": "2.4.1",
+		"@graphql-codegen/visitor-plugin-common": "2.7.0",
 		"auto-bind": "5.0.1",
 		"change-case-all": "1.0.14",
 		"tslib": "2.3.1"

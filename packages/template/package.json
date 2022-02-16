@@ -1,6 +1,6 @@
 {
 	"name": "@kitql/template",
-	"version": "0.0.1",
+	"version": "0.0.2",
 	"description": "KitQL template",
 	"repository": {
 		"type": "git",
@@ -10,6 +10,7 @@
 	"type": "module",
 	"license": "MIT",
 	"scripts": {
+		"clean": "rm -rf ./dist",
 		"dev": "node ./dist/index",
 		"lint": "eslint **/*.ts",
 		"test": "jest --no-watchman --config ../../jest.config.js",
