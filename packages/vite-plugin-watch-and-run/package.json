@@ -15,9 +15,11 @@
 		"test": "jest --no-watchman --config ../../jest.config.js",
 		"prepack": "bob prepack"
 	},
-	"dependencies": {
-		"micromatch": "4.0.4",
+	"devDependencies": {
 		"tslib": "2.3.1"
+	},
+	"dependencies": {
+		"micromatch": "4.0.4"
 	},
 	"main": "dist/index.js",
 	"module": "dist/index.mjs",

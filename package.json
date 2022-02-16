@@ -9,8 +9,8 @@
 		"test": "jest",
 		"test:watch": "jest --watch",
 		"clean": "yarn workspaces run clean",
-		"prebuild": "yarn clean",
 		"build": "tsc --project tsconfig.json && bob build",
+		"prerelease": "yarn clean",
 		"release": "yarn build && changeset publish",
 		"reset": "git clean -xdf",
 		"update": "npm exec --workspaces -- npx ncu -u -p yarn"

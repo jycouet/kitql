@@ -23,7 +23,8 @@
 		"resolveJsonModule": true,
 		"skipLibCheck": true,
 		"paths": {
-			"@kitql/graphql-codegen": ["packages/graphql-codegen/dist/index.js"]
+			"@kitql/graphql-codegen": ["packages/graphql-codegen/src/index"],
+			"@kitql/helper": ["packages/helper/src/index"]
 		}
 	},
 	"include": ["packages"],

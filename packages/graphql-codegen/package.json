@@ -14,12 +14,14 @@
 		"test": "jest --no-watchman --config ../../jest.config.js",
 		"prepack": "bob prepack"
 	},
+	"devDependencies": {
+		"tslib": "2.3.1"
+	},
 	"dependencies": {
 		"@graphql-codegen/plugin-helpers": "2.4.1",
 		"@graphql-codegen/visitor-plugin-common": "2.7.0",
 		"auto-bind": "5.0.1",
-		"change-case-all": "1.0.14",
-		"tslib": "2.3.1"
+		"change-case-all": "1.0.14"
 	},
 	"peerDependencies": {
 		"graphql": "^15.0.0 || ^16.0.0"

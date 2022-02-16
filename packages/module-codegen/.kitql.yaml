@@ -1,0 +1,12 @@
+configs:
+  modulesFolder: ./src/lib/modules
+  outputFolder: ./src/lib/graphql/_kitql
+
+actions:
+  # - createBaseStructure: true
+  createEnumsModule:
+    prismaFile: ./prisma/schema.prisma
+  mergeModuleTypedefs: true
+  mergeModuleResolvers: true
+  mergeContexts: true
+  mergeModules: true

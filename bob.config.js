@@ -14,7 +14,7 @@ module.exports = {
 		'<project>/package.json',
 		'<project>/tsconfig.json'
 	],
-	base: 'origin/master', // we need to compare against something
+	base: 'origin/main', // we need to compare against something
 	commands: {
 		test: {
 			track: ['<project>/tests/**'],
