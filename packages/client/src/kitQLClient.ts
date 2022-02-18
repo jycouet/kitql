@@ -82,12 +82,12 @@ export class KitQLClient {
 	private log: Log;
 
 	constructor(options: ClientSettings) {
-		const { url, defaultCache, credentials } = options || {};
+		const { url, defaultCache, credentials } = options ?? {};
 		this.url = url;
-		this.cache = defaultCache || 1000 * 60 * 3;
+		this.cache = defaultCache ?? 1000 * 60 * 3;
 		this.credentials = credentials;
-		this.headersContentType = options.headersContentType || 'application/graphql+json';
-		this.logType = options.logType || [];
+		this.headersContentType = options.headersContentType ?? 'application/graphql+json';
+		this.logType = options.logType ?? [];
 		this.log = new Log('KitQL Client');
 	}
 
@@ -119,19 +119,19 @@ export class KitQLClient {
 
 		const browserAndWantLog = browser && this.logType.includes('client');
 		const serverAndWantLog = !browser && this.logType.includes('server');
-		const logOp = this.logType.includes('operation') && (browserAndWantLog || serverAndWantLog);
+		const logOp = this.logType.includes('operation') && (browserAndWantLog ?? serverAndWantLog);
 		const logOpVar =
-			this.logType.includes('operationAndvariables') && (browserAndWantLog || serverAndWantLog);
+			this.logType.includes('operationAndvariables') && (browserAndWantLog ?? serverAndWantLog);
 		const logRawResult =
-			this.logType.includes('rawResult') && (browserAndWantLog || serverAndWantLog);
+			this.logType.includes('rawResult') && (browserAndWantLog ?? serverAndWantLog);
 
 		// No caching in the server for now! (Need to have a session identification to not mix things up)
 		if (browser) {
 			// Check the cache
 			if (cache !== 0 && this.cacheData[key] !== undefined) {
 				const xMs = new Date().getTime() - this.cacheData[key].date;
-				// cache time of the query or od the default config
-				if (xMs < (cache || this.cache)) {
+				// cache time of the query or of the default config
+				if (xMs < (cache ?? this.cache)) {
 					if (logOpVar) {
 						this.logOperation(browser, RequestFrom.CACHE, cacheKey, JSON.stringify(variables));
 					} else if (logOp) {

@@ -8,7 +8,7 @@ function getOperationSuffix(
 	node: OperationDefinitionNode | string,
 	operationType: string
 ): string {
-	const { omitOperationSuffix = false, dedupeOperationSuffix = false } = config || {};
+	const { omitOperationSuffix = false, dedupeOperationSuffix = false } = config ?? {};
 	const operationName = typeof node === 'string' ? node : node.name ? node.name.value : '';
 	return omitOperationSuffix
 		? ''
@@ -87,8 +87,8 @@ export const plugin: PluginFunction<Record<string, any>, Types.ComplexPluginOutp
 				lines.push(`		storedVariables = c.variables;`);
 				lines.push(`		return { ...c, status: RequestStatus.LOADING };`);
 				lines.push(`	});`);
-				lines.push(`	let { fetch, variables, settings } = params || {};`);
-				lines.push(`  let { cache } = settings || {};`);
+				lines.push(`	let { fetch, variables, settings } = params ?? {};`);
+				lines.push(`  let { cache } = settings ?? {};`);
 				if (operationType === 'Mutation') {
 					lines.push(`  cache = 0 // It's a Mutation!`);
 				}
