@@ -56,7 +56,7 @@ function checkConf(params: Options[]) {
 
 		paramsChecked[param.watch] = {
 			run: param.run,
-			delay: param.delay || 500,
+			delay: param.delay ?? 500,
 			isRunnig: false
 		};
 	}
