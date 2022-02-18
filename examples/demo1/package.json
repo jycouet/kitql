@@ -7,12 +7,13 @@
 		"dev": "svelte-kit dev --port 3777",
 		"gen": "graphql-codegen --config ./.graphqlrc.yaml",
 		"build": "svelte-kit build",
-		"package": "svelte-kit package",
 		"preview": "svelte-kit preview",
-		"check": "svelte-check --tsconfig ./tsconfig.json",
-		"check:watch": "svelte-check --tsconfig ./tsconfig.json --watch",
-		"lint": "prettier --ignore-path .gitignore --check --plugin-search-dir=. . && eslint --ignore-path .gitignore .",
-		"format": "prettier --ignore-path .gitignore --write --plugin-search-dir=. .",
+		"quality": "yarn quality:eslint && yarn quality:prettier && yarn quality:ts",
+		"quality:fix": "prettier --ignore-path .gitignore --write --plugin-search-dir=. . && yarn quality:eslint --fix",
+		"quality:eslint": "eslint --ignore-path .gitignore .",
+		"quality:prettier": "prettier --ignore-path .gitignore --check --plugin-search-dir=. .",
+		"quality:ts": "svelte-check --tsconfig ./tsconfig.json",
+		"quality:ts:w": "yarn quality:ts --watch",
 		"update": "npm exec -- npx ncu -u -p yarn"
 	},
 	"devDependencies": {

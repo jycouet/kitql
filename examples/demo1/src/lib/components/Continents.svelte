@@ -1,19 +1,16 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
 	import { page } from '$app/stores';
-	import {
-		GetAllContinentsQuery,
-		GetAllContinentsQueryStore
-	} from '$lib/graphql/_kitql/graphqlStores';
+	import { AllContinentsQuery, AllContinentsQueryStore } from '$lib/graphql/_kitql/graphqlStores';
 	import { queryStringApprend } from '@kitql/helper';
 	import KitQlInfo from './KitQLInfo.svelte';
 
 	async function query() {
-		await GetAllContinentsQuery();
+		await AllContinentsQuery();
 	}
 
 	async function force() {
-		await GetAllContinentsQuery({ settings: { cache: 0 } });
+		await AllContinentsQuery({ settings: { cache: 0 } });
 	}
 
 	async function details(code: string) {
@@ -28,9 +25,9 @@
 		<button on:click={() => query()}>Query again</button>
 		<button on:click={() => force()}>Force network</button>
 	</h2>
-	<KitQlInfo store={$GetAllContinentsQueryStore} />
+	<KitQlInfo store={$AllContinentsQueryStore} />
 	<ul>
-		{#each $GetAllContinentsQueryStore.data?.continents as continent}
+		{#each $AllContinentsQueryStore.data?.continents as continent}
 			<li class="allSpace">
 				<p>{continent?.name}</p>
 				<button on:click={() => details(continent?.code)}>Get Countries</button>
