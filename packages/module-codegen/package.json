@@ -1,6 +1,6 @@
 {
 	"name": "@kitql/module-codegen",
-	"version": "0.0.1",
+	"version": "0.0.2",
 	"description": "KitQL module-codegen",
 	"repository": {
 		"type": "git",
@@ -11,7 +11,7 @@
 	"license": "MIT",
 	"scripts": {
 		"clean": "rm -rf ./dist",
-		"dev": "cd ../.. && yarn build && cd packages/module-codegen && node ./dist/index",
+		"dev": "cd ../.. && yarn build && cd packages/module-codegen && node ./dist/index.mjs",
 		"lint": "eslint **/*.ts",
 		"test": "jest --no-watchman --config ../../jest.config.js",
 		"prepack": "bob prepack"
@@ -21,14 +21,13 @@
 	},
 	"dependencies": {
 		"@kitql/helper": "0.0.5",
-		"ts-node": "10.5.0",
 		"yaml": "1.10.2"
 	},
 	"peerDependencies": {},
 	"main": "dist/index.js",
 	"module": "dist/index.mjs",
 	"bin": {
-		"kitql-module-codegen": "./build/index.mjs"
+		"kitql-module-codegen": "./build/index.js"
 	},
 	"exports": {
 		"./package.json": "./package.json",
