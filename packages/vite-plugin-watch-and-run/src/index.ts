@@ -29,7 +29,7 @@ export type Options = {
 	/**
 	 * Delay before running the run command (in ms) (default to 500ms if not set)
 	 */
-	delay: number | null;
+	delay?: number | null;
 };
 
 export type StateDetail = {
@@ -38,7 +38,7 @@ export type StateDetail = {
 	isRunnig: boolean;
 };
 
-function checkConf(params: Options[]) {
+export function checkConf(params: Options[]) {
 	if (!Array.isArray(params)) {
 		throw new Error('plugin watchAndRun, `params` needs to be an array.');
 	}

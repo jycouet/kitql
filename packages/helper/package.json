@@ -10,7 +10,6 @@
 	"scripts": {
 		"clean": "rm -rf ./dist",
 		"lint": "eslint **/*.ts",
-		"test": "jest --no-watchman --config ../../jest.config.js",
 		"prepack": "bob prepack"
 	},
 	"dependencies": {

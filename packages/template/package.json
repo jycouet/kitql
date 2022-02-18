@@ -13,7 +13,6 @@
 		"clean": "rm -rf ./dist",
 		"dev": "node ./dist/index",
 		"lint": "eslint **/*.ts",
-		"test": "jest --no-watchman --config ../../jest.config.js",
 		"prepack": "bob prepack"
 	},
 	"devDependencies": {

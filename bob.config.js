@@ -4,13 +4,10 @@ module.exports = {
 	track: [
 		// files in root that mark the entire workspace as dirty
 		'bob.config.js', // we could include it in Bob itself but we decided to turn your life into hell :)
-		'jest.config.js',
-		'jest-project.js',
 		'package.json',
 		'tsconfig.json',
 		// files in packages that mark the package as dirty
 		'<project>/src/**',
-		'<project>/jest.config.js',
 		'<project>/package.json',
 		'<project>/tsconfig.json'
 	],
