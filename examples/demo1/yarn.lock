@@ -631,22 +631,6 @@
     auto-bind "~4.0.0"
     tslib "~2.3.0"
 
-"@graphql-codegen/visitor-plugin-common@2.7.0":
-  version "2.7.0"
-  resolved "https://registry.yarnpkg.com/@graphql-codegen/visitor-plugin-common/-/visitor-plugin-common-2.7.0.tgz#4c78a84e5d193479309d25c1a3bd139670530aef"
-  integrity sha512-/3TZeM/y9UUy7ziUded+GCCGpRychOIbfNfg7HyHR1SxGpG7PrGunsLvYpv4O+ReUba250le4K4IeziVKl0O5g==
-  dependencies:
-    "@graphql-codegen/plugin-helpers" "^2.4.0"
-    "@graphql-tools/optimize" "^1.0.1"
-    "@graphql-tools/relay-operation-optimizer" "^6.3.7"
-    "@graphql-tools/utils" "^8.3.0"
-    auto-bind "~4.0.0"
-    change-case-all "1.0.14"
-    dependency-graph "^0.11.0"
-    graphql-tag "^2.11.0"
-    parse-filepath "^1.0.2"
-    tslib "~2.3.0"
-
 "@graphql-codegen/visitor-plugin-common@2.7.1":
   version "2.7.1"
   resolved "https://registry.yarnpkg.com/@graphql-codegen/visitor-plugin-common/-/visitor-plugin-common-2.7.1.tgz#bdcded24d1d6f329d32b90704397d6001374b893"
@@ -940,10 +924,10 @@
     "@jridgewell/resolve-uri" "^3.0.3"
     "@jridgewell/sourcemap-codec" "^1.4.10"
 
-"@kitql/all-in@0.0.32":
-  version "0.0.32"
-  resolved "https://registry.yarnpkg.com/@kitql/all-in/-/all-in-0.0.32.tgz#7a8d294b54be53f37d66ca6826858b3bfd2db9a4"
-  integrity sha512-C67VJrahzSejq7zmFn+SrTgZ+HvkJuMpZiB4tg+PcMgsGcak68mmhZI05/K1NGSx32zCNSEWMig3qib6hRIv1A==
+"@kitql/all-in@0.1.0":
+  version "0.1.0"
+  resolved "https://registry.yarnpkg.com/@kitql/all-in/-/all-in-0.1.0.tgz#bad9a0735cc74ad124d2e5af8bb6b383b2efc20b"
+  integrity sha512-Lpqm/VOYuI0lKdsAhYvr+DoHuOBaEq2YHGCAhHPeMiDz8JAg52qmxjMcBtj5y3ig6QE4WTKN2L2FkKAkfJv6mw==
   dependencies:
     "@graphql-codegen/cli" "2.6.2"
     "@graphql-codegen/graphql-modules-preset" "2.3.5"
@@ -954,49 +938,49 @@
     "@graphql-codegen/typescript-resolvers" "2.5.2"
     "@graphql-eslint/eslint-plugin" "3.8.0"
     "@graphql-typed-document-node/core" "3.1.1"
-    "@kitql/client" "0.0.32"
-    "@kitql/graphql-codegen" "0.0.18"
-    "@kitql/module-codegen" "0.0.2"
-    "@kitql/vite-plugin-watch-and-run" "0.0.8"
+    "@kitql/client" "0.1.0"
+    "@kitql/graphql-codegen" "0.1.0"
+    "@kitql/module-codegen" "0.1.0"
+    "@kitql/vite-plugin-watch-and-run" "0.1.0"
 
-"@kitql/client@0.0.32":
-  version "0.0.32"
-  resolved "https://registry.yarnpkg.com/@kitql/client/-/client-0.0.32.tgz#3fe0d5d9cf2b94320063a3cde622eb3abc7db8d9"
-  integrity sha512-RarGE1q6ajLPXmvXkbhoZTPrmhkE2d6CrpwlUWk7SAqicaeSUoOqRbLPf/CGFPjSTsJJg/04iPVn6eiqqA1Vzw==
+"@kitql/client@0.1.0":
+  version "0.1.0"
+  resolved "https://registry.yarnpkg.com/@kitql/client/-/client-0.1.0.tgz#ce584c33655112713a5faf0a2818b6abc023fcce"
+  integrity sha512-Rdz5uftOqkgT1GwNQpaOh0j44oFG40nGyP/cnXp+lDJaekpgjpdrY9kykSXhaYA8RDdvWN8nndGiewShjlJLBQ==
   dependencies:
-    "@kitql/helper" "0.0.5"
+    "@kitql/helper" "0.1.0"
     graphql "16.3.0"
 
-"@kitql/graphql-codegen@0.0.18":
-  version "0.0.18"
-  resolved "https://registry.yarnpkg.com/@kitql/graphql-codegen/-/graphql-codegen-0.0.18.tgz#345043d91f8569299d0fb06cb315b1564266822e"
-  integrity sha512-y01/kkt+aNWa6oqZxP7ktcdIvVZ1vEr6COCZGYE73oTWMV/TSEnJyDfGN2URuVwQ+S1mlZkurdmSqn0hclODxw==
+"@kitql/graphql-codegen@0.1.0":
+  version "0.1.0"
+  resolved "https://registry.yarnpkg.com/@kitql/graphql-codegen/-/graphql-codegen-0.1.0.tgz#ea0ea7416e021309fc5677a2ae181a5a11695bc2"
+  integrity sha512-swzAo3jLA5/EC5bCvFfMaIO3q+LM30bPQPl8abirZbB0zxaBiZBEDNaP9UdLuVvj8bGAw9l4yeZQSOah9/SRVA==
   dependencies:
     "@graphql-codegen/plugin-helpers" "2.4.1"
-    "@graphql-codegen/visitor-plugin-common" "2.7.0"
+    "@graphql-codegen/visitor-plugin-common" "2.7.1"
     auto-bind "5.0.1"
     change-case-all "1.0.14"
 
-"@kitql/helper@0.0.5":
-  version "0.0.5"
-  resolved "https://registry.yarnpkg.com/@kitql/helper/-/helper-0.0.5.tgz#7d8dfe0ffbc950bdf15dceb7f3b6e2f47a067bf7"
-  integrity sha512-fNkkMZUpTugSxrwCPwpv0SrRo3W40r1iAZCNmYEwCd3G8tTy+m/wpN59DcVMrKzthm/BjH5zP09IPMnG1LhWmw==
+"@kitql/helper@0.1.0":
+  version "0.1.0"
+  resolved "https://registry.yarnpkg.com/@kitql/helper/-/helper-0.1.0.tgz#57ba8e1801d793b6466d351f9bff15049de7000c"
+  integrity sha512-gEfauo73xLfmcb0czC80sA9Wsr9IZPs0TH1JOKMqLw0S9d6iN5SkDwna8AZDn+n58wDp0Ons+C7oUA6H41bUaQ==
   dependencies:
     pino "7.8.0"
     pino-pretty "7.5.1"
 
-"@kitql/module-codegen@0.0.2":
-  version "0.0.2"
-  resolved "https://registry.yarnpkg.com/@kitql/module-codegen/-/module-codegen-0.0.2.tgz#b9a41e2e808fb33f7883ac93dd5f3892efcc11fa"
-  integrity sha512-riOCMQ7ltSt6CMmOPILeGaVF6Ar98UIz3aNmpQtGiGJP+zS2oszmIs9Q8l1S5fhuSfPkmBu/KC/sLV/D+zak1Q==
+"@kitql/module-codegen@0.1.0":
+  version "0.1.0"
+  resolved "https://registry.yarnpkg.com/@kitql/module-codegen/-/module-codegen-0.1.0.tgz#4247a319e972adac652941c2fd1f4d805ef5f491"
+  integrity sha512-gJgJjbiAXKV4yEBj617EMZvAq5zu9u/omW1LVl1pBpCtm9iVk6TiFFiLWNRPW3M2xsrI9Z9jgm4hICXgplj8Sg==
   dependencies:
-    "@kitql/helper" "0.0.5"
+    "@kitql/helper" "0.1.0"
     yaml "1.10.2"
 
-"@kitql/vite-plugin-watch-and-run@0.0.8":
-  version "0.0.8"
-  resolved "https://registry.yarnpkg.com/@kitql/vite-plugin-watch-and-run/-/vite-plugin-watch-and-run-0.0.8.tgz#755bdbee32aa81ea9d89e7a5c17ef94a5049c1d7"
-  integrity sha512-ev46tbnsRwMYo/CpNvojEmPkUtE+lTHYqy8jEK4KAvewVFi29ESDJ+SJSkwNRG3OUzMRadlOgiceOtDCWcOe1g==
+"@kitql/vite-plugin-watch-and-run@0.1.0":
+  version "0.1.0"
+  resolved "https://registry.yarnpkg.com/@kitql/vite-plugin-watch-and-run/-/vite-plugin-watch-and-run-0.1.0.tgz#e4f85e7105b79b884d82e2f27c6ce98a669438c5"
+  integrity sha512-NHGzX9tNaDrPFzdYBVEGnv3ueXwx1hXrHuS8xrfKFejHub/4vlCttShFHCINivsbNrdKN3loct8XWXh69DImQg==
   dependencies:
     micromatch "4.0.4"
 
