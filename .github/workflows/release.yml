@@ -13,10 +13,13 @@ jobs:
       - name: Creating .npmrc
         run: |
           cat << EOF > "$HOME/.npmrc"
-            email=my@email.com
+            email=$NPM_EMAIL
+            name=$NPM_NAME
             //registry.npmjs.org/:_authToken=$NPM_TOKEN
           EOF
         env:
+          NPM_EMAIL: ${{ secrets.NPM_EMAIL }}
+          NPM_NAME: ${{ secrets.NPM_NAME }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
 
       - name: Checkout Repo
