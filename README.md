@@ -15,12 +15,13 @@
 
 [![Release](https://github.com/jycouet/kitql/actions/workflows/release.yml/badge.svg)](https://github.com/jycouet/kitql/actions/workflows/release.yml)
 [![Tests](https://github.com/jycouet/kitql/actions/workflows/ci.yml/badge.svg)](https://github.com/jycouet/kitql/actions/workflows/ci.yml)
-![check-code-coverage](https://img.shields.io/badge/code--coverage-78.88%25-yellow)
+![check-code-coverage](https://img.shields.io/badge/code--coverage-82.35%25-green)
 
 |                                                                                                                    |                                                                                                          Coverage by package |
 | ------------------------------------------------------------------------------------------------------------------ | ---------------------------------------------------------------------------------------------------------------------------: |
 | [KitQL - graphql-codegen](https://github.com/jycouet/kitql/tree/main/packages/graphql-codegen)                     |                       ![check-code-coverage-graphql-codegen](https://img.shields.io/badge/graphql--codegen-100.0%25-success) |
-| [KitQL - vite-plugin-watch-and-run](https://github.com/jycouet/kitql/tree/main/packages/vite-plugin-watch-and-run) | ![check-code-coverage-vite-plugin-watch-and-run](https://img.shields.io/badge/vite--plugin--watch--and--run-54.76%25-yellow) |
+| [KitQL - helper](https://github.com/jycouet/kitql/tree/main/packages/helper)                                       |                                          ![check-code-coverage-helper](https://img.shields.io/badge/helper-100.0%25-success) |
+| [KitQL - vite-plugin-watch-and-run](https://github.com/jycouet/kitql/tree/main/packages/vite-plugin-watch-and-run) | ![check-code-coverage-vite-plugin-watch-and-run](https://img.shields.io/badge/vite--plugin--watch--and--run-57.66%25-yellow) |
 
 # ⚡How to start?
 

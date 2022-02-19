@@ -88,7 +88,7 @@ export class KitQLClient {
 		this.credentials = credentials;
 		this.headersContentType = options.headersContentType ?? 'application/graphql+json';
 		this.logType = options.logType ?? [];
-		this.log = new Log('KitQL Client');
+		this.log = new Log('KitQL Client', { withTime: false });
 	}
 
 	private logOperation(
