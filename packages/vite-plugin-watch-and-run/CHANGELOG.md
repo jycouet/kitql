@@ -1,5 +1,13 @@
 # @kitql/vite-plugin-watch-and-run
 
+## 0.1.2
+
+### Patch Changes
+
+- 73474d8: new option to watch only ADD / CHANGE / DELETE
+- Updated dependencies [73474d8]
+  - @kitql/helper@0.1.2
+
 ## 0.1.1
 
 ### Patch Changes

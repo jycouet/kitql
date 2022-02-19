@@ -1,5 +1,11 @@
 # @kitql/helper
 
+## 0.1.2
+
+### Patch Changes
+
+- 73474d8: Adding new options for logging (formats)
+
 ## 0.1.1
 
 ### Patch Changes
