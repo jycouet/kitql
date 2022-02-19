@@ -11,7 +11,7 @@ const operations = [
 		document: parse(`mutation doSomething { id }`)
 	},
 	{
-		document: parse(`query { id }`)
+		document: parse(`query GetQuery { id }`)
 	},
 	{
 		document: parse(`fragment Test on Test { t }`)
@@ -63,5 +63,35 @@ describe('graphql-codegen', () => {
 		expect(result.content).toContain(
 			'Promise<RequestResult<Types.DoSomethingMutation, Types.DoSomethingMutationVariables>>'
 		);
+	});
+
+	it('With no config, it should still work', async () => {
+		const result = (await plugin(null as any, operations, undefined)) as Types.ComplexPluginOutput;
+		expect(result.prepend).not.toBe(null);
+		expect(result.content).not.toBe(null);
+
+		const result2 = (await plugin(null as any, operations, null)) as Types.ComplexPluginOutput;
+		expect(result2.prepend).not.toBe(null);
+		expect(result2.content).not.toBe(null);
+	});
+
+	it('config omitOperationSuffix, should omit Operation Suffix', async () => {
+		const result = (await plugin(null as any, operations, {
+			omitOperationSuffix: true
+		})) as Types.ComplexPluginOutput;
+
+		expect(result.content).toContain('DoSomethingStore.update');
+		expect(result.content).not.toContain('DoSomethingMutationStore.update');
+	});
+
+	it('config dedupeOperationSuffix, should dedupe Operation Suffix', async () => {
+		// But heuu... I don't know what operation to do to test this.
+		const result = (await plugin(null as any, operations, {
+			omitOperationSuffix: false,
+			dedupeOperationSuffix: true
+		})) as Types.ComplexPluginOutput;
+
+		expect(result.prepend).not.toBe(null);
+		expect(result.content).not.toBe(null);
 	});
 });

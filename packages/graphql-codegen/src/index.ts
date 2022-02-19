@@ -5,11 +5,12 @@ import { convertFactory, getConfigValue } from '@graphql-codegen/visitor-plugin-
 
 function getOperationSuffix(
 	config: { [key: string]: any },
-	node: OperationDefinitionNode | string,
+	node: OperationDefinitionNode,
 	operationType: string
 ): string {
-	const { omitOperationSuffix = false, dedupeOperationSuffix = false } = config ?? {};
-	const operationName = typeof node === 'string' ? node : node.name ? node.name.value : '';
+	const { omitOperationSuffix = false, dedupeOperationSuffix = false } = config;
+	const operationName = node.name.value;
+
 	return omitOperationSuffix
 		? ''
 		: dedupeOperationSuffix && operationName.toLowerCase().endsWith(operationType.toLowerCase())
@@ -22,6 +23,8 @@ export const plugin: PluginFunction<Record<string, any>, Types.ComplexPluginOutp
 	documents,
 	config
 ) => {
+	config = config ?? {};
+
 	const allAst = concatAST(documents.map(v => v.document));
 	const convertName = convertFactory(config);
 	const operationResultSuffix = getConfigValue(config.operationResultSuffix, '');
