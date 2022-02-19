@@ -9,6 +9,7 @@ jobs:
   release:
     name: Release
     runs-on: ubuntu-latest
+    environment: Publishing
     steps:
       - name: Creating .npmrc
         run: |
@@ -17,11 +18,10 @@ jobs:
             name=$NPM_NAME
             //registry.npmjs.org/:_authToken=$NPM_TOKEN
           EOF
-          cat "$HOME/.npmrc"
         env:
-          NPM_EMAIL: ${{ env.NPM_EMAIL }}
-          NPM_NAME2: ${{ secrets.NPM_NAME2 }}
-          NPM_TOKEN2: ${{ secrets.NPM_TOKEN2 }}
+          NPM_EMAIL: ${{ secrets.NPM_EMAIL }}
+          NPM_NAME: ${{ secrets.NPM_NAME }}
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
 
       - name: Checkout Repo
         uses: actions/checkout@master
