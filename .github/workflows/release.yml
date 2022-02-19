@@ -19,8 +19,8 @@ jobs:
           EOF
         env:
           NPM_EMAIL: ${{ secrets.NPM_EMAIL }}
-          NPM_NAME: ${{ secrets.NPM_NAME }}
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+          NPM_NAME2: ${{ secrets.NPM_NAME2 }}
+          NPM_TOKEN2: ${{ secrets.NPM_TOKEN2 }}
 
       - name: Checkout Repo
         uses: actions/checkout@master
