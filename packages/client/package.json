@@ -1,6 +1,6 @@
 {
 	"name": "@kitql/client",
-	"version": "0.0.32",
+	"version": "0.1.0",
 	"repository": {
 		"type": "git",
 		"url": "https://github.com/jycouet/kitql.git",
@@ -8,12 +8,10 @@
 	},
 	"license": "MIT",
 	"scripts": {
-		"clean": "rm -rf ./dist",
-		"lint": "eslint **/*.ts",
 		"prepack": "bob prepack"
 	},
 	"dependencies": {
-		"@kitql/helper": "0.0.5",
+		"@kitql/helper": "0.1.0",
 		"graphql": "16.3.0"
 	},
 	"main": "dist/index.js",

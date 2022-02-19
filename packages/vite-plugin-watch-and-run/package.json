@@ -1,6 +1,6 @@
 {
 	"name": "@kitql/vite-plugin-watch-and-run",
-	"version": "0.0.8",
+	"version": "0.1.0",
 	"description": "vite-plugin that will watch some files and run a package.json script on change",
 	"repository": {
 		"type": "git",
@@ -10,8 +10,6 @@
 	},
 	"license": "MIT",
 	"scripts": {
-		"clean": "rm -rf ./dist",
-		"lint": "eslint **/*.ts",
 		"test": "vitest run",
 		"prepack": "bob prepack"
 	},

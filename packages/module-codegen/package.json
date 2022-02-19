@@ -1,6 +1,6 @@
 {
 	"name": "@kitql/module-codegen",
-	"version": "0.0.2",
+	"version": "0.1.0",
 	"description": "KitQL module-codegen",
 	"repository": {
 		"type": "git",
@@ -10,16 +10,14 @@
 	"type": "module",
 	"license": "MIT",
 	"scripts": {
-		"clean": "rm -rf ./dist",
 		"dev": "cd ../.. && yarn build && cd packages/module-codegen && node ./dist/index.mjs",
-		"lint": "eslint **/*.ts",
 		"prepack": "bob prepack"
 	},
 	"devDependencies": {
 		"tslib": "2.3.1"
 	},
 	"dependencies": {
-		"@kitql/helper": "0.0.5",
+		"@kitql/helper": "0.1.0",
 		"yaml": "1.10.2"
 	},
 	"peerDependencies": {},

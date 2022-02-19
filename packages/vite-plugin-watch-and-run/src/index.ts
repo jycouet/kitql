@@ -38,7 +38,7 @@ export type StateDetail = {
 	isRunnig: boolean;
 };
 
-export function checkConf(params: Options[]) {
+function checkConf(params: Options[]) {
 	if (!Array.isArray(params)) {
 		throw new Error('plugin watchAndRun, `params` needs to be an array.');
 	}
@@ -66,17 +66,19 @@ export function checkConf(params: Options[]) {
 
 export default function watchAndRun(params: Options[]) {
 	// check params, throw Errors if not valid and return a new object representing the state of the plugin
-	let pluginState = checkConf(params);
+	let watchAndRunConf = checkConf(params);
 
 	return {
 		name: 'watch-and-run', // this name will show up in warnings and errors
 
+		watchAndRunConf,
+
 		configureServer(server) {
 			const watcher = async absolutePath => {
-				for (const globToWatch in pluginState) {
-					const param = pluginState[globToWatch];
+				for (const globToWatch in watchAndRunConf) {
+					const param = watchAndRunConf[globToWatch];
 					if (!param.isRunnig && micromatch.isMatch(absolutePath, globToWatch)) {
-						pluginState[globToWatch].isRunnig = true;
+						watchAndRunConf[globToWatch].isRunnig = true;
 
 						log(
 							`${getGreen('✔')} Thx to ${getGreen(globToWatch)}, ` +
