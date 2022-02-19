@@ -6,14 +6,17 @@
   <img src="./logo.svg" width="100" />
 </p>
 
-🚧🚧🚧🚧🚧🚧🚧🚧🚧
+🚧🚧🚧🚧🚧🚧🚧🚧
 
 UNDER CONSTRUCTION
 
 - Day by day progress, check [twitter - jycouet](https://twitter.com/jycouet/status/1486052645567672324)
 - Video explanations, check [Youtube - KitQL - The native SvelteKit library for GraphQL](https://www.youtube.com/watch?v=6pH4fnFN70w)
 
-🚧🚧🚧🚧🚧🚧🚧🚧🚧
+🚧🚧🚧🚧🚧🚧🚧🚧
+
+[![Tests](https://github.com/jycouet/kitql/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/jycouet/kitql/actions/workflows/ci.yml)
+[![Release](https://github.com/jycouet/kitql/actions/workflows/release.yml/badge.svg)](https://github.com/jycouet/kitql/actions/workflows/release.yml)
 
 # ⚡How to start?
 
