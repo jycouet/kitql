@@ -1,21 +1,6 @@
-import micromatch from 'micromatch';
+import { Log, logCyan, logGreen, logRed } from '@kitql/helper';
 import { spawn } from 'child_process';
-
-function getGreen(str) {
-	return '\x1b[32m' + str + '\x1b[0m';
-}
-
-function getRed(str) {
-	return '\u001B[31m' + str + '\x1b[0m';
-}
-
-function getBlue(str) {
-	return '\u001B[34m' + str + '\x1b[0m';
-}
-
-function log(str) {
-	console.log(`${getBlue('[vite-plugin-watch-and-run]')} ${str}`);
-}
+import micromatch from 'micromatch';
 
 export type Options = {
 	/**
@@ -23,16 +8,24 @@ export type Options = {
 	 */
 	watch: string;
 	/**
+	 * Kind of watch that will trigger the run action
+	 */
+	watchKind?: WatchKind[];
+	/**
 	 * run command (yarn gen for example!)
 	 */
 	run: string;
 	/**
-	 * Delay before running the run command (in ms) (default to 500ms if not set)
+	 * Delay before running the run command (in ms)
+	 * @default 500 ms
 	 */
 	delay?: number | null;
 };
 
+export type WatchKind = 'ADD' | 'CHANGE' | 'DELETE';
+
 export type StateDetail = {
+	kind: ('ADD' | 'CHANGE' | 'DELETE')[];
 	run: string;
 	delay: number;
 	isRunnig: boolean;
@@ -55,6 +48,7 @@ function checkConf(params: Options[]) {
 		}
 
 		paramsChecked[param.watch] = {
+			kind: param.watchKind ?? ['ADD', 'CHANGE', 'DELETE'],
 			run: param.run,
 			delay: param.delay ?? 500,
 			isRunnig: false
@@ -64,63 +58,108 @@ function checkConf(params: Options[]) {
 	return paramsChecked;
 }
 
+async function shouldRun(
+	absolutePath: string,
+	watchKind: WatchKind,
+	watchAndRunConf: Record<string, StateDetail>
+) {
+	for (const globToWatch in watchAndRunConf) {
+		const param = watchAndRunConf[globToWatch];
+		if (
+			!param.isRunnig &&
+			param.kind.includes(watchKind) &&
+			micromatch.isMatch(absolutePath, globToWatch)
+		) {
+			return {
+				shouldRun: true,
+				globToWatch,
+				param
+			};
+		}
+	}
+	return {
+		shouldRun: false,
+		globToWatch: null,
+		param: null
+	};
+}
+
+async function watcher(
+	absolutePath: string,
+	watchKind: WatchKind,
+	watchAndRunConf: Record<string, StateDetail>
+) {
+	const shouldRunInfo = await shouldRun(absolutePath, watchKind, watchAndRunConf);
+	if (shouldRunInfo.shouldRun) {
+		watchAndRunConf[shouldRunInfo.globToWatch].isRunnig = true;
+
+		log.info(
+			`${logGreen('✔')} Thx to ${logGreen(shouldRunInfo.globToWatch)}, ` +
+				`triggered by ${logCyan(watchKind)} ${logGreen(absolutePath)}, ` +
+				`we will wait ${logCyan(shouldRunInfo.param.delay + 'ms')} and run ${logGreen(
+					shouldRunInfo.param.run
+				)}.`
+		);
+
+		// Run after a delay
+		setTimeout(() => {
+			var child = spawn(shouldRunInfo.param.run, [], { shell: true });
+
+			//spit stdout to screen
+			child.stdout.on('data', function(data) {
+				process.stdout.write(data.toString());
+			});
+
+			//spit stderr to screen
+			child.stderr.on('data', function(data) {
+				process.stdout.write(data.toString());
+			});
+
+			child.on('close', function(code) {
+				if (code === 0) {
+					log.info(`${logGreen('✔')} finished ${logGreen('successfully')}`);
+				} else {
+					log.error(`${'❌'} finished with some ${logRed('errors')}`);
+				}
+				shouldRunInfo.param.isRunnig = false;
+			});
+
+			return;
+		}, shouldRunInfo.param.delay);
+	}
+
+	return;
+}
+
+const log = new Log('KitQL vite-plugin-watch-and-run', {
+	sync: true,
+	withTime: false,
+	withlevelKey: false
+});
+
 export default function watchAndRun(params: Options[]) {
 	// check params, throw Errors if not valid and return a new object representing the state of the plugin
 	let watchAndRunConf = checkConf(params);
 
 	return {
-		name: 'watch-and-run', // this name will show up in warnings and errors
+		name: 'watch-and-run',
 
 		watchAndRunConf,
 
 		configureServer(server) {
-			const watcher = async absolutePath => {
-				for (const globToWatch in watchAndRunConf) {
-					const param = watchAndRunConf[globToWatch];
-					if (!param.isRunnig && micromatch.isMatch(absolutePath, globToWatch)) {
-						watchAndRunConf[globToWatch].isRunnig = true;
-
-						log(
-							`${getGreen('✔')} Thx to ${getGreen(globToWatch)}, ` +
-								`triggered by ${getGreen(absolutePath)}, ` +
-								`we will wait ${param.delay}ms and run ${getGreen(param.run)}.`
-						);
-
-						// Run after a delay
-						setTimeout(() => {
-							var child = spawn(param.run, [], { shell: true });
-
-							//spit stdout to screen
-							child.stdout.on('data', function(data) {
-								process.stdout.write(data.toString());
-							});
-
-							//spit stderr to screen
-							child.stderr.on('data', function(data) {
-								process.stdout.write(data.toString());
-							});
-
-							child.on('close', function(code) {
-								if (code === 0) {
-									log(`${getGreen('✔')} finished ${getGreen('successfully')}`);
-								} else {
-									log(`${'❌'} finished with some ${getRed('errors')}`);
-								}
-								param.isRunnig = false;
-							});
-
-							return;
-						}, param.delay);
-					}
-				}
-
-				return;
+			const watcherAdd = async absolutePath => {
+				watcher(absolutePath, 'ADD', watchAndRunConf);
+			};
+			const watcherChange = async absolutePath => {
+				watcher(absolutePath, 'CHANGE', watchAndRunConf);
+			};
+			const watcherDelete = async absolutePath => {
+				watcher(absolutePath, 'DELETE', watchAndRunConf);
 			};
 
-			// Vite file watcher
-			server.watcher.on('add', watcher);
-			server.watcher.on('change', watcher);
-			server.watcher.on('delete', watcher);
+			server.watcher.on('add', watcherAdd);
+			server.watcher.on('change', watcherChange);
+			server.watcher.on('delete', watcherDelete);
 		}
 	};
 }
