@@ -19,7 +19,7 @@ jobs:
           EOF
           cat "$HOME/.npmrc"
         env:
-          NPM_EMAIL: ${{ secrets.NPM_EMAIL }}
+          NPM_EMAIL: ${{ env.NPM_EMAIL }}
           NPM_NAME2: ${{ secrets.NPM_NAME2 }}
           NPM_TOKEN2: ${{ secrets.NPM_TOKEN2 }}
 
