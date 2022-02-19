@@ -1,0 +1,28 @@
+name: Tests
+on:
+  pull_request:
+
+jobs:
+  build:
+    name: Tests
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+        with:
+          # This makes Actions fetch all Git history so that Changesets can generate changelogs with the correct commits
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@master
+        with:
+          node-version: 17.x
+
+      - name: Install Dependencies using Yarn
+        run: yarn
+
+      - name: Build Packages
+        run: yarn build
+
+      - name: Run Tests
+        run: yarn test
