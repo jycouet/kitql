@@ -13,7 +13,7 @@ import { actionTypeDefs } from './actionTypeDefs';
 import { actionContext } from './actionContexts';
 import { actionModules } from './actionModules';
 
-let log = new Log('KitQL module-codegen');
+let log = new Log('KitQL module-codegen', { sync: true, withlevelKey: false });
 
 const configFilePath = getFullPath('.kitql.yaml');
 
