@@ -7,6 +7,7 @@
 	"scripts": {
 		"dev": "yarn build && yarn workspace @kitql/template dev",
 		"test": "vitest",
+		"test:ci": "vitest run",
 		"prebuild": "rimraf packages/*/dist",
 		"build": "tsc --project tsconfig.json && bob build",
 		"release": "yarn build && changeset publish",
