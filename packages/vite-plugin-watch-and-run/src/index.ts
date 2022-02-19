@@ -85,7 +85,7 @@ export default function watchAndRun(params: Options[]) {
 			const watcher = async (absolutePath: string, operation: FileOperation) => {
 				for (const globToWatch in watchAndRunConf) {
 					const param = watchAndRunConf[globToWatch];
-					if (!param.operations?.includes(operation)) return;
+					if (param.operations && !param.operations.includes(operation)) return;
 					if (!param.isRunnig && micromatch.isMatch(absolutePath, globToWatch)) {
 						watchAndRunConf[globToWatch].isRunnig = true;
 
