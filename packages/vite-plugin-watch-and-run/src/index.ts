@@ -1,6 +1,8 @@
 import micromatch from 'micromatch';
 import { spawn } from 'child_process';
 
+type FileOperation = 'add' | 'change' | 'delete';
+
 function getGreen(str) {
 	return '\x1b[32m' + str + '\x1b[0m';
 }
@@ -30,12 +32,17 @@ export type Options = {
 	 * Delay before running the run command (in ms) (default to 500ms if not set)
 	 */
 	delay?: number | null;
+	/**
+	 * Operations for which the command should run (default to all - add, change, delete)
+	 */
+	operations?: FileOperation[];
 };
 
 export type StateDetail = {
 	run: string;
 	delay: number;
 	isRunnig: boolean;
+	operations: FileOperation[];
 };
 
 function checkConf(params: Options[]) {
@@ -57,7 +64,8 @@ function checkConf(params: Options[]) {
 		paramsChecked[param.watch] = {
 			run: param.run,
 			delay: param.delay ?? 500,
-			isRunnig: false
+			isRunnig: false,
+			operations: param.operations
 		};
 	}
 
@@ -74,9 +82,10 @@ export default function watchAndRun(params: Options[]) {
 		watchAndRunConf,
 
 		configureServer(server) {
-			const watcher = async absolutePath => {
+			const watcher = async (absolutePath: string, operation: FileOperation) => {
 				for (const globToWatch in watchAndRunConf) {
 					const param = watchAndRunConf[globToWatch];
+					if (!param.operations?.includes(operation)) return;
 					if (!param.isRunnig && micromatch.isMatch(absolutePath, globToWatch)) {
 						watchAndRunConf[globToWatch].isRunnig = true;
 
@@ -91,16 +100,16 @@ export default function watchAndRun(params: Options[]) {
 							var child = spawn(param.run, [], { shell: true });
 
 							//spit stdout to screen
-							child.stdout.on('data', function(data) {
+							child.stdout.on('data', function (data) {
 								process.stdout.write(data.toString());
 							});
 
 							//spit stderr to screen
-							child.stderr.on('data', function(data) {
+							child.stderr.on('data', function (data) {
 								process.stdout.write(data.toString());
 							});
 
-							child.on('close', function(code) {
+							child.on('close', function (code) {
 								if (code === 0) {
 									log(`${getGreen('✔')} finished ${getGreen('successfully')}`);
 								} else {
@@ -118,9 +127,9 @@ export default function watchAndRun(params: Options[]) {
 			};
 
 			// Vite file watcher
-			server.watcher.on('add', watcher);
-			server.watcher.on('change', watcher);
-			server.watcher.on('delete', watcher);
+			server.watcher.on('add', (absolutePath: string) => watcher(absolutePath, 'add'));
+			server.watcher.on('change', (absolutePath: string) => watcher(absolutePath, 'change'));
+			server.watcher.on('delete', (absolutePath: string) => watcher(absolutePath, 'delete'));
 		}
 	};
 }
