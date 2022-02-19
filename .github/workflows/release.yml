@@ -24,15 +24,6 @@ jobs:
       - name: Install Dependencies
         run: yarn
 
-      - name: Creating .npmrc
-        run: |
-          cat << EOF > "$HOME/.npmrc"
-            jycouet@gmail.com
-            //registry.npmjs.org/:_authToken=$NPM_TOKEN
-          EOF
-        env:
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-
       - name: Create Release Pull Request or Publish to npm
         id: changesets
         uses: changesets/action@v1
@@ -40,7 +31,7 @@ jobs:
           # This expects you to have a script called release which does a build for your packages and calls changeset publish
           publish: yarn release
           commit: ':package: RELEASE: new version'
-          title: ':package: RELEASE: new version INC'
+          title: ':package: RELEASE: preparing next version'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
