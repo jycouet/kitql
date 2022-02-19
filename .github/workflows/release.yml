@@ -17,6 +17,7 @@ jobs:
             name=$NPM_NAME
             //registry.npmjs.org/:_authToken=$NPM_TOKEN
           EOF
+          cat "$HOME/.npmrc"
         env:
           NPM_EMAIL: ${{ secrets.NPM_EMAIL }}
           NPM_NAME2: ${{ secrets.NPM_NAME2 }}
