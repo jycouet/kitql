@@ -1,7 +1,9 @@
 import { defineConfig, configDefaults } from 'vitest/node';
 
 export default defineConfig({
-	plugins: [
-		// test:
-	]
+	test: {
+		coverage: {
+			reporter: ['json-summary', 'html']
+		}
+	}
 });

@@ -6,17 +6,21 @@
   <img src="./logo.svg" width="100" />
 </p>
 
-🚧🚧🚧🚧🚧🚧🚧🚧
-
-UNDER CONSTRUCTION
+## 🌐 Infos
 
 - Day by day progress, check [twitter - jycouet](https://twitter.com/jycouet/status/1486052645567672324)
 - Video explanations, check [Youtube - KitQL - The native SvelteKit library for GraphQL](https://www.youtube.com/watch?v=6pH4fnFN70w)
 
-🚧🚧🚧🚧🚧🚧🚧🚧
+## 👷 Quality
 
-[![Tests](https://github.com/jycouet/kitql/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/jycouet/kitql/actions/workflows/ci.yml)
 [![Release](https://github.com/jycouet/kitql/actions/workflows/release.yml/badge.svg)](https://github.com/jycouet/kitql/actions/workflows/release.yml)
+[![Tests](https://github.com/jycouet/kitql/actions/workflows/ci.yml/badge.svg)](https://github.com/jycouet/kitql/actions/workflows/ci.yml)
+![check-code-coverage](https://img.shields.io/badge/code--coverage-78.88%25-yellow)
+
+|                                                                                                                    |                                                                                                          Coverage by package |
+| ------------------------------------------------------------------------------------------------------------------ | ---------------------------------------------------------------------------------------------------------------------------: |
+| [KitQL - graphql-codegen](https://github.com/jycouet/kitql/tree/main/packages/graphql-codegen)                     |                       ![check-code-coverage-graphql-codegen](https://img.shields.io/badge/graphql--codegen-100.0%25-success) |
+| [KitQL - vite-plugin-watch-and-run](https://github.com/jycouet/kitql/tree/main/packages/vite-plugin-watch-and-run) | ![check-code-coverage-vite-plugin-watch-and-run](https://img.shields.io/badge/vite--plugin--watch--and--run-54.76%25-yellow) |
 
 # ⚡How to start?
 
