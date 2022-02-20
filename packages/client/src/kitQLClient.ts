@@ -7,6 +7,12 @@ export type ClientSettings = {
 	 */
 	url: string;
 	/**
+	 * @name headers
+	 * @description Headers of your requests to graphql endpoint
+	 * @default {}
+	 */
+	headers?: Record<string, string>;
+	/**
 	 * Default Cache in miliseconds (can be overwritten at Query level, so `cache:0` force a network call)
 	 */
 	defaultCache?: number;
@@ -73,6 +79,7 @@ export const defaultStoreValue = {
 
 export class KitQLClient {
 	private url: string;
+	private headers: Record<string, string>;
 	private cache: number;
 	private credentials: 'omit' | 'same-origin' | 'include';
 	private headersContentType: 'application/graphql+json' | 'application/json';
@@ -82,8 +89,9 @@ export class KitQLClient {
 	private log: Log;
 
 	constructor(options: ClientSettings) {
-		const { url, defaultCache, credentials } = options ?? {};
+		const { url, defaultCache, credentials, headers } = options ?? {};
 		this.url = url;
+		this.headers = headers ?? {};
 		this.cache = defaultCache ?? 1000 * 60 * 3;
 		this.credentials = credentials;
 		this.headersContentType = options.headersContentType ?? 'application/graphql+json';
@@ -170,7 +178,7 @@ export class KitQLClient {
 			const res = await fetchToUse(this.url, {
 				method: 'POST',
 				credentials: this.credentials,
-				headers: { 'Content-Type': this.headersContentType },
+				headers: { ...this.headers, 'Content-Type': this.headersContentType },
 				body: JSON.stringify({
 					query: print(document),
 					variables
