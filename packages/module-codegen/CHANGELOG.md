@@ -1,5 +1,11 @@
 # @kitql/module-codegen
 
+## 0.1.4
+
+### Patch Changes
+
+- 2685175: ctx module merge
+
 ## 0.1.3
 
 ### Patch Changes
