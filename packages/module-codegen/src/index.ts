@@ -1,17 +1,18 @@
 import { Log, logGreen, logRed } from '@kitql/helper';
 import fs from 'fs';
-import YAML from 'yaml';
-import { TConfigFile, writeDefaultConfigFile } from './defaultConfigFile';
-import { createFolderIfNotExists, getDirectories, getFiles, getFullPath } from './fileFolder';
-import { getPrismaEnum } from './prismaHelper';
-import { read, readLines } from './readWrite';
 import { join } from 'path';
+import YAML from 'yaml';
+import { actionContext } from './actionContexts';
 import { actionEnum } from './actionEnum';
-import { pad } from './formatString';
+import { actionModuleContext } from './actionModuleContext';
+import { actionModules } from './actionModules';
 import { actionResolvers } from './actionResolvers';
 import { actionTypeDefs } from './actionTypeDefs';
-import { actionContext } from './actionContexts';
-import { actionModules } from './actionModules';
+import { TConfigFile, writeDefaultConfigFile } from './defaultConfigFile';
+import { getDirectories, getFiles, getFullPath } from './fileFolder';
+import { pad, toPascalCase } from './formatString';
+import { getPrismaEnum } from './prismaHelper';
+import { read, readLines } from './readWrite';
 
 let log = new Log('KitQL module-codegen', { sync: true, withlevelKey: false });
 
@@ -55,6 +56,9 @@ if (fs.existsSync(configFilePath)) {
 	if (configFile.actions.mergeModuleResolvers) {
 		mergeModuleAction.push('Resolvers');
 	}
+	if (configFile.actions.mergeContexts) {
+		mergeModuleAction.push('Contexts');
+	}
 	if (mergeModuleAction.length > 0) {
 		log.info(
 			`${logGreen('⏳')} merging ${mergeModuleAction
@@ -66,6 +70,7 @@ if (fs.existsSync(configFilePath)) {
 	moduleNames.forEach(moduleName => {
 		let typedefsFilesLen = 0;
 		let resolversFilesLen = 0;
+		let contextsFilesLen = 0;
 
 		// TypeDefs
 		if (configFile.actions.mergeModuleTypedefs) {
@@ -85,11 +90,36 @@ if (fs.existsSync(configFilePath)) {
 			);
 		}
 
+		// Contexts
+		if (configFile.actions.mergeContexts) {
+			const providersFolder = 'providers';
+			let dataloadersModule = [];
+			const providersFiles = getFiles(
+				join(configFile.configs.modulesFolder, moduleName, providersFolder)
+			);
+			let withDbProvider = false;
+			providersFiles.forEach(providerFile => {
+				if (providerFile.startsWith(`dl${toPascalCase(moduleName)}`)) {
+					dataloadersModule.push({ moduleName, providerFile });
+				}
+				if (providerFile.startsWith(`Db${toPascalCase(moduleName)}`)) {
+					withDbProvider = true;
+				}
+			});
+			contextsFilesLen = actionModuleContext(
+				dataloadersModule,
+				configFile.configs.modulesFolder,
+				moduleName,
+				configFile.configs.moduleOutputFolder,
+				withDbProvider
+			);
+		}
+
 		if (mergeModuleAction.length > 0) {
 			log.info(
 				`${logGreen('✔')} merged - ${logGreen(pad(typedefsFilesLen, 2))} Typedefs | ${logGreen(
 					pad(resolversFilesLen, 2)
-				)} Resolvers for [${logGreen(moduleName)}]`
+				)} Resolvers | ${logGreen(pad(contextsFilesLen, 2))} Contexts for [${logGreen(moduleName)}]`
 			);
 		}
 	});
@@ -118,6 +148,36 @@ if (fs.existsSync(configFilePath)) {
 			)} contexts [${ctxModules.map(c => logGreen(c.moduleName + '#' + c.ctxName)).join(',')}]`
 		);
 	}
+
+	// mergeModuleContexts
+	// if (configFile.actions.mergeContexts) {
+	// 	log.info(`${logGreen('⏳')} merging modules ${logGreen('Contexts')}`);
+	// 	const providersFolder = 'providers';
+	// 	moduleNames.forEach(moduleName => {
+	// 		let dataloadersModule = [];
+	// 		const providersFiles = getFiles(
+	// 			join(configFile.configs.modulesFolder, moduleName, providersFolder)
+	// 		);
+	// 		providersFiles.forEach(providerFile => {
+	// 			if (providerFile.startsWith(`dl${toPascalCase(moduleName)}`)) {
+	// 				dataloadersModule.push({ moduleName, providerFile });
+	// 			}
+	// 		});
+	// 		actionModuleContext(
+	// 			dataloadersModule,
+	// 			configFile.configs.modulesFolder,
+	// 			moduleName,
+	// 			configFile.configs.moduleOutputFolder
+	// 		);
+	// 		log.info(
+	// 			`${logGreen('✔')} merged ${logGreen(
+	// 				pad(dataloadersModule.length, 2)
+	// 			)} contexts [${dataloadersModule
+	// 				.map(c => logGreen(c.moduleName + '#' + c.ctxName))
+	// 				.join(',')}]`
+	// 		);
+	// 	});
+	// }
 
 	// mergeModules
 	if (configFile.actions.mergeModules) {
