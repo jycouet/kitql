@@ -28,7 +28,7 @@ export type StateDetail = {
 	kind: ('ADD' | 'CHANGE' | 'DELETE')[];
 	run: string;
 	delay: number;
-	isRunnig: boolean;
+	isRunning: boolean;
 };
 
 function checkConf(params: Options[]) {
@@ -51,7 +51,7 @@ function checkConf(params: Options[]) {
 			kind: param.watchKind ?? ['ADD', 'CHANGE', 'DELETE'],
 			run: param.run,
 			delay: param.delay ?? 500,
-			isRunnig: false
+			isRunning: false
 		};
 	}
 
@@ -66,7 +66,7 @@ async function shouldRun(
 	for (const globToWatch in watchAndRunConf) {
 		const param = watchAndRunConf[globToWatch];
 		if (
-			!param.isRunnig &&
+			!param.isRunning &&
 			param.kind.includes(watchKind) &&
 			micromatch.isMatch(absolutePath, globToWatch)
 		) {
@@ -91,7 +91,7 @@ async function watcher(
 ) {
 	const shouldRunInfo = await shouldRun(absolutePath, watchKind, watchAndRunConf);
 	if (shouldRunInfo.shouldRun) {
-		watchAndRunConf[shouldRunInfo.globToWatch].isRunnig = true;
+		watchAndRunConf[shouldRunInfo.globToWatch].isRunning = true;
 
 		log.info(
 			`${logGreen('✔')} Thx to ${logGreen(shouldRunInfo.globToWatch)}, ` +
@@ -121,7 +121,7 @@ async function watcher(
 				} else {
 					log.error(`${'❌'} finished with some ${logRed('errors')}`);
 				}
-				shouldRunInfo.param.isRunnig = false;
+				shouldRunInfo.param.isRunning = false;
 			});
 
 			return;
