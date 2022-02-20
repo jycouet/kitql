@@ -1,8 +1,8 @@
-import { afterEach, describe, expect, it, vi } from 'vitest';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { Log, logCyan, logGreen, logMagneta, logRed } from '../src/Log';
 
 describe('kitql - helper - Log', () => {
-	afterEach(() => {
+	beforeEach(() => {
 		vi.restoreAllMocks();
 	});
 
@@ -34,7 +34,7 @@ describe('kitql - helper - Log', () => {
 	});
 
 	it('Config with time', async () => {
-		let log = new Log('tool name', { withTime: true });
+		let log = new Log('tool name', { withTime: true, sync: true });
 		expect(log).to.have.property('toolName', 'tool name');
 
 		const spy = vi.spyOn(log, 'info');

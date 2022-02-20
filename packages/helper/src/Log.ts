@@ -1,5 +1,4 @@
 import pino from 'pino';
-import PinoPretty from 'pino-pretty';
 
 export function logGreen(str: string) {
 	return `\x1b[32m${str}\x1b[37m\x1b[0m`;
@@ -29,13 +28,17 @@ export class Log {
 	constructor(toolName: string, options: Options | null = null) {
 		const { sync = false, withTime = false, withlevelKey = true } = options ?? {};
 		this.toolName = toolName;
-		this.logger = pino(
-			PinoPretty({
-				sync,
-				translateTime: withTime ? true : false,
-				ignore: `pid,hostname${withTime ? '' : ',time'}${withlevelKey ? '' : ',level'}`
-			})
-		);
+		this.logger = pino({
+			transport: {
+				target: 'pino-pretty',
+				options: {
+					colorize: false,
+					sync,
+					translateTime: withTime ? true : false,
+					ignore: `pid,hostname${withTime ? '' : ',time'}${withlevelKey ? '' : ',level'}`
+				}
+			}
+		});
 	}
 
 	info(msg: string) {

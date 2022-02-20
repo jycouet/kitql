@@ -11,8 +11,8 @@
 		"test:update-badge": "yarn update-badge",
 		"prebuild": "rimraf packages/*/dist",
 		"build": "tsc --project tsconfig.json && bob build",
-		"release:prepareMsg": "yarn changeset",
-		"release:prepareVersion": "yarn changeset version",
+		"release:msg": "yarn changeset",
+		"release:version": "yarn changeset version",
 		"release": "yarn build && changeset publish",
 		"reset": "git clean -xdf",
 		"update": "npm exec --workspaces -- npx ncu -u -p yarn"
