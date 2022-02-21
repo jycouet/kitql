@@ -8,6 +8,7 @@
 	},
 	"license": "MIT",
 	"scripts": {
+		"gen": "graphql-codegen --config ./.graphqlrc.yaml",
 		"dev": "svelte-kit dev",
 		"build": "svelte-kit build",
 		"package": "svelte-kit package",
@@ -19,6 +20,9 @@
 		"prepack": "bob prepack"
 	},
 	"devDependencies": {
+		"@kitql/graphql-codegen": "0.1.1",
+		"@kitql/module-codegen": "0.1.4",
+		"@kitql/vite-plugin-watch-and-run": "0.1.3",
 		"@sveltejs/adapter-auto": "next",
 		"@sveltejs/kit": "next",
 		"@typescript-eslint/eslint-plugin": "^5.10.1",
