@@ -63,5 +63,5 @@ export function actionModuleContext(
 
 	write(join(modulesFolder, moduleName, moduleOutputFolder, 'ctx.ts'), dataCtxModules);
 
-	return functionsName.length + withDbProvider ? 1 : 0;
+	return functionsName.length + (withDbProvider ? 1 : 0);
 }
