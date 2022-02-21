@@ -1,5 +1,7 @@
-import { print } from 'graphql';
 import { Log, logCyan, logGreen } from '@kitql/helper';
+import { print } from 'graphql';
+import { stringify } from 'safe-stable-stringify';
+import { CacheData } from './CacheData';
 
 export type ClientSettings = {
 	/**
@@ -85,7 +87,7 @@ export class KitQLClient {
 	private headersContentType: 'application/graphql+json' | 'application/json';
 	private logType: ('server' | 'client' | 'operation' | 'operationAndvariables' | 'rawResult')[];
 
-	private cacheData = {};
+	private cacheData: CacheData;
 	private log: Log;
 
 	constructor(options: ClientSettings) {
@@ -97,6 +99,7 @@ export class KitQLClient {
 		this.headersContentType = options.headersContentType ?? 'application/graphql+json';
 		this.logType = options.logType ?? [];
 		this.log = new Log('KitQL Client', { withTime: false });
+		this.cacheData = new CacheData();
 	}
 
 	private logOperation(
@@ -122,9 +125,7 @@ export class KitQLClient {
 		cache,
 		browser
 	}): Promise<ResponseResult<D, V>> {
-		//Cache key... Relys on the order of the variables :s
-		const key = JSON.stringify({ cacheKey, variables });
-
+		// Logging variables
 		const browserAndWantLog = browser && this.logType.includes('client');
 		const serverAndWantLog = !browser && this.logType.includes('server');
 		const logOp = this.logType.includes('operation') && (browserAndWantLog ?? serverAndWantLog);
@@ -136,19 +137,21 @@ export class KitQLClient {
 		// No caching in the server for now! (Need to have a session identification to not mix things up)
 		if (browser) {
 			// Check the cache
-			if (cache !== 0 && this.cacheData[key] !== undefined) {
-				const xMs = new Date().getTime() - this.cacheData[key].date;
-				// cache time of the query or of the default config
-				if (xMs < (cache ?? this.cache)) {
-					if (logOpVar) {
-						this.logOperation(browser, RequestFrom.CACHE, cacheKey, JSON.stringify(variables));
-					} else if (logOp) {
-						this.logOperation(browser, RequestFrom.CACHE, cacheKey);
+			if (cache !== 0) {
+				const cachedData = this.cacheData.get(cacheKey, variables);
+				if (cachedData !== undefined) {
+					const xMs = new Date().getTime() - cachedData.date;
+					// cache time of the query or of the default config
+					if (xMs < (cache ?? this.cache)) {
+						if (logOpVar) {
+							this.logOperation(browser, RequestFrom.CACHE, cacheKey, stringify(variables));
+						} else if (logOp) {
+							this.logOperation(browser, RequestFrom.CACHE, cacheKey);
+						}
+						return { ...cachedData, from: RequestFrom.CACHE };
+					} else {
+						// remove from cache? No need, it will be overwritten anyway!
 					}
-
-					return { ...this.cacheData[key], from: RequestFrom.CACHE };
-				} else {
-					// remove from cache? No need, it will be overwritten anyway!
 				}
 			}
 		}
@@ -190,7 +193,7 @@ export class KitQLClient {
 				dateToReturn.from = RequestFrom.SSR;
 			}
 			if (logOpVar) {
-				this.logOperation(browser, dateToReturn.from, cacheKey, JSON.stringify(variables));
+				this.logOperation(browser, dateToReturn.from, cacheKey, stringify(variables));
 			} else if (logOp) {
 				this.logOperation(browser, dateToReturn.from, cacheKey);
 			}
@@ -207,7 +210,7 @@ export class KitQLClient {
 			let dataJson = await res.json();
 
 			if (logRawResult) {
-				this.log.info(`${logCyan('dataJson:')} ` + `${JSON.stringify(dataJson)}`);
+				this.log.info(`${logCyan('dataJson:')} ` + `${stringify(dataJson)}`);
 			}
 			if (dataJson.errors) {
 				dateToReturn.errors = dataJson.errors;
@@ -215,12 +218,26 @@ export class KitQLClient {
 			}
 
 			dateToReturn.data = dataJson.data;
-			this.cacheData[key] = dateToReturn;
+			// No caching in the server for now! (Need to have a session identification to not mix things up)
+			if (browser) {
+				this.cacheData.set(cacheKey, dateToReturn);
+			}
 
 			return dateToReturn;
 		} catch (errors) {
 			dateToReturn.errors = errors;
 			return dateToReturn;
 		}
+	}
+
+	public cacheRemove(
+		operationKey: string,
+		params?: { variables?: {} | null; allOperationKey?: boolean | null } | null
+	) {
+		const nbDeleted = this.cacheData.remove(operationKey, params.variables, params.allOperationKey);
+		this.log.info(
+			`${logCyan('ResetCache:')} ${logGreen(nbDeleted.toString())}, ` +
+				`${logCyan('Operation:')} ${logGreen(operationKey)}`
+		);
 	}
 }

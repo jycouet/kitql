@@ -22,7 +22,9 @@ const config = {
 				])
 			],
 			resolve: {
-				alias: { '@kitql/client': path.resolve('./src/lib/toExport') }
+				alias: {
+					'@kitql/client': path.resolve('./src/lib/toExport')
+				}
 			}
 		}
 	}

@@ -5,7 +5,21 @@ import { writable } from 'svelte/store';
 import { kitQLClient } from '../kitQLClient';
  
 /**
- * Svetle Store with the latest `AllContinentsQuery` Operation
+ * KitQL Reset Cache for `AllContinentsQuery` Operation
+ */
+export function AllContinentsQueryCacheReset(
+	variables: Types.AllContinentsQueryVariables | null = null,
+	allOperationKey: boolean = true,
+	withResetStore: boolean = true
+) {
+	kitQLClient.cacheRemove('AllContinentsQuery', { variables, allOperationKey });
+	if (withResetStore) {
+		AllContinentsQueryStore.set(defaultStoreValue);
+	}
+}
+
+/**
+ * KitQL Svelte Store with the latest `AllContinentsQuery` Operation
  */
 export const AllContinentsQueryStore = writable<RequestResult<Types.AllContinentsQuery, Types.AllContinentsQueryVariables>>(defaultStoreValue);
 
@@ -45,7 +59,21 @@ export async function AllContinentsQuery(
 }
 
 /**
- * Svetle Store with the latest `AllCountriesOfContinentQuery` Operation
+ * KitQL Reset Cache for `AllCountriesOfContinentQuery` Operation
+ */
+export function AllCountriesOfContinentQueryCacheReset(
+	variables: Types.AllCountriesOfContinentQueryVariables | null = null,
+	allOperationKey: boolean = true,
+	withResetStore: boolean = true
+) {
+	kitQLClient.cacheRemove('AllCountriesOfContinentQuery', { variables, allOperationKey });
+	if (withResetStore) {
+		AllCountriesOfContinentQueryStore.set(defaultStoreValue);
+	}
+}
+
+/**
+ * KitQL Svelte Store with the latest `AllCountriesOfContinentQuery` Operation
  */
 export const AllCountriesOfContinentQueryStore = writable<RequestResult<Types.AllCountriesOfContinentQuery, Types.AllCountriesOfContinentQueryVariables>>(defaultStoreValue);
 

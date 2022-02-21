@@ -63,13 +63,36 @@ export const plugin: PluginFunction<Record<string, any>, Types.ComplexPluginOutp
 				// lines.push(`importOperationVariablesTypes: '${importOperationVariablesTypes}'`); //GetVersionQueryVariables or Types.GetVersionQueryVariables
 				// lines.push(`storeTypeName: '${storeTypeName}'`); //GetVersionQueryStore
 
+				// CacheReset
+				if (operationType === 'Query') {
+					lines.push(`/**`);
+					lines.push(` * KitQL Reset Cache for \`${operationResultType}\` Operation`);
+					lines.push(` */`);
+					lines.push(`export function ${operationResultType}CacheReset(`);
+					lines.push(`	variables: ${importOperationVariablesTypes} | null = null,`);
+					lines.push(`	allOperationKey: boolean = true,`);
+					lines.push(`	withResetStore: boolean = true`);
+					lines.push(`) {`);
+					lines.push(
+						`	kitQLClient.cacheRemove('${operationResultType}', { variables, allOperationKey });`
+					);
+					lines.push(`	if (withResetStore) {`);
+					lines.push(`		${storeTypeName}.set(defaultStoreValue);`);
+					lines.push(`	}`);
+					lines.push(`}`);
+					lines.push(``);
+				}
+
+				// Store
 				lines.push(`/**`);
-				lines.push(` * Svetle Store with the latest \`${operationResultType}\` Operation`);
+				lines.push(` * KitQL Svelte Store with the latest \`${operationResultType}\` Operation`);
 				lines.push(` */`);
 				lines.push(
 					`export const ${storeTypeName} = writable<RequestResult<${importOperationResultType}, ${importOperationVariablesTypes}>>(defaultStoreValue);`
 				);
 				lines.push(``);
+
+				// Query
 				lines.push(`/**`);
 				lines.push(` * For SSR, you need to provide 'fetch' from the load function`);
 				lines.push(` * For the client you can avoid to provide the 'fetch' native function`);

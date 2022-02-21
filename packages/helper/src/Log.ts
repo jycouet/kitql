@@ -17,8 +17,11 @@ export function logCyan(str: string) {
 }
 
 export type Options = {
+	/** @default false */
 	sync?: boolean | null;
+	/** @default false */
 	withTime?: boolean | null;
+	/** @default true */
 	withlevelKey?: boolean | null;
 };
 export class Log {

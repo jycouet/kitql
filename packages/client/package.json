@@ -8,9 +8,10 @@
 	},
 	"license": "MIT",
 	"scripts": {
+		"linkGen": "cd ../graphql-codegen/dist && yarn link && cd ../../client && yarn link @kitql/graphql-codegen",
 		"gen": "graphql-codegen --config ./.graphqlrc.yaml",
 		"dev": "svelte-kit dev",
-		"build": "svelte-kit build",
+		"buildKit": "svelte-kit build",
 		"package": "svelte-kit package",
 		"preview": "svelte-kit preview",
 		"check": "svelte-check --tsconfig ./tsconfig.json",
@@ -40,7 +41,8 @@
 	},
 	"dependencies": {
 		"@kitql/helper": "0.1.3",
-		"graphql": "16.3.0"
+		"graphql": "16.3.0",
+		"safe-stable-stringify": "2.3.1"
 	},
 	"type": "module",
 	"main": "dist/index.js",
@@ -61,7 +63,7 @@
 		"definition": "dist/index.d.ts"
 	},
 	"buildOptions": {
-		"input": "./src/index.ts"
+		"input": "./src/lib/toExport/index.ts"
 	},
 	"publishConfig": {
 		"directory": "dist",
