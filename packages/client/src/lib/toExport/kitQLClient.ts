@@ -235,9 +235,12 @@ export class KitQLClient {
 		params?: { variables?: {} | null; allOperationKey?: boolean | null } | null
 	) {
 		const nbDeleted = this.cacheData.remove(operationKey, params.variables, params.allOperationKey);
-		this.log.info(
-			`${logCyan('ResetCache:')} ${logGreen(nbDeleted.toString())}, ` +
-				`${logCyan('Operation:')} ${logGreen(operationKey)}`
-		);
+
+		if (this.logType.includes('client')) {
+			this.log.info(
+				`${logCyan('ResetCache:')} ${logGreen(nbDeleted.toString())}, ` +
+					`${logCyan('Operation:')} ${logGreen(operationKey)}`
+			);
+		}
 	}
 }
