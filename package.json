@@ -10,7 +10,7 @@
 		"test": "vitest --coverage",
 		"test:ci": "vitest run --coverage",
 		"test:update-badge": "yarn update-badge",
-		"prebuild": "rimraf packages/*/dist",
+		"prebuild2": "rimraf packages/*/dist",
 		"build": "tsc --project tsconfig.json && bob build && rm -rf packages/client/dist/lib",
 		"release:msg": "yarn changeset",
 		"release:version": "yarn changeset version",
