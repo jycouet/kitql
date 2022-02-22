@@ -131,11 +131,7 @@ async function watcher(
 	return;
 }
 
-const log = new Log('KitQL vite-plugin-watch-and-run', {
-	sync: true,
-	withTime: false,
-	withlevelKey: false
-});
+const log = new Log('KitQL vite-plugin-watch-and-run');
 
 export default function watchAndRun(params: Options[]) {
 	// check params, throw Errors if not valid and return a new object representing the state of the plugin

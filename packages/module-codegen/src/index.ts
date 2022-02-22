@@ -14,7 +14,7 @@ import { pad, toPascalCase } from './formatString';
 import { getPrismaEnum } from './prismaHelper';
 import { read, readLines } from './readWrite';
 
-let log = new Log('KitQL module-codegen', { sync: true, withlevelKey: false });
+let log = new Log('KitQL module-codegen');
 
 const configFilePath = getFullPath('.kitql.yaml');
 
