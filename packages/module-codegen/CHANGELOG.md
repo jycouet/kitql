@@ -1,5 +1,13 @@
 # @kitql/module-codegen
 
+## 0.1.5
+
+### Patch Changes
+
+- 12a4180: rmv pino dep
+- Updated dependencies [12a4180]
+  - @kitql/helper@0.1.4
+
 ## 0.1.4
 
 ### Patch Changes

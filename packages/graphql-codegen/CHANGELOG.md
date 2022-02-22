@@ -1,5 +1,11 @@
 # @kitql/graphql-codegen
 
+## 0.1.3
+
+### Patch Changes
+
+- 12a4180: rmv pino dep
+
 ## 0.1.2
 
 ### Patch Changes

@@ -1,5 +1,15 @@
 # @kitql/all-in
 
+## 0.1.6
+
+### Patch Changes
+
+- Updated dependencies [12a4180]
+  - @kitql/client@0.1.6
+  - @kitql/graphql-codegen@0.1.3
+  - @kitql/module-codegen@0.1.5
+  - @kitql/vite-plugin-watch-and-run@0.1.4
+
 ## 0.1.5
 
 ### Patch Changes

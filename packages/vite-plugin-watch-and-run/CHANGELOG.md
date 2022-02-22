@@ -1,5 +1,13 @@
 # @kitql/vite-plugin-watch-and-run
 
+## 0.1.4
+
+### Patch Changes
+
+- 12a4180: rmv pino dep
+- Updated dependencies [12a4180]
+  - @kitql/helper@0.1.4
+
 ## 0.1.3
 
 ### Patch Changes
