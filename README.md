@@ -83,9 +83,7 @@ yarn dev
 ## ✨ Contributors
 
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
-
-[![All Contributors](https://img.shields.io/badge/all_contributors-1-orange.svg?style=flat-square)](#contributors-)
-
+[![All Contributors](https://img.shields.io/badge/all_contributors-3-orange.svg?style=flat-square)](#contributors)
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 
 Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/docs/en/emoji-key)):
@@ -95,7 +93,9 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
 <!-- markdownlint-disable -->
 <table>
   <tr>
-    <td align="center"><a href="http://www.dynamicprocess.io"><img src="https://avatars.githubusercontent.com/u/5312607?v=4?s=100" width="100px;" alt=""/><br /><sub><b>JYC</b></sub></a><br /><a href="https://github.com/jycouet/kitql/commits?author=jycouet" title="Code">💻</a> <a href="https://github.com/jycouet/kitql/commits?author=jycouet" title="Tests">⚠️</a></td>
+    <td align="center"><a href="http://www.dynamicprocess.io"><img src="https://avatars.githubusercontent.com/u/5312607?v=4" width="100px;" alt=""/><br /><sub><b>JYC</b></sub></a></td>
+    <td align="center"><a href="http://linkedin.com/in/julian-bruxelle"><img src="https://avatars.githubusercontent.com/u/36154424?v=4" width="100px;" alt=""/><br /><sub><b>Julian BRUXELLE</b></sub></a></td>
+    <td align="center"><a href="https://github.com/richarddavenport"><img src="https://avatars.githubusercontent.com/u/3596012?v=4" width="100px;" alt=""/><br /><sub><b>Richard Davenport</b></sub></a></td>
   </tr>
 </table>
 
