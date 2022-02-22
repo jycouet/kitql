@@ -1,5 +1,11 @@
 # @kitql/client
 
+## 0.1.5
+
+### Patch Changes
+
+- 3b839b0: Adding cache reset option
+
 ## 0.1.4
 
 ### Patch Changes

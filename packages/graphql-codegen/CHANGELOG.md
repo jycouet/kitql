@@ -1,5 +1,11 @@
 # @kitql/graphql-codegen
 
+## 0.1.2
+
+### Patch Changes
+
+- 3b839b0: Adding cache reset option
+
 ## 0.1.1
 
 ### Patch Changes
