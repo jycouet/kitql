@@ -31,7 +31,9 @@
 			"$lib": ["src/lib"],
 			"$lib/*": ["src/lib/*"],
 			"@kitql/client": ["src/lib/toExport"],
-			"@kitql/client/*": ["src/lib/toExport/*"]
+			"@kitql/client/*": ["src/lib/toExport/*"],
+			"@kitql/helper": ["../helper/src"],
+			"@kitql/helper/*": ["../helper/src/*"]
 		}
 	},
 	"include": ["src/**/*.d.ts", "src/**/*.js", "src/**/*.ts", "src/**/*.svelte"]

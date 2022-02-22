@@ -1,6 +1,5 @@
-import { RequestStatus, type RequestResult } from '@kitql/client';
+import { RequestStatus, type RequestResult } from './kitQLClient';
 
-// todo: move to @kitql/client
 /**
  * Check if on of the stores is in loading state
  * @param stores one or more stores to check
