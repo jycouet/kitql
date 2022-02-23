@@ -1,23 +1,9 @@
 import { browser } from '$app/env';
 import * as Types from "$lib/graphql/_kitql/graphqlTypes";
 import { defaultStoreValue, RequestStatus, type RequestParameters, type RequestResult } from '@kitql/client';
-import { writable } from 'svelte/store';
+import { get, writable } from 'svelte/store';
 import { kitQLClient } from '../kitQLClient';
  
-/**
- * KitQL Reset Cache for `AllContinentsQuery` Operation
- */
-export function AllContinentsQueryCacheReset(
-	variables: Types.AllContinentsQueryVariables | null = null,
-	allOperationKey: boolean = true,
-	withResetStore: boolean = true
-) {
-	kitQLClient.cacheRemove('AllContinentsQuery', { variables, allOperationKey });
-	if (withResetStore) {
-		AllContinentsQueryStore.set(defaultStoreValue);
-	}
-}
-
 /**
  * KitQL Svelte Store with the latest `AllContinentsQuery` Operation
  */
@@ -59,17 +45,33 @@ export async function AllContinentsQuery(
 }
 
 /**
- * KitQL Reset Cache for `AllCountriesOfContinentQuery` Operation
+ * KitQL Reset Cache for `AllContinentsQuery` Operation
  */
-export function AllCountriesOfContinentQueryCacheReset(
-	variables: Types.AllCountriesOfContinentQueryVariables | null = null,
+export function AllContinentsQueryCacheReset(
+	variables: Types.AllContinentsQueryVariables | null = null,
 	allOperationKey: boolean = true,
 	withResetStore: boolean = true
 ) {
-	kitQLClient.cacheRemove('AllCountriesOfContinentQuery', { variables, allOperationKey });
+	kitQLClient.cacheRemove('AllContinentsQuery', { variables, allOperationKey });
 	if (withResetStore) {
-		AllCountriesOfContinentQueryStore.set(defaultStoreValue);
+		AllContinentsQueryStore.set(defaultStoreValue);
 	}
+}
+
+/**
+ * KitQL Update `AllContinentsQueryStore` with some new data to put in xPath
+ * @param xPath eg: 'post' 'contracts[].invoices[].id=$id'
+ */
+export function AllContinentsQueryStoreUpdate(
+	newData: Object,
+	xPath: string | null = null,
+	id: string | number | null = null
+) {
+	const updatedStore = kitQLClient.storeUpdate<
+		Types.AllContinentsQuery,
+		Types.AllContinentsQueryVariables
+	>('AllContinentsQuery', get(AllContinentsQueryStore), newData, xPath, id);
+	AllContinentsQueryStore.set(updatedStore);
 }
 
 /**
@@ -110,4 +112,34 @@ export async function AllCountriesOfContinentQuery(
 	const result = { status: RequestStatus.DONE, ...res, variables };
 	AllCountriesOfContinentQueryStore.set(result);
 	return result;
+}
+
+/**
+ * KitQL Reset Cache for `AllCountriesOfContinentQuery` Operation
+ */
+export function AllCountriesOfContinentQueryCacheReset(
+	variables: Types.AllCountriesOfContinentQueryVariables | null = null,
+	allOperationKey: boolean = true,
+	withResetStore: boolean = true
+) {
+	kitQLClient.cacheRemove('AllCountriesOfContinentQuery', { variables, allOperationKey });
+	if (withResetStore) {
+		AllCountriesOfContinentQueryStore.set(defaultStoreValue);
+	}
+}
+
+/**
+ * KitQL Update `AllCountriesOfContinentQueryStore` with some new data to put in xPath
+ * @param xPath eg: 'post' 'contracts[].invoices[].id=$id'
+ */
+export function AllCountriesOfContinentQueryStoreUpdate(
+	newData: Object,
+	xPath: string | null = null,
+	id: string | number | null = null
+) {
+	const updatedStore = kitQLClient.storeUpdate<
+		Types.AllCountriesOfContinentQuery,
+		Types.AllCountriesOfContinentQueryVariables
+	>('AllCountriesOfContinentQuery', get(AllCountriesOfContinentQueryStore), newData, xPath, id);
+	AllCountriesOfContinentQueryStore.set(updatedStore);
 }

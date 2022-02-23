@@ -1,5 +1,7 @@
-<script>
-	export let store;
+<script lang="ts">
+	import type { RequestResult } from '$lib/toExport';
+
+	export let store: RequestResult<any, any>;
 </script>
 
 <table class="pre">

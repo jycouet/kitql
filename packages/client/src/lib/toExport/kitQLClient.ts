@@ -1,7 +1,8 @@
-import { Log, logCyan, logGreen } from '@kitql/helper';
+import { Log, logCyan, logGreen, logYellow } from '@kitql/helper';
 import { print } from 'graphql';
 import { stringify } from 'safe-stable-stringify';
 import { CacheData } from './CacheData';
+import { objUpdate } from './objUpdate';
 
 export type ClientSettings = {
 	/**
@@ -236,11 +237,46 @@ export class KitQLClient {
 	) {
 		const nbDeleted = this.cacheData.remove(operationKey, params.variables, params.allOperationKey);
 
-		if (this.logType.includes('client')) {
+		const browserAndWantLog = this.logType.includes('client');
+		if (browserAndWantLog) {
 			this.log.info(
 				`${logCyan('ResetCache:')} ${logGreen(nbDeleted.toString())}, ` +
 					`${logCyan('Operation:')} ${logGreen(operationKey)}`
 			);
 		}
+	}
+
+	// typing for xPath
+	public storeUpdate<D, V>(
+		operationKey: string,
+		store: RequestResult<D, V>,
+		newData: Object, // To be fragments only?
+		xPath: string | null = null,
+		id: string | number | null = null
+	): RequestResult<D, V> {
+		// remove all from the cache, we will update only the current store
+		// Can be improved later ;) => Updating all cached data (with option? Perf?)
+		this.cacheData.remove(operationKey, null, true);
+
+		let storeDataUpdated = objUpdate(false, store.data, newData, xPath, id);
+		const browserAndWantLog = this.logType.includes('client');
+		if (!storeDataUpdated.found) {
+			if (browserAndWantLog) {
+				this.log.info(
+					`${logCyan('StoreUpdate:')} xPath ${logGreen(xPath)}(${logGreen(id + '')}) ` +
+						`${logYellow('not found')}, ` +
+						`${logCyan('Store:')} ${logGreen(operationKey + 'Store')}`
+				);
+			}
+		} else {
+			this.cacheData.set(operationKey, store);
+			if (browserAndWantLog) {
+				this.log.info(
+					`${logCyan('StoreUpdate:')} ${logGreen('1')}, ` +
+						`${logCyan('Store:')} ${logGreen(operationKey + 'Store')}`
+				);
+			}
+		}
+		return { ...store, data: storeDataUpdated.obj } as RequestResult<D, V>;
 	}
 }

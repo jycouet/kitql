@@ -1,4 +1,4 @@
-import { assert, describe, expect, it } from 'vitest';
+import { describe, expect, it } from 'vitest';
 import { CacheData } from '../src/lib/toExport/CacheData';
 import { RequestFrom, RequestStatus } from '../src/lib/toExport/kitQLClient';
 

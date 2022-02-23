@@ -4,7 +4,8 @@
 	import {
 		AllContinentsQuery,
 		AllContinentsQueryCacheReset,
-		AllContinentsQueryStore
+		AllContinentsQueryStore,
+		AllContinentsQueryStoreUpdate
 	} from '$lib/graphql/_kitql/graphqlStores';
 	import { queryStringApprend } from '@kitql/helper';
 	import KitQlInfo from './KitQLInfo.svelte';
@@ -21,6 +22,10 @@
 		await AllContinentsQuery({ settings: { cache: 0 } });
 	}
 
+	async function manualUpdate() {
+		AllContinentsQueryStoreUpdate([{ name: 'test', code: 'JYC' }], 'continents');
+	}
+
 	async function details(code: string) {
 		goto(`?${queryStringApprend($page.url.searchParams, { focus: code })}`);
 		// await GetAllCountriesOfContinentQuery({ variables: { code } });
@@ -34,6 +39,7 @@
 		<button on:click={() => reset()}>Reset</button>
 		<button on:click={() => query()}>Query again</button>
 		<button on:click={() => force()}>Force network</button>
+		<button on:click={() => manualUpdate()}>Manual Update</button>
 	</h2>
 	<KitQlInfo store={$AllContinentsQueryStore} />
 	<ul>

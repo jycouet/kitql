@@ -1,2 +1,2 @@
-export { Log, logMagneta, logCyan, logGreen, logRed } from './Log';
+export { Log, logMagneta, logCyan, logGreen, logRed, logYellow } from './Log';
 export { queryStringApprend } from './queryStringApprend';
