@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { KitQLClient, RequestFrom, RequestStatus } from '../src/lib/toExport/kitQLClient';
+import { KitQLClient } from '../src/lib/toExport/kitQLClient';
 
 // const defaultStoreValue = {
 // 	status: RequestStatus.NEVER,

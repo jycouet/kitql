@@ -15,7 +15,7 @@
 
 [![Release](https://github.com/jycouet/kitql/actions/workflows/release.yml/badge.svg)](https://github.com/jycouet/kitql/actions/workflows/release.yml)
 [![Tests](https://github.com/jycouet/kitql/actions/workflows/ci.yml/badge.svg)](https://github.com/jycouet/kitql/actions/workflows/ci.yml)
-![check-code-coverage](https://img.shields.io/badge/code--coverage-82.35%25-green)
+![check-code-coverage](https://img.shields.io/badge/code--coverage-82%25-green)
 
 |                                                                                                                    |                                                                                                          Coverage by package |
 | ------------------------------------------------------------------------------------------------------------------ | ---------------------------------------------------------------------------------------------------------------------------: |

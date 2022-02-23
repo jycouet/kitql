@@ -1,6 +1,8 @@
 import { stringify } from 'safe-stable-stringify';
 import type { ResponseResult } from './kitQLClient';
 
+// Next step: IndexedDB?
+
 /**
  * Indexes
  * (KEY1) : [VAR1, VAR2, VAR3]

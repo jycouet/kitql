@@ -63,26 +63,6 @@ export const plugin: PluginFunction<Record<string, any>, Types.ComplexPluginOutp
 				// lines.push(`importOperationVariablesTypes: '${importOperationVariablesTypes}'`); //GetVersionQueryVariables or Types.GetVersionQueryVariables
 				// lines.push(`storeTypeName: '${storeTypeName}'`); //GetVersionQueryStore
 
-				// CacheReset
-				if (operationType === 'Query') {
-					lines.push(`/**`);
-					lines.push(` * KitQL Reset Cache for \`${operationResultType}\` Operation`);
-					lines.push(` */`);
-					lines.push(`export function ${operationResultType}CacheReset(`);
-					lines.push(`	variables: ${importOperationVariablesTypes} | null = null,`);
-					lines.push(`	allOperationKey: boolean = true,`);
-					lines.push(`	withResetStore: boolean = true`);
-					lines.push(`) {`);
-					lines.push(
-						`	kitQLClient.cacheRemove('${operationResultType}', { variables, allOperationKey });`
-					);
-					lines.push(`	if (withResetStore) {`);
-					lines.push(`		${storeTypeName}.set(defaultStoreValue);`);
-					lines.push(`	}`);
-					lines.push(`}`);
-					lines.push(``);
-				}
-
 				// Store
 				lines.push(`/**`);
 				lines.push(` * KitQL Svelte Store with the latest \`${operationResultType}\` Operation`);
@@ -139,6 +119,44 @@ export const plugin: PluginFunction<Record<string, any>, Types.ComplexPluginOutp
 				lines.push(`}`);
 				lines.push(``);
 
+				if (operationType === 'Query') {
+					// CacheReset
+					lines.push(`/**`);
+					lines.push(` * KitQL Reset Cache for \`${operationResultType}\` Operation`);
+					lines.push(` */`);
+					lines.push(`export function ${operationResultType}CacheReset(`);
+					lines.push(`	variables: ${importOperationVariablesTypes} | null = null,`);
+					lines.push(`	allOperationKey: boolean = true,`);
+					lines.push(`	withResetStore: boolean = true`);
+					lines.push(`) {`);
+					lines.push(
+						`	kitQLClient.cacheRemove('${operationResultType}', { variables, allOperationKey });`
+					);
+					lines.push(`	if (withResetStore) {`);
+					lines.push(`		${storeTypeName}.set(defaultStoreValue);`);
+					lines.push(`	}`);
+					lines.push(`}`);
+					lines.push(``);
+
+					// StoreUpdate
+					lines.push(`/**`);
+					lines.push(` * KitQL Update \`${storeTypeName}\` with some new data to put in xPath`);
+					lines.push(` * @param xPath eg: 'post' 'contracts[].invoices[].id=$id'`);
+					lines.push(` */`);
+					lines.push(`export function ${storeTypeName}Update(`);
+					lines.push(`	newData: Object,`);
+					lines.push(`	xPath: string | null = null,`);
+					lines.push(`	id: string | number | null = null`);
+					lines.push(`) {`);
+					lines.push(`	const updatedStore = kitQLClient.storeUpdate<`);
+					lines.push(`		${importOperationResultType},`);
+					lines.push(`		${importOperationVariablesTypes}`);
+					lines.push(`	>('${operationResultType}', get(${storeTypeName}), newData, xPath, id);`);
+					lines.push(`	${storeTypeName}.set(updatedStore);`);
+					lines.push(`}`);
+					lines.push(``);
+				}
+
 				return lines.join('\n');
 			}
 
@@ -154,7 +172,7 @@ export const plugin: PluginFunction<Record<string, any>, Types.ComplexPluginOutp
 	prepend.push(
 		`import { defaultStoreValue, RequestStatus, type RequestParameters, type RequestResult } from '@kitql/client';`
 	);
-	prepend.push(`import { writable } from 'svelte/store';`);
+	prepend.push(`import { get, writable } from 'svelte/store';`);
 	prepend.push(`import { kitQLClient } from '../kitQLClient';`);
 
 	// To separate prepend & Content
