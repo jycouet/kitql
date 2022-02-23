@@ -1,5 +1,11 @@
 # @kitql/graphql-codegen
 
+## 0.1.4
+
+### Patch Changes
+
+- 8440bfb: Adding StoreUpdate (to do optimistic UI)
+
 ## 0.1.3
 
 ### Patch Changes

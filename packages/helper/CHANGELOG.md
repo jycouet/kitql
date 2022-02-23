@@ -1,5 +1,11 @@
 # @kitql/helper
 
+## 0.1.5
+
+### Patch Changes
+
+- 8440bfb: Adding StoreUpdate (to do optimistic UI)
+
 ## 0.1.4
 
 ### Patch Changes
