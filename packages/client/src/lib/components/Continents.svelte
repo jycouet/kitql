@@ -23,7 +23,7 @@
 	}
 
 	async function manualUpdate() {
-		AllContinentsQueryStoreUpdate([{ name: 'test', code: 'JYC' }], 'continents');
+		AllContinentsQueryStoreUpdate([{ name: 'JYC Land', code: 'JYC' }], 'continents');
 	}
 
 	async function details(code: string) {

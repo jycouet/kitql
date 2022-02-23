@@ -16,11 +16,15 @@ export type ClientSettings = {
 	 */
 	headers?: Record<string, string>;
 	/**
-	 * Default Cache in miliseconds (can be overwritten at Query level, so `cache:0` force a network call)
+	 * @default 3_Minutes Default Cache in miliseconds (can be overwritten at Query level, so `cache:0` force a network call)
 	 */
 	defaultCache?: number;
 	/**
-	 * Default to `omit` (secure by default). More info there: https://developer.mozilla.org/en-US/docs/Web/API/Request/credentials
+	 * @default cache-first
+	 */
+	defaultPolicy?: 'cache-first' | 'cache-and-network' | 'network-only' | 'cache-only';
+	/**
+	 * @Default omit Secure by default. More info there: https://developer.mozilla.org/en-US/docs/Web/API/Request/credentials
 	 */
 	credentials?: 'omit' | 'same-origin' | 'include';
 	/**
@@ -28,7 +32,7 @@ export type ClientSettings = {
 	 */
 	headersContentType?: 'application/graphql+json' | 'application/json';
 	/**
-	 * Default to `[]` => no logs!.
+	 * @Default [] That means no logs!.
 	 */
 	logType?: ('server' | 'client' | 'operation' | 'operationAndvariables' | 'rawResult')[];
 };
@@ -38,6 +42,10 @@ export type RequestSettings = {
 	 * Cache in miliseconds for the Query (so `cache:0` force a network call)
 	 */
 	cache: number;
+	/**
+	 * overwrite the default cache policy
+	 */
+	policy: 'cache-first' | 'cache-and-network' | 'network-only' | 'cache-only';
 };
 
 export type RequestParameters<V> = {
@@ -65,25 +73,31 @@ export declare type ResponseResult<D, V> = {
 	data?: D | null;
 	errors?: Error[] | null;
 	from: RequestFrom;
+	isOutdated: boolean;
 };
 
 export declare type RequestResult<D, V> = {
 	status: RequestStatus;
+	isFetching: boolean;
 } & ResponseResult<D, V>;
 
 export const defaultStoreValue = {
 	status: RequestStatus.NEVER,
+	isFetching: false,
 	date: new Date().getTime(),
 	variables: null,
 	data: null,
 	errors: null,
-	from: RequestFrom.NODATA
+	from: RequestFrom.NODATA,
+	isOutdated: false
 };
 
 export class KitQLClient {
+	public defaultPolicy: 'cache-first' | 'cache-and-network' | 'network-only' | 'cache-only';
+
 	private url: string;
 	private headers: Record<string, string>;
-	private cache: number;
+	private defaultCache: number;
 	private credentials: 'omit' | 'same-origin' | 'include';
 	private headersContentType: 'application/graphql+json' | 'application/json';
 	private logType: ('server' | 'client' | 'operation' | 'operationAndvariables' | 'rawResult')[];
@@ -92,10 +106,11 @@ export class KitQLClient {
 	private log: Log;
 
 	constructor(options: ClientSettings) {
-		const { url, defaultCache, credentials, headers } = options ?? {};
+		const { url, defaultCache, credentials, headers, defaultPolicy } = options ?? {};
+		this.defaultPolicy = defaultPolicy ?? 'cache-first';
 		this.url = url;
 		this.headers = headers ?? {};
-		this.cache = defaultCache ?? 1000 * 60 * 3;
+		this.defaultCache = defaultCache ?? 1000 * 60 * 3;
 		this.credentials = credentials;
 		this.headersContentType = options.headersContentType ?? 'application/graphql+json';
 		this.logType = options.logType ?? [];
@@ -103,12 +118,7 @@ export class KitQLClient {
 		this.cacheData = new CacheData();
 	}
 
-	private logOperation(
-		browser: boolean,
-		from: RequestFrom,
-		operation: string,
-		variables: string | null = null
-	) {
+	private logOperation(from: RequestFrom, operation: string, variables: string | null = null) {
 		this.log.info(
 			// `${logCyan('Mode:')} ` +
 			// 	`${logGreen(browser ? 'browser' : 'server')}, ` +
@@ -118,49 +128,54 @@ export class KitQLClient {
 		);
 	}
 
-	public async request<D, V>({
-		skFetch,
-		document,
-		variables,
-		cacheKey,
-		cache,
-		browser
-	}): Promise<ResponseResult<D, V>> {
-		// Logging variables
+	private getLogsStatements(browser: boolean) {
 		const browserAndWantLog = browser && this.logType.includes('client');
 		const serverAndWantLog = !browser && this.logType.includes('server');
+
 		const logOp = this.logType.includes('operation') && (browserAndWantLog ?? serverAndWantLog);
 		const logOpVar =
 			this.logType.includes('operationAndvariables') && (browserAndWantLog ?? serverAndWantLog);
 		const logRawResult =
 			this.logType.includes('rawResult') && (browserAndWantLog ?? serverAndWantLog);
 
+		return { logOp, logOpVar, logRawResult };
+	}
+
+	public requestCache<D, V>({ variables, cacheKey, cache, browser }): ResponseResult<D, V> | null {
+		const logStatements = this.getLogsStatements(browser);
+
 		// No caching in the server for now! (Need to have a session identification to not mix things up)
 		if (browser) {
-			// Check the cache
-			if (cache !== 0) {
-				const cachedData = this.cacheData.get(cacheKey, variables);
-				if (cachedData !== undefined) {
-					const xMs = new Date().getTime() - cachedData.date;
-					// cache time of the query or of the default config
-					if (xMs < (cache ?? this.cache)) {
-						if (logOpVar) {
-							this.logOperation(browser, RequestFrom.CACHE, cacheKey, stringify(variables));
-						} else if (logOp) {
-							this.logOperation(browser, RequestFrom.CACHE, cacheKey);
-						}
-						return { ...cachedData, from: RequestFrom.CACHE };
-					} else {
-						// remove from cache? No need, it will be overwritten anyway!
+			const cachedData = this.cacheData.get(cacheKey, variables);
+			if (cachedData !== undefined) {
+				const xMs = new Date().getTime() - cachedData.date;
+				// cache time of the query or of the default config
+				if (xMs < (cache ?? this.defaultCache)) {
+					if (logStatements.logOpVar) {
+						this.logOperation(RequestFrom.CACHE, cacheKey, stringify(variables));
+					} else if (logStatements.logOp) {
+						this.logOperation(RequestFrom.CACHE, cacheKey);
 					}
+					return { ...cachedData, from: RequestFrom.CACHE, isOutdated: false };
+				} else {
+					return { ...cachedData, from: RequestFrom.CACHE, isOutdated: true };
 				}
 			}
 		}
 
-		// If
-		//   1/ we are in SSR
-		//   2/ we don't provide a fetch function
-		//      => You are probably doing something wrong!
+		return null;
+	}
+
+	public async request<D, V>({
+		skFetch,
+		document,
+		variables,
+		cacheKey,
+		browser
+	}): Promise<ResponseResult<D, V>> {
+		const logStatements = this.getLogsStatements(browser);
+
+		// User help, he is doing wrong
 		if (!browser && !skFetch) {
 			this.log.error(
 				`I think that either:` +
@@ -170,12 +185,13 @@ export class KitQLClient {
 		}
 		const fetchToUse = skFetch ? skFetch : fetch;
 
-		let dateToReturn: ResponseResult<D, V> = {
+		let dataToReturn: ResponseResult<D, V> = {
 			date: new Date().getTime(),
 			variables,
 			from: RequestFrom.NETWORK,
 			data: null,
-			errors: null
+			errors: null,
+			isOutdated: false
 		};
 
 		try {
@@ -191,43 +207,43 @@ export class KitQLClient {
 
 			if (res.url === '') {
 				// In the browser we see a flickering from NETWORK to SSR, because it's the Real SSR coming with a from network... Replaced by the SSR side!
-				dateToReturn.from = RequestFrom.SSR;
+				dataToReturn.from = RequestFrom.SSR;
 			}
-			if (logOpVar) {
-				this.logOperation(browser, dateToReturn.from, cacheKey, stringify(variables));
-			} else if (logOp) {
-				this.logOperation(browser, dateToReturn.from, cacheKey);
+			if (logStatements.logOpVar) {
+				this.logOperation(dataToReturn.from, cacheKey, stringify(variables));
+			} else if (logStatements.logOp) {
+				this.logOperation(dataToReturn.from, cacheKey);
 			}
 
 			if (res.status !== 200) {
 				if (res.statusText === '') {
-					dateToReturn.errors = [new Error(`${res.status} - ${await res.text()}`)];
+					dataToReturn.errors = [new Error(`${res.status} - ${await res.text()}`)];
 				} else {
-					dateToReturn.errors = [new Error(`${res.status} - ${res.statusText}`)];
+					dataToReturn.errors = [new Error(`${res.status} - ${res.statusText}`)];
 				}
-				return dateToReturn;
+				return dataToReturn;
 			}
 
 			let dataJson = await res.json();
 
-			if (logRawResult) {
+			if (logStatements.logRawResult) {
 				this.log.info(`${logCyan('dataJson:')} ` + `${stringify(dataJson)}`);
 			}
 			if (dataJson.errors) {
-				dateToReturn.errors = dataJson.errors;
-				return dateToReturn;
+				dataToReturn.errors = dataJson.errors;
+				return dataToReturn;
 			}
 
-			dateToReturn.data = dataJson.data;
+			dataToReturn.data = dataJson.data;
 			// No caching in the server for now! (Need to have a session identification to not mix things up)
 			if (browser) {
-				this.cacheData.set(cacheKey, dateToReturn);
+				this.cacheData.set(cacheKey, dataToReturn);
 			}
 
-			return dateToReturn;
+			return dataToReturn;
 		} catch (errors) {
-			dateToReturn.errors = errors;
-			return dateToReturn;
+			dataToReturn.errors = errors;
+			return dataToReturn;
 		}
 	}
 

@@ -54,25 +54,27 @@ export const plugin: PluginFunction<Record<string, any>, Types.ComplexPluginOutp
 
 				let lines = [];
 
-				// lines.push(`documentName: '${documentName}'`); // GetVersionDocument
+				// lines.push(`documentName: '${documentName}'`); // AllContinentsDocument
 				// lines.push(`operationType: '${operationType}'`); // Query
 				// lines.push(`operationTypeSuffix: '${operationTypeSuffix}'`); // Query
-				// lines.push(`operationResultType: '${operationResultType}'`); //GetVersionQuery
-				// lines.push(`importOperationResultType: '${importOperationResultType}'`); //GetVersionQuery or Types.GetVersionQuery
-				// lines.push(`operationVariablesTypes: '${operationVariablesTypes}'`); //GetVersionQueryVariables
-				// lines.push(`importOperationVariablesTypes: '${importOperationVariablesTypes}'`); //GetVersionQueryVariables or Types.GetVersionQueryVariables
-				// lines.push(`storeTypeName: '${storeTypeName}'`); //GetVersionQueryStore
+				// lines.push(`operationResultType: '${operationResultType}'`); //AllContinentsQuery
+				// lines.push(`importOperationResultType: '${importOperationResultType}'`); //AllContinentsQuery or Types.AllContinentsQuery
+				// lines.push(`operationVariablesTypes: '${operationVariablesTypes}'`); //AllContinentsQueryVariables
+				// lines.push(`importOperationVariablesTypes: '${importOperationVariablesTypes}'`); //AllContinentsQueryVariables or ${importOperationResultType}Variables
+				// lines.push(`storeTypeName: '${storeTypeName}'`); //AllContinentsQueryStore
 
 				// Store
 				lines.push(`/**`);
 				lines.push(` * KitQL Svelte Store with the latest \`${operationResultType}\` Operation`);
 				lines.push(` */`);
+				lines.push(`// prettier-ignore`);
 				lines.push(
 					`export const ${storeTypeName} = writable<RequestResult<${importOperationResultType}, ${importOperationVariablesTypes}>>(defaultStoreValue);`
 				);
 				lines.push(``);
 
-				// Query
+				// Query / Mutation / Subscription
+
 				lines.push(`/**`);
 				lines.push(` * For SSR, you need to provide 'fetch' from the load function`);
 				lines.push(` * For the client you can avoid to provide the 'fetch' native function`);
@@ -81,39 +83,65 @@ export const plugin: PluginFunction<Record<string, any>, Types.ComplexPluginOutp
 					` * @returns the latest ${operationResultType} operation and fill the ${storeTypeName}`
 				);
 				lines.push(` */`);
-				lines.push(`// prettier-ignore`);
 				lines.push(`export async function ${operationResultType}(`);
-				lines.push(`  params?: RequestParameters<${importOperationVariablesTypes}>`);
+				lines.push(`	params?: RequestParameters<${importOperationVariablesTypes}>`);
 				lines.push(
 					`): Promise<RequestResult<${importOperationResultType}, ${importOperationVariablesTypes}>> {`
 				);
-				lines.push(``);
-				lines.push(`  let storedVariables = null;`);
-				lines.push(`	${storeTypeName}.update((c) => {`);
-				lines.push(`		storedVariables = c.variables;`);
-				lines.push(`		return { ...c, status: RequestStatus.LOADING };`);
-				lines.push(`	});`);
 				lines.push(`	let { fetch, variables, settings } = params ?? {};`);
-				lines.push(`  let { cache } = settings ?? {};`);
-				if (operationType === 'Mutation') {
-					lines.push(`  cache = 0 // It's a Mutation!`);
-				}
+				lines.push(`	let { cache, policy } = settings ?? {};`);
+				lines.push(`	const cacheKey = '${operationResultType}';`);
 				lines.push(``);
-				lines.push(`  if (variables === undefined) {`);
-				lines.push(`    variables = storedVariables;`);
-				lines.push(`  }`);
-
+				lines.push(`	const storedVariables = get(${storeTypeName}).variables;`);
+				lines.push(`	variables = variables ?? storedVariables;`);
+				lines.push(`	policy = policy ?? kitQLClient.defaultPolicy;`);
+				lines.push(``);
+				// Cache ony for queries
+				if (operationType === 'Query') {
+					lines.push(
+						`	// Cache only in the browser for now. In SSR, we will need session identif to not mix peoples data`
+					);
+					lines.push(`	if (browser) {`);
+					lines.push(`		if (policy !== 'network-only') {`);
+					lines.push(`			// prettier-ignore`);
+					lines.push(
+						`			const cachedData = kitQLClient.requestCache<${importOperationResultType},	${importOperationVariablesTypes}>({`
+					);
+					lines.push(`				variables, cacheKey, cache,	browser`);
+					lines.push(`			});`);
+					lines.push(`			if (cachedData) {`);
+					lines.push(`				if (policy === 'cache-first') {`);
+					lines.push(`					return { ...cachedData, isFetching: false, status: RequestStatus.DONE };`);
+					lines.push(`				} else if (policy === 'cache-only') {`);
+					lines.push(`					return { ...cachedData, isFetching: false, status: RequestStatus.DONE };`);
+					lines.push(`				} else if (policy === 'cache-and-network') {`);
+					lines.push(`					// prettier-ignore`);
+					lines.push(
+						`					${storeTypeName}.set({ ...cachedData, isFetching: false, status: RequestStatus.DONE });`
+					);
+					lines.push(`				}`);
+					lines.push(`			}`);
+					lines.push(`		}`);
+					lines.push(`	}`);
+					lines.push(``);
+				}
+				lines.push(`	${storeTypeName}.update((c) => {`);
+				lines.push(`		return { ...c, isFetching: true, status: RequestStatus.LOADING };`);
+				lines.push(`	});`);
+				lines.push(``);
+				lines.push(`	// prettier-ignore`);
 				lines.push(
 					`	const res = await kitQLClient.request<${importOperationResultType}, ${importOperationVariablesTypes}>({`
 				);
-				lines.push(`		document: ${importDocumentName},`);
-				lines.push(`		variables,`);
 				lines.push(`		skFetch: fetch,`);
-				lines.push(`		cacheKey: "${operationResultType}",`);
-				lines.push(`		cache,`);
+				lines.push(`		document: Types.${documentName},`);
+				lines.push(`		variables, `);
+				lines.push(`		cacheKey, `);
 				lines.push(`		browser`);
 				lines.push(`	});`);
-				lines.push(`	const result = { status: RequestStatus.DONE, ...res, variables };`);
+				lines.push(
+					`	const result = { ...res, isFetching: false, status: RequestStatus.DONE, variables };`
+				);
 				lines.push(`	${storeTypeName}.set(result);`);
 				lines.push(`	return result;`);
 				lines.push(`}`);

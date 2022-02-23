@@ -16,12 +16,11 @@ describe('client - kitQLClient', () => {
 		kitQLClient.request({
 			skFetch: {},
 			browser: true,
-			cache: 300,
 			cacheKey: 'KEY1',
 			document: {},
 			variables: {}
 		});
 
-		expect((kitQLClient as any).cache).toMatchObject(180000);
+		expect((kitQLClient as any).defaultCache).toMatchObject(180000);
 	});
 });

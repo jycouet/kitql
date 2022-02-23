@@ -1,14 +1,16 @@
 import { describe, expect, it } from 'vitest';
 import { CacheData } from '../src/lib/toExport/CacheData';
-import { RequestFrom, RequestStatus } from '../src/lib/toExport/kitQLClient';
+import { RequestFrom, RequestStatus, RequestResult } from '../src/lib/toExport/kitQLClient';
 
-const defaultStoreValue = {
+const defaultStoreValue: RequestResult<any, any> = {
 	status: RequestStatus.NEVER,
+	isFetching: false,
 	date: new Date().getTime(),
 	variables: null,
 	data: null,
 	errors: null,
-	from: RequestFrom.NODATA
+	from: RequestFrom.NODATA,
+	isOutdated: false
 };
 
 describe('client - Cache Data', () => {

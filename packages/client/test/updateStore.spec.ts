@@ -30,6 +30,7 @@ describe('client - UpdateStore', () => {
 		kitQLClient = new KitQLClient({ url: '/graphql' });
 		store = {
 			status: RequestStatus.NEVER,
+			isFetching: false,
 			date: new Date().getTime(),
 			variables: null,
 			data: {
@@ -56,7 +57,8 @@ describe('client - UpdateStore', () => {
 				}
 			},
 			errors: null,
-			from: RequestFrom.NODATA
+			from: RequestFrom.NODATA,
+			isOutdated: false
 		};
 	});
 

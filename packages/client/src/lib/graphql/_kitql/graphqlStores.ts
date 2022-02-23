@@ -1,12 +1,19 @@
+// prettier-ignore
 import { browser } from '$app/env';
-import * as Types from "$lib/graphql/_kitql/graphqlTypes";
-import { defaultStoreValue, RequestStatus, type RequestParameters, type RequestResult } from '@kitql/client';
+import * as Types from '$lib/graphql/_kitql/graphqlTypes';
+import {
+	defaultStoreValue,
+	RequestStatus,
+	type RequestParameters,
+	type RequestResult
+} from '@kitql/client';
 import { get, writable } from 'svelte/store';
 import { kitQLClient } from '../kitQLClient';
- 
+
 /**
  * KitQL Svelte Store with the latest `AllContinentsQuery` Operation
  */
+// prettier-ignore
 export const AllContinentsQueryStore = writable<RequestResult<Types.AllContinentsQuery, Types.AllContinentsQueryVariables>>(defaultStoreValue);
 
 /**
@@ -15,31 +22,50 @@ export const AllContinentsQueryStore = writable<RequestResult<Types.AllContinent
  * @param params
  * @returns the latest AllContinentsQuery operation and fill the AllContinentsQueryStore
  */
-// prettier-ignore
 export async function AllContinentsQuery(
-  params?: RequestParameters<Types.AllContinentsQueryVariables>
+	params?: RequestParameters<Types.AllContinentsQueryVariables>
 ): Promise<RequestResult<Types.AllContinentsQuery, Types.AllContinentsQueryVariables>> {
-
-  let storedVariables = null;
-	AllContinentsQueryStore.update((c) => {
-		storedVariables = c.variables;
-		return { ...c, status: RequestStatus.LOADING };
-	});
 	let { fetch, variables, settings } = params ?? {};
-  let { cache } = settings ?? {};
+	let { cache, policy } = settings ?? {};
+	const cacheKey = 'AllContinentsQuery';
 
-  if (variables === undefined) {
-    variables = storedVariables;
-  }
+	const storedVariables = get(AllContinentsQueryStore).variables;
+	variables = variables ?? storedVariables;
+	policy = policy ?? kitQLClient.defaultPolicy;
+
+	// Cache only in the browser for now. In SSR, we will need session identif to not mix peoples data
+	if (browser) {
+		if (policy !== 'network-only') {
+			// prettier-ignore
+			const cachedData = kitQLClient.requestCache<Types.AllContinentsQuery,	Types.AllContinentsQueryVariables>({
+				variables, cacheKey, cache,	browser
+			});
+			if (cachedData) {
+				if (policy === 'cache-first') {
+					return { ...cachedData, isFetching: false, status: RequestStatus.DONE };
+				} else if (policy === 'cache-only') {
+					return { ...cachedData, isFetching: false, status: RequestStatus.DONE };
+				} else if (policy === 'cache-and-network') {
+					// prettier-ignore
+					AllContinentsQueryStore.set({ ...cachedData, isFetching: false, status: RequestStatus.DONE });
+				}
+			}
+		}
+	}
+
+	AllContinentsQueryStore.update((c) => {
+		return { ...c, isFetching: true, status: RequestStatus.LOADING };
+	});
+
+	// prettier-ignore
 	const res = await kitQLClient.request<Types.AllContinentsQuery, Types.AllContinentsQueryVariables>({
-		document: Types.AllContinentsDocument,
-		variables,
 		skFetch: fetch,
-		cacheKey: "AllContinentsQuery",
-		cache,
+		document: Types.AllContinentsDocument,
+		variables, 
+		cacheKey, 
 		browser
 	});
-	const result = { status: RequestStatus.DONE, ...res, variables };
+	const result = { ...res, isFetching: false, status: RequestStatus.DONE, variables };
 	AllContinentsQueryStore.set(result);
 	return result;
 }
@@ -77,6 +103,7 @@ export function AllContinentsQueryStoreUpdate(
 /**
  * KitQL Svelte Store with the latest `AllCountriesOfContinentQuery` Operation
  */
+// prettier-ignore
 export const AllCountriesOfContinentQueryStore = writable<RequestResult<Types.AllCountriesOfContinentQuery, Types.AllCountriesOfContinentQueryVariables>>(defaultStoreValue);
 
 /**
@@ -85,31 +112,52 @@ export const AllCountriesOfContinentQueryStore = writable<RequestResult<Types.Al
  * @param params
  * @returns the latest AllCountriesOfContinentQuery operation and fill the AllCountriesOfContinentQueryStore
  */
-// prettier-ignore
 export async function AllCountriesOfContinentQuery(
-  params?: RequestParameters<Types.AllCountriesOfContinentQueryVariables>
-): Promise<RequestResult<Types.AllCountriesOfContinentQuery, Types.AllCountriesOfContinentQueryVariables>> {
-
-  let storedVariables = null;
-	AllCountriesOfContinentQueryStore.update((c) => {
-		storedVariables = c.variables;
-		return { ...c, status: RequestStatus.LOADING };
-	});
+	params?: RequestParameters<Types.AllCountriesOfContinentQueryVariables>
+): Promise<
+	RequestResult<Types.AllCountriesOfContinentQuery, Types.AllCountriesOfContinentQueryVariables>
+> {
 	let { fetch, variables, settings } = params ?? {};
-  let { cache } = settings ?? {};
+	let { cache, policy } = settings ?? {};
+	const cacheKey = 'AllCountriesOfContinentQuery';
 
-  if (variables === undefined) {
-    variables = storedVariables;
-  }
+	const storedVariables = get(AllCountriesOfContinentQueryStore).variables;
+	variables = variables ?? storedVariables;
+	policy = policy ?? kitQLClient.defaultPolicy;
+
+	// Cache only in the browser for now. In SSR, we will need session identif to not mix peoples data
+	if (browser) {
+		if (policy !== 'network-only') {
+			// prettier-ignore
+			const cachedData = kitQLClient.requestCache<Types.AllCountriesOfContinentQuery,	Types.AllCountriesOfContinentQueryVariables>({
+				variables, cacheKey, cache,	browser
+			});
+			if (cachedData) {
+				if (policy === 'cache-first') {
+					return { ...cachedData, isFetching: false, status: RequestStatus.DONE };
+				} else if (policy === 'cache-only') {
+					return { ...cachedData, isFetching: false, status: RequestStatus.DONE };
+				} else if (policy === 'cache-and-network') {
+					// prettier-ignore
+					AllCountriesOfContinentQueryStore.set({ ...cachedData, isFetching: false, status: RequestStatus.DONE });
+				}
+			}
+		}
+	}
+
+	AllCountriesOfContinentQueryStore.update((c) => {
+		return { ...c, isFetching: true, status: RequestStatus.LOADING };
+	});
+
+	// prettier-ignore
 	const res = await kitQLClient.request<Types.AllCountriesOfContinentQuery, Types.AllCountriesOfContinentQueryVariables>({
-		document: Types.AllCountriesOfContinentDocument,
-		variables,
 		skFetch: fetch,
-		cacheKey: "AllCountriesOfContinentQuery",
-		cache,
+		document: Types.AllCountriesOfContinentDocument,
+		variables, 
+		cacheKey, 
 		browser
 	});
-	const result = { status: RequestStatus.DONE, ...res, variables };
+	const result = { ...res, isFetching: false, status: RequestStatus.DONE, variables };
 	AllCountriesOfContinentQueryStore.set(result);
 	return result;
 }
