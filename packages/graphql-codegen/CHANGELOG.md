@@ -1,5 +1,11 @@
 # @kitql/graphql-codegen
 
+## 0.1.6
+
+### Patch Changes
+
+- 5c3ed7f: fix policies
+
 ## 0.1.5
 
 ### Patch Changes
