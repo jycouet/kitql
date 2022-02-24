@@ -1,5 +1,11 @@
 # @kitql/client
 
+## 0.1.9
+
+### Patch Changes
+
+- 5c3ed7f: fix policies
+
 ## 0.1.8
 
 ### Patch Changes
