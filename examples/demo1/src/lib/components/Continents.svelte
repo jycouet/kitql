@@ -15,11 +15,19 @@
 	}
 
 	async function query() {
-		await AllContinentsQuery();
+		await AllContinentsQuery(); // { policy: 'cache-first' }
 	}
 
-	async function force() {
-		await AllContinentsQuery({ settings: { policy: 'cache-first', cache: 0 } });
+	async function cacheAndNetwork() {
+		await AllContinentsQuery({ settings: { policy: 'cache-and-network' } });
+	}
+
+	async function networkOnly() {
+		await AllContinentsQuery({ settings: { policy: 'network-only' } });
+	}
+
+	async function cacheOnly() {
+		await AllContinentsQuery({ settings: { policy: 'cache-only' } });
 	}
 
 	async function manualUpdate() {
@@ -38,7 +46,9 @@
 
 		<button on:click={() => reset()}>Reset</button>
 		<button on:click={() => query()}>Query again</button>
-		<button on:click={() => force()}>Force network</button>
+		<button on:click={() => cacheAndNetwork()}>cache-and-network</button>
+		<button on:click={() => networkOnly()}>network-only</button>
+		<button on:click={() => cacheOnly()}>cache-only</button>
 		<button on:click={() => manualUpdate()}>Manual Update</button>
 	</h2>
 	<KitQlInfo store={$AllContinentsQueryStore} />
