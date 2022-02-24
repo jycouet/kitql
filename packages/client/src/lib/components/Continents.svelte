@@ -19,7 +19,7 @@
 	}
 
 	async function force() {
-		await AllContinentsQuery({ settings: { cache: 0 } });
+		await AllContinentsQuery({ settings: { policy: 'network-only' } });
 	}
 
 	async function manualUpdate() {
@@ -35,12 +35,12 @@
 <div>
 	<h2 class="vAlign">
 		Continents
-
 		<button on:click={() => reset()}>Reset</button>
 		<button on:click={() => query()}>Query again</button>
 		<button on:click={() => force()}>Force network</button>
 		<button on:click={() => manualUpdate()}>Manual Update</button>
 	</h2>
+	<!-- {JSON.stringify($AllContinentsQueryStore, null, 2)} -->
 	<KitQlInfo store={$AllContinentsQueryStore} />
 	<ul>
 		{#each $AllContinentsQueryStore.data?.continents ?? [] as continent}

@@ -19,7 +19,7 @@
 	}
 
 	async function force() {
-		await AllContinentsQuery({ settings: { cache: 0 } });
+		await AllContinentsQuery({ settings: { policy: 'cache-first', cache: 0 } });
 	}
 
 	async function manualUpdate() {

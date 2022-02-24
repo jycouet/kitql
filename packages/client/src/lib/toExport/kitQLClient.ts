@@ -41,11 +41,11 @@ export type RequestSettings = {
 	/**
 	 * Cache in miliseconds for the Query (so `cache:0` force a network call)
 	 */
-	cache: number;
+	cache?: number;
 	/**
 	 * overwrite the default cache policy
 	 */
-	policy: 'cache-first' | 'cache-and-network' | 'network-only' | 'cache-only';
+	policy?: 'cache-first' | 'cache-and-network' | 'network-only' | 'cache-only';
 };
 
 export type RequestParameters<V> = {
@@ -141,7 +141,17 @@ export class KitQLClient {
 		return { logOp, logOpVar, logRawResult };
 	}
 
-	public requestCache<D, V>({ variables, cacheKey, cache, browser }): ResponseResult<D, V> | null {
+	public requestCache<D, V>({
+		variables,
+		cacheKey,
+		cache,
+		browser
+	}: {
+		variables: any;
+		cacheKey: string;
+		cache: number | null;
+		browser: boolean;
+	}): ResponseResult<D, V> | null {
 		const logStatements = this.getLogsStatements(browser);
 
 		// No caching in the server for now! (Need to have a session identification to not mix things up)

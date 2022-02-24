@@ -1,15 +1,9 @@
-// prettier-ignore
 import { browser } from '$app/env';
-import * as Types from '$lib/graphql/_kitql/graphqlTypes';
-import {
-	defaultStoreValue,
-	RequestStatus,
-	type RequestParameters,
-	type RequestResult
-} from '@kitql/client';
+import * as Types from "$lib/graphql/_kitql/graphqlTypes";
+import { defaultStoreValue, RequestStatus, type RequestParameters, type RequestResult } from '@kitql/client';
 import { get, writable } from 'svelte/store';
 import { kitQLClient } from '../kitQLClient';
-
+ 
 /**
  * KitQL Svelte Store with the latest `AllContinentsQuery` Operation
  */
@@ -33,26 +27,29 @@ export async function AllContinentsQuery(
 	variables = variables ?? storedVariables;
 	policy = policy ?? kitQLClient.defaultPolicy;
 
-	// Cache only in the browser for now. In SSR, we will need session identif to not mix peoples data
-	if (browser) {
-		if (policy !== 'network-only') {
-			// prettier-ignore
-			const cachedData = kitQLClient.requestCache<Types.AllContinentsQuery,	Types.AllContinentsQueryVariables>({
-				variables, cacheKey, cache,	browser
-			});
-			if (cachedData) {
-				if (policy === 'cache-first') {
-					return { ...cachedData, isFetching: false, status: RequestStatus.DONE };
-				} else if (policy === 'cache-only') {
-					return { ...cachedData, isFetching: false, status: RequestStatus.DONE };
-				} else if (policy === 'cache-and-network') {
-					// prettier-ignore
-					AllContinentsQueryStore.set({ ...cachedData, isFetching: false, status: RequestStatus.DONE });
+// Cache only in the browser for now. In SSR, we will need session identif to not mix peoples data
+if (browser) {
+	if (policy !== 'network-only') {
+		// prettier-ignore
+		const cachedData = kitQLClient.requestCache<Types.AllContinentsQuery, Types.AllContinentsQueryVariables>({
+			variables, cacheKey, cache,	browser
+		});
+		if (cachedData) {
+			const result = { ...cachedData, isFetching: false, status: RequestStatus.DONE };
+			if (policy === 'cache-first') {
+				AllContinentsQueryStore.set(result);
+				if (!result.isOutdated) {
+					return result;
 				}
+			} else if (policy === 'cache-only') {
+				AllContinentsQueryStore.set(result);
+				return result;
+			} else if (policy === 'cache-and-network') {
+				AllContinentsQueryStore.set(result);
 			}
 		}
 	}
-
+}
 	AllContinentsQueryStore.update((c) => {
 		return { ...c, isFetching: true, status: RequestStatus.LOADING };
 	});
@@ -114,9 +111,7 @@ export const AllCountriesOfContinentQueryStore = writable<RequestResult<Types.Al
  */
 export async function AllCountriesOfContinentQuery(
 	params?: RequestParameters<Types.AllCountriesOfContinentQueryVariables>
-): Promise<
-	RequestResult<Types.AllCountriesOfContinentQuery, Types.AllCountriesOfContinentQueryVariables>
-> {
+): Promise<RequestResult<Types.AllCountriesOfContinentQuery, Types.AllCountriesOfContinentQueryVariables>> {
 	let { fetch, variables, settings } = params ?? {};
 	let { cache, policy } = settings ?? {};
 	const cacheKey = 'AllCountriesOfContinentQuery';
@@ -125,26 +120,29 @@ export async function AllCountriesOfContinentQuery(
 	variables = variables ?? storedVariables;
 	policy = policy ?? kitQLClient.defaultPolicy;
 
-	// Cache only in the browser for now. In SSR, we will need session identif to not mix peoples data
-	if (browser) {
-		if (policy !== 'network-only') {
-			// prettier-ignore
-			const cachedData = kitQLClient.requestCache<Types.AllCountriesOfContinentQuery,	Types.AllCountriesOfContinentQueryVariables>({
-				variables, cacheKey, cache,	browser
-			});
-			if (cachedData) {
-				if (policy === 'cache-first') {
-					return { ...cachedData, isFetching: false, status: RequestStatus.DONE };
-				} else if (policy === 'cache-only') {
-					return { ...cachedData, isFetching: false, status: RequestStatus.DONE };
-				} else if (policy === 'cache-and-network') {
-					// prettier-ignore
-					AllCountriesOfContinentQueryStore.set({ ...cachedData, isFetching: false, status: RequestStatus.DONE });
+// Cache only in the browser for now. In SSR, we will need session identif to not mix peoples data
+if (browser) {
+	if (policy !== 'network-only') {
+		// prettier-ignore
+		const cachedData = kitQLClient.requestCache<Types.AllCountriesOfContinentQuery, Types.AllCountriesOfContinentQueryVariables>({
+			variables, cacheKey, cache,	browser
+		});
+		if (cachedData) {
+			const result = { ...cachedData, isFetching: false, status: RequestStatus.DONE };
+			if (policy === 'cache-first') {
+				AllCountriesOfContinentQueryStore.set(result);
+				if (!result.isOutdated) {
+					return result;
 				}
+			} else if (policy === 'cache-only') {
+				AllCountriesOfContinentQueryStore.set(result);
+				return result;
+			} else if (policy === 'cache-and-network') {
+				AllCountriesOfContinentQueryStore.set(result);
 			}
 		}
 	}
-
+}
 	AllCountriesOfContinentQueryStore.update((c) => {
 		return { ...c, isFetching: true, status: RequestStatus.LOADING };
 	});

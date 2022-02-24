@@ -99,31 +99,34 @@ export const plugin: PluginFunction<Record<string, any>, Types.ComplexPluginOutp
 				// Cache ony for queries
 				if (operationType === 'Query') {
 					lines.push(
-						`	// Cache only in the browser for now. In SSR, we will need session identif to not mix peoples data`
+						`// Cache only in the browser for now. In SSR, we will need session identif to not mix peoples data`
 					);
-					lines.push(`	if (browser) {`);
-					lines.push(`		if (policy !== 'network-only') {`);
-					lines.push(`			// prettier-ignore`);
+					lines.push(`if (browser) {`);
+					lines.push(`	if (policy !== 'network-only') {`);
+					lines.push(`		// prettier-ignore`);
 					lines.push(
-						`			const cachedData = kitQLClient.requestCache<${importOperationResultType},	${importOperationVariablesTypes}>({`
+						`		const cachedData = kitQLClient.requestCache<${importOperationResultType}, ${importOperationVariablesTypes}>({`
 					);
-					lines.push(`				variables, cacheKey, cache,	browser`);
-					lines.push(`			});`);
-					lines.push(`			if (cachedData) {`);
-					lines.push(`				if (policy === 'cache-first') {`);
-					lines.push(`					return { ...cachedData, isFetching: false, status: RequestStatus.DONE };`);
-					lines.push(`				} else if (policy === 'cache-only') {`);
-					lines.push(`					return { ...cachedData, isFetching: false, status: RequestStatus.DONE };`);
-					lines.push(`				} else if (policy === 'cache-and-network') {`);
-					lines.push(`					// prettier-ignore`);
+					lines.push(`			variables, cacheKey, cache,	browser`);
+					lines.push(`		});`);
+					lines.push(`		if (cachedData) {`);
 					lines.push(
-						`					${storeTypeName}.set({ ...cachedData, isFetching: false, status: RequestStatus.DONE });`
+						`			const result = { ...cachedData, isFetching: false, status: RequestStatus.DONE };`
 					);
+					lines.push(`			if (policy === 'cache-first') {`);
+					lines.push(`				${storeTypeName}.set(result);`);
+					lines.push(`				if (!result.isOutdated) {`);
+					lines.push(`					return result;`);
 					lines.push(`				}`);
+					lines.push(`			} else if (policy === 'cache-only') {`);
+					lines.push(`				${storeTypeName}.set(result);`);
+					lines.push(`				return result;`);
+					lines.push(`			} else if (policy === 'cache-and-network') {`);
+					lines.push(`				${storeTypeName}.set(result);`);
 					lines.push(`			}`);
 					lines.push(`		}`);
 					lines.push(`	}`);
-					lines.push(``);
+					lines.push(`}`);
 				}
 				lines.push(`	${storeTypeName}.update((c) => {`);
 				lines.push(`		return { ...c, isFetching: true, status: RequestStatus.LOADING };`);
