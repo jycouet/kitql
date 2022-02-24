@@ -1,5 +1,11 @@
 # @kitql/graphql-codegen
 
+## 0.1.5
+
+### Patch Changes
+
+- 1023efe: isFetching / outdated / policies
+
 ## 0.1.4
 
 ### Patch Changes

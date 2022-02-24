@@ -1,5 +1,11 @@
 # @kitql/client
 
+## 0.1.8
+
+### Patch Changes
+
+- 1023efe: isFetching / outdated / policies
+
 ## 0.1.7
 
 ### Patch Changes
