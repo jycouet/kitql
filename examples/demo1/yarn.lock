@@ -924,10 +924,10 @@
     "@jridgewell/resolve-uri" "^3.0.3"
     "@jridgewell/sourcemap-codec" "^1.4.10"
 
-"@kitql/all-in@0.1.9":
-  version "0.1.9"
-  resolved "https://registry.yarnpkg.com/@kitql/all-in/-/all-in-0.1.9.tgz#0f62bd5863d20a34e66f453b0cae60a1932a64e8"
-  integrity sha512-pjAmy++a2ghGv9Mf9nkwt0/uv/G+virxeus8/RjtOJ/ruDKjkGikv8GYUdetDvLWdpoz0CUt56EqRkth+6eMrw==
+"@kitql/all-in@0.1.10":
+  version "0.1.10"
+  resolved "https://registry.yarnpkg.com/@kitql/all-in/-/all-in-0.1.10.tgz#d0e5c2e2a68c7744093777632e7cb4f8bc887874"
+  integrity sha512-gXZGvpr69fMOBW5AS8SYo+jq+joWU9kBdtMPUs92GoY1ZE1mQGUoAuSNHWP21vIozi6S7+5W5G90HjqIOf+JWA==
   dependencies:
     "@graphql-codegen/cli" "2.6.2"
     "@graphql-codegen/graphql-modules-preset" "2.3.5"
@@ -938,24 +938,24 @@
     "@graphql-codegen/typescript-resolvers" "2.5.2"
     "@graphql-eslint/eslint-plugin" "3.8.0"
     "@graphql-typed-document-node/core" "3.1.1"
-    "@kitql/client" "0.1.9"
-    "@kitql/graphql-codegen" "0.1.6"
+    "@kitql/client" "0.2.0"
+    "@kitql/graphql-codegen" "0.2.0"
     "@kitql/module-codegen" "0.1.6"
     "@kitql/vite-plugin-watch-and-run" "0.1.5"
 
-"@kitql/client@0.1.9":
-  version "0.1.9"
-  resolved "https://registry.yarnpkg.com/@kitql/client/-/client-0.1.9.tgz#18e82f8b2c3b04cc25140390dfb71c0662081023"
-  integrity sha512-/F+okELXWiB6rbOJESUNjWpLQA5moJvTj7NjI9QE9T6jFerDu1QJch6VuwbWwGSLWzTAqd2xCY+zTIPjBHFo8w==
+"@kitql/client@0.2.0":
+  version "0.2.0"
+  resolved "https://registry.yarnpkg.com/@kitql/client/-/client-0.2.0.tgz#d2b74ba3c797ca26495a11381da12bd8e3348fb7"
+  integrity sha512-DeqxyhbZVKujxW9s5rqOQD7MO+o1Cg0as2EcnP5gmNeXVlf8O5RBWHIY/hiK6Em9DByNhAC7lt28J0xbQHUVDA==
   dependencies:
     "@kitql/helper" "0.1.5"
     graphql "16.3.0"
     safe-stable-stringify "2.3.1"
 
-"@kitql/graphql-codegen@0.1.6":
-  version "0.1.6"
-  resolved "https://registry.yarnpkg.com/@kitql/graphql-codegen/-/graphql-codegen-0.1.6.tgz#8ae32ad89863b55746d19953d55e7d994dadd167"
-  integrity sha512-grlBewuijHmUaZ6cTQl2LQL/he6/TXA42pDKUj0mrt+ci4+QD6fF5BFqBHfyCobLOW86kird0RjrGtpgv1l2cA==
+"@kitql/graphql-codegen@0.2.0":
+  version "0.2.0"
+  resolved "https://registry.yarnpkg.com/@kitql/graphql-codegen/-/graphql-codegen-0.2.0.tgz#9b186219e739acbb45e46e530ce8738677117352"
+  integrity sha512-yog9GSDGspi+wXWUlvfGAQeCkL6/1P823fDZeZKm8LtSThMQ4aodYXLRkKfGG9/1pPW8ApAzVeeidHhXHWMohw==
   dependencies:
     "@graphql-codegen/plugin-helpers" "2.4.1"
     "@graphql-codegen/visitor-plugin-common" "2.7.1"

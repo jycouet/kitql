@@ -71,19 +71,19 @@ _If you were not running your app, run `yarn gen` manually_
 <!-- For SSR -->
 <script context="module" lang="ts">
 	export async function load({ fetch }) {
-		await GetAllContinentsQuery({ fetch }); // Filling GetAllContinentsQueryStore
+		await KQL_AllContinents.query({ fetch }); // Filling the store
 		return {};
 	}
 </script>
 
 <!-- Or in a svelte component -->
 <script lang="ts">
-	await GetAllContinentsQuery(); // Filling GetAllContinentsQueryStore
+	await KQL_AllContinents.query(); // Filling the store
 </script>
 
 <!-- Using the store where you want in the app -->
 <ul>
-	{#each $GetAllContinentsQueryStore.data?.continents as continent}
+	{#each $KQL_AllContinents.data?.continents as continent}
 	<li>
 		<p>{continent?.name}</p>
 	</li>

@@ -2,15 +2,15 @@
 	import Continent from '$lib/components/Continent.svelte';
 	import Continents from '$lib/components/Continents.svelte';
 	import {
-		AllContinentsQuery,
-		AllCountriesOfContinentQuery
+		KQL_AllContinents,
+		KQL_AllCountriesOfContinent
 	} from '$lib/graphql/_kitql/graphqlStores';
 
 	export async function load({ fetch, url }) {
-		await AllContinentsQuery({ fetch });
+		await KQL_AllContinents.query({ fetch });
 		let code = url.searchParams.get('focus');
 		if (code) {
-			await AllCountriesOfContinentQuery({ fetch, variables: { code } });
+			await KQL_AllCountriesOfContinent.query({ fetch, variables: { code } });
 		}
 		return {};
 	}

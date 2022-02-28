@@ -1,37 +1,32 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
 	import { page } from '$app/stores';
-	import {
-		AllContinentsQuery,
-		AllContinentsQueryCacheReset,
-		AllContinentsQueryStore,
-		AllContinentsQueryStoreUpdate
-	} from '$lib/graphql/_kitql/graphqlStores';
+	import { KQL_AllContinents } from '$lib/graphql/_kitql/graphqlStores';
 	import { queryStringApprend } from '@kitql/helper';
 	import KitQlInfo from './KitQLInfo.svelte';
 
 	function reset() {
-		AllContinentsQueryCacheReset();
+		KQL_AllContinents.resetCache();
 	}
 
 	async function query() {
-		await AllContinentsQuery(); // { policy: 'cache-first' }
+		await KQL_AllContinents.query(); // { policy: 'cache-first' }
 	}
 
 	async function cacheAndNetwork() {
-		await AllContinentsQuery({ settings: { policy: 'cache-and-network' } });
+		await KQL_AllContinents.query({ settings: { policy: 'cache-and-network' } });
 	}
 
 	async function networkOnly() {
-		await AllContinentsQuery({ settings: { policy: 'network-only' } });
+		await KQL_AllContinents.query({ settings: { policy: 'network-only' } });
 	}
 
 	async function cacheOnly() {
-		await AllContinentsQuery({ settings: { policy: 'cache-only' } });
+		await KQL_AllContinents.query({ settings: { policy: 'cache-only' } });
 	}
 
 	async function manualUpdate() {
-		AllContinentsQueryStoreUpdate([{ name: 'JYC Land', code: 'JYC' }], 'continents');
+		KQL_AllContinents.patch([{ name: 'JYC Land', code: 'JYC' }], 'continents');
 	}
 
 	async function details(code: string) {
@@ -51,9 +46,9 @@
 		<button on:click={() => cacheOnly()}>cache-only</button>
 		<button on:click={() => manualUpdate()}>Manual Update</button>
 	</h2>
-	<KitQlInfo store={$AllContinentsQueryStore} />
+	<KitQlInfo store={$KQL_AllContinents} />
 	<ul>
-		{#each $AllContinentsQueryStore.data?.continents ?? [] as continent}
+		{#each $KQL_AllContinents.data?.continents ?? [] as continent}
 			<li class="allSpace">
 				<p>{continent?.name}</p>
 				<button on:click={() => details(continent?.code)}>Get Countries</button>

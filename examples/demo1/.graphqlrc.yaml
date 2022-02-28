@@ -23,6 +23,7 @@ projects:
               - '@kitql/graphql-codegen'
             config:
               importBaseTypesFrom: $lib/graphql/_kitql/graphqlTypes
+              operationPrefix: 'KQL_'
 
         config:
           useTypeImports: true

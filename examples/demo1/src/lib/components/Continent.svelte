@@ -1,21 +1,21 @@
 <script lang="ts">
-	import { AllCountriesOfContinentQueryStore } from '$lib/graphql/_kitql/graphqlStores';
+	import { KQL_AllCountriesOfContinent } from '$lib/graphql/_kitql/graphqlStores';
 	import KitQlInfo from './KitQLInfo.svelte';
 </script>
 
 <div>
 	<h2>
-		{#if $AllCountriesOfContinentQueryStore.data}
-			Continent: {$AllCountriesOfContinentQueryStore.data?.continent?.name}
+		{#if $KQL_AllCountriesOfContinent.data}
+			Continent: {$KQL_AllCountriesOfContinent.data?.continent?.name}
 		{:else}
 			<i>Please select something</i>
 		{/if}
 	</h2>
-	<KitQlInfo store={$AllCountriesOfContinentQueryStore} />
+	<KitQlInfo store={$KQL_AllCountriesOfContinent} />
 
-	{#if $AllCountriesOfContinentQueryStore.data?.continent}
+	{#if $KQL_AllCountriesOfContinent.data?.continent}
 		<div class="country">
-			{#each $AllCountriesOfContinentQueryStore.data?.continent.countries as country, i}
+			{#each $KQL_AllCountriesOfContinent.data?.continent.countries as country, i}
 				{#if i < 10}
 					<div>
 						{country.name}
