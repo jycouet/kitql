@@ -86,8 +86,7 @@ describe('client - UpdateStore', () => {
 				'Ope1',
 				store,
 				invoice3Updated.data.invoice,
-				'contracts[].invoices[]._$id(3)',
-				3
+				'contracts[].invoices[]._$id(3)'
 			)
 		};
 
