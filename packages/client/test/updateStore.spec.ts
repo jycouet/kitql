@@ -1,5 +1,6 @@
 import { beforeEach, describe, expect, it } from 'vitest';
 import {
+	defaultStoreValue,
 	KitQLClient,
 	RequestFrom,
 	RequestResult,
@@ -164,7 +165,7 @@ describe('client - UpdateStore', () => {
 		expect(result).toMatchObject(testObj);
 	});
 
-	it('Should add a new item in the array', async () => {
+	it('Should add a new item in the array (first array selected)', async () => {
 		let invoice5Created = {
 			data: { invoice: { id: 5, amount: 5555 } }
 		};
@@ -183,13 +184,64 @@ describe('client - UpdateStore', () => {
 		testObj.data.contracts[0].invoices.push(invoice5Created.data.invoice);
 		expect(result).toMatchObject(testObj);
 	});
+
+	it('Should add a new item in the array (with filter on array)', async () => {
+		let invoice5Created = {
+			data: { invoice: { id: 5, amount: 5555 } }
+		};
+
+		// Deep clone for the test
+		let testObj = JSON.parse(JSON.stringify(store));
+		let result = {
+			...kitQLClient.patch(
+				'Ope1',
+				store,
+				invoice5Created.data.invoice,
+				'contracts[]$filter(_$id(2)).invoices[]$add'
+			)
+		};
+
+		testObj.data.contracts[1].invoices.push(invoice5Created.data.invoice);
+		expect(result).toMatchObject(testObj);
+	});
+
+	it('Should Not patch anything as the xPath doesn t exist', async () => {
+		let invoice5Created = {
+			data: { invoice: { id: 5, amount: 5555 } }
+		};
+
+		// Deep clone for the test
+		let testObj = JSON.parse(JSON.stringify(defaultStoreValue));
+
+		// Give defaultStoreValue so that data is not there
+		let result = {
+			...kitQLClient.patch(
+				'Ope1',
+				defaultStoreValue,
+				invoice5Created.data.invoice,
+				'contracts[].invoices[]$add'
+			)
+		};
+
+		expect(result).toMatchObject(testObj);
+	});
+
+	it('Should remove an item in the array', async () => {
+		// Deep clone for the test
+		let testObj = JSON.parse(JSON.stringify(store));
+		let result = {
+			...kitQLClient.patch('Ope1', store, null, 'contracts[].invoices[]$remove(_$id(3))')
+		};
+
+		testObj.data.contracts[1].invoices = testObj.data.contracts[1].invoices.slice(1);
+		expect(result).toMatchObject(testObj);
+	});
 });
 
 // const xpath1 = 'contracts[].invoices[]$add(-1 | 0 | x)';
 // const xpath2 = 'contracts[]._$id(2).invoices[]$add';          <- Not woring yet!
 // const xpath3 = 'contracts[]._$id(2).invoices';                <- Not woring yet!
 // const xpath4 = 'contracts[].invoices[]._$id(2)';
-// Handle $remove(_$id(3))                                       <- Not woring yet!
 // // https://dev.to/phenomnominal/i-need-to-learn-about-typescript-template-literal-types-51po
 
 // type TxPathFilterBuilder<

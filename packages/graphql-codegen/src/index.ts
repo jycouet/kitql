@@ -150,9 +150,7 @@ export const plugin: PluginFunction<Record<string, any>, Types.ComplexPluginOutp
 					lines.push(`		/**`);
 					lines.push(`		 * Patch the store with a new object at the dedicated xPath location`);
 					lines.push(`		 */`);
-					lines.push(
-						`		patch(newData: Object, xPath: string | null = null, id: string | number | null = null) {`
-					);
+					lines.push(`		patch(newData: Object, xPath: string | null = null) {`);
 					lines.push(`			// prettier-ignore`);
 					lines.push(
 						`			const updatedStore = kitQLClient.patch<${kqltypeQueryAndVariable}>(cacheKey, get(${kqlStore}), newData, xPath);`

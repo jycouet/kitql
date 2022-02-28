@@ -81,12 +81,12 @@ function AppContent(appProps: AppProps) {
 					onClick: (e) => handlePushRoute('/', e)
 				}}
 				links={[
-					{
-						children: 'Home',
-						title: 'HOME',
-						href: '/',
-						onClick: (e) => handlePushRoute('/', e)
-					},
+					// {
+					// 	children: 'Home',
+					// 	title: 'HOME',
+					// 	href: '/',
+					// 	onClick: (e) => handlePushRoute('/', e)
+					// },
 					{
 						children: 'Github',
 						title: 'Github',

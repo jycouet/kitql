@@ -277,7 +277,7 @@ export class KitQLClient {
 	public patch<D, V>(
 		operationKey: string,
 		store: RequestResult<D, V>,
-		newData: Object, // To be fragments only?
+		newData: Object | null, // To be fragments only?
 		xPath: string | null = null
 	): RequestResult<D, V> {
 		// remove all from the cache, we will update only the current store
