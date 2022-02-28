@@ -75,15 +75,6 @@ describe('graphql-codegen', () => {
 		expect(result2.content).not.toBe(null);
 	});
 
-	it('config omitOperationSuffix, should omit Operation Suffix', async () => {
-		const result = (await plugin(null as any, operations, {
-			omitOperationSuffix: true
-		})) as Types.ComplexPluginOutput;
-
-		expect(result.content).toContain('DoSomethingStore.update');
-		expect(result.content).not.toContain('DoSomethingMutationStore.update');
-	});
-
 	it('config dedupeOperationSuffix, should dedupe Operation Suffix', async () => {
 		// But heuu... I don't know what operation to do to test this.
 		const result = (await plugin(null as any, operations, {

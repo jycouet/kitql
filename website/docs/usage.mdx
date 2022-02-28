@@ -13,17 +13,16 @@ If you do this in the route, you will have the data in `SSR` mode.
 
 ```svelte
 <script context="module" lang="ts">
-	import { AllContinentsQuery	} from '$lib/graphql/_kitql/graphqlStores';
+	import { KQL_AllContinents	} from '$lib/graphql/_kitql/graphqlStores';
 
 	export async function load({ fetch }) {
-    // Will fill `$AllContinentsQueryStore`
-		await AllContinentsQuery({ fetch });
+		await KQL_AllContinents.query({ fetch });
 		return {};
 	}
 </script>
 
 <!-- Just use the store here, or anywhere else! -->
-{JSON.stringify($AllContinentsQueryStore.data, null, 2)}
+{JSON.stringify($KQL_AllContinents.data, null, 2)}
 ```
 
 ### In a component
@@ -31,56 +30,56 @@ If you do this in the route, you will have the data in `SSR` mode.
 ```svelte
 <script lang="ts">
   import { browser } from '$app/env';
-  import { AllContinentsQuery, AllContinentsQueryStore } from '$lib/graphql/_kitql/graphqlStores';
+  import { KQL_AllContinents } from '$lib/graphql/_kitql/graphqlStores';
 
-  $: browser && AllContinentsQuery();
+  $: browser && KQL_AllContinents.query();
 </script>
 
 <!-- Just use the store here, or anywhere else! -->
-{JSON.stringify($AllContinentsQueryStore.data, null, 2)}
+{JSON.stringify($KQL_AllContinents.data, null, 2)}
 ```
 
 ### Query Options
 
 ```svelte
 <script lang="ts">
-  import { AllContinentsQuery, AllContinentsQueryStore } from '$lib/graphql/_kitql/graphqlStores';
+  import { KQL_AllContinents } from '$lib/graphql/_kitql/graphqlStores';
 
   async function cacheAndNetwork() {
-    await AllContinentsQuery({ settings: { policy: 'cache-and-network' } });
+    await KQL_AllContinents.query({ settings: { policy: 'cache-and-network' } });
   }
 </script>
 
 <!-- Just use the store here, or anywhere else! -->
-{JSON.stringify($AllContinentsQueryStore.data, null, 2)}
+{JSON.stringify($KQL_AllContinents.data, null, 2)}
 ```
 
 ### Reset Cache
 
 ```svelte
 <script lang="ts">
-  import { AllContinentsQueryCacheReset, AllContinentsQueryStore } from '$lib/graphql/_kitql/graphqlStores';
+  import { KQL_AllContinents } from '$lib/graphql/_kitql/graphqlStores';
 
   function cacheReset() {
-    AllContinentsQueryCacheReset();
+    KQL_AllContinents.resetCache();
   }
 </script>
 
 <!-- Just use the store here, or anywhere else! -->
-{JSON.stringify($AllContinentsQueryStore.data, null, 2)}
+{JSON.stringify($KQL_AllContinents.data, null, 2)}
 ```
 
 ### Store Update
 
 ```svelte
 <script lang="ts">
-  import { AllContinentsQueryStoreUpdate, AllContinentsQueryStore } from '$lib/graphql/_kitql/graphqlStores';
+  import { KQL_AllContinents } from '$lib/graphql/_kitql/graphqlStores';
 
-  function cacheReset() {
-    AllContinentsQueryStoreUpdate([{ name: 'JYC Land', code: 'JYC' }], 'continents');
+  function patch() {
+    KQL_AllContinents.patch([{ name: 'JYC Land', code: 'JYC' }], 'continents');
   }
 </script>
 
 <!-- Just use the store here, or anywhere else! -->
-{JSON.stringify($AllContinentsQueryStore.data, null, 2)}
+{JSON.stringify($KQL_AllContinents.data, null, 2)}
 ```

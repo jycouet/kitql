@@ -86,7 +86,7 @@ describe('client - UpdateStore', () => {
 				'Ope1',
 				store,
 				invoice3Updated.data.invoice,
-				'contracts[].invoices[].id=$id',
+				'contracts[].invoices[]._$id(3)',
 				3
 			)
 		};
@@ -109,8 +109,7 @@ describe('client - UpdateStore', () => {
 				'Ope1',
 				store,
 				invoice4Updated.data.invoice,
-				'contracts[].invoices[].id=$id',
-				4
+				'contracts[].invoices[]._$id(4)'
 			)
 		};
 
@@ -165,4 +164,43 @@ describe('client - UpdateStore', () => {
 
 		expect(result).toMatchObject(testObj);
 	});
+
+	it('Should add a new item in the array', async () => {
+		let invoice5Created = {
+			data: { invoice: { id: 5, amount: 5555 } }
+		};
+
+		// Deep clone for the test
+		let testObj = JSON.parse(JSON.stringify(store));
+		let result = {
+			...kitQLClient.storeUpdate(
+				'Ope1',
+				store,
+				invoice5Created.data.invoice,
+				'contracts[].invoices[]$add'
+			)
+		};
+
+		testObj.data.contracts[0].invoices.push(invoice5Created.data.invoice);
+		expect(result).toMatchObject(testObj);
+	});
 });
+
+// const xpath1 = 'contracts[].invoices[]$add(-1 | 0 | x)';
+// const xpath2 = 'contracts[]._$id(2).invoices[]$add';          <- Not woring yet!
+// const xpath3 = 'contracts[]._$id(2).invoices';                <- Not woring yet!
+// const xpath4 = 'contracts[].invoices[]._$id(2)';
+// Handle $remove(_$id(3))                                       <- Not woring yet!
+// // https://dev.to/phenomnominal/i-need-to-learn-about-typescript-template-literal-types-51po
+
+// type TxPathFilterBuilder<
+// 	Before extends '_$',
+// 	Prop extends string,
+// 	BracketLeft extends '(',
+// 	Value extends string,
+// 	BracketRight extends ')'
+// > = `${Before}${Prop}${BracketLeft}${Value}${BracketRight}`;
+// type TxPathFilter = TxPathFilterBuilder<'_$', string, '(', string, ')'>;
+
+// const ttt: TxPathFilter = '_$id2(2)';
+// console.log(`ttt`, typeof ttt); // String :(
