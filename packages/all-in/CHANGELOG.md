@@ -1,5 +1,11 @@
 # @kitql/all-in
 
+## 0.1.11
+
+### Patch Changes
+
+- f9f12c7: Using simplify store & demo1 update
+
 ## 0.1.10
 
 ### Patch Changes
