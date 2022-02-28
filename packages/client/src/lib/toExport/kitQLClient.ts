@@ -270,28 +270,28 @@ export class KitQLClient {
 					`${logCyan('Operation:')} ${logGreen(operationKey)}`
 			);
 		}
+
+		return nbDeleted;
 	}
 
-	// typing for xPath
-	public storeUpdate<D, V>(
+	public patch<D, V>(
 		operationKey: string,
 		store: RequestResult<D, V>,
 		newData: Object, // To be fragments only?
-		xPath: string | null = null,
-		id: string | number | null = null
+		xPath: string | null = null
 	): RequestResult<D, V> {
 		// remove all from the cache, we will update only the current store
 		// Can be improved later ;) => Updating all cached data (with option? Perf?)
 		this.cacheData.remove(operationKey, null, true);
 
-		let storeDataUpdated = objUpdate(false, store.data, newData, xPath, id);
+		let storeDataUpdated = objUpdate(false, store.data, newData, xPath);
 		const browserAndWantLog = this.logType.includes('client');
 		if (!storeDataUpdated.found) {
 			if (browserAndWantLog) {
 				this.log.info(
-					`${logCyan('StoreUpdate:')} xPath ${logGreen(xPath)}(${logGreen(id + '')}) ` +
+					`${logCyan('StoreUpdate:')} xPath ${logGreen(xPath)} ` +
 						`${logYellow('not found')}, ` +
-						`${logCyan('Store:')} ${logGreen(operationKey + 'Store')}`
+						`${logCyan('Store:')} ${logGreen(operationKey)}`
 				);
 			}
 		} else {
@@ -299,7 +299,7 @@ export class KitQLClient {
 			if (browserAndWantLog) {
 				this.log.info(
 					`${logCyan('StoreUpdate:')} ${logGreen('1')}, ` +
-						`${logCyan('Store:')} ${logGreen(operationKey + 'Store')}`
+						`${logCyan('Store:')} ${logGreen(operationKey)}`
 				);
 			}
 		}
