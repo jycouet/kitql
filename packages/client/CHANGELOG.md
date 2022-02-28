@@ -1,5 +1,11 @@
 # @kitql/client
 
+## 0.2.2
+
+### Patch Changes
+
+- 0f532e1: update dep
+
 ## 0.2.1
 
 ### Patch Changes

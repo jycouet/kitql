@@ -1,5 +1,11 @@
 # @kitql/module-codegen
 
+## 0.1.8
+
+### Patch Changes
+
+- 0f532e1: update dep
+
 ## 0.1.7
 
 ### Patch Changes
