@@ -1,5 +1,11 @@
 # @kitql/client
 
+## 0.2.1
+
+### Patch Changes
+
+- a692114: fix xPath
+
 ## 0.2.0
 
 ### Minor Changes
