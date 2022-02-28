@@ -1,5 +1,12 @@
 # @kitql/all-in
 
+## 0.2.0
+
+### Minor Changes
+
+- a7cebe7: ONE store, custom functions
+- e1cb46e: Using simplify store (0.2.0)
+
 ## 0.1.11
 
 ### Patch Changes
