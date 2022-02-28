@@ -274,7 +274,7 @@ export class KitQLClient {
 		return nbDeleted;
 	}
 
-	public storeUpdate<D, V>(
+	public patch<D, V>(
 		operationKey: string,
 		store: RequestResult<D, V>,
 		newData: Object, // To be fragments only?

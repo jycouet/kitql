@@ -1,9 +1,14 @@
 import { browser } from '$app/env';
-import * as Types from "$lib/graphql/_kitql/graphqlTypes";
-import { defaultStoreValue, RequestStatus, type RequestParameters, type RequestResult } from '@kitql/client';
+import * as Types from '$lib/graphql/_kitql/graphqlTypes';
+import {
+	defaultStoreValue,
+	RequestStatus,
+	type RequestParameters,
+	type RequestResult
+} from '@kitql/client';
 import { get, writable } from 'svelte/store';
 import { kitQLClient } from '../kitQLClient';
- 
+
 function KQL_AllContinentsStore() {
 	// prettier-ignore
 	const { subscribe, set, update } = writable<RequestResult<Types.AllContinentsQuery, Types.AllContinentsQueryVariables>>(defaultStoreValue);
@@ -83,10 +88,10 @@ function KQL_AllContinentsStore() {
 		 */
 		patch(newData: Object, xPath: string | null = null, id: string | number | null = null) {
 			// prettier-ignore
-			const updatedStore = kitQLClient.storeUpdate<Types.AllContinentsQuery, Types.AllContinentsQueryVariables>(cacheKey, get(KQL_AllContinents), newData, xPath, id);
+			const updatedStore = kitQLClient.patch<Types.AllContinentsQuery, Types.AllContinentsQueryVariables>(cacheKey, get(KQL_AllContinents), newData, xPath, id);
 			set(updatedStore);
 			return updatedStore;
-		},
+		}
 	};
 }
 /**
@@ -108,7 +113,9 @@ function KQL_AllCountriesOfContinentStore() {
 		 */
 		query: async (
 			params?: RequestParameters<Types.AllCountriesOfContinentQueryVariables>
-		): Promise<RequestResult<Types.AllCountriesOfContinentQuery, Types.AllCountriesOfContinentQueryVariables>> => {
+		): Promise<
+			RequestResult<Types.AllCountriesOfContinentQuery, Types.AllCountriesOfContinentQueryVariables>
+		> => {
 			let { fetch, variables, settings } = params ?? {};
 			let { cache, policy } = settings ?? {};
 
@@ -173,10 +180,10 @@ function KQL_AllCountriesOfContinentStore() {
 		 */
 		patch(newData: Object, xPath: string | null = null, id: string | number | null = null) {
 			// prettier-ignore
-			const updatedStore = kitQLClient.storeUpdate<Types.AllCountriesOfContinentQuery, Types.AllCountriesOfContinentQueryVariables>(cacheKey, get(KQL_AllCountriesOfContinent), newData, xPath, id);
+			const updatedStore = kitQLClient.patch<Types.AllCountriesOfContinentQuery, Types.AllCountriesOfContinentQueryVariables>(cacheKey, get(KQL_AllCountriesOfContinent), newData, xPath, id);
 			set(updatedStore);
 			return updatedStore;
-		},
+		}
 	};
 }
 /**

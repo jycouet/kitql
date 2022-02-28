@@ -155,7 +155,7 @@ export const plugin: PluginFunction<Record<string, any>, Types.ComplexPluginOutp
 					);
 					lines.push(`			// prettier-ignore`);
 					lines.push(
-						`			const updatedStore = kitQLClient.storeUpdate<${kqltypeQueryAndVariable}>(cacheKey, get(${kqlStore}), newData, xPath, id);`
+						`			const updatedStore = kitQLClient.patch<${kqltypeQueryAndVariable}>(cacheKey, get(${kqlStore}), newData, xPath);`
 					);
 					lines.push(`			set(updatedStore);`);
 					lines.push(`			return updatedStore;`);

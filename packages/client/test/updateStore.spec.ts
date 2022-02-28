@@ -66,7 +66,7 @@ describe('client - UpdateStore', () => {
 		let newData = {
 			hello: 'world'
 		};
-		let result = kitQLClient.storeUpdate('Ope1', store, newData);
+		let result = kitQLClient.patch('Ope1', store, newData);
 		expect(result.data).toMatchInlineSnapshot(`
 			{
 			  "hello": "world",
@@ -82,7 +82,7 @@ describe('client - UpdateStore', () => {
 		// Deep clone for the test
 		let testObj = JSON.parse(JSON.stringify(store));
 		let result = {
-			...kitQLClient.storeUpdate(
+			...kitQLClient.patch(
 				'Ope1',
 				store,
 				invoice3Updated.data.invoice,
@@ -105,7 +105,7 @@ describe('client - UpdateStore', () => {
 		// Deep clone for the test
 		let testObj = JSON.parse(JSON.stringify(store));
 		let result = {
-			...kitQLClient.storeUpdate(
+			...kitQLClient.patch(
 				'Ope1',
 				store,
 				invoice4Updated.data.invoice,
@@ -127,7 +127,7 @@ describe('client - UpdateStore', () => {
 		// Deep clone for the test
 		let testObj = JSON.parse(JSON.stringify(store));
 		let result = {
-			...kitQLClient.storeUpdate('Ope1', store, invoice3Updated.data, 'contracts')
+			...kitQLClient.patch('Ope1', store, invoice3Updated.data, 'contracts')
 		};
 
 		// Manual update to compare for the test
@@ -142,7 +142,7 @@ describe('client - UpdateStore', () => {
 		};
 
 		let result = {
-			...kitQLClient.storeUpdate('Ope1', store, invoice3Updated.data, 'BLABLA')
+			...kitQLClient.patch('Ope1', store, invoice3Updated.data, 'BLABLA')
 		};
 
 		expect(result).toMatchObject(result);
@@ -156,7 +156,7 @@ describe('client - UpdateStore', () => {
 		// Deep clone for the test
 		let testObj = JSON.parse(JSON.stringify(store));
 		let result = {
-			...kitQLClient.storeUpdate('Ope1', store, invoice4Updated.data.invoice, 'test.id')
+			...kitQLClient.patch('Ope1', store, invoice4Updated.data.invoice, 'test.id')
 		};
 
 		// Manual update to compare for the test
@@ -173,7 +173,7 @@ describe('client - UpdateStore', () => {
 		// Deep clone for the test
 		let testObj = JSON.parse(JSON.stringify(store));
 		let result = {
-			...kitQLClient.storeUpdate(
+			...kitQLClient.patch(
 				'Ope1',
 				store,
 				invoice5Created.data.invoice,
