@@ -16,7 +16,7 @@ const config = {
 				watchAndRun([
 					{
 						watch: '**/*.(gql|graphql)',
-						run: 'yarn gen'
+						run: 'npm run gen'
 					}
 				])
 			]
