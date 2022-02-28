@@ -83,7 +83,7 @@ yarn dev
 ## ✨ Contributors
 
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
-[![All Contributors](https://img.shields.io/badge/all_contributors-5-orange.svg)](#contributors)
+[![All Contributors](https://img.shields.io/badge/all_contributors-6-orange.svg)](#contributors)
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 
 Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/docs/en/emoji-key)):
@@ -98,6 +98,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
     <td align="center"><a href="https://github.com/richarddavenport"><img src="https://avatars.githubusercontent.com/u/3596012?v=4" width="70px;" alt=""/><br /><sub><b>Richard Davenport</b></sub></a></td>
     <td align="center"><a href="https://github.com/cya"><img src="https://avatars.githubusercontent.com/u/795915?v=4" width="70px;" alt=""/><br /><sub><b>Yuriy Chertkov</b></sub></a></td>
     <td align="center"><a href="https://github.com/frederikhors"><img src="https://avatars.githubusercontent.com/u/41120635?v=4" width="70px;" alt=""/><br /><sub><b>frederikhors</b></sub></a></td>
+    <td align="center"><a href="https://scottspence.com"><img src="https://avatars.githubusercontent.com/u/234708?v=4" width="70px;" alt=""/><br /><sub><b>Scott Spence</b></sub></a></td>
   </tr>
 </table>
 
