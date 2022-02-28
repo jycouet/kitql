@@ -20,7 +20,9 @@
 		"@kitql/helper": "0.1.5",
 		"yaml": "1.10.2"
 	},
-	"peerDependencies": {},
+	"peerDependencies": {
+		"graphql": "^15.0.0 || ^16.0.0"
+	},
 	"main": "dist/index.js",
 	"module": "dist/index.mjs",
 	"exports": {
