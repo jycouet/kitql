@@ -88,7 +88,7 @@ function KQL_AllContinentsStore() {
 		 */
 		patch(newData: Object, xPath: string | null = null, id: string | number | null = null) {
 			// prettier-ignore
-			const updatedStore = kitQLClient.patch<Types.AllContinentsQuery, Types.AllContinentsQueryVariables>(cacheKey, get(KQL_AllContinents), newData, xPath, id);
+			const updatedStore = kitQLClient.patch<Types.AllContinentsQuery, Types.AllContinentsQueryVariables>(cacheKey, get(KQL_AllContinents), newData, xPath);
 			set(updatedStore);
 			return updatedStore;
 		}
@@ -180,7 +180,7 @@ function KQL_AllCountriesOfContinentStore() {
 		 */
 		patch(newData: Object, xPath: string | null = null, id: string | number | null = null) {
 			// prettier-ignore
-			const updatedStore = kitQLClient.patch<Types.AllCountriesOfContinentQuery, Types.AllCountriesOfContinentQueryVariables>(cacheKey, get(KQL_AllCountriesOfContinent), newData, xPath, id);
+			const updatedStore = kitQLClient.patch<Types.AllCountriesOfContinentQuery, Types.AllCountriesOfContinentQueryVariables>(cacheKey, get(KQL_AllCountriesOfContinent), newData, xPath);
 			set(updatedStore);
 			return updatedStore;
 		}
