@@ -1,5 +1,11 @@
 # @kitql/module-codegen
 
+## 0.1.7
+
+### Patch Changes
+
+- a692114: fix xPath
+
 ## 0.1.6
 
 ### Patch Changes
