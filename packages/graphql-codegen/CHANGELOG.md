@@ -1,5 +1,11 @@
 # @kitql/graphql-codegen
 
+## 0.2.0
+
+### Minor Changes
+
+- 913aca2: Reduce number of imports by have ONE store and custom functions inside
+
 ## 0.1.6
 
 ### Patch Changes
