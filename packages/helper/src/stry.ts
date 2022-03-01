@@ -21,7 +21,10 @@ function sortObject(object: Object) {
 	return sortedObj;
 }
 
-export function stry(unordered: Object, space: number = 2) {
+export function stry(unordered: Object | null, space: number = 2): string | null {
+	if (unordered === null) {
+		return null;
+	}
 	const ordered = sortObject(unordered);
 	return JSON.stringify(ordered, null, space);
 }
