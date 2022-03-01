@@ -1,4 +1,4 @@
-import { stringify } from 'safe-stable-stringify';
+import { stry } from '@kitql/helper';
 import type { ResponseResult } from './kitQLClient';
 
 // Next step: IndexedDB?
@@ -18,7 +18,7 @@ export class CacheData {
 	private cacheData = {};
 
 	set(operationKey: string, data: ResponseResult<any, any>) {
-		const v = stringify(data.variables);
+		const v = stry(data.variables, 0);
 		const fullKey = JSON.stringify({ k: operationKey, v });
 
 		// Indexes
@@ -36,8 +36,8 @@ export class CacheData {
 
 	get(operationKey: string, variables: {} | null = null): ResponseResult<any, any> {
 		//Data
-		const v = stringify(variables);
-		const fullKey = stringify({ k: operationKey, v });
+		const v = stry(variables, 0);
+		const fullKey = stry({ k: operationKey, v }, 0);
 		return this.cacheData[fullKey];
 	}
 
@@ -48,14 +48,14 @@ export class CacheData {
 				const keys = this.cacheIndexes[operationKey] as any[];
 				for (let i = 0; i < keys.length; i++) {
 					const v = keys[i];
-					const fullKey = stringify({ k: operationKey, v });
+					const fullKey = stry({ k: operationKey, v }, 0);
 					delete this.cacheData[fullKey];
 					nbDeleted++;
 				}
 				delete this.cacheIndexes[operationKey];
 			} else {
-				const v = stringify(variables);
-				const fullKey = stringify({ k: operationKey, v });
+				const v = stry(variables, 0);
+				const fullKey = stry({ k: operationKey, v }, 0);
 				if (this.cacheData[fullKey] !== undefined) {
 					delete this.cacheData[fullKey];
 					this.cacheIndexes[operationKey] = this.cacheIndexes[operationKey].filter((c) => c !== v);

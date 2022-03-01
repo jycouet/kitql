@@ -2156,18 +2156,6 @@
     parse-filepath "^1.0.2"
     tslib "~2.3.0"
 
-"@graphql-codegen/plugin-helpers@2.4.1", "@graphql-codegen/plugin-helpers@^2.4.1":
-  version "2.4.1"
-  resolved "https://registry.yarnpkg.com/@graphql-codegen/plugin-helpers/-/plugin-helpers-2.4.1.tgz#433845a89b0b4b3a2a0e959e0a2cfe444cf7aeac"
-  integrity sha512-OPMma7aUnES3Dh+M0BfiNBnJLmYuH60EnbULAhufxFDn/Y2OA0Ht/LQok9beX6VN4ASZEMCOAGItJezGJr5DJw==
-  dependencies:
-    "@graphql-tools/utils" "^8.5.2"
-    change-case-all "1.0.14"
-    common-tags "1.8.2"
-    import-from "4.0.0"
-    lodash "~4.17.0"
-    tslib "~2.3.0"
-
 "@graphql-codegen/plugin-helpers@2.4.2":
   version "2.4.2"
   resolved "https://registry.yarnpkg.com/@graphql-codegen/plugin-helpers/-/plugin-helpers-2.4.2.tgz#e4f6b74dddcf8a9974fef5ce48562ae0980f9fed"
@@ -2184,6 +2172,18 @@
   version "2.4.0"
   resolved "https://registry.yarnpkg.com/@graphql-codegen/plugin-helpers/-/plugin-helpers-2.4.0.tgz#f0dd8f63c2eb9af253586bd93d2492b576aa4a97"
   integrity sha512-bQ2EwVU34wkTrWM4/LbXS4t+ROYFM3qzwrRX6aFNYwAPho/fubryBHmNuUTh4evACFMx1ymQ6QLnvOUAoXYZSQ==
+  dependencies:
+    "@graphql-tools/utils" "^8.5.2"
+    change-case-all "1.0.14"
+    common-tags "1.8.2"
+    import-from "4.0.0"
+    lodash "~4.17.0"
+    tslib "~2.3.0"
+
+"@graphql-codegen/plugin-helpers@^2.4.1":
+  version "2.4.1"
+  resolved "https://registry.yarnpkg.com/@graphql-codegen/plugin-helpers/-/plugin-helpers-2.4.1.tgz#433845a89b0b4b3a2a0e959e0a2cfe444cf7aeac"
+  integrity sha512-OPMma7aUnES3Dh+M0BfiNBnJLmYuH60EnbULAhufxFDn/Y2OA0Ht/LQok9beX6VN4ASZEMCOAGItJezGJr5DJw==
   dependencies:
     "@graphql-tools/utils" "^8.5.2"
     change-case-all "1.0.14"
@@ -2612,33 +2612,6 @@
   dependencies:
     "@jridgewell/resolve-uri" "^3.0.3"
     sourcemap-codec "1.4.8"
-
-"@kitql/client@0.2.1":
-  version "0.2.1"
-  resolved "https://registry.yarnpkg.com/@kitql/client/-/client-0.2.1.tgz#613513c580f6ae8854439d32a1a0dfb50e5b7bd9"
-  integrity sha512-m0AEmvS/vlWihKKUFp7a2S7xyWWnh1ySkCnHd7N7cqx0Q26zc8SyzQEKIQA9/CjxBbe44ydnajrjkK91Lvp1Lw==
-  dependencies:
-    "@kitql/helper" "0.1.5"
-    graphql "16.3.0"
-    safe-stable-stringify "2.3.1"
-
-"@kitql/graphql-codegen@0.2.1":
-  version "0.2.1"
-  resolved "https://registry.yarnpkg.com/@kitql/graphql-codegen/-/graphql-codegen-0.2.1.tgz#ea187316a1946d59ec45965f7be2d7fc95c728a9"
-  integrity sha512-DocleSOi9Rsi4ADNH58mJcZEagOc09f4uEtqymqik+KzzwEp462F4zJmGy0Lw3H/5ZiaY/mm/lNZVpaogG9z4Q==
-  dependencies:
-    "@graphql-codegen/plugin-helpers" "2.4.1"
-    "@graphql-codegen/visitor-plugin-common" "2.7.1"
-    auto-bind "5.0.1"
-    change-case-all "1.0.14"
-
-"@kitql/module-codegen@0.1.7":
-  version "0.1.7"
-  resolved "https://registry.yarnpkg.com/@kitql/module-codegen/-/module-codegen-0.1.7.tgz#9cf0b82b084f880538f01cb1e42513b8a2008285"
-  integrity sha512-bGrrYIzaYh4yNkgti6QM71ohldRL27rqn4m+P4zxVBigxC72Vj6OPSoK+uei4iOV+vgJ4G5e3OddGgWAKpfbIw==
-  dependencies:
-    "@kitql/helper" "0.1.5"
-    yaml "1.10.2"
 
 "@manypkg/find-root@^1.1.0":
   version "1.1.0"
@@ -9002,11 +8975,6 @@ safe-buffer@~5.1.1:
   version "5.1.2"
   resolved "https://registry.yarnpkg.com/safe-buffer/-/safe-buffer-5.1.2.tgz#991ec69d296e0313747d59bdfd2b745c35f8828d"
   integrity sha512-Gd2UZBJDkXlY7GbJxfsE8/nvKkUEU1G38c1siN6QP6a9PT9MmHB8GnpscSmMJSoF8LOIrt8ud/wPtojys4G6+g==
-
-safe-stable-stringify@2.3.1:
-  version "2.3.1"
-  resolved "https://registry.yarnpkg.com/safe-stable-stringify/-/safe-stable-stringify-2.3.1.tgz#ab67cbe1fe7d40603ca641c5e765cb942d04fc73"
-  integrity sha512-kYBSfT+troD9cDA85VDnHZ1rpHC50O0g1e6WlGHVCz/g+JS+9WKLj+XwFYyR8UbrZN8ll9HUpDAAddY58MGisg==
 
 "safer-buffer@>= 2.1.2 < 3":
   version "2.1.2"

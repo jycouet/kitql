@@ -1,6 +1,6 @@
 import { Log, logCyan, logGreen, logYellow } from '@kitql/helper';
 import { print } from 'graphql';
-import { stringify } from 'safe-stable-stringify';
+import { stry } from '@kitql/helper';
 import { CacheData } from './CacheData';
 import { objUpdate } from './objUpdate';
 
@@ -162,7 +162,7 @@ export class KitQLClient {
 				// cache time of the query or of the default config
 				if (xMs < (cache ?? this.defaultCache)) {
 					if (logStatements.logOpVar) {
-						this.logOperation(RequestFrom.CACHE, cacheKey, stringify(variables));
+						this.logOperation(RequestFrom.CACHE, cacheKey, stry(variables, 0));
 					} else if (logStatements.logOp) {
 						this.logOperation(RequestFrom.CACHE, cacheKey);
 					}
@@ -220,7 +220,7 @@ export class KitQLClient {
 				dataToReturn.from = RequestFrom.SSR;
 			}
 			if (logStatements.logOpVar) {
-				this.logOperation(dataToReturn.from, cacheKey, stringify(variables));
+				this.logOperation(dataToReturn.from, cacheKey, stry(variables, 0));
 			} else if (logStatements.logOp) {
 				this.logOperation(dataToReturn.from, cacheKey);
 			}
@@ -237,7 +237,7 @@ export class KitQLClient {
 			let dataJson = await res.json();
 
 			if (logStatements.logRawResult) {
-				this.log.info(`${logCyan('dataJson:')} ` + `${stringify(dataJson)}`);
+				this.log.info(`${logCyan('dataJson:')} ` + `${stry(dataJson, 0)}`);
 			}
 			if (dataJson.errors) {
 				dataToReturn.errors = dataJson.errors;
