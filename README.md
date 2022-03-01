@@ -6,6 +6,10 @@
   <img src="./logo.svg" width="100" />
 </p>
 
+![svelte](https://img.shields.io/badge/powered%20by-SvelteKit-FF3C02.svg?style=flat&logo=svelte)
+![graphql](https://img.shields.io/badge/powered%20by-GraphQL-E10098.svg?style=flat&logo=graphql&logoColor=E10098)
+![ts](https://img.shields.io/badge/language-typescript-blue.svg?style=flat&logo=typescript)
+
 ## 🌐 Infos
 
 - Day by day progress, check [twitter - jycouet](https://twitter.com/jycouet/status/1486052645567672324)
@@ -83,7 +87,9 @@ yarn dev
 ## ✨ Contributors
 
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
+
 [![All Contributors](https://img.shields.io/badge/all_contributors-6-orange.svg)](#contributors)
+
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 
 Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/docs/en/emoji-key)):
