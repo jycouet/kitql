@@ -24,5 +24,14 @@ projects:
             config:
               importBaseTypesFrom: $lib/graphql/_kitql/graphqlTypes
 
+          # # Almost ready for REPL.
+          # # Just need to remove: TypedDocumentNode
+          # ./src/lib/graphql/_kitql/graphqlStores.js.ts:
+          #   plugins:
+          #     - typed-document-node
+          #     - '@kitql/graphql-codegen'
+          #   config:
+          #     jsDocStyle: true
+
         config:
           useTypeImports: true

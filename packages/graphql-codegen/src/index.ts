@@ -29,6 +29,9 @@ export const plugin: PluginFunction<Record<string, any>, Types.ComplexPluginOutp
 	const convertName = convertFactory(config);
 	const operationResultSuffix = getConfigValue(config.operationResultSuffix, '');
 	const operationPrefix = getConfigValue(config.operationPrefix, 'KQL_');
+	const jsDocStyle: boolean = getConfigValue(config.jsDocStyle, false);
+	// ${jsDocStyle ? `` : ``}
+	const clientPath = getConfigValue(config.clientPath, '../kitQLClient');
 
 	const prefixImportBaseTypesFrom = config.importBaseTypesFrom ? 'Types.' : '';
 
@@ -59,7 +62,9 @@ export const plugin: PluginFunction<Record<string, any>, Types.ComplexPluginOutp
 				lines.push(`function ${kqlStoreInternal}() {`);
 				lines.push(`	// prettier-ignore`);
 				lines.push(
-					`	const { subscribe, set, update } = writable<RequestResult<${kqltypeQueryAndVariable}>>(defaultStoreValue);`
+					`	const { subscribe, set, update } = writable${
+						jsDocStyle ? `` : `<RequestResult<${kqltypeQueryAndVariable}>>`
+					}(defaultStoreValue);`
 				);
 				lines.push(``);
 				lines.push(`	const cacheKey = '${kqlStore}';`);
@@ -73,8 +78,10 @@ export const plugin: PluginFunction<Record<string, any>, Types.ComplexPluginOutp
 				lines.push(`		 * @returns the latest operation and fill this store`);
 				lines.push(`		 */`);
 				lines.push(`		${fnKeyword}: async (`);
-				lines.push(`			params?: RequestParameters<${kqltypeVariable}>`);
-				lines.push(`		): Promise<RequestResult<${kqltypeQueryAndVariable}>> => {`);
+				lines.push(`			params${jsDocStyle ? `` : `?: RequestParameters<${kqltypeVariable}>`}`);
+				lines.push(
+					`		)${jsDocStyle ? `` : `: Promise<RequestResult<${kqltypeQueryAndVariable}>>`} => {`
+				);
 				lines.push(`			let { fetch, variables, settings } = params ?? {};`);
 				lines.push(`			let { cache, policy } = settings ?? {};`);
 				lines.push(``);
@@ -85,11 +92,12 @@ export const plugin: PluginFunction<Record<string, any>, Types.ComplexPluginOutp
 				lines.push(
 					`			// Cache only in the browser for now. In SSR, we will need session identif to not mix peoples data`
 				);
-				lines.push(`			if (browser) {`);
+				lines.push(`			if (${jsDocStyle ? `true` : `browser`}) {`);
 				lines.push(`				if (policy !== 'network-only') {`);
 				lines.push(`					// prettier-ignore`);
-				lines.push(`					const cachedData = kitQLClient.requestCache<${kqltypeQueryAndVariable}>({`);
-				lines.push(`						variables, cacheKey, cache,	browser`);
+				// prettier-ignore
+				lines.push(`					const cachedData = kitQLClient.requestCache${jsDocStyle ? `` : `<${kqltypeQueryAndVariable}>`}({`);
+				lines.push(`						variables, cacheKey, cache,	${jsDocStyle ? `browser: true` : `browser`}`);
 				lines.push(`					});`);
 				lines.push(`					if (cachedData) {`);
 				lines.push(
@@ -114,12 +122,16 @@ export const plugin: PluginFunction<Record<string, any>, Types.ComplexPluginOutp
 				lines.push(`			});`);
 				lines.push(``);
 				lines.push(`			// prettier-ignore`);
-				lines.push(`			const res = await kitQLClient.request<${kqltypeQueryAndVariable}>({`);
+				lines.push(
+					`			const res = await kitQLClient.request${
+						jsDocStyle ? `` : `<${kqltypeQueryAndVariable}>`
+					}({`
+				);
 				lines.push(`				skFetch: fetch,`);
 				lines.push(`				document: ${kqltypeDocument},`);
 				lines.push(`				variables, `);
 				lines.push(`				cacheKey, `);
-				lines.push(`				browser`);
+				lines.push(`				${jsDocStyle ? `browser: true` : `browser`}`);
 				lines.push(`			});`);
 				lines.push(
 					`			const result = { ...res, isFetching: false, status: RequestStatus.DONE, variables };`
@@ -134,9 +146,9 @@ export const plugin: PluginFunction<Record<string, any>, Types.ComplexPluginOutp
 					lines.push(`		 * Reset Cache`);
 					lines.push(`		 */`);
 					lines.push(`		resetCache(`);
-					lines.push(`			variables: ${kqltypeVariable} | null = null,`);
-					lines.push(`			allOperationKey: boolean = true,`);
-					lines.push(`			withResetStore: boolean = true`);
+					lines.push(`			variables${jsDocStyle ? `` : `: ${kqltypeVariable} | null = null`},`);
+					lines.push(`			allOperationKey${jsDocStyle ? `` : `: boolean = true`},`);
+					lines.push(`			withResetStore${jsDocStyle ? `` : `: boolean = true`}`);
 					lines.push(`		) {`);
 					lines.push(`			kitQLClient.cacheRemove(cacheKey, { variables, allOperationKey });`);
 					lines.push(`			if (withResetStore) {`);
@@ -150,14 +162,19 @@ export const plugin: PluginFunction<Record<string, any>, Types.ComplexPluginOutp
 					lines.push(`		/**`);
 					lines.push(`		 * Patch the store with a new object at the dedicated xPath location`);
 					lines.push(`		 */`);
-					lines.push(`		patch(newData: Object, xPath: string | null = null) {`);
-					lines.push(`			// prettier-ignore`);
 					lines.push(
-						`			const updatedStore = kitQLClient.patch<${kqltypeQueryAndVariable}>(cacheKey, get(${kqlStore}), newData, xPath);`
+						`		patch(newData${jsDocStyle ? `` : `: Object`}, xPath${
+							jsDocStyle ? `` : `: string | null = null`
+						}) {`
+					);
+					lines.push(`			// prettier-ignore`);
+					// prettier-ignore
+					lines.push(
+						`			const updatedStore = kitQLClient.patch${jsDocStyle ? `` : `<${kqltypeQueryAndVariable}>`}(cacheKey, get(${kqlStore}), newData, xPath);`
 					);
 					lines.push(`			set(updatedStore);`);
 					lines.push(`			return updatedStore;`);
-					lines.push(`		},`);
+					lines.push(`		}`);
 				}
 
 				lines.push(`	};`);
@@ -176,15 +193,18 @@ export const plugin: PluginFunction<Record<string, any>, Types.ComplexPluginOutp
 		.filter(Boolean);
 
 	let prepend = [];
-	prepend.push(`import { browser } from '$app/env';`);
+	if (!jsDocStyle) {
+		prepend.push(`import { browser } from '$app/env';`);
+	}
 	if (config.importBaseTypesFrom) {
-		prepend.push(`import * as Types from "${config.importBaseTypesFrom}";`);
+		prepend.push(`import * as Types from '${config.importBaseTypesFrom}';`);
 	}
 	prepend.push(
-		`import { defaultStoreValue, RequestStatus, type RequestParameters, type RequestResult } from '@kitql/client';`
+		`import { defaultStoreValue, RequestStatus` +
+			`${jsDocStyle ? `` : `, type RequestParameters, type RequestResult`} } from '@kitql/client';`
 	);
 	prepend.push(`import { get, writable } from 'svelte/store';`);
-	prepend.push(`import { kitQLClient } from '../kitQLClient';`);
+	prepend.push(`import { kitQLClient } from '${clientPath}';`);
 
 	// To separate prepend & Content
 	prepend.push(' ');

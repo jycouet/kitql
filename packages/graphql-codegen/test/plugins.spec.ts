@@ -31,6 +31,15 @@ describe('graphql-codegen', () => {
 		);
 	});
 
+	it('Should import from @kitql/client WO Types', async () => {
+		const result = (await plugin(null as any, operations, {
+			jsDocStyle: true
+		})) as Types.ComplexPluginOutput;
+		expect(result.prepend).toContain(
+			`import { defaultStoreValue, RequestStatus } from '@kitql/client';`
+		);
+	});
+
 	it('Should look for the instance of kitQLClient', async () => {
 		const result = (await plugin(null as any, operations, {})) as Types.ComplexPluginOutput;
 		expect(result.prepend).toContain(`import { kitQLClient } from '../kitQLClient';`);
