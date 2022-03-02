@@ -69,4 +69,26 @@ describe('kitql - helper - stry', () => {
 			}"
 		`);
 	});
+
+	it('obj null', async () => {
+		let obj = null;
+		let result = stry(obj);
+		expect(result).toMatchInlineSnapshot('null');
+	});
+
+	it('obj undefined', async () => {
+		let obj = undefined;
+		let result = stry(obj);
+		expect(result).toMatchInlineSnapshot('undefined');
+	});
+
+	it('obj will null', async () => {
+		let obj = { a: null };
+		let result = stry(obj);
+		expect(result).toMatchInlineSnapshot(`
+			"{
+			  \\"a\\": null
+			}"
+		`);
+	});
 });

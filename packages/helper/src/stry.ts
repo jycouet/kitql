@@ -11,7 +11,7 @@ function sortObject(object: Object) {
 
 	for (var index in keys) {
 		var key = keys[index];
-		if (typeof object[key] == 'object' && !(object[key] instanceof Array)) {
+		if (typeof object[key] == 'object' && !(object[key] instanceof Array) && object[key]) {
 			sortedObj[key] = sortObject(object[key]);
 		} else {
 			sortedObj[key] = object[key];
@@ -21,10 +21,12 @@ function sortObject(object: Object) {
 	return sortedObj;
 }
 
-export function stry(unordered: Object | null, space: number = 2): string | null {
-	if (unordered === null) {
+export function stry(obj: Object | null | undefined, space: number = 2): string | null | undefined {
+	if (obj === null) {
 		return null;
+	} else if (obj === undefined) {
+		return undefined;
 	}
-	const ordered = sortObject(unordered);
+	const ordered = sortObject(obj);
 	return JSON.stringify(ordered, null, space);
 }

@@ -1,6 +1,6 @@
 <script context="module" lang="ts">
-	import Continent from '$lib/components/Continent.svelte';
 	import Continents from '$lib/components/Continents.svelte';
+	import Countries from '$lib/components/Countries.svelte';
 	import {
 		KQL_AllContinents,
 		KQL_AllCountriesOfContinent
@@ -30,7 +30,7 @@
 
 <div class="grid">
 	<Continents />
-	<Continent />
+	<Countries />
 </div>
 
 <style>

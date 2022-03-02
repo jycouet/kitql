@@ -61,7 +61,7 @@ describe('graphql-codegen', () => {
 			importBaseTypesFrom: '$graphql/_gen/graphqlTypes'
 		})) as Types.ComplexPluginOutput;
 
-		expect(result.prepend).toContain(`import * as Types from "$graphql/_gen/graphqlTypes";`);
+		expect(result.prepend).toContain(`import * as Types from '$graphql/_gen/graphqlTypes';`);
 
 		expect(result.content).toContain(
 			'writable<RequestResult<Types.DoSomethingMutation, Types.DoSomethingMutationVariables>>'

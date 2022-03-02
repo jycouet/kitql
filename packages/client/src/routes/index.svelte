@@ -35,7 +35,7 @@
 
 <div class="grid">
 	<Continents />
-	<!-- <Continent /> -->
+	<!-- <Countries /> -->
 </div>
 
 <style>
