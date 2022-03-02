@@ -1,5 +1,14 @@
 # @kitql/module-codegen
 
+## 0.1.9
+
+### Patch Changes
+
+- Updated dependencies [76831f7]
+- Updated dependencies [b2abf8d]
+- Updated dependencies [35025cd]
+  - @kitql/helper@0.1.6
+
 ## 0.1.8
 
 ### Patch Changes

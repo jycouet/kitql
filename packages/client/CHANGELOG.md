@@ -1,5 +1,17 @@
 # @kitql/client
 
+## 0.2.3
+
+### Patch Changes
+
+- 76831f7: helper with simple stry
+- b2abf8d: using simple stringify
+- 80c521f: add options for jsDoc type of gen! (experiment!)
+- Updated dependencies [76831f7]
+- Updated dependencies [b2abf8d]
+- Updated dependencies [35025cd]
+  - @kitql/helper@0.1.6
+
 ## 0.2.2
 
 ### Patch Changes

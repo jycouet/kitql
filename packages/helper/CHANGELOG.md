@@ -1,5 +1,13 @@
 # @kitql/helper
 
+## 0.1.6
+
+### Patch Changes
+
+- 76831f7: helper with simple stry
+- b2abf8d: using simple stringify
+- 35025cd: fix null obj
+
 ## 0.1.5
 
 ### Patch Changes
