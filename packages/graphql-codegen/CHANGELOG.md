@@ -1,5 +1,12 @@
 # @kitql/graphql-codegen
 
+## 0.2.3
+
+### Patch Changes
+
+- 76831f7: helper with simple stry
+- 80c521f: add options for jsDoc type of gen! (experiment!)
+
 ## 0.2.2
 
 ### Patch Changes
