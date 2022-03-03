@@ -1,6 +1,7 @@
-import { Log, logCyan, logGreen, logYellow } from '@kitql/helper';
-import { print } from 'graphql';
-import { stry } from '@kitql/helper';
+import { Log, logCyan, logGreen, logYellow, stry } from '@kitql/helper';
+//import { print } from 'graphql';
+//https://github.com/graphql/graphql-js/pull/3501
+import { print } from 'graphql-web-lite';
 import { CacheData } from './CacheData';
 import { objUpdate } from './objUpdate';
 
