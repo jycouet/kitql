@@ -1,5 +1,11 @@
 # @kitql/client
 
+## 0.2.4
+
+### Patch Changes
+
+- 54dabcb: using pint from graphql-web-lite to run in the browser
+
 ## 0.2.3
 
 ### Patch Changes
