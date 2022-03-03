@@ -1,4 +1,4 @@
-import { Log, logCyan, logGreen, logYellow, stry } from '@kitql/helper';
+import { Log, logCyan, logGreen, logRed, logYellow, stry } from '@kitql/helper';
 //import { print } from 'graphql';
 //https://github.com/graphql/graphql-js/pull/3501
 import { print } from 'graphql-web-lite';
@@ -190,8 +190,21 @@ export class KitQLClient {
 		if (!browser && !skFetch) {
 			this.log.error(
 				`I think that either:` +
-					`\n\t\t1/ you forgot to provide \`fetch\`! As we are in SSR & include here. > ${cacheKey}({ fetch: ??? })` +
-					`\n\t\t2/ you should run this in a browser only.`
+					`\n\t${logRed(`1/`)} you forgot to provide \`${logYellow(
+						`fetch`
+					)}\`! As we are in SSR & include here. ` +
+					`\n\t   It should be something like:` +
+					`\n` +
+					`\n\t<script context="module" lang="ts">` +
+					`\n\t  export async function load({ ${logYellow(`fetch`)} }) {` +
+					`\n\t    await ${logCyan(cacheKey)}.query({ ${logYellow(
+						`fetch`
+					)}, variables: { ... } });` +
+					`\n\t    return {};` +
+					`\n\t  }` +
+					`\n\t</script>` +
+					`\n` +
+					`\n\t${logRed(`2/`)} you should run this in a browser only.`
 			);
 		}
 		const fetchToUse = skFetch ? skFetch : fetch;
