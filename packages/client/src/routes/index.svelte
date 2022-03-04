@@ -1,5 +1,7 @@
 <script context="module" lang="ts">
 	import Continents from '$lib/components/Continents.svelte';
+	import Countries from '$lib/components/Countries.svelte';
+
 	import {
 		KQL_AllContinents,
 		KQL_AllCountriesOfContinent
@@ -35,7 +37,7 @@
 
 <div class="grid">
 	<Continents />
-	<!-- <Countries /> -->
+	<Countries />
 </div>
 
 <style>
@@ -46,6 +48,7 @@
 		display: grid;
 		grid-template-columns: 1fr 1fr;
 		grid-gap: 1rem;
+		overflow: hidden;
 	}
 
 	.vAlign {
