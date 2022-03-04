@@ -1,4 +1,5 @@
 import { stry } from '@kitql/helper';
+import type { CacheData } from './Interfaces';
 import type { ResponseResult } from './kitQLClient';
 
 // Next step: IndexedDB?
@@ -13,7 +14,7 @@ import type { ResponseResult } from './kitQLClient';
  * (KEY1 : VAR3) : DATA3
  */
 
-export class CacheData {
+export class InMemoryCache implements CacheData {
 	private cacheIndexes = {};
 	private cacheData = {};
 

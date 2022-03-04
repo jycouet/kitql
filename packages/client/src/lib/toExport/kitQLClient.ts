@@ -2,7 +2,8 @@ import { Log, logCyan, logGreen, logYellow, stry } from '@kitql/helper';
 //import { print } from 'graphql';
 //https://github.com/graphql/graphql-js/pull/3501
 import { print } from 'graphql-web-lite';
-import { CacheData } from './CacheData';
+import { InMemoryCache } from './InMemoryCache';
+import type { CacheData } from './Interfaces';
 import { objUpdate } from './objUpdate';
 
 export type ClientSettings = {
@@ -29,13 +30,18 @@ export type ClientSettings = {
 	 */
 	credentials?: 'omit' | 'same-origin' | 'include';
 	/**
-	 * Default to `/graphql+json`. But if your server is a bit legacy, you can go back to `/json`
+	 * @Default to `/graphql+json`. But if your server is a bit legacy, you can go back to `/json`
 	 */
 	headersContentType?: 'application/graphql+json' | 'application/json';
 	/**
 	 * @Default [] That means no logs!.
 	 */
 	logType?: ('server' | 'client' | 'operation' | 'operationAndvariables' | 'rawResult')[];
+	/**
+	 * @Default InMemory that mean a cache in a variable
+	 * @description You can provide any implementation of the CacheData interface, it can store the cache in any place
+	 */
+	cacheImplementation?: CacheData
 };
 
 export type RequestSettings = {
@@ -102,8 +108,8 @@ export class KitQLClient {
 	private credentials: 'omit' | 'same-origin' | 'include';
 	private headersContentType: 'application/graphql+json' | 'application/json';
 	private logType: ('server' | 'client' | 'operation' | 'operationAndvariables' | 'rawResult')[];
+	private cacheData: CacheData
 
-	private cacheData: CacheData;
 	private log: Log;
 
 	constructor(options: ClientSettings) {
@@ -116,7 +122,7 @@ export class KitQLClient {
 		this.headersContentType = options.headersContentType ?? 'application/graphql+json';
 		this.logType = options.logType ?? [];
 		this.log = new Log('KitQL Client');
-		this.cacheData = new CacheData();
+		this.cacheData = options.cacheImplementation ?? new InMemoryCache()
 	}
 
 	private logOperation(from: RequestFrom, operation: string, variables: string | null = null) {
@@ -124,8 +130,8 @@ export class KitQLClient {
 			// `${logCyan('Mode:')} ` +
 			// 	`${logGreen(browser ? 'browser' : 'server')}, ` +
 			`${logCyan('From:')} ${logGreen(from)}, ${new Array(7 - from.length + 1).join(' ')}` +
-				`${logCyan('Operation:')} ${logGreen(operation)}` +
-				`${variables ? `, ${logCyan('Variables:')} ${logGreen(variables)}` : ``}`
+			`${logCyan('Operation:')} ${logGreen(operation)}` +
+			`${variables ? `, ${logCyan('Variables:')} ${logGreen(variables)}` : ``}`
 		);
 	}
 
@@ -190,8 +196,8 @@ export class KitQLClient {
 		if (!browser && !skFetch) {
 			this.log.error(
 				`I think that either:` +
-					`\n\t\t1/ you forgot to provide \`fetch\`! As we are in SSR & include here. > ${cacheKey}({ fetch: ??? })` +
-					`\n\t\t2/ you should run this in a browser only.`
+				`\n\t\t1/ you forgot to provide \`fetch\`! As we are in SSR & include here. > ${cacheKey}({ fetch: ??? })` +
+				`\n\t\t2/ you should run this in a browser only.`
 			);
 		}
 		const fetchToUse = skFetch ? skFetch : fetch;
@@ -268,7 +274,7 @@ export class KitQLClient {
 		if (browserAndWantLog) {
 			this.log.info(
 				`${logCyan('ResetCache:')} ${logGreen(nbDeleted.toString())}, ` +
-					`${logCyan('Operation:')} ${logGreen(operationKey)}`
+				`${logCyan('Operation:')} ${logGreen(operationKey)}`
 			);
 		}
 
@@ -291,8 +297,8 @@ export class KitQLClient {
 			if (browserAndWantLog) {
 				this.log.info(
 					`${logCyan('StoreUpdate:')} xPath ${logGreen(xPath)} ` +
-						`${logYellow('not found')}, ` +
-						`${logCyan('Store:')} ${logGreen(operationKey)}`
+					`${logYellow('not found')}, ` +
+					`${logCyan('Store:')} ${logGreen(operationKey)}`
 				);
 			}
 		} else {
@@ -300,7 +306,7 @@ export class KitQLClient {
 			if (browserAndWantLog) {
 				this.log.info(
 					`${logCyan('StoreUpdate:')} ${logGreen('1')}, ` +
-						`${logCyan('Store:')} ${logGreen(operationKey)}`
+					`${logCyan('Store:')} ${logGreen(operationKey)}`
 				);
 			}
 		}

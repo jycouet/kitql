@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { CacheData } from '../src/lib/toExport/CacheData';
+import { InMemoryCache } from '../src/lib/toExport/InMemoryCache';
 import { RequestFrom, RequestStatus, RequestResult } from '../src/lib/toExport/kitQLClient';
 
 const defaultStoreValue: RequestResult<any, any> = {
@@ -15,7 +15,7 @@ const defaultStoreValue: RequestResult<any, any> = {
 
 describe('client - Cache Data', () => {
 	it('Should set and get data', async () => {
-		let cacheData = new CacheData();
+		let cacheData = new InMemoryCache();
 		const data = { ...defaultStoreValue, variables: { a: 1 }, data: 'Hello' };
 		cacheData.set('KEY1', data);
 		let cachedData = cacheData.get('KEY1', { a: 1 });
@@ -23,7 +23,7 @@ describe('client - Cache Data', () => {
 	});
 
 	it('Should set and get data 2 times', async () => {
-		let cacheData = new CacheData();
+		let cacheData = new InMemoryCache();
 		let data = { ...defaultStoreValue, variables: { a: 1 }, data: 'Hello' };
 		cacheData.set('KEY1', data);
 		data = { ...defaultStoreValue, variables: { a: 2 }, data: 'Hello2' };
@@ -36,7 +36,7 @@ describe('client - Cache Data', () => {
 	});
 
 	it('Should remove ALL from cache', async () => {
-		let cacheData = new CacheData();
+		let cacheData = new InMemoryCache();
 		let data = { ...defaultStoreValue, variables: { a: 1 }, data: 'Hello' };
 		cacheData.set('KEY1', data);
 		data = { ...defaultStoreValue, variables: { a: 2 }, data: 'Hello2' };
@@ -52,7 +52,7 @@ describe('client - Cache Data', () => {
 	});
 
 	it('Should remove 1 operation from cache', async () => {
-		let cacheData = new CacheData();
+		let cacheData = new InMemoryCache();
 		let data = { ...defaultStoreValue, variables: { a: 1 }, data: 'Hello' };
 		cacheData.set('KEY1', data);
 		data = { ...defaultStoreValue, variables: { a: 2 }, data: 'Hello2' };
