@@ -1,26 +1,14 @@
 import { stry } from '@kitql/helper';
-import type { CacheData } from './Interfaces';
-import type { ResponseResult } from './kitQLClient';
+import type { ICacheData } from './ICacheData';
+import type { ResponseResult } from '../kitQLClient';
 
-// Next step: IndexedDB?
-
-/**
- * Indexes
- * (KEY1) : [VAR1, VAR2, VAR3]
- *
- * Data
- * (KEY1 : VAR1) : DATA1
- * (KEY1 : VAR2) : DATA2
- * (KEY1 : VAR3) : DATA3
- */
-
-export class InMemoryCache implements CacheData {
+export class InMemoryCache implements ICacheData {
 	private cacheIndexes = {};
 	private cacheData = {};
 
 	set(operationKey: string, data: ResponseResult<any, any>) {
 		const v = stry(data.variables, 0);
-		const fullKey = JSON.stringify({ k: operationKey, v });
+		const fullKey = stry({ k: operationKey, v });
 
 		// Indexes
 		if (this.cacheIndexes[operationKey] !== undefined) {
