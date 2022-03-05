@@ -5,9 +5,9 @@ import type { ResponseResult } from '../kitQLClient';
  * (KEY1) : [VAR1, VAR2, VAR3]
  *
  * Data
- * (KEY1 : VAR1) : DATA1
- * (KEY1 : VAR2) : DATA2
- * (KEY1 : VAR3) : DATA3
+ * (KEY1 & VAR1) : DATA1
+ * (KEY1 & VAR2) : DATA2
+ * (KEY1 & VAR3) : DATA3
  */
 
 export interface ICacheData {
@@ -17,7 +17,7 @@ export interface ICacheData {
 	) => void;
 	get: <DataType, VariablesType>(
 		operationKey: string,
-		variables: {}
+		variables: {} | null
 	) => ResponseResult<DataType, VariablesType>;
 	remove: (operationKey: string, variables: {} | null, allOperationKey: boolean) => number;
 }

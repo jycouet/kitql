@@ -5,10 +5,10 @@ import type { ResponseResult } from '../kitQLClient';
 export class LocalStorageCache implements ICacheData {
 	set(operationKey: string, data: ResponseResult<any, any>) {
 		const v = stry(data.variables, 0);
-		const fullKey = stry({ k: operationKey, v });
+		const fullKey = stry({ k: operationKey, v }, 0);
 
 		// Data
-		window.localStorage.setItem(fullKey, stry(data));
+		window.localStorage.setItem(fullKey, stry(data, 0));
 	}
 
 	get(operationKey: string, variables: {} | null = null): ResponseResult<any, any> {

@@ -163,7 +163,7 @@ export class KitQLClient {
 
 		// No caching in the server for now! (Need to have a session identification to not mix things up)
 		if (browser) {
-			const cachedData = this.cacheData.get(cacheKey, variables);
+			const cachedData = this.cacheData.get<D, V>(cacheKey, variables);
 			if (cachedData !== undefined) {
 				const xMs = new Date().getTime() - cachedData.date;
 				// cache time of the query or of the default config

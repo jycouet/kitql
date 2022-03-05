@@ -8,7 +8,7 @@ export class InMemoryCache implements ICacheData {
 
 	set(operationKey: string, data: ResponseResult<any, any>) {
 		const v = stry(data.variables, 0);
-		const fullKey = stry({ k: operationKey, v });
+		const fullKey = stry({ k: operationKey, v }, 0);
 
 		// Indexes
 		if (this.cacheIndexes[operationKey] !== undefined) {
@@ -24,7 +24,7 @@ export class InMemoryCache implements ICacheData {
 	}
 
 	get(operationKey: string, variables: {} | null = null): ResponseResult<any, any> {
-		//Data
+		// Data
 		const v = stry(variables, 0);
 		const fullKey = stry({ k: operationKey, v }, 0);
 		return this.cacheData[fullKey];

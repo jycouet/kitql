@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { InMemoryCache } from '../src/lib/toExport/InMemoryCache';
+import { InMemoryCache } from '../src/lib/toExport/cache/InMemoryCache';
 import { RequestFrom, RequestStatus, RequestResult } from '../src/lib/toExport/kitQLClient';
 
 const defaultStoreValue: RequestResult<any, any> = {
