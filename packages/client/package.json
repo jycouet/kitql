@@ -22,7 +22,6 @@
 	},
 	"devDependencies": {
 		"@kitql/graphql-codegen": "0.2.3",
-		"@kitql/helper": "0.1.6",
 		"@kitql/module-codegen": "0.1.9",
 		"@kitql/vite-plugin-watch-and-run": "0.1.6",
 		"@sveltejs/adapter-auto": "next",
@@ -42,7 +41,9 @@
 		"tslib": "^2.3.1",
 		"typescript": "~4.5.5"
 	},
-	"dependencies": {},
+	"dependencies": {
+		"@kitql/helper": "0.1.6"
+	},
 	"type": "module",
 	"main": "dist/index.js",
 	"module": "dist/index.mjs",
