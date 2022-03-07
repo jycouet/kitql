@@ -1,5 +1,12 @@
 # @kitql/client
 
+## 0.2.5
+
+### Patch Changes
+
+- 851c654: error improvement message to help lib users
+- 19e8399: add LocalStorageCache
+
 ## 0.2.4
 
 ### Patch Changes
