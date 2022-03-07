@@ -19,5 +19,5 @@ export interface ICacheData {
 		operationKey: string,
 		variables: {} | null
 	) => ResponseResult<DataType, VariablesType>;
-	remove: (operationKey: string, variables: {} | null, allOperationKey: boolean) => number;
+	remove: (operationKey: string, variables?: {}, allOperationKey?: boolean) => number;
 }
