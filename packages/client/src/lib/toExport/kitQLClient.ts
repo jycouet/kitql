@@ -62,14 +62,14 @@ export type Credential = 'omit' | 'same-origin' | 'include';
 export type HeaderContentType = 'application/graphql+json' | 'application/json';
 export type LogType = 'server' | 'client' | 'operation' | 'operationAndvariables' | 'rawResult';
 
-export type RequestParameters<V> = {
+export declare type RequestParameters<V> = {
 	fetch?: typeof fetch;
 	variables?: V;
 };
 
-export type RequestQueryParameters<V> = RequestParameters<V> & {
+export declare type RequestQueryParameters<V> = {
 	settings?: RequestSettings;
-};
+} & RequestParameters<V>;
 
 export enum RequestStatus {
 	'NEVER' = 'NEVER',

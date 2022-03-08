@@ -83,12 +83,17 @@ export const plugin: PluginFunction<Record<string, any>, Types.ComplexPluginOutp
 				lines.push(
 					`		)${jsDocStyle ? `` : `: Promise<RequestResult<${kqltypeQueryAndVariable}>>`} => {`
 				);
-				lines.push(`			let { fetch, variables, settings } = params ?? {};`);
-				lines.push(`			let { cacheMs, policy } = settings ?? {};`);
+				// prettier-ignore
+				lines.push(`			let { fetch, variables${node.operation === 'query' ? ', settings': ''} } = params ?? {};`);
+				if (node.operation === 'query') {
+					lines.push(`			let { cacheMs, policy } = settings ?? {};`);
+				}
 				lines.push(``);
 				lines.push(`			const storedVariables = get(${kqlStore}).variables;`);
 				lines.push(`			variables = variables ?? storedVariables;`);
-				lines.push(`			policy = policy ?? kitQLClient.defaultPolicy;`);
+				if (node.operation === 'query') {
+					lines.push(`			policy = policy ?? kitQLClient.policy;`);
+				}
 				lines.push(``);
 
 				if (node.operation === 'query') {
@@ -205,6 +210,7 @@ export const plugin: PluginFunction<Record<string, any>, Types.ComplexPluginOutp
 	if (config.importBaseTypesFrom) {
 		prepend.push(`import * as Types from '${config.importBaseTypesFrom}';`);
 	}
+	prepend.push(`// prettier-ignore`);
 	prepend.push(
 		`import { defaultStoreValue, RequestStatus` +
 			`${
