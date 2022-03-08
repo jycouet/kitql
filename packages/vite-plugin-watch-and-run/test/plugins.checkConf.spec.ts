@@ -53,19 +53,28 @@ describe('vite-plugin-watch-and-run', () => {
 			.to.have.all.members(['ADD', 'CHANGE', 'DELETE']);
 	});
 
-	it('sdsd', async () => {
+	it('Should register all watchers', async () => {
 		const watch = '**/*.(gql|graphql)';
 		const plugin = watchAndRun([{ watch, run: 'yarn gen' }]);
 
-		let server = {
+		const server = {
 			watcher: {
-				on: vi.fn(() => {
-					file => {};
-				})
+				on: vi.fn()
 			}
 		};
+		const spy = vi.spyOn(server.watcher, 'on').mockImplementation((type: 'add' | 'change' | 'delete', callback) => {
+			if (type === 'add' || type === 'change' || type === 'delete') {
+				if (typeof callback === 'function')
+					return 'registered'
+			}
+			return 'error'
+		})
 		plugin.configureServer(server);
-		// I don't know how to test that!
-		// Triggering a "add"?
+		expect(spy).toHaveBeenCalledTimes(3)
+		const operations = ['add', 'change', 'delete']
+		spy.mock.calls.forEach((call, index) => {
+			expect(spy).toHaveBeenNthCalledWith(index + 1, operations[index], call[1])
+			expect(spy).toHaveNthReturnedWith(index + 1, 'registered')
+		})
 	});
 });
