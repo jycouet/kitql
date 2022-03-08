@@ -1,5 +1,11 @@
 # @kitql/client
 
+## 0.3.2
+
+### Patch Changes
+
+- 9bea2b7: fix export type
+
 ## 0.3.1
 
 ### Patch Changes
