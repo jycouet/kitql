@@ -2,8 +2,8 @@ import { Log, logCyan, logGreen, logRed, logYellow, stry } from '@kitql/helper';
 //import { print } from 'graphql';
 //https://github.com/graphql/graphql-js/pull/3501
 import { print } from 'graphql-web-lite';
-import { InMemoryCache } from './cache/InMemoryCache';
 import type { ICacheData } from './cache/ICacheData';
+import { InMemoryCache } from './cache/InMemoryCache';
 import { objUpdate } from './objUpdate';
 
 export type ClientSettings = {
@@ -12,31 +12,33 @@ export type ClientSettings = {
 	 */
 	url: string;
 	/**
+	 * Headers of your requests to graphql endpoint
 	 * @name headers
-	 * @description Headers of your requests to graphql endpoint
 	 * @default {}
 	 */
 	headers?: Record<string, string>;
 	/**
-	 * @default 3_Minutes Default Cache in miliseconds (can be overwritten at Query level, so `cache:0` force a network call)
+	 * Default Cache in miliseconds
+	 * @default 3 Minutes (1000 * 60 * 3)
 	 */
-	defaultCache?: number;
+	cacheMs?: number;
 	/**
 	 * @default cache-first
 	 */
-	defaultPolicy?: 'cache-first' | 'cache-and-network' | 'network-only' | 'cache-only';
+	policy?: Policy;
 	/**
-	 * @Default omit Secure by default. More info there: https://developer.mozilla.org/en-US/docs/Web/API/Request/credentials
+	 * More info there: https://developer.mozilla.org/en-US/docs/Web/API/Request/credentials
+	 * @Default omit Secure by default.
 	 */
-	credentials?: 'omit' | 'same-origin' | 'include';
+	credentials?: Credential;
 	/**
 	 * @Default to `/graphql+json`. But if your server is a bit legacy, you can go back to `/json`
 	 */
-	headersContentType?: 'application/graphql+json' | 'application/json';
+	headersContentType?: HeaderContentType;
 	/**
 	 * @Default [] That means no logs!.
 	 */
-	logType?: ('server' | 'client' | 'operation' | 'operationAndvariables' | 'rawResult')[];
+	logType?: LogType[];
 	/**
 	 * @Default InMemory that mean a cache in a variable
 	 * @description You can provide any implementation of the CacheData interface, it can store the cache in any place
@@ -48,16 +50,24 @@ export type RequestSettings = {
 	/**
 	 * Cache in miliseconds for the Query (so `cache:0` force a network call)
 	 */
-	cache?: number;
+	cacheMs?: number;
 	/**
 	 * overwrite the default cache policy
 	 */
-	policy?: 'cache-first' | 'cache-and-network' | 'network-only' | 'cache-only';
+	policy?: Policy;
 };
+
+export type Policy = 'cache-first' | 'cache-and-network' | 'network-only' | 'cache-only';
+export type Credential = 'omit' | 'same-origin' | 'include';
+export type HeaderContentType = 'application/graphql+json' | 'application/json';
+export type LogType = 'server' | 'client' | 'operation' | 'operationAndvariables' | 'rawResult';
 
 export type RequestParameters<V> = {
 	fetch?: typeof fetch;
 	variables?: V;
+};
+
+export type RequestQueryParameters<V> = RequestParameters<V> & {
 	settings?: RequestSettings;
 };
 
@@ -100,29 +110,28 @@ export const defaultStoreValue = {
 };
 
 export class KitQLClient {
-	public defaultPolicy: 'cache-first' | 'cache-and-network' | 'network-only' | 'cache-only';
-
 	private url: string;
+	public policy: Policy;
 	private headers: Record<string, string>;
-	private defaultCache: number;
-	private credentials: 'omit' | 'same-origin' | 'include';
-	private headersContentType: 'application/graphql+json' | 'application/json';
-	private logType: ('server' | 'client' | 'operation' | 'operationAndvariables' | 'rawResult')[];
+	private cacheMs: number;
+	private credentials: Credential;
+	private headersContentType: HeaderContentType;
+	private logType: LogType[];
 	private cacheData: ICacheData;
-
 	private log: Log;
 
 	constructor(options: ClientSettings) {
-		const { url, defaultCache, credentials, headers, defaultPolicy } = options ?? {};
-		this.defaultPolicy = defaultPolicy ?? 'cache-first';
+		const { url, cacheMs, credentials, headers, policy, headersContentType } = options ?? {};
 		this.url = url;
+		this.policy = policy ?? 'cache-first';
 		this.headers = headers ?? {};
-		this.defaultCache = defaultCache ?? 1000 * 60 * 3;
+		this.cacheMs = cacheMs ?? 1000 * 60 * 3;
 		this.credentials = credentials;
-		this.headersContentType = options.headersContentType ?? 'application/graphql+json';
+		this.headersContentType = headersContentType ?? 'application/graphql+json';
 		this.logType = options.logType ?? [];
-		this.log = new Log('KitQL Client');
 		this.cacheData = options.cacheImplementation ?? new InMemoryCache();
+
+		this.log = new Log('KitQL Client');
 	}
 
 	private logOperation(from: RequestFrom, operation: string, variables: string | null = null) {
@@ -151,12 +160,12 @@ export class KitQLClient {
 	public requestCache<D, V>({
 		variables,
 		cacheKey,
-		cache,
+		cacheMs,
 		browser
 	}: {
 		variables: any;
 		cacheKey: string;
-		cache: number | null;
+		cacheMs: number | null;
 		browser: boolean;
 	}): ResponseResult<D, V> | null {
 		const logStatements = this.getLogsStatements(browser);
@@ -167,7 +176,7 @@ export class KitQLClient {
 			if (cachedData !== undefined) {
 				const xMs = new Date().getTime() - cachedData.date;
 				// cache time of the query or of the default config
-				if (xMs < (cache ?? this.defaultCache)) {
+				if (xMs < (cacheMs ?? this.cacheMs)) {
 					if (logStatements.logOpVar) {
 						this.logOperation(RequestFrom.CACHE, cacheKey, stry(variables, 0));
 					} else if (logStatements.logOp) {

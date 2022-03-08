@@ -27,7 +27,7 @@ describe('graphql-codegen', () => {
 	it('Should import from @kitql/client', async () => {
 		const result = (await plugin(null as any, operations, {})) as Types.ComplexPluginOutput;
 		expect(result.prepend).toContain(
-			`import { defaultStoreValue, RequestStatus, type RequestParameters, type RequestResult } from '@kitql/client';`
+			`import { defaultStoreValue, RequestStatus, type RequestParameters, type RequestQueryParameters, type RequestResult } from '@kitql/client';`
 		);
 	});
 

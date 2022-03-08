@@ -21,6 +21,6 @@ describe('client - kitQLClient', () => {
 			variables: {}
 		});
 
-		expect((kitQLClient as any).defaultCache).toMatchObject(180000);
+		expect((kitQLClient as any).cacheMs).toMatchObject(180000);
 	});
 });

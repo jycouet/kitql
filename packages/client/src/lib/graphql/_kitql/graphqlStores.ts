@@ -1,9 +1,15 @@
 import { browser } from '$app/env';
 import * as Types from '$lib/graphql/_kitql/graphqlTypes';
-import { defaultStoreValue, RequestStatus, type RequestParameters, type RequestResult } from '@kitql/client';
+import {
+	defaultStoreValue,
+	RequestStatus,
+	type RequestParameters,
+	type RequestQueryParameters,
+	type RequestResult
+} from '@kitql/client';
 import { get, writable } from 'svelte/store';
 import { kitQLClient } from '../kitQLClient';
- 
+
 function KQL_AllContinentsStore() {
 	// prettier-ignore
 	const { subscribe, set, update } = writable<RequestResult<Types.AllContinentsQuery, Types.AllContinentsQueryVariables>>(defaultStoreValue);
@@ -17,21 +23,21 @@ function KQL_AllContinentsStore() {
 		 * @returns the latest operation and fill this store
 		 */
 		query: async (
-			params?: RequestParameters<Types.AllContinentsQueryVariables>
+			params?: RequestQueryParameters<Types.AllContinentsQueryVariables>
 		): Promise<RequestResult<Types.AllContinentsQuery, Types.AllContinentsQueryVariables>> => {
 			let { fetch, variables, settings } = params ?? {};
-			let { cache, policy } = settings ?? {};
+			let { cacheMs, policy } = settings ?? {};
 
 			const storedVariables = get(KQL_AllContinents).variables;
 			variables = variables ?? storedVariables;
-			policy = policy ?? kitQLClient.defaultPolicy;
+			policy = policy ?? kitQLClient.policy;
 
 			// Cache only in the browser for now. In SSR, we will need session identif to not mix peoples data
 			if (browser) {
 				if (policy !== 'network-only') {
 					// prettier-ignore
 					const cachedData = kitQLClient.requestCache<Types.AllContinentsQuery, Types.AllContinentsQueryVariables>({
-						variables, cacheKey, cache,	browser
+						variables, cacheKey, cacheMs,	browser
 					});
 					if (cachedData) {
 						const result = { ...cachedData, isFetching: false, status: RequestStatus.DONE };
@@ -107,21 +113,23 @@ function KQL_AllCountriesOfContinentStore() {
 		 * @returns the latest operation and fill this store
 		 */
 		query: async (
-			params?: RequestParameters<Types.AllCountriesOfContinentQueryVariables>
-		): Promise<RequestResult<Types.AllCountriesOfContinentQuery, Types.AllCountriesOfContinentQueryVariables>> => {
+			params?: RequestQueryParameters<Types.AllCountriesOfContinentQueryVariables>
+		): Promise<
+			RequestResult<Types.AllCountriesOfContinentQuery, Types.AllCountriesOfContinentQueryVariables>
+		> => {
 			let { fetch, variables, settings } = params ?? {};
-			let { cache, policy } = settings ?? {};
+			let { cacheMs, policy } = settings ?? {};
 
 			const storedVariables = get(KQL_AllCountriesOfContinent).variables;
 			variables = variables ?? storedVariables;
-			policy = policy ?? kitQLClient.defaultPolicy;
+			policy = policy ?? kitQLClient.policy;
 
 			// Cache only in the browser for now. In SSR, we will need session identif to not mix peoples data
 			if (browser) {
 				if (policy !== 'network-only') {
 					// prettier-ignore
 					const cachedData = kitQLClient.requestCache<Types.AllCountriesOfContinentQuery, Types.AllCountriesOfContinentQueryVariables>({
-						variables, cacheKey, cache,	browser
+						variables, cacheKey, cacheMs,	browser
 					});
 					if (cachedData) {
 						const result = { ...cachedData, isFetching: false, status: RequestStatus.DONE };

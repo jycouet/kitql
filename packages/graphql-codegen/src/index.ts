@@ -78,45 +78,51 @@ export const plugin: PluginFunction<Record<string, any>, Types.ComplexPluginOutp
 				lines.push(`		 * @returns the latest operation and fill this store`);
 				lines.push(`		 */`);
 				lines.push(`		${fnKeyword}: async (`);
-				lines.push(`			params${jsDocStyle ? `` : `?: RequestParameters<${kqltypeVariable}>`}`);
+				// prettier-ignore
+				lines.push(`			params${jsDocStyle ? `` : `?: Request${node.operation === 'query' ? 'Query': ''}Parameters<${kqltypeVariable}>`}`);
 				lines.push(
 					`		)${jsDocStyle ? `` : `: Promise<RequestResult<${kqltypeQueryAndVariable}>>`} => {`
 				);
 				lines.push(`			let { fetch, variables, settings } = params ?? {};`);
-				lines.push(`			let { cache, policy } = settings ?? {};`);
+				lines.push(`			let { cacheMs, policy } = settings ?? {};`);
 				lines.push(``);
 				lines.push(`			const storedVariables = get(${kqlStore}).variables;`);
 				lines.push(`			variables = variables ?? storedVariables;`);
 				lines.push(`			policy = policy ?? kitQLClient.defaultPolicy;`);
 				lines.push(``);
-				lines.push(
-					`			// Cache only in the browser for now. In SSR, we will need session identif to not mix peoples data`
-				);
-				lines.push(`			if (${jsDocStyle ? `true` : `browser`}) {`);
-				lines.push(`				if (policy !== 'network-only') {`);
-				lines.push(`					// prettier-ignore`);
-				// prettier-ignore
-				lines.push(`					const cachedData = kitQLClient.requestCache${jsDocStyle ? `` : `<${kqltypeQueryAndVariable}>`}({`);
-				lines.push(`						variables, cacheKey, cache,	${jsDocStyle ? `browser: true` : `browser`}`);
-				lines.push(`					});`);
-				lines.push(`					if (cachedData) {`);
-				lines.push(
-					`						const result = { ...cachedData, isFetching: false, status: RequestStatus.DONE };`
-				);
-				lines.push(`						if (policy === 'cache-first') {`);
-				lines.push(`							set(result);`);
-				lines.push(`							if (!result.isOutdated) {`);
-				lines.push(`								return result;`);
-				lines.push(`							}`);
-				lines.push(`						} else if (policy === 'cache-only') {`);
-				lines.push(`							set(result);`);
-				lines.push(`							return result;`);
-				lines.push(`						} else if (policy === 'cache-and-network') {`);
-				lines.push(`							set(result);`);
-				lines.push(`						}`);
-				lines.push(`					}`);
-				lines.push(`				}`);
-				lines.push(`			}`);
+
+				if (node.operation === 'query') {
+					lines.push(
+						`			// Cache only in the browser for now. In SSR, we will need session identif to not mix peoples data`
+					);
+					lines.push(`			if (${jsDocStyle ? `true` : `browser`}) {`);
+					lines.push(`				if (policy !== 'network-only') {`);
+					lines.push(`					// prettier-ignore`);
+					// prettier-ignore
+					lines.push(`					const cachedData = kitQLClient.requestCache${jsDocStyle ? `` : `<${kqltypeQueryAndVariable}>`}({`);
+					lines.push(`						variables, cacheKey, cacheMs,	${jsDocStyle ? `browser: true` : `browser`}`);
+					lines.push(`					});`);
+					lines.push(`					if (cachedData) {`);
+					lines.push(
+						`						const result = { ...cachedData, isFetching: false, status: RequestStatus.DONE };`
+					);
+					lines.push(`						if (policy === 'cache-first') {`);
+					lines.push(`							set(result);`);
+					lines.push(`							if (!result.isOutdated) {`);
+					lines.push(`								return result;`);
+					lines.push(`							}`);
+					lines.push(`						} else if (policy === 'cache-only') {`);
+					lines.push(`							set(result);`);
+					lines.push(`							return result;`);
+					lines.push(`						} else if (policy === 'cache-and-network') {`);
+					lines.push(`							set(result);`);
+					lines.push(`						}`);
+					lines.push(`					}`);
+					lines.push(`				}`);
+					lines.push(`			}`);
+					lines.push(``);
+				}
+
 				lines.push(`			update((c) => {`);
 				lines.push(`				return { ...c, isFetching: true, status: RequestStatus.LOADING };`);
 				lines.push(`			});`);
@@ -201,7 +207,11 @@ export const plugin: PluginFunction<Record<string, any>, Types.ComplexPluginOutp
 	}
 	prepend.push(
 		`import { defaultStoreValue, RequestStatus` +
-			`${jsDocStyle ? `` : `, type RequestParameters, type RequestResult`} } from '@kitql/client';`
+			`${
+				jsDocStyle
+					? ``
+					: `, type RequestParameters, type RequestQueryParameters, type RequestResult`
+			} } from '@kitql/client';`
 	);
 	prepend.push(`import { get, writable } from 'svelte/store';`);
 	prepend.push(`import { kitQLClient } from '${clientPath}';`);
