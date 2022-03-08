@@ -1,5 +1,13 @@
 # @kitql/all-in
 
+## 0.3.1
+
+### Patch Changes
+
+- Updated dependencies [c91fc52]
+  - @kitql/client@0.3.1
+  - @kitql/graphql-codegen@0.3.1
+
 ## 0.3.0
 
 ### Minor Changes
