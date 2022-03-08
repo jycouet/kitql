@@ -210,7 +210,6 @@ export const plugin: PluginFunction<Record<string, any>, Types.ComplexPluginOutp
 	if (config.importBaseTypesFrom) {
 		prepend.push(`import * as Types from '${config.importBaseTypesFrom}';`);
 	}
-	prepend.push(`// prettier-ignore`);
 	prepend.push(
 		`import { defaultStoreValue, RequestStatus` +
 			`${
