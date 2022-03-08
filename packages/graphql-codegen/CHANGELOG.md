@@ -1,5 +1,11 @@
 # @kitql/graphql-codegen
 
+## 0.3.0
+
+### Minor Changes
+
+- 9830e25: clean types and variables naming
+
 ## 0.2.3
 
 ### Patch Changes

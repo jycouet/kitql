@@ -1,5 +1,11 @@
 # @kitql/client
 
+## 0.3.0
+
+### Minor Changes
+
+- 9830e25: clean types and variables naming
+
 ## 0.2.5
 
 ### Patch Changes
