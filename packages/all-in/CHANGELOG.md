@@ -1,5 +1,17 @@
 # @kitql/all-in
 
+## 0.3.0
+
+### Minor Changes
+
+- 4861ae2: refactor variable names
+
+### Patch Changes
+
+- Updated dependencies [9830e25]
+  - @kitql/client@0.3.0
+  - @kitql/graphql-codegen@0.3.0
+
 ## 0.2.5
 
 ### Patch Changes
