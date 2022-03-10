@@ -26,9 +26,11 @@ export function actionModuleContext(
 
 	if (withDbProvider) {
 		dataCtxModules.push(`import { load_DataLoader } from '$graphql/helpers/dataLoaderHelper';`);
-		dataCtxModules.push(`import { IKitQLContext } from '$graphql/kitQLServer';`);
+		dataCtxModules.push(`import { type IKitQLContext } from '$graphql/kitQLServer';`);
 		if (functionsName.length > 0) {
-			dataCtxModules.push(`import { ${moduleNamePascalCase} } from '$graphql/_gen/graphqlTypes';`);
+			dataCtxModules.push(
+				`import { type ${moduleNamePascalCase} } from '$graphql/_gen/graphqlTypes';`
+			);
 		}
 		dataCtxModules.push(
 			`import { Db${moduleNamePascalCase} } from '../providers/Db${moduleNamePascalCase}';`
