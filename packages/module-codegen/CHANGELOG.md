@@ -1,5 +1,11 @@
 # @kitql/module-codegen
 
+## 0.1.10
+
+### Patch Changes
+
+- 5c15d91: import as type
+
 ## 0.1.9
 
 ### Patch Changes
