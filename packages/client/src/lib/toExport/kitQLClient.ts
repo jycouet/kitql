@@ -1,4 +1,4 @@
-import { Log, logCyan, logGreen, logRed, logYellow, stry } from '@kitql/helper';
+import { Log, logCyan, logGreen, logRed, logYellow, sleep, stry } from '@kitql/helper';
 //import { print } from 'graphql';
 //https://github.com/graphql/graphql-js/pull/3501
 import { print } from 'graphql-web-lite';
@@ -44,6 +44,16 @@ export type ClientSettings = {
 	 * @description You can provide any implementation of the CacheData interface, it can store the cache in any place
 	 */
 	cacheImplementation?: ICacheData;
+	/**
+	 * @default 0
+	 * @description endpoint delay in miliseconds. Usefull to simulate slow network by configuration.
+	 */
+	endpointNetworkDelayMs?: number;
+	/**
+	 * @default 0
+	 * @description endpoint delay in miliseconds. Usefull to simulate slow ssr by configuration.
+	 */
+	endpointSSRDelayMs?: number;
 };
 
 export type RequestSettings = {
@@ -119,9 +129,20 @@ export class KitQLClient {
 	private logType: LogType[];
 	private cacheData: ICacheData;
 	private log: Log;
+	private endpointNetworkDelayMs: number;
+	private endpointSSRDelayMs: number;
 
 	constructor(options: ClientSettings) {
-		const { url, cacheMs, credentials, headers, policy, headersContentType } = options ?? {};
+		const {
+			url,
+			cacheMs,
+			credentials,
+			headers,
+			policy,
+			headersContentType,
+			endpointNetworkDelayMs,
+			endpointSSRDelayMs
+		} = options ?? {};
 		this.url = url;
 		this.policy = policy ?? 'cache-first';
 		this.headers = headers ?? {};
@@ -130,6 +151,8 @@ export class KitQLClient {
 		this.headersContentType = headersContentType ?? 'application/graphql+json';
 		this.logType = options.logType ?? [];
 		this.cacheData = options.cacheImplementation ?? new InMemoryCache();
+		this.endpointNetworkDelayMs = endpointNetworkDelayMs ?? 0;
+		this.endpointSSRDelayMs = endpointSSRDelayMs ?? 0;
 
 		this.log = new Log('KitQL Client');
 	}
@@ -247,7 +270,11 @@ export class KitQLClient {
 			if (res.url === '') {
 				// In the browser we see a flickering from NETWORK to SSR, because it's the Real SSR coming with a from network... Replaced by the SSR side!
 				dataToReturn.from = RequestFrom.SSR;
+				await sleep(this.endpointSSRDelayMs); // adding the delay after the request
+			} else {
+				await sleep(this.endpointNetworkDelayMs); // adding the delay after the request
 			}
+
 			if (logStatements.logOpVar) {
 				this.logOperation(dataToReturn.from, cacheKey, stry(variables, 0));
 			} else if (logStatements.logOp) {
