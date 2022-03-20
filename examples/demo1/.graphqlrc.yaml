@@ -3,6 +3,8 @@ projects:
   default:
     schema:
       - ./src/lib/graphql/schema.json # or https://countries.trevorblades.com/graphql
+        # headers:
+        #   Authorization: 'Bearer ${TOKEN}'
     documents:
       - '**/*.gql'
     extensions:
@@ -11,6 +13,10 @@ projects:
           url: https://countries.trevorblades.com/graphql
       codegen:
         generates:
+          # ./src/lib/graphql/schema.json:
+          #   plugins:
+          #     - introspection
+
           ./src/lib/graphql/_kitql/graphqlTypes.ts:
             plugins:
               - typescript

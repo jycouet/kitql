@@ -13,22 +13,22 @@
 	"devDependencies": {},
 	"dependencies": {
 		"@graphql-codegen/cli": "2.6.2",
-		"@graphql-codegen/graphql-modules-preset": "2.3.5",
-		"@graphql-codegen/typed-document-node": "2.2.5",
-		"@graphql-codegen/typescript": "2.4.5",
-		"@graphql-codegen/typescript-document-nodes": "2.2.5",
-		"@graphql-codegen/typescript-operations": "2.3.2",
-		"@graphql-codegen/typescript-resolvers": "2.5.2",
-		"@graphql-eslint/eslint-plugin": "3.8.0",
+		"@graphql-codegen/graphql-modules-preset": "2.3.8",
+		"@graphql-codegen/introspection": "2.1.1",
+		"@graphql-codegen/typed-document-node": "2.2.8",
+		"@graphql-codegen/typescript": "2.4.8",
+		"@graphql-codegen/typescript-document-nodes": "2.2.8",
+		"@graphql-codegen/typescript-operations": "2.3.5",
+		"@graphql-codegen/typescript-resolvers": "2.6.1",
+		"@graphql-eslint/eslint-plugin": "3.9.1",
 		"@graphql-typed-document-node/core": "3.1.1",
 		"@kitql/client": "0.3.2",
 		"@kitql/graphql-codegen": "0.3.2",
 		"@kitql/module-codegen": "0.1.10",
-		"@kitql/vite-plugin-watch-and-run": "0.1.6"
+		"@kitql/vite-plugin-watch-and-run": "0.1.6",
+		"graphql": "16.3.0"
 	},
-	"peerDependencies": {
-		"graphql": "^15.0.0 || ^16.0.0"
-	},
+	"peerDependencies": {},
 	"main": "dist/index.js",
 	"module": "dist/index.mjs",
 	"exports": {
