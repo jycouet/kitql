@@ -96,6 +96,7 @@ export enum RequestFrom {
 
 export declare type ResponseResult<D, V> = {
 	date: number;
+	operationName: string;
 	variables?: V;
 	data?: D | null;
 	errors?: Error[] | null;
@@ -112,6 +113,7 @@ export const defaultStoreValue = {
 	status: RequestStatus.NEVER,
 	isFetching: false,
 	date: new Date().getTime(),
+	operationName: '???',
 	variables: null,
 	data: null,
 	errors: null,
@@ -182,12 +184,12 @@ export class KitQLClient {
 
 	public requestCache<D, V>({
 		variables,
-		cacheKey,
+		operationName,
 		cacheMs,
 		browser
 	}: {
 		variables: any;
-		cacheKey: string;
+		operationName: string;
 		cacheMs: number | null;
 		browser: boolean;
 	}): ResponseResult<D, V> | null {
@@ -195,15 +197,15 @@ export class KitQLClient {
 
 		// No caching in the server for now! (Need to have a session identification to not mix things up)
 		if (browser) {
-			const cachedData = this.cacheData.get<D, V>(cacheKey, variables);
+			const cachedData = this.cacheData.get<D, V>(operationName, variables);
 			if (cachedData !== undefined) {
 				const xMs = new Date().getTime() - cachedData.date;
 				// cache time of the query or of the default config
 				if (xMs < (cacheMs ?? this.cacheMs)) {
 					if (logStatements.logOpVar) {
-						this.logOperation(RequestFrom.CACHE, cacheKey, stry(variables, 0));
+						this.logOperation(RequestFrom.CACHE, operationName, stry(variables, 0));
 					} else if (logStatements.logOp) {
-						this.logOperation(RequestFrom.CACHE, cacheKey);
+						this.logOperation(RequestFrom.CACHE, operationName);
 					}
 					return { ...cachedData, from: RequestFrom.CACHE, isOutdated: false };
 				} else {
@@ -219,7 +221,7 @@ export class KitQLClient {
 		skFetch,
 		document,
 		variables,
-		cacheKey,
+		operationName,
 		browser
 	}): Promise<ResponseResult<D, V>> {
 		const logStatements = this.getLogsStatements(browser);
@@ -235,7 +237,7 @@ export class KitQLClient {
 					`\n` +
 					`\n\t<script context="module" lang="ts">` +
 					`\n\t  export async function load({ ${logYellow(`fetch`)} }) {` +
-					`\n\t    await ${logCyan(cacheKey)}.query({ ${logYellow(
+					`\n\t    await ${logCyan(operationName)}.query({ ${logYellow(
 						`fetch`
 					)}, variables: { ... } });` +
 					`\n\t    return {};` +
@@ -249,6 +251,7 @@ export class KitQLClient {
 
 		let dataToReturn: ResponseResult<D, V> = {
 			date: new Date().getTime(),
+			operationName,
 			variables,
 			from: RequestFrom.NETWORK,
 			data: null,
@@ -276,9 +279,9 @@ export class KitQLClient {
 			}
 
 			if (logStatements.logOpVar) {
-				this.logOperation(dataToReturn.from, cacheKey, stry(variables, 0));
+				this.logOperation(dataToReturn.from, operationName, stry(variables, 0));
 			} else if (logStatements.logOp) {
-				this.logOperation(dataToReturn.from, cacheKey);
+				this.logOperation(dataToReturn.from, operationName);
 			}
 
 			if (res.status !== 200) {
@@ -303,7 +306,7 @@ export class KitQLClient {
 			dataToReturn.data = dataJson.data;
 			// No caching in the server for now! (Need to have a session identification to not mix things up)
 			if (browser) {
-				this.cacheData.set(cacheKey, dataToReturn);
+				this.cacheData.set(operationName, dataToReturn);
 			}
 
 			return dataToReturn;

@@ -67,7 +67,7 @@ export const plugin: PluginFunction<Record<string, any>, Types.ComplexPluginOutp
 					}(defaultStoreValue);`
 				);
 				lines.push(``);
-				lines.push(`	const cacheKey = '${kqlStore}';`);
+				lines.push(`	const operationName = '${kqlStore}';`);
 				lines.push(``);
 				lines.push(`	return {`);
 				lines.push(`		subscribe,`);
@@ -105,7 +105,9 @@ export const plugin: PluginFunction<Record<string, any>, Types.ComplexPluginOutp
 					lines.push(`					// prettier-ignore`);
 					// prettier-ignore
 					lines.push(`					const cachedData = kitQLClient.requestCache${jsDocStyle ? `` : `<${kqltypeQueryAndVariable}>`}({`);
-					lines.push(`						variables, cacheKey, cacheMs,	${jsDocStyle ? `browser: true` : `browser`}`);
+					lines.push(
+						`						variables, operationName, cacheMs,	${jsDocStyle ? `browser: true` : `browser`}`
+					);
 					lines.push(`					});`);
 					lines.push(`					if (cachedData) {`);
 					lines.push(
@@ -141,7 +143,7 @@ export const plugin: PluginFunction<Record<string, any>, Types.ComplexPluginOutp
 				lines.push(`				skFetch: fetch,`);
 				lines.push(`				document: ${kqltypeDocument},`);
 				lines.push(`				variables, `);
-				lines.push(`				cacheKey, `);
+				lines.push(`				operationName, `);
 				lines.push(`				${jsDocStyle ? `browser: true` : `browser`}`);
 				lines.push(`			});`);
 				lines.push(
@@ -161,7 +163,7 @@ export const plugin: PluginFunction<Record<string, any>, Types.ComplexPluginOutp
 					lines.push(`			allOperationKey${jsDocStyle ? `` : `: boolean = true`},`);
 					lines.push(`			withResetStore${jsDocStyle ? `` : `: boolean = true`}`);
 					lines.push(`		) {`);
-					lines.push(`			kitQLClient.cacheRemove(cacheKey, { variables, allOperationKey });`);
+					lines.push(`			kitQLClient.cacheRemove(operationName, { variables, allOperationKey });`);
 					lines.push(`			if (withResetStore) {`);
 					lines.push(`				set(defaultStoreValue);`);
 					lines.push(`			}`);
@@ -181,7 +183,7 @@ export const plugin: PluginFunction<Record<string, any>, Types.ComplexPluginOutp
 					lines.push(`			// prettier-ignore`);
 					// prettier-ignore
 					lines.push(
-						`			const updatedStore = kitQLClient.patch${jsDocStyle ? `` : `<${kqltypeQueryAndVariable}>`}(cacheKey, get(${kqlStore}), newData, xPath);`
+						`			const updatedStore = kitQLClient.patch${jsDocStyle ? `` : `<${kqltypeQueryAndVariable}>`}(operationName, get(${kqlStore}), newData, xPath);`
 					);
 					lines.push(`			set(updatedStore);`);
 					lines.push(`			return updatedStore;`);

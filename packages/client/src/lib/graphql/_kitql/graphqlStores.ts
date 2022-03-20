@@ -14,7 +14,7 @@ function KQL_AllContinentsStore() {
 	// prettier-ignore
 	const { subscribe, set, update } = writable<RequestResult<Types.AllContinentsQuery, Types.AllContinentsQueryVariables>>(defaultStoreValue);
 
-	const cacheKey = 'KQL_AllContinents';
+	const operationName = 'KQL_AllContinents';
 
 	return {
 		subscribe,
@@ -37,7 +37,7 @@ function KQL_AllContinentsStore() {
 				if (policy !== 'network-only') {
 					// prettier-ignore
 					const cachedData = kitQLClient.requestCache<Types.AllContinentsQuery, Types.AllContinentsQueryVariables>({
-						variables, cacheKey, cacheMs,	browser
+						variables, operationName, cacheMs,	browser
 					});
 					if (cachedData) {
 						const result = { ...cachedData, isFetching: false, status: RequestStatus.DONE };
@@ -64,7 +64,7 @@ function KQL_AllContinentsStore() {
 				skFetch: fetch,
 				document: Types.AllContinentsDocument,
 				variables, 
-				cacheKey, 
+				operationName, 
 				browser
 			});
 			const result = { ...res, isFetching: false, status: RequestStatus.DONE, variables };
@@ -79,7 +79,7 @@ function KQL_AllContinentsStore() {
 			allOperationKey: boolean = true,
 			withResetStore: boolean = true
 		) {
-			kitQLClient.cacheRemove(cacheKey, { variables, allOperationKey });
+			kitQLClient.cacheRemove(operationName, { variables, allOperationKey });
 			if (withResetStore) {
 				set(defaultStoreValue);
 			}
@@ -89,7 +89,7 @@ function KQL_AllContinentsStore() {
 		 */
 		patch(newData: Object, xPath: string | null = null) {
 			// prettier-ignore
-			const updatedStore = kitQLClient.patch<Types.AllContinentsQuery, Types.AllContinentsQueryVariables>(cacheKey, get(KQL_AllContinents), newData, xPath);
+			const updatedStore = kitQLClient.patch<Types.AllContinentsQuery, Types.AllContinentsQueryVariables>(operationName, get(KQL_AllContinents), newData, xPath);
 			set(updatedStore);
 			return updatedStore;
 		}
@@ -104,7 +104,7 @@ function KQL_AllCountriesOfContinentStore() {
 	// prettier-ignore
 	const { subscribe, set, update } = writable<RequestResult<Types.AllCountriesOfContinentQuery, Types.AllCountriesOfContinentQueryVariables>>(defaultStoreValue);
 
-	const cacheKey = 'KQL_AllCountriesOfContinent';
+	const operationName = 'KQL_AllCountriesOfContinent';
 
 	return {
 		subscribe,
@@ -129,7 +129,7 @@ function KQL_AllCountriesOfContinentStore() {
 				if (policy !== 'network-only') {
 					// prettier-ignore
 					const cachedData = kitQLClient.requestCache<Types.AllCountriesOfContinentQuery, Types.AllCountriesOfContinentQueryVariables>({
-						variables, cacheKey, cacheMs,	browser
+						variables, operationName, cacheMs,	browser
 					});
 					if (cachedData) {
 						const result = { ...cachedData, isFetching: false, status: RequestStatus.DONE };
@@ -156,7 +156,7 @@ function KQL_AllCountriesOfContinentStore() {
 				skFetch: fetch,
 				document: Types.AllCountriesOfContinentDocument,
 				variables, 
-				cacheKey, 
+				operationName, 
 				browser
 			});
 			const result = { ...res, isFetching: false, status: RequestStatus.DONE, variables };
@@ -171,7 +171,7 @@ function KQL_AllCountriesOfContinentStore() {
 			allOperationKey: boolean = true,
 			withResetStore: boolean = true
 		) {
-			kitQLClient.cacheRemove(cacheKey, { variables, allOperationKey });
+			kitQLClient.cacheRemove(operationName, { variables, allOperationKey });
 			if (withResetStore) {
 				set(defaultStoreValue);
 			}
@@ -181,7 +181,7 @@ function KQL_AllCountriesOfContinentStore() {
 		 */
 		patch(newData: Object, xPath: string | null = null) {
 			// prettier-ignore
-			const updatedStore = kitQLClient.patch<Types.AllCountriesOfContinentQuery, Types.AllCountriesOfContinentQueryVariables>(cacheKey, get(KQL_AllCountriesOfContinent), newData, xPath);
+			const updatedStore = kitQLClient.patch<Types.AllCountriesOfContinentQuery, Types.AllCountriesOfContinentQueryVariables>(operationName, get(KQL_AllCountriesOfContinent), newData, xPath);
 			set(updatedStore);
 			return updatedStore;
 		}
