@@ -1,4 +1,4 @@
-import { KitQLClient, InMemoryCache, LocalStorageCache } from '@kitql/client';
+import { KitQLClient, InMemoryCache } from '@kitql/client';
 
 export const kitQLClient = new KitQLClient({
 	url: `https://countries.trevorblades.com/graphql`,

@@ -4,7 +4,6 @@ import { Log, logCyan, logGreen, logRed, logYellow, sleep, stry } from '@kitql/h
 import { print } from 'graphql-web-lite';
 import type { ICacheData } from './cache/ICacheData';
 import { InMemoryCache } from './cache/InMemoryCache';
-import { objUpdate } from './objUpdate';
 
 export type ClientSettings = {
 	/**
@@ -71,6 +70,7 @@ export type Policy = 'cache-first' | 'cache-and-network' | 'network-only' | 'cac
 export type Credential = 'omit' | 'same-origin' | 'include';
 export type HeaderContentType = 'application/graphql+json' | 'application/json';
 export type LogType = 'server' | 'client' | 'operation' | 'operationAndvariables' | 'rawResult';
+export type PatchType = 'store-only' | 'cache-only' | 'cache-and-store';
 
 export declare type RequestParameters<V> = {
 	fetch?: typeof fetch;
@@ -322,46 +322,32 @@ export class KitQLClient {
 	) {
 		const nbDeleted = this.cacheData.remove(operationKey, params.variables, params.allOperationKey);
 
-		const browserAndWantLog = this.logType.includes('client');
-		if (browserAndWantLog) {
-			this.log.info(
-				`${logCyan('ResetCache:')} ${logGreen(nbDeleted.toString())}, ` +
-					`${logCyan('Operation:')} ${logGreen(operationKey)}`
-			);
-		}
+		this.logInfo(operationKey, 'ResetCache', nbDeleted.toString());
 
 		return nbDeleted;
 	}
 
-	public patch<D, V>(
-		operationKey: string,
-		store: RequestResult<D, V>,
-		newData: Object | null, // To be fragments only?
-		xPath: string | null = null
-	): RequestResult<D, V> {
-		// remove all from the cache, we will update only the current store
-		// Can be improved later ;) => Updating all cached data (with option? Perf?)
-		this.cacheData.remove(operationKey, null, true);
-
-		let storeDataUpdated = objUpdate(false, store.data, newData, xPath);
+	public logInfo(operationName: string, key: string, value: string) {
 		const browserAndWantLog = this.logType.includes('client');
-		if (!storeDataUpdated.found) {
-			if (browserAndWantLog) {
-				this.log.info(
-					`${logCyan('StoreUpdate:')} xPath ${logGreen(xPath)} ` +
-						`${logYellow('not found')}, ` +
-						`${logCyan('Store:')} ${logGreen(operationKey)}`
-				);
-			}
-		} else {
-			this.cacheData.set(operationKey, store);
-			if (browserAndWantLog) {
-				this.log.info(
-					`${logCyan('StoreUpdate:')} ${logGreen('1')}, ` +
-						`${logCyan('Store:')} ${logGreen(operationKey)}`
-				);
-			}
+		if (browserAndWantLog) {
+			this.log.info(
+				`${logCyan(`${key}:`)} ${logGreen(value)}, ` +
+					`${logCyan('Operation:')} ${logGreen(operationName)}`
+			);
 		}
-		return { ...store, data: storeDataUpdated.obj } as RequestResult<D, V>;
+	}
+
+	public cacheUpdate<D, V>(
+		operationKey: string,
+		data: D,
+		params?: { variables?: V | null } | null
+	): RequestResult<D, V> | undefined {
+		const dataCached = this.cacheData.get(operationKey, params.variables);
+		if (dataCached) {
+			let toReturn = { ...dataCached, data, variables: params.variables } as RequestResult<D, V>;
+			this.cacheData.set(operationKey, toReturn);
+			return toReturn;
+		}
+		return undefined;
 	}
 }

@@ -15,7 +15,7 @@
 
 	{#if $KQL_AllCountriesOfContinent.data?.continent}
 		<ul class="overflow_scroll">
-			{#each $KQL_AllCountriesOfContinent.data?.continent.countries as country, i}
+			{#each $KQL_AllCountriesOfContinent.data?.continent.countries as country}
 				<li class="allSpace">
 					<p>{country.name}</p>
 				</li>

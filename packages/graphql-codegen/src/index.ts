@@ -52,7 +52,6 @@ export const plugin: PluginFunction<Record<string, any>, Types.ComplexPluginOutp
 				const operationResultType: string = convertName(node, {
 					suffix: operationTypeSuffix + operationResultSuffix
 				});
-				// const kqltypeQuery = `${prefixImportBaseTypesFrom}${operationName}${operationString}`; // Types.AllContinentsQuery
 				const kqltypeQuery = `${prefixImportBaseTypesFrom}${operationResultType}`; // Types.AllContinentsQuery
 				const kqltypeVariable = `${kqltypeQuery}Variables`; // Types.AllContinentsQueryVariables
 				const kqltypeQueryAndVariable = `${kqltypeQuery}, ${kqltypeVariable}`; // Types.AllContinentsQuery, Types.AllContinentsQueryVariables
@@ -161,6 +160,7 @@ export const plugin: PluginFunction<Record<string, any>, Types.ComplexPluginOutp
 
 				if (node.operation === 'query') {
 					// Reset Cache
+					lines.push(``);
 					lines.push(`		/**`);
 					lines.push(`		 * Reset Cache`);
 					lines.push(`		 */`);
@@ -177,22 +177,28 @@ export const plugin: PluginFunction<Record<string, any>, Types.ComplexPluginOutp
 				}
 
 				if (node.operation === 'query') {
-					// Patch // Todo, with existing fragment only!
+					lines.push(``);
 					lines.push(`		/**`);
-					lines.push(`		 * Patch the store with a new object at the dedicated xPath location`);
+					lines.push(`		 * Patch the store &&|| cache with some data.`);
 					lines.push(`		 */`);
+					lines.push(`		// prettier-ignore`);
 					lines.push(
-						`		patch(newData${jsDocStyle ? `` : `: Object`}, xPath${
-							jsDocStyle ? `` : `: string | null = null`
-						}) {`
+						`		patch(data: ${kqltypeQuery}, variables: ${kqltypeVariable} | null = null, type: PatchType = 'cache-and-store'): void {`
 					);
-					lines.push(`			// prettier-ignore`);
-					// prettier-ignore
+					lines.push(`			let updatedCacheStore = undefined;`);
+					lines.push(`			if(type === 'cache-only' || type === 'cache-and-store') {`);
 					lines.push(
-						`			const updatedStore = kitQLClient.patch${jsDocStyle ? `` : `<${kqltypeQueryAndVariable}>`}(operationName, get(${kqlStore}), newData, xPath);`
+						`				updatedCacheStore = kitQLClient.cacheUpdate<${kqltypeQueryAndVariable}>(operationName, data, { variables });`
 					);
-					lines.push(`			set(updatedStore);`);
-					lines.push(`			return updatedStore;`);
+					lines.push(`			}`);
+					lines.push(`			if(type === 'store-only' ) {`);
+					lines.push(`				let toReturn = { ...get(${kqlStore}), data, variables } ;`);
+					lines.push(`				set(toReturn);`);
+					lines.push(`			}`);
+					lines.push(`			if(type === 'cache-and-store' ) {`);
+					lines.push(`				set({...get(${kqlStore}), ...updatedCacheStore});`);
+					lines.push(`			}`);
+					lines.push(`			kitQLClient.logInfo(operationName, "patch", type);`);
 					lines.push(`		}`);
 				}
 
@@ -221,9 +227,7 @@ export const plugin: PluginFunction<Record<string, any>, Types.ComplexPluginOutp
 	prepend.push(
 		`import { defaultStoreValue, RequestStatus` +
 			`${
-				jsDocStyle
-					? ``
-					: `, type RequestParameters, type RequestQueryParameters, type RequestResult`
+				jsDocStyle ? `` : `, type PatchType, type RequestQueryParameters, type RequestResult`
 			} } from '@kitql/client';`
 	);
 	prepend.push(`import { get, writable } from 'svelte/store';`);

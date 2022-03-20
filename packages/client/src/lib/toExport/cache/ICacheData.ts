@@ -18,6 +18,6 @@ export interface ICacheData {
 	get: <DataType, VariablesType>(
 		operationKey: string,
 		variables: {} | null
-	) => ResponseResult<DataType, VariablesType>;
+	) => ResponseResult<DataType, VariablesType> | undefined;
 	remove: (operationKey: string, variables?: {}, allOperationKey?: boolean) => number;
 }

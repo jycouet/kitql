@@ -18,7 +18,7 @@
 	}
 
 	async function manualUpdate() {
-		KQL_AllContinents.patch([{ name: 'JYC Land', code: 'JYC' }], 'continents');
+		KQL_AllContinents.patch({ continents: [{ name: 'JYC Land', code: 'JYC' }] });
 	}
 
 	async function details(code: string) {

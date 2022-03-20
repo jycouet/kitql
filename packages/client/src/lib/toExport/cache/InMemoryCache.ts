@@ -47,7 +47,9 @@ export class InMemoryCache implements ICacheData {
 				const fullKey = stry({ k: operationKey, v }, 0);
 				if (this.cacheData[fullKey] !== undefined) {
 					delete this.cacheData[fullKey];
-					this.cacheIndexes[operationKey] = this.cacheIndexes[operationKey].filter((c) => c !== v);
+					this.cacheIndexes[operationKey] = this.cacheIndexes[operationKey].filter(
+						(c: string) => c !== v
+					);
 					nbDeleted = 1;
 				}
 			}

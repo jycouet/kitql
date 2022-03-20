@@ -1,9 +1,8 @@
 import { browser } from '$app/env';
 import * as Types from '$lib/graphql/_kitql/graphqlTypes';
-import { defaultStoreValue, RequestStatus, type RequestParameters, type RequestQueryParameters, type RequestResult } from '@kitql/client';
+import { defaultStoreValue, RequestStatus, type PatchType, type RequestQueryParameters, type RequestResult } from '@kitql/client';
 import { get, writable } from 'svelte/store';
 import { kitQLClient } from '../kitQLClient';
- 
 export function KQL__ResetAllCaches() {
 	KQL_AllContinents.resetCache();
 	KQL_AllCountriesOfContinent.resetCache();
@@ -70,6 +69,7 @@ function KQL_AllContinentsStore() {
 			set(result);
 			return result;
 		},
+
 		/**
 		 * Reset Cache
 		 */
@@ -83,14 +83,24 @@ function KQL_AllContinentsStore() {
 				set(defaultStoreValue);
 			}
 		},
+
 		/**
-		 * Patch the store with a new object at the dedicated xPath location
+		 * Patch the store &&|| cache with some data.
 		 */
-		patch(newData: Object, xPath: string | null = null) {
-			// prettier-ignore
-			const updatedStore = kitQLClient.patch<Types.AllContinentsQuery, Types.AllContinentsQueryVariables>(operationName, get(KQL_AllContinents), newData, xPath);
-			set(updatedStore);
-			return updatedStore;
+		// prettier-ignore
+		patch(data: Types.AllContinentsQuery, variables: Types.AllContinentsQueryVariables | null = null, type: PatchType = 'cache-and-store'): void {
+			let updatedCacheStore = undefined;
+			if(type === 'cache-only' || type === 'cache-and-store') {
+				updatedCacheStore = kitQLClient.cacheUpdate<Types.AllContinentsQuery, Types.AllContinentsQueryVariables>(operationName, data, { variables });
+			}
+			if(type === 'store-only' ) {
+				let toReturn = { ...get(KQL_AllContinents), data, variables } ;
+				set(toReturn);
+			}
+			if(type === 'cache-and-store' ) {
+				set({...get(KQL_AllContinents), ...updatedCacheStore});
+			}
+			kitQLClient.logInfo(operationName, "patch", type);
 		}
 	};
 }
@@ -161,6 +171,7 @@ function KQL_AllCountriesOfContinentStore() {
 			set(result);
 			return result;
 		},
+
 		/**
 		 * Reset Cache
 		 */
@@ -174,14 +185,24 @@ function KQL_AllCountriesOfContinentStore() {
 				set(defaultStoreValue);
 			}
 		},
+
 		/**
-		 * Patch the store with a new object at the dedicated xPath location
+		 * Patch the store &&|| cache with some data.
 		 */
-		patch(newData: Object, xPath: string | null = null) {
-			// prettier-ignore
-			const updatedStore = kitQLClient.patch<Types.AllCountriesOfContinentQuery, Types.AllCountriesOfContinentQueryVariables>(operationName, get(KQL_AllCountriesOfContinent), newData, xPath);
-			set(updatedStore);
-			return updatedStore;
+		// prettier-ignore
+		patch(data: Types.AllCountriesOfContinentQuery, variables: Types.AllCountriesOfContinentQueryVariables | null = null, type: PatchType = 'cache-and-store'): void {
+			let updatedCacheStore = undefined;
+			if(type === 'cache-only' || type === 'cache-and-store') {
+				updatedCacheStore = kitQLClient.cacheUpdate<Types.AllCountriesOfContinentQuery, Types.AllCountriesOfContinentQueryVariables>(operationName, data, { variables });
+			}
+			if(type === 'store-only' ) {
+				let toReturn = { ...get(KQL_AllCountriesOfContinent), data, variables } ;
+				set(toReturn);
+			}
+			if(type === 'cache-and-store' ) {
+				set({...get(KQL_AllCountriesOfContinent), ...updatedCacheStore});
+			}
+			kitQLClient.logInfo(operationName, "patch", type);
 		}
 	};
 }

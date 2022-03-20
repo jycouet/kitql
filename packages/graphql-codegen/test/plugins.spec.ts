@@ -26,8 +26,8 @@ describe('graphql-codegen', () => {
 
 	it('Should import from @kitql/client', async () => {
 		const result = (await plugin(null as any, operations, {})) as Types.ComplexPluginOutput;
-		expect(result.prepend).toContain(
-			`import { defaultStoreValue, RequestStatus, type RequestParameters, type RequestQueryParameters, type RequestResult } from '@kitql/client';`
+		expect(result.prepend[1]).toMatchInlineSnapshot(
+			'"import { defaultStoreValue, RequestStatus, type PatchType, type RequestQueryParameters, type RequestResult } from \'@kitql/client\';"'
 		);
 	});
 
@@ -120,18 +120,12 @@ describe('graphql-codegen', () => {
 
 	it('having function _ResetAllCaches with 2 .resetCache();', async () => {
 		const result = (await plugin(null as any, operations, {})) as Types.ComplexPluginOutput;
-		expect(result.prepend).toMatchInlineSnapshot(`
+		expect(result.prepend.slice(5, 9)).toMatchInlineSnapshot(`
 			[
-			  "import { browser } from '\$app/env';",
-			  "import { defaultStoreValue, RequestStatus, type RequestParameters, type RequestQueryParameters, type RequestResult } from '@kitql/client';",
-			  "import { get, writable } from 'svelte/store';",
-			  "import { kitQLClient } from '../kitQLClient';",
-			  "",
 			  "export function KQL__ResetAllCaches() {",
 			  "	KQL_Me.resetCache();",
 			  "	KQL_GetQuery.resetCache();",
 			  "}",
-			  "",
 			]
 		`);
 	});

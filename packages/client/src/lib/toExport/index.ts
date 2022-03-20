@@ -9,5 +9,6 @@ export type {
 	Policy,
 	RequestParameters,
 	RequestQueryParameters,
-	RequestResult
+	RequestResult,
+	PatchType
 } from './kitQLClient';

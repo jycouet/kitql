@@ -104,4 +104,13 @@ describe('client - Cache Data', () => {
 			expect(cachedData.data).toMatchInlineSnapshot('"Hello2"');
 		}
 	});
+
+	it('Should return undefined if doesn t exist!', async () => {
+		for (let i = 0; i < cacheTypes.length; i++) {
+			const cacheData = cacheTypes[i];
+
+			let cachedData = cacheData.get('KEY1', { a: 1 });
+			expect(cachedData).toBeUndefined();
+		}
+	});
 });
