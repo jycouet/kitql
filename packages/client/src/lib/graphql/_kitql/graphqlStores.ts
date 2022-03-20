@@ -1,15 +1,13 @@
 import { browser } from '$app/env';
 import * as Types from '$lib/graphql/_kitql/graphqlTypes';
-import {
-	defaultStoreValue,
-	RequestStatus,
-	type RequestParameters,
-	type RequestQueryParameters,
-	type RequestResult
-} from '@kitql/client';
+import { defaultStoreValue, RequestStatus, type RequestParameters, type RequestQueryParameters, type RequestResult } from '@kitql/client';
 import { get, writable } from 'svelte/store';
 import { kitQLClient } from '../kitQLClient';
-
+ 
+export function KQL__ResetAllCaches() {
+	KQL_AllContinents.resetCache();
+	KQL_AllCountriesOfContinent.resetCache();
+}
 function KQL_AllContinentsStore() {
 	// prettier-ignore
 	const { subscribe, set, update } = writable<RequestResult<Types.AllContinentsQuery, Types.AllContinentsQueryVariables>>(defaultStoreValue);
@@ -55,6 +53,7 @@ function KQL_AllContinentsStore() {
 					}
 				}
 			}
+
 			update((c) => {
 				return { ...c, isFetching: true, status: RequestStatus.LOADING };
 			});
@@ -114,9 +113,7 @@ function KQL_AllCountriesOfContinentStore() {
 		 */
 		query: async (
 			params?: RequestQueryParameters<Types.AllCountriesOfContinentQueryVariables>
-		): Promise<
-			RequestResult<Types.AllCountriesOfContinentQuery, Types.AllCountriesOfContinentQueryVariables>
-		> => {
+		): Promise<RequestResult<Types.AllCountriesOfContinentQuery, Types.AllCountriesOfContinentQueryVariables>> => {
 			let { fetch, variables, settings } = params ?? {};
 			let { cacheMs, policy } = settings ?? {};
 
@@ -147,6 +144,7 @@ function KQL_AllCountriesOfContinentStore() {
 					}
 				}
 			}
+
 			update((c) => {
 				return { ...c, isFetching: true, status: RequestStatus.LOADING };
 			});

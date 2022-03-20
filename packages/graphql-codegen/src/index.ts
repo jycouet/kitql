@@ -35,6 +35,8 @@ export const plugin: PluginFunction<Record<string, any>, Types.ComplexPluginOutp
 
 	const prefixImportBaseTypesFrom = config.importBaseTypesFrom ? 'Types.' : '';
 
+	let kqlStoresQuery = [];
+
 	const out = allAst.definitions
 		.map(node => {
 			if (
@@ -57,6 +59,10 @@ export const plugin: PluginFunction<Record<string, any>, Types.ComplexPluginOutp
 				const kqltypeDocument = `${prefixImportBaseTypesFrom}${operationName}Document`; // Types.AllContinentsDocument
 				const fnKeyword =
 					node.operation === 'query' ? 'query' : node.operation === 'mutation' ? 'mutate' : 'sub';
+
+				if (node.operation === 'query') {
+					kqlStoresQuery.push(kqlStore);
+				}
 
 				let lines = [];
 				lines.push(`function ${kqlStoreInternal}() {`);
@@ -224,7 +230,18 @@ export const plugin: PluginFunction<Record<string, any>, Types.ComplexPluginOutp
 	prepend.push(`import { kitQLClient } from '${clientPath}';`);
 
 	// To separate prepend & Content
-	prepend.push(' ');
+	prepend.push('');
+
+	// Adding a global ResetAllCaches
+	prepend.push(`export function ${operationPrefix}_ResetAllCaches() {`);
+	for (let i = 0; i < kqlStoresQuery.length; i++) {
+		const kqlStoreQuery = kqlStoresQuery[i];
+		prepend.push(`\t${kqlStoreQuery}.resetCache();`);
+	}
+	prepend.push('}');
+
+	// To separate prepend & Content
+	prepend.push('');
 
 	return {
 		prepend,

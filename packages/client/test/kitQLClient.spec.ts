@@ -16,7 +16,7 @@ describe('client - kitQLClient', () => {
 		kitQLClient.request({
 			skFetch: {},
 			browser: true,
-			cacheKey: 'KEY1',
+			operationName: 'KEY1',
 			document: {},
 			variables: {}
 		});

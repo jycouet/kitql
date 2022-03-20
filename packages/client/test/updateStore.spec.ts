@@ -33,6 +33,7 @@ describe('client - UpdateStore', () => {
 			status: RequestStatus.NEVER,
 			isFetching: false,
 			date: new Date().getTime(),
+			operationName: 'OP1',
 			variables: null,
 			data: {
 				contracts: [

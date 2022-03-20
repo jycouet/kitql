@@ -17,6 +17,7 @@ const defaultStoreValue: RequestResult<any, any> = {
 	status: RequestStatus.NEVER,
 	isFetching: false,
 	date: new Date().getTime(),
+	operationName: 'OP1',
 	variables: null,
 	data: null,
 	errors: null,

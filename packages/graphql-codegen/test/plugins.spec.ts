@@ -85,7 +85,6 @@ describe('graphql-codegen', () => {
 	});
 
 	it('config dedupeOperationSuffix, should dedupe Operation Suffix', async () => {
-		// But heuu... I don't know what operation to do to test this.
 		const result = (await plugin(null as any, operations, {
 			omitOperationSuffix: false,
 			dedupeOperationSuffix: true
@@ -96,7 +95,6 @@ describe('graphql-codegen', () => {
 	});
 
 	it('config operationPrefix HELLO_YOU', async () => {
-		// But heuu... I don't know what operation to do to test this.
 		const result = (await plugin(null as any, operations, {
 			operationPrefix: 'HELLO_YOU'
 		})) as Types.ComplexPluginOutput;
@@ -105,7 +103,6 @@ describe('graphql-codegen', () => {
 	});
 
 	it('config operationPrefix empty', async () => {
-		// But heuu... I don't know what operation to do to test this.
 		const result = (await plugin(null as any, operations, {
 			operationPrefix: ''
 		})) as Types.ComplexPluginOutput;
@@ -114,11 +111,28 @@ describe('graphql-codegen', () => {
 	});
 
 	it('config operationPrefix not defined', async () => {
-		// But heuu... I don't know what operation to do to test this.
 		const result = (await plugin(null as any, operations, {
 			// operationPrefix: ''
 		})) as Types.ComplexPluginOutput;
 
 		expect(result.content).contains('export const KQL_Me = KQL_MeStore');
+	});
+
+	it('having function _ResetAllCaches with 2 .resetCache();', async () => {
+		const result = (await plugin(null as any, operations, {})) as Types.ComplexPluginOutput;
+		expect(result.prepend).toMatchInlineSnapshot(`
+			[
+			  "import { browser } from '\$app/env';",
+			  "import { defaultStoreValue, RequestStatus, type RequestParameters, type RequestQueryParameters, type RequestResult } from '@kitql/client';",
+			  "import { get, writable } from 'svelte/store';",
+			  "import { kitQLClient } from '../kitQLClient';",
+			  "",
+			  "export function KQL__ResetAllCaches() {",
+			  "	KQL_Me.resetCache();",
+			  "	KQL_GetQuery.resetCache();",
+			  "}",
+			  "",
+			]
+		`);
 	});
 });
