@@ -1,5 +1,22 @@
 # @kitql/all-in
 
+## 0.4.0
+
+### Minor Changes
+
+- 6adbe9d: rework patch to have types (full data only for now)
+
+### Patch Changes
+
+- Updated dependencies [4c00cbd]
+- Updated dependencies [0d1376e]
+- Updated dependencies [b9211b9]
+- Updated dependencies [b4ae184]
+  - @kitql/client@0.3.3
+  - @kitql/graphql-codegen@0.3.3
+  - @kitql/module-codegen@0.1.11
+  - @kitql/vite-plugin-watch-and-run@0.1.7
+
 ## 0.3.3
 
 ### Patch Changes
