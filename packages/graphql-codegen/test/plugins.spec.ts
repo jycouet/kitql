@@ -94,4 +94,31 @@ describe('graphql-codegen', () => {
 		expect(result.prepend).not.toBe(null);
 		expect(result.content).not.toBe(null);
 	});
+
+	it('config operationPrefix HELLO_YOU', async () => {
+		// But heuu... I don't know what operation to do to test this.
+		const result = (await plugin(null as any, operations, {
+			operationPrefix: 'HELLO_YOU'
+		})) as Types.ComplexPluginOutput;
+
+		expect(result.content).contains('export const HELLO_YOUMe = HELLO_YOUMeStore');
+	});
+
+	it('config operationPrefix empty', async () => {
+		// But heuu... I don't know what operation to do to test this.
+		const result = (await plugin(null as any, operations, {
+			operationPrefix: ''
+		})) as Types.ComplexPluginOutput;
+
+		expect(result.content).contains('export const Me = MeStore');
+	});
+
+	it('config operationPrefix not defined', async () => {
+		// But heuu... I don't know what operation to do to test this.
+		const result = (await plugin(null as any, operations, {
+			// operationPrefix: ''
+		})) as Types.ComplexPluginOutput;
+
+		expect(result.content).contains('export const KQL_Me = KQL_MeStore');
+	});
 });
