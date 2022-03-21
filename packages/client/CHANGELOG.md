@@ -1,5 +1,15 @@
 # @kitql/client
 
+## 0.3.3
+
+### Patch Changes
+
+- 4c00cbd: adding operationName in the store
+- 0d1376e: adding simulation backend delay
+- b9211b9: breaking changes: patch update! with typing.
+- Updated dependencies [f50f856]
+  - @kitql/helper@0.1.7
+
 ## 0.3.2
 
 ### Patch Changes
