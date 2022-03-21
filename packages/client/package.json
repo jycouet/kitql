@@ -49,6 +49,7 @@
 	"main": "dist/index.js",
 	"module": "dist/index.mjs",
 	"exports": {
+		"./src/lib/toExport/components/InitClientNavigation.svelte": "./dist/lib/toExport/components/InitClientNavigation.svelte",
 		"./package.json": "./package.json",
 		".": {
 			"require": "./dist/index.js",

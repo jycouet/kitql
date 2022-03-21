@@ -20,3 +20,5 @@ export type {
 	RequestQueryParameters,
 	RequestResult
 } from './lib/toExport';
+// export { default as InitClientNavigation } from './lib/toExport/components/InitClientNavigation.svelte';
+// export { default as KitQLInfo } from './lib/toExport/components/KitQLInfo.svelte';
