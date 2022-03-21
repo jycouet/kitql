@@ -15,7 +15,7 @@
 
 	{#if $KQL_AllCountriesOfContinent.data?.continent}
 		<div class="country">
-			{#each $KQL_AllCountriesOfContinent.data?.continent.countries as country, i}
+			{#each $KQL_AllCountriesOfContinent.data?.continent?.countries ?? [] as country, i}
 				{#if i < 10}
 					<div>
 						{country.name}

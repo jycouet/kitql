@@ -11,7 +11,7 @@
 		"test:ci": "vitest run --coverage",
 		"test:update-badge": "yarn update-badge",
 		"prebuild": "rimraf packages/*/dist",
-		"build": "tsc --project tsconfig.json && bob build && rm -rf packages/client/dist/lib/graphql",
+		"build": "tsc --project tsconfig.json && bob build && rm -rf packages/client/dist/lib/graphql && mkdir packages/client/dist/components && cp -R packages/client/src/lib/toExport/components/*.svelte packages/client/dist",
 		"release:msg": "yarn changeset",
 		"release:version": "yarn changeset version",
 		"release": "yarn build && changeset publish",

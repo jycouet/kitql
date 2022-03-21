@@ -27,7 +27,7 @@ describe('graphql-codegen', () => {
 	it('Should import from @kitql/client', async () => {
 		const result = (await plugin(null as any, operations, {})) as Types.ComplexPluginOutput;
 		expect(result.prepend[1]).toMatchInlineSnapshot(
-			'"import { defaultStoreValue, RequestStatus, type PatchType, type RequestQueryParameters, type RequestResult } from \'@kitql/client\';"'
+			'"import { clientNavigation, defaultStoreValue, RequestStatus, type PatchType, type RequestQueryParameters, type RequestResult } from \'@kitql/client\';"'
 		);
 	});
 
@@ -36,7 +36,7 @@ describe('graphql-codegen', () => {
 			jsDocStyle: true
 		})) as Types.ComplexPluginOutput;
 		expect(result.prepend).toContain(
-			`import { defaultStoreValue, RequestStatus } from '@kitql/client';`
+			`import { clientNavigation, defaultStoreValue, RequestStatus } from '@kitql/client';`
 		);
 	});
 

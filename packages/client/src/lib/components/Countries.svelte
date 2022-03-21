@@ -1,22 +1,27 @@
 <script lang="ts">
 	import { KQL_AllCountriesOfContinent } from '$lib/graphql/_kitql/graphqlStores';
-	import KitQlInfo from './KitQLInfo.svelte';
+	import KitQlInfo from '../toExport/components/KitQLInfo.svelte';
 </script>
 
 <div>
 	<h2>
 		{#if $KQL_AllCountriesOfContinent.data}
-			Continent: {$KQL_AllCountriesOfContinent.data?.continent?.name}
-		{:else}
-			<i>Please select something</i>
+			Continent: {$KQL_AllCountriesOfContinent.data?.continent?.name} ({$KQL_AllCountriesOfContinent
+				.data?.continent?.code})
 		{/if}
 	</h2>
-	<KitQlInfo store={$KQL_AllCountriesOfContinent} />
+	<KitQlInfo store={KQL_AllCountriesOfContinent} />
 
-	{#if $KQL_AllCountriesOfContinent.data?.continent}
+	{#if $KQL_AllCountriesOfContinent.status === 'LOADING'}
+		Loading...
+	{:else if $KQL_AllCountriesOfContinent.errors}
+		{#each $KQL_AllCountriesOfContinent.errors as error}
+			{error}
+		{/each}
+	{:else}
 		<ul class="overflow_scroll">
-			{#each $KQL_AllCountriesOfContinent.data?.continent.countries as country}
-				<li class="allSpace">
+			{#each $KQL_AllCountriesOfContinent.data?.continent?.countries ?? [] as country}
+				<li>
 					<p>{country.name}</p>
 				</li>
 			{/each}
@@ -25,11 +30,6 @@
 </div>
 
 <style>
-	.allSpace {
-		display: flex;
-		flex: 1;
-		justify-content: space-between;
-	}
 	.overflow_scroll {
 		max-height: 35vh;
 		overflow-y: scroll;

@@ -1,6 +1,6 @@
 import { browser } from '$app/env';
 import * as Types from '$lib/graphql/_kitql/graphqlTypes';
-import { defaultStoreValue, RequestStatus, type PatchType, type RequestQueryParameters, type RequestResult } from '@kitql/client';
+import { clientNavigation, defaultStoreValue, RequestStatus, type PatchType, type RequestQueryParameters, type RequestResult } from '@kitql/client';
 import { get, writable } from 'svelte/store';
 import { kitQLClient } from '../kitQLClient';
 export function KQL__ResetAllCaches() {
@@ -8,20 +8,14 @@ export function KQL__ResetAllCaches() {
 	KQL_AllCountriesOfContinent.resetCache();
 }
 function KQL_AllContinentsStore() {
-	// prettier-ignore
-	const { subscribe, set, update } = writable<RequestResult<Types.AllContinentsQuery, Types.AllContinentsQueryVariables>>(defaultStoreValue);
-
 	const operationName = 'KQL_AllContinents';
 
-	return {
-		subscribe,
-		/**
-		 * For SSR, you need to provide 'fetch' from the load function
-		 * @returns the latest operation and fill this store
-		 */
-		query: async (
+	// prettier-ignore
+	const { subscribe, set, update } = writable<RequestResult<Types.AllContinentsQuery, Types.AllContinentsQueryVariables>>({...defaultStoreValue, operationName});
+
+		async function queryLocal(
 			params?: RequestQueryParameters<Types.AllContinentsQueryVariables>
-		): Promise<RequestResult<Types.AllContinentsQuery, Types.AllContinentsQueryVariables>> => {
+		): Promise<RequestResult<Types.AllContinentsQuery, Types.AllContinentsQueryVariables>> {
 			let { fetch, variables, settings } = params ?? {};
 			let { cacheMs, policy } = settings ?? {};
 
@@ -68,6 +62,29 @@ function KQL_AllContinentsStore() {
 			const result = { ...res, isFetching: false, status: RequestStatus.DONE, variables };
 			set(result);
 			return result;
+		}
+
+	return {
+		subscribe,
+
+		/**
+		 * Can be used for SSR, but simpler option is `.queryLoad`
+		 * @returns fill this store & the cache
+		 */
+		query: queryLocal,
+
+		/**
+		 * Ideal for SSR query. To be used in SvelteKit load function
+		 * @returns fill this store & the cache
+		 */
+		queryLoad: async (
+			params?: RequestQueryParameters<Types.AllContinentsQueryVariables>
+		): Promise<void> => {
+			if (clientNavigation) {
+				queryLocal(params); // No await in clientNavigation mode.
+			} else {
+				await queryLocal(params);
+			}
 		},
 
 		/**
@@ -80,7 +97,7 @@ function KQL_AllContinentsStore() {
 		) {
 			kitQLClient.cacheRemove(operationName, { variables, allOperationKey });
 			if (withResetStore) {
-				set(defaultStoreValue);
+				set({ ...defaultStoreValue, operationName });
 			}
 		},
 
@@ -110,20 +127,14 @@ function KQL_AllContinentsStore() {
 export const KQL_AllContinents = KQL_AllContinentsStore();
 
 function KQL_AllCountriesOfContinentStore() {
-	// prettier-ignore
-	const { subscribe, set, update } = writable<RequestResult<Types.AllCountriesOfContinentQuery, Types.AllCountriesOfContinentQueryVariables>>(defaultStoreValue);
-
 	const operationName = 'KQL_AllCountriesOfContinent';
 
-	return {
-		subscribe,
-		/**
-		 * For SSR, you need to provide 'fetch' from the load function
-		 * @returns the latest operation and fill this store
-		 */
-		query: async (
+	// prettier-ignore
+	const { subscribe, set, update } = writable<RequestResult<Types.AllCountriesOfContinentQuery, Types.AllCountriesOfContinentQueryVariables>>({...defaultStoreValue, operationName});
+
+		async function queryLocal(
 			params?: RequestQueryParameters<Types.AllCountriesOfContinentQueryVariables>
-		): Promise<RequestResult<Types.AllCountriesOfContinentQuery, Types.AllCountriesOfContinentQueryVariables>> => {
+		): Promise<RequestResult<Types.AllCountriesOfContinentQuery, Types.AllCountriesOfContinentQueryVariables>> {
 			let { fetch, variables, settings } = params ?? {};
 			let { cacheMs, policy } = settings ?? {};
 
@@ -170,6 +181,29 @@ function KQL_AllCountriesOfContinentStore() {
 			const result = { ...res, isFetching: false, status: RequestStatus.DONE, variables };
 			set(result);
 			return result;
+		}
+
+	return {
+		subscribe,
+
+		/**
+		 * Can be used for SSR, but simpler option is `.queryLoad`
+		 * @returns fill this store & the cache
+		 */
+		query: queryLocal,
+
+		/**
+		 * Ideal for SSR query. To be used in SvelteKit load function
+		 * @returns fill this store & the cache
+		 */
+		queryLoad: async (
+			params?: RequestQueryParameters<Types.AllCountriesOfContinentQueryVariables>
+		): Promise<void> => {
+			if (clientNavigation) {
+				queryLocal(params); // No await in clientNavigation mode.
+			} else {
+				await queryLocal(params);
+			}
 		},
 
 		/**
@@ -182,7 +216,7 @@ function KQL_AllCountriesOfContinentStore() {
 		) {
 			kitQLClient.cacheRemove(operationName, { variables, allOperationKey });
 			if (withResetStore) {
-				set(defaultStoreValue);
+				set({ ...defaultStoreValue, operationName });
 			}
 		},
 

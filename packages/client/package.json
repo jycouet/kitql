@@ -8,6 +8,7 @@
 	},
 	"license": "MIT",
 	"scripts": {
+		"prebuild": "echo 'prebuild'",
 		"linkGen": "cd ../graphql-codegen/dist && yarn link && cd ../../client && yarn link @kitql/graphql-codegen",
 		"gen": "graphql-codegen --config ./.graphqlrc.yaml",
 		"dev": "svelte-kit dev",

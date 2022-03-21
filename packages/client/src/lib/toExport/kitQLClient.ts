@@ -232,12 +232,12 @@ export class KitQLClient {
 				`I think that either:` +
 					`\n\t${logRed(`1/`)} you forgot to provide \`${logYellow(
 						`fetch`
-					)}\`! As we are in SSR & include here. ` +
+					)}\`! As we are in SSR here. ` +
 					`\n\t   It should be something like:` +
 					`\n` +
 					`\n\t<script context="module" lang="ts">` +
 					`\n\t  export async function load({ ${logYellow(`fetch`)} }) {` +
-					`\n\t    await ${logCyan(operationName)}.query({ ${logYellow(
+					`\n\t    ${logYellow('await')} ${logCyan(operationName)}.queryLoad({ ${logYellow(
 						`fetch`
 					)}, variables: { ... } });` +
 					`\n\t    return {};` +
@@ -311,7 +311,7 @@ export class KitQLClient {
 
 			return dataToReturn;
 		} catch (errors) {
-			dataToReturn.errors = errors;
+			dataToReturn.errors = [errors];
 			return dataToReturn;
 		}
 	}

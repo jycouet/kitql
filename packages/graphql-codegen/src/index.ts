@@ -65,28 +65,22 @@ export const plugin: PluginFunction<Record<string, any>, Types.ComplexPluginOutp
 
 				let lines = [];
 				lines.push(`function ${kqlStoreInternal}() {`);
+				lines.push(`	const operationName = '${kqlStore}';`);
+				lines.push(``);
 				lines.push(`	// prettier-ignore`);
 				lines.push(
 					`	const { subscribe, set, update } = writable${
 						jsDocStyle ? `` : `<RequestResult<${kqltypeQueryAndVariable}>>`
-					}(defaultStoreValue);`
+					}({...defaultStoreValue, operationName});`
 				);
-				lines.push(``);
-				lines.push(`	const operationName = '${kqlStore}';`);
-				lines.push(``);
-				lines.push(`	return {`);
-				lines.push(`		subscribe,`);
 
-				// Query
-				lines.push(`		/**`);
-				lines.push(`		 * For SSR, you need to provide 'fetch' from the load function`);
-				lines.push(`		 * @returns the latest operation and fill this store`);
-				lines.push(`		 */`);
-				lines.push(`		${fnKeyword}: async (`);
+				lines.push(``);
+
+				lines.push(`		async function ${fnKeyword}Local(`);
 				// prettier-ignore
 				lines.push(`			params${jsDocStyle ? `` : `?: Request${node.operation === 'query' ? 'Query': ''}Parameters<${kqltypeVariable}>`}`);
 				lines.push(
-					`		)${jsDocStyle ? `` : `: Promise<RequestResult<${kqltypeQueryAndVariable}>>`} => {`
+					`		)${jsDocStyle ? `` : `: Promise<RequestResult<${kqltypeQueryAndVariable}>>`} {`
 				);
 				// prettier-ignore
 				lines.push(`			let { fetch, variables${node.operation === 'query' ? ', settings': ''} } = params ?? {};`);
@@ -156,7 +150,37 @@ export const plugin: PluginFunction<Record<string, any>, Types.ComplexPluginOutp
 				);
 				lines.push(`			set(result);`);
 				lines.push(`			return result;`);
-				lines.push(`		},`);
+				lines.push(`		}`);
+
+				lines.push(``);
+				lines.push(`	return {`);
+				lines.push(`		subscribe,`);
+
+				lines.push(``);
+
+				// Query & Mutation
+				lines.push(`		/**`);
+				lines.push(`		 * Can be used for SSR, but simpler option is \`.queryLoad\``);
+				lines.push(`		 * @returns fill this store & the cache`);
+				lines.push(`		 */`);
+				lines.push(`		${fnKeyword}: ${fnKeyword}Local,`);
+				lines.push(``);
+
+				if (node.operation === 'query') {
+					lines.push(`		/**`);
+					lines.push(`		 * Ideal for SSR query. To be used in SvelteKit load function`);
+					lines.push(`		 * @returns fill this store & the cache`);
+					lines.push(`		 */`);
+					lines.push(`		queryLoad: async (`);
+					lines.push(`			params?: RequestQueryParameters<${kqltypeVariable}>`);
+					lines.push(`		): Promise<void> => {`);
+					lines.push(`			if (clientNavigation) {`);
+					lines.push(`				queryLocal(params); // No await in clientNavigation mode.`);
+					lines.push(`			} else {`);
+					lines.push(`				await queryLocal(params);`);
+					lines.push(`			}`);
+					lines.push(`		},`);
+				}
 
 				if (node.operation === 'query') {
 					// Reset Cache
@@ -171,7 +195,7 @@ export const plugin: PluginFunction<Record<string, any>, Types.ComplexPluginOutp
 					lines.push(`		) {`);
 					lines.push(`			kitQLClient.cacheRemove(operationName, { variables, allOperationKey });`);
 					lines.push(`			if (withResetStore) {`);
-					lines.push(`				set(defaultStoreValue);`);
+					lines.push(`				set({ ...defaultStoreValue, operationName });`);
 					lines.push(`			}`);
 					lines.push(`		},`);
 				}
@@ -225,7 +249,7 @@ export const plugin: PluginFunction<Record<string, any>, Types.ComplexPluginOutp
 		prepend.push(`import * as Types from '${config.importBaseTypesFrom}';`);
 	}
 	prepend.push(
-		`import { defaultStoreValue, RequestStatus` +
+		`import { clientNavigation, defaultStoreValue, RequestStatus` +
 			`${
 				jsDocStyle ? `` : `, type PatchType, type RequestQueryParameters, type RequestResult`
 			} } from '@kitql/client';`

@@ -1,67 +1,42 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
-	import { page } from '$app/stores';
 	import { KQL_AllContinents } from '$lib/graphql/_kitql/graphqlStores';
-	import { queryStringApprend } from '@kitql/helper';
-	import KitQlInfo from './KitQLInfo.svelte';
-
-	function reset() {
-		KQL_AllContinents.resetCache();
-	}
-
-	async function query() {
-		await KQL_AllContinents.query();
-	}
-
-	async function force() {
-		await KQL_AllContinents.query({ settings: { policy: 'network-only' } });
-	}
+	import KitQlInfo from '../toExport/components/KitQLInfo.svelte';
 
 	async function manualUpdate() {
 		KQL_AllContinents.patch({ continents: [{ name: 'JYC Land', code: 'JYC' }] });
 	}
 
 	async function details(code: string) {
-		goto(`?${queryStringApprend($page.url.searchParams, { focus: code })}`);
-		// await GetAllCountriesOfContinentQuery({ variables: { code } });
+		// goto(`?${queryStringApprend($page.url.searchParams, { focus: code })}`);
+		goto(`/continents/${code}`);
 	}
 </script>
 
 <div>
-	<h2 class="vAlign">
+	<h2>
 		Continents
-		<button on:click={() => reset()}>Reset</button>
-		<button on:click={() => query()}>Query again</button>
-		<button on:click={() => force()}>Force network</button>
-		<button on:click={() => manualUpdate()}>Manual Update</button>
+		<div>
+			<button on:click={() => manualUpdate()}>Demo patch with some random data</button>
+		</div>
 	</h2>
-	<KitQlInfo store={$KQL_AllContinents} />
+	<KitQlInfo store={KQL_AllContinents} />
 	<ul>
-		{#each $KQL_AllContinents.data?.continents ?? [] as continent}
-			<li class="allSpace">
-				<p>{continent?.name}</p>
-				<button on:click={() => details(continent?.code)}>Get Countries</button>
-			</li>
+		{#if $KQL_AllContinents.status === 'LOADING'}
+			Loading...
+		{:else if $KQL_AllContinents.errors}
+			{#each $KQL_AllContinents.errors as error}
+				{error}
+			{/each}
 		{:else}
-			No data
-		{/each}
+			{#each $KQL_AllContinents.data?.continents ?? [] as continent}
+				<li>
+					<p>{continent?.name}</p>
+					<button on:click={() => details(continent?.code)}>Get Countries</button>
+				</li>
+			{:else}
+				No data
+			{/each}
+		{/if}
 	</ul>
 </div>
-
-<style>
-	.allSpace {
-		display: flex;
-		flex: 1;
-		justify-content: space-between;
-	}
-
-	.vAlign {
-		display: flex;
-		align-items: center;
-		justify-content: space-between;
-	}
-
-	li {
-		padding: 0.5rem;
-	}
-</style>
