@@ -6,40 +6,4 @@
   <img src="../../logo.svg" width="100" />
 </p>
 
-# ⚡How to - vite-plugin-watch-and-run
-
-```bash
-yarn add @kitql/vite-plugin-watch-and-run
-```
-
-In your `svelte.config.js` add a watchAndRun with the following configuration:
-
-- watch: a glob pattern to watch for changes
-- a run command to run when a file change is detected
-
-_(for now it's only codegen, but later it will be more!)_
-
-```js
-import watchAndRun from '@kitql/vite-plugin-watch-and-run';
-
-/** @type {import('@sveltejs/kit').Config} */
-const config = {
-	kit: {
-		vite: {
-			plugins: [
-				watchAndRun([
-					{
-						watch: '**/*.(gql|graphql)',
-						run: 'yarn gen'
-						// delay: 500, Optional parameter to delay the run command.
-					}
-				])
-			]
-		}
-	}
-};
-
-export default config;
-```
-
-`delay` is good in case you have 200 files added realy fast! Like this the cmd is executed only once.
+## Check the [⚡Doc⚡](https://kitql.vercel.app/docs/setup/03_vite-plugin-watch-and-run)

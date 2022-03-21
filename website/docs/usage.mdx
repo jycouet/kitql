@@ -5,6 +5,32 @@ sidebar_label: Usage
 
 Once everything is setup, just use `KitQL`!
 
+## Initialization
+
+in `__layout.svelte` add:
+
+```svelte
+<script lang="ts">
+  import { InitClientNavigation } from "@kitql/client";
+</script>
+
+<!-- Will be usefull to optimise SSR queries 😉 -->
+<InitClientNavigation />
+```
+
+## Helper: KitQLInfo
+
+Everywhere, you can use:
+
+```svelte
+<script lang="ts">
+  import { KitQLInfo } from "@kitql/client";
+</script>
+
+<!-- you will have a nice popup like in the screenshot below 😉 -->
+<KitQLInfo store={MyStore} />
+```
+
 ## Queries
 
 ### In a route
@@ -16,7 +42,7 @@ If you do this in the route, you will have the data in `SSR` mode.
 	import { KQL_AllContinents	} from '$lib/graphql/_kitql/graphqlStores';
 
 	export async function load({ fetch }) {
-		await KQL_AllContinents.query({ fetch });
+		await KQL_AllContinents.queryLoad({ fetch });
 		return {};
 	}
 </script>
@@ -76,7 +102,7 @@ If you do this in the route, you will have the data in `SSR` mode.
   import { KQL_AllContinents } from '$lib/graphql/_kitql/graphqlStores';
 
   function patch() {
-    KQL_AllContinents.patch([{ name: 'JYC Land', code: 'JYC' }], 'continents');
+    KQL_AllContinents.patch({continents: [{ name: 'JYC Land', code: 'JYC' }]});
   }
 </script>
 

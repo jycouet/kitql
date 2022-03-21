@@ -30,43 +30,14 @@
 
 You have 3 main options to use `KitQL`:
 
-- Take a [Demo App](#demo-1) and tweak it to your needs
-- Follow the [KitQL - all-in](https://github.com/jycouet/kitql/tree/main/packages/all-in) guide (easy)
+- Take a [Demo App](https://kitql.vercel.app/docs/demos/01_demo-01) and tweak it to your needs
+- Follow the [KitQL - all-in](https://kitql.vercel.app/docs/demos/01_demo-01) guide (easy)
 - Pick and choose the tools you need (advanced)
   - [KitQL - client](https://github.com/jycouet/kitql/tree/main/packages/client)
   - [KitQL - graphql-codegen](https://github.com/jycouet/kitql/tree/main/packages/graphql-codegen)
   - [KitQL - vite-plugin-watch-and-run](https://github.com/jycouet/kitql/tree/main/packages/vite-plugin-watch-and-run)
 
 <br />
-
-# ✨ All Demos
-
-## Demo 1
-
-_SvelteKit & GraphQL client with SSR & caching_
-
-_Notes:_
-
-- I'm using [volta](https://volta.sh/) as node manager.
-  - If you have it, when you will run `yarn` (to install everything), volta will grab the version of node and yarn specified in the `package.json`.
-  - If you don't have it, you will have to install node (>=16) and yarn (or other package managers) yourself.
-- I'm using `yarn` as package manager.
-  - In `yarn.lock` you are able to see pinned versions of dependencies. _(I'm trying to be always up to date)_
-  - You can use other package managers, but you will need to adapt some scripts (`prepare` and the `watchAndRun` vite plugin.)
-
-```bash
-# Get the first demo app (will create a folder: kitql-demo1)
-npx degit github:jycouet/kitql/examples/demo1 kitql-demo1
-
-# Navigate to the new folder
-cd kitql-demo1
-
-# Install everything
-yarn
-
-# Run the app ⚡⚡⚡
-yarn dev
-```
 
 <br /><br />
 
