@@ -1,5 +1,16 @@
 # @kitql/vite-plugin-watch-and-run
 
+## 0.2.0
+
+### Minor Changes
+
+- f8a035e: align version number
+
+### Patch Changes
+
+- Updated dependencies [f8a035e]
+  - @kitql/helper@0.2.0
+
 ## 0.1.7
 
 ### Patch Changes

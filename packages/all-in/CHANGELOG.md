@@ -1,5 +1,20 @@
 # @kitql/all-in
 
+## 0.5.0
+
+### Minor Changes
+
+- f8a035e: align version number
+
+### Patch Changes
+
+- Updated dependencies [f8a035e]
+  - @kitql/client@0.4.0
+  - @kitql/comp@0.1.0
+  - @kitql/graphql-codegen@0.4.0
+  - @kitql/module-codegen@0.2.0
+  - @kitql/vite-plugin-watch-and-run@0.2.0
+
 ## 0.4.2
 
 ### Patch Changes
