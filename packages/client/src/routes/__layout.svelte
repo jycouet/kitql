@@ -1,5 +1,5 @@
 <script>
-	import InitClientNavigation from '$lib/toExport/components/InitClientNavigation.svelte';
+	import { InitClientNavigation } from '@kitql/comp';
 </script>
 
 <InitClientNavigation />

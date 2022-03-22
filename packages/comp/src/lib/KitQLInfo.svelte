@@ -78,6 +78,7 @@
 					on:mousemove={handleMousemove}
 					on:mouseup={stopDrag}
 					on:mousedown={startDrag}
+					on:mouseleave={stopDrag}
 				>
 					<svg
 						width="30"

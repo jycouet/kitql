@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { KQL_AllCountriesOfContinent } from '$lib/graphql/_kitql/graphqlStores';
-	import KitQlInfo from '../toExport/components/KitQLInfo.svelte';
+	import { KitQLInfo } from '@kitql/comp';
 </script>
 
 <div>
@@ -10,7 +10,7 @@
 				.data?.continent?.code})
 		{/if}
 	</h2>
-	<KitQlInfo store={KQL_AllCountriesOfContinent} />
+	<KitQLInfo store={KQL_AllCountriesOfContinent} />
 
 	{#if $KQL_AllCountriesOfContinent.status === 'LOADING'}
 		Loading...

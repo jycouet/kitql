@@ -1,4 +1,5 @@
 {
+	"extends": "./.svelte-kit/tsconfig.json",
 	"compilerOptions": {
 		"moduleResolution": "node",
 		"module": "es2020",
@@ -30,6 +31,8 @@
 		"paths": {
 			"$lib": ["src/lib"],
 			"$lib/*": ["src/lib/*"],
+			"@kitql/comp": ["../comp/src/lib"],
+			"@kitql/comp/*": ["../comp/src/lib/*"],
 			"@kitql/client": ["src/lib/toExport"],
 			"@kitql/client/*": ["src/lib/toExport/*"],
 			"@kitql/helper": ["../helper/src"],

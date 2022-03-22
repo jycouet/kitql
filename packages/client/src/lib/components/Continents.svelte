@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
 	import { KQL_AllContinents } from '$lib/graphql/_kitql/graphqlStores';
-	import KitQlInfo from '../toExport/components/KitQLInfo.svelte';
+	import { KitQLInfo } from '@kitql/comp';
 
 	async function manualUpdate() {
 		KQL_AllContinents.patch({ continents: [{ name: 'JYC Land', code: 'JYC' }] });
@@ -20,7 +20,7 @@
 			<button on:click={() => manualUpdate()}>Demo patch with some random data</button>
 		</div>
 	</h2>
-	<KitQlInfo store={KQL_AllContinents} />
+	<KitQLInfo store={KQL_AllContinents} />
 	<ul>
 		{#if $KQL_AllContinents.status === 'LOADING'}
 			Loading...
