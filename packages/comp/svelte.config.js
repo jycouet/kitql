@@ -10,7 +10,10 @@ const config = {
 	kit: {
 		adapter: adapter(),
 		package: {
-			dir: 'dist'
+			dir: 'dist',
+			exports: () => {
+				return true;
+			}
 		}
 	}
 };
