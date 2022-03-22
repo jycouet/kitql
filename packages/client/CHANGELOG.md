@@ -1,5 +1,13 @@
 # @kitql/client
 
+## 0.4.2
+
+### Patch Changes
+
+- 9ffd864: fix imports :o
+- Updated dependencies [9ffd864]
+  - @kitql/comp@0.1.2
+
 ## 0.4.1
 
 ### Patch Changes
