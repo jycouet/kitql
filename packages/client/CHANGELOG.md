@@ -1,5 +1,17 @@
 # @kitql/client
 
+## 0.4.0
+
+### Minor Changes
+
+- f8a035e: align version number
+
+### Patch Changes
+
+- Updated dependencies [f8a035e]
+  - @kitql/comp@0.1.0
+  - @kitql/helper@0.2.0
+
 ## 0.3.5
 
 ### Patch Changes

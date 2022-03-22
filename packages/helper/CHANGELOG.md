@@ -1,5 +1,11 @@
 # @kitql/helper
 
+## 0.2.0
+
+### Minor Changes
+
+- f8a035e: align version number
+
 ## 0.1.7
 
 ### Patch Changes
