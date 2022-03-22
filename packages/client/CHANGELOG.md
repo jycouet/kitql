@@ -1,5 +1,12 @@
 # @kitql/client
 
+## 0.4.1
+
+### Patch Changes
+
+- Updated dependencies [f35bb0f]
+  - @kitql/comp@0.1.1
+
 ## 0.4.0
 
 ### Minor Changes

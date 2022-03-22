@@ -1,5 +1,11 @@
 # @kitql/comp
 
+## 0.1.1
+
+### Patch Changes
+
+- f35bb0f: fix published config
+
 ## 0.1.0
 
 ### Minor Changes
