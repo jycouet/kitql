@@ -1,5 +1,14 @@
 # @kitql/all-in
 
+## 0.4.2
+
+### Patch Changes
+
+- f2eeeb8: create components lib with KitQLInfo helping dev
+- Updated dependencies [f2eeeb8]
+  - @kitql/client@0.3.5
+  - @kitql/comp@0.0.2
+
 ## 0.4.1
 
 ### Patch Changes
