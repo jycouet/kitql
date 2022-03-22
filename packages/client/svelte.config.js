@@ -1,4 +1,4 @@
-import watchAndRun from '@kitql/vite-plugin-watch-and-run';
+// import watchAndRun from '@kitql/vite-plugin-watch-and-run';
 import adapter from '@sveltejs/adapter-auto';
 import path from 'path';
 import preprocess from 'svelte-preprocess';
@@ -14,12 +14,12 @@ const config = {
 
 		vite: {
 			plugins: [
-				watchAndRun([
-					{
-						watch: '**/*.(gql|graphql)',
-						run: 'yarn gen'
-					}
-				])
+				// watchAndRun([
+				// 	{
+				// 		watch: '**/*.(gql|graphql)',
+				// 		run: 'yarn gen'
+				// 	}
+				// ])
 			],
 			resolve: {
 				alias: {
