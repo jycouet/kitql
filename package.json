@@ -8,6 +8,7 @@
 		"prepare": "yarn workspace @kitql/client prepare",
 		"dev:t": "yarn build && yarn workspace @kitql/template dev",
 		"dev:c": "yarn workspace @kitql/client dev",
+		"dev:w": "cd website && yarn dev",
 		"test": "vitest --coverage",
 		"test:ci": "vitest run --coverage",
 		"test:update-badge": "yarn update-badge",
