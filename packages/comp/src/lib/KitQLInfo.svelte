@@ -6,7 +6,7 @@
 	/** store (without the $) */
 	export let store: any; //typeof KQL_AllContinents;
 
-	let policy: 'cache-first' | 'cache-only' | 'network-only' | 'cache-and-network' = 'cache-first';
+	let policy: 'cache-first' | 'cache-only' | 'network-only' | 'cache-and-network' = 'network-only';
 	let visible = false;
 	let expend = false;
 	let top = 10;

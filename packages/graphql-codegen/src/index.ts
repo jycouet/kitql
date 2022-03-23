@@ -25,7 +25,7 @@ export const plugin: PluginFunction<Record<string, any>, Types.ComplexPluginOutp
 ) => {
 	config = config ?? {};
 
-	const allAst = concatAST(documents.map(v => v.document));
+	const allAst = concatAST(documents.map((v) => v.document));
 	const convertName = convertFactory(config);
 	const operationResultSuffix = getConfigValue(config.operationResultSuffix, '');
 	const operationPrefix = getConfigValue(config.operationPrefix, 'KQL_');
@@ -38,7 +38,7 @@ export const plugin: PluginFunction<Record<string, any>, Types.ComplexPluginOutp
 	let kqlStoresQuery = [];
 
 	const out = allAst.definitions
-		.map(node => {
+		.map((node) => {
 			if (
 				node.kind === 'OperationDefinition' &&
 				node.name?.value &&
@@ -251,7 +251,9 @@ export const plugin: PluginFunction<Record<string, any>, Types.ComplexPluginOutp
 	prepend.push(
 		`import { clientNavigation, defaultStoreValue, RequestStatus` +
 			`${
-				jsDocStyle ? `` : `, type PatchType, type RequestQueryParameters, type RequestResult`
+				jsDocStyle
+					? ``
+					: `, type PatchType, type RequestParameters, type RequestQueryParameters, type RequestResult`
 			} } from '@kitql/client';`
 	);
 	prepend.push(`import { get, writable } from 'svelte/store';`);
