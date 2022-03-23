@@ -20,9 +20,30 @@
 
 - Documentation: [https://kitql.vercel.app/](https://kitql.vercel.app/)
 - Day by day progress, check [twitter - jycouet](https://twitter.com/jycouet/status/1486052645567672324)
-- Videos explanations:
-  - _(Some part are obsolete)_ [Youtube - KitQL - The native SvelteKit library for GraphQL](https://www.youtube.com/watch?v=6pH4fnFN70w)
-  - _More to come soon!_
+- Videos explanations 👇
+
+<table>
+  <tr>
+    <th>
+      Svelte Society London (23/03/22)
+    </th>
+    <th>
+      The native SvelteKit library for GraphQL (07/02/22)
+    </th>
+  </tr>
+  <tr>
+  <td>
+    <a href="https://www.youtube.com/watch?v=GclV96FtOZA&t=137s" target="_blank">
+      <img src="https://img.youtube.com/vi/GclV96FtOZA/0.jpg" alt="Watch the video" width="100%" />
+    </a>
+  </td>
+  <td>
+    <a href="https://www.youtube.com/watch?v=6pH4fnFN70w" target="_blank">
+      <img src="https://img.youtube.com/vi/6pH4fnFN70w/0.jpg" alt="Watch the video" width="100%" />
+    </a>
+  </td>
+  </tr>
+</table>
 
 <br />
 
