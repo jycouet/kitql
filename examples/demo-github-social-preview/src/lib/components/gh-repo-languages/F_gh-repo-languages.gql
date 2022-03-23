@@ -1,0 +1,14 @@
+fragment languagesInfo on Repository {
+	languages(first: 2, orderBy: { field: SIZE, direction: DESC }) {
+		totalCount
+		edges {
+			node {
+				color
+				id
+				name
+			}
+			size
+		}
+		totalSize
+	}
+}

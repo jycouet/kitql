@@ -1,0 +1,12 @@
+mutation AddStar($id: ID!) {
+	addStar(input: { starrableId: $id, clientMutationId: "From KitQL" }) {
+		clientMutationId
+		starrable {
+			id
+			stargazers {
+				totalCount
+			}
+			viewerHasStarred
+		}
+	}
+}

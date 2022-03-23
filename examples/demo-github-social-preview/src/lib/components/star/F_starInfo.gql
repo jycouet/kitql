@@ -1,0 +1,6 @@
+fragment starInfo on Repository {
+	stargazers {
+		totalCount
+	}
+	viewerHasStarred
+}
