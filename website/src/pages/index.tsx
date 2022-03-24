@@ -1,6 +1,6 @@
 import { HeroGradient, InfoList } from '@theguild/components';
 
-import { handlePushRoute } from '@guild-docs/client';
+import { handlePushRoute, NPMBadge } from '@guild-docs/client';
 
 export default function Index() {
 	return (
@@ -10,11 +10,11 @@ export default function Index() {
 				description="A set of tools, helping you building efficient apps in a fast way."
 				link={{
 					href: '/docs',
-					children: 'Get Started',
+					children: 'Documentation',
 					title: 'Get started with KitQL Docs',
-					onClick: e => handlePushRoute('/docs', e)
+					onClick: (e) => handlePushRoute('/docs/README', e)
 				}}
-				version="vX.Y.Z"
+				version={<NPMBadge name="@kitql/all-in" />}
 				colors={['#000000', '#ff3e00']}
 			/>
 			<InfoList

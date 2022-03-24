@@ -30,6 +30,8 @@ const styles: typeof chakraTheme['styles'] = {
 	})
 };
 
+const accentColor = '#ff3e00';
+
 const theme = extendTheme({
 	colors: {
 		gray: {
@@ -44,7 +46,8 @@ const theme = extendTheme({
 			800: '#262626',
 			850: '#1b1b1b',
 			900: '#171717'
-		}
+		},
+		accentColor
 	},
 	fonts: {
 		heading: 'TGCFont, sans-serif',
@@ -56,8 +59,6 @@ const theme = extendTheme({
 	},
 	styles
 });
-
-const accentColor = '#ff3e00';
 
 const serializedMdx = process.env.SERIALIZED_MDX_ROUTES;
 const mdxRoutes = { data: serializedMdx && JSON.parse(serializedMdx) };
@@ -96,10 +97,10 @@ function AppContent(appProps: AppProps) {
 					}
 				]}
 				cta={{
-					children: 'Get Started',
+					children: 'Documentation',
 					title: 'GETSTARTED',
-					href: '/docs',					
-					onClick: (e) => handlePushRoute('/docs', e)
+					href: '/docs/README',
+					onClick: (e) => handlePushRoute('/docs/README', e)
 				}}
 			/>
 			{isDocs ? (

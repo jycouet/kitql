@@ -1,0 +1,88 @@
+---
+title: KitQL - Queries
+sidebar_label: Queries
+---
+
+# Queries
+
+## Two ways
+
+### In context module
+
+If you do this in the route, you will have the data in `SSR` mode.
+
+```svelte
+<script context="module" lang="ts">
+	import { KQL_AllContinents } from '$lib/graphql/_kitql/graphqlStores';
+
+	export async function load({ fetch }) {
+		await KQL_AllContinents.queryLoad({ fetch });
+		return {};
+	}
+</script>
+
+<!-- Just use the store here, or anywhere else! -->
+{JSON.stringify($KQL_AllContinents.data, null, 2)}
+```
+
+### In a component
+
+```svelte
+<script lang="ts">
+	import { browser } from '$app/env';
+	import { KQL_AllContinents } from '$lib/graphql/_kitql/graphqlStores';
+
+	$: browser && KQL_AllContinents.query();
+</script>
+
+<!-- Just use the store here, or anywhere else! -->
+{JSON.stringify($KQL_AllContinents.data, null, 2)}
+```
+
+## Options
+
+### Policies
+
+- `cache-first` _(default)_: Will go first into the cache and if it's empty or outdated it will go to the network.
+- `cache-and-network`: Will grab from the cache AND will do a network call in the background.
+- `network-only`: Will only go to the network.
+- `cache-only`: Will only go to the cache. (offline scenarios)
+
+To be used like 👇
+
+```ts
+await KQL_AllContinents.query({ settings: { policy: 'cache-and-network' } });
+```
+
+### Reset Cache
+
+You can do it query by query like 👇
+
+```ts
+KQL_AllContinents.resetCache();
+```
+
+Or everything in one cmd 👇
+
+```ts
+KQL__ResetAllCaches;
+```
+
+### Patch
+
+You can put manualy some data in a store (and the associated cache).
+This is usefull for:
+
+- Optimistic UI
+  - 1/ You patch with some data you belive will be true
+  - 2/ You do a mutation
+  - 3/ You patch with the result of the mutation
+- Partial Result & Navigation
+  - 1/ You have a list of `Post.title` and you want to navigate to the detail of the post
+  - 2/ Arriving on the detail page, you patch with the title
+  - 3/ You do the detail query in the background
+  - 4/ When data comes back, it will automatically update the store!
+
+```ts
+KQL_AllContinents.patch({ continents: [{ name: 'JYC Land', code: 'JYC' }] });
+```

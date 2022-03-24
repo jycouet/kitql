@@ -33,7 +33,7 @@
   </tr>
   <tr>
   <td>
-    <a href="https://www.youtube.com/watch?v=GclV96FtOZA&t=137s" target="_blank">
+    <a href="https://www.youtube.com/watch?v=GclV96FtOZA&t=139s" target="_blank">
       <img src="https://img.youtube.com/vi/GclV96FtOZA/0.jpg" alt="Watch the video" width="100%" />
     </a>
   </td>

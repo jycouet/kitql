@@ -1,0 +1,86 @@
+---
+title: KitQL - All-In
+sidebar_label: Getting started => All-In
+---
+
+# ⚡Let's go All-In!
+
+### 1️⃣ In a SvelteKit project, install everything in one cmd!
+
+(step 0️⃣ if not done, create a [sveltekit project](https://kit.svelte.dev/) with everything `true` 🙃)
+
+<PackageInstall packages={['@kitql/all-in']} />
+
+### 2️⃣ Create a `.graphqlrc.yaml` at the root of your project
+
+[Like in the Demo 1](https://raw.githubusercontent.com/jycouet/kitql/main/examples/demo1/.graphqlrc.yaml)
+
+### 3️⃣ update your `package.json` to generate everything
+
+```json
+"scripts": {
+  "gen": "graphql-codegen --config ./.graphqlrc.yaml",
+}
+```
+
+### 4️⃣ Install the plugin Watch & Run
+
+In your `svelte.config.js` add a watchAndRun with the following configuration:
+
+```js
+import watchAndRun from './vite-plugin-watch-and-run.js';
+
+/** @type {import('@sveltejs/kit').Config} */
+const config = {
+	kit: {
+		vite: {
+			plugins: [
+				watchAndRun([
+					{
+						watch: '**/*.(gql|graphql)',
+						run: 'npm run dev'
+					}
+				])
+			]
+		}
+	}
+};
+
+export default config;
+```
+
+### 5️⃣ Run
+
+```bash
+yarn dev
+```
+
+### 6️⃣ Create your first GraphQL operation
+
+Like this file for example: [demo1/src/lib/graphql/operations/AllContinents_QUERY.gql](https://raw.githubusercontent.com/jycouet/kitql/main/examples/demo1/src/lib/graphql/operations/AllContinents_QUERY.gql)
+
+### 7️⃣ Use your operation
+
+```html
+<!-- For SSR -->
+<script context="module" lang="ts">
+	export async function load({ fetch }) {
+		await KQL_AllContinents.queryLoad({ fetch }); // Filling the store
+		return {};
+	}
+</script>
+
+<!-- Or in a svelte component -->
+<script lang="ts">
+	await KQL_AllContinents.query(); // Filling the store
+</script>
+
+<!-- Using the store where you want in the app -->
+<ul>
+	{#each $KQL_AllContinents.data?.continents as continent}
+	<li>
+		<p>{continent?.name}</p>
+	</li>
+	{/each}
+</ul>
+```

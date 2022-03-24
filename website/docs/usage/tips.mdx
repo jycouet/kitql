@@ -1,0 +1,42 @@
+---
+title: KitQL - Tips
+sidebar_label: Tips
+---
+
+# Tips
+
+## Helper Widget: `<KitQLInfo ...>`
+
+Everywhere, you can use:
+
+```svelte
+<script lang="ts">
+	import { KitQLInfo } from '@kitql/all-in';
+</script>
+
+<!-- you will have a nice popup like in the screenshot below 😉 -->
+<KitQLInfo store={MyStore} />
+```
+
+![KitQLInfo](https://kitql.vercel.app/assets/demo-github-social-preview.png)
+
+## Optimized SSR!
+
+in `__layout.svelte` add:
+
+```svelte
+<script lang="ts">
+	import { InitClientNavigation } from '@kitql/all-in';
+</script>
+
+<!-- Will be usefull to optimise SSR queries 😉 -->
+<InitClientNavigation />
+```
+
+_Note: this component might go away after: https://github.com/sveltejs/kit/issues/4447_
+
+Now, in your `load` functions use:
+
+```ts
+await KQL_AllContinents.queryLoad({ fetch });
+```
