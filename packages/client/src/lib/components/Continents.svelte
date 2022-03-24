@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
 	import { KQL_AllContinents } from '$lib/graphql/_kitql/graphqlStores';
-	import { KitQLInfo } from '@kitql/comp';
+	import { KitQLInfo } from '@kitql/all-in';
 
 	async function manualUpdate() {
 		KQL_AllContinents.patch({ continents: [{ name: 'JYC Land', code: 'JYC' }] });

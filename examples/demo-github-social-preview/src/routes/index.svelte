@@ -11,7 +11,7 @@
 	import Followers from '$lib/components/Followers.svelte';
 	import GhImg from '$lib/components/gh-img/gh-img.svelte';
 	import { KQL_Followers, KQL_Me } from '$lib/graphql/_kitql/graphqlStores';
-	import { KitQLInfo } from '@kitql/comp';
+	import { KitQLInfo } from '@kitql/all-in';
 </script>
 
 <!-- Just for debugging -->

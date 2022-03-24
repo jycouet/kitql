@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { KQL_AllCountriesOfContinent } from '$lib/graphql/_kitql/graphqlStores';
-	import { KitQLInfo } from '@kitql/comp';
+	import { KitQLInfo } from '@kitql/all-in';
 </script>
 
 <div>

@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { InitClientNavigation } from '@kitql/comp';
+	import { InitClientNavigation } from '@kitql/all-in';
 </script>
 
 <InitClientNavigation />

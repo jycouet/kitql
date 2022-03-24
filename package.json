@@ -13,7 +13,7 @@
 		"test:ci": "vitest run --coverage",
 		"test:update-badge": "yarn update-badge",
 		"prebuild": "rimraf packages/*/dist",
-		"build": "tsc --project tsconfig.json && bob build && rm -rf packages/client/dist/lib/graphql && yarn workspace @kitql/comp package",
+		"build": "tsc --project tsconfig.json && bob build && rm -rf packages/client/dist/lib/graphql && yarn workspace @kitql/all-in package",
 		"release:msg": "yarn changeset",
 		"release:version": "yarn changeset version",
 		"release": "yarn build && changeset publish",
