@@ -141,7 +141,7 @@
 							}}>Reset</button
 						>
 						|
-						<select bind:value={policy}>
+						<select style="color: black" bind:value={policy}>
 							<option value="cache-first">cache-first</option>
 							<option value="cache-and-network">cache-and-network</option>
 							<option value="network-only">network-only</option>
