@@ -1,5 +1,19 @@
 # @kitql/all-in
 
+## 0.6.0
+
+### Minor Changes
+
+- ed558f9: refactoring to remove comp library - KitQLInfo is in All-In directly
+
+### Patch Changes
+
+- Updated dependencies [ed558f9]
+  - @kitql/client@0.5.0
+  - @kitql/graphql-codegen@0.5.0
+  - @kitql/module-codegen@0.3.0
+  - @kitql/vite-plugin-watch-and-run@0.3.0
+
 ## 0.5.2
 
 ### Patch Changes

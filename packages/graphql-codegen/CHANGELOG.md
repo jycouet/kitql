@@ -1,5 +1,11 @@
 # @kitql/graphql-codegen
 
+## 0.5.0
+
+### Minor Changes
+
+- ed558f9: refactoring to remove comp library - KitQLInfo is in All-In directly
+
 ## 0.4.0
 
 ### Minor Changes
