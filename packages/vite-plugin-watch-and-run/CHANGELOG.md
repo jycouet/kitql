@@ -1,5 +1,16 @@
 # @kitql/vite-plugin-watch-and-run
 
+## 0.3.0
+
+### Minor Changes
+
+- ed558f9: refactoring to remove comp library - KitQLInfo is in All-In directly
+
+### Patch Changes
+
+- Updated dependencies [ed558f9]
+  - @kitql/helper@0.3.0
+
 ## 0.2.0
 
 ### Minor Changes
