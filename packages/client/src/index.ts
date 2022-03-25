@@ -1,13 +1,11 @@
 export {
-	clientNavigation,
 	defaultStoreValue,
 	InMemoryCache,
 	isLoading,
 	KitQLClient,
 	LocalStorageCache,
 	RequestFrom,
-	RequestStatus,
-	setClientNavigation
+	RequestStatus
 } from './lib/toExport';
 export type {
 	Credential,

@@ -1,9 +1,3 @@
-<script lang="ts">
-	import { InitClientNavigation } from '@kitql/all-in';
-</script>
-
-<InitClientNavigation />
-
 <svelte:head>
 	<title>KitQL Demo - Svelte London - March 23, 2022</title>
 </svelte:head>

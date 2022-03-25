@@ -1,9 +1,3 @@
-<script>
-	import { InitClientNavigation } from '@kitql/all-in';
-</script>
-
-<InitClientNavigation />
-
 <h1 class="vAlign">
 	Welcome to KitQL <img
 		class="ml-1"

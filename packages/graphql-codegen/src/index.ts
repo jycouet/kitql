@@ -36,6 +36,7 @@ export const plugin: PluginFunction<Record<string, any>, Types.ComplexPluginOutp
 	const prefixImportBaseTypesFrom = config.importBaseTypesFrom ? 'Types.' : '';
 
 	let kqlStoresQuery = [];
+	let kqlStoresMutation = [];
 
 	const out = allAst.definitions
 		.map((node) => {
@@ -61,6 +62,9 @@ export const plugin: PluginFunction<Record<string, any>, Types.ComplexPluginOutp
 
 				if (node.operation === 'query') {
 					kqlStoresQuery.push(kqlStore);
+				}
+				if (node.operation === 'mutation') {
+					kqlStoresMutation.push(kqlStore);
 				}
 
 				let lines = [];
@@ -174,8 +178,8 @@ export const plugin: PluginFunction<Record<string, any>, Types.ComplexPluginOutp
 					lines.push(`		queryLoad: async (`);
 					lines.push(`			params?: RequestQueryParameters<${kqltypeVariable}>`);
 					lines.push(`		): Promise<void> => {`);
-					lines.push(`			if (clientNavigation) {`);
-					lines.push(`				queryLocal(params); // No await in clientNavigation mode.`);
+					lines.push(`			if (clientStarted) {`);
+					lines.push(`				queryLocal(params); // No await in purpose, we are in a client navigation.`);
 					lines.push(`			} else {`);
 					lines.push(`				await queryLocal(params);`);
 					lines.push(`			}`);
@@ -241,6 +245,30 @@ export const plugin: PluginFunction<Record<string, any>, Types.ComplexPluginOutp
 		})
 		.filter(Boolean);
 
+	let special = [];
+	special.push(
+		`/* Internal. To skip await on a client side navigation in the load function (from queryLoad)! */`
+	);
+	special.push(`let clientStarted = false; // Will be true on a client side navigation`);
+	special.push(`if (browser) {`);
+	special.push(`	addEventListener('sveltekit:start', () => {`);
+	special.push(`		clientStarted = true;`);
+	special.push(`	});`);
+	special.push(`}`);
+	special.push(' ');
+
+	special.push(`/**`);
+	special.push(` * ResetAllCaches in One function!`);
+	special.push(` */`);
+	special.push(`export function ${operationPrefix}_ResetAllCaches() {`);
+	for (let i = 0; i < kqlStoresQuery.length; i++) {
+		const kqlStoreQuery = kqlStoresQuery[i];
+		special.push(`\t${kqlStoreQuery}.resetCache();`);
+	}
+	special.push('}');
+	special.push(' ');
+
+	special.push(`/* Operations 👇 */`);
 	let prepend = [];
 	if (!jsDocStyle) {
 		prepend.push(`import { browser } from '$app/env';`);
@@ -249,32 +277,22 @@ export const plugin: PluginFunction<Record<string, any>, Types.ComplexPluginOutp
 		prepend.push(`import * as Types from '${config.importBaseTypesFrom}';`);
 	}
 	prepend.push(
-		`import { clientNavigation, defaultStoreValue, RequestStatus` +
+		`import { defaultStoreValue, RequestStatus` +
 			`${
 				jsDocStyle
 					? ``
-					: `, type PatchType, type RequestParameters, type RequestQueryParameters, type RequestResult`
+					: `, type PatchType${
+							kqlStoresMutation.length > 0 ? ', type RequestParameters' : ''
+					  }, type RequestQueryParameters, type RequestResult`
 			} } from '@kitql/client';`
 	);
 	prepend.push(`import { get, writable } from 'svelte/store';`);
 	prepend.push(`import { kitQLClient } from '${clientPath}';`);
 
-	// To separate prepend & Content
-	prepend.push('');
-
-	// Adding a global ResetAllCaches
-	prepend.push(`export function ${operationPrefix}_ResetAllCaches() {`);
-	for (let i = 0; i < kqlStoresQuery.length; i++) {
-		const kqlStoreQuery = kqlStoresQuery[i];
-		prepend.push(`\t${kqlStoreQuery}.resetCache();`);
-	}
-	prepend.push('}');
-
-	// To separate prepend & Content
-	prepend.push('');
+	prepend.push(' ');
 
 	return {
 		prepend,
-		content: out.filter(Boolean).join('\n')
+		content: [...special, ...out].filter(Boolean).join('\n')
 	};
 };
