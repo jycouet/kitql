@@ -1191,10 +1191,10 @@
     "@jridgewell/resolve-uri" "^3.0.3"
     "@jridgewell/sourcemap-codec" "^1.4.10"
 
-"@kitql/all-in@0.5.2":
-  version "0.5.2"
-  resolved "https://registry.yarnpkg.com/@kitql/all-in/-/all-in-0.5.2.tgz#54dff7a0c79040620be559ba9b397a8c6f587d62"
-  integrity sha512-Qu0+GPaPr0TDqXj4KBje3DvSvZ8bNZuux2yFbAKwEU1e1BSH6iugB0LAwmlHAzmOpclBWChNHv90P7vga74rXQ==
+"@kitql/all-in@0.6.0":
+  version "0.6.0"
+  resolved "https://registry.yarnpkg.com/@kitql/all-in/-/all-in-0.6.0.tgz#5efecf8c2b3b6042887ac86a17d5625b8c39f888"
+  integrity sha512-0Vnipok9aUTAQKHvIeR3C1Nc+cploWli85SGZOBMdGI1GOIe1Qd9wsEPgktaz8BIuiz8pusQxuRoscopb+Q19w==
   dependencies:
     "@graphql-codegen/cli" "2.6.2"
     "@graphql-codegen/graphql-modules-preset" "2.3.8"
@@ -1206,56 +1206,50 @@
     "@graphql-codegen/typescript-resolvers" "2.6.1"
     "@graphql-eslint/eslint-plugin" "3.9.1"
     "@graphql-typed-document-node/core" "3.1.1"
-    "@kitql/client" "0.4.2"
-    "@kitql/comp" "0.1.2"
-    "@kitql/graphql-codegen" "0.4.0"
-    "@kitql/module-codegen" "0.2.0"
-    "@kitql/vite-plugin-watch-and-run" "0.2.0"
+    "@kitql/client" "0.5.0"
+    "@kitql/graphql-codegen" "0.5.0"
+    "@kitql/module-codegen" "0.3.0"
+    "@kitql/vite-plugin-watch-and-run" "0.3.0"
     graphql "16.3.0"
 
-"@kitql/client@0.4.2":
-  version "0.4.2"
-  resolved "https://registry.yarnpkg.com/@kitql/client/-/client-0.4.2.tgz#e253ec3a838e92f79f7ce5d2e054598c5f5a6d95"
-  integrity sha512-WV1zB0Gsh2yG777W77oDWFWI2kqdkhB1L3KC0plKsiw3qF6wYjVW9f0Uj2pa8jpc3bK3fa0Vfx73gl4wLY6QxA==
+"@kitql/client@0.5.0":
+  version "0.5.0"
+  resolved "https://registry.yarnpkg.com/@kitql/client/-/client-0.5.0.tgz#7ddc08d05f56f6a1521154462285893c9c473f1f"
+  integrity sha512-htezW2JLXeX7Uc6DlHEq21xs3XGQNRx95J3qlOB0f0MLKqSiOqNA+UWC75sF+hjnVGgIZLmczNLIoWLPB8WMyA==
   dependencies:
-    "@kitql/comp" "0.1.2"
-    "@kitql/helper" "0.2.0"
+    "@kitql/all-in" "0.6.0"
+    "@kitql/helper" "0.3.0"
 
-"@kitql/comp@0.1.2":
-  version "0.1.2"
-  resolved "https://registry.yarnpkg.com/@kitql/comp/-/comp-0.1.2.tgz#4733e24044b4669a82f93510eeb62cda16b43e33"
-  integrity sha512-mPVsyuUyKkEhJfUwp9Bcq823NCkcwhGRaS3LLm9VwTH5gQVWQWu4yPsblwIjegavLAALWgTwPc18/uEDEVJoIA==
-
-"@kitql/graphql-codegen@0.4.0":
-  version "0.4.0"
-  resolved "https://registry.yarnpkg.com/@kitql/graphql-codegen/-/graphql-codegen-0.4.0.tgz#da54f3923c2e2b37a29e5e4641d494b2604de855"
-  integrity sha512-dbQmiztWySQIcGFBmqhh6iEjhAm2QAS36wGNSDxMoMDRGR/7ARLcYt8lzWHtVFSQuXxcw0JnyiW5z0pk6GaW9Q==
+"@kitql/graphql-codegen@0.5.0":
+  version "0.5.0"
+  resolved "https://registry.yarnpkg.com/@kitql/graphql-codegen/-/graphql-codegen-0.5.0.tgz#35c00011b653d6e0099d3741de2da17ea8507dfc"
+  integrity sha512-GDlkjIHJnK83d1siDKfCiiUIWAvFKDBa7+JHK5LOy/8hbE76zM3DW7oOCb7krLUj1uZ1F0U0Q88JZ/fjO+LKIw==
   dependencies:
     "@graphql-codegen/plugin-helpers" "2.4.2"
     "@graphql-codegen/visitor-plugin-common" "2.7.4"
     auto-bind "5.0.1"
     change-case-all "1.0.14"
 
-"@kitql/helper@0.2.0":
-  version "0.2.0"
-  resolved "https://registry.yarnpkg.com/@kitql/helper/-/helper-0.2.0.tgz#0b8152b4b3816e019c32c0dee810680dc4012810"
-  integrity sha512-9hgHCZKviFqCavanhmCr7w/VUZ+pbkgfwyGsFGMG1WEh9QyD/XXlB9QNnL2XbJKDXdA3Hmf39b2b2fm7IiTF2w==
+"@kitql/helper@0.3.0":
+  version "0.3.0"
+  resolved "https://registry.yarnpkg.com/@kitql/helper/-/helper-0.3.0.tgz#0394418ec50d2876db110a0df431b9d80ba30b8c"
+  integrity sha512-u90fEplmr6U+3c0lLbV8OqNF7fojV8xjKT4wOuowf2qFr+y1dwZWSHPiNO4jDKCH4SPo/u8iLjmxJ8BMz8wxPA==
 
-"@kitql/module-codegen@0.2.0":
-  version "0.2.0"
-  resolved "https://registry.yarnpkg.com/@kitql/module-codegen/-/module-codegen-0.2.0.tgz#58006ff1a5cf8e3c57f3a7e4fb053e295a5f04f3"
-  integrity sha512-bmgXlxm8Yk+Tsw5eKkQ7zo4x5C070ZpbnN9nYA3rv/nswIsEJ6cxhanNB1hRAXuQxcLl2pjsWr0bzwpi3EeYbA==
+"@kitql/module-codegen@0.3.0":
+  version "0.3.0"
+  resolved "https://registry.yarnpkg.com/@kitql/module-codegen/-/module-codegen-0.3.0.tgz#9032da1f985659848da62362b31b787c6eb15ef9"
+  integrity sha512-G0TwWSKQTgB3A/T6x2R2fI3Z07oyQdGC9Qf9uzt440KaqFpYaeQDi8cEuD9lpIRsK+lTIaF4crD3wkSvvFxqnQ==
   dependencies:
-    "@kitql/helper" "0.2.0"
+    "@kitql/helper" "0.3.0"
     yaml "1.10.2"
 
-"@kitql/vite-plugin-watch-and-run@0.2.0":
-  version "0.2.0"
-  resolved "https://registry.yarnpkg.com/@kitql/vite-plugin-watch-and-run/-/vite-plugin-watch-and-run-0.2.0.tgz#40b645997b00fd8bbecea3403945a5d22b398cee"
-  integrity sha512-fb/ealm4bgpkxILY42kvmphlrVGMvfcqxCtxReIMLfVAPNVSjuD4O9PWZfq0Uz9p8EbgAfc7Vv6RdFFuY60zSQ==
+"@kitql/vite-plugin-watch-and-run@0.3.0":
+  version "0.3.0"
+  resolved "https://registry.yarnpkg.com/@kitql/vite-plugin-watch-and-run/-/vite-plugin-watch-and-run-0.3.0.tgz#3825108632019a9d363d66ed3f277801a5cd8df5"
+  integrity sha512-P9DVFagBKt6Z5pP2A3wk7O9P/YoeaMgrV0Kfp0xgbPonx53BZXm1Ac5Bu4gLG5JaKpnEJNqGer1AoNWbIoJIyQ==
   dependencies:
-    "@kitql/helper" "0.2.0"
-    micromatch "4.0.4"
+    "@kitql/helper" "0.3.0"
+    micromatch "4.0.5"
 
 "@n1ru4l/graphql-live-query@^0.9.0":
   version "0.9.0"
@@ -1855,7 +1849,7 @@ brace-expansion@^1.1.7:
     balanced-match "^1.0.0"
     concat-map "0.0.1"
 
-braces@^3.0.1, braces@~3.0.2:
+braces@^3.0.1, braces@^3.0.2, braces@~3.0.2:
   version "3.0.2"
   resolved "https://registry.yarnpkg.com/braces/-/braces-3.0.2.tgz#3454e1a462ee8d599e236df336cd9ea4f8afe107"
   integrity sha512-b8um+L1RzM3WDSzvhm6gIz1yfTbBt6YTlcEKAvsmqCZZFw46z626lVj9j1yEPW33H5H+lBQpZMP1k8l+78Ha0A==
@@ -3851,7 +3845,15 @@ meros@^1.1.4:
   resolved "https://registry.yarnpkg.com/meros/-/meros-1.2.0.tgz#096cdede2eb0b1610b219b1031b935260de1ad08"
   integrity sha512-3QRZIS707pZQnijHdhbttXRWwrHhZJ/gzolneoxKVz9N/xmsvY/7Ls8lpnI9gxbgxjcHsAVEW3mgwiZCo6kkJQ==
 
-micromatch@4.0.4, micromatch@^4.0.4:
+micromatch@4.0.5:
+  version "4.0.5"
+  resolved "https://registry.yarnpkg.com/micromatch/-/micromatch-4.0.5.tgz#bc8999a7cbbf77cdc89f132f6e467051b49090c6"
+  integrity sha512-DMy+ERcEW2q8Z2Po+WNXuw3c5YaUSFjAO5GsJqfEl7UjvtIuFKO6ZrKvcItdy98dwFI2N1tg3zNIdKaQT+aNdA==
+  dependencies:
+    braces "^3.0.2"
+    picomatch "^2.3.1"
+
+micromatch@^4.0.4:
   version "4.0.4"
   resolved "https://registry.yarnpkg.com/micromatch/-/micromatch-4.0.4.tgz#896d519dfe9db25fce94ceb7a500919bf881ebf9"
   integrity sha512-pRmzw/XUcwXGpD9aI9q/0XOwLNygjETJ8y0ao0wdqprrzDa4YnxLcz7fQRZr8voh8V10kGhABbNcHVk5wHgWwg==
@@ -4258,7 +4260,7 @@ picocolors@^1.0.0:
   resolved "https://registry.yarnpkg.com/picocolors/-/picocolors-1.0.0.tgz#cb5bdc74ff3f51892236eaf79d68bc44564ab81c"
   integrity sha512-1fygroTLlHu66zi26VoTDv8yRgm0Fccecssto+MhsZ0D/DGW2sm8E8AjW7NU5VVTRt5GxbeZ5qBuJr+HyLYkjQ==
 
-picomatch@^2.0.4, picomatch@^2.2.1, picomatch@^2.2.2, picomatch@^2.2.3:
+picomatch@^2.0.4, picomatch@^2.2.1, picomatch@^2.2.2, picomatch@^2.2.3, picomatch@^2.3.1:
   version "2.3.1"
   resolved "https://registry.yarnpkg.com/picomatch/-/picomatch-2.3.1.tgz#3ba3833733646d9d3e4995946c1365a67fb07a42"
   integrity sha512-JU3teHTNjmE2VCGFzuY8EXzCDVwEqB2a8fsIvwaStHhAWJEeVd1o1QD80CU6+ZdEXXSLbSsuLwJjkCBWqRQUVA==
