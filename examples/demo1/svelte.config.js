@@ -10,7 +10,6 @@ const config = {
 
 	kit: {
 		adapter: adapter(),
-
 		vite: {
 			plugins: [
 				watchAndRun([

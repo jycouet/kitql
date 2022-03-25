@@ -1,35 +1,27 @@
-# Typical File for extension: vscode-graphql & CodeGen!
-projects:
-  default:
-    schema:
-      - ./src/lib/graphql/schema.json # or https://countries.trevorblades.com/graphql
-        # headers:
-        #   Authorization: 'Bearer ${TOKEN}'
-    documents:
-      - '**/*.gql'
-    extensions:
-      endpoints:
-        default:
-          url: https://countries.trevorblades.com/graphql
-      codegen:
-        generates:
-          # ./src/lib/graphql/schema.json:
-          #   plugins:
-          #     - introspection
+schema: ./src/lib/graphql/schema.graphql
 
-          ./src/lib/graphql/_kitql/graphqlTypes.ts:
-            plugins:
-              - typescript
-              - typescript-operations
-              - typed-document-node
-              - typescript-document-nodes
+documents: ./src/lib/graphql/operations/**/*.gql
 
-          ./src/lib/graphql/_kitql/graphqlStores.ts:
-            plugins:
-              - '@kitql/graphql-codegen'
-            config:
-              importBaseTypesFrom: $lib/graphql/_kitql/graphqlTypes
-              operationPrefix: 'KQL_'
+generates:
+  ./src/lib/graphql/generated/types.ts:
+    preset: graphql-modules
+    presetConfig:
+      baseTypesPath: .
+      importBaseTypesFrom: $lib/graphql/generated/types
+      filename: kitql/moduleTypes.ts
+    plugins:
+      - typescript
+      - typescript-resolvers
+      - typescript-operations
+      - typed-document-node
+    # config:
+    #   contextType: '$lib/graphql/yogaApp#IYogaContext'
 
-        config:
-          useTypeImports: true
+  ./src/lib/kitql/generated/stores.ts:
+    plugins:
+      - '@kitql/graphql-codegen'
+    config:
+      importBaseTypesFrom: $lib/graphql/generated/types
+
+config:
+  useTypeImports: true
