@@ -9,9 +9,9 @@ export function getRoutes(): IRoutes {
 			'all-in': {
 				$name: 'Get started'
 			},
-			usage: {
+			usages: {
 				$name: 'Usages',
-				$routes: ['queries']
+				$routes: ['queries', 'mutations', 'patch', 'tips']
 			},
 			demos: {
 				$name: 'Demos',

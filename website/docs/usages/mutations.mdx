@@ -1,0 +1,16 @@
+---
+title: KitQL - Mutations
+sidebar_label: Mutations
+---
+
+# Mutations
+
+This this very straight forward, check 👇
+
+```svelte
+<script lang="ts">
+	function add(id: string) {
+		const result = await KQL_AddStar.mutate({ variables: { id } });
+	}
+</script>
+```
