@@ -5,7 +5,7 @@ import { print } from 'graphql-web-lite';
 import type { ICacheData } from './cache/ICacheData';
 import { InMemoryCache } from './cache/InMemoryCache';
 
-export type ClientSettings = {
+export type ClientSettings<HeadersType extends Record<string, string>> = {
 	/**
 	 * url of your graphql endpoint.
 	 */
@@ -15,7 +15,7 @@ export type ClientSettings = {
 	 * @name headers
 	 * @default {}
 	 */
-	headers?: Record<string, string>;
+	headers?: HeadersType;
 	/**
 	 * Default Cache in miliseconds
 	 * @default 3 Minutes (1000 * 60 * 3)
@@ -121,7 +121,7 @@ export const defaultStoreValue = {
 	isOutdated: false
 };
 
-export class KitQLClient {
+export class KitQLClient<HeadersType extends Record<string, string>> {
 	private url: string;
 	public policy: Policy;
 	private headers: Record<string, string>;
@@ -134,7 +134,7 @@ export class KitQLClient {
 	private endpointNetworkDelayMs: number;
 	private endpointSSRDelayMs: number;
 
-	constructor(options: ClientSettings) {
+	constructor(options: ClientSettings<HeadersType>) {
 		const {
 			url,
 			cacheMs,
@@ -157,6 +157,14 @@ export class KitQLClient {
 		this.endpointSSRDelayMs = endpointSSRDelayMs ?? 0;
 
 		this.log = new Log('KitQL Client');
+	}
+
+	public getHeaders(): HeadersType {
+		return this.headers as HeadersType;
+	}
+
+	public setHeaders(headers: HeadersType) {
+		this.headers = headers;
 	}
 
 	private logOperation(from: RequestFrom, operation: string, variables: string | null = null) {

@@ -1,6 +1,11 @@
 import { KitQLClient, InMemoryCache } from '@kitql/client';
 
-export const kitQLClient = new KitQLClient({
+//cool stuff to have it typed 🤟
+export type AppHeaders = {
+	Authorization?: `Bearer ${string}`;
+};
+
+export const kitQLClient = new KitQLClient<AppHeaders>({
 	url: `https://countries.trevorblades.com/graphql`,
 	headersContentType: 'application/json',
 	logType: ['client', 'server', 'operationAndvariables'],

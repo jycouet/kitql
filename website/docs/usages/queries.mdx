@@ -7,9 +7,23 @@ sidebar_label: Queries
 
 ## Two ways
 
+### In a component
+
+```svelte
+<script lang="ts">
+	import { browser } from '$app/env';
+	import { KQL_AllContinents } from '$lib/graphql/_kitql/graphqlStores';
+
+	$: browser && KQL_AllContinents.query();
+</script>
+
+<!-- Just use the store here, or anywhere else! -->
+{JSON.stringify($KQL_AllContinents.data, null, 2)}
+```
+
 ### In context module
 
-If you do this in the route, you will have the data in `SSR` mode.
+If you do this in the route, you will have the data in `SSR` mode out of the box!
 
 ```svelte
 <script context="module" lang="ts">
@@ -25,19 +39,7 @@ If you do this in the route, you will have the data in `SSR` mode.
 {JSON.stringify($KQL_AllContinents.data, null, 2)}
 ```
 
-### In a component
-
-```svelte
-<script lang="ts">
-	import { browser } from '$app/env';
-	import { KQL_AllContinents } from '$lib/graphql/_kitql/graphqlStores';
-
-	$: browser && KQL_AllContinents.query();
-</script>
-
-<!-- Just use the store here, or anywhere else! -->
-{JSON.stringify($KQL_AllContinents.data, null, 2)}
-```
+_Note that in the context module, we use `.queryLoad()` instead of `.query()`. This enables a better user experience in client side navigation because it will not wait for the result to switch page._
 
 ## Options
 
