@@ -1,5 +1,11 @@
 # @kitql/website
 
+## 0.2.0
+
+### Minor Changes
+
+- ed558f9: refactoring to remove comp library - KitQLInfo is in All-In directly
+
 ## 0.1.0
 
 ### Minor Changes

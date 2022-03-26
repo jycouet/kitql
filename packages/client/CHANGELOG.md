@@ -1,5 +1,17 @@
 # @kitql/client
 
+## 0.5.0
+
+### Minor Changes
+
+- ed558f9: refactoring to remove comp library - KitQLInfo is in All-In directly
+
+### Patch Changes
+
+- Updated dependencies [ed558f9]
+  - @kitql/all-in@0.6.0
+  - @kitql/helper@0.3.0
+
 ## 0.4.2
 
 ### Patch Changes
