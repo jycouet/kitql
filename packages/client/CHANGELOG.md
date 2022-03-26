@@ -1,5 +1,12 @@
 # @kitql/client
 
+## 0.5.1
+
+### Patch Changes
+
+- 16115c6: adding getter and setter for headers
+  - @kitql/all-in@0.6.1
+
 ## 0.5.0
 
 ### Minor Changes
