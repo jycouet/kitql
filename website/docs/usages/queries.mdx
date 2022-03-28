@@ -41,6 +41,25 @@ If you do this in the route, you will have the data in `SSR` mode out of the box
 
 _Note that in the context module, we use `.queryLoad()` instead of `.query()`. This enables a better user experience in client side navigation because it will not wait for the result to switch page._
 
+It will handle for you SSR and client side navigation out of the box using standard `load` functions.
+
+<Graph>
+
+flowchart TB
+b3-->a2
+subgraph Page Home
+a0[New visitor]-->a1[load server]-->a2[load browser]-->a3[Enjoy the home page]
+style a0 fill:#29B56A,color:#000
+style a3 fill:#254CA0,color:#000
+end
+subgraph Page About
+b0[New visitor]-->b1[load server]-->b2[load browser]-->b3[Enjoy the about page]
+style b0 fill:#29B56A,color:#000
+style b3 fill:#254CA0,color:#000
+end
+
+</Graph>
+
 ## Options
 
 ### Policies
