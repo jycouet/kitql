@@ -1,5 +1,4 @@
 import { kitQLServer } from '$graphql/kitQLServer';
-import type { RequestEvent } from '@sveltejs/kit';
 
 export async function get() {
 	return {
@@ -8,6 +7,4 @@ export async function get() {
 	};
 }
 
-export async function post(event: RequestEvent) {
-	return kitQLServer.handleRequest(event.request);
-}
+export { kitQLServer as post };

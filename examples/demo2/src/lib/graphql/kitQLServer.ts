@@ -2,7 +2,8 @@ import { useErrorHandler } from '@envelop/core';
 import { useGraphQlJit } from '@envelop/graphql-jit';
 import { useGraphQLModules } from '@envelop/graphql-modules';
 import { createServer } from '@graphql-yoga/common';
-import { Application, createApplication } from 'graphql-modules';
+import type { RequestEvent } from '@sveltejs/kit/types/internal';
+import { createApplication, type Application } from 'graphql-modules';
 import { modules } from './_kitql/_appModules';
 
 const plugins = [
@@ -23,13 +24,14 @@ const plugins = [
 ];
 
 function getContext({ request }) {
+	// console.log(`request`, request);
 	return {
 		// authHelper: new AuthHelper(request.headers),
 		// prisma: prismaInstance
 	};
 }
 
-export const kitQLServer = createServer({
+export const kitQLServer = createServer<RequestEvent>({
 	logging: false,
 	context: getContext as any, //Context will be typed in each resolver with IYogaContext (under)
 	plugins
