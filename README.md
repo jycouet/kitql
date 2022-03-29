@@ -67,8 +67,8 @@ You have 3 main options to use `KitQL`:
 
 - ✅ [SvelteKit](https://kit.svelte.dev/)
 - ✅ [GraphQL](https://graphql.org/)
-- ✅ [GraphQL - Yoga](https://www.graphql-yoga.com/)
 - ✅ [GraphQL - CodeGen](https://www.graphql-code-generator.com/)
+- ✅ [GraphQL - Yoga](https://www.graphql-yoga.com/)
 
 <br /><br />
 
@@ -79,7 +79,9 @@ You have 3 main options to use `KitQL`:
 ## ✨ Contributors
 
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
+
 [![All Contributors](https://img.shields.io/badge/all_contributors-8-orange.svg)](#contributors)
+
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 
 Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/docs/en/emoji-key)):

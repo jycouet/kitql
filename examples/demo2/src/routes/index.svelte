@@ -1,56 +1,43 @@
 <script context="module" lang="ts">
-	export async function load({}) {
+	import { KQL_Version } from '$lib/graphql/_kitql/graphqlStores';
+	import { KitQLInfo } from '@kitql/all-in';
+
+	export async function load({ fetch, url, params, session, stuff }) {
+		await KQL_Version.queryLoad({ fetch });
 		return {};
 	}
 </script>
 
-<svelte:head>
-	<title>KitQL</title>
-</svelte:head>
+<KitQLInfo store={KQL_Version} />
 
-<h1 class="vAlign">Welcome to KitQL <img class="ml-1" src="./logo.svg" alt="logo KitQL" /></h1>
-
-<p>
-	Visit <a target="_blanck" href="https://github.com/jycouet/kitql">Github KitQL</a> to read the documentation
-</p>
-
-<hr />
-
-<div class="grid" />
-Check your own SvelteKit #GraphQL endpoint on your:<a
-	href="/api/playql"
-	target="_blank"
-	rel="external">Graph<i>i</i>QL</a
->
-
+<div>✅ Your #GraphQL endpoint on SvelteKit is working 👌</div>
+<div>
+	✅ Your first query - <b>Version</b>:
+	<pre>{$KQL_Version.data?.version.releaseCreatedAtUtc}</pre>
+</div>
+<div>
+	✅ Your own 👉 <a href="/api/playql" target="_blank" rel="external">Graph<i>i</i>QL</a>
+</div>
 <br />
 <br />
-<div style="font-size: medium;">
-	Using:
-	<a href="https://www.the-guild.dev/blog/announcing-graphql-yoga-2">GraphQL Yoga 2</a>
+<br />
+<br />
+<br />
+<div>
+	🧘‍♂️ All this using <a href="https://www.the-guild.dev/blog/announcing-graphql-yoga-2"
+		>GraphQL Yoga 2</a
+	> 🚀
 </div>
 
 <style>
-	:root {
-		background-color: #0a1d41;
-		color: #fff;
-		font-size: x-large;
+	div {
+		margin-left: 10px;
+		margin-top: 20px;
 	}
-
-	:global(a) {
-		color: #ff3e00;
-	}
-	.grid {
-		display: grid;
-		grid-template-columns: 1fr 1fr;
-		grid-gap: 1rem;
-	}
-
-	.vAlign {
-		display: flex;
-		align-items: center;
-	}
-	.ml-1 {
-		margin-left: 1rem;
+	pre {
+		margin-left: 40px;
+		width: 300px;
+		padding: 10px 10px 10px 10px;
+		background-color: black;
 	}
 </style>

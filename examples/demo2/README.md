@@ -8,10 +8,17 @@
 
 # ⚡How to - Demo 2 (frontend & backend)
 
-_A set of tools, helping you building efficient apps in a fast way. >> SvelteKit & GraphQL <<_
+## Using
+
+- ✅ [SvelteKit](https://kit.svelte.dev/)
+- ✅ [GraphQL](https://graphql.org/)
+- ✅ [GraphQL - CodeGen](https://www.graphql-code-generator.com/)
+- ✅ [GraphQL - Yoga](https://www.graphql-yoga.com/)
+
+## To start
 
 ```
 yarn
 yarn dev
-🥳 check: http://localhost:3000/
+🥳 check: http://localhost:3777/
 ```
