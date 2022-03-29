@@ -1,6 +1,5 @@
 <script lang="ts">
 	import { KQL_AllCountriesOfContinent } from '$lib/graphql/_kitql/graphqlStores';
-	import KitQlInfo from './KitQLInfo.svelte';
 </script>
 
 <div>
@@ -8,28 +7,17 @@
 		{#if $KQL_AllCountriesOfContinent.data}
 			Continent: {$KQL_AllCountriesOfContinent.data?.continent?.name}
 		{:else}
-			<i>Please select something</i>
+			<i>Loading...</i>
 		{/if}
 	</h2>
-	<KitQlInfo store={$KQL_AllCountriesOfContinent} />
 
 	{#if $KQL_AllCountriesOfContinent.data?.continent}
-		<div class="country">
+		<ul>
 			{#each $KQL_AllCountriesOfContinent.data?.continent?.countries ?? [] as country, i}
-				{#if i < 10}
-					<div>
-						{country.name}
-					</div>
-				{:else}
-					.
-				{/if}
+				<li>
+					{country.name}
+				</li>
 			{/each}
-		</div>
+		</ul>
 	{/if}
 </div>
-
-<style>
-	.country {
-		font-size: small;
-	}
-</style>

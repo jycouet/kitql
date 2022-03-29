@@ -124,7 +124,7 @@
 				</tr>
 				<tr>
 					<td>Date</td>
-					<td><i>{new Date($store.date).toISOString()}</i></td>
+					<td><i>{$store.date ? new Date($store.date).toISOString() : '-'}</i></td>
 				</tr>
 				<tr>
 					<td>Variables</td>

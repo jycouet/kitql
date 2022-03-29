@@ -3,7 +3,7 @@
 	"version": "0.0.1",
 	"license": "MIT",
 	"scripts": {
-		"prepare": "npm run gen",
+		"prepare": "svelte-kit sync && npm run gen",
 		"dev": "svelte-kit dev --port 3777",
 		"gen": "graphql-codegen --config ./.graphqlrc.yaml",
 		"build": "svelte-kit build",
@@ -19,21 +19,21 @@
 	"devDependencies": {
 		"@sveltejs/adapter-auto": "next",
 		"@sveltejs/kit": "next",
-		"@typescript-eslint/eslint-plugin": "5.13.0",
-		"@typescript-eslint/parser": "5.13.0",
-		"eslint": "8.10.0",
-		"eslint-config-prettier": "8.4.0",
+		"@typescript-eslint/eslint-plugin": "5.17.0",
+		"@typescript-eslint/parser": "5.17.0",
+		"eslint": "8.12.0",
+		"eslint-config-prettier": "8.5.0",
 		"eslint-plugin-svelte3": "3.4.1",
-		"prettier": "2.5.1",
+		"prettier": "2.6.1",
 		"prettier-plugin-svelte": "2.6.0",
 		"svelte": "3.46.4",
-		"svelte-check": "2.4.5",
+		"svelte-check": "2.4.6",
 		"svelte-preprocess": "4.10.4",
 		"tslib": "2.3.1",
-		"typescript": "4.5.5"
+		"typescript": "4.6.3"
 	},
 	"dependencies": {
-		"@kitql/all-in": "0.2.2",
+		"@kitql/all-in": "0.6.2",
 		"graphql": "16.3.0"
 	},
 	"type": "module",
