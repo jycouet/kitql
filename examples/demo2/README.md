@@ -1,4 +1,4 @@
-# KitQL - Demo 1
+# KitQL - Demo 2 (frontend & backend)
 
 [KitQL](https://github.com/jycouet/kitql#kitql), _A set of tools, helping **you** building efficient apps in a fast way._
 
@@ -6,9 +6,9 @@
   <img src="../../logo.svg" width="100" />
 </p>
 
-# ⚡How to - Demo 1
+# ⚡How to - Demo 2 (frontend & backend)
 
-_SvelteKit & GraphQL client with SSR & caching_
+_A set of tools, helping you building efficient apps in a fast way. >> SvelteKit & GraphQL <<_
 
 ```
 yarn

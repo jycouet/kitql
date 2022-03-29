@@ -15,14 +15,14 @@ const config = {
 		vite: {
 			resolve: {
 				alias: {
-					// $lib: path.resolve('./src/lib'), Let's not put back the lib alias!
-					$layout: path.resolve('./src/lib/components/layout'),
-					$ui: path.resolve('./src/lib/components/ui'),
+					$lib: path.resolve('./src/lib'),
+					// $layout: path.resolve('./src/lib/components/layout'),
+					// $ui: path.resolve('./src/lib/components/ui'),
 					$graphql: path.resolve('./src/lib/graphql'),
-					$modules: path.resolve('./src/lib/modules'),
-					$utils: path.resolve('./src/lib/utils'),
-					$stores: path.resolve('./src/lib/utils/stores.ts'),
-					$theme: path.resolve('./src/lib/utils/theme.ts')
+					$modules: path.resolve('./src/lib/modules')
+					// $utils: path.resolve('./src/lib/utils'),
+					// $stores: path.resolve('./src/lib/utils/stores.ts'),
+					// $theme: path.resolve('./src/lib/utils/theme.ts')
 				}
 			},
 			plugins: [

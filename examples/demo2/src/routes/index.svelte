@@ -21,7 +21,13 @@
 
 <style>
 	:root {
-		background-color: rgba(68, 68, 68, 0.1);
+		background-color: #0a1d41;
+		color: #fff;
+		font-size: x-large;
+	}
+
+	:global(a) {
+		color: #ff3e00;
 	}
 	.grid {
 		display: grid;

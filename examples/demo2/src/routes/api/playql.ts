@@ -5,7 +5,14 @@ const defaultQuery = `query Version {
     releaseCreatedAtUtc
   }
 }
-`;
+
+mutation Boost {
+  _boostServer
+}
+
+mutation GenerateError {
+	_generateError
+}`;
 
 export async function get() {
 	return {

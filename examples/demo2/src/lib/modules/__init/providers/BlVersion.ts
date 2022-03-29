@@ -1,4 +1,4 @@
-import { gitStringDatetoDate } from '$utils/format/formatDate';
+import { gitStringDatetoDate } from '$lib/utils/format/formatDate';
 import { existsSync, readFileSync } from 'fs';
 
 export function getReleaseCreatedAtUtc() {
