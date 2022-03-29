@@ -1,13 +1,13 @@
 configs:
   modulesFolder: /home/jycouet/udev/gh/my-minion-mr/packages/main/src/lib/modules
-  moduleOutputFolder: _gen
-  outputFolder: /home/jycouet/udev/gh/my-minion-mr/packages/main/src/lib/graphql/_gen
+  moduleOutputFolder: _kitql
+  outputFolder: /home/jycouet/udev/gh/my-minion-mr/packages/main/src/lib/graphql/_kitql
 
 actions:
   # - createBaseStructure: true
   createEnumsModule:
     prismaFile: /home/jycouet/udev/gh/my-minion-mr/packages/main/prisma/schema.prisma
-    importBaseTypesFrom: $graphql/_gen/graphqlTypes
+    importBaseTypesFrom: $graphql/_kitql/graphqlTypes
 
   mergeModuleTypedefs: true
   mergeModuleResolvers: true

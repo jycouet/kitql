@@ -10,14 +10,14 @@ export function actionModuleContext(
 	dataloadersModule: { moduleName: string; providerFile: string }[], // ["dlIchttsGetByIds"]
 	modulesFolder: string, // src/lib/modules
 	moduleName: string, // ichtts
-	moduleOutputFolder, //_gen
+	moduleOutputFolder, //_kitql
 	withDbProvider
 ) {
 	let dataCtxModules = [];
 
 	const moduleNamePascalCase = toPascalCase(moduleName);
 	const functionsName = [];
-	dataloadersModule.forEach(dataloader => {
+	dataloadersModule.forEach((dataloader) => {
 		const functionName = dataloader.providerFile
 			.substring(moduleName.length + 2 + 3) // + 2 => dl & + 3 => Get
 			.replace(`s.ts`, '');
@@ -29,13 +29,13 @@ export function actionModuleContext(
 		dataCtxModules.push(`import { type IKitQLContext } from '$graphql/kitQLServer';`);
 		if (functionsName.length > 0) {
 			dataCtxModules.push(
-				`import { type ${moduleNamePascalCase} } from '$graphql/_gen/graphqlTypes';`
+				`import { type ${moduleNamePascalCase} } from '$graphql/_kitql/graphqlTypes';`
 			);
 		}
 		dataCtxModules.push(
 			`import { Db${moduleNamePascalCase} } from '../providers/Db${moduleNamePascalCase}';`
 		);
-		functionsName.forEach(functionName => {
+		functionsName.forEach((functionName) => {
 			dataCtxModules.push(
 				`import { dl${moduleNamePascalCase}Get${functionName}s } from '../providers/dl${moduleNamePascalCase}Get${functionName}s';`
 			);
@@ -51,7 +51,7 @@ export function actionModuleContext(
 		dataCtxModules.push(`export {}`);
 	}
 
-	functionsName.forEach(functionName => {
+	functionsName.forEach((functionName) => {
 		dataCtxModules.push(
 			`export async function ctx${moduleNamePascalCase}_Dl_${functionName}(ctx: IKitQLContext, id: string | number) {`
 		);
