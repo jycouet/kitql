@@ -3,7 +3,8 @@ import { useGraphQlJit } from '@envelop/graphql-jit';
 import { useGraphQLModules } from '@envelop/graphql-modules';
 import { createServer } from '@graphql-yoga/common';
 import type { RequestEvent } from '@sveltejs/kit/types/internal';
-import { createApplication, type Application } from 'graphql-modules';
+import type { Application } from 'graphql-modules';
+import { createApplication } from 'graphql-modules';
 import { modules } from './_kitql/_appModules';
 
 const plugins = [
