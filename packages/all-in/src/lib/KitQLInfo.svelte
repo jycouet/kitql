@@ -163,7 +163,7 @@
 							<div style="background-color: red;">Errors:</div>
 							{#each $store.errors as error}
 								<div>
-									{error}
+									{stry(error)}
 								</div>
 							{/each}
 						{:else}

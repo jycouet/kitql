@@ -21,6 +21,8 @@ sidebar_label: Queries
 {JSON.stringify($KQL_AllContinents.data, null, 2)}
 ```
 
+<p>&nbsp;</p>
+
 ### In context module
 
 If you do this in the route, you will have the data in `SSR` mode out of the box!
@@ -39,9 +41,13 @@ If you do this in the route, you will have the data in `SSR` mode out of the box
 {JSON.stringify($KQL_AllContinents.data, null, 2)}
 ```
 
-_Note that in the context module, we use `.queryLoad()` instead of `.query()`. This enables a better user experience in client side navigation because it will not wait for the result to switch page._
+<p>&nbsp;</p>
 
-It will handle for you SSR and client side navigation out of the box using standard `load` functions.
+#### Advance information
+
+On a client side navigation, you don't want your `.query(...)` in load function to be awaited. That's why we created `.queryLoad(...)` that will do the correct awaiting for you!
+
+_FYI, check the graph 👇 showing what is meant by `client navigation`. (here from about page to home page)_
 
 <Graph>
 
@@ -60,6 +66,17 @@ end
 
 </Graph>
 
+To have this working well, you should add globally (in `__layout.svelte`) the following code:
+
+```svelte
+<script lang="ts">
+	import { KQL__Init } from '$lib/graphql/_kitql/graphqlStores';
+	KQL__Init();
+</script>
+```
+
+<p>&nbsp;</p>
+
 ## Options
 
 ### Policies
@@ -74,6 +91,8 @@ To be used like 👇
 ```ts
 await KQL_AllContinents.query({ settings: { policy: 'cache-and-network' } });
 ```
+
+<p>&nbsp;</p>
 
 ### Reset Cache
 

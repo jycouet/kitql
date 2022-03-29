@@ -246,6 +246,15 @@ export const plugin: PluginFunction<Record<string, any>, Types.ComplexPluginOutp
 		.filter(Boolean);
 
 	let special = [];
+	special.push(`/**`);
+	special.push(` * Init KitQL (to have clientStarted = true!)`);
+	special.push(` *`);
+	special.push(` * Waiting for: https://github.com/sveltejs/kit/issues/4447`);
+	special.push(` */`);
+	special.push(`export function KQL__Init() {}`);
+
+	special.push(' ');
+
 	special.push(
 		`/* Internal. To skip await on a client side navigation in the load function (from queryLoad)! */`
 	);
@@ -255,6 +264,7 @@ export const plugin: PluginFunction<Record<string, any>, Types.ComplexPluginOutp
 	special.push(`		clientStarted = true;`);
 	special.push(`	});`);
 	special.push(`}`);
+
 	special.push(' ');
 
 	special.push(`/**`);

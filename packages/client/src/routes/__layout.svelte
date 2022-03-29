@@ -1,3 +1,8 @@
+<script lang="ts">
+	import { KQL__Init } from '$lib/graphql/_kitql/graphqlStores';
+	KQL__Init();
+</script>
+
 <h1 class="vAlign">
 	Welcome to KitQL <img
 		class="ml-1"

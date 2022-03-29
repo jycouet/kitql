@@ -11,9 +11,35 @@ sidebar_label: Getting started => All-In
 
 <PackageInstall packages={['@kitql/all-in']} />
 
+<p>&nbsp;</p>
+
 ### 2️⃣ Create a `.graphqlrc.yaml` at the root of your project
 
-[Like in the Demo 1](https://raw.githubusercontent.com/jycouet/kitql/main/examples/demo1/.graphqlrc.yaml)
+```yaml
+# Typical File for extension: vscode-graphql & CodeGen!
+projects:
+  default:
+    schema:
+      - ./src/lib/graphql/schema.json
+    documents:
+      - '**/*.gql'
+      codegen:
+        generates:
+          ./src/lib/graphql/_kitql/graphqlTypes.ts:
+            plugins:
+              - typescript
+              - typescript-operations
+              - typed-document-node
+              - typescript-document-nodes
+
+          ./src/lib/graphql/_kitql/graphqlStores.ts:
+            plugins:
+              - '@kitql/graphql-codegen'
+```
+
+If you want more example, check the [Demo 1](https://raw.githubusercontent.com/jycouet/kitql/main/examples/demo1/.graphqlrc.yaml) file.
+
+<p>&nbsp;</p>
 
 ### 3️⃣ update your `package.json` to generate everything
 
@@ -23,7 +49,9 @@ sidebar_label: Getting started => All-In
 }
 ```
 
-### 4️⃣ Install the plugin Watch & Run
+<p>&nbsp;</p>
+
+### 4️⃣ Install “Watch & Run” plugin
 
 In your `svelte.config.js` add a watchAndRun with the following configuration:
 
@@ -49,15 +77,28 @@ const config = {
 export default config;
 ```
 
+<p>&nbsp;</p>
+
 ### 5️⃣ Run
 
 ```bash
 yarn dev
 ```
 
+<p>&nbsp;</p>
+
 ### 6️⃣ Create your first GraphQL operation
 
-Like this file for example: [demo1/src/lib/graphql/operations/AllContinents_QUERY.gql](https://raw.githubusercontent.com/jycouet/kitql/main/examples/demo1/src/lib/graphql/operations/AllContinents_QUERY.gql)
+```graphql
+query AllContinents {
+	continents {
+		name
+		code
+	}
+}
+```
+
+<p>&nbsp;</p>
 
 ### 7️⃣ Use your operation
 
