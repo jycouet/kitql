@@ -32,7 +32,7 @@ function getContext({ request }) {
 	};
 }
 
-export const kitQLServer = createServer<RequestEvent>({
+export const kitQLServer = createServer({
 	logging: false,
 	context: getContext as any, //Context will be typed in each resolver with IYogaContext (under)
 	plugins
