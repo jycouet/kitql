@@ -12,17 +12,17 @@
 	let top = 10;
 	let left = 10;
 	let offsetTop = 0;
-	let offsetLeft = 10;
+	let offsetLeft = 0;
 	let drag = false;
 
 	onMount(() => {
 		let ls = lsGet();
-		if (ls) {
-			if (ls[$store.operationName]) {
-				expend = ls[$store.operationName].expend;
-				top = ls[$store.operationName].top;
-				left = ls[$store.operationName].left;
-			}
+		if (ls && ls[$store.operationName]) {
+			expend = ls[$store.operationName].expend;
+			top = ls[$store.operationName].top;
+			left = ls[$store.operationName].left;
+		} else {
+			left = window.innerWidth / 2;
 		}
 		visible = true;
 	});
