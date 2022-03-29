@@ -17,7 +17,18 @@
 <hr />
 
 <div class="grid" />
-<a href="/api/playql" target="_blank" rel="external">PlayQL</a>
+Check your own SvelteKit #GraphQL endpoint on your:<a
+	href="/api/playql"
+	target="_blank"
+	rel="external">Graph<i>i</i>QL</a
+>
+
+<br />
+<br />
+<div style="font-size: medium;">
+	Using:
+	<a href="https://www.the-guild.dev/blog/announcing-graphql-yoga-2">GraphQL Yoga 2</a>
+</div>
 
 <style>
 	:root {
