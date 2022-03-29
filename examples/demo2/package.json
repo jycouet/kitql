@@ -3,7 +3,7 @@
 	"version": "0.0.1",
 	"license": "MIT",
 	"scripts": {
-		"prepare": "svelte-kit sync && npm run dateLastCommit && npm run gen",
+		"prepare": "svelte-kit sync && npm run gen",
 		"dev": "svelte-kit dev --port 3777",
 		"gen": "npm run gen-modules && graphql-codegen --config ./.graphqlrc.yaml",
 		"dateLastCommit": "./tools/preStart.sh",
