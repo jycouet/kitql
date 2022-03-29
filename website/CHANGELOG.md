@@ -1,5 +1,11 @@
 # @kitql/website
 
+## 0.2.1
+
+### Patch Changes
+
+- 887591f: doc update & init lib (optional)
+
 ## 0.2.0
 
 ### Minor Changes
