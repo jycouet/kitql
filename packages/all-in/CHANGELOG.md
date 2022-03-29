@@ -1,5 +1,17 @@
 # @kitql/all-in
 
+## 0.6.2
+
+### Patch Changes
+
+- e4f3469: center the widget by default
+- 887591f: doc update & init lib (optional)
+- ab435c8: widget for mutation
+- Updated dependencies [887591f]
+- Updated dependencies [ab435c8]
+  - @kitql/client@0.5.2
+  - @kitql/graphql-codegen@0.5.1
+
 ## 0.6.1
 
 ### Patch Changes

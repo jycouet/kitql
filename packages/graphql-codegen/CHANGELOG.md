@@ -1,5 +1,12 @@
 # @kitql/graphql-codegen
 
+## 0.5.1
+
+### Patch Changes
+
+- 887591f: doc update & init lib (optional)
+- ab435c8: widget for mutation
+
 ## 0.5.0
 
 ### Minor Changes

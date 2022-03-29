@@ -1,5 +1,16 @@
 # @kitql/client
 
+## 0.5.2
+
+### Patch Changes
+
+- 887591f: doc update & init lib (optional)
+- ab435c8: widget for mutation
+- Updated dependencies [e4f3469]
+- Updated dependencies [887591f]
+- Updated dependencies [ab435c8]
+  - @kitql/all-in@0.6.2
+
 ## 0.5.1
 
 ### Patch Changes
