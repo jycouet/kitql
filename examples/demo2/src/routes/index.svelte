@@ -24,8 +24,9 @@
 <br />
 <br />
 <div>
-	🧘‍♂️ All this using <a href="https://www.the-guild.dev/blog/announcing-graphql-yoga-2"
-		>GraphQL Yoga 2</a
+	🧘‍♂️ All this using 👉 <a
+		href="https://www.the-guild.dev/blog/announcing-graphql-yoga-2"
+		target="_blank">GraphQL Yoga 2</a
 	> 🚀
 </div>
 
