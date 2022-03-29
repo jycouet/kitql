@@ -8,6 +8,7 @@ describe('client - kitQLClient', () => {
 			skFetch: {},
 			browser: true,
 			operationName: 'KEY1',
+			operationType: 'Query',
 			document: {},
 			variables: {}
 		});

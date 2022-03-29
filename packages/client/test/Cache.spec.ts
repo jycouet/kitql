@@ -11,13 +11,19 @@ import { beforeEach, describe, expect, it } from 'vitest';
 import { ICacheData } from '../src/lib/toExport/cache/ICacheData';
 import { InMemoryCache } from '../src/lib/toExport/cache/InMemoryCache';
 import { LocalStorageCache } from '../src/lib/toExport/cache/LocalStorageCache';
-import { RequestFrom, RequestStatus, RequestResult } from '../src/lib/toExport/kitQLClient';
+import {
+	RequestFrom,
+	RequestResult,
+	RequestStatus,
+	ResponseResultType
+} from '../src/lib/toExport/kitQLClient';
 
 const defaultStoreValue: RequestResult<any, any> = {
 	status: RequestStatus.NEVER,
 	isFetching: false,
 	date: new Date().getTime(),
 	operationName: 'OP1',
+	operationType: ResponseResultType.Query,
 	variables: null,
 	data: null,
 	errors: null,

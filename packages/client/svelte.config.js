@@ -24,7 +24,7 @@ const config = {
 			resolve: {
 				alias: {
 					'@kitql/client': path.resolve('./src/lib/toExport'),
-					'@kitql/all-in': path.resolve('../all-in/dist'),
+					'@kitql/all-in': path.resolve('../all-in/src/lib'),
 					'@kitql/helper': path.resolve('../helper/src')
 				}
 			}

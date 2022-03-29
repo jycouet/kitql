@@ -70,12 +70,17 @@ export const plugin: PluginFunction<Record<string, any>, Types.ComplexPluginOutp
 				let lines = [];
 				lines.push(`function ${kqlStoreInternal}() {`);
 				lines.push(`	const operationName = '${kqlStore}';`);
+				lines.push(
+					`	const operationType = ResponseResultType.${
+						node.operation === 'query' ? 'Query' : 'Mutation'
+					};`
+				);
 				lines.push(``);
 				lines.push(`	// prettier-ignore`);
 				lines.push(
 					`	const { subscribe, set, update } = writable${
 						jsDocStyle ? `` : `<RequestResult<${kqltypeQueryAndVariable}>>`
-					}({...defaultStoreValue, operationName});`
+					}({...defaultStoreValue, operationName, operationType});`
 				);
 
 				lines.push(``);
@@ -147,6 +152,7 @@ export const plugin: PluginFunction<Record<string, any>, Types.ComplexPluginOutp
 				lines.push(`				document: ${kqltypeDocument},`);
 				lines.push(`				variables, `);
 				lines.push(`				operationName, `);
+				lines.push(`				operationType, `);
 				lines.push(`				${jsDocStyle ? `browser: true` : `browser`}`);
 				lines.push(`			});`);
 				lines.push(
@@ -287,7 +293,7 @@ export const plugin: PluginFunction<Record<string, any>, Types.ComplexPluginOutp
 		prepend.push(`import * as Types from '${config.importBaseTypesFrom}';`);
 	}
 	prepend.push(
-		`import { defaultStoreValue, RequestStatus` +
+		`import { defaultStoreValue, RequestStatus, ResponseResultType` +
 			`${
 				jsDocStyle
 					? ``

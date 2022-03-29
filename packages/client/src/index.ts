@@ -5,7 +5,8 @@ export {
 	KitQLClient,
 	LocalStorageCache,
 	RequestFrom,
-	RequestStatus
+	RequestStatus,
+	ResponseResultType
 } from './lib/toExport';
 export type {
 	Credential,

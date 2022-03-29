@@ -94,9 +94,15 @@ export enum RequestFrom {
 	'CACHE' = 'CACHE'
 }
 
+export enum ResponseResultType {
+	'Query' = 'Query',
+	'Mutation' = 'Mutation'
+}
+
 export declare type ResponseResult<D, V> = {
 	date: number;
 	operationName: string;
+	operationType: ResponseResultType;
 	variables?: V;
 	data?: D | null;
 	errors?: Error[] | null;
@@ -114,6 +120,7 @@ export const defaultStoreValue = {
 	isFetching: false,
 	date: new Date().getTime(),
 	operationName: '???',
+	operationType: ResponseResultType.Query,
 	variables: null,
 	data: null,
 	errors: null,
@@ -230,6 +237,7 @@ export class KitQLClient<HeadersType extends Record<string, string>> {
 		document,
 		variables,
 		operationName,
+		operationType,
 		browser
 	}): Promise<ResponseResult<D, V>> {
 		const logStatements = this.getLogsStatements(browser);
@@ -260,6 +268,7 @@ export class KitQLClient<HeadersType extends Record<string, string>> {
 		let dataToReturn: ResponseResult<D, V> = {
 			date: new Date().getTime(),
 			operationName,
+			operationType,
 			variables,
 			from: RequestFrom.NETWORK,
 			data: null,

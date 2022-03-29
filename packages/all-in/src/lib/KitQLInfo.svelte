@@ -141,17 +141,25 @@
 							}}>Reset</button
 						>
 						|
-						<select style="color: black" bind:value={policy}>
-							<option value="cache-first">cache-first</option>
-							<option value="cache-and-network">cache-and-network</option>
-							<option value="network-only">network-only</option>
-							<option value="cache-only">cache-only</option>
-						</select>
-						<button
-							on:click={async () => {
-								await store.query({ settings: { policy } });
-							}}>Query</button
-						>
+						{#if $store.operationType === 'Query'}
+							<select style="color: black" bind:value={policy}>
+								<option value="cache-first">cache-first</option>
+								<option value="cache-and-network">cache-and-network</option>
+								<option value="network-only">network-only</option>
+								<option value="cache-only">cache-only</option>
+							</select>
+							<button
+								on:click={async () => {
+									await store.query({ settings: { policy } });
+								}}>Query</button
+							>
+						{:else}
+							<button
+								on:click={async () => {
+									await store.mutate({ settings: { policy } });
+								}}>Mutate</button
+							>
+						{/if}
 					</td>
 				</tr>
 				<tr>
