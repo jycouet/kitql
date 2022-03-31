@@ -167,7 +167,7 @@
 				</tr>
 				<tr>
 					<td colspan="2">
-						{#if $store.errors}
+						{#if $store.errors && $store.errors.length > 0}
 							<div style="background-color: red;">Errors:</div>
 							{#each $store.errors as error}
 								<div>

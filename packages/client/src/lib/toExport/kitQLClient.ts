@@ -315,7 +315,7 @@ export class KitQLClient<HeadersType extends Record<string, string>> {
 			if (logStatements.logRawResult) {
 				this.log.info(`${logCyan('dataJson:')} ` + `${stry(dataJson, 0)}`);
 			}
-			if (dataJson.errors) {
+			if (dataJson.errors && dataJson.errors.length > 0) {
 				dataToReturn.errors = dataJson.errors;
 				return dataToReturn;
 			}
