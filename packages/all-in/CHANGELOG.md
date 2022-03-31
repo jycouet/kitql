@@ -1,5 +1,14 @@
 # @kitql/all-in
 
+## 0.6.3
+
+### Patch Changes
+
+- 7289aad: widget check if date is null
+- dfb247e: no errors when it's an empty array
+- Updated dependencies [dfb247e]
+  - @kitql/client@0.5.3
+
 ## 0.6.2
 
 ### Patch Changes

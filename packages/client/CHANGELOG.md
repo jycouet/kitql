@@ -1,5 +1,14 @@
 # @kitql/client
 
+## 0.5.3
+
+### Patch Changes
+
+- dfb247e: no errors when it's an empty array
+- Updated dependencies [7289aad]
+- Updated dependencies [dfb247e]
+  - @kitql/all-in@0.6.3
+
 ## 0.5.2
 
 ### Patch Changes
