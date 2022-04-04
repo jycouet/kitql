@@ -79,9 +79,7 @@ You have 3 main options to use `KitQL`:
 ## ✨ Contributors
 
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
-
-[![All Contributors](https://img.shields.io/badge/all_contributors-8-orange.svg)](#contributors)
-
+[![All Contributors](https://img.shields.io/badge/all_contributors-9-orange.svg)](#contributors)
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 
 Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/docs/en/emoji-key)):
@@ -99,6 +97,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
     <td align="center"><a href="https://scottspence.com"><img src="https://avatars.githubusercontent.com/u/234708?v=4" width="70px;" alt=""/><br /><sub><b>Scott Spence</b></sub></a></td>
     <td align="center"><a href="http://szery.net.pl"><img src="https://avatars.githubusercontent.com/u/4786095?v=4" width="70px;" alt=""/><br /><sub><b>Łukasz Wiśniewski</b></sub></a></td>
     <td align="center"><a href="https://github.com/AlexanderBacklund"><img src="https://avatars.githubusercontent.com/u/22005025?v=4" width="70px;" alt=""/><br /><sub><b>Alexander Backlund</b></sub></a></td>
+    <td align="center"><a href="https://graphql.wtf"><img src="https://avatars.githubusercontent.com/u/950181?v=4" width="70px;" alt=""/><br /><sub><b>Jamie Barton</b></sub></a></td>
   </tr>
 </table>
 
