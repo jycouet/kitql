@@ -9,7 +9,9 @@ Mutations methods are exposed in a straightforward way from the generated KitQL 
 
 ```svelte
 <script lang="ts">
-	function add(id: string) {
+	// import { KQL_AddStar } from '$lib/graphql/_kitql/graphqlStores';
+
+	async function add(id: string) {
 		const result = await KQL_AddStar.mutate({ variables: { id } });
 	}
 </script>
