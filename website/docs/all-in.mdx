@@ -23,18 +23,20 @@ projects:
       - ./src/lib/graphql/schema.json
     documents:
       - '**/*.gql'
-      codegen:
-        generates:
-          ./src/lib/graphql/_kitql/graphqlTypes.ts:
-            plugins:
-              - typescript
-              - typescript-operations
-              - typed-document-node
-              - typescript-document-nodes
+		codegen:
+			generates:
+				./src/lib/graphql/_kitql/graphqlTypes.ts:
+					plugins:
+						- typescript
+						- typescript-operations
+						- typed-document-node
+						- typescript-document-nodes
 
-          ./src/lib/graphql/_kitql/graphqlStores.ts:
-            plugins:
-              - '@kitql/graphql-codegen'
+				./src/lib/graphql/_kitql/graphqlStores.ts:
+					plugins:
+						- '@kitql/graphql-codegen'
+					config:
+						importBaseTypesFrom: $lib/graphql/_kitql/graphqlTypes
 ```
 
 If you want more example, check the [Demo 1](https://raw.githubusercontent.com/jycouet/kitql/main/examples/demo1/.graphqlrc.yaml) file.

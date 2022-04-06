@@ -13,5 +13,5 @@ _A set of tools, helping you building efficient apps in a fast way. >> SvelteKit
 ```
 yarn
 yarn dev
-🥳 check: http://localhost:3000/
+🥳 check: http://localhost:3777/
 ```
