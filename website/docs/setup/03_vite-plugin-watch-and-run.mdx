@@ -9,7 +9,7 @@ sidebar_label: vite plugin - watch and run
 
 In your `svelte.config.js` add watchAndRun with the following configuration:
 
-- `watch`: a glob pattern to watch for changes
+- `watch`: a glob pattern to watch for changes. This will be matched against the _absolute path_ for altered files.
 - `run`: a command to trigger when a file change is detected (You can be very creative 🥳!)
 
 ```js
