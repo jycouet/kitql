@@ -1,0 +1,7 @@
+mutation AddReaction($input: AddReactionInput!) {
+	addReaction(input: $input) {
+		subject {
+			id
+		}
+	}
+}

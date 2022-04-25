@@ -1,0 +1,16 @@
+fragment commentDetail on IssueComment {
+	id
+	isMinimized
+	createdAt
+	author {
+		login
+	}
+	bodyHTML
+	body
+	reactionGroups {
+		content
+		reactors(first: 1) {
+			totalCount
+		}
+	}
+}

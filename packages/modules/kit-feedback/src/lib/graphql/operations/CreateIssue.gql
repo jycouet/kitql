@@ -1,0 +1,8 @@
+mutation CreateIssue($input: CreateIssueInput!) {
+	createIssue(input: $input) {
+		issue {
+			id
+			...issuePreview
+		}
+	}
+}
