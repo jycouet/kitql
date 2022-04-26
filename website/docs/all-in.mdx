@@ -23,20 +23,21 @@ projects:
       - ./src/lib/graphql/schema.json
     documents:
       - '**/*.gql'
-		codegen:
-			generates:
-				./src/lib/graphql/_kitql/graphqlTypes.ts:
-					plugins:
-						- typescript
-						- typescript-operations
-						- typed-document-node
-						- typescript-document-nodes
+	extensions:
+      codegen:
+        generates:
+          ./src/lib/graphql/_kitql/graphqlTypes.ts:
+            plugins:
+              - typescript
+              - typescript-operations
+              - typed-document-node
+              - typescript-document-nodes
 
-				./src/lib/graphql/_kitql/graphqlStores.ts:
-					plugins:
-						- '@kitql/graphql-codegen'
-					config:
-						importBaseTypesFrom: $lib/graphql/_kitql/graphqlTypes
+          ./src/lib/graphql/_kitql/graphqlStores.ts:
+            plugins:
+              - '@kitql/graphql-codegen'
+            config:
+              importBaseTypesFrom: $lib/graphql/_kitql/graphqlTypes
 ```
 
 If you want more example, check the [Demo 1](https://raw.githubusercontent.com/jycouet/kitql/main/examples/demo1/.graphqlrc.yaml) file.
@@ -47,6 +48,7 @@ If you want more example, check the [Demo 1](https://raw.githubusercontent.com/j
 
 ```json
 "scripts": {
+  "prepare": "svelte-kit sync && npm run gen",
   "gen": "graphql-codegen --config ./.graphqlrc.yaml",
 }
 ```
@@ -58,7 +60,7 @@ If you want more example, check the [Demo 1](https://raw.githubusercontent.com/j
 In your `svelte.config.js` add a watchAndRun with the following configuration:
 
 ```js
-import watchAndRun from './vite-plugin-watch-and-run.js';
+import watchAndRun from '@kitql/vite-plugin-watch-and-run.js';
 
 /** @type {import('@sveltejs/kit').Config} */
 const config = {
@@ -68,7 +70,7 @@ const config = {
 				watchAndRun([
 					{
 						watch: '**/*.(gql|graphql)',
-						run: 'npm run dev'
+						run: 'npm run gen'
 					}
 				])
 			]
@@ -81,7 +83,21 @@ export default config;
 
 <p>&nbsp;</p>
 
-### 5️⃣ Run
+### 5️⃣ Create `$lib/graphql/kitQLClient.js`
+
+```js
+import { KitQLClient } from '@kitql/client';
+
+export const kitQLClient = new KitQLClient({
+	url: `https://countries.trevorblades.com/graphql`,
+	headersContentType: 'application/json',
+	logType: ['client', 'server', 'operationAndvariables']
+});
+```
+
+<p>&nbsp;</p>
+
+### 6️⃣ Run
 
 ```bash
 yarn dev
@@ -89,9 +105,11 @@ yarn dev
 
 <p>&nbsp;</p>
 
-### 6️⃣ Create your first GraphQL operation
+### 7️⃣ Create your first GraphQL operation
 
 ```graphql
+# $lib/graphql/operations/AllContinents_QUERY.gql
+
 query AllContinents {
 	continents {
 		name
@@ -102,11 +120,12 @@ query AllContinents {
 
 <p>&nbsp;</p>
 
-### 7️⃣ Use your operation
+### 8️⃣ Use your operation
 
 ```html
 <!-- For SSR -->
 <script context="module" lang="ts">
+	import { KQL_AllContinents } from '$lib/graphql/_kitql/graphqlStores';
 	export async function load({ fetch }) {
 		await KQL_AllContinents.queryLoad({ fetch }); // Filling the store
 		return {};
