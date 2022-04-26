@@ -4,7 +4,7 @@
 
 	import { router } from '$lib/routes';
 	import type { CommentMetadata } from '$lib/types';
-	import Vote from '$lib/components/comments/Vote.svelte';
+	import Vote from '$lib/components/Vote.svelte';
 
 	export let issue: IssuePreviewFragment;
 

@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { browser } from '$app/env';
-	import Comments from '$lib/components/comments/Comments.svelte';
-	import Comment from '$lib/components/comments/Comment.svelte';
+	import CommentCrud from '$lib/components/comments/COMMENT_Crud.svelte';
+	import CommentDetail from '$lib/components/comments/COMMENT_Detail.svelte';
 	import { config, type KitFeedbackConfig } from '$lib/config';
 	import { KQL_Issue } from '$lib/graphql/_kitql/graphqlStores';
 	import Icon from '@iconify/svelte';
@@ -58,9 +58,9 @@
 			<h2 class={resolveTheme($theme, 'title')}>
 				{@html issue?.titleHTML}
 			</h2>
-			<Comment comment={parseDescription(issue, $config)} isIssueDescription />
+			<CommentDetail comment={parseDescription(issue, $config)} isIssueDescription />
 		</div>
 		<hr />
-		<Comments comments={issue?.comments.nodes} issue={{ number, id: issue?.id }} />
+		<CommentCrud comments={issue?.comments.nodes} issue={{ number, id: issue?.id }} />
 	</div>
 {/if}

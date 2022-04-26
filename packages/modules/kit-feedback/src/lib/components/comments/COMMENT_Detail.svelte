@@ -3,7 +3,7 @@
 	import { resolveTheme, theme } from '$lib/theme';
 	import type { Comment } from '$lib/types';
 	import { resolveAuthor } from '$lib/components/comments/helper';
-	import Vote from './Vote.svelte';
+	import Vote from '../Vote.svelte';
 
 	export let comment: Comment;
 	export let isIssueDescription = false;

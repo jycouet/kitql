@@ -1,10 +1,10 @@
 <script lang="ts">
 	import { config, type KitFeedbackConfig } from '$lib/config';
 	import { ReactionContent, type CommentDetailFragment } from '$lib/graphql/_kitql/graphqlTypes';
-	import CommentsList from './CommentsList.svelte';
-	import CreateComment from './CreateComment.svelte';
+	import CommentList from '$lib/components/comments/COMMENT_List.svelte';
 	import { resolveTheme, theme } from '$lib/theme';
 	import type { CommentMetadata } from '$lib/types';
+	import CommentCreate from '$lib/components/comments/COMMENT_Create.svelte';
 
 	export let comments: CommentDetailFragment[];
 	export let issue: { number: number; id: string };
@@ -42,6 +42,6 @@
 </script>
 
 <div class={resolveTheme($theme, 'comments')}>
-	<CommentsList comments={parseComments(comments, $config)} />
-	<CreateComment {issue} />
+	<CommentList comments={parseComments(comments, $config)} />
+	<CommentCreate {issue} />
 </div>
