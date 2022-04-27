@@ -1,4 +1,4 @@
-import watchAndRun from '@kitql/vite-plugin-watch-and-run';
+// import watchAndRun from '@kitql/vite-plugin-watch-and-run';
 import adapter from '@sveltejs/adapter-auto';
 import { dirname, resolve } from 'path';
 import preprocess from 'svelte-preprocess';
@@ -9,12 +9,12 @@ const __dirname = dirname(__filename);
 
 /** @type {import('@sveltejs/kit').Config} */
 const config = {
-	preprocess: [ preprocess({ postcss: true }) ],
+	preprocess: [preprocess({ postcss: true })],
 	kit: {
 		adapter: adapter(),
 		vite: {
 			plugins: [
-				watchAndRun([ { watch: '**/*.(gql)', run: 'yarn gen' } ])
+				// watchAndRun([ { watch: '**/*.(gql)', run: 'yarn gen' } ])
 			],
 			define: {
 				PACKAGE_VERSION: JSON.stringify(process.env.npm_package_version),
@@ -29,10 +29,9 @@ const config = {
 		package: {
 			dir: 'dist',
 			emitTypes: true,
-			exports: (filepath) => filepath.endsWith("index.js"),
-			files: (filepath) => !filepath.endsWith(".test.ts"),
-		},
-
+			exports: (filepath) => filepath.endsWith('index.js'),
+			files: (filepath) => !filepath.endsWith('.test.ts')
+		}
 	}
 };
 

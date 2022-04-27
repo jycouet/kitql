@@ -5,7 +5,7 @@
 	"private": true,
 	"license": "MIT",
 	"scripts": {
-		"prepare": "yarn workspace @kitql/client prepare",
+		"prepare": "yarn workspace @kitql/client prepare && yarn workspace @kitql/kit-feedback prepare",
 		"dev:t": "yarn build && yarn workspace @kitql/template dev",
 		"dev:c": "yarn workspace @kitql/client dev",
 		"dev:w": "cd website && yarn dev",
@@ -13,7 +13,7 @@
 		"test:ci": "vitest run --coverage",
 		"test:update-badge": "yarn update-badge",
 		"prebuild": "rimraf packages/*/dist",
-		"build": "tsc --project tsconfig.json && bob build && rm -rf packages/client/dist/lib/graphql && yarn workspace @kitql/all-in package",
+		"build": "tsc --project tsconfig.json && bob build && rm -rf packages/client/dist/lib/graphql && yarn workspace @kitql/all-in package && yarn workspace @kitql/kit-feedback package",
 		"release:msg": "yarn changeset",
 		"release:version": "yarn changeset version",
 		"release": "yarn build && changeset publish",
@@ -23,6 +23,7 @@
 	"workspaces": {
 		"packages": [
 			"packages/*",
+			"kit-modules/*",
 			"website"
 		]
 	},
