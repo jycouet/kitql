@@ -40,11 +40,11 @@ yarn add @kitql/kit-feedback
 
 ```Svelte
 <script lang="ts" context="module">
-	import { config, Feedback } from '$lib';
+	import { client, config, Feedback } from '@kitql/kit-feedback';
 </script>
 
 <script lang="ts">
-	let show = true;
+	let showFeedback = true;
 	const me = { id: 'jbruxelle' };
 
 	config.override({
@@ -52,8 +52,8 @@ yarn add @kitql/kit-feedback
 		dev: false,
 		identifier: () => me.id,
 		repository: {
-			name: 'my-repo-name',
-			owner: 'the-owner-name'
+			owner: 'the-owner-name',
+			name: 'my-repo-name'
 		},
 		staff: {
 			members: {
@@ -104,9 +104,9 @@ yarn add @kitql/kit-feedback
 	});
 </script>
 
-<button on:click={() => (show = true)}>Open feedback</button>
+<button on:click={() => (showFeedback = true)}>Open feedback</button>
 
-<Feedback bind:show />
+<Feedback bind:showFeedback />
 
 ```
 
