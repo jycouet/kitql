@@ -48,3 +48,16 @@ kitQLClient.getHeaders();
 // Set
 kitQLClient.setHeaders({ Authorization: 'Bearer MY_TOKEN' });
 ```
+
+## Credential
+
+In your `kitqlClient.ts` you can set `credentials`:
+
+More info there: https://developer.mozilla.org/en-US/docs/Web/API/Request/credentials
+
+```ts
+export const kitQLClient = new KitQLClient({
+	url: `https://countries.trevorblades.com/graphql`,
+	credentials: 'omit' // | 'same-origin' | 'include'
+});
+```
