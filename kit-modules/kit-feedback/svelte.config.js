@@ -29,7 +29,7 @@ const config = {
 		package: {
 			dir: 'dist',
 			emitTypes: true,
-			exports: (filepath) => filepath.endsWith('index.js'),
+			exports: (filepath) => filepath.endsWith('index.ts'),
 			files: (filepath) => !filepath.endsWith('.test.ts')
 		}
 	}
