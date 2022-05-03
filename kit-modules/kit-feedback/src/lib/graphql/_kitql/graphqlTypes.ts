@@ -12535,10 +12535,7 @@ export type PackageTag = Node & {
 export enum PackageType {
   /** A debian package. */
   Debian = 'DEBIAN',
-  /**
-   * A docker image.
-   * @deprecated DOCKER will be removed from this enum as this type will be migrated to only be used by the Packages REST API. Removal on 2021-06-21 UTC.
-   */
+  /** A docker image. */
   Docker = 'DOCKER',
   /** A maven package. */
   Maven = 'MAVEN',

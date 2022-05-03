@@ -27,14 +27,9 @@ yarn add @kitql/kit-feedback
 
 ## Setup
 
-1. #### Initialize the client
+1. #### Add your Github GraphQL API token to your .env file (see .env.example)
 
-```Javascript
-  client.initialize({ token: process.env.GITHUB_API_TOKEN });
-```
-
-> Uses env-cmd here with process.env defined in vite because VITE\_ prefix environment variables are public.
-> See [packages/modules/kit-feedback/package.json](url) and [packages/modules/kit-feedback/svelte.config.js](url)
+:warning: This env variable is accessible on client for the moment, make sure not to give restricted permissions to the token.
 
 2. #### Override the default configuration and add the Feedback component to your code :
 
@@ -44,7 +39,7 @@ yarn add @kitql/kit-feedback
 </script>
 
 <script lang="ts">
-	let show = true;
+	let showFeedback = false;
 	const me = { id: 'jbruxelle' };
 
 	config.override({
@@ -104,9 +99,9 @@ yarn add @kitql/kit-feedback
 	});
 </script>
 
-<button on:click={() => (show = true)}>Open feedback</button>
+<button on:click={() => (showFeedback = true)}>Open feedback</button>
 
-<Feedback bind:show />
+<Feedback bind:showFeedback />
 
 ```
 

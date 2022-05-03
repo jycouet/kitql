@@ -3,7 +3,7 @@
 </script>
 
 <script lang="ts">
-	let show = true;
+	let showFeedback = false;
 	const me = { id: 'jbruxelle' };
 
 	config.override({
@@ -11,51 +11,51 @@
 		dev: false,
 		identifier: () => me.id,
 		repository: {
-			name: 'my-repo-name',
-			owner: 'the-owner-name'
+			name: 'my-minion-mr',
+			owner: 'dynamic-process'
 		},
 		staff: {
 			members: {
-				jycouet: 'Support',
-				jbruxelle: 'Support'
+				jycouet: 'Support My Minion',
+				jbruxelle: 'Support My Minion'
 			}
 		},
 		milestones: {
-			filter: '[Feedback]',
+			filter: '[Gitkit]',
 			removeFilterFromName: true
 		},
 		issues: {
 			text: {
-				'create-button': 'New request',
+				'create-button': 'Ajouter',
 				create: {
 					'title-field': {
-						label: 'Title',
-						placeholder: 'Your request title'
+						label: 'Titre',
+						placeholder: 'Titre de votre ticket...'
 					},
 					'description-field': {
 						label: 'Description',
-						placeholder: 'Tell us more about your request'
+						placeholder: 'Description de votre problème ou demande...'
 					},
 					submit: {
-						validate: 'Confirm',
-						cancel: 'Cancel'
+						validate: 'Valider'
+						// cancel: 'Annuler'
 					}
 				},
 				states: {
-					open: 'Open',
-					closed: 'Done'
+					open: 'En cours',
+					closed: 'Traité'
 				},
-				'no-description': 'No description... sorry'
+				'no-description': 'Aucune description'
 			},
 			filters: {
-				labels: ['question']
+				labels: ['CAPA', 'COMMON']
 			},
 			create: {
-				label: 'question'
+				label: 'CAPA'
 			},
 			comments: {
 				create: {
-					placeholder: 'Your comment here !'
+					placeholder: 'Votre commentaire ici...'
 				},
 				reactionFilter: 'Eyes'
 			}
@@ -63,6 +63,6 @@
 	});
 </script>
 
-<button on:click={() => (show = true)}>Open feedback</button>
+<button on:click={() => (showFeedback = true)}>Open feedback</button>
 
-<Feedback bind:show />
+<Feedback bind:showFeedback />

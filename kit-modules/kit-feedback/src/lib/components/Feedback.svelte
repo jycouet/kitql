@@ -13,7 +13,7 @@
 	import { RequestStatus } from '@kitql/client';
 	import '../app.postcss';
 
-	export let show = false;
+	export let showFeedback = false;
 
 	const handleClose = async () => {
 		if ($config.resetCacheOnClose) {
@@ -45,7 +45,7 @@
 </script>
 
 <div class="wrapper {resolveTheme($theme, 'wrapper')}">
-	<Modal bind:show on:close={handleClose}>
+	<Modal bind:show={showFeedback} on:close={handleClose}>
 		<svelte:component this={routes[$router.route]} {...$router.params} />
 	</Modal>
 </div>

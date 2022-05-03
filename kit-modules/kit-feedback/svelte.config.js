@@ -9,17 +9,10 @@ const __dirname = dirname(__filename);
 
 /** @type {import('@sveltejs/kit').Config} */
 const config = {
-	preprocess: [preprocess({ postcss: true })],
+	preprocess: [ preprocess({ postcss: true }) ],
 	kit: {
 		adapter: adapter(),
 		vite: {
-			plugins: [
-				// watchAndRun([ { watch: '**/*.(gql)', run: 'yarn gen' } ])
-			],
-			define: {
-				PACKAGE_VERSION: JSON.stringify(process.env.npm_package_version),
-				'process.env': process.env
-			},
 			resolve: {
 				alias: {
 					$lib: resolve(__dirname, './src/lib')
