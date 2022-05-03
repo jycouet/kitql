@@ -1,9 +1,9 @@
 import type { Route } from '$lib/routes';
 import type { Class } from '$lib/theme';
-import { merge } from 'lodash';
 import type { SvelteComponent } from 'svelte';
 import { writable, type Readable } from 'svelte/store';
-import type { CommentDetailFragment } from './graphql/_kitql/graphqlTypes';
+import { merge } from '$lib/utils';
+
 export type Component = new (...args: any[]) => SvelteComponent;
 
 export type CommentVoteType = 'up' | 'down';
