@@ -1,0 +1,8 @@
+fragment commentDetail on Comment {
+	id
+	isMinimized
+	isPublic
+	createdAt
+	author
+	bodyHTML
+}

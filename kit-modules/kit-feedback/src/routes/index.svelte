@@ -1,5 +1,7 @@
 <script lang="ts" context="module">
-	import { config, Feedback } from '$lib';
+	import { config } from '$modules/kitFeedback/utils/config';
+	import Feedback from '$modules/kitFeedback/ui/Feedback.svelte';
+	import type { Reaction } from '$lib/graphql/_kitql/graphqlTypes';
 </script>
 
 <script lang="ts">
@@ -57,7 +59,7 @@
 				create: {
 					placeholder: 'Votre commentaire ici...'
 				},
-				reactionFilter: 'Eyes'
+				reactionFilter: 'EYES'
 			}
 		}
 	});

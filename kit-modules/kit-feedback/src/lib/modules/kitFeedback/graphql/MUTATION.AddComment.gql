@@ -1,0 +1,5 @@
+mutation CreateComment($fields: CreateCommentFields!) {
+	createComment(fields: $fields) {
+		...commentDetail
+	}
+}

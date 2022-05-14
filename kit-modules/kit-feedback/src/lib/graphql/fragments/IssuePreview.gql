@@ -1,9 +1,0 @@
-fragment issuePreview on Issue {
-	number
-	titleHTML
-	comments(first: 1) {
-		nodes {
-			...commentDetail
-		}
-	}
-}

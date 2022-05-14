@@ -1,0 +1,6 @@
+extend type Query {
+	repositoryConstants: RepositoryConstants!
+	issue(number: Int!): Issue
+	issues(filters: IssueFilters, pagination: Pagination!): Issues
+	milestones(filters: MilestoneFilters, pagination: Pagination!): Milestones
+}
