@@ -6,4 +6,4 @@
   <img src="../../logo.svg" width="100" />
 </p>
 
-## Check the [⚡Doc⚡](https://kitql.vercel.app/docs/setup/03_vite-plugin-watch-and-run)
+## Check the [⚡Doc⚡](https://kitql.dev/docs/setup/03_vite-plugin-watch-and-run)

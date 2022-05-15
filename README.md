@@ -19,7 +19,7 @@
 
 # 🌐 Infos
 
-- Documentation: [https://kitql.vercel.app/](https://kitql.vercel.app/)
+- Documentation: [https://kitql.dev](https://kitql.dev)
 - Day by day progress, check [twitter - jycouet](https://twitter.com/jycouet/status/1486052645567672324)
 - Videos explanations 👇
 
@@ -60,8 +60,8 @@
 
 You have 3 main options to use `KitQL`:
 
-- Take a [Demo App](https://kitql.vercel.app/docs/demos/01_demo-01) and tweak it to your needs
-- Follow the [KitQL - all-in](https://kitql.vercel.app/docs/demos/01_demo-01) guide (easy)
+- Take a [Demo App](https://kitql.dev/docs/demos/01_demo-01) and tweak it to your needs
+- Follow the [KitQL - all-in](https://kitql.dev/docs/demos/01_demo-01) guide (easy)
 - Pick and choose the tools you need (advanced)
   - [KitQL - client](https://github.com/jycouet/kitql/tree/main/packages/client)
   - [KitQL - graphql-codegen](https://github.com/jycouet/kitql/tree/main/packages/graphql-codegen)
