@@ -6,4 +6,4 @@
   <img src="../../logo.svg" width="100" />
 </p>
 
-## Check the [⚡Doc⚡](https://kitql.vercel.app/docs/all-in)
+## Check the [⚡Doc⚡](https://kitql.dev/docs/all-in)
