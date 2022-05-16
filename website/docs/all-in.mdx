@@ -20,7 +20,12 @@ sidebar_label: Getting started => All-In
 projects:
   default:
     schema:
-      - ./src/lib/graphql/schema.json
+      # This can be a relative path from this file to a schema,
+      # a URL to a graphql endpoint, an intorspection JSON file,
+      # and many more options. Refer to:
+      # refer to https://www.graphql-code-generator.com/docs/config-reference/schema-field
+      # for more information
+      - https://countries.trevorblades.com/graphql
     documents:
       - '**/*.gql'
 	extensions:
@@ -89,6 +94,7 @@ export default config;
 import { KitQLClient } from '@kitql/client';
 
 export const kitQLClient = new KitQLClient({
+        // The URL is the Graphql endpoint KitQL will use to make requests
 	url: `https://countries.trevorblades.com/graphql`,
 	headersContentType: 'application/json',
 	logType: ['client', 'server', 'operationAndvariables']
