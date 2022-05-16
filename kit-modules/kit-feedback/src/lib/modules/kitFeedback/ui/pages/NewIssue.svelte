@@ -30,8 +30,6 @@
 		});
 	});
 
-	$: console.log(`milestoneId`, milestoneId);
-
 	$: ({ form } = createForm({
 		initialValues,
 		extend: validator({ suite }),
@@ -72,7 +70,6 @@
 
 			KQL_Issues.resetCache();
 			router.goto('ISSUE', { number: $KQL_CreateIssue.data?.createIssue?.number }, true);
-			console.log('should have redirected', $router);
 		}
 	}));
 

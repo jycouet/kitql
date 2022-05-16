@@ -11,14 +11,12 @@
 
 	const parseComments = (comments: CommentDetailFragment[], config: KitFeedbackConfig) => {
 		if (comments) {
-			console.log(comments);
 			return comments.reduce((accumulator, comment, index, array) => {
 				if (!comment.isMinimized) {
 					let metadata: CommentMetadata;
 					let metadataCommentId: string;
 
 					const nextComment = array?.[index + 1];
-					console.log('nextComment', nextComment);
 					if (nextComment?.isMinimized) {
 						try {
 							metadataCommentId = nextComment.id;
@@ -31,7 +29,6 @@
 
 					accumulator = [...accumulator, { ...comment, metadataCommentId, metadata }];
 				}
-				console.log(accumulator);
 				return accumulator;
 			}, []);
 		}
