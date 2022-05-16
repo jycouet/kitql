@@ -20,7 +20,7 @@
 	$: initialValues = {
 		title: '',
 		body: '',
-		milestoneID: milestoneId,
+		milestoneId: milestoneId,
 		repositoryID: $repositoryId
 	};
 
@@ -51,7 +51,7 @@
 						title: values.title,
 						body: values.body,
 						repositoryID: values.repositoryID,
-						milestoneID: values.milestoneID,
+						milestoneId: values.milestoneId,
 						labelIDs: [$createIssueLabelId]
 					}
 				}

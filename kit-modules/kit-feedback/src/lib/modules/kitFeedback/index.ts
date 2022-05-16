@@ -16,8 +16,14 @@ export const kitFeedbackModule = createModule({
 	providers: [
 		DbGithub,
 		{ provide: KitFeedbackConfigIT, useFactory: () => get(config) },
-		{ provide: RepositoryIdIT, useFactory: () => get(repositoryId) },
-		{ provide: CreateIssueLabelIdIT, useFactory: () => get(createIssueLabelId) }
+		{
+			provide: RepositoryIdIT,
+			useFactory: () => 'R_kgDOGkDBjQ' //get(repositoryId)
+		},
+		{
+			provide: CreateIssueLabelIdIT,
+			useFactory: () => 'LA_kwDOGkDBjc7yAbx7' //get(createIssueLabelId)
+		}
 	],
 	middlewares: {
 		'*': {

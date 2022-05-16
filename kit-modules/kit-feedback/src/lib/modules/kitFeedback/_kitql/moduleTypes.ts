@@ -23,8 +23,8 @@ export namespace KitFeedbackModule {
     CreateCommentFields: 'issueID' | 'body';
     UpdateCommentFields: 'commentID' | 'body';
     MinimizeCommentFields: 'commentID';
-    CreateIssueFields: 'repositoryID' | 'milestoneID' | 'title' | 'body' | 'labelIDs' | 'assigneeIDs' | 'issueTemplate';
-    IssueFilters: 'labels' | 'milestoneID' | 'states';
+    CreateIssueFields: 'repositoryID' | 'milestoneId' | 'title' | 'body' | 'labelIDs' | 'assigneeIDs' | 'issueTemplate';
+    IssueFilters: 'labels' | 'milestoneId' | 'states';
     MilestoneFilters: 'title';
     Pagination: 'take' | 'cursor';
   };

@@ -9,9 +9,8 @@
 <div class="flex flex-col gap-4">
 	<Issues
 		{title}
-		milestoneId={id}
 		filters={{
-			milestoneID: id,
+			milestoneId: id,
 			labels: $config.issues?.filters?.labels
 		}}
 	/>

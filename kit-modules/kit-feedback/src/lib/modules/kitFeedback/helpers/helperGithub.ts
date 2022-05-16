@@ -39,6 +39,7 @@ export const resolveGithubIssuePreview = (
 	const result: Issue = {
 		id: issue.id,
 		number: issue.number,
+		titleHTML: issue?.titleHTML,
 		metadata: comments.length ? resolveGithubComment(comments[0], config) : null
 	};
 	return result;

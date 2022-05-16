@@ -31,7 +31,7 @@ export const resolvers: KitFeedbackModule.Resolvers = {
 			const createIssueLabelId = ctx.injector.get(CreateIssueLabelIdIT);
 			const data = await Github.createIssue({
 				repositoryId: repositoryId,
-				milestoneId: args.fields.milestoneID,
+				milestoneId: args.fields.milestoneId,
 				labelIds: [...args.fields.labelIDs, createIssueLabelId],
 				title: args.fields.title,
 				body: args.fields.body

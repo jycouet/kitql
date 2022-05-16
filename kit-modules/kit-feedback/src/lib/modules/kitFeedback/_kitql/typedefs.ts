@@ -68,7 +68,7 @@ type Issues {
 
 input CreateIssueFields {
 	repositoryID: ID!
-	milestoneID: ID
+	milestoneId: ID
 	title: String!
 	body: String
 	labelIDs: [ID!]
@@ -78,7 +78,7 @@ input CreateIssueFields {
 
 input IssueFilters {
 	labels: [String]
-	milestoneID: ID
+	milestoneId: ID
 	states: [IssueState]
 }
 

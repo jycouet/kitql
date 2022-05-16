@@ -43,13 +43,16 @@ export const resolvers: KitFeedbackModule.Resolvers = {
 		},
 		issues: async (_root, args, ctx, _info) => {
 			const Github = ctx.injector.get(DbGithub);
-
 			const config = ctx.injector.get(KitFeedbackConfigIT);
 			const data = await Github.getIssues({
 				repository: config.repository.name,
 				owner: config.repository.owner,
 				take: args.pagination.take,
-				cursor: args.pagination.cursor
+				cursor: args.pagination.cursor,
+				filters: {
+					...args.filters,
+					milestoneId: args.filters.milestoneId
+				}
 			});
 			const issues = data?.repository?.issues;
 			const result: Issues = {

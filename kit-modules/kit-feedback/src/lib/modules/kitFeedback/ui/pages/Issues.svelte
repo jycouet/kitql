@@ -10,7 +10,6 @@
 
 	export let filters: Omit<IssueFilters, 'states'> = {};
 	export let title: string = 'Issues';
-	export let milestoneId: string = undefined;
 
 	let state: IssueState = 'OPEN';
 
@@ -30,7 +29,7 @@
 		<h2 class={resolveTheme($theme, 'title')}>
 			{title}
 		</h2>
-		<IssueCreate {milestoneId} />
+		<IssueCreate milestoneId={filters.milestoneId} />
 	</div>
 
 	<div class={resolveTheme($theme, 'issues-body')}>

@@ -33,12 +33,12 @@
 	};
 
 	const initialize = async () => {
-		await KQL_RepositoryConstants.query();
-		$repositoryId = $KQL_RepositoryConstants.data?.repositoryConstants?.repositoryID;
-		$createIssueLabelId = $KQL_RepositoryConstants.data?.repositoryConstants?.createIssueLabelID;
+		// await KQL_RepositoryConstants.query();
+		// $repositoryId = $KQL_RepositoryConstants.data?.repositoryConstants?.repositoryID;
+		// $createIssueLabelId = $KQL_RepositoryConstants.data?.repositoryConstants?.createIssueLabelID;
 	};
 
-	$: !$repositoryId && browser && initialize();
+	// $: !$repositoryId && browser && initialize();
 </script>
 
 <div class="wrapper {resolveTheme($theme, 'wrapper')}">
