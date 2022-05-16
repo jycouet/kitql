@@ -185,7 +185,7 @@ export const plugin: PluginFunction<Record<string, any>, Types.ComplexPluginOutp
 					lines.push(`			params?: RequestQueryParameters<${kqltypeVariable}>`);
 					lines.push(`		): Promise<void> => {`);
 					lines.push(`			if (clientStarted) {`);
-					lines.push(`				queryLocal(params); // No await in purpose, we are in a client navigation.`);
+					lines.push(`				queryLocal(params); // No await on purpose, we are in a client navigation.`);
 					lines.push(`			} else {`);
 					lines.push(`				await queryLocal(params);`);
 					lines.push(`			}`);
