@@ -89,8 +89,8 @@ function AppContent(appProps: AppProps) {
 					// 	onClick: (e) => handlePushRoute('/', e)
 					// },
 					{
-						children: 'Github',
-						title: 'Github',
+						children: 'GitHub',
+						title: 'GitHub',
 						href: 'https://github.com/jycouet/kitql',
 						target: '_blank',
 						rel: 'noopener noreferrer'
