@@ -1,10 +1,11 @@
 type Comment {
-	id: ID!
-	isMinimized: Boolean!
-	isPublic: Boolean!
-	createdAt: DateTime!
-	author: String!
-	bodyHTML: String!
+	id: ID
+	isMinimized: Boolean
+	isPublic: Boolean
+	createdAt: DateTime
+	author: String
+	body: String
+	bodyHTML: String
 }
 
 type Comments {

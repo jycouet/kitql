@@ -14,7 +14,7 @@
 	$: browser && KQL_Issue.query({ variables: { number } });
 
 	const parseDescription = (issue: IssueDetailFragment, config: KitFeedbackConfig): TComment => {
-		const firstComment = issue.comments?.nodes?.[0];
+		const firstComment = issue?.comments?.nodes?.[0];
 		let metadata: CommentMetadata;
 		let metadataCommentId: string;
 
@@ -31,12 +31,13 @@
 		}
 
 		return {
+			id: issue.id,
 			bodyHTML: (issue.bodyHTML as string) || config.issues.text['no-description'],
 			createdAt: issue.createdAt,
 			author: issue.author,
 			metadata,
 			metadataCommentId,
-			public: true
+			isPublic: true
 		};
 	};
 

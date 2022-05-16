@@ -2,7 +2,6 @@ mutation MinimizeComment($input: MinimizeCommentInput!) {
 	minimizeComment(input: $input) {
 		minimizedComment {
 			isMinimized
-			viewerCanMinimize
 		}
 	}
 }

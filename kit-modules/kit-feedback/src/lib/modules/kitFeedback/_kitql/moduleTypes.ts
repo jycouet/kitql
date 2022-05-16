@@ -2,7 +2,7 @@ import * as Types from "$graphql/_kitql/graphqlTypes";
 import * as gm from "graphql-modules";
 export namespace KitFeedbackModule {
   interface DefinedFields {
-    Comment: 'id' | 'isMinimized' | 'isPublic' | 'createdAt' | 'author' | 'bodyHTML';
+    Comment: 'id' | 'isMinimized' | 'isPublic' | 'createdAt' | 'author' | 'body' | 'bodyHTML';
     Comments: 'nodes' | 'next';
     Issue: 'id' | 'number' | 'author' | 'createdAt' | 'titleHTML' | 'bodyHTML' | 'metadata' | 'comments';
     Issues: 'nodes' | 'next';
@@ -23,7 +23,7 @@ export namespace KitFeedbackModule {
     CreateCommentFields: 'issueID' | 'body';
     UpdateCommentFields: 'commentID' | 'body';
     MinimizeCommentFields: 'commentID';
-    CreateIssueFields: 'repositoryID' | 'milestoneId' | 'title' | 'body' | 'labelIDs' | 'assigneeIDs' | 'issueTemplate';
+    CreateIssueFields: 'milestoneId' | 'title' | 'body';
     IssueFilters: 'labels' | 'milestoneNumber' | 'states';
     MilestoneFilters: 'title';
     Pagination: 'take' | 'cursor';
@@ -83,6 +83,7 @@ export namespace KitFeedbackModule {
       isPublic?: gm.Middleware[];
       createdAt?: gm.Middleware[];
       author?: gm.Middleware[];
+      body?: gm.Middleware[];
       bodyHTML?: gm.Middleware[];
     };
     Comments?: {

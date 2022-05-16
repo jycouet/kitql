@@ -52,6 +52,7 @@ export const resolveGithubComment = (comment: Record<string, any>, config: KitFe
 		isPublic: resolveGithubCommentIsPublic(comment, config),
 		createdAt: comment?.createdAt,
 		author: comment?.author?.login,
+		body: comment?.body,
 		bodyHTML: comment?.bodyHTML
 	};
 	return result;
@@ -62,6 +63,6 @@ export const resolveGithubCommentIsPublic = (
 	config: KitFeedbackConfig
 ) => {
 	const reactionFilter = config.issues?.comments?.reactionFilter;
-	const reactionGroup = comment.reactionGroups?.find((group) => group.content === reactionFilter);
+	const reactionGroup = comment?.reactionGroups?.find((group) => group.content === reactionFilter);
 	return (reactionGroup?.reactors?.totalCount ?? 0) > 0;
 };

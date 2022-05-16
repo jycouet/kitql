@@ -50,16 +50,14 @@
 					fields: {
 						title: values.title,
 						body: values.body,
-						repositoryID: values.repositoryID,
-						milestoneId: values.milestoneId,
-						labelIDs: [$createIssueLabelId]
+						milestoneId: values.milestoneId
 					}
 				}
 			});
 			await KQL_CreateComment.mutate({
 				variables: {
 					fields: {
-						issueID: $KQL_CreateIssue.data.createIssue.id,
+						issueID: $KQL_CreateIssue.data?.createIssue?.id,
 						body: JSON.stringify(metadata)
 					}
 				}
@@ -67,13 +65,13 @@
 			await KQL_MinimizeComment.mutate({
 				variables: {
 					fields: {
-						commentID: $KQL_CreateComment.data.createComment.id
+						commentID: $KQL_CreateComment.data?.createComment?.id
 					}
 				}
 			});
 
 			KQL_Issues.resetCache();
-			router.goto('ISSUE', { number: $KQL_CreateIssue.data.createIssue.number }, true);
+			router.goto('ISSUE', { number: $KQL_CreateIssue.data?.createIssue?.number }, true);
 			console.log('should have redirected', $router);
 		}
 	}));

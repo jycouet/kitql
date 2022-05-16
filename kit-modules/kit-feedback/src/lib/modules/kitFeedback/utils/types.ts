@@ -3,18 +3,15 @@ import type { Class } from './theme';
 import type { SvelteComponent } from 'svelte';
 import { writable, type Readable } from 'svelte/store';
 import { merge } from './merge';
+import type { CommentDetailFragment } from '$lib/graphql/_kitql/graphqlTypes';
 
 export type Component = new (...args: any[]) => SvelteComponent;
 
 export type CommentVoteType = 'up' | 'down';
 export type CommentMetadata = { author: string; votes: Record<CommentVoteType, string[]> };
-export type Comment = {
-	author?: string;
-	createdAt: any;
-	bodyHTML: any;
+export type Comment = CommentDetailFragment & {
 	metadataCommentId?: string;
 	metadata?: CommentMetadata;
-	public: boolean;
 };
 
 export type KitFeedbackRouter = {

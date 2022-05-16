@@ -6,7 +6,7 @@
 
 <script lang="ts">
 	let showFeedback = false;
-	const me = { id: 'jbruxelle' };
+	const me = { id: 'test user' };
 
 	config.override({
 		title: 'Feedback',

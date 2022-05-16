@@ -23,12 +23,13 @@ input AddReactionFields {
 }
 
 type Comment {
-	id: ID!
-	isMinimized: Boolean!
-	isPublic: Boolean!
-	createdAt: DateTime!
-	author: String!
-	bodyHTML: String!
+	id: ID
+	isMinimized: Boolean
+	isPublic: Boolean
+	createdAt: DateTime
+	author: String
+	body: String
+	bodyHTML: String
 }
 
 type Comments {
@@ -51,7 +52,7 @@ input MinimizeCommentFields {
 }
 
 type Issue {
-	id: ID!
+	id: ID
 	number: Int
 	author: String
 	createdAt: DateTime
@@ -67,13 +68,9 @@ type Issues {
 }
 
 input CreateIssueFields {
-	repositoryID: ID!
 	milestoneId: ID
 	title: String!
 	body: String
-	labelIDs: [ID!]
-	assigneeIDs: [ID!]
-	issueTemplate: String
 }
 
 input IssueFilters {

@@ -32,7 +32,7 @@ export const resolvers: KitFeedbackModule.Resolvers = {
 			const data = await Github.createIssue({
 				repositoryId: repositoryId,
 				milestoneId: args.fields.milestoneId,
-				labelIds: [...args.fields.labelIDs, createIssueLabelId],
+				labelIds: [createIssueLabelId],
 				title: args.fields.title,
 				body: args.fields.body
 			});

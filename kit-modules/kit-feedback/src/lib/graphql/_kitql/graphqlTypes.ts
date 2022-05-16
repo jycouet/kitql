@@ -26,12 +26,13 @@ export type AddReactionFields = {
 
 export type Comment = {
   __typename?: 'Comment';
-  author: Scalars['String'];
-  bodyHTML: Scalars['String'];
-  createdAt: Scalars['DateTime'];
-  id: Scalars['ID'];
-  isMinimized: Scalars['Boolean'];
-  isPublic: Scalars['Boolean'];
+  author?: Maybe<Scalars['String']>;
+  body?: Maybe<Scalars['String']>;
+  bodyHTML?: Maybe<Scalars['String']>;
+  createdAt?: Maybe<Scalars['DateTime']>;
+  id?: Maybe<Scalars['ID']>;
+  isMinimized?: Maybe<Scalars['Boolean']>;
+  isPublic?: Maybe<Scalars['Boolean']>;
 };
 
 export type Comments = {
@@ -46,12 +47,8 @@ export type CreateCommentFields = {
 };
 
 export type CreateIssueFields = {
-  assigneeIDs?: InputMaybe<Array<Scalars['ID']>>;
   body?: InputMaybe<Scalars['String']>;
-  issueTemplate?: InputMaybe<Scalars['String']>;
-  labelIDs?: InputMaybe<Array<Scalars['ID']>>;
   milestoneId?: InputMaybe<Scalars['ID']>;
-  repositoryID: Scalars['ID'];
   title: Scalars['String'];
 };
 
@@ -61,7 +58,7 @@ export type Issue = {
   bodyHTML?: Maybe<Scalars['String']>;
   comments?: Maybe<Comments>;
   createdAt?: Maybe<Scalars['DateTime']>;
-  id: Scalars['ID'];
+  id?: Maybe<Scalars['ID']>;
   metadata?: Maybe<Comment>;
   number?: Maybe<Scalars['Int']>;
   titleHTML?: Maybe<Scalars['String']>;
@@ -336,12 +333,13 @@ export type ResolversParentTypes = {
 };
 
 export type CommentResolvers<ContextType = IKitQLContext, ParentType extends ResolversParentTypes['Comment'] = ResolversParentTypes['Comment']> = {
-  author?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  bodyHTML?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  createdAt?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;
-  id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
-  isMinimized?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
-  isPublic?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
+  author?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  body?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  bodyHTML?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  createdAt?: Resolver<Maybe<ResolversTypes['DateTime']>, ParentType, ContextType>;
+  id?: Resolver<Maybe<ResolversTypes['ID']>, ParentType, ContextType>;
+  isMinimized?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
+  isPublic?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
@@ -364,7 +362,7 @@ export type IssueResolvers<ContextType = IKitQLContext, ParentType extends Resol
   bodyHTML?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   comments?: Resolver<Maybe<ResolversTypes['Comments']>, ParentType, ContextType>;
   createdAt?: Resolver<Maybe<ResolversTypes['DateTime']>, ParentType, ContextType>;
-  id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+  id?: Resolver<Maybe<ResolversTypes['ID']>, ParentType, ContextType>;
   metadata?: Resolver<Maybe<ResolversTypes['Comment']>, ParentType, ContextType>;
   number?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
   titleHTML?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
@@ -436,11 +434,11 @@ export type Resolvers<ContextType = IKitQLContext> = {
 };
 
 
-export type CommentDetailFragment = { __typename?: 'Comment', id: string, isMinimized: boolean, isPublic: boolean, createdAt: Date, author: string, bodyHTML: string };
+export type CommentDetailFragment = { __typename?: 'Comment', id?: string | null, isMinimized?: boolean | null, isPublic?: boolean | null, createdAt?: Date | null, author?: string | null, body?: string | null, bodyHTML?: string | null };
 
-export type IssueDetailFragment = { __typename?: 'Issue', id: string, author?: string | null, createdAt?: Date | null, titleHTML?: string | null, bodyHTML?: string | null, comments?: { __typename?: 'Comments', next?: string | null, nodes?: Array<{ __typename?: 'Comment', id: string, isMinimized: boolean, isPublic: boolean, createdAt: Date, author: string, bodyHTML: string }> | null } | null };
+export type IssueDetailFragment = { __typename?: 'Issue', id?: string | null, author?: string | null, createdAt?: Date | null, titleHTML?: string | null, bodyHTML?: string | null, comments?: { __typename?: 'Comments', next?: string | null, nodes?: Array<{ __typename?: 'Comment', id?: string | null, isMinimized?: boolean | null, isPublic?: boolean | null, createdAt?: Date | null, author?: string | null, body?: string | null, bodyHTML?: string | null }> | null } | null };
 
-export type IssuePreviewFragment = { __typename?: 'Issue', id: string, number?: number | null, titleHTML?: string | null, metadata?: { __typename?: 'Comment', id: string, isMinimized: boolean, isPublic: boolean, createdAt: Date, author: string, bodyHTML: string } | null };
+export type IssuePreviewFragment = { __typename?: 'Issue', id?: string | null, number?: number | null, titleHTML?: string | null, metadata?: { __typename?: 'Comment', id?: string | null, isMinimized?: boolean | null, isPublic?: boolean | null, createdAt?: Date | null, author?: string | null, body?: string | null, bodyHTML?: string | null } | null };
 
 export type MilestonePreviewFragment = { __typename?: 'Milestone', id: string, number?: number | null, title: string };
 
@@ -449,7 +447,7 @@ export type CreateCommentMutationVariables = Exact<{
 }>;
 
 
-export type CreateCommentMutation = { __typename?: 'Mutation', createComment?: { __typename?: 'Comment', id: string, isMinimized: boolean, isPublic: boolean, createdAt: Date, author: string, bodyHTML: string } | null };
+export type CreateCommentMutation = { __typename?: 'Mutation', createComment?: { __typename?: 'Comment', id?: string | null, isMinimized?: boolean | null, isPublic?: boolean | null, createdAt?: Date | null, author?: string | null, body?: string | null, bodyHTML?: string | null } | null };
 
 export type AddReactionMutationVariables = Exact<{
   fields: AddReactionFields;
@@ -463,28 +461,28 @@ export type CreateIssueMutationVariables = Exact<{
 }>;
 
 
-export type CreateIssueMutation = { __typename?: 'Mutation', createIssue?: { __typename?: 'Issue', id: string, number?: number | null, titleHTML?: string | null, metadata?: { __typename?: 'Comment', id: string, isMinimized: boolean, isPublic: boolean, createdAt: Date, author: string, bodyHTML: string } | null } | null };
+export type CreateIssueMutation = { __typename?: 'Mutation', createIssue?: { __typename?: 'Issue', id?: string | null, number?: number | null, titleHTML?: string | null, metadata?: { __typename?: 'Comment', id?: string | null, isMinimized?: boolean | null, isPublic?: boolean | null, createdAt?: Date | null, author?: string | null, body?: string | null, bodyHTML?: string | null } | null } | null };
 
 export type MinimizeCommentMutationVariables = Exact<{
   fields: MinimizeCommentFields;
 }>;
 
 
-export type MinimizeCommentMutation = { __typename?: 'Mutation', minimizeComment?: { __typename?: 'Comment', id: string, isMinimized: boolean, isPublic: boolean, createdAt: Date, author: string, bodyHTML: string } | null };
+export type MinimizeCommentMutation = { __typename?: 'Mutation', minimizeComment?: { __typename?: 'Comment', id?: string | null, isMinimized?: boolean | null, isPublic?: boolean | null, createdAt?: Date | null, author?: string | null, body?: string | null, bodyHTML?: string | null } | null };
 
 export type UpdateCommentMutationVariables = Exact<{
   fields: UpdateCommentFields;
 }>;
 
 
-export type UpdateCommentMutation = { __typename?: 'Mutation', updateComment?: { __typename?: 'Comment', id: string, isMinimized: boolean, isPublic: boolean, createdAt: Date, author: string, bodyHTML: string } | null };
+export type UpdateCommentMutation = { __typename?: 'Mutation', updateComment?: { __typename?: 'Comment', id?: string | null, isMinimized?: boolean | null, isPublic?: boolean | null, createdAt?: Date | null, author?: string | null, body?: string | null, bodyHTML?: string | null } | null };
 
 export type IssueQueryVariables = Exact<{
   number: Scalars['Int'];
 }>;
 
 
-export type IssueQuery = { __typename?: 'Query', issue?: { __typename?: 'Issue', id: string, author?: string | null, createdAt?: Date | null, titleHTML?: string | null, bodyHTML?: string | null, comments?: { __typename?: 'Comments', next?: string | null, nodes?: Array<{ __typename?: 'Comment', id: string, isMinimized: boolean, isPublic: boolean, createdAt: Date, author: string, bodyHTML: string }> | null } | null } | null };
+export type IssueQuery = { __typename?: 'Query', issue?: { __typename?: 'Issue', id?: string | null, author?: string | null, createdAt?: Date | null, titleHTML?: string | null, bodyHTML?: string | null, comments?: { __typename?: 'Comments', next?: string | null, nodes?: Array<{ __typename?: 'Comment', id?: string | null, isMinimized?: boolean | null, isPublic?: boolean | null, createdAt?: Date | null, author?: string | null, body?: string | null, bodyHTML?: string | null }> | null } | null } | null };
 
 export type IssuesQueryVariables = Exact<{
   filters?: InputMaybe<IssueFilters>;
@@ -492,7 +490,7 @@ export type IssuesQueryVariables = Exact<{
 }>;
 
 
-export type IssuesQuery = { __typename?: 'Query', issues?: { __typename?: 'Issues', next?: string | null, nodes?: Array<{ __typename?: 'Issue', id: string, number?: number | null, titleHTML?: string | null, metadata?: { __typename?: 'Comment', id: string, isMinimized: boolean, isPublic: boolean, createdAt: Date, author: string, bodyHTML: string } | null }> | null } | null };
+export type IssuesQuery = { __typename?: 'Query', issues?: { __typename?: 'Issues', next?: string | null, nodes?: Array<{ __typename?: 'Issue', id?: string | null, number?: number | null, titleHTML?: string | null, metadata?: { __typename?: 'Comment', id?: string | null, isMinimized?: boolean | null, isPublic?: boolean | null, createdAt?: Date | null, author?: string | null, body?: string | null, bodyHTML?: string | null } | null }> | null } | null };
 
 export type MilestonesQueryVariables = Exact<{
   filters: MilestoneFilters;
@@ -507,7 +505,7 @@ export type RepositoryConstantsQueryVariables = Exact<{ [key: string]: never; }>
 
 export type RepositoryConstantsQuery = { __typename?: 'Query', repositoryConstants: { __typename?: 'RepositoryConstants', repositoryID: string, createIssueLabelID: string } };
 
-export const CommentDetailFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"commentDetail"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Comment"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"isMinimized"}},{"kind":"Field","name":{"kind":"Name","value":"isPublic"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"author"}},{"kind":"Field","name":{"kind":"Name","value":"bodyHTML"}}]}}]} as unknown as DocumentNode<CommentDetailFragment, unknown>;
+export const CommentDetailFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"commentDetail"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Comment"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"isMinimized"}},{"kind":"Field","name":{"kind":"Name","value":"isPublic"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"author"}},{"kind":"Field","name":{"kind":"Name","value":"body"}},{"kind":"Field","name":{"kind":"Name","value":"bodyHTML"}}]}}]} as unknown as DocumentNode<CommentDetailFragment, unknown>;
 export const IssueDetailFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"issueDetail"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Issue"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"author"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"titleHTML"}},{"kind":"Field","name":{"kind":"Name","value":"bodyHTML"}},{"kind":"Field","name":{"kind":"Name","value":"comments"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"next"}},{"kind":"Field","name":{"kind":"Name","value":"nodes"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"commentDetail"}}]}}]}}]}},...CommentDetailFragmentDoc.definitions]} as unknown as DocumentNode<IssueDetailFragment, unknown>;
 export const IssuePreviewFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"issuePreview"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Issue"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"number"}},{"kind":"Field","name":{"kind":"Name","value":"titleHTML"}},{"kind":"Field","name":{"kind":"Name","value":"metadata"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"commentDetail"}}]}}]}},...CommentDetailFragmentDoc.definitions]} as unknown as DocumentNode<IssuePreviewFragment, unknown>;
 export const MilestonePreviewFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"milestonePreview"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Milestone"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"number"}},{"kind":"Field","name":{"kind":"Name","value":"title"}}]}}]} as unknown as DocumentNode<MilestonePreviewFragment, unknown>;

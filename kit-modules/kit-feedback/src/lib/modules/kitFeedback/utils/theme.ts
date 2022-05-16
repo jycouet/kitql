@@ -7,6 +7,7 @@ export type Class =
 	| 'button-primary'
 	| 'button-neutral'
 	| 'button-submit'
+	| 'button-disabled'
 	| 'form-control'
 	| 'input'
 	| 'label'
@@ -61,6 +62,7 @@ export const defaultTheme: KitFeedbackTheme = {
 		'button-primary': 'btn btn-sm btn-primary w-max',
 		'button-neutral': 'btn btn-sm w-max ring-1 ring-white/20',
 		'button-submit': 'justify-self-end',
+		'button-disabled': 'btn-disabled',
 		modal: 'modal modal-open bg-black/70',
 		'modal-box': `
 			modal-box relative ring-1 ring-white/10 drop-shadow-lg

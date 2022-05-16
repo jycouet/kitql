@@ -80,12 +80,13 @@ export class DbGithub {
 		title: string;
 		body: string;
 	}) => {
-		const graphql = mutations.CreateIssue + '\n' + fragments.IssuePreview;
+		const graphql =
+			mutations.CreateIssue + '\n' + fragments.IssuePreview + '\n' + fragments.CommentDetail;
 		return await this.fetch(graphql, { input });
 	};
 
 	public createComment = async (input: { subjectId: string; body: string }) => {
-		const graphql = mutations.CreateIssue + '\n' + fragments.IssuePreview;
+		const graphql = mutations.AddComment;
 		return await this.fetch(graphql, { input });
 	};
 

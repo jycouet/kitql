@@ -1,5 +1,5 @@
 type Issue {
-	id: ID!
+	id: ID
 	number: Int
 	author: String
 	createdAt: DateTime
@@ -15,13 +15,9 @@ type Issues {
 }
 
 input CreateIssueFields {
-	repositoryID: ID!
 	milestoneId: ID
 	title: String!
 	body: String
-	labelIDs: [ID!]
-	assigneeIDs: [ID!]
-	issueTemplate: String
 }
 
 input IssueFilters {

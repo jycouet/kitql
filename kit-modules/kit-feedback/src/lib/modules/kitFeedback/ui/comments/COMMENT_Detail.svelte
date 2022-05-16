@@ -15,7 +15,7 @@
 	class="
 		{resolveTheme($theme, 'comment')} 
 		{resolveTheme($theme, comment.metadata ? undefined : 'github-comment')} 
-		{resolveTheme($theme, comment.public ? 'public-comment' : 'development-comment')}
+		{resolveTheme($theme, comment.isPublic ? 'public-comment' : 'development-comment')}
 		{resolveTheme($theme, isIssueDescription ? 'description-comment' : undefined)}
 	"
 >

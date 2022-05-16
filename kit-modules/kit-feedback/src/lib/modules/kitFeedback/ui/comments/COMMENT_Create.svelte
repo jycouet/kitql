@@ -71,6 +71,12 @@
 			await KQL_Issue.query({ settings: { policy: 'network-only' } });
 		}
 	});
+
+	$: isLoading =
+		$KQL_CreateComment.status === 'LOADING' ||
+		$KQL_AddReaction.status === 'LOADING' ||
+		$KQL_MinimizeComment.status === 'LOADING' ||
+		$KQL_Issue.status === 'LOADING';
 </script>
 
 <form use:form class={resolveTheme($theme, 'create-comment')}>
@@ -79,5 +85,12 @@
 		class={resolveTheme($theme, 'textarea')}
 		placeholder={$config.issues?.comments?.create?.placeholder ?? 'Your comment here'}
 	/>
-	<button type="submit" class={resolveTheme($theme, 'button-primary')}> Valider </button>
+	<button
+		type="submit"
+		class="{resolveTheme($theme, 'button-primary')} {isLoading
+			? resolveTheme($theme, 'button-disabled')
+			: undefined}"
+	>
+		{isLoading ? 'Envoi' : 'Valider'}
+	</button>
 </form>

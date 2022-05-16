@@ -5,11 +5,12 @@
 	import CommentDetail from './COMMENT_Detail.svelte';
 
 	export let comments: TComment[];
+	$: console.log(`comments`, comments);
 </script>
 
 <div class={resolveTheme($theme, 'comments-list')}>
 	{#each comments as comment}
-		{#if $config.dev || comment.public}
+		{#if $config.dev || comment.isPublic}
 			<CommentDetail {comment} />
 		{/if}
 	{/each}
