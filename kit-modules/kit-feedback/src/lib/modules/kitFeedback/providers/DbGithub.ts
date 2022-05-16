@@ -53,6 +53,11 @@ export class DbGithub {
 		return await this.fetch(graphql, input);
 	};
 
+	public getIssueTemplates = async (input: { repository: string; owner: string }) => {
+		const graphql = queries.IssueTemplates + '\n' + fragments.IssueTemplateDetail;
+		return await this.fetch(graphql, input);
+	};
+
 	public getIssues = async (input: {
 		repository: string;
 		owner: string;

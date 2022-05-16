@@ -4,9 +4,10 @@
 	import { resolveTheme, theme } from '../../utils/theme';
 
 	export let milestoneId: string = undefined;
+	export let milestoneTitle: string = undefined;
 
 	const navigate = () => {
-		router.goto('CREATE_ISSUE', { milestoneId });
+		router.goto('CREATE_ISSUE', { milestoneId, milestoneTitle });
 	};
 </script>
 

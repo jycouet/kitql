@@ -24,6 +24,7 @@ if (browser) {
  */
 export function KQL__ResetAllCaches() {
 	KQL_Issue.resetCache();
+	KQL_IssueTemplate.resetCache();
 	KQL_Issues.resetCache();
 	KQL_Milestones.resetCache();
 	KQL_RepositoryConstants.resetCache();
@@ -395,6 +396,127 @@ function KQL_IssueStore() {
  * KitQL Svelte Store with the latest `Issue` Operation
  */
 export const KQL_Issue = KQL_IssueStore();
+
+function KQL_IssueTemplateStore() {
+	const operationName = 'KQL_IssueTemplate';
+	const operationType = ResponseResultType.Query;
+
+	// prettier-ignore
+	const { subscribe, set, update } = writable<RequestResult<Types.IssueTemplateQuery, Types.IssueTemplateQueryVariables>>({...defaultStoreValue, operationName, operationType});
+
+		async function queryLocal(
+			params?: RequestQueryParameters<Types.IssueTemplateQueryVariables>
+		): Promise<RequestResult<Types.IssueTemplateQuery, Types.IssueTemplateQueryVariables>> {
+			let { fetch, variables, settings } = params ?? {};
+			let { cacheMs, policy } = settings ?? {};
+
+			const storedVariables = get(KQL_IssueTemplate).variables;
+			variables = variables ?? storedVariables;
+			policy = policy ?? kitQLClient.policy;
+
+			// Cache only in the browser for now. In SSR, we will need session identif to not mix peoples data
+			if (browser) {
+				if (policy !== 'network-only') {
+					// prettier-ignore
+					const cachedData = kitQLClient.requestCache<Types.IssueTemplateQuery, Types.IssueTemplateQueryVariables>({
+						variables, operationName, cacheMs,	browser
+					});
+					if (cachedData) {
+						const result = { ...cachedData, isFetching: false, status: RequestStatus.DONE };
+						if (policy === 'cache-first') {
+							set(result);
+							if (!result.isOutdated) {
+								return result;
+							}
+						} else if (policy === 'cache-only') {
+							set(result);
+							return result;
+						} else if (policy === 'cache-and-network') {
+							set(result);
+						}
+					}
+				}
+			}
+
+			update((c) => {
+				return { ...c, isFetching: true, status: RequestStatus.LOADING };
+			});
+
+			// prettier-ignore
+			const res = await kitQLClient.request<Types.IssueTemplateQuery, Types.IssueTemplateQueryVariables>({
+				skFetch: fetch,
+				document: Types.IssueTemplateDocument,
+				variables, 
+				operationName, 
+				operationType, 
+				browser
+			});
+			const result = { ...res, isFetching: false, status: RequestStatus.DONE, variables };
+			set(result);
+			return result;
+		}
+
+	return {
+		subscribe,
+
+		/**
+		 * Can be used for SSR, but simpler option is `.queryLoad`
+		 * @returns fill this store & the cache
+		 */
+		query: queryLocal,
+
+		/**
+		 * Ideal for SSR query. To be used in SvelteKit load function
+		 * @returns fill this store & the cache
+		 */
+		queryLoad: async (
+			params?: RequestQueryParameters<Types.IssueTemplateQueryVariables>
+		): Promise<void> => {
+			if (clientStarted) {
+				queryLocal(params); // No await in purpose, we are in a client navigation.
+			} else {
+				await queryLocal(params);
+			}
+		},
+
+		/**
+		 * Reset Cache
+		 */
+		resetCache(
+			variables: Types.IssueTemplateQueryVariables | null = null,
+			allOperationKey: boolean = true,
+			withResetStore: boolean = true
+		) {
+			kitQLClient.cacheRemove(operationName, { variables, allOperationKey });
+			if (withResetStore) {
+				set({ ...defaultStoreValue, operationName });
+			}
+		},
+
+		/**
+		 * Patch the store &&|| cache with some data.
+		 */
+		// prettier-ignore
+		patch(data: Types.IssueTemplateQuery, variables: Types.IssueTemplateQueryVariables | null = null, type: PatchType = 'cache-and-store'): void {
+			let updatedCacheStore = undefined;
+			if(type === 'cache-only' || type === 'cache-and-store') {
+				updatedCacheStore = kitQLClient.cacheUpdate<Types.IssueTemplateQuery, Types.IssueTemplateQueryVariables>(operationName, data, { variables });
+			}
+			if(type === 'store-only' ) {
+				let toReturn = { ...get(KQL_IssueTemplate), data, variables } ;
+				set(toReturn);
+			}
+			if(type === 'cache-and-store' ) {
+				set({...get(KQL_IssueTemplate), ...updatedCacheStore});
+			}
+			kitQLClient.logInfo(operationName, "patch", type);
+		}
+	};
+}
+/**
+ * KitQL Svelte Store with the latest `IssueTemplate` Operation
+ */
+export const KQL_IssueTemplate = KQL_IssueTemplateStore();
 
 function KQL_IssuesStore() {
 	const operationName = 'KQL_Issues';

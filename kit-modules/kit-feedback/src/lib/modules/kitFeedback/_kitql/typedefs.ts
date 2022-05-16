@@ -79,6 +79,12 @@ input IssueFilters {
 	states: [IssueState]
 }
 
+type IssueTemplate {
+	name: String
+	title: String
+	body: String
+}
+
 type Milestone {
 	id: ID!
 	title: String!
@@ -117,6 +123,7 @@ extend type Query {
 	repositoryConstants: RepositoryConstants!
 	issue(number: Int!): Issue
 	issues(filters: IssueFilters, pagination: Pagination!): Issues
+	issueTemplate(name: String!): IssueTemplate
 	milestones(filters: MilestoneFilters, pagination: Pagination!): Milestones
 }
 

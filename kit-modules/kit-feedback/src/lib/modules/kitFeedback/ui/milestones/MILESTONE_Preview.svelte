@@ -10,11 +10,7 @@
 		router.goto('MILESTONE', {
 			id: milestone.id,
 			number: milestone.number,
-			title: computeMilestoneTitle(
-				milestone.title,
-				$config.milestones.removeFilterFromName,
-				$config.milestones.filter
-			)
+			title: milestone.title
 		});
 </script>
 

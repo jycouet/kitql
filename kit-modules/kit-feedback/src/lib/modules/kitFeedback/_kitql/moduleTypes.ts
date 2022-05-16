@@ -6,11 +6,12 @@ export namespace KitFeedbackModule {
     Comments: 'nodes' | 'next';
     Issue: 'id' | 'number' | 'author' | 'createdAt' | 'titleHTML' | 'bodyHTML' | 'metadata' | 'comments';
     Issues: 'nodes' | 'next';
+    IssueTemplate: 'name' | 'title' | 'body';
     Milestone: 'id' | 'title' | 'number' | 'description';
     Milestones: 'nodes' | 'next';
     RepositoryConstants: 'repositoryID' | 'createIssueLabelID';
     Mutation: 'createComment' | 'addReaction' | 'createIssue' | 'minimizeComment' | 'updateComment';
-    Query: 'repositoryConstants' | 'issue' | 'issues' | 'milestones';
+    Query: 'repositoryConstants' | 'issue' | 'issues' | 'issueTemplate' | 'milestones';
   };
   
   interface DefinedEnumValues {
@@ -42,6 +43,7 @@ export namespace KitFeedbackModule {
   export type Issues = Pick<Types.Issues, DefinedFields['Issues']>;
   export type CreateIssueFields = Pick<Types.CreateIssueFields, DefinedInputFields['CreateIssueFields']>;
   export type IssueFilters = Pick<Types.IssueFilters, DefinedInputFields['IssueFilters']>;
+  export type IssueTemplate = Pick<Types.IssueTemplate, DefinedFields['IssueTemplate']>;
   export type Milestone = Pick<Types.Milestone, DefinedFields['Milestone']>;
   export type Milestones = Pick<Types.Milestones, DefinedFields['Milestones']>;
   export type MilestoneFilters = Pick<Types.MilestoneFilters, DefinedInputFields['MilestoneFilters']>;
@@ -54,6 +56,7 @@ export namespace KitFeedbackModule {
   export type CommentsResolvers = Pick<Types.CommentsResolvers, DefinedFields['Comments'] | '__isTypeOf'>;
   export type IssueResolvers = Pick<Types.IssueResolvers, DefinedFields['Issue'] | '__isTypeOf'>;
   export type IssuesResolvers = Pick<Types.IssuesResolvers, DefinedFields['Issues'] | '__isTypeOf'>;
+  export type IssueTemplateResolvers = Pick<Types.IssueTemplateResolvers, DefinedFields['IssueTemplate'] | '__isTypeOf'>;
   export type MilestoneResolvers = Pick<Types.MilestoneResolvers, DefinedFields['Milestone'] | '__isTypeOf'>;
   export type MilestonesResolvers = Pick<Types.MilestonesResolvers, DefinedFields['Milestones'] | '__isTypeOf'>;
   export type RepositoryConstantsResolvers = Pick<Types.RepositoryConstantsResolvers, DefinedFields['RepositoryConstants'] | '__isTypeOf'>;
@@ -65,6 +68,7 @@ export namespace KitFeedbackModule {
     Comments?: CommentsResolvers;
     Issue?: IssueResolvers;
     Issues?: IssuesResolvers;
+    IssueTemplate?: IssueTemplateResolvers;
     Milestone?: MilestoneResolvers;
     Milestones?: MilestonesResolvers;
     RepositoryConstants?: RepositoryConstantsResolvers;
@@ -107,6 +111,12 @@ export namespace KitFeedbackModule {
       nodes?: gm.Middleware[];
       next?: gm.Middleware[];
     };
+    IssueTemplate?: {
+      '*'?: gm.Middleware[];
+      name?: gm.Middleware[];
+      title?: gm.Middleware[];
+      body?: gm.Middleware[];
+    };
     Milestone?: {
       '*'?: gm.Middleware[];
       id?: gm.Middleware[];
@@ -137,6 +147,7 @@ export namespace KitFeedbackModule {
       repositoryConstants?: gm.Middleware[];
       issue?: gm.Middleware[];
       issues?: gm.Middleware[];
+      issueTemplate?: gm.Middleware[];
       milestones?: gm.Middleware[];
     };
   };

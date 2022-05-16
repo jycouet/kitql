@@ -51,7 +51,9 @@ export type KitFeedbackConfig = {
 			labels?: string[];
 		};
 		create?: {
-			template?: string;
+			/** A map of per milestone issues template (Record<MilestoneName (full name), IssueTemplateName>) */
+			templates?: Record<string, string>;
+			/** Label which with issues will be created */
 			label?: string;
 		};
 		pagination?: number;
@@ -104,9 +106,10 @@ export const defaultConfig: KitFeedbackConfig = {
 			'no-description': 'No description provided'
 		},
 		create: {
-			template: `
-			### REASON
-			`
+			templates: {
+				'[Gitkit] Demandes (TEST)': 'thrth',
+				'[Gitkit] Problèmes techniques (TEST)': 'rthaaaaaarth'
+			}
 		},
 		pagination: 25,
 		comments: {

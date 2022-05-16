@@ -4,7 +4,7 @@ export const computeMilestoneTitle = (
 	filter: string = ''
 ) => {
 	if (removeFilterFromName) {
-		return title.replace(filter, '');
+		return title.replace(filter, '').trim();
 	}
 	return title;
 };

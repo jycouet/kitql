@@ -7,6 +7,7 @@
 	import Icon from '@iconify/svelte';
 	import { resolveTheme, theme } from '../../utils/theme';
 	import IssueCreate from '../issues/ISSUE_Create.svelte';
+	import { computeMilestoneTitle } from '../milestones/helper';
 
 	export let filters: Omit<IssueFilters, 'states'> = {};
 	export let title: string = 'Issues';
@@ -28,9 +29,17 @@
 <div class={resolveTheme($theme, 'issues')}>
 	<div class={resolveTheme($theme, 'issues-header')}>
 		<h2 class={resolveTheme($theme, 'title')}>
-			{title}
+			{#if title && milestoneId}
+				{computeMilestoneTitle(
+					title,
+					$config.milestones.removeFilterFromName,
+					$config.milestones.filter
+				)}
+			{:else}
+				{title}
+			{/if}
 		</h2>
-		<IssueCreate {milestoneId} />
+		<IssueCreate {milestoneId} milestoneTitle={title} />
 	</div>
 
 	<div class={resolveTheme($theme, 'issues-body')}>

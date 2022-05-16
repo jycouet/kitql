@@ -1,0 +1,7 @@
+query IssueTemplates($repository: String!, $owner: String!) {
+	repository(name: $repository, owner: $owner) {
+		issueTemplates {
+			...issueTemplateDetail
+		}
+	}
+}

@@ -1,13 +1,10 @@
-import type { CodegenDate } from '../helpers/scalarTypes';
-import type { GraphQLResolveInfo, GraphQLScalarType, GraphQLScalarTypeConfig } from 'graphql';
-import type { IKitQLContext } from '$graphql/kitQLServer';
 import type { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-node/core';
+import gql from 'graphql-tag';
 export type Maybe<T> = T | null;
 export type InputMaybe<T> = Maybe<T>;
 export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
 export type MakeOptional<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]?: Maybe<T[SubKey]> };
 export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]: Maybe<T[SubKey]> };
-export type RequireFields<T, K extends keyof T> = Omit<T, K> & { [P in K]-?: NonNullable<T[P]> };
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
   ID: string;
@@ -15,8 +12,8 @@ export type Scalars = {
   Boolean: boolean;
   Int: number;
   Float: number;
-  Date: CodegenDate;
-  DateTime: Date;
+  Date: any;
+  DateTime: any;
 };
 
 export type AddReactionFields = {
@@ -70,9 +67,17 @@ export type IssueFilters = {
   states?: InputMaybe<Array<InputMaybe<IssueState>>>;
 };
 
-export type IssueState =
-  | 'CLOSED'
-  | 'OPEN';
+export enum IssueState {
+  Closed = 'CLOSED',
+  Open = 'OPEN'
+}
+
+export type IssueTemplate = {
+  __typename?: 'IssueTemplate';
+  body?: Maybe<Scalars['String']>;
+  name?: Maybe<Scalars['String']>;
+  title?: Maybe<Scalars['String']>;
+};
 
 export type Issues = {
   __typename?: 'Issues';
@@ -153,6 +158,7 @@ export type Pagination = {
 export type Query = {
   __typename?: 'Query';
   issue?: Maybe<Issue>;
+  issueTemplate?: Maybe<IssueTemplate>;
   issues?: Maybe<Issues>;
   milestones?: Maybe<Milestones>;
   repositoryConstants: RepositoryConstants;
@@ -163,6 +169,12 @@ export type Query = {
 /** Our loved graphql Query root */
 export type QueryIssueArgs = {
   number: Scalars['Int'];
+};
+
+
+/** Our loved graphql Query root */
+export type QueryIssueTemplateArgs = {
+  name: Scalars['String'];
 };
 
 
@@ -179,15 +191,16 @@ export type QueryMilestonesArgs = {
   pagination: Pagination;
 };
 
-export type Reaction =
-  | 'CONFUSED'
-  | 'EYES'
-  | 'HEART'
-  | 'HOORAY'
-  | 'LAUGH'
-  | 'ROCKET'
-  | 'THUMBS_DOWN'
-  | 'THUMBS_UP';
+export enum Reaction {
+  Confused = 'CONFUSED',
+  Eyes = 'EYES',
+  Heart = 'HEART',
+  Hooray = 'HOORAY',
+  Laugh = 'LAUGH',
+  Rocket = 'ROCKET',
+  ThumbsDown = 'THUMBS_DOWN',
+  ThumbsUp = 'THUMBS_UP'
+}
 
 export type RepositoryConstants = {
   __typename?: 'RepositoryConstants';
@@ -207,238 +220,13 @@ export type Version = {
   releaseCreatedAtUtc: Scalars['DateTime'];
 };
 
+export type CommentDetailFragment = { __typename?: 'Comment', id?: string | null, isMinimized?: boolean | null, isPublic?: boolean | null, createdAt?: any | null, author?: string | null, body?: string | null, bodyHTML?: string | null };
 
+export type IssueDetailFragment = { __typename?: 'Issue', id?: string | null, author?: string | null, createdAt?: any | null, titleHTML?: string | null, bodyHTML?: string | null, comments?: { __typename?: 'Comments', next?: string | null, nodes?: Array<{ __typename?: 'Comment', id?: string | null, isMinimized?: boolean | null, isPublic?: boolean | null, createdAt?: any | null, author?: string | null, body?: string | null, bodyHTML?: string | null }> | null } | null };
 
-export type ResolverTypeWrapper<T> = Promise<T> | T;
+export type IssuePreviewFragment = { __typename?: 'Issue', id?: string | null, number?: number | null, titleHTML?: string | null, metadata?: { __typename?: 'Comment', id?: string | null, isMinimized?: boolean | null, isPublic?: boolean | null, createdAt?: any | null, author?: string | null, body?: string | null, bodyHTML?: string | null } | null };
 
-
-export type ResolverWithResolve<TResult, TParent, TContext, TArgs> = {
-  resolve: ResolverFn<TResult, TParent, TContext, TArgs>;
-};
-export type Resolver<TResult, TParent = {}, TContext = {}, TArgs = {}> = ResolverFn<TResult, TParent, TContext, TArgs> | ResolverWithResolve<TResult, TParent, TContext, TArgs>;
-
-export type ResolverFn<TResult, TParent, TContext, TArgs> = (
-  parent: TParent,
-  args: TArgs,
-  context: TContext,
-  info: GraphQLResolveInfo
-) => Promise<TResult> | TResult;
-
-export type SubscriptionSubscribeFn<TResult, TParent, TContext, TArgs> = (
-  parent: TParent,
-  args: TArgs,
-  context: TContext,
-  info: GraphQLResolveInfo
-) => AsyncIterable<TResult> | Promise<AsyncIterable<TResult>>;
-
-export type SubscriptionResolveFn<TResult, TParent, TContext, TArgs> = (
-  parent: TParent,
-  args: TArgs,
-  context: TContext,
-  info: GraphQLResolveInfo
-) => TResult | Promise<TResult>;
-
-export interface SubscriptionSubscriberObject<TResult, TKey extends string, TParent, TContext, TArgs> {
-  subscribe: SubscriptionSubscribeFn<{ [key in TKey]: TResult }, TParent, TContext, TArgs>;
-  resolve?: SubscriptionResolveFn<TResult, { [key in TKey]: TResult }, TContext, TArgs>;
-}
-
-export interface SubscriptionResolverObject<TResult, TParent, TContext, TArgs> {
-  subscribe: SubscriptionSubscribeFn<any, TParent, TContext, TArgs>;
-  resolve: SubscriptionResolveFn<TResult, any, TContext, TArgs>;
-}
-
-export type SubscriptionObject<TResult, TKey extends string, TParent, TContext, TArgs> =
-  | SubscriptionSubscriberObject<TResult, TKey, TParent, TContext, TArgs>
-  | SubscriptionResolverObject<TResult, TParent, TContext, TArgs>;
-
-export type SubscriptionResolver<TResult, TKey extends string, TParent = {}, TContext = {}, TArgs = {}> =
-  | ((...args: any[]) => SubscriptionObject<TResult, TKey, TParent, TContext, TArgs>)
-  | SubscriptionObject<TResult, TKey, TParent, TContext, TArgs>;
-
-export type TypeResolveFn<TTypes, TParent = {}, TContext = {}> = (
-  parent: TParent,
-  context: TContext,
-  info: GraphQLResolveInfo
-) => Maybe<TTypes> | Promise<Maybe<TTypes>>;
-
-export type IsTypeOfResolverFn<T = {}, TContext = {}> = (obj: T, context: TContext, info: GraphQLResolveInfo) => boolean | Promise<boolean>;
-
-export type NextResolverFn<T> = () => Promise<T>;
-
-export type DirectiveResolverFn<TResult = {}, TParent = {}, TContext = {}, TArgs = {}> = (
-  next: NextResolverFn<TResult>,
-  parent: TParent,
-  args: TArgs,
-  context: TContext,
-  info: GraphQLResolveInfo
-) => TResult | Promise<TResult>;
-
-/** Mapping between all available schema types and the resolvers types */
-export type ResolversTypes = {
-  AddReactionFields: AddReactionFields;
-  Boolean: ResolverTypeWrapper<Scalars['Boolean']>;
-  Comment: ResolverTypeWrapper<Comment>;
-  Comments: ResolverTypeWrapper<Comments>;
-  CreateCommentFields: CreateCommentFields;
-  CreateIssueFields: CreateIssueFields;
-  Date: ResolverTypeWrapper<Scalars['Date']>;
-  DateTime: ResolverTypeWrapper<Scalars['DateTime']>;
-  ID: ResolverTypeWrapper<Scalars['ID']>;
-  Int: ResolverTypeWrapper<Scalars['Int']>;
-  Issue: ResolverTypeWrapper<Issue>;
-  IssueFilters: IssueFilters;
-  IssueState: IssueState;
-  Issues: ResolverTypeWrapper<Issues>;
-  Milestone: ResolverTypeWrapper<Milestone>;
-  MilestoneFilters: MilestoneFilters;
-  Milestones: ResolverTypeWrapper<Milestones>;
-  MinimizeCommentFields: MinimizeCommentFields;
-  Mutation: ResolverTypeWrapper<{}>;
-  Pagination: Pagination;
-  Query: ResolverTypeWrapper<{}>;
-  Reaction: Reaction;
-  RepositoryConstants: ResolverTypeWrapper<RepositoryConstants>;
-  String: ResolverTypeWrapper<Scalars['String']>;
-  UpdateCommentFields: UpdateCommentFields;
-  Version: ResolverTypeWrapper<Version>;
-};
-
-/** Mapping between all available schema types and the resolvers parents */
-export type ResolversParentTypes = {
-  AddReactionFields: AddReactionFields;
-  Boolean: Scalars['Boolean'];
-  Comment: Comment;
-  Comments: Comments;
-  CreateCommentFields: CreateCommentFields;
-  CreateIssueFields: CreateIssueFields;
-  Date: Scalars['Date'];
-  DateTime: Scalars['DateTime'];
-  ID: Scalars['ID'];
-  Int: Scalars['Int'];
-  Issue: Issue;
-  IssueFilters: IssueFilters;
-  Issues: Issues;
-  Milestone: Milestone;
-  MilestoneFilters: MilestoneFilters;
-  Milestones: Milestones;
-  MinimizeCommentFields: MinimizeCommentFields;
-  Mutation: {};
-  Pagination: Pagination;
-  Query: {};
-  RepositoryConstants: RepositoryConstants;
-  String: Scalars['String'];
-  UpdateCommentFields: UpdateCommentFields;
-  Version: Version;
-};
-
-export type CommentResolvers<ContextType = IKitQLContext, ParentType extends ResolversParentTypes['Comment'] = ResolversParentTypes['Comment']> = {
-  author?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  body?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  bodyHTML?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  createdAt?: Resolver<Maybe<ResolversTypes['DateTime']>, ParentType, ContextType>;
-  id?: Resolver<Maybe<ResolversTypes['ID']>, ParentType, ContextType>;
-  isMinimized?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
-  isPublic?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
-  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
-};
-
-export type CommentsResolvers<ContextType = IKitQLContext, ParentType extends ResolversParentTypes['Comments'] = ResolversParentTypes['Comments']> = {
-  next?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  nodes?: Resolver<Maybe<Array<ResolversTypes['Comment']>>, ParentType, ContextType>;
-  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
-};
-
-export interface DateScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['Date'], any> {
-  name: 'Date';
-}
-
-export interface DateTimeScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['DateTime'], any> {
-  name: 'DateTime';
-}
-
-export type IssueResolvers<ContextType = IKitQLContext, ParentType extends ResolversParentTypes['Issue'] = ResolversParentTypes['Issue']> = {
-  author?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  bodyHTML?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  comments?: Resolver<Maybe<ResolversTypes['Comments']>, ParentType, ContextType>;
-  createdAt?: Resolver<Maybe<ResolversTypes['DateTime']>, ParentType, ContextType>;
-  id?: Resolver<Maybe<ResolversTypes['ID']>, ParentType, ContextType>;
-  metadata?: Resolver<Maybe<ResolversTypes['Comment']>, ParentType, ContextType>;
-  number?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
-  titleHTML?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
-};
-
-export type IssuesResolvers<ContextType = IKitQLContext, ParentType extends ResolversParentTypes['Issues'] = ResolversParentTypes['Issues']> = {
-  next?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  nodes?: Resolver<Maybe<Array<ResolversTypes['Issue']>>, ParentType, ContextType>;
-  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
-};
-
-export type MilestoneResolvers<ContextType = IKitQLContext, ParentType extends ResolversParentTypes['Milestone'] = ResolversParentTypes['Milestone']> = {
-  description?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
-  number?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
-  title?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
-};
-
-export type MilestonesResolvers<ContextType = IKitQLContext, ParentType extends ResolversParentTypes['Milestones'] = ResolversParentTypes['Milestones']> = {
-  next?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  nodes?: Resolver<Maybe<Array<Maybe<ResolversTypes['Milestone']>>>, ParentType, ContextType>;
-  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
-};
-
-export type MutationResolvers<ContextType = IKitQLContext, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = {
-  _boostServer?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  _generateError?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  addReaction?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType, RequireFields<MutationAddReactionArgs, 'fields'>>;
-  createComment?: Resolver<Maybe<ResolversTypes['Comment']>, ParentType, ContextType, RequireFields<MutationCreateCommentArgs, 'fields'>>;
-  createIssue?: Resolver<Maybe<ResolversTypes['Issue']>, ParentType, ContextType, RequireFields<MutationCreateIssueArgs, 'fields'>>;
-  minimizeComment?: Resolver<Maybe<ResolversTypes['Comment']>, ParentType, ContextType, RequireFields<MutationMinimizeCommentArgs, 'fields'>>;
-  updateComment?: Resolver<Maybe<ResolversTypes['Comment']>, ParentType, ContextType, RequireFields<MutationUpdateCommentArgs, 'fields'>>;
-};
-
-export type QueryResolvers<ContextType = IKitQLContext, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
-  issue?: Resolver<Maybe<ResolversTypes['Issue']>, ParentType, ContextType, RequireFields<QueryIssueArgs, 'number'>>;
-  issues?: Resolver<Maybe<ResolversTypes['Issues']>, ParentType, ContextType, RequireFields<QueryIssuesArgs, 'pagination'>>;
-  milestones?: Resolver<Maybe<ResolversTypes['Milestones']>, ParentType, ContextType, RequireFields<QueryMilestonesArgs, 'pagination'>>;
-  repositoryConstants?: Resolver<ResolversTypes['RepositoryConstants'], ParentType, ContextType>;
-  version?: Resolver<ResolversTypes['Version'], ParentType, ContextType>;
-};
-
-export type RepositoryConstantsResolvers<ContextType = IKitQLContext, ParentType extends ResolversParentTypes['RepositoryConstants'] = ResolversParentTypes['RepositoryConstants']> = {
-  createIssueLabelID?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
-  repositoryID?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
-  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
-};
-
-export type VersionResolvers<ContextType = IKitQLContext, ParentType extends ResolversParentTypes['Version'] = ResolversParentTypes['Version']> = {
-  releaseCreatedAtUtc?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;
-  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
-};
-
-export type Resolvers<ContextType = IKitQLContext> = {
-  Comment?: CommentResolvers<ContextType>;
-  Comments?: CommentsResolvers<ContextType>;
-  Date?: GraphQLScalarType;
-  DateTime?: GraphQLScalarType;
-  Issue?: IssueResolvers<ContextType>;
-  Issues?: IssuesResolvers<ContextType>;
-  Milestone?: MilestoneResolvers<ContextType>;
-  Milestones?: MilestonesResolvers<ContextType>;
-  Mutation?: MutationResolvers<ContextType>;
-  Query?: QueryResolvers<ContextType>;
-  RepositoryConstants?: RepositoryConstantsResolvers<ContextType>;
-  Version?: VersionResolvers<ContextType>;
-};
-
-
-export type CommentDetailFragment = { __typename?: 'Comment', id?: string | null, isMinimized?: boolean | null, isPublic?: boolean | null, createdAt?: Date | null, author?: string | null, body?: string | null, bodyHTML?: string | null };
-
-export type IssueDetailFragment = { __typename?: 'Issue', id?: string | null, author?: string | null, createdAt?: Date | null, titleHTML?: string | null, bodyHTML?: string | null, comments?: { __typename?: 'Comments', next?: string | null, nodes?: Array<{ __typename?: 'Comment', id?: string | null, isMinimized?: boolean | null, isPublic?: boolean | null, createdAt?: Date | null, author?: string | null, body?: string | null, bodyHTML?: string | null }> | null } | null };
-
-export type IssuePreviewFragment = { __typename?: 'Issue', id?: string | null, number?: number | null, titleHTML?: string | null, metadata?: { __typename?: 'Comment', id?: string | null, isMinimized?: boolean | null, isPublic?: boolean | null, createdAt?: Date | null, author?: string | null, body?: string | null, bodyHTML?: string | null } | null };
+export type IssueTemplateDetailFragment = { __typename?: 'IssueTemplate', name?: string | null, title?: string | null, body?: string | null };
 
 export type MilestonePreviewFragment = { __typename?: 'Milestone', id: string, number?: number | null, title: string };
 
@@ -447,7 +235,7 @@ export type CreateCommentMutationVariables = Exact<{
 }>;
 
 
-export type CreateCommentMutation = { __typename?: 'Mutation', createComment?: { __typename?: 'Comment', id?: string | null, isMinimized?: boolean | null, isPublic?: boolean | null, createdAt?: Date | null, author?: string | null, body?: string | null, bodyHTML?: string | null } | null };
+export type CreateCommentMutation = { __typename?: 'Mutation', createComment?: { __typename?: 'Comment', id?: string | null, isMinimized?: boolean | null, isPublic?: boolean | null, createdAt?: any | null, author?: string | null, body?: string | null, bodyHTML?: string | null } | null };
 
 export type AddReactionMutationVariables = Exact<{
   fields: AddReactionFields;
@@ -461,28 +249,35 @@ export type CreateIssueMutationVariables = Exact<{
 }>;
 
 
-export type CreateIssueMutation = { __typename?: 'Mutation', createIssue?: { __typename?: 'Issue', id?: string | null, number?: number | null, titleHTML?: string | null, metadata?: { __typename?: 'Comment', id?: string | null, isMinimized?: boolean | null, isPublic?: boolean | null, createdAt?: Date | null, author?: string | null, body?: string | null, bodyHTML?: string | null } | null } | null };
+export type CreateIssueMutation = { __typename?: 'Mutation', createIssue?: { __typename?: 'Issue', id?: string | null, number?: number | null, titleHTML?: string | null, metadata?: { __typename?: 'Comment', id?: string | null, isMinimized?: boolean | null, isPublic?: boolean | null, createdAt?: any | null, author?: string | null, body?: string | null, bodyHTML?: string | null } | null } | null };
 
 export type MinimizeCommentMutationVariables = Exact<{
   fields: MinimizeCommentFields;
 }>;
 
 
-export type MinimizeCommentMutation = { __typename?: 'Mutation', minimizeComment?: { __typename?: 'Comment', id?: string | null, isMinimized?: boolean | null, isPublic?: boolean | null, createdAt?: Date | null, author?: string | null, body?: string | null, bodyHTML?: string | null } | null };
+export type MinimizeCommentMutation = { __typename?: 'Mutation', minimizeComment?: { __typename?: 'Comment', id?: string | null, isMinimized?: boolean | null, isPublic?: boolean | null, createdAt?: any | null, author?: string | null, body?: string | null, bodyHTML?: string | null } | null };
 
 export type UpdateCommentMutationVariables = Exact<{
   fields: UpdateCommentFields;
 }>;
 
 
-export type UpdateCommentMutation = { __typename?: 'Mutation', updateComment?: { __typename?: 'Comment', id?: string | null, isMinimized?: boolean | null, isPublic?: boolean | null, createdAt?: Date | null, author?: string | null, body?: string | null, bodyHTML?: string | null } | null };
+export type UpdateCommentMutation = { __typename?: 'Mutation', updateComment?: { __typename?: 'Comment', id?: string | null, isMinimized?: boolean | null, isPublic?: boolean | null, createdAt?: any | null, author?: string | null, body?: string | null, bodyHTML?: string | null } | null };
 
 export type IssueQueryVariables = Exact<{
   number: Scalars['Int'];
 }>;
 
 
-export type IssueQuery = { __typename?: 'Query', issue?: { __typename?: 'Issue', id?: string | null, author?: string | null, createdAt?: Date | null, titleHTML?: string | null, bodyHTML?: string | null, comments?: { __typename?: 'Comments', next?: string | null, nodes?: Array<{ __typename?: 'Comment', id?: string | null, isMinimized?: boolean | null, isPublic?: boolean | null, createdAt?: Date | null, author?: string | null, body?: string | null, bodyHTML?: string | null }> | null } | null } | null };
+export type IssueQuery = { __typename?: 'Query', issue?: { __typename?: 'Issue', id?: string | null, author?: string | null, createdAt?: any | null, titleHTML?: string | null, bodyHTML?: string | null, comments?: { __typename?: 'Comments', next?: string | null, nodes?: Array<{ __typename?: 'Comment', id?: string | null, isMinimized?: boolean | null, isPublic?: boolean | null, createdAt?: any | null, author?: string | null, body?: string | null, bodyHTML?: string | null }> | null } | null } | null };
+
+export type IssueTemplateQueryVariables = Exact<{
+  name: Scalars['String'];
+}>;
+
+
+export type IssueTemplateQuery = { __typename?: 'Query', issueTemplate?: { __typename?: 'IssueTemplate', name?: string | null, title?: string | null, body?: string | null } | null };
 
 export type IssuesQueryVariables = Exact<{
   filters?: InputMaybe<IssueFilters>;
@@ -490,7 +285,7 @@ export type IssuesQueryVariables = Exact<{
 }>;
 
 
-export type IssuesQuery = { __typename?: 'Query', issues?: { __typename?: 'Issues', next?: string | null, nodes?: Array<{ __typename?: 'Issue', id?: string | null, number?: number | null, titleHTML?: string | null, metadata?: { __typename?: 'Comment', id?: string | null, isMinimized?: boolean | null, isPublic?: boolean | null, createdAt?: Date | null, author?: string | null, body?: string | null, bodyHTML?: string | null } | null }> | null } | null };
+export type IssuesQuery = { __typename?: 'Query', issues?: { __typename?: 'Issues', next?: string | null, nodes?: Array<{ __typename?: 'Issue', id?: string | null, number?: number | null, titleHTML?: string | null, metadata?: { __typename?: 'Comment', id?: string | null, isMinimized?: boolean | null, isPublic?: boolean | null, createdAt?: any | null, author?: string | null, body?: string | null, bodyHTML?: string | null } | null }> | null } | null };
 
 export type MilestonesQueryVariables = Exact<{
   filters: MilestoneFilters;
@@ -508,6 +303,7 @@ export type RepositoryConstantsQuery = { __typename?: 'Query', repositoryConstan
 export const CommentDetailFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"commentDetail"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Comment"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"isMinimized"}},{"kind":"Field","name":{"kind":"Name","value":"isPublic"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"author"}},{"kind":"Field","name":{"kind":"Name","value":"body"}},{"kind":"Field","name":{"kind":"Name","value":"bodyHTML"}}]}}]} as unknown as DocumentNode<CommentDetailFragment, unknown>;
 export const IssueDetailFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"issueDetail"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Issue"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"author"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"titleHTML"}},{"kind":"Field","name":{"kind":"Name","value":"bodyHTML"}},{"kind":"Field","name":{"kind":"Name","value":"comments"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"next"}},{"kind":"Field","name":{"kind":"Name","value":"nodes"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"commentDetail"}}]}}]}}]}},...CommentDetailFragmentDoc.definitions]} as unknown as DocumentNode<IssueDetailFragment, unknown>;
 export const IssuePreviewFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"issuePreview"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Issue"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"number"}},{"kind":"Field","name":{"kind":"Name","value":"titleHTML"}},{"kind":"Field","name":{"kind":"Name","value":"metadata"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"commentDetail"}}]}}]}},...CommentDetailFragmentDoc.definitions]} as unknown as DocumentNode<IssuePreviewFragment, unknown>;
+export const IssueTemplateDetailFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"issueTemplateDetail"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"IssueTemplate"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"body"}}]}}]} as unknown as DocumentNode<IssueTemplateDetailFragment, unknown>;
 export const MilestonePreviewFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"milestonePreview"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Milestone"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"number"}},{"kind":"Field","name":{"kind":"Name","value":"title"}}]}}]} as unknown as DocumentNode<MilestonePreviewFragment, unknown>;
 export const CreateCommentDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"CreateComment"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"fields"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"CreateCommentFields"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"createComment"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"fields"},"value":{"kind":"Variable","name":{"kind":"Name","value":"fields"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"commentDetail"}}]}}]}},...CommentDetailFragmentDoc.definitions]} as unknown as DocumentNode<CreateCommentMutation, CreateCommentMutationVariables>;
 export const AddReactionDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"AddReaction"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"fields"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"AddReactionFields"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"addReaction"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"fields"},"value":{"kind":"Variable","name":{"kind":"Name","value":"fields"}}}]}]}}]} as unknown as DocumentNode<AddReactionMutation, AddReactionMutationVariables>;
@@ -515,8 +311,132 @@ export const CreateIssueDocument = {"kind":"Document","definitions":[{"kind":"Op
 export const MinimizeCommentDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"MinimizeComment"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"fields"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"MinimizeCommentFields"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"minimizeComment"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"fields"},"value":{"kind":"Variable","name":{"kind":"Name","value":"fields"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"commentDetail"}}]}}]}},...CommentDetailFragmentDoc.definitions]} as unknown as DocumentNode<MinimizeCommentMutation, MinimizeCommentMutationVariables>;
 export const UpdateCommentDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"UpdateComment"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"fields"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"UpdateCommentFields"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"updateComment"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"fields"},"value":{"kind":"Variable","name":{"kind":"Name","value":"fields"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"commentDetail"}}]}}]}},...CommentDetailFragmentDoc.definitions]} as unknown as DocumentNode<UpdateCommentMutation, UpdateCommentMutationVariables>;
 export const IssueDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"Issue"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"number"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"issue"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"number"},"value":{"kind":"Variable","name":{"kind":"Name","value":"number"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"issueDetail"}}]}}]}},...IssueDetailFragmentDoc.definitions]} as unknown as DocumentNode<IssueQuery, IssueQueryVariables>;
+export const IssueTemplateDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"IssueTemplate"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"name"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"issueTemplate"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"name"},"value":{"kind":"Variable","name":{"kind":"Name","value":"name"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"issueTemplateDetail"}}]}}]}},...IssueTemplateDetailFragmentDoc.definitions]} as unknown as DocumentNode<IssueTemplateQuery, IssueTemplateQueryVariables>;
 export const IssuesDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"Issues"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"filters"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"IssueFilters"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"pagination"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Pagination"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"issues"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"filters"},"value":{"kind":"Variable","name":{"kind":"Name","value":"filters"}}},{"kind":"Argument","name":{"kind":"Name","value":"pagination"},"value":{"kind":"Variable","name":{"kind":"Name","value":"pagination"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"nodes"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"issuePreview"}}]}},{"kind":"Field","name":{"kind":"Name","value":"next"}}]}}]}},...IssuePreviewFragmentDoc.definitions]} as unknown as DocumentNode<IssuesQuery, IssuesQueryVariables>;
 export const MilestonesDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"Milestones"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"filters"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"MilestoneFilters"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"pagination"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Pagination"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"milestones"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"filters"},"value":{"kind":"Variable","name":{"kind":"Name","value":"filters"}}},{"kind":"Argument","name":{"kind":"Name","value":"pagination"},"value":{"kind":"Variable","name":{"kind":"Name","value":"pagination"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"nodes"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"milestonePreview"}}]}},{"kind":"Field","name":{"kind":"Name","value":"next"}}]}}]}},...MilestonePreviewFragmentDoc.definitions]} as unknown as DocumentNode<MilestonesQuery, MilestonesQueryVariables>;
 export const RepositoryConstantsDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"RepositoryConstants"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"repositoryConstants"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"repositoryID"}},{"kind":"Field","name":{"kind":"Name","value":"createIssueLabelID"}}]}}]}}]} as unknown as DocumentNode<RepositoryConstantsQuery, RepositoryConstantsQueryVariables>;
-export type Date = Scalars["Date"];
-export type DateTime = Scalars["DateTime"];
+export const CommentDetail = gql`
+    fragment commentDetail on Comment {
+  id
+  isMinimized
+  isPublic
+  createdAt
+  author
+  body
+  bodyHTML
+}
+    `;
+export const IssueDetail = gql`
+    fragment issueDetail on Issue {
+  id
+  author
+  createdAt
+  titleHTML
+  bodyHTML
+  comments {
+    next
+    nodes {
+      ...commentDetail
+    }
+  }
+}
+    ${CommentDetail}`;
+export const IssuePreview = gql`
+    fragment issuePreview on Issue {
+  id
+  number
+  titleHTML
+  metadata {
+    ...commentDetail
+  }
+}
+    ${CommentDetail}`;
+export const IssueTemplateDetail = gql`
+    fragment issueTemplateDetail on IssueTemplate {
+  name
+  title
+  body
+}
+    `;
+export const MilestonePreview = gql`
+    fragment milestonePreview on Milestone {
+  id
+  number
+  title
+}
+    `;
+export const CreateComment = gql`
+    mutation CreateComment($fields: CreateCommentFields!) {
+  createComment(fields: $fields) {
+    ...commentDetail
+  }
+}
+    ${CommentDetail}`;
+export const AddReaction = gql`
+    mutation AddReaction($fields: AddReactionFields!) {
+  addReaction(fields: $fields)
+}
+    `;
+export const CreateIssue = gql`
+    mutation CreateIssue($fields: CreateIssueFields!) {
+  createIssue(fields: $fields) {
+    ...issuePreview
+  }
+}
+    ${IssuePreview}`;
+export const MinimizeComment = gql`
+    mutation MinimizeComment($fields: MinimizeCommentFields!) {
+  minimizeComment(fields: $fields) {
+    ...commentDetail
+  }
+}
+    ${CommentDetail}`;
+export const UpdateComment = gql`
+    mutation UpdateComment($fields: UpdateCommentFields!) {
+  updateComment(fields: $fields) {
+    ...commentDetail
+  }
+}
+    ${CommentDetail}`;
+export const Issue = gql`
+    query Issue($number: Int!) {
+  issue(number: $number) {
+    ...issueDetail
+  }
+}
+    ${IssueDetail}`;
+export const IssueTemplate = gql`
+    query IssueTemplate($name: String!) {
+  issueTemplate(name: $name) {
+    ...issueTemplateDetail
+  }
+}
+    ${IssueTemplateDetail}`;
+export const Issues = gql`
+    query Issues($filters: IssueFilters, $pagination: Pagination!) {
+  issues(filters: $filters, pagination: $pagination) {
+    nodes {
+      ...issuePreview
+    }
+    next
+  }
+}
+    ${IssuePreview}`;
+export const Milestones = gql`
+    query Milestones($filters: MilestoneFilters!, $pagination: Pagination!) {
+  milestones(filters: $filters, pagination: $pagination) {
+    nodes {
+      ...milestonePreview
+    }
+    next
+  }
+}
+    ${MilestonePreview}`;
+export const RepositoryConstants = gql`
+    query RepositoryConstants {
+  repositoryConstants {
+    repositoryID
+    createIssueLabelID
+  }
+}
+    `;

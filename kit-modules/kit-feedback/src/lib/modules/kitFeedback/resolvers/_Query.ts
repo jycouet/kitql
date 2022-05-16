@@ -41,6 +41,19 @@ export const resolvers: KitFeedbackModule.Resolvers = {
 			};
 			return result;
 		},
+		issueTemplate: async (_root, args, ctx, _info) => {
+			const Github = ctx.injector.get(DbGithub);
+			const config = ctx.injector.get(KitFeedbackConfigIT);
+			const data = await Github.getIssueTemplates({
+				repository: config.repository.name,
+				owner: config.repository.owner
+			});
+			const templates = data?.repository?.issueTemplates;
+			console.log(templates);
+
+			const result = templates?.find((template) => template.name === args.name);
+			return result;
+		},
 		issues: async (_root, args, ctx, _info) => {
 			const Github = ctx.injector.get(DbGithub);
 			const config = ctx.injector.get(KitFeedbackConfigIT);
@@ -49,10 +62,7 @@ export const resolvers: KitFeedbackModule.Resolvers = {
 				owner: config.repository.owner,
 				take: args.pagination.take,
 				cursor: args.pagination.cursor,
-				filters: {
-					...args.filters,
-					milestoneId: args.filters.milestoneId
-				}
+				filters: args.filters
 			});
 			const issues = data?.repository?.issues;
 			const result: Issues = {

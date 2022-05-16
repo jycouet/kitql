@@ -1,8 +1,11 @@
 <script lang="ts">
+	import { browser } from '$app/env';
+
 	import {
 		KQL_CreateComment,
 		KQL_CreateIssue,
 		KQL_Issues,
+		KQL_IssueTemplate,
 		KQL_MinimizeComment
 	} from '$lib/graphql/_kitql/graphqlStores';
 	import type { CreateIssueFields } from '$lib/graphql/_kitql/graphqlTypes';
@@ -15,6 +18,7 @@
 	import type { CommentMetadata } from '../../utils/types';
 
 	export let milestoneId: string = undefined;
+	export let milestoneTitle: string = undefined;
 
 	let initialValues: CreateIssueFields;
 	$: initialValues = {
@@ -24,6 +28,15 @@
 		repositoryID: $repositoryId
 	};
 
+	$: browser &&
+		milestoneId &&
+		KQL_IssueTemplate.query({
+			variables: {
+				name: $config.issues?.create?.templates?.[milestoneTitle]
+			}
+		});
+
+	$: console.log(`$KQL_IssueTemplate.data`, $KQL_IssueTemplate.data);
 	const suite = create('form', (data: CreateIssueFields) => {
 		test('title', 'Le titre ne peut pas être vide.', () => {
 			enforce(data.title).isNotEmpty();
