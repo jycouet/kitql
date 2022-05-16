@@ -1,0 +1,45 @@
+schema:
+  - './src/lib/modules/**/typedefs/*.graphql'
+documents:
+  - './src/lib/modules/**/graphql/*.gql'
+extensions:
+  endpoints:
+    default:
+      url: ${VITE_BASE_URL}:${VITE_PORT}/api/graphql
+  codegen:
+    generates:
+      ./src/lib/graphql/_kitql/graphqlTypes.ts:
+        plugins:
+          - typescript
+          - typescript-operations
+          - typed-document-node
+          - typescript-document-nodes
+      ./src/lib/graphql/_kitql/graphqlStores.ts:
+        plugins:
+          - '@kitql/graphql-codegen'
+        config:
+          importBaseTypesFrom: $graphql/_kitql/graphqlTypes
+          operationPrefix: 'KQL_'
+      ./src/lib/modules/:
+        preset: graphql-modules
+        presetConfig:
+          baseTypesPath: ../graphql/_kitql/graphqlTypes.ts
+          importBaseTypesFrom: $graphql/_kitql/graphqlTypes
+          filename: _kitql/moduleTypes.ts
+        schema:
+          - '**/typedefs/*.gql'
+        documents:
+          - '**/graphql/*.gql'
+        plugins:
+          - typescript
+          - typescript-resolvers
+          - typescript-operations
+          - typed-document-node
+        config:
+          contextType: $graphql/kitQLServer#IKitQLContext
+          scalars:
+            Date: ../helpers/scalarTypes#CodegenDate
+            DateTime: Date
+
+    config:
+      useTypeImports: true

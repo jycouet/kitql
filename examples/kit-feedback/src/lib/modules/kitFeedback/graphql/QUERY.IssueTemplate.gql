@@ -1,0 +1,5 @@
+query IssueTemplate($name: String!) {
+	issueTemplate(name: $name) {
+		...issueTemplateDetail
+	}
+}
