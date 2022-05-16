@@ -7,7 +7,6 @@ import { typeDefs } from './_kitql/typedefs';
 
 export const KitFeedbackConfigIT = new InjectionToken<KitFeedbackConfig>('kit-feedback-config');
 export const RepositoryIdIT = new InjectionToken<string>('repository-id');
-export const CreateIssueLabelIdIT = new InjectionToken<string>('create-issue-label-id');
 
 export const kitFeedbackModule = createModule({
 	id: 'kit-feedback-module',
@@ -16,14 +15,6 @@ export const kitFeedbackModule = createModule({
 	providers: [
 		DbGithub,
 		{ provide: KitFeedbackConfigIT, useFactory: () => get(config) },
-		{
-			provide: RepositoryIdIT,
-			useFactory: () => 'R_kgDOGkDBjQ' //get(repositoryId)
-		},
-		{
-			provide: CreateIssueLabelIdIT,
-			useFactory: () => 'LA_kwDOGkDBjc7yAbx7' //get(createIssueLabelId)
-		}
 	],
 	middlewares: {
 		'*': {

@@ -13,6 +13,7 @@
 		dev: false,
 		identifier: () => me.id,
 		repository: {
+			id: 'R_kgDOGkDBjQ',
 			name: 'my-minion-mr',
 			owner: 'dynamic-process'
 		},
@@ -53,7 +54,10 @@
 				labels: ['CAPA', 'COMMON']
 			},
 			create: {
-				label: 'CAPA'
+				label: 'LA_kwDOGkDBjc7yAbx7',
+				metadata: () => ({
+					bla: 'id'
+				})
 			},
 			comments: {
 				create: {

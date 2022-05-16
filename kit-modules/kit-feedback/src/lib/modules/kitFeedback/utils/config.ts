@@ -18,6 +18,7 @@ export type KitFeedbackConfig = {
 	home?: Route;
 	routes?: Route[];
 	repository: {
+		id: string;
 		name: string;
 		owner: string;
 	};
@@ -53,8 +54,9 @@ export type KitFeedbackConfig = {
 		create?: {
 			/** A map of per milestone issues template (Record<MilestoneName (full name), IssueTemplateName>) */
 			templates?: Record<string, string>;
-			/** Label which with issues will be created */
+			/** ID of the label with which issues will be created */
 			label?: string;
+			metadata?: () => Record<string, any>;
 		};
 		pagination?: number;
 		comments?: {
@@ -77,6 +79,7 @@ export const defaultConfig: KitFeedbackConfig = {
 	identifier: () => '',
 	dev: false,
 	repository: {
+		id: 'R_kgDOGkDBjQ',
 		name: 'KitFeedback',
 		owner: 'jbruxelle'
 	},
@@ -109,7 +112,8 @@ export const defaultConfig: KitFeedbackConfig = {
 			templates: {
 				'[Gitkit] Demandes (TEST)': 'thrth',
 				'[Gitkit] Problèmes techniques (TEST)': 'rthaaaaaarth'
-			}
+			},
+			label: 'LA_kwDOGkDBjc7yAbx7'
 		},
 		pagination: 25,
 		comments: {

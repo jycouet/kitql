@@ -1,5 +1,5 @@
 import type { Comment, Issue } from '$graphql/_kitql/graphqlTypes';
-import { CreateIssueLabelIdIT, KitFeedbackConfigIT, RepositoryIdIT } from '..';
+import { KitFeedbackConfigIT, RepositoryIdIT } from '..';
 import { resolveGithubComment, resolveGithubIssuePreview } from '../helpers/helperGithub';
 import { DbGithub } from '../providers/DbGithub';
 import type { KitFeedbackModule } from '../_kitql/moduleTypes';
@@ -27,12 +27,10 @@ export const resolvers: KitFeedbackModule.Resolvers = {
 		createIssue: async (_root, args, ctx, _info) => {
 			const Github = ctx.injector.get(DbGithub);
 			const config = ctx.injector.get(KitFeedbackConfigIT);
-			const repositoryId = ctx.injector.get(RepositoryIdIT);
-			const createIssueLabelId = ctx.injector.get(CreateIssueLabelIdIT);
 			const data = await Github.createIssue({
-				repositoryId: repositoryId,
+				repositoryId: config.repository.id,
 				milestoneId: args.fields.milestoneId,
-				labelIds: [createIssueLabelId],
+				labelIds: [config.issues.create.label],
 				title: args.fields.title,
 				body: args.fields.body
 			});

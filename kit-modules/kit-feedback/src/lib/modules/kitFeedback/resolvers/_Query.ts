@@ -10,20 +10,6 @@ import type { KitFeedbackModule } from '../_kitql/moduleTypes';
 
 export const resolvers: KitFeedbackModule.Resolvers = {
 	Query: {
-		repositoryConstants: async (_root, _args, ctx, _info) => {
-			const Github = ctx.injector.get(DbGithub);
-			const config = ctx.injector.get(KitFeedbackConfigIT);
-			const data = await Github.getRepositoryConstants({
-				repository: config.repository.name,
-				owner: config.repository.owner,
-				createIssueLabelName: config.issues.create.label
-			});
-			const repositoryConstants: RepositoryConstants = {
-				repositoryID: data?.repository?.id,
-				createIssueLabelID: data?.repository?.label?.id
-			};
-			return repositoryConstants;
-		},
 		milestones: async (_root, args, ctx, _info) => {
 			const Github = ctx.injector.get(DbGithub);
 			const config = ctx.injector.get(KitFeedbackConfigIT);

@@ -53,7 +53,8 @@
 				votes: {
 					up: [],
 					down: []
-				}
+				},
+				...($config.issues?.create?.metadata?.() ?? {})
 			};
 
 			await KQL_CreateIssue.mutate({
