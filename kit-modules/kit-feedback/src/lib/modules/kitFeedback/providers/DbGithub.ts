@@ -11,7 +11,6 @@ const { queries, mutations } = operations;
 @Injectable({ global: false, scope: Scope.Operation })
 export class DbGithub {
 	private fetch = async (query: String, variables?: Record<string, any>) => {
-		console.log(`fetch`, query, variables);
 		try {
 			const headers: Headers = new Headers({
 				Authorization: 'Bearer ' + process.env.GITHUB_API_TOKEN,
@@ -62,12 +61,7 @@ export class DbGithub {
 		filters?: IssueFilters;
 	}) => {
 		const graphql = queries.Issues + '\n' + fragments.IssuePreview + '\n' + fragments.CommentDetail;
-		const input2 = {
-			...input,
-			filters: { ...input.filters, milestone: input.filters.milestoneId }
-		};
-		delete input2.filters.milestoneId;
-		return await this.fetch(graphql, input2);
+		return await this.fetch(graphql, input);
 	};
 
 	public getIssue = async (input: { repository: string; owner: string; number: number }) => {

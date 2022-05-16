@@ -78,7 +78,7 @@ input CreateIssueFields {
 
 input IssueFilters {
 	labels: [String]
-	milestoneId: ID
+	milestoneNumber: String
 	states: [IssueState]
 }
 

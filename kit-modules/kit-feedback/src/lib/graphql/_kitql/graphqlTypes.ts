@@ -69,7 +69,7 @@ export type Issue = {
 
 export type IssueFilters = {
   labels?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
-  milestoneId?: InputMaybe<Scalars['ID']>;
+  milestoneNumber?: InputMaybe<Scalars['String']>;
   states?: InputMaybe<Array<InputMaybe<IssueState>>>;
 };
 

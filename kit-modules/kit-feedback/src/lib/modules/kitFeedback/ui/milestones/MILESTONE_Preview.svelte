@@ -9,6 +9,7 @@
 	const redirect = () =>
 		router.goto('MILESTONE', {
 			id: milestone.id,
+			number: milestone.number,
 			title: computeMilestoneTitle(
 				milestone.title,
 				$config.milestones.removeFilterFromName,

@@ -24,7 +24,7 @@ export namespace KitFeedbackModule {
     UpdateCommentFields: 'commentID' | 'body';
     MinimizeCommentFields: 'commentID';
     CreateIssueFields: 'repositoryID' | 'milestoneId' | 'title' | 'body' | 'labelIDs' | 'assigneeIDs' | 'issueTemplate';
-    IssueFilters: 'labels' | 'milestoneId' | 'states';
+    IssueFilters: 'labels' | 'milestoneNumber' | 'states';
     MilestoneFilters: 'title';
     Pagination: 'take' | 'cursor';
   };
