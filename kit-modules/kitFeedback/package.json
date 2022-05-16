@@ -27,5 +27,16 @@
 	"volta": {
 		"node": "17.4.0",
 		"yarn": "1.22.17"
+	},
+	"exports": {
+		"./package.json": "./package.json",
+		".": {
+			"require": "./index.ts",
+			"import": "./index.ts"
+		},
+		"./*": {
+			"require": "./*.ts",
+			"import": "./*.ts"
+		}
 	}
 }
