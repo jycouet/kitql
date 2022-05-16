@@ -9,7 +9,7 @@ const __dirname = dirname(__filename);
 
 /** @type {import('@sveltejs/kit').Config} */
 const config = {
-	preprocess: [ preprocess({ postcss: true }) ],
+	preprocess: [preprocess({ postcss: true })],
 	kit: {
 		adapter: adapter(),
 		vite: {
@@ -21,22 +21,17 @@ const config = {
 				}
 			},
 			optimizeDeps: {
-				include: [
-					'dataloader'
-				]
+				include: ['dataloader']
 			},
-			plugins: [
-				watchAndRun([ { watch: '**/*.(gql|graphql)', run: 'yarn gen' } ])
-			]
+			plugins: [watchAndRun([{ watch: '**/*.(gql|graphql)', run: 'yarn gen' }])]
 		},
 		package: {
 			dir: 'dist',
 			emitTypes: true,
 			exports: (filepath) => filepath.endsWith('index.ts'),
 			files: (filepath) => !filepath.endsWith('.test.ts')
-		},
-
-	},
+		}
+	}
 };
 
 export default config;
