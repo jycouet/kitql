@@ -1,0 +1,13 @@
+fragment issueDetail on Issue {
+	id
+	author
+	createdAt
+	titleHTML
+	bodyHTML
+	comments {
+		next
+		nodes {
+			...commentDetail
+		}
+	}
+}

@@ -1,0 +1,17 @@
+fragment issueDetail on Issue {
+	id
+	author {
+		login
+	}
+	createdAt
+	titleHTML
+	bodyHTML
+	comments(first: 100) {
+		pageInfo {
+			endCursor
+		}
+		nodes {
+			...commentDetail
+		}
+	}
+}
