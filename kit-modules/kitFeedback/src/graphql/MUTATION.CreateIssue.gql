@@ -1,5 +1,0 @@
-mutation CreateIssue($fields: CreateIssueFields!) {
-	createIssue(fields: $fields) {
-		...issuePreview
-	}
-}

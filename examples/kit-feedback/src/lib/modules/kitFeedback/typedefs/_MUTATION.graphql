@@ -1,7 +1,0 @@
-extend type Mutation {
-	createComment(fields: CreateCommentFields!): Comment
-	addReaction(fields: AddReactionFields!): Int
-	createIssue(fields: CreateIssueFields!): Issue
-	minimizeComment(fields: MinimizeCommentFields!): Comment
-	updateComment(fields: UpdateCommentFields!): Comment
-}

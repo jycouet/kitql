@@ -1,8 +1,0 @@
-query RepositoryConstants($repository: String!, $owner: String!, $createIssueLabelName: String!) {
-	repository(name: $repository, owner: $owner) {
-		id
-		label(name: $createIssueLabelName) {
-			id
-		}
-	}
-}
