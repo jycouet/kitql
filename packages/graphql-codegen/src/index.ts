@@ -1,3 +1,4 @@
+/* eslint-disable unicorn/no-array-push-push */
 import { PluginFunction, Types } from '@graphql-codegen/plugin-helpers';
 import { convertFactory, getConfigValue } from '@graphql-codegen/visitor-plugin-common';
 import { pascalCase } from 'change-case-all';

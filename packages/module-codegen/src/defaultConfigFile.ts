@@ -17,23 +17,24 @@ export type TConfigFile = {
 };
 
 export function writeDefaultConfigFile(pathFile) {
-	let data = [];
-	data.push(`configs:`);
-	data.push(`  modulesFolder: ./src/lib/modules`);
-	data.push(`  moduleOutputFolder: _kitql`);
-	data.push(`  outputFolder: ./src/lib/graphql/_kitql`);
-	data.push(``);
-	data.push(`actions:`);
-	data.push(`  # - createBaseStructure: true`);
-	data.push(`  createEnumsModule:`);
-	data.push(`    prismaFile: ./prisma/schema.prisma`);
-	data.push(`    importBaseTypesFrom: $graphql/_kitql/graphqlTypes`);
-	data.push(``);
-	data.push(`  mergeModuleTypedefs: true`);
-	data.push(`  mergeModuleResolvers: true`);
-	data.push(`  mergeContexts: true`);
-	data.push(`  mergeModules: true`);
-	data.push(``);
+	let data = [
+		`configs:`,
+		`  modulesFolder: ./src/lib/modules`,
+		`  moduleOutputFolder: _kitql`,
+		`  outputFolder: ./src/lib/graphql/_kitql`,
+		``,
+		`actions:`,
+		`  # - createBaseStructure: true`,
+		`  createEnumsModule:`,
+		`    prismaFile: ./prisma/schema.prisma`,
+		`    importBaseTypesFrom: $graphql/_kitql/graphqlTypes`,
+		``,
+		`  mergeModuleTypedefs: true`,
+		`  mergeModuleResolvers: true`,
+		`  mergeContexts: true`,
+		`  mergeModules: true`,
+		``
+	];
 
 	write(path.join(pathFile), data);
 }
