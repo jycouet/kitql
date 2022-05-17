@@ -115,8 +115,8 @@ function KQL_AllContinentsStore() {
 		 */
 		resetCache(
 			variables: Types.AllContinentsQueryVariables | null = null,
-			allOperationKey: boolean = true,
-			withResetStore: boolean = true
+			allOperationKey = true,
+			withResetStore = true
 		) {
 			kitQLClient.cacheRemove(operationName, { variables, allOperationKey });
 			if (withResetStore) {
@@ -134,7 +134,7 @@ function KQL_AllContinentsStore() {
 				updatedCacheStore = kitQLClient.cacheUpdate<Types.AllContinentsQuery, Types.AllContinentsQueryVariables>(operationName, data, { variables });
 			}
 			if(type === 'store-only' ) {
-				let toReturn = { ...get(KQL_AllContinents), data, variables } ;
+				const toReturn = { ...get(KQL_AllContinents), data, variables } ;
 				set(toReturn);
 			}
 			if(type === 'cache-and-store' ) {
@@ -236,8 +236,8 @@ function KQL_AllCountriesOfContinentStore() {
 		 */
 		resetCache(
 			variables: Types.AllCountriesOfContinentQueryVariables | null = null,
-			allOperationKey: boolean = true,
-			withResetStore: boolean = true
+			allOperationKey = true,
+			withResetStore = true
 		) {
 			kitQLClient.cacheRemove(operationName, { variables, allOperationKey });
 			if (withResetStore) {
@@ -255,7 +255,7 @@ function KQL_AllCountriesOfContinentStore() {
 				updatedCacheStore = kitQLClient.cacheUpdate<Types.AllCountriesOfContinentQuery, Types.AllCountriesOfContinentQueryVariables>(operationName, data, { variables });
 			}
 			if(type === 'store-only' ) {
-				let toReturn = { ...get(KQL_AllCountriesOfContinent), data, variables } ;
+				const toReturn = { ...get(KQL_AllCountriesOfContinent), data, variables } ;
 				set(toReturn);
 			}
 			if(type === 'cache-and-store' ) {

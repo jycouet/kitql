@@ -64,6 +64,7 @@ describe('vite-plugin-watch-and-run', () => {
 		};
 		const spy = vi.spyOn(server.watcher, 'on').mockImplementation((type: 'add' | 'change' | 'delete', callback) => {
 			if (type === 'add' || type === 'change' || type === 'delete') {
+				// eslint-disable-next-line unicorn/no-lonely-if
 				if (typeof callback === 'function')
 					return 'registered'
 			}

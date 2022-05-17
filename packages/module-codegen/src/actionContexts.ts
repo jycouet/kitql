@@ -4,7 +4,7 @@ import { join } from 'path';
 import { write } from './readWrite';
 
 export function actionContext(ctxModules, outputFolder: string) {
-	let dataCtxModules = [];
+	const dataCtxModules = [];
 
 	ctxModules.forEach(ctx => {
 		dataCtxModules.push(

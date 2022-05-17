@@ -16,7 +16,7 @@ export function actionEnum(
 
 	for (const key in enums) {
 		const list = enums[key];
-		let enumFileData = [];
+		const enumFileData = [];
 
 		enumFileData.push(`enum ${key} {`);
 		list.forEach(c => {
@@ -34,8 +34,8 @@ export function actionEnum(
 
 	for (const key in enums) {
 		const list = enums[key];
-		let keyWOEnum = key.replace('Enum', '');
-		let enumFileData = [];
+		const keyWOEnum = key.replace('Enum', '');
+		const enumFileData = [];
 
 		enumFileData.push(`import { type ${key} } from '${importBaseTypesFrom}';`);
 		enumFileData.push(``);

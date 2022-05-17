@@ -13,7 +13,7 @@ export function actionModuleContext(
 	moduleOutputFolder, //_kitql
 	withDbProvider
 ) {
-	let dataCtxModules = [];
+	const dataCtxModules = [];
 
 	const moduleNamePascalCase = toPascalCase(moduleName);
 	const functionsName = [];

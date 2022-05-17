@@ -9,15 +9,15 @@ export type TConfigFile = {
 	};
 	actions: {
 		createEnumsModule?: { prismaFile: string; importBaseTypesFrom: string } | false;
-		mergeModuleTypedefs: Boolean;
-		mergeModuleResolvers: Boolean;
-		mergeContexts: Boolean;
-		mergeModules: Boolean;
+		mergeModuleTypedefs: boolean;
+		mergeModuleResolvers: boolean;
+		mergeContexts: boolean;
+		mergeModules: boolean;
 	};
 };
 
 export function writeDefaultConfigFile(pathFile) {
-	let data = [
+	const data = [
 		`configs:`,
 		`  modulesFolder: ./src/lib/modules`,
 		`  moduleOutputFolder: _kitql`,

@@ -14,7 +14,7 @@ import { pad, toPascalCase } from './formatString';
 import { getPrismaEnum } from './prismaHelper';
 import { read, readLines } from './readWrite';
 
-let log = new Log('KitQL module-codegen');
+const log = new Log('KitQL module-codegen');
 
 const configFilePath = getFullPath('.kitql.yaml');
 
@@ -30,7 +30,7 @@ if (fs.existsSync(configFilePath)) {
 		log.info(`${logGreen('⏳')} creating ${logGreen('Enums')}`);
 		const prismaFilePath = getFullPath(configFile.actions.createEnumsModule.prismaFile);
 		if (fs.existsSync(prismaFilePath)) {
-			let enums = getPrismaEnum(readLines(prismaFilePath));
+			const enums = getPrismaEnum(readLines(prismaFilePath));
 			const enumsKeys = actionEnum(
 				configFile.configs.modulesFolder,
 				configFile.configs.moduleOutputFolder,
@@ -93,7 +93,7 @@ if (fs.existsSync(configFilePath)) {
 		// Contexts
 		if (configFile.actions.mergeContexts) {
 			const providersFolder = 'providers';
-			let dataloadersModule = [];
+			const dataloadersModule = [];
 			const providersFiles = getFiles(
 				join(configFile.configs.modulesFolder, moduleName, providersFolder)
 			);
@@ -127,7 +127,7 @@ if (fs.existsSync(configFilePath)) {
 	// mergeContexts
 	if (configFile.actions.mergeContexts) {
 		log.info(`${logGreen('⏳')} merging ${logGreen('Contexts')}`);
-		let ctxModules = [];
+		const ctxModules = [];
 		const providersFolder = 'providers';
 		moduleNames.forEach(moduleName => {
 			const providersFiles = getFiles(

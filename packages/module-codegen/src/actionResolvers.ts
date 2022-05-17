@@ -10,7 +10,7 @@ export function actionResolvers(
 	const resolversFolder = 'resolvers';
 
 	const resolversFiles = getFiles(join(modulesFolder, moduleName, resolversFolder));
-	let dataResolvers = [];
+	const dataResolvers = [];
 	resolversFiles.forEach(resolver => {
 		dataResolvers.push(
 			`import { resolvers as ${getFileWODots(resolver)} } from '../resolvers/${getFileWOTS(

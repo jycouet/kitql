@@ -11,7 +11,7 @@ export function actionTypeDefs(
 
 	const typedefsFiles = getFiles(join(modulesFolder, moduleName, typedefsFolder));
 
-	let dataTypedefs = [];
+	const dataTypedefs = [];
 
 	dataTypedefs.push(`import { gql } from 'graphql-modules'`);
 	dataTypedefs.push(``);

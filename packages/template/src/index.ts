@@ -59,7 +59,7 @@ configFile.up.forEach(up => {
 		let specialLine = false;
 		let preLineStart = '';
 		let preLineEnd = '';
-		let fileContentNew = [];
+		const fileContentNew = [];
 		for (let i = 0; i < fileContent.length; i++) {
 			specialLine = false;
 
@@ -78,11 +78,9 @@ configFile.up.forEach(up => {
 				if (preLineStart !== '') {
 					preLineStart = '';
 					preLineEnd = '';
-				} else {
-					if (preFrom === 'ts') {
+				} else if (preFrom === 'ts') {
 						preLineStart = '//';
 					}
-				}
 			}
 
 			// Pre replace

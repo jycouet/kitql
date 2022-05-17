@@ -13,7 +13,7 @@ export function queryStringApprend(
 	searchParams: URLSearchParams,
 	queryString: Record<string, string>
 ) {
-	let query = {};
+	const query = {};
 
 	// 1 Destructure searchParams
 	searchParams.forEach((v, k) => {
@@ -26,7 +26,7 @@ export function queryStringApprend(
 	}
 
 	// 3 Transform in a table
-	let qs = [];
+	const qs = [];
 	for (const key in query) {
 		qs.push(`${key}=${query[key]}`);
 	}

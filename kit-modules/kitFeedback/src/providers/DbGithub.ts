@@ -10,7 +10,7 @@ const { queries, mutations } = operations;
 
 @Injectable({ global: false, scope: Scope.Operation })
 export class DbGithub {
-	private fetch = async (query: String, variables?: Record<string, any>) => {
+	private fetch = async (query: string, variables?: Record<string, any>) => {
 		try {
 			const headers: Headers = new Headers({
 				Authorization: 'Bearer ' + process.env.GITHUB_API_TOKEN,

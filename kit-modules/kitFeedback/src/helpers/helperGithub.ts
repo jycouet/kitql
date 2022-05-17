@@ -25,7 +25,7 @@ export const resolveGithubIssue = (issue: Record<string, any>, config: KitFeedba
 		createdAt: issue?.createdAt,
 		titleHTML: issue?.titleHTML,
 		bodyHTML: issue?.bodyHTML,
-		comments: comments
+		comments
 	};
 
 	return result;

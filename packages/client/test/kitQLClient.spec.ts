@@ -3,7 +3,7 @@ import { KitQLClient } from '../src/lib/toExport/kitQLClient';
 
 describe('client - kitQLClient', () => {
 	it('Should set init with right cacheMS', async () => {
-		let kitQLClient = new KitQLClient({ url: '/graphql' });
+		const kitQLClient = new KitQLClient({ url: '/graphql' });
 		kitQLClient.request({
 			skFetch: {},
 			browser: true,
@@ -17,13 +17,13 @@ describe('client - kitQLClient', () => {
 	});
 
 	it('Should have default headers', async () => {
-		let kitQLClient = new KitQLClient({ url: '/graphql' });
+		const kitQLClient = new KitQLClient({ url: '/graphql' });
 		expect((kitQLClient as any).headers).toMatchInlineSnapshot('{}');
 		expect(kitQLClient.getHeaders()).toMatchInlineSnapshot('{}');
 	});
 
 	it('Should set and get headers', async () => {
-		let kitQLClient = new KitQLClient({ url: '/graphql' });
+		const kitQLClient = new KitQLClient({ url: '/graphql' });
 		kitQLClient.setHeaders({ hello: 'JYC' });
 		expect(kitQLClient.getHeaders()).toMatchInlineSnapshot(`
 			{
@@ -33,7 +33,7 @@ describe('client - kitQLClient', () => {
 	});
 
 	it('Should set and get headers typed', async () => {
-		let kitQLClient = new KitQLClient<AppHeaders>({ url: '/graphql' });
+		const kitQLClient = new KitQLClient<AppHeaders>({ url: '/graphql' });
 
 		type AppHeaders = {
 			Authorization: `Bearer ${string}`;

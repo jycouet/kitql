@@ -1,5 +1,5 @@
-export function pad(num: number, size: number = 2): string {
-	var s = '000000000' + num;
+export function pad(num: number, size = 2): string {
+	const s = '000000000' + num;
 	return s.substring(s.length - size);
 }
 

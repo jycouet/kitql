@@ -2,7 +2,7 @@ import { join } from 'path';
 import { write } from './readWrite';
 
 export function actionModules(moduleNames: string[], outputFolder: string) {
-	let dataAppModules = [];
+	const dataAppModules = [];
 	moduleNames.forEach(moduleName => {
 		dataAppModules.push(`import { ${moduleName}Module } from '$modules/${moduleName}';`);
 	});
