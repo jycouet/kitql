@@ -1,4 +1,3 @@
-import { Log } from '@kitql/helper';
 import { existsSync, mkdirSync, readdirSync } from 'fs';
 import path from 'path';
 
@@ -6,15 +5,15 @@ const rootPath = process.cwd();
 
 export function getDirectories(source) {
 	return readdirSync(source, { withFileTypes: true })
-		.filter(dirent => dirent.isDirectory())
-		.map(dirent => dirent.name);
+		.filter((dirent) => dirent.isDirectory())
+		.map((dirent) => dirent.name);
 }
 
 export function getFiles(source) {
 	if (existsSync(source)) {
 		return readdirSync(source, { withFileTypes: true })
-			.filter(dirent => dirent.isFile())
-			.map(dirent => dirent.name);
+			.filter((dirent) => dirent.isFile())
+			.map((dirent) => dirent.name);
 	}
 	return [];
 }

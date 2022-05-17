@@ -11,7 +11,7 @@ function sar(str, sarObj) {
 
 function getSarObj(confReplacesList: any[], upReplacesList: string[]) {
 	let sarObj = {};
-	confReplacesList.forEach(item => {
+	confReplacesList.forEach((item) => {
 		for (const key in item) {
 			if (upReplacesList.includes(key)) {
 				sarObj = { ...sarObj, ...item[key][0] };
@@ -23,16 +23,13 @@ function getSarObj(confReplacesList: any[], upReplacesList: string[]) {
 
 function createRecursiveFolder(folderPath: string) {
 	if (!fs.existsSync(folderPath)) {
-		const previousFolderPath = folderPath
-			.split('/')
-			.slice(0, -1)
-			.join('/');
+		const previousFolderPath = folderPath.split('/').slice(0, -1).join('/');
 		createRecursiveFolder(previousFolderPath);
 		fs.mkdirSync(folderPath);
 	}
 }
 
-console.log(`START`);
+console.info(`START`);
 const content = fs.readFileSync(path.join(__dirname, '../toto.yaml'), { encoding: 'utf8' });
 
 const configFile = YAML.parse(content);
@@ -40,7 +37,7 @@ const configFile = YAML.parse(content);
 // Files get folders...
 // Create Folders if they don't exsist .fft, modulename, ... ui, ...
 
-configFile.up.forEach(up => {
+configFile.up.forEach((up) => {
 	up.files.forEach((file: string) => {
 		const sarObj = getSarObj(configFile.replacesList, up.replacesList);
 		const fileName = path.basename(file);
@@ -49,10 +46,7 @@ configFile.up.forEach(up => {
 		const fileContent = fs.readFileSync(fileFrom, { encoding: 'utf8' }).split('\n');
 		const fileTo = path.join(up.basePathTo, ...folders, sar(fileName, sarObj));
 
-		const dirTo = fileTo
-			.split('/')
-			.slice(0, -1)
-			.join('/');
+		const dirTo = fileTo.split('/').slice(0, -1).join('/');
 		createRecursiveFolder(dirTo);
 
 		let pushLine = true;
@@ -79,8 +73,8 @@ configFile.up.forEach(up => {
 					preLineStart = '';
 					preLineEnd = '';
 				} else if (preFrom === 'ts') {
-						preLineStart = '//';
-					}
+					preLineStart = '//';
+				}
 			}
 
 			// Pre replace
@@ -101,4 +95,4 @@ configFile.up.forEach(up => {
 	});
 });
 
-console.log(`DONE`);
+console.info(`DONE`);

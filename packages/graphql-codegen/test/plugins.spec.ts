@@ -1,7 +1,7 @@
 import { Types } from '@graphql-codegen/plugin-helpers';
 import { parse } from 'graphql';
+import { describe, expect, it } from 'vitest';
 import { plugin } from '../src';
-import { assert, describe, expect, it } from 'vitest';
 
 const operations = [
 	{

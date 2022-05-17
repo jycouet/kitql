@@ -55,7 +55,7 @@ export function actionEnum(
 	}
 
 	// Index
-	let enumFileData = [];
+	const enumFileData = [];
 	enumFileData.push(`import { createModule } from 'graphql-modules';`);
 	enumFileData.push(`import { typeDefs } from './${moduleOutputFolder}/typedefs';`);
 	enumFileData.push(``);

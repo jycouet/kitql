@@ -13,7 +13,7 @@ export function getPrismaEnum(lines: string[]): Record<string, string[]> {
 			}
 		}
 		if (line.startsWith('enum')) {
-			const [enumKey, enumName] = line.split(' ');
+			const [, enumName] = line.split(' ');
 			currentEnum = toPascalCase(enumName);
 			enums[currentEnum] = [];
 		}

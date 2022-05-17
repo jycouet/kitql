@@ -1,3 +1,4 @@
+ 
 function sortObject(object: Object) {
 	const sortedObj = {};
 	const keys = Object.keys(object);
@@ -11,7 +12,7 @@ function sortObject(object: Object) {
 
 	for (const index in keys) {
 		const key = keys[index];
-		if (typeof object[key] == 'object' && !(Array.isArray(object[key])) && object[key]) {
+		if (typeof object[key] == 'object' && !Array.isArray(object[key]) && object[key]) {
 			sortedObj[key] = sortObject(object[key]);
 		} else {
 			sortedObj[key] = object[key];
@@ -24,7 +25,8 @@ function sortObject(object: Object) {
 export function stry(obj: Object | null | undefined, space = 2): string | null | undefined {
 	if (obj === null) {
 		return null;
-	} if (obj === undefined) {
+	}
+	if (obj === undefined) {
 		return undefined;
 	}
 	const ordered = sortObject(obj);

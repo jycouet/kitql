@@ -133,6 +133,7 @@ async function watcher(
 
 const log = new Log('KitQL vite-plugin-watch-and-run');
 
+ 
 export default function watchAndRun(params: Options[]) {
 	// check params, throw Errors if not valid and return a new object representing the state of the plugin
 	const watchAndRunConf = checkConf(params);
@@ -143,13 +144,13 @@ export default function watchAndRun(params: Options[]) {
 		watchAndRunConf,
 
 		configureServer(server) {
-			const watcherAdd = async absolutePath => {
+			const watcherAdd = async (absolutePath) => {
 				watcher(absolutePath, 'ADD', watchAndRunConf);
 			};
-			const watcherChange = async absolutePath => {
+			const watcherChange = async (absolutePath) => {
 				watcher(absolutePath, 'CHANGE', watchAndRunConf);
 			};
-			const watcherDelete = async absolutePath => {
+			const watcherDelete = async (absolutePath) => {
 				watcher(absolutePath, 'DELETE', watchAndRunConf);
 			};
 

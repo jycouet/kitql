@@ -223,9 +223,8 @@ export class KitQLClient<HeadersType extends Record<string, string>> {
 						this.logOperation(RequestFrom.CACHE, operationName);
 					}
 					return { ...cachedData, from: RequestFrom.CACHE, isOutdated: false };
-				} else {
-					return { ...cachedData, from: RequestFrom.CACHE, isOutdated: true };
 				}
+				return { ...cachedData, from: RequestFrom.CACHE, isOutdated: true };
 			}
 		}
 
