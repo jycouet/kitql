@@ -1,3 +1,4 @@
+ 
 import { PluginFunction, Types } from '@graphql-codegen/plugin-helpers';
 import { convertFactory, getConfigValue } from '@graphql-codegen/visitor-plugin-common';
 import { pascalCase } from 'change-case-all';
@@ -35,8 +36,8 @@ export const plugin: PluginFunction<Record<string, any>, Types.ComplexPluginOutp
 
 	const prefixImportBaseTypesFrom = config.importBaseTypesFrom ? 'Types.' : '';
 
-	let kqlStoresQuery = [];
-	let kqlStoresMutation = [];
+	const kqlStoresQuery = [];
+	const kqlStoresMutation = [];
 
 	const out = allAst.definitions
 		.map((node) => {
@@ -67,7 +68,7 @@ export const plugin: PluginFunction<Record<string, any>, Types.ComplexPluginOutp
 					kqlStoresMutation.push(kqlStore);
 				}
 
-				let lines = [];
+				const lines = [];
 				lines.push(`function ${kqlStoreInternal}() {`);
 				lines.push(`	const operationName = '${kqlStore}';`);
 				lines.push(
@@ -251,7 +252,7 @@ export const plugin: PluginFunction<Record<string, any>, Types.ComplexPluginOutp
 		})
 		.filter(Boolean);
 
-	let special = [];
+	const special = [];
 	special.push(`/**`);
 	special.push(` * Init KitQL (to have clientStarted = true!)`);
 	special.push(` *`);
@@ -285,7 +286,7 @@ export const plugin: PluginFunction<Record<string, any>, Types.ComplexPluginOutp
 	special.push(' ');
 
 	special.push(`/* Operations 👇 */`);
-	let prepend = [];
+	const prepend = [];
 	if (!jsDocStyle) {
 		prepend.push(`import { browser } from '$app/env';`);
 	}

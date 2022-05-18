@@ -1,7 +1,7 @@
 import { Types } from '@graphql-codegen/plugin-helpers';
 import { parse } from 'graphql';
+import { describe, expect, it } from 'vitest';
 import { plugin } from '../src';
-import { assert, describe, expect, it } from 'vitest';
 
 const operations = [
 	{
@@ -121,7 +121,7 @@ describe('graphql-codegen', () => {
 	it('having function _ResetAllCaches with 2 .resetCache();', async () => {
 		const result = (await plugin(null as any, operations, {})) as Types.ComplexPluginOutput;
 
-		let startLine = 18;
+		const startLine = 18;
 		expect(result.content.split('\n').slice(startLine, startLine + 4)).toMatchInlineSnapshot(`
 			[
 			  "export function KQL__ResetAllCaches() {",

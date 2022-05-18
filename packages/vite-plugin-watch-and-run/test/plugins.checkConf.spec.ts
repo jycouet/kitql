@@ -1,5 +1,5 @@
 import watchAndRun from '../src';
-import { assert, describe, expect, it, vi } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 
 describe('vite-plugin-watch-and-run', () => {
 	it('Should throw an error as no config is sent', async () => {
@@ -29,18 +29,14 @@ describe('vite-plugin-watch-and-run', () => {
 		const watch = '**/*.(gql|graphql)';
 		const plugin = watchAndRun([{ watch, run: 'yarn gen' }]);
 
-		expect(plugin.watchAndRunConf)
-			.to.have.property(watch)
-			.to.have.property('delay', 500);
+		expect(plugin.watchAndRunConf).to.have.property(watch).to.have.property('delay', 500);
 	});
 
 	it('Should have a valid conf, with delay 0', async () => {
 		const watch = '**/*.(gql|graphql)';
 		const plugin = watchAndRun([{ watch, run: 'yarn gen', delay: 0 }]);
 
-		expect(plugin.watchAndRunConf)
-			.to.have.property(watch)
-			.to.have.property('delay', 0);
+		expect(plugin.watchAndRunConf).to.have.property(watch).to.have.property('delay', 0);
 	});
 
 	it('Should have a valid conf, with default watchKind:ADD / CHANGE / DELETE', async () => {
@@ -62,19 +58,21 @@ describe('vite-plugin-watch-and-run', () => {
 				on: vi.fn()
 			}
 		};
-		const spy = vi.spyOn(server.watcher, 'on').mockImplementation((type: 'add' | 'change' | 'delete', callback) => {
-			if (type === 'add' || type === 'change' || type === 'delete') {
-				if (typeof callback === 'function')
-					return 'registered'
-			}
-			return 'error'
-		})
+		const spy = vi
+			.spyOn(server.watcher, 'on')
+			.mockImplementation((type: 'add' | 'change' | 'delete', callback) => {
+				if (type === 'add' || type === 'change' || type === 'delete') {
+					// eslint-disable-next-line unicorn/no-lonely-if
+					if (typeof callback === 'function') return 'registered';
+				}
+				return 'error';
+			});
 		plugin.configureServer(server);
-		expect(spy).toHaveBeenCalledTimes(3)
-		const operations = ['add', 'change', 'delete']
+		expect(spy).toHaveBeenCalledTimes(3);
+		const operations = ['add', 'change', 'delete'];
 		spy.mock.calls.forEach((call, index) => {
-			expect(spy).toHaveBeenNthCalledWith(index + 1, operations[index], call[1])
-			expect(spy).toHaveNthReturnedWith(index + 1, 'registered')
-		})
+			expect(spy).toHaveBeenNthCalledWith(index + 1, operations[index], call[1]);
+			expect(spy).toHaveNthReturnedWith(index + 1, 'registered');
+		});
 	});
 });

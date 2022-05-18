@@ -1,7 +1,0 @@
-query Issue($repository: String!, $owner: String!, $number: Int!) {
-	repository(name: $repository, owner: $owner) {
-		issue(number: $number) {
-			...issueDetail
-		}
-	}
-}

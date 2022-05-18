@@ -1,5 +1,0 @@
-mutation UpdateComment($fields: UpdateCommentFields!) {
-	updateComment(fields: $fields) {
-		...commentDetail
-	}
-}

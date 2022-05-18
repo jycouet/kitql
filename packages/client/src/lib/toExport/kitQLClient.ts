@@ -223,9 +223,8 @@ export class KitQLClient<HeadersType extends Record<string, string>> {
 						this.logOperation(RequestFrom.CACHE, operationName);
 					}
 					return { ...cachedData, from: RequestFrom.CACHE, isOutdated: false };
-				} else {
-					return { ...cachedData, from: RequestFrom.CACHE, isOutdated: true };
 				}
+				return { ...cachedData, from: RequestFrom.CACHE, isOutdated: true };
 			}
 		}
 
@@ -265,7 +264,7 @@ export class KitQLClient<HeadersType extends Record<string, string>> {
 		}
 		const fetchToUse = skFetch ? skFetch : fetch;
 
-		let dataToReturn: ResponseResult<D, V> = {
+		const dataToReturn: ResponseResult<D, V> = {
 			date: new Date().getTime(),
 			operationName,
 			operationType,
@@ -310,7 +309,7 @@ export class KitQLClient<HeadersType extends Record<string, string>> {
 				return dataToReturn;
 			}
 
-			let dataJson = await res.json();
+			const dataJson = await res.json();
 
 			if (logStatements.logRawResult) {
 				this.log.info(`${logCyan('dataJson:')} ` + `${stry(dataJson, 0)}`);
@@ -361,7 +360,7 @@ export class KitQLClient<HeadersType extends Record<string, string>> {
 	): RequestResult<D, V> | undefined {
 		const dataCached = this.cacheData.get(operationKey, params.variables);
 		if (dataCached) {
-			let toReturn = { ...dataCached, data, variables: params.variables } as RequestResult<D, V>;
+			const toReturn = { ...dataCached, data, variables: params.variables } as RequestResult<D, V>;
 			this.cacheData.set(operationKey, toReturn);
 			return toReturn;
 		}

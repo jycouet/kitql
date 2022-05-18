@@ -47,7 +47,7 @@ describe('client - Cache Data', () => {
 
 			const data = { ...defaultStoreValue, variables: { a: 1 }, data: 'Hello' };
 			cacheData.set('KEY1', data);
-			let cachedData = cacheData.get('KEY1', { a: 1 });
+			const cachedData = cacheData.get('KEY1', { a: 1 });
 			expect(cachedData.data).toEqual('Hello');
 		}
 	});
@@ -82,7 +82,7 @@ describe('client - Cache Data', () => {
 			cachedData = cacheData.get('KEY1', { a: 2 });
 			expect(cachedData.data).toMatchInlineSnapshot('"Hello2"');
 
-			let nb = cacheData.remove('KEY1');
+			const nb = cacheData.remove('KEY1');
 			expect(nb).toBe(2);
 		}
 	});
@@ -101,7 +101,7 @@ describe('client - Cache Data', () => {
 			cachedData = cacheData.get('KEY1', { a: 2 });
 			expect(cachedData.data).toMatchInlineSnapshot('"Hello2"');
 
-			let nb = cacheData.remove('KEY1', { a: 1 }, false);
+			const nb = cacheData.remove('KEY1', { a: 1 }, false);
 			expect(nb).toBe(1);
 			cachedData = cacheData.get('KEY1', { a: 1 });
 			expect(cachedData).toBeUndefined();
@@ -115,7 +115,7 @@ describe('client - Cache Data', () => {
 		for (let i = 0; i < cacheTypes.length; i++) {
 			const cacheData = cacheTypes[i];
 
-			let cachedData = cacheData.get('KEY1', { a: 1 });
+			const cachedData = cacheData.get('KEY1', { a: 1 });
 			expect(cachedData).toBeUndefined();
 		}
 	});

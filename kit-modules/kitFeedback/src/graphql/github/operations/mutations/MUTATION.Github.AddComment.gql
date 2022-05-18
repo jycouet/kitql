@@ -1,9 +1,0 @@
-mutation AddComment($input: AddCommentInput!) {
-	addComment(input: $input) {
-		commentEdge {
-			node {
-				id
-			}
-		}
-	}
-}

@@ -7,7 +7,7 @@ describe('kitql - helper - Log', () => {
 	});
 
 	it('Minimal config', async () => {
-		let log = new Log('tool name');
+		const log = new Log('tool name');
 		expect(log).to.have.property('toolName', 'tool name');
 
 		const spy = vi.spyOn(log, 'info');
@@ -16,7 +16,7 @@ describe('kitql - helper - Log', () => {
 	});
 
 	it('with an error', async () => {
-		let log = new Log('tool name');
+		const log = new Log('tool name');
 		expect(log).to.have.property('toolName', 'tool name');
 
 		const spy = vi.spyOn(log, 'error');
@@ -25,7 +25,7 @@ describe('kitql - helper - Log', () => {
 	});
 
 	it('with all colors', async () => {
-		let log = new Log('tool name');
+		const log = new Log('tool name');
 		expect(log).to.have.property('toolName', 'tool name');
 
 		const spy = vi.spyOn(log, 'info');

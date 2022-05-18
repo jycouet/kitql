@@ -1,8 +1,0 @@
-query Milestones($filters: MilestoneFilters!, $pagination: Pagination!) {
-	milestones(filters: $filters, pagination: $pagination) {
-		nodes {
-			...milestonePreview
-		}
-		next
-	}
-}

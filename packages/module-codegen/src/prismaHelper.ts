@@ -1,7 +1,7 @@
 import { toPascalCase } from './formatString';
 
 export function getPrismaEnum(lines: string[]): Record<string, string[]> {
-	let enums = {};
+	const enums = {};
 
 	let currentEnum = '';
 	lines.forEach((line: string) => {
@@ -13,7 +13,7 @@ export function getPrismaEnum(lines: string[]): Record<string, string[]> {
 			}
 		}
 		if (line.startsWith('enum')) {
-			const [enumKey, enumName] = line.split(' ');
+			const [, enumName] = line.split(' ');
 			currentEnum = toPascalCase(enumName);
 			enums[currentEnum] = [];
 		}

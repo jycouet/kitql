@@ -1,6 +1,6 @@
 module.exports = {
 	scope: '@kitql', // Scope of organization
-	ignore: ['@kitql/all-in', '@kitql/kit-feedback'], // ignored packages
+	ignore: ['@kitql/all-in'], // ignored packages
 	track: [
 		// files in root that mark the entire workspace as dirty
 		'bob.config.js', // we could include it in Bob itself but we decided to turn your life into hell :)

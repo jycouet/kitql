@@ -1,8 +1,0 @@
-query Issues($filters: IssueFilters, $pagination: Pagination!) {
-	issues(filters: $filters, pagination: $pagination) {
-		nodes {
-			...issuePreview
-		}
-		next
-	}
-}

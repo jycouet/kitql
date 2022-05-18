@@ -36,7 +36,7 @@ function checkConf(params: Options[]) {
 		throw new Error('plugin watchAndRun, `params` needs to be an array.');
 	}
 
-	let paramsChecked: Record<string, StateDetail> = {};
+	const paramsChecked: Record<string, StateDetail> = {};
 
 	for (let i = 0; i < params.length; i++) {
 		const param = params[i];
@@ -103,19 +103,19 @@ async function watcher(
 
 		// Run after a delay
 		setTimeout(() => {
-			var child = spawn(shouldRunInfo.param.run, [], { shell: true });
+			const child = spawn(shouldRunInfo.param.run, [], { shell: true });
 
 			//spit stdout to screen
-			child.stdout.on('data', function(data) {
+			child.stdout.on('data', (data) => {
 				process.stdout.write(data.toString());
 			});
 
 			//spit stderr to screen
-			child.stderr.on('data', function(data) {
+			child.stderr.on('data', (data) => {
 				process.stdout.write(data.toString());
 			});
 
-			child.on('close', function(code) {
+			child.on('close', (code) => {
 				if (code === 0) {
 					log.info(`${logGreen('✔')} finished ${logGreen('successfully')}`);
 				} else {
@@ -133,9 +133,10 @@ async function watcher(
 
 const log = new Log('KitQL vite-plugin-watch-and-run');
 
+ 
 export default function watchAndRun(params: Options[]) {
 	// check params, throw Errors if not valid and return a new object representing the state of the plugin
-	let watchAndRunConf = checkConf(params);
+	const watchAndRunConf = checkConf(params);
 
 	return {
 		name: 'watch-and-run',
@@ -143,13 +144,13 @@ export default function watchAndRun(params: Options[]) {
 		watchAndRunConf,
 
 		configureServer(server) {
-			const watcherAdd = async absolutePath => {
+			const watcherAdd = async (absolutePath) => {
 				watcher(absolutePath, 'ADD', watchAndRunConf);
 			};
-			const watcherChange = async absolutePath => {
+			const watcherChange = async (absolutePath) => {
 				watcher(absolutePath, 'CHANGE', watchAndRunConf);
 			};
-			const watcherDelete = async absolutePath => {
+			const watcherDelete = async (absolutePath) => {
 				watcher(absolutePath, 'DELETE', watchAndRunConf);
 			};
 

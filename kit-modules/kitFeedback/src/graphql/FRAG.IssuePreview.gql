@@ -1,8 +1,0 @@
-fragment issuePreview on Issue {
-	id
-	number
-	titleHTML
-	metadata {
-		...commentDetail
-	}
-}
