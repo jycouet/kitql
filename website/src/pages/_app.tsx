@@ -1,9 +1,9 @@
-import 'remark-admonitions/styles/infima.css';
 import '../../public/style.css';
 
 import { appWithTranslation } from 'next-i18next';
+import Script from 'next/script';
 
-import { extendTheme, theme as chakraTheme } from '@chakra-ui/react';
+import { Box, extendTheme, theme as chakraTheme } from '@chakra-ui/react';
 import { mode } from '@chakra-ui/theme-tools';
 import {
 	ExtendComponents,
@@ -12,14 +12,22 @@ import {
 	DocsPage,
 	AppSeoProps
 } from '@guild-docs/client';
-import { Header, Subheader, Footer } from '@theguild/components';
+import { Header, Subheader, Instruction, FooterExtended } from '@theguild/components';
 
 import type { AppProps } from 'next/app';
+import React from 'react';
+
+import { useGoogleAnalytics } from '../google-analytics';
+
+import '@algolia/autocomplete-theme-classic';
+import '@theguild/components/dist/static/css/SearchBarV2.css';
 
 ExtendComponents({
-	HelloWorld() {
-		return <p>Hello World!</p>;
-	}
+	Instruction: (props: React.ComponentProps<typeof Instruction>) => (
+		<Box mt={4}>
+			<Instruction>{props.children}</Instruction>
+		</Box>
+	)
 });
 
 const styles: typeof chakraTheme['styles'] = {
@@ -54,7 +62,7 @@ const theme = extendTheme({
 		body: 'TGCFont, sans-serif'
 	},
 	config: {
-		initialColorMode: 'light',
+		initialColorMode: 'dark',
 		useSystemColorMode: false
 	},
 	styles
@@ -63,13 +71,27 @@ const theme = extendTheme({
 const serializedMdx = process.env.SERIALIZED_MDX_ROUTES;
 const mdxRoutes = { data: serializedMdx && JSON.parse(serializedMdx) };
 
+const serializedTutorialMdx = process.env.SERIALIZED_TUTORIAL_MDX_ROUTES;
+
 function AppContent(appProps: AppProps) {
 	const { Component, pageProps, router } = appProps;
+	const googleAnalytics = useGoogleAnalytics({
+		router,
+		trackingId: 'G-246BWRER3C'
+	});
+
 	const isDocs = router.asPath.startsWith('/docs');
 
 	return (
 		<>
-			<Header accentColor={accentColor} activeLink="/open-source" themeSwitch />
+			<Header
+				accentColor={accentColor}
+				activeLink="/open-source"
+				themeSwitch
+				searchBarProps={{ version: 'v2' }}
+			/>
+			<Script {...googleAnalytics.loadScriptProps} />
+			<Script {...googleAnalytics.configScriptProps} />
 			<Subheader
 				activeLink={router.asPath}
 				product={{
@@ -108,7 +130,7 @@ function AppContent(appProps: AppProps) {
 			) : (
 				<Component {...pageProps} />
 			)}
-			<Footer />
+			<FooterExtended />
 		</>
 	);
 }
@@ -119,11 +141,11 @@ const AppContentWrapper = appWithTranslation(function TranslatedApp(appProps) {
 
 const defaultSeo: AppSeoProps = {
 	title: 'KitQL',
-	description: 'KitQL Docs',
+	description: 'A set of tools, helping you building efficient apps in a fast way.',
 	logo: {
-		url: 'https://raw.githubusercontent.com/jycouet/kitql/main/logo.png',
-		width: 50,
-		height: 54
+		url: 'https://raw.githubusercontent.com/jycouet/kitql/main/logo.svg',
+		width: 200,
+		height: 200
 	}
 };
 
