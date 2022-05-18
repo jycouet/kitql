@@ -128,7 +128,10 @@ function AppContent(appProps: AppProps) {
 			{isDocs ? (
 				<DocsPage appProps={appProps} accentColor={accentColor} mdxRoutes={mdxRoutes} />
 			) : (
-				<Component {...pageProps} />
+				<span>
+					{/* @ts-ignore */}
+					<Component {...pageProps} />
+				</span>
 			)}
 			<FooterExtended />
 		</>
