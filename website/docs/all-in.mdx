@@ -20,7 +20,11 @@ sidebar_label: Getting started => All-In
 projects:
   default:
     schema:
+			# If you have the introspection file already here:
       - ./src/lib/graphql/schema.json
+			# If not, you can get the schema from the server with some thing like:
+			# - https://countries.trevorblades.com/graphql
+			# More options here https://www.graphql-code-generator.com/docs/config-reference/schema-field
     documents:
       - '**/*.gql'
     extensions:
@@ -89,7 +93,7 @@ export default config;
 import { KitQLClient } from '@kitql/client';
 
 export const kitQLClient = new KitQLClient({
-	url: `https://countries.trevorblades.com/graphql`,
+	url: `https://countries.trevorblades.com/graphql`, # Your GraphQL server URL
 	headersContentType: 'application/json',
 	logType: ['client', 'server', 'operationAndvariables']
 });
