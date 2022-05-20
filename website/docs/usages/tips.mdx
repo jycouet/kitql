@@ -11,7 +11,7 @@ Everywhere, you can use:
 
 ```svelte
 <script lang="ts">
-	import { KitQLInfo } from '@kitql/all-in';
+  import { KitQLInfo } from '@kitql/all-in'
 </script>
 
 <!-- you will have a nice popup like in the screenshot below 😉 -->
@@ -24,29 +24,29 @@ Everywhere, you can use:
 
 ## Headers
 
-In your `kitqlClient.ts` you shoud create your own `AppHeaders` type, and use it when creating your `new KitQLClient`.
+In your `kitqlClient.ts` you should create your own `AppHeaders` type, and use it when creating your `new KitQLClient`.
 
 ```ts
-import { KitQLClient } from '@kitql/client';
+import { KitQLClient } from '@kitql/client'
 
 //cool stuff to have it typed 🤟
 export type AppHeaders = {
-	Authorization?: `Bearer ${string}`;
-};
+  Authorization?: `Bearer ${string}`
+}
 
 export const kitQLClient = new KitQLClient<AppHeaders>({
-	url: `https://countries.trevorblades.com/graphql`
-});
+  url: `https://countries.trevorblades.com/graphql`
+})
 ```
 
 Then you can
 
 ```ts
 // Get
-kitQLClient.getHeaders();
+kitQLClient.getHeaders()
 
 // Set
-kitQLClient.setHeaders({ Authorization: 'Bearer MY_TOKEN' });
+kitQLClient.setHeaders({ Authorization: 'Bearer MY_TOKEN' })
 ```
 
 ## Credential
@@ -57,7 +57,7 @@ More info there: https://developer.mozilla.org/en-US/docs/Web/API/Request/creden
 
 ```ts
 export const kitQLClient = new KitQLClient({
-	url: `https://countries.trevorblades.com/graphql`,
-	credentials: 'omit' // | 'same-origin' | 'include'
-});
+  url: `https://countries.trevorblades.com/graphql`,
+  credentials: 'omit' // | 'same-origin' | 'include'
+})
 ```

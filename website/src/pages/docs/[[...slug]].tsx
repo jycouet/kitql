@@ -10,40 +10,35 @@ import { giscus } from '../../giscus-config';
 import type { GetStaticPaths, GetStaticProps } from 'next';
 
 export default MDXPage(
-	function PostPage({ content, TOC, MetaHead, sourceFilePath }) {
-		return (
-			<>
-				<Head>{MetaHead}</Head>
-				<DocsContent>{content}</DocsContent>
-				<DocsTOC>
-					<TOC />
-					<EditOnGitHubButton
-						baseDir="website"
-						branch="main"
-						sourceFilePath={sourceFilePath}
-						repo="jycouet/kitql"
-					/>
-				</DocsTOC>
-			</>
-		);
-	},
-	{
-		giscus
-	}
+  function PostPage({ content, TOC, MetaHead, sourceFilePath }) {
+    return (
+      <>
+        <Head>{MetaHead}</Head>
+        <DocsContent>{content}</DocsContent>
+        <DocsTOC>
+          <TOC />
+          <EditOnGitHubButton baseDir="website" branch="main" sourceFilePath={sourceFilePath} repo="jycouet/kitql" />
+        </DocsTOC>
+      </>
+    );
+  },
+  {
+    giscus,
+  }
 );
 
-export const getStaticProps: GetStaticProps = (ctx) => {
-	return MDXProps(
-		({ readMarkdownFile, getArrayParam }) => {
-			return readMarkdownFile('docs/', getArrayParam('slug'));
-		},
-		ctx,
-		{
-			getRoutes
-		}
-	);
+export const getStaticProps: GetStaticProps = ctx => {
+  return MDXProps(
+    ({ readMarkdownFile, getArrayParam }) => {
+      return readMarkdownFile('docs/', getArrayParam('slug'));
+    },
+    ctx,
+    {
+      getRoutes,
+    }
+  );
 };
 
-export const getStaticPaths: GetStaticPaths = (ctx) => {
-	return MDXPaths('docs', { ctx });
+export const getStaticPaths: GetStaticPaths = ctx => {
+  return MDXPaths('docs', { ctx });
 };

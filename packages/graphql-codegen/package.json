@@ -1,54 +1,54 @@
 {
-	"name": "@kitql/graphql-codegen",
-	"version": "0.5.1",
-	"description": "GraphQL Code Generator plugin to generate SvelteKit stores in kitql context",
-	"repository": {
-		"type": "git",
-		"url": "https://github.com/jycouet/kitql",
-		"directory": "packages/graphql-codegen"
-	},
-	"license": "MIT",
-	"scripts": {
-		"prepack": "bob prepack"
-	},
-	"devDependencies": {
-		"tslib": "2.4.0"
-	},
-	"dependencies": {
-		"@graphql-codegen/plugin-helpers": "2.4.2",
-		"@graphql-codegen/visitor-plugin-common": "2.8.0",
-		"auto-bind": "5.0.1",
-		"change-case-all": "1.0.14"
-	},
-	"peerDependencies": {
-		"graphql": "^15.0.0 || ^16.0.0"
-	},
-	"main": "dist/index.js",
-	"module": "dist/index.mjs",
-	"exports": {
-		"./package.json": "./package.json",
-		".": {
-			"require": "./dist/index.js",
-			"import": "./dist/index.mjs"
-		},
-		"./*": {
-			"require": "./dist/*.js",
-			"import": "./dist/*.mjs"
-		}
-	},
-	"typings": "dist/index.d.ts",
-	"typescript": {
-		"definition": "dist/index.d.ts"
-	},
-	"buildOptions": {
-		"input": "./src/index.ts"
-	},
-	"publishConfig": {
-		"directory": "dist",
-		"access": "public"
-	},
-	"volta": {
-		"node": "17.4.0",
-		"yarn": "1.22.17"
-	}
+  "name": "@kitql/graphql-codegen",
+  "version": "0.5.1",
+  "description": "GraphQL Code Generator plugin to generate SvelteKit stores in kitql context",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jycouet/kitql",
+    "directory": "packages/graphql-codegen"
+  },
+  "license": "MIT",
+  "scripts": {
+    "prepack": "bob prepack"
+  },
+  "devDependencies": {
+    "tslib": "2.4.0"
+  },
+  "dependencies": {
+    "@graphql-codegen/plugin-helpers": "2.4.2",
+    "@graphql-codegen/visitor-plugin-common": "2.8.0",
+    "auto-bind": "5.0.1",
+    "change-case-all": "1.0.14"
+  },
+  "peerDependencies": {
+    "graphql": "^15.0.0 || ^16.0.0"
+  },
+  "main": "dist/index.js",
+  "module": "dist/index.mjs",
+  "exports": {
+    "./package.json": "./package.json",
+    ".": {
+      "require": "./dist/index.js",
+      "import": "./dist/index.mjs"
+    },
+    "./*": {
+      "require": "./dist/*.js",
+      "import": "./dist/*.mjs"
+    }
+  },
+  "typings": "dist/index.d.ts",
+  "typescript": {
+    "definition": "dist/index.d.ts"
+  },
+  "buildOptions": {
+    "input": "./src/index.ts"
+  },
+  "publishConfig": {
+    "directory": "dist",
+    "access": "public"
+  },
+  "volta": {
+    "node": "17.4.0",
+    "yarn": "1.22.17"
+  }
 }

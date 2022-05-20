@@ -11,14 +11,14 @@ const require = createRequire(import.meta.url);
 const { getRoutes } = require('./routes.ts');
 
 const withBundleAnalyzer = nextBundleAnalyzer({
-	enabled: process.env.ANALYZE === 'true'
+  enabled: process.env.ANALYZE === 'true',
 });
 export default withBundleAnalyzer(
-	withGuildDocs({
-		i18n,
-		getRoutes,
-		redirects: () => {
-			return [];
-		}
-	})
+  withGuildDocs({
+    i18n,
+    getRoutes,
+    redirects: () => {
+      return [];
+    },
+  })
 );

@@ -1,12 +1,12 @@
-import { useEffect } from 'react'
-import type { NextRouter } from 'next/router'
+import { useEffect } from 'react';
+import type { NextRouter } from 'next/router';
 
 // https://developers.google.com/analytics/devguides/collection/gtagjs/pages
 const pageview = (url: string, trackingId: string) => {
-  ;(window as any).gtag('config', trackingId, {
+  (window as any).gtag('config', trackingId, {
     page_path: url,
-  })
-}
+  });
+};
 
 /**
  * @example
@@ -23,22 +23,16 @@ const pageview = (url: string, trackingId: string) => {
  *   )
  * }
  */
-export function useGoogleAnalytics({
-  trackingId,
-  router,
-}: {
-  trackingId: string
-  router: NextRouter
-}) {
+export function useGoogleAnalytics({ trackingId, router }: { trackingId: string; router: NextRouter }) {
   useEffect(() => {
     const handleRouteChange = (url: string) => {
-      pageview(url, trackingId)
-    }
-    router.events.on('routeChangeComplete', handleRouteChange)
+      pageview(url, trackingId);
+    };
+    router.events.on('routeChangeComplete', handleRouteChange);
     return () => {
-      router.events.off('routeChangeComplete', handleRouteChange)
-    }
-  }, [router.events, trackingId])
+      router.events.off('routeChangeComplete', handleRouteChange);
+    };
+  }, [router.events, trackingId]);
 
   // Why not a component? Next.js + CJS goes crazy when I use `next/router.js` and `next/script.js`.
   // I get: https://reactjs.org/docs/error-decoder.html/?invariant=130&args%5B%5D=object&args%5B%5D=
@@ -62,5 +56,5 @@ export function useGoogleAnalytics({
           `,
       },
     },
-  }
+  };
 }

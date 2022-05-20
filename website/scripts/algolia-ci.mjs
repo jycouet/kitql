@@ -12,9 +12,9 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 const { getRoutes } = require('../routes.ts');
 
 indexToAlgolia({
-	routes: [getRoutes()],
-	source: 'KitQL',
-	domain: 'https://www.kitql.dev/',
-	lockfilePath: resolve(__dirname, '../algolia-lockfile.json'),
-	dryMode: process.env.ALGOLIA_DRY_RUN === 'true'
+  routes: [getRoutes()],
+  source: 'KitQL',
+  domain: 'https://www.kitql.dev/',
+  lockfilePath: resolve(__dirname, '../algolia-lockfile.json'),
+  dryMode: process.env.ALGOLIA_DRY_RUN === 'true',
 });
