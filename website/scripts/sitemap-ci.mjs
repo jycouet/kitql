@@ -15,9 +15,7 @@ async function main() {
 
   const d = parser.parse(fs.readFileSync(sitemapPath, 'utf-8'))
 
-  const routes = d.urlset.url.map((url) =>
-    url.loc.replace(`https://graphql-yoga.com`, ``),
-  )
+  const routes = d.urlset.url.map(url => url.loc.replace(`https://graphql-yoga.com`, ``))
 
   const redirectsPointingToNonExistingStuff = []
 
@@ -33,10 +31,8 @@ async function main() {
   if (redirectsPointingToNonExistingStuff.length) {
     console.error(
       `The following routes do not point to a route:\n\n` +
-        redirectsPointingToNonExistingStuff.map(
-          (redirect) => `- "${redirect.source}" -> "${redirect.destination}"`,
-        ) +
-        `\n`,
+        redirectsPointingToNonExistingStuff.map(redirect => `- "${redirect.source}" -> "${redirect.destination}"`) +
+        `\n`
     )
     throw new Error('Redirect pointing to nothing.')
   }

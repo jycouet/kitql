@@ -23,13 +23,7 @@ const pageview = (url: string, trackingId: string) => {
  *   )
  * }
  */
-export function useGoogleAnalytics({
-  trackingId,
-  router,
-}: {
-  trackingId: string
-  router: NextRouter
-}) {
+export function useGoogleAnalytics({ trackingId, router }: { trackingId: string; router: NextRouter }) {
   useEffect(() => {
     const handleRouteChange = (url: string) => {
       pageview(url, trackingId)

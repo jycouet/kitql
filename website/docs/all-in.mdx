@@ -64,25 +64,25 @@ If you want more example, check the [Demo 1](https://raw.githubusercontent.com/j
 In your `svelte.config.js` add a watchAndRun with the following configuration:
 
 ```js
-import watchAndRun from '@kitql/vite-plugin-watch-and-run';
+import watchAndRun from '@kitql/vite-plugin-watch-and-run'
 
 /** @type {import('@sveltejs/kit').Config} */
 const config = {
-	kit: {
-		vite: {
-			plugins: [
-				watchAndRun([
-					{
-						watch: '**/*.(gql|graphql)',
-						run: 'npm run gen'
-					}
-				])
-			]
-		}
-	}
-};
+  kit: {
+    vite: {
+      plugins: [
+        watchAndRun([
+          {
+            watch: '**/*.(gql|graphql)',
+            run: 'npm run gen'
+          }
+        ])
+      ]
+    }
+  }
+}
 
-export default config;
+export default config
 ```
 
 <p>&nbsp;</p>
@@ -115,10 +115,10 @@ yarn dev
 # $lib/graphql/operations/AllContinents_QUERY.gql
 
 query AllContinents {
-	continents {
-		name
-		code
-	}
+  continents {
+    name
+    code
+  }
 }
 ```
 
@@ -129,24 +129,24 @@ query AllContinents {
 ```html
 <!-- For SSR -->
 <script context="module" lang="ts">
-	import { KQL_AllContinents } from '$lib/graphql/_kitql/graphqlStores';
-	export async function load({ fetch }) {
-		await KQL_AllContinents.queryLoad({ fetch }); // Filling the store
-		return {};
-	}
+  import { KQL_AllContinents } from '$lib/graphql/_kitql/graphqlStores'
+  export async function load({ fetch }) {
+    await KQL_AllContinents.queryLoad({ fetch }) // Filling the store
+    return {}
+  }
 </script>
 
 <!-- Or in a svelte component -->
 <script lang="ts">
-	await KQL_AllContinents.query(); // Filling the store
+  await KQL_AllContinents.query() // Filling the store
 </script>
 
 <!-- Using the store where you want in the app -->
 <ul>
-	{#each $KQL_AllContinents.data?.continents as continent}
-	<li>
-		<p>{continent?.name}</p>
-	</li>
-	{/each}
+  {#each $KQL_AllContinents.data?.continents as continent}
+  <li>
+    <p>{continent?.name}</p>
+  </li>
+  {/each}
 </ul>
 ```

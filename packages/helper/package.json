@@ -1,42 +1,42 @@
 {
-	"name": "@kitql/helper",
-	"version": "0.3.0",
-	"repository": {
-		"type": "git",
-		"url": "https://github.com/jycouet/kitql",
-		"directory": "packages/helper"
-	},
-	"license": "MIT",
-	"scripts": {
-		"prepack": "bob prepack"
-	},
-	"dependencies": {},
-	"main": "dist/index.js",
-	"module": "dist/index.mjs",
-	"exports": {
-		"./package.json": "./package.json",
-		".": {
-			"require": "./dist/index.js",
-			"import": "./dist/index.mjs"
-		},
-		"./*": {
-			"require": "./dist/*.js",
-			"import": "./dist/*.mjs"
-		}
-	},
-	"typings": "dist/index.d.ts",
-	"typescript": {
-		"definition": "dist/index.d.ts"
-	},
-	"buildOptions": {
-		"input": "./src/index.ts"
-	},
-	"publishConfig": {
-		"directory": "dist",
-		"access": "public"
-	},
-	"volta": {
-		"node": "17.4.0",
-		"yarn": "1.22.17"
-	}
+  "name": "@kitql/helper",
+  "version": "0.3.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jycouet/kitql",
+    "directory": "packages/helper"
+  },
+  "license": "MIT",
+  "scripts": {
+    "prepack": "bob prepack"
+  },
+  "dependencies": {},
+  "main": "dist/index.js",
+  "module": "dist/index.mjs",
+  "exports": {
+    "./package.json": "./package.json",
+    ".": {
+      "require": "./dist/index.js",
+      "import": "./dist/index.mjs"
+    },
+    "./*": {
+      "require": "./dist/*.js",
+      "import": "./dist/*.mjs"
+    }
+  },
+  "typings": "dist/index.d.ts",
+  "typescript": {
+    "definition": "dist/index.d.ts"
+  },
+  "buildOptions": {
+    "input": "./src/index.ts"
+  },
+  "publishConfig": {
+    "directory": "dist",
+    "access": "public"
+  },
+  "volta": {
+    "node": "17.4.0",
+    "yarn": "1.22.17"
+  }
 }

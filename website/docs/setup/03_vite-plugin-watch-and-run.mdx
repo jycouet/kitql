@@ -13,26 +13,26 @@ In your `svelte.config.js` add watchAndRun with the following configuration:
 - `run`: a command to trigger when a file change is detected (You can be very creative 🥳!)
 
 ```js
-import watchAndRun from '@kitql/vite-plugin-watch-and-run';
+import watchAndRun from '@kitql/vite-plugin-watch-and-run'
 
 /** @type {import('@sveltejs/kit').Config} */
 const config = {
-	kit: {
-		vite: {
-			plugins: [
-				watchAndRun([
-					{
-						watch: '**/*.(gql|graphql)',
-						run: 'npm run gen' // to trigger the script "gen" of your package.json
-						// delay: 500, Optional parameter to delay the run command.
-					}
-				])
-			]
-		}
-	}
-};
+  kit: {
+    vite: {
+      plugins: [
+        watchAndRun([
+          {
+            watch: '**/*.(gql|graphql)',
+            run: 'npm run gen' // to trigger the script "gen" of your package.json
+            // delay: 500, Optional parameter to delay the run command.
+          }
+        ])
+      ]
+    }
+  }
+}
 
-export default config;
+export default config
 ```
 
 ### Side Notes
