@@ -20,4 +20,4 @@ module.exports = {
     sourceType: 'module',
     ecmaVersion: 2020,
   },
-};
+}

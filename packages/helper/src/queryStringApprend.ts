@@ -10,24 +10,24 @@
  * @returns a sorted query string
  */
 export function queryStringApprend(searchParams: URLSearchParams, queryString: Record<string, string>) {
-  const query = {};
+  const query = {}
 
   // 1 Destructure searchParams
   searchParams.forEach((v, k) => {
-    query[k] = v;
-  });
+    query[k] = v
+  })
 
   // 2 Upset with our queryString
   for (const key in queryString) {
-    query[key] = queryString[key];
+    query[key] = queryString[key]
   }
 
   // 3 Transform in a table
-  const qs = [];
+  const qs = []
   for (const key in query) {
-    qs.push(`${key}=${query[key]}`);
+    qs.push(`${key}=${query[key]}`)
   }
 
   // 4 send back the Query String
-  return qs.sort().join('&');
+  return qs.sort().join('&')
 }

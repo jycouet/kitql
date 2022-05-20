@@ -1,20 +1,20 @@
-import '../../public/style.css';
+import '../../public/style.css'
 
-import { appWithTranslation } from 'next-i18next';
-import Script from 'next/script';
+import { appWithTranslation } from 'next-i18next'
+import Script from 'next/script'
 
-import { Box, extendTheme, theme as chakraTheme } from '@chakra-ui/react';
-import { mode } from '@chakra-ui/theme-tools';
-import { ExtendComponents, handlePushRoute, CombinedThemeProvider, DocsPage, AppSeoProps } from '@guild-docs/client';
-import { Header, Subheader, Instruction, FooterExtended } from '@theguild/components';
+import { Box, extendTheme, theme as chakraTheme } from '@chakra-ui/react'
+import { mode } from '@chakra-ui/theme-tools'
+import { ExtendComponents, handlePushRoute, CombinedThemeProvider, DocsPage, AppSeoProps } from '@guild-docs/client'
+import { Header, Subheader, Instruction, FooterExtended } from '@theguild/components'
 
-import type { AppProps } from 'next/app';
-import React from 'react';
+import type { AppProps } from 'next/app'
+import React from 'react'
 
-import { useGoogleAnalytics } from '../google-analytics';
+import { useGoogleAnalytics } from '../google-analytics'
 
-import '@algolia/autocomplete-theme-classic';
-import '@theguild/components/dist/static/css/SearchBarV2.css';
+import '@algolia/autocomplete-theme-classic'
+import '@theguild/components/dist/static/css/SearchBarV2.css'
 
 ExtendComponents({
   Instruction: (props: React.ComponentProps<typeof Instruction>) => (
@@ -22,7 +22,7 @@ ExtendComponents({
       <Instruction>{props.children}</Instruction>
     </Box>
   ),
-});
+})
 
 const styles: typeof chakraTheme['styles'] = {
   global: props => ({
@@ -30,9 +30,9 @@ const styles: typeof chakraTheme['styles'] = {
       bg: mode('white', 'gray.850')(props),
     },
   }),
-};
+}
 
-const accentColor = '#ff3e00';
+const accentColor = '#ff3e00'
 
 const theme = extendTheme({
   colors: {
@@ -60,21 +60,21 @@ const theme = extendTheme({
     useSystemColorMode: false,
   },
   styles,
-});
+})
 
-const serializedMdx = process.env.SERIALIZED_MDX_ROUTES;
-const mdxRoutes = { data: serializedMdx && JSON.parse(serializedMdx) };
+const serializedMdx = process.env.SERIALIZED_MDX_ROUTES
+const mdxRoutes = { data: serializedMdx && JSON.parse(serializedMdx) }
 
-const serializedTutorialMdx = process.env.SERIALIZED_TUTORIAL_MDX_ROUTES;
+const serializedTutorialMdx = process.env.SERIALIZED_TUTORIAL_MDX_ROUTES
 
 function AppContent(appProps: AppProps) {
-  const { Component, pageProps, router } = appProps;
+  const { Component, pageProps, router } = appProps
   const googleAnalytics = useGoogleAnalytics({
     router,
     trackingId: 'G-246BWRER3C',
-  });
+  })
 
-  const isDocs = router.asPath.startsWith('/docs');
+  const isDocs = router.asPath.startsWith('/docs')
 
   return (
     <>
@@ -124,12 +124,12 @@ function AppContent(appProps: AppProps) {
       )}
       <FooterExtended />
     </>
-  );
+  )
 }
 
 const AppContentWrapper = appWithTranslation(function TranslatedApp(appProps) {
-  return <AppContent {...appProps} />;
-});
+  return <AppContent {...appProps} />
+})
 
 const defaultSeo: AppSeoProps = {
   title: 'KitQL',
@@ -139,12 +139,12 @@ const defaultSeo: AppSeoProps = {
     width: 200,
     height: 200,
   },
-};
+}
 
 export default function App(appProps: AppProps) {
   return (
     <CombinedThemeProvider theme={theme} accentColor={accentColor} defaultSeo={defaultSeo}>
       <AppContentWrapper {...appProps} />
     </CombinedThemeProvider>
-  );
+  )
 }

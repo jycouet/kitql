@@ -1,6 +1,6 @@
 export function pad(num: number, size = 2): string {
-  const s = '000000000' + num;
-  return s.substring(s.length - size);
+  const s = '000000000' + num
+  return s.substring(s.length - size)
 }
 
 /**
@@ -16,5 +16,5 @@ export function toPascalCase(input: string): string {
     .replace(new RegExp(/[^\w\s]/, 'g'), '')
     .replace(new RegExp(/\s+(.)(\w+)/, 'g'), ($1, $2, $3) => `${$2.toUpperCase() + $3.toLowerCase()}`)
     .replace(new RegExp(/\s/, 'g'), '')
-    .replace(new RegExp(/\w/), s => s.toUpperCase());
+    .replace(new RegExp(/\w/), s => s.toUpperCase())
 }

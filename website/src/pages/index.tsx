@@ -1,6 +1,6 @@
-import { HeroGradient, InfoList } from '@theguild/components';
+import { HeroGradient, InfoList } from '@theguild/components'
 
-import { handlePushRoute, NPMBadge } from '@guild-docs/client';
+import { handlePushRoute, NPMBadge } from '@guild-docs/client'
 
 export default function Index() {
   return (
@@ -35,5 +35,5 @@ export default function Index() {
         ]}
       />
     </>
-  );
+  )
 }

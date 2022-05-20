@@ -1,4 +1,4 @@
-import { IRoutes, GenerateRoutes } from '@guild-docs/server';
+import { IRoutes, GenerateRoutes } from '@guild-docs/server'
 
 export function getRoutes(): IRoutes {
   const Routes: IRoutes = {
@@ -22,13 +22,13 @@ export function getRoutes(): IRoutes {
         $routes: ['01_graphql-codegen', '02_client', '03_vite-plugin-watch-and-run'],
       },
     },
-  };
+  }
 
   GenerateRoutes({
     Routes,
     folderPattern: 'docs',
     // ignorePaths: ['setup']
-  });
+  })
 
   return {
     _: Object.fromEntries(
@@ -36,7 +36,7 @@ export function getRoutes(): IRoutes {
       // @ts-ignore
       Object.entries(Routes._).map(([key, value]) => [`docs/${key}`, value])
     ),
-  };
+  }
 
   // GenerateRoutes({
   // 	Routes,
@@ -45,5 +45,5 @@ export function getRoutes(): IRoutes {
   // 	basePathLabel: 'Documentation'
   // });
 
-  return Routes;
+  return Routes
 }
