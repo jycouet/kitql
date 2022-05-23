@@ -1,10 +1,10 @@
 <script context="module" lang="ts">
 	import Continents from '$lib/components/Continents.svelte';
 	import { kitQLClient } from '$lib/graphql/kitQLClient';
-	import { KQL_AllContinents } from '$lib/graphql/_kitql/graphqlStores';
+	import { KQL_All_Conti } from '$lib/graphql/_kitql/graphqlStores';
 
-	export async function load({ fetch, url, params, session, stuff }) {
-		await KQL_AllContinents.queryLoad({ fetch });
+	export async function load({ fetch }) {
+		await KQL_All_Conti.queryLoad({ fetch });
 		return {};
 	}
 </script>

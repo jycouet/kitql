@@ -1,6 +1,5 @@
 import { PluginFunction, Types } from '@graphql-codegen/plugin-helpers'
 import { convertFactory, getConfigValue } from '@graphql-codegen/visitor-plugin-common'
-import { pascalCase } from 'change-case-all'
 import { concatAST, OperationDefinitionNode } from 'graphql'
 
 function getOperationSuffix(
@@ -37,10 +36,10 @@ export const plugin: PluginFunction<Record<string, any>, Types.ComplexPluginOutp
   const out = allAst.definitions
     .map(node => {
       if (node.kind === 'OperationDefinition' && node.name?.value && node.operation !== 'subscription') {
-        const operationName = pascalCase(node.name?.value) // AllContinents
+        const operationName = convertName(node.name?.value) // AllContinents
         const kqlStore = `${operationPrefix}${operationName}` // KQL_AllContinents
         const kqlStoreInternal = `${operationPrefix}${operationName}Store` // KQL_AllContinentsStore
-        const operationString = pascalCase(node.operation) // Query Mutation Subscription
+        const operationString = convertName(node.operation) // Query Mutation Subscription
         const operationTypeSuffix: string = getOperationSuffix(config, node, operationString)
         const operationResultType: string = convertName(node, {
           suffix: operationTypeSuffix + operationResultSuffix,
