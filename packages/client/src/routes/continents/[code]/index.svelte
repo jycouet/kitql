@@ -1,14 +1,11 @@
 <script context="module" lang="ts">
 	import Countries from '$lib/components/Countries.svelte';
-	import {
-		KQL_AllContinents,
-		KQL_AllCountriesOfContinent
-	} from '$lib/graphql/_kitql/graphqlStores';
+	import { KQL_All_Conti, KQL_AllCountriesOfContinent } from '$lib/graphql/_kitql/graphqlStores';
 	import { get } from 'svelte/store';
 
-	export async function load({ fetch, url, params, session, stuff }) {
+	export async function load({ fetch, params }) {
 		const code = params.code;
-		const continentFound = get(KQL_AllContinents).data?.continents.find((c) => c.code === code);
+		const continentFound = get(KQL_All_Conti).data?.continents.find((c) => c.code === code);
 		KQL_AllCountriesOfContinent.patch(
 			{
 				continent: {
