@@ -1,5 +1,11 @@
 # @kitql/template
 
+## 0.3.1
+
+### Patch Changes
+
+- 55b0742: bump
+
 ## 0.3.0
 
 ### Minor Changes

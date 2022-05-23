@@ -1,5 +1,14 @@
 # @kitql/client
 
+## 0.5.4
+
+### Patch Changes
+
+- 55b0742: bump
+- Updated dependencies [55b0742]
+  - @kitql/helper@0.3.1
+  - @kitql/all-in@0.6.4
+
 ## 0.5.3
 
 ### Patch Changes

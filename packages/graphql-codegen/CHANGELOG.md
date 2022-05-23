@@ -1,5 +1,12 @@
 # @kitql/graphql-codegen
 
+## 0.5.2
+
+### Patch Changes
+
+- 55b0742: bump
+- 55b0742: handle \_ in operation name
+
 ## 0.5.1
 
 ### Patch Changes
