@@ -1,5 +1,13 @@
 # @kitql/module-codegen
 
+## 0.3.1
+
+### Patch Changes
+
+- 55b0742: bump
+- Updated dependencies [55b0742]
+  - @kitql/helper@0.3.1
+
 ## 0.3.0
 
 ### Minor Changes

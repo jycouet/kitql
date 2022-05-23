@@ -1,5 +1,11 @@
 # @kitql/website
 
+## 0.0.1
+
+### Patch Changes
+
+- 55b0742: bump
+
 ## 0.2.1
 
 ### Patch Changes
