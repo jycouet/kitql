@@ -21,10 +21,32 @@ export function logYellow(str: string) {
 export class Log {
   private toolName: string
   private logLevel: null | 0 | 1 | 2
+  private withDate: null | 'dateTime' | 'time'
 
-  constructor(toolName: string, logLevel: null | 0 | 1 | 2 = null) {
+  constructor(toolName: string, logLevel: null | 0 | 1 | 2 = null, withDate: null | 'dateTime' | 'time' = null) {
     this.toolName = toolName
     this.logLevel = logLevel
+    this.withDate = withDate
+  }
+
+  private buildStr(msg: string, withError: boolean, withSuccess: boolean, indent: string) {
+    const table = []
+    table.push(`${logMagneta(`[${this.toolName}]`)}`)
+    if (this.withDate === 'dateTime') {
+      table.push(`${logMagneta(`[${new Date().toISOString()}]`)}`)
+    } else if (this.withDate === 'time') {
+      table.push(`${logMagneta(`[${new Date().toISOString().split('T')[1]}]`)}`)
+    }
+    if (withError) {
+      table.push(`❌`)
+    }
+    if (withSuccess) {
+      table.push(`✅`)
+    }
+    table.push(indent)
+    table.push(` ${msg}`)
+
+    return table.join('')
   }
 
   info(msg: string, conf: { level?: 0 | 1 | 2; withSuccess?: boolean } = { level: 0, withSuccess: false }) {
@@ -32,7 +54,7 @@ export class Log {
     const withSuccess = conf.withSuccess ?? false
     if (this.logLevel && level <= this.logLevel) {
       const indent = ' '.repeat(level)
-      console.info(`${logMagneta(`[${this.toolName}]`)}${withSuccess ? '✅' : ''}${indent} ${msg}`)
+      console.info(this.buildStr(msg, false, withSuccess, indent))
     }
   }
 
@@ -41,6 +63,6 @@ export class Log {
   }
 
   error(msg: string) {
-    console.error(`${logMagneta(`[${this.toolName}]`)}❌ ${msg}`)
+    console.error(this.buildStr(msg, true, false, ''))
   }
 }
