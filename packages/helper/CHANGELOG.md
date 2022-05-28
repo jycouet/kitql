@@ -1,5 +1,11 @@
 # @kitql/helper
 
+## 0.3.3
+
+### Patch Changes
+
+- cb0cf80: default to log everything
+
 ## 0.3.2
 
 ### Patch Changes
