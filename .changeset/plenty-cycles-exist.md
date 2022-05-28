@@ -1,5 +1,5 @@
 ---
-"@kitql/helper": patch
+'@kitql/helper': patch
 ---
 
 improve logger

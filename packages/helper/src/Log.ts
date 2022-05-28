@@ -28,8 +28,8 @@ export class Log {
   }
 
   info(msg: string, conf: { level?: 0 | 1 | 2; withSuccess?: boolean } = { level: 0, withSuccess: false }) {
-    const level = conf.level ?? 0;
-    const withSuccess = conf.withSuccess ?? false;
+    const level = conf.level ?? 0
+    const withSuccess = conf.withSuccess ?? false
     if (this.logLevel && level <= this.logLevel) {
       const indent = ' '.repeat(level)
       console.info(`${logMagneta(`[${this.toolName}]`)}${withSuccess ? '✅' : ''}${indent} ${msg}`)
