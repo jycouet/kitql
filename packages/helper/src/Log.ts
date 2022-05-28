@@ -20,45 +20,60 @@ export function logYellow(str: string) {
 
 export class Log {
   private toolName: string
-  private logLevel: null | 0 | 1 | 2
+  private levelsToShow: null | number
   private withDate: null | 'dateTime' | 'time'
+  private prefixEmoji: string
 
-  constructor(toolName: string, logLevel: null | 0 | 1 | 2 = 2, withDate: null | 'dateTime' | 'time' = null) {
+  constructor(
+    toolName: string,
+    options: { levelsToShow?: null | number; withDate?: 'dateTime' | 'time'; prefixEmoji?: string } = {}
+  ) {
     this.toolName = toolName
-    this.logLevel = logLevel
-    this.withDate = withDate
+    this.levelsToShow = options.levelsToShow ?? 2
+    this.withDate = options.withDate ?? null
+    this.prefixEmoji = options.prefixEmoji ?? ''
+  }
+
+  public setLevel(logLevel?: null | number) {
+    this.levelsToShow = logLevel
   }
 
   private buildStr(msg: string, withError: boolean, withSuccess: boolean, indent: string) {
     const table = []
     table.push(`${logMagneta(`[${this.toolName}]`)}`)
+
+    // DateTime or Time or nothing
     if (this.withDate === 'dateTime') {
       table.push(`${logMagneta(`[${new Date().toISOString()}]`)}`)
     } else if (this.withDate === 'time') {
       table.push(`${logMagneta(`[${new Date().toISOString().split('T')[1]}]`)}`)
     }
+
+    // Status icon or prefixEmoji
     if (withError) {
       table.push(`❌`)
-    }
-    if (withSuccess) {
+    } else if (withSuccess) {
       table.push(`✅`)
+    } else {
+      table.push(`${this.prefixEmoji}`)
     }
+
     table.push(indent)
     table.push(` ${msg}`)
 
     return table.join('')
   }
 
-  info(msg: string, conf: { level?: 0 | 1 | 2; withSuccess?: boolean } = { level: 0, withSuccess: false }) {
+  info(msg: string, conf: { level?: number; withSuccess?: boolean } = { level: 0, withSuccess: false }) {
     const level = conf.level ?? 0
     const withSuccess = conf.withSuccess ?? false
-    if (this.logLevel && level <= this.logLevel) {
+    if (this.levelsToShow !== null && level <= this.levelsToShow) {
       const indent = ' '.repeat(level)
       console.info(this.buildStr(msg, false, withSuccess, indent))
     }
   }
 
-  success(msg: string, conf: { level?: 0 | 1 | 2 } = { level: 0 }) {
+  success(msg: string, conf: { level?: number } = { level: 0 }) {
     this.info(msg, { level: conf.level, withSuccess: true })
   }
 
