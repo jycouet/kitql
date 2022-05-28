@@ -20,16 +20,27 @@ export function logYellow(str: string) {
 
 export class Log {
   private toolName: string
+  private logLevel: null | 0 | 1 | 2
 
-  constructor(toolName: string) {
+  constructor(toolName: string, logLevel: null | 0 | 1 | 2 = null) {
     this.toolName = toolName
+    this.logLevel = logLevel
   }
 
-  info(msg: string) {
-    console.info(`${logMagneta(`[${this.toolName}]`)} ${msg}`)
+  info(msg: string, conf: { level?: 0 | 1 | 2; withSuccess?: boolean } = { level: 0, withSuccess: false }) {
+    const level = conf.level ?? 0;
+    const withSuccess = conf.withSuccess ?? false;
+    if (this.logLevel && level <= this.logLevel) {
+      const indent = ' '.repeat(level)
+      console.info(`${logMagneta(`[${this.toolName}]`)}${withSuccess ? '✅' : ''}${indent} ${msg}`)
+    }
+  }
+
+  success(msg: string, conf: { level?: 0 | 1 | 2 } = { level: 0 }) {
+    this.info(msg, { level: conf.level, withSuccess: true })
   }
 
   error(msg: string) {
-    console.error(`${logMagneta(`[${this.toolName}]`)}${logRed(`[E]`)} ${msg}`)
+    console.error(`${logMagneta(`[${this.toolName}]`)}❌ ${msg}`)
   }
 }
