@@ -1,5 +1,11 @@
 # @kitql/helper
 
+## 0.3.4
+
+### Patch Changes
+
+- b2c579d: logs with unlimited levels!
+
 ## 0.3.3
 
 ### Patch Changes

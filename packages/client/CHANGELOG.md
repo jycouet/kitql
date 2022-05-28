@@ -1,5 +1,13 @@
 # @kitql/client
 
+## 0.5.7
+
+### Patch Changes
+
+- Updated dependencies [b2c579d]
+  - @kitql/helper@0.3.4
+  - @kitql/all-in@0.6.7
+
 ## 0.5.6
 
 ### Patch Changes
