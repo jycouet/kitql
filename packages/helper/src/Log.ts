@@ -23,7 +23,7 @@ export class Log {
   private logLevel: null | 0 | 1 | 2
   private withDate: null | 'dateTime' | 'time'
 
-  constructor(toolName: string, logLevel: null | 0 | 1 | 2 = null, withDate: null | 'dateTime' | 'time' = null) {
+  constructor(toolName: string, logLevel: null | 0 | 1 | 2 = 2, withDate: null | 'dateTime' | 'time' = null) {
     this.toolName = toolName
     this.logLevel = logLevel
     this.withDate = withDate
