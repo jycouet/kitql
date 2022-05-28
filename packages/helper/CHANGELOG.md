@@ -1,5 +1,13 @@
 # @kitql/helper
 
+## 0.3.2
+
+### Patch Changes
+
+- 0b1f77a: fix stry for dates
+- 0b1f77a: improve logger
+- a60d651: adding datetime and time log option
+
 ## 0.3.1
 
 ### Patch Changes
