@@ -91,4 +91,14 @@ describe('kitql - helper - stry', () => {
 			}"
 		`)
   })
+
+  it('should handle dates', async () => {
+    const obj = { myDate: new Date('1986-11-07T06:05:04.000Z') }
+    const result = stry(obj)
+    expect(result).toMatchInlineSnapshot(`
+      "{
+        \\"myDate\\": \\"1986-11-07T06:05:04.000Z\\"
+      }"
+    `)
+  })
 })

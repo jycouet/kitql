@@ -2,6 +2,11 @@ function sortObject(object: Object) {
   const sortedObj = {}
   const keys = Object.keys(object)
 
+  // If there are no keys, the Object was not {}, let's return the object directly
+  if (keys.length === 0) {
+    return object
+  }
+
   keys.sort((key1, key2) => {
     ;(key1 = key1.toLowerCase()), (key2 = key2.toLowerCase())
     if (key1 < key2) return -1
