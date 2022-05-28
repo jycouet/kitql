@@ -1,5 +1,13 @@
 # @kitql/all-in
 
+## 0.6.6
+
+### Patch Changes
+
+- @kitql/client@0.5.6
+- @kitql/module-codegen@0.3.3
+- @kitql/vite-plugin-watch-and-run@0.3.3
+
 ## 0.6.5
 
 ### Patch Changes
