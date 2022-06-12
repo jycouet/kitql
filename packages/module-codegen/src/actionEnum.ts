@@ -5,14 +5,14 @@ import { toPascalCase } from './formatString'
 import { write } from './readWrite'
 
 export function actionEnum(
-  modulePath: string,
+  enumsModuleFolder: string,
   moduleOutputFolder: string,
   importBaseTypesFrom: string,
   enums: Record<string, string[]>
 ) {
   // Typedefs
-  createFolderIfNotExists(join(modulePath, '_enums'))
-  createFolderIfNotExists(join(modulePath, '_enums', 'typedefs'))
+  createFolderIfNotExists(join(enumsModuleFolder, '_enums'))
+  createFolderIfNotExists(join(enumsModuleFolder, '_enums', 'typedefs'))
 
   for (const key in enums) {
     const list = enums[key]
@@ -25,12 +25,12 @@ export function actionEnum(
     enumFileData.push(`}`)
     enumFileData.push(``)
 
-    write(join(modulePath, '_enums', 'typedefs', `ENUM.${key}.graphql`), enumFileData)
+    write(join(enumsModuleFolder, '_enums', 'typedefs', `ENUM.${key}.graphql`), enumFileData)
   }
 
   // Lists
-  createFolderIfNotExists(join(modulePath, '_enums', 'ui'))
-  createFolderIfNotExists(join(modulePath, '_enums', 'ui', 'lists'))
+  createFolderIfNotExists(join(enumsModuleFolder, '_enums', 'ui'))
+  createFolderIfNotExists(join(enumsModuleFolder, '_enums', 'ui', 'lists'))
 
   for (const key in enums) {
     const list = enums[key]
@@ -49,8 +49,8 @@ export function actionEnum(
 
     // Write this file only if it doesn't exist!
     // Like this, you can change the value with text that will be displayed in the UI!
-    if (!existsSync(join(modulePath, '_enums', 'ui', 'lists', `${keyWOEnum}List.ts`))) {
-      write(join(modulePath, '_enums', 'ui', 'lists', `${keyWOEnum}List.ts`), enumFileData)
+    if (!existsSync(join(enumsModuleFolder, '_enums', 'ui', 'lists', `${keyWOEnum}List.ts`))) {
+      write(join(enumsModuleFolder, '_enums', 'ui', 'lists', `${keyWOEnum}List.ts`), enumFileData)
     }
   }
 
@@ -65,7 +65,7 @@ export function actionEnum(
   enumFileData.push(`});`)
   enumFileData.push(``)
 
-  write(join(modulePath, '_enums', 'index.ts'), enumFileData)
+  write(join(enumsModuleFolder, '_enums', 'index.ts'), enumFileData)
 
   const enumsKeys = Object.keys(enums).map(key => {
     return key

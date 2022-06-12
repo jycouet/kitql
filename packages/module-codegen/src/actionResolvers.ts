@@ -2,10 +2,10 @@ import { join } from 'path'
 import { createFolderIfNotExists, getFiles, getFileWODots, getFileWOTS } from './fileFolder'
 import { write } from './readWrite'
 
-export function actionResolvers(moduleName: string, modulesFolder: string, moduleOutputFolder: string) {
+export function actionResolvers(moduleFolder: string, moduleOutputFolder: string) {
   const resolversFolder = 'resolvers'
 
-  const resolversFiles = getFiles(join(modulesFolder, moduleName, resolversFolder))
+  const resolversFiles = getFiles(join(moduleFolder, resolversFolder))
   const dataResolvers = []
   resolversFiles.forEach(resolver => {
     dataResolvers.push(
@@ -19,9 +19,9 @@ export function actionResolvers(moduleName: string, modulesFolder: string, modul
   })
   dataResolvers.push(`];`)
 
-  createFolderIfNotExists(join(modulesFolder, moduleName, moduleOutputFolder))
+  createFolderIfNotExists(join(moduleFolder, moduleOutputFolder))
 
-  write(join(modulesFolder, moduleName, moduleOutputFolder, 'resolvers.ts'), dataResolvers)
+  write(join(moduleFolder, moduleOutputFolder, 'resolvers.ts'), dataResolvers)
 
   return resolversFiles.length
 }
