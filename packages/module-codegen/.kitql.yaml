@@ -1,7 +1,5 @@
 generates:
-  -apps/firstApp/src/lib/graphql/_gen:
-    outputFolder: _gen
-    importBaseTypesFrom: $graphql/_gen/graphqlTypes
+  apps/firstApp/src/lib/graphql/_gen:
     modules:
       - apps/firstApp/src/lib/modules/*
       - packages/modules/*(user)
@@ -12,3 +10,6 @@ generates:
       mergeModuleResolvers: true
       mergeContexts: true
       mergeModules: true
+
+    moduleOutputFolder: _gen
+    importBaseTypesFrom: $graphql/_gen/graphqlTypes
