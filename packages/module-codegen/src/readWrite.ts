@@ -9,6 +9,10 @@ export function readLines(pathFile: string): string[] {
   return read(pathFile).split('\n')
 }
 
-export function write(pathFile: string, data: string[]) {
-  fs.writeFileSync(path.join(pathFile), data.join('\n'))
+export function write(pathFile: string, data: string | string[]) {
+  if (Array.isArray(data)) {
+    fs.writeFileSync(path.join(pathFile), data.join('\n'))
+  } else if (typeof data === 'string') {
+    fs.writeFileSync(path.join(pathFile), data)
+  }
 }

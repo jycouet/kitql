@@ -1,4 +1,4 @@
-import { join } from 'path'
+import { join, basename, extname } from 'path'
 import { toPascalCase } from './formatString'
 import { write } from './readWrite'
 
@@ -7,12 +7,13 @@ import { write } from './readWrite'
 // ctxIchtts_Dl_ById
 export function actionModuleContext(
   dataloadersModule: { moduleName: string; providerFile: string }[], // ["dlIchttsGetByIds"]
-  modulesFolder: string, // src/lib/modules
-  moduleName: string, // ichtts
-  moduleOutputFolder, //_kitql
-  withDbProvider
+  moduleFolder: string, // src/lib/modules
+  moduleOutputFolder: string, //_kitql
+  importBaseTypesFrom: string,
+  withDbProvider: boolean
 ) {
   const dataCtxModules = []
+  const moduleName = basename(moduleFolder, extname(moduleFolder))
 
   const moduleNamePascalCase = toPascalCase(moduleName)
   const functionsName = []
@@ -27,7 +28,7 @@ export function actionModuleContext(
     dataCtxModules.push(`import { load_DataLoader } from '$graphql/helpers/dataLoaderHelper';`)
     dataCtxModules.push(`import { type IKitQLContext } from '$graphql/kitQLServer';`)
     if (functionsName.length > 0) {
-      dataCtxModules.push(`import { type ${moduleNamePascalCase} } from '$graphql/_kitql/graphqlTypes';`)
+      dataCtxModules.push(`import { type ${moduleNamePascalCase} } from '${importBaseTypesFrom}';`)
     }
     dataCtxModules.push(`import { Db${moduleNamePascalCase} } from '../providers/Db${moduleNamePascalCase}';`)
     functionsName.forEach(functionName => {
@@ -58,7 +59,7 @@ export function actionModuleContext(
 
   dataCtxModules.push(``)
 
-  write(join(modulesFolder, moduleName, moduleOutputFolder, 'ctx.ts'), dataCtxModules)
+  write(join(moduleFolder, moduleOutputFolder, 'ctx.ts'), dataCtxModules)
 
   return functionsName.length + (withDbProvider ? 1 : 0)
 }

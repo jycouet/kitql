@@ -2,10 +2,10 @@ import { join } from 'path'
 import { createFolderIfNotExists, getFiles } from './fileFolder'
 import { read, write } from './readWrite'
 
-export function actionTypeDefs(moduleName: string, modulesFolder: string, moduleOutputFolder: string) {
+export function actionTypeDefs(moduleFolder: string, moduleOutputFolder: string) {
   const typedefsFolder = 'typedefs'
 
-  const typedefsFiles = getFiles(join(modulesFolder, moduleName, typedefsFolder))
+  const typedefsFiles = getFiles(join(moduleFolder, typedefsFolder))
 
   const dataTypedefs = []
 
@@ -13,13 +13,13 @@ export function actionTypeDefs(moduleName: string, modulesFolder: string, module
   dataTypedefs.push(``)
   dataTypedefs.push(`export const typeDefs = gql${'`'}`)
   typedefsFiles.forEach(typedefs => {
-    dataTypedefs.push(read(join(modulesFolder, moduleName, typedefsFolder, typedefs)))
+    dataTypedefs.push(read(join(moduleFolder, typedefsFolder, typedefs)))
   })
   dataTypedefs.push(`${'`'};`)
 
-  createFolderIfNotExists(join(modulesFolder, moduleName, moduleOutputFolder))
+  createFolderIfNotExists(join(moduleFolder, moduleOutputFolder))
 
-  write(join(modulesFolder, moduleName, moduleOutputFolder, 'typedefs.ts'), dataTypedefs)
+  write(join(moduleFolder, moduleOutputFolder, 'typedefs.ts'), dataTypedefs)
 
   return typedefsFiles.length
 }

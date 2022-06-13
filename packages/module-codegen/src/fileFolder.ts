@@ -1,12 +1,14 @@
 import { existsSync, mkdirSync, readdirSync } from 'fs'
-import path from 'path'
-
+import glob from 'glob'
+import { extname, join } from 'path'
 const rootPath = process.cwd()
 
-export function getDirectories(source) {
-  return readdirSync(source, { withFileTypes: true })
-    .filter(dirent => dirent.isDirectory())
-    .map(dirent => dirent.name)
+export const getDirectories = (source: string) => {
+  const directories: string[] = glob
+    .sync(source)
+    .flat()
+    .filter((path: string) => !extname(path))
+  return directories
 }
 
 export function getFiles(source) {
@@ -36,5 +38,5 @@ export function getFullPath(folder) {
   if (folder.startsWith('/')) {
     return folder
   }
-  return path.join(rootPath, folder)
+  return join(rootPath, folder)
 }
