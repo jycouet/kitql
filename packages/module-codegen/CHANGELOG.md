@@ -1,5 +1,11 @@
 # @kitql/module-codegen
 
+## 0.3.5
+
+### Patch Changes
+
+- 3a32ec7: multi path support
+
 ## 0.3.4
 
 ### Patch Changes
