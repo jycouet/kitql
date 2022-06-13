@@ -13,7 +13,7 @@ export function actionModuleContext(
   withDbProvider: boolean
 ) {
   const dataCtxModules = []
-  const moduleName = basename(moduleFolder, extname(moduleFolder));
+  const moduleName = basename(moduleFolder, extname(moduleFolder))
 
   const moduleNamePascalCase = toPascalCase(moduleName)
   const functionsName = []

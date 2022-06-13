@@ -2,16 +2,16 @@ import path from 'path'
 import { write } from './readWrite'
 
 type TEnumsModuleConfig = {
-  prismaFile: string; 
-  enumsModuleFolder: string;
+  prismaFile: string
+  enumsModuleFolder: string
 }
 
-type  TGenerationConfig = {
-  moduleOutputFolder: string;
-  importBaseTypesFrom: string;
-  modules: string[];
+type TGenerationConfig = {
+  moduleOutputFolder: string
+  importBaseTypesFrom: string
+  modules: string[]
   actions: {
-    createEnumsModule?: TEnumsModuleConfig | false;
+    createEnumsModule?: TEnumsModuleConfig | false
     mergeModuleTypedefs: boolean
     mergeModuleResolvers: boolean
     mergeContexts: boolean

@@ -12,8 +12,7 @@ export function readLines(pathFile: string): string[] {
 export function write(pathFile: string, data: string | string[]) {
   if (Array.isArray(data)) {
     fs.writeFileSync(path.join(pathFile), data.join('\n'))
-  }
-  else if (typeof data === 'string') {
+  } else if (typeof data === 'string') {
     fs.writeFileSync(path.join(pathFile), data)
   }
 }
