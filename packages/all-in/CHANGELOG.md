@@ -1,5 +1,13 @@
 # @kitql/all-in
 
+## 0.6.8
+
+### Patch Changes
+
+- Updated dependencies [3a32ec7]
+  - @kitql/module-codegen@0.3.5
+  - @kitql/client@0.5.8
+
 ## 0.6.7
 
 ### Patch Changes
