@@ -1,5 +1,5 @@
 import { join, relative } from 'path'
-import { createFolderIfNotExists } from './fileFolder';
+import { createFolderIfNotExists } from './fileFolder'
 import { write } from './readWrite'
 
 export function actionModules(modules: { directory: string; name: string }[], outputFolder: string) {
