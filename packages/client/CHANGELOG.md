@@ -1,5 +1,11 @@
 # @kitql/client
 
+## 0.5.9
+
+### Patch Changes
+
+- @kitql/all-in@0.6.9
+
 ## 0.5.8
 
 ### Patch Changes
