@@ -1,4 +1,5 @@
 import { join, relative } from 'path'
+import { createFolderIfNotExists } from './fileFolder';
 import { write } from './readWrite'
 
 export function actionModules(modules: { directory: string; name: string }[], outputFolder: string) {
@@ -17,6 +18,8 @@ export function actionModules(modules: { directory: string; name: string }[], ou
   dataAppModules.push(`export const modules = [`)
   dataAppModules.push(modulesExports.join('\n'))
   dataAppModules.push(`];`)
+
+  createFolderIfNotExists(join(outputFolder))
 
   write(join(outputFolder, '_appModules.ts'), dataAppModules)
 }

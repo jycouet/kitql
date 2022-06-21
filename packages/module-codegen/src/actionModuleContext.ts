@@ -1,4 +1,5 @@
 import { join, basename, extname } from 'path'
+import { createFolderIfNotExists } from './fileFolder';
 import { toPascalCase } from './formatString'
 import { write } from './readWrite'
 
@@ -58,6 +59,8 @@ export function actionModuleContext(
   })
 
   dataCtxModules.push(``)
+
+  createFolderIfNotExists(join(moduleFolder, moduleOutputFolder))
 
   write(join(moduleFolder, moduleOutputFolder, 'ctx.ts'), dataCtxModules)
 

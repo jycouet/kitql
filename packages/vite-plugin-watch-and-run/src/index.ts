@@ -1,4 +1,4 @@
-import { Log, logCyan, logGreen, logRed } from '@kitql/helper'
+import { Log, logCyan, logGreen, logMagneta, logRed } from '@kitql/helper'
 import { spawn } from 'child_process'
 import micromatch from 'micromatch'
 
@@ -83,7 +83,7 @@ async function shouldRun(absolutePath: string, watchKind: WatchKind, watchAndRun
 }
 
 function formatLog(str: string, name?: string) {
-  return `${name ? logCyan(`[${name}]`) : ''} ${str}`
+  return `${name ? logMagneta(`[${name}]`) : ''} ${str}`
 }
 
 async function watcher(absolutePath: string, watchKind: WatchKind, watchAndRunConf: Record<string, StateDetail>) {
@@ -115,7 +115,7 @@ async function watcher(absolutePath: string, watchKind: WatchKind, watchAndRunCo
         if (code === 0) {
           log.info(`${logGreen('✔')} finished ${logGreen('successfully')}`)
         } else {
-          log.error(`${'❌'} finished with some ${logRed('errors')}`)
+          log.error(`finished with some ${logRed('errors')}`)
         }
         shouldRunInfo.param.isRunning = false
       })
