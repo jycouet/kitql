@@ -1,6 +1,15 @@
 name: Tests
+
 on:
+  # pull requests to master
   pull_request:
+    paths:
+      - '**'
+
+  # every commit on master
+  push:
+    branches:
+      - main
 
 jobs:
   build:
@@ -17,11 +26,11 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: 17.5.0
-          cache: "yarn"
+          cache: 'yarn'
 
       - uses: actions/cache@v2
         with:
-          path: "**/node_modules"
+          path: '**/node_modules'
           key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
 
       - name: Install packages
