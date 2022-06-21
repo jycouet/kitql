@@ -17,9 +17,13 @@ export type Options = {
   run: string
   /**
    * Delay before running the run command (in ms)
-   * @default 500 ms
+   * @default 300 ms
    */
   delay?: number | null
+  /**
+   * Name to display in the logs as prefix
+   */
+  name?: string | null
 }
 
 export type WatchKind = 'ADD' | 'CHANGE' | 'DELETE'
@@ -29,6 +33,7 @@ export type StateDetail = {
   run: string
   delay: number
   isRunning: boolean
+  name?: string | null
 }
 
 function checkConf(params: Options[]) {
@@ -50,8 +55,9 @@ function checkConf(params: Options[]) {
     paramsChecked[param.watch] = {
       kind: param.watchKind ?? ['ADD', 'CHANGE', 'DELETE'],
       run: param.run,
-      delay: param.delay ?? 500,
+      delay: param.delay ?? 300,
       isRunning: false,
+      name: param.name,
     }
   }
 
@@ -76,6 +82,10 @@ async function shouldRun(absolutePath: string, watchKind: WatchKind, watchAndRun
   }
 }
 
+function formatLog(str: string, name?: string) {
+  return `${name ? logCyan(`[${name}]`) : ''} ${str}`
+}
+
 async function watcher(absolutePath: string, watchKind: WatchKind, watchAndRunConf: Record<string, StateDetail>) {
   const shouldRunInfo = await shouldRun(absolutePath, watchKind, watchAndRunConf)
   if (shouldRunInfo.shouldRun) {
@@ -93,12 +103,12 @@ async function watcher(absolutePath: string, watchKind: WatchKind, watchAndRunCo
 
       //spit stdout to screen
       child.stdout.on('data', data => {
-        process.stdout.write(data.toString())
+        process.stdout.write(formatLog(data.toString(), shouldRunInfo.param.name))
       })
 
       //spit stderr to screen
       child.stderr.on('data', data => {
-        process.stdout.write(data.toString())
+        process.stdout.write(formatLog(data.toString(), shouldRunInfo.param.name))
       })
 
       child.on('close', code => {

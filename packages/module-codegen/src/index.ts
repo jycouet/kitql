@@ -1,4 +1,4 @@
-import { Log, logGreen, logRed } from '@kitql/helper'
+import { Log, logCyan, logGreen, logRed } from '@kitql/helper'
 import fs from 'fs'
 import { join, basename, extname } from 'path'
 import YAML from 'yaml'
@@ -10,7 +10,7 @@ import { actionResolvers } from './actionResolvers'
 import { actionTypeDefs } from './actionTypeDefs'
 import { TConfigFile, writeDefaultConfigFile } from './defaultConfigFile'
 import { getDirectories, getFiles, getFullPath } from './fileFolder'
-import { pad, toPascalCase } from './formatString'
+import { toPascalCase } from './formatString'
 import { getPrismaEnum } from './prismaHelper'
 import { read, readLines } from './readWrite'
 
@@ -19,17 +19,25 @@ const log = new Log('KitQL module-codegen')
 const configFilePath = getFullPath('.kitql.yaml')
 const providersFolder = 'providers' as const
 
+const meta = {
+  enums: 0,
+  modules: 0,
+  typedefs: 0,
+  resolvers: 0,
+  contexts: 0,
+}
+
 if (fs.existsSync(configFilePath)) {
-  log.info(`${logGreen('✔')} config file found: ${logGreen(configFilePath)}`)
+  log.info(`${logCyan('⚡')}config ${logGreen(configFilePath)}`)
   const content = read(configFilePath)
   const configFile = YAML.parse(content) as TConfigFile
 
   Object.entries(configFile.generates).map(([outputFolder, config]) => {
-    log.info(`${logGreen('⏳')} starting generation for ${logGreen(outputFolder)}`)
+    // log.info(`${logGreen('⏳')} starting generation for ${logGreen(outputFolder)}`)
 
     // Enums
     if (config.actions.createEnumsModule) {
-      log.info(`${logGreen('⏳')} creating ${logGreen('Enums')}`)
+      // log.info(`${logGreen('⏳')} creating ${logGreen('Enums')}`)
       const createEnumsModuleConfig = config.actions.createEnumsModule
       const prismaFilePath = getFullPath(createEnumsModuleConfig.prismaFile)
       if (fs.existsSync(prismaFilePath)) {
@@ -40,7 +48,8 @@ if (fs.existsSync(configFilePath)) {
           config.importBaseTypesFrom,
           enums
         )
-        log.info(`${logGreen('✔')} ${logGreen('Enums')} created [${enumsKeys.map(c => logGreen(c)).join(',')}]`)
+        meta.enums = enumsKeys.length
+        // log.info(`${logGreen('✔')} ${logGreen('Enums')} created [${enumsKeys.map(c => logGreen(c)).join(',')}]`)
       } else {
         log.error(`${'❌'} file ${logRed(prismaFilePath)} not found!`)
         throw new Error(`file ${prismaFilePath} not found!`)
@@ -59,7 +68,7 @@ if (fs.existsSync(configFilePath)) {
       mergeModuleAction.push('Contexts')
     }
     if (mergeModuleAction.length > 0) {
-      log.info(`${logGreen('⏳')} merging ${mergeModuleAction.map(c => logGreen(c)).join(' and ')} in modules`)
+      // log.info(`${logGreen('⏳')} merging ${mergeModuleAction.map(c => logGreen(c)).join(' and ')} in modules`)
     }
 
     const contexts = []
@@ -104,7 +113,7 @@ if (fs.existsSync(configFilePath)) {
             withDbProvider
           )
 
-          log.info(`${logGreen('⏳')} merging ${logGreen('Contexts')}`)
+          // log.info(`${logGreen('⏳')} merging ${logGreen('Contexts')}`)
           providersFiles.forEach(providerFile => {
             if (providerFile.startsWith('_ctx')) {
               const ctxName = providerFile.replace('_ctx', '').replace('.ts', '')
@@ -114,11 +123,14 @@ if (fs.existsSync(configFilePath)) {
         }
 
         if (mergeModuleAction.length > 0) {
-          log.info(
-            `${logGreen('✔')} merged - ${logGreen(pad(typedefsFilesLength, 2))} Typedefs | ${logGreen(
-              pad(resolversFilesLength, 2)
-            )} Resolvers | ${logGreen(pad(contextsFilesLength, 2))} Contexts for [${logGreen(name)}]`
-          )
+          meta.typedefs += typedefsFilesLength
+          meta.resolvers += resolversFilesLength
+          meta.contexts += contextsFilesLength
+          // log.info(
+          //   `${logGreen('✔')} merged - ${logGreen(pad(typedefsFilesLength, 2))} Typedefs | ${logGreen(
+          //     pad(resolversFilesLength, 2)
+          //   )} Resolvers | ${logGreen(pad(contextsFilesLength, 2))} Contexts for [${logGreen(name)}]`
+          // )
         }
 
         modules.push({ directory, name })
@@ -127,14 +139,14 @@ if (fs.existsSync(configFilePath)) {
 
     // mergeContexts
     if (config.actions.mergeContexts) {
-      log.info(`${logGreen('⏳')} merging ${logGreen('Contexts')}`)
+      // log.info(`${logGreen('⏳')} merging ${logGreen('Contexts')}`)
       actionContext(contexts, outputFolder)
 
-      log.info(
-        `${logGreen('✔')} merged ${logGreen(pad(contexts.length, 2))} contexts [${contexts
-          .map(c => logGreen(c.moduleName + '#' + c.ctxName))
-          .join(',')}]`
-      )
+      // log.info(
+      //   `${logGreen('✔')} merged ${logGreen(pad(contexts.length, 2))} contexts [${contexts
+      //     .map(c => logGreen(c.moduleName + '#' + c.ctxName))
+      //     .join(',')}]`
+      // )
     }
 
     // "if" or collapsing purpose
@@ -173,13 +185,14 @@ if (fs.existsSync(configFilePath)) {
 
     // mergeModules
     if (config.actions.mergeModules) {
-      log.info(`${logGreen('⏳')} merging ${logGreen('Modules')}`)
+      // log.info(`${logGreen('⏳')} merging ${logGreen('Modules')}`)
       actionModules(modules, outputFolder)
-      log.info(
-        `${logGreen('✔')} merged ${logGreen(pad(modules.length, 2))} modules [${modules
-          .map(c => logGreen(c))
-          .join(',')}]`
-      )
+      meta.modules = modules.length
+      // log.info(
+      //   `${logGreen('✔')} merged ${logGreen(pad(modules.length, 2))} modules [${modules
+      //     .map(c => logGreen(c))
+      //     .join(',')}]`
+      // )
     }
   })
 
@@ -190,4 +203,12 @@ if (fs.existsSync(configFilePath)) {
 }
 
 // Done
-log.info(`${logGreen('✔')} finished ${logGreen('successfully')}`)
+// log.info(`${logGreen('✔')} finished ${logGreen('successfully')}`)
+log.info(
+  `${logGreen('✔')} success ` +
+    `[${logGreen('' + meta.modules)} modules, ` +
+    `${logGreen('' + meta.enums)} enums, ` +
+    `${logGreen('' + meta.typedefs)} typedefs, ` +
+    `${logGreen('' + meta.resolvers)} resolvers, ` +
+    `${logGreen('' + meta.contexts)} contexts]`
+)

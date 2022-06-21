@@ -6,9 +6,10 @@ generates:
     actions:
       createEnumsModule:
         prismaFile: apps/firstApp/prisma/schema.prisma
+        enumsModuleFolder: /home/jycouet/udev/gh/my-minion-mr/apps/capa/src/lib/modules
       mergeModuleTypedefs: true
       mergeModuleResolvers: true
-      mergeContexts: true
+      mergeContexts: false
       mergeModules: true
 
     moduleOutputFolder: _gen

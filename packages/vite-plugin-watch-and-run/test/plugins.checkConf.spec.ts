@@ -23,11 +23,11 @@ describe('vite-plugin-watch-and-run', () => {
     expect(t).toThrowErrorMatchingInlineSnapshot('"plugin watch-and-run, `run` is missing."')
   })
 
-  it('Should have a valid conf, with default delay:500', async () => {
+  it('Should have a valid conf, with default delay:300', async () => {
     const watch = '**/*.(gql|graphql)'
     const plugin = watchAndRun([{ watch, run: 'yarn gen' }])
 
-    expect(plugin.watchAndRunConf).to.have.property(watch).to.have.property('delay', 500)
+    expect(plugin.watchAndRunConf).to.have.property(watch).to.have.property('delay', 300)
   })
 
   it('Should have a valid conf, with delay 0', async () => {

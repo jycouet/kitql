@@ -11,6 +11,7 @@
   "license": "MIT",
   "scripts": {
     "dev": "cd ../.. && yarn build && cd packages/module-codegen && node ./dist/index.mjs",
+    "start": "node ./dist/index.mjs",
     "prepack": "bob prepack"
   },
   "devDependencies": {
