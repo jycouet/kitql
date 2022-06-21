@@ -1,5 +1,11 @@
 # @kitql/vite-plugin-watch-and-run
 
+## 0.3.6
+
+### Patch Changes
+
+- [`f2057f7`](https://github.com/jycouet/kitql/commit/f2057f76bb6a9caa90b28af83f4e99b83617d638) Thanks [@jycouet](https://github.com/jycouet)! - color update
+
 ## 0.3.5
 
 ### Patch Changes
