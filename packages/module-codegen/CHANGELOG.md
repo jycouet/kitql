@@ -1,5 +1,11 @@
 # @kitql/module-codegen
 
+## 0.3.6
+
+### Patch Changes
+
+- cd96d71: logs light
+
 ## 0.3.5
 
 ### Patch Changes

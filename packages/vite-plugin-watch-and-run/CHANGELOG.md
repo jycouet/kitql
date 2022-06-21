@@ -1,5 +1,11 @@
 # @kitql/vite-plugin-watch-and-run
 
+## 0.3.5
+
+### Patch Changes
+
+- cd96d71: add prefix log for tools watched
+
 ## 0.3.4
 
 ### Patch Changes
