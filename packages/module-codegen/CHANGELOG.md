@@ -1,5 +1,11 @@
 # @kitql/module-codegen
 
+## 0.3.7
+
+### Patch Changes
+
+- [`f2057f7`](https://github.com/jycouet/kitql/commit/f2057f76bb6a9caa90b28af83f4e99b83617d638) Thanks [@jycouet](https://github.com/jycouet)! - folder creation if doesn't exist
+
 ## 0.3.6
 
 ### Patch Changes
