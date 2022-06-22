@@ -1,5 +1,15 @@
 # @kitql/client
 
+## 0.5.11
+
+### Patch Changes
+
+- [`cef5c74`](https://github.com/jycouet/kitql/commit/cef5c741d70d403bbb840e61afedf958586a2307) Thanks [@jycouet](https://github.com/jycouet)! - bump codegen tools
+
+- Updated dependencies [[`cef5c74`](https://github.com/jycouet/kitql/commit/cef5c741d70d403bbb840e61afedf958586a2307)]:
+  - @kitql/all-in@0.6.11
+  - @kitql/helper@0.3.5
+
 ## 0.5.10
 
 ### Patch Changes

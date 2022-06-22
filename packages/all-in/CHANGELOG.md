@@ -1,5 +1,17 @@
 # @kitql/all-in
 
+## 0.6.11
+
+### Patch Changes
+
+- [`cef5c74`](https://github.com/jycouet/kitql/commit/cef5c741d70d403bbb840e61afedf958586a2307) Thanks [@jycouet](https://github.com/jycouet)! - bump codegen tools
+
+- Updated dependencies [[`cef5c74`](https://github.com/jycouet/kitql/commit/cef5c741d70d403bbb840e61afedf958586a2307)]:
+  - @kitql/client@0.5.11
+  - @kitql/graphql-codegen@0.5.3
+  - @kitql/module-codegen@0.3.8
+  - @kitql/vite-plugin-watch-and-run@0.3.7
+
 ## 0.6.10
 
 ### Patch Changes

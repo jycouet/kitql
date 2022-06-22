@@ -1,5 +1,11 @@
 # @kitql/website
 
+## 0.0.2
+
+### Patch Changes
+
+- [`cef5c74`](https://github.com/jycouet/kitql/commit/cef5c741d70d403bbb840e61afedf958586a2307) Thanks [@jycouet](https://github.com/jycouet)! - bump codegen tools
+
 ## 0.0.1
 
 ### Patch Changes
