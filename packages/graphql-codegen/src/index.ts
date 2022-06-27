@@ -13,12 +13,14 @@ function getOperationSuffix(
   return omitOperationSuffix
     ? ''
     : dedupeOperationSuffix && operationName.toLowerCase().endsWith(operationType.toLowerCase())
-    ? ''
-    : operationType
+      ? ''
+      : operationType
 }
 
 export const plugin: PluginFunction<Record<string, any>, Types.ComplexPluginOutput> = (schema, documents, config) => {
   config = config ?? {}
+
+  console.info('This lib was deprecated check https://www.kitql.dev/docs/migrating-to-0.7.0 to upgrade.')
 
   const allAst = concatAST(documents.map(v => v.document))
   const convertName = convertFactory(config)
@@ -64,8 +66,7 @@ export const plugin: PluginFunction<Record<string, any>, Types.ComplexPluginOutp
         lines.push(``)
         lines.push(`	// prettier-ignore`)
         lines.push(
-          `	const { subscribe, set, update } = writable${
-            jsDocStyle ? `` : `<RequestResult<${kqltypeQueryAndVariable}>>`
+          `	const { subscribe, set, update } = writable${jsDocStyle ? `` : `<RequestResult<${kqltypeQueryAndVariable}>>`
           }({...defaultStoreValue, operationName, operationType});`
         )
 
@@ -73,10 +74,10 @@ export const plugin: PluginFunction<Record<string, any>, Types.ComplexPluginOutp
 
         lines.push(`		async function ${fnKeyword}Local(`)
         // prettier-ignore
-        lines.push(`			params${jsDocStyle ? `` : `?: Request${node.operation === 'query' ? 'Query': ''}Parameters<${kqltypeVariable}>`}`);
+        lines.push(`			params${jsDocStyle ? `` : `?: Request${node.operation === 'query' ? 'Query' : ''}Parameters<${kqltypeVariable}>`}`);
         lines.push(`		)${jsDocStyle ? `` : `: Promise<RequestResult<${kqltypeQueryAndVariable}>>`} {`)
         // prettier-ignore
-        lines.push(`			let { fetch, variables${node.operation === 'query' ? ', settings': ''} } = params ?? {};`);
+        lines.push(`			let { fetch, variables${node.operation === 'query' ? ', settings' : ''} } = params ?? {};`);
         if (node.operation === 'query') {
           lines.push(`			let { cacheMs, policy } = settings ?? {};`)
         }
@@ -266,13 +267,11 @@ export const plugin: PluginFunction<Record<string, any>, Types.ComplexPluginOutp
   }
   prepend.push(
     `import { defaultStoreValue, RequestStatus, ResponseResultType` +
-      `${
-        jsDocStyle
-          ? ``
-          : `, type PatchType${
-              kqlStoresMutation.length > 0 ? ', type RequestParameters' : ''
-            }, type RequestQueryParameters, type RequestResult`
-      } } from '@kitql/client';`
+    `${jsDocStyle
+      ? ``
+      : `, type PatchType${kqlStoresMutation.length > 0 ? ', type RequestParameters' : ''
+      }, type RequestQueryParameters, type RequestResult`
+    } } from '@kitql/client';`
   )
   prepend.push(`import { get, writable } from 'svelte/store';`)
   prepend.push(`import { kitQLClient } from '${clientPath}';`)
