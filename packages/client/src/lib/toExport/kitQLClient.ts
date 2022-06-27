@@ -164,7 +164,9 @@ export class KitQLClient<HeadersType extends Record<string, string>> {
 		this.endpointSSRDelayMs = endpointSSRDelayMs ?? 0;
 
 		this.log = new Log('KitQL Client');
-		this.log.info('This lib was deprecated check https://www.kitql.dev/docs/migrating-to-0.7.0 to upgrade.')
+		this.log.info(
+			'This lib was deprecated check https://www.kitql.dev/docs/migrating-to-0.7.0 to upgrade.'
+		);
 	}
 
 	public getHeaders(): HeadersType {
@@ -180,8 +182,8 @@ export class KitQLClient<HeadersType extends Record<string, string>> {
 			// `${logCyan('Mode:')} ` +
 			// 	`${logGreen(browser ? 'browser' : 'server')}, ` +
 			`${logCyan('From:')} ${logGreen(from)}, ${new Array(7 - from.length + 1).join(' ')}` +
-			`${logCyan('Operation:')} ${logGreen(operation)}` +
-			`${variables ? `, ${logCyan('Variables:')} ${logGreen(variables)}` : ``}`
+				`${logCyan('Operation:')} ${logGreen(operation)}` +
+				`${variables ? `, ${logCyan('Variables:')} ${logGreen(variables)}` : ``}`
 		);
 	}
 
@@ -246,21 +248,21 @@ export class KitQLClient<HeadersType extends Record<string, string>> {
 		if (!browser && !skFetch) {
 			this.log.error(
 				`I think that either:` +
-				`\n\t${logRed(`1/`)} you forgot to provide \`${logYellow(
-					`fetch`
-				)}\`! As we are in SSR here. ` +
-				`\n\t   It should be something like:` +
-				`\n` +
-				`\n\t<script context="module" lang="ts">` +
-				`\n\t  export async function load({ ${logYellow(`fetch`)} }) {` +
-				`\n\t    ${logYellow('await')} ${logCyan(operationName)}.queryLoad({ ${logYellow(
-					`fetch`
-				)}, variables: { ... } });` +
-				`\n\t    return {};` +
-				`\n\t  }` +
-				`\n\t</script>` +
-				`\n` +
-				`\n\t${logRed(`2/`)} you should run this in a browser only.`
+					`\n\t${logRed(`1/`)} you forgot to provide \`${logYellow(
+						`fetch`
+					)}\`! As we are in SSR here. ` +
+					`\n\t   It should be something like:` +
+					`\n` +
+					`\n\t<script context="module" lang="ts">` +
+					`\n\t  export async function load({ ${logYellow(`fetch`)} }) {` +
+					`\n\t    ${logYellow('await')} ${logCyan(operationName)}.queryLoad({ ${logYellow(
+						`fetch`
+					)}, variables: { ... } });` +
+					`\n\t    return {};` +
+					`\n\t  }` +
+					`\n\t</script>` +
+					`\n` +
+					`\n\t${logRed(`2/`)} you should run this in a browser only.`
 			);
 		}
 		const fetchToUse = skFetch ? skFetch : fetch;
@@ -349,7 +351,7 @@ export class KitQLClient<HeadersType extends Record<string, string>> {
 		if (browserAndWantLog) {
 			this.log.info(
 				`${logCyan(`${key}:`)} ${logGreen(value)}, ` +
-				`${logCyan('Operation:')} ${logGreen(operationName)}`
+					`${logCyan('Operation:')} ${logGreen(operationName)}`
 			);
 		}
 	}

@@ -13,8 +13,8 @@ function getOperationSuffix(
   return omitOperationSuffix
     ? ''
     : dedupeOperationSuffix && operationName.toLowerCase().endsWith(operationType.toLowerCase())
-      ? ''
-      : operationType
+    ? ''
+    : operationType
 }
 
 export const plugin: PluginFunction<Record<string, any>, Types.ComplexPluginOutput> = (schema, documents, config) => {
@@ -66,7 +66,8 @@ export const plugin: PluginFunction<Record<string, any>, Types.ComplexPluginOutp
         lines.push(``)
         lines.push(`	// prettier-ignore`)
         lines.push(
-          `	const { subscribe, set, update } = writable${jsDocStyle ? `` : `<RequestResult<${kqltypeQueryAndVariable}>>`
+          `	const { subscribe, set, update } = writable${
+            jsDocStyle ? `` : `<RequestResult<${kqltypeQueryAndVariable}>>`
           }({...defaultStoreValue, operationName, operationType});`
         )
 
@@ -267,11 +268,13 @@ export const plugin: PluginFunction<Record<string, any>, Types.ComplexPluginOutp
   }
   prepend.push(
     `import { defaultStoreValue, RequestStatus, ResponseResultType` +
-    `${jsDocStyle
-      ? ``
-      : `, type PatchType${kqlStoresMutation.length > 0 ? ', type RequestParameters' : ''
-      }, type RequestQueryParameters, type RequestResult`
-    } } from '@kitql/client';`
+      `${
+        jsDocStyle
+          ? ``
+          : `, type PatchType${
+              kqlStoresMutation.length > 0 ? ', type RequestParameters' : ''
+            }, type RequestQueryParameters, type RequestResult`
+      } } from '@kitql/client';`
   )
   prepend.push(`import { get, writable } from 'svelte/store';`)
   prepend.push(`import { kitQLClient } from '${clientPath}';`)

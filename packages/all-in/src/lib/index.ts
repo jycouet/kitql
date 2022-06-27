@@ -1,1 +1,1 @@
-export { default as KitQLInfo } from './KitQLInfo.svelte';
+export { default as KitQLInfo } from './KitQLInfo.svelte'
