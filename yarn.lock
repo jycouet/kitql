@@ -1829,7 +1829,7 @@
     "@changesets/types" "^5.0.0"
     dotenv "^8.1.0"
 
-"@changesets/cli@2.23.0", "@changesets/cli@^2.22.0":
+"@changesets/cli@2.23.0":
   version "2.23.0"
   resolved "https://registry.yarnpkg.com/@changesets/cli/-/cli-2.23.0.tgz#e325b2d1b0484188671f684773b8cd5d42d068f1"
   integrity sha512-Gi3tMi0Vr6eNd8GX6q73tbOm9XOzGfuLEm4PYVeWG2neg5DlRGNOjYwrFULJ/An3N9MHtHn4r5h1Qvnju9Ijug==
@@ -2795,6 +2795,27 @@
     "@jridgewell/resolve-uri" "^3.0.3"
     "@jridgewell/sourcemap-codec" "^1.4.10"
 
+"@kitql/all-in@0.6.11":
+  version "0.6.11"
+  resolved "https://registry.yarnpkg.com/@kitql/all-in/-/all-in-0.6.11.tgz#22398c8af35ad7185f219c5089e3d1f6ad6de5a8"
+  integrity sha512-PvaQ0o8BPMDx1wwOeH1NQwKi1OB8wmLiqBJrn8a9QkRsd1hJx3/e0Xmic+rwcNbHNp34G8zXuvM5795jnU9RUg==
+  dependencies:
+    "@graphql-codegen/cli" "2.6.2"
+    "@graphql-codegen/graphql-modules-preset" "2.3.13"
+    "@graphql-codegen/introspection" "2.1.1"
+    "@graphql-codegen/typed-document-node" "2.2.13"
+    "@graphql-codegen/typescript" "2.5.1"
+    "@graphql-codegen/typescript-document-nodes" "2.2.13"
+    "@graphql-codegen/typescript-operations" "2.4.2"
+    "@graphql-codegen/typescript-resolvers" "2.6.6"
+    "@graphql-eslint/eslint-plugin" "3.10.4"
+    "@graphql-typed-document-node/core" "3.1.1"
+    "@kitql/client" "0.5.11"
+    "@kitql/graphql-codegen" "0.5.3"
+    "@kitql/module-codegen" "0.3.8"
+    "@kitql/vite-plugin-watch-and-run" "0.3.7"
+    graphql "16.5.0"
+
 "@manypkg/find-root@^1.1.0":
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/@manypkg/find-root/-/find-root-1.1.0.tgz#a62d8ed1cd7e7d4c11d9d52a8397460b5d4ad29f"
@@ -3698,13 +3719,6 @@
   version "1.2.2"
   resolved "https://registry.yarnpkg.com/@types/minimist/-/minimist-1.2.2.tgz#ee771e2ba4b3dc5b372935d549fd9617bf345b8c"
   integrity sha512-jhuKLIRrhvCPLqwPcx6INqmKeiA5EWrsCOPhrlFSrbrmU4ZMPjj5Ul/oLCMDO98XRUIwVm78xICz4EPCektzeQ==
-
-"@types/mock-fs@^4.13.0":
-  version "4.13.1"
-  resolved "https://registry.yarnpkg.com/@types/mock-fs/-/mock-fs-4.13.1.tgz#9201554ceb23671badbfa8ac3f1fa9e0706305be"
-  integrity sha512-m6nFAJ3lBSnqbvDZioawRvpLXSaPyn52Srf7OfzjubYbYX8MTUdIgDxQl0wEapm4m/pNYSd9TXocpQ0TvZFlYA==
-  dependencies:
-    "@types/node" "*"
 
 "@types/ms@*":
   version "0.7.31"
@@ -7818,16 +7832,14 @@ hosted-git-info@^4.0.1:
   dependencies:
     lru-cache "^6.0.0"
 
-houdini@0.14.8:
-  version "0.14.8"
-  resolved "https://registry.yarnpkg.com/houdini/-/houdini-0.14.8.tgz#645e018da3e223ebbbb858dde26a326f7929f37a"
-  integrity sha512-v9OgEf9lUmMpy2b2Ua2jzw6hTFkm/44ICqa/G/WuQraks8Me4MJ1KZvjfZLpVfXzpqncSg5kFXXcpJhAzEkH4g==
+houdini@0.15.0-next.24:
+  version "0.15.0-next.24"
+  resolved "https://registry.yarnpkg.com/houdini/-/houdini-0.15.0-next.24.tgz#eba5dcbbf07e2f51217fa9661108854bf9afcf8d"
+  integrity sha512-FrbvRmPcc6TrNAlqBKvnj7rC4uOHVsRolb+6sWo+aIR+avI0Uuta4/Vvta1ybBHyDDvnb7DGOgEdpok3jPnB6g==
   dependencies:
     "@babel/parser" "^7.17.2"
-    "@changesets/changelog-git" "^0.1.11"
-    "@changesets/cli" "^2.22.0"
     "@graphql-tools/schema" "^8.3.7"
-    "@types/mock-fs" "^4.13.0"
+    "@kitql/helper" "^0.3.4"
     babylon "^7.0.0-beta.47"
     commander "^7.1.0"
     estree-walker "^2.0.2"
