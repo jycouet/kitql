@@ -1,7 +1,7 @@
 <script context="module" lang="ts">
-	export async function load({}) {
-		return {};
-	}
+	import { houdiniClient } from '$graphql/client';
+
+	houdiniClient.init();
 </script>
 
 <svelte:head>
@@ -11,7 +11,7 @@
 <h1 class="vAlign">Welcome to KitQL <img class="ml-1" src="./logo.svg" alt="logo KitQL" /></h1>
 
 <p>
-	Visit <a target="_blanck" href="https://github.com/jycouet/kitql">Github KitQL</a> to read the documentation
+	Visit <a target="_blanck" href="https://github.com/jycouet/kitql">KitQL</a> Github to read the documentation
 </p>
 
 <hr />

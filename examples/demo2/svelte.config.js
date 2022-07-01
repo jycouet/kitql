@@ -1,5 +1,6 @@
 import watchAndRun from '@kitql/vite-plugin-watch-and-run';
 import adapter from '@sveltejs/adapter-auto';
+import houdini from 'houdini/preprocess';
 import path from 'path';
 import preprocess from 'svelte-preprocess';
 
@@ -7,7 +8,7 @@ import preprocess from 'svelte-preprocess';
 const config = {
 	// Consult https://github.com/sveltejs/svelte-preprocess
 	// for more information about preprocessors
-	preprocess: preprocess(),
+	preprocess: [preprocess(), houdini()],
 
 	kit: {
 		adapter: adapter(),
@@ -15,20 +16,20 @@ const config = {
 		vite: {
 			resolve: {
 				alias: {
-					$lib: path.resolve('./src/lib'),
-					// $layout: path.resolve('./src/lib/components/layout'),
-					// $ui: path.resolve('./src/lib/components/ui'),
+					$houdini: path.resolve('.', '$houdini'),
 					$graphql: path.resolve('./src/lib/graphql'),
 					$modules: path.resolve('./src/lib/modules')
-					// $utils: path.resolve('./src/lib/utils'),
-					// $stores: path.resolve('./src/lib/utils/stores.ts'),
-					// $theme: path.resolve('./src/lib/utils/theme.ts')
+				}
+			},
+			server: {
+				fs: {
+					allow: ['.']
 				}
 			},
 			plugins: [
 				watchAndRun([
 					{
-						watch: '**/*.(gql|graphql)',
+						watch: '**/*.(svelte|gql|graphql)',
 						run: 'npm run gen'
 					}
 				])

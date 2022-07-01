@@ -1,4 +1,4 @@
-import { kitQLServer } from '$graphql/kitQLServer';
+import { yogaServer } from '$graphql/server';
 import type { RequestEvent } from '@sveltejs/kit/types/internal';
 
 export async function get() {
@@ -9,7 +9,5 @@ export async function get() {
 }
 
 export async function post(event: RequestEvent) {
-	return kitQLServer.handleRequest(event.request);
+	return yogaServer.handleRequest(event.request);
 }
-// Not working on node 14.x
-// export { kitQLServer as post };
