@@ -9,6 +9,9 @@ export function getRoutes(): IRoutes {
       'all-in': {
         $name: 'Get started',
       },
+      'migrating-to-0.7.0': {
+        $name: 'Migrating to 0.7.0',
+      },
       usages: {
         $name: 'Usages',
         $routes: ['queries', 'mutations', 'patch', 'tips'],

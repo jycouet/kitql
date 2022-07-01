@@ -31,7 +31,6 @@
 		"eslint": "8.12.0",
 		"eslint-config-prettier": "8.5.0",
 		"eslint-plugin-svelte3": "3.4.1",
-		"graphql-modules": "2.0.0",
 		"prettier": "2.6.1",
 		"prettier-plugin-svelte": "2.6.0",
 		"svelte": "3.46.4",
@@ -41,14 +40,12 @@
 		"typescript": "4.6.3"
 	},
 	"dependencies": {
-		"@envelop/core": "2.1.0",
-		"@envelop/graphql-jit": "4.0.0",
-		"@envelop/graphql-modules": "3.1.0",
-		"@graphql-yoga/common": "2.0.0",
-		"@kitql/all-in": "0.6.1",
+		"@kitql/all-in": "0.7.0-next.3",
 		"date-fns": "2.28.0",
-		"graphql": "16.3.0",
-		"graphql-scalars": "1.16.0"
+		"graphql": "15.8.0"
+	},
+	"resolutions": {
+		"graphql": "15.8.0"
 	},
 	"type": "module",
 	"engines": {

@@ -1,6 +1,6 @@
 {
   "name": "@kitql/all-in",
-  "version": "0.7.0-next.2",
+  "version": "0.7.0-next.3",
   "license": "MIT",
   "repository": {
     "type": "git",
@@ -52,12 +52,13 @@
     "@graphql-yoga/common": "2.10.0",
     "@kitql/module-codegen": "0.3.8",
     "@kitql/vite-plugin-watch-and-run": "0.3.7",
-    "graphql": "16.5.0",
     "graphql-modules": "2.1.0",
     "graphql-scalars": "1.17.0",
     "houdini": "0.15.0-next.24"
   },
-  "peerDependencies": {},
+  "peerDependencies": {
+    "graphql": "^15.0.0 || ^16.0.0"
+  },
   "type": "module",
   "publishConfig": {
     "directory": "dist",

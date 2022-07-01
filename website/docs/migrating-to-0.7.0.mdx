@@ -3,6 +3,13 @@ title: KitQL - Migrating to 0.7.0
 sidebar_label: Migrating to 0.7.0
 ---
 
-1/ The guild Blog poste => Context
+## Welcome to the migration guide.
+If you want a bit more context, please have a look at [THE GUILD BLOG POST](...)
 
-2/ Step by step process
+## Step by step process
+
+1. Bump your `@kitql/all-in` to the latest version `0.7.0`
+
+2. Update your `.graphqlrc.yaml` to remove all client related generation _(Typically `_kitql/graphqlStores.ts`)_.
+
+The plugin `@kitql/graphql-codegen` is not used anymore in favor of [Houdini](https://www.houdinigraphql.com/) cient.
