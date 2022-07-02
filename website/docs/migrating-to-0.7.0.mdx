@@ -3,207 +3,91 @@ title: KitQL - Migrating to 0.7.0
 sidebar_label: Migrating to 0.7.0
 ---
 
-## Welcome to the migration guide.
-If you want a bit more context, please have a look at [THE GUILD BLOG POST](...)
+# Migrating to 0.7.0
 
-## Step by step process
+Lot’s changed in v0.7.0. Hopefully this guide should help you understand those changes as well as
+show you what you should update to work with the new features. If you want some more context about the "why", please have a look at
+the [blog post](https://www.the-guild.dev/blog/houdini-and-kitql) we wrote.
 
-1. Bump your `@kitql/all-in` to the latest version `0.7.0`
+<br />
+## What changed
 
-2. Update your `.graphqlrc.yaml` to remove all client related generation.
+The biggest change for KitQL users is that generated stores are done from Houdini now instead of KitQL Client package.
 
-You can remove all reference to these plugins:
+<br />
+Here is the list of things to update:
+
+1. Bump your `@kitlql/all-in` version to 0.7.0
+
+1. The file `.graphqlrc.yaml` doesn't hold any client info for generation [👇](#graphqlrcyaml-file)
+
+1. Configure Houdini, follow this [guide](/docs/setup/01_houdini). _And comeback here!_
+
+1. Usage update [👇](#usage-update)
+
+---
+
+<br />
+### .graphqlrc.yaml file
+
+- If you were using `KitQL` only in a client context, you should probably strip down your `.graphqlrc.yaml` file down to
+
 ```yaml
-# Typical File for extension: vscode-graphql & CodeGen!
 projects:
+  # You can add multiple projects and generate with -p args
   default:
+    # 👇 For vscode-graphql and intellisense
     schema:
-      - ./src/lib/modules/**/typedefs/*.graphql
-      - ./$houdini/definitions.gql
+      - ./src/**/*.graphql
+      - ./$houdini/graphql/schema.gql
     documents:
-      - ./src/lib/modules/**/graphql/*.gql
-      - ./$houdini/definitions.gql
-    extensions:
-      codegen:
-        generates:
-          ./src/lib/graphql/$kitql/graphqlTypes.ts:
-            plugins:
-              - typescript
-
-          ./src/lib/modules/:
-            preset: graphql-modules
-            presetConfig:
-              baseTypesPath: ../graphql/$kitql/graphqlTypes.ts
-              importBaseTypesFrom: $graphql/$kitql/graphqlTypes
-              filename: $kitql/moduleTypes.ts
-            plugins:
-              - typescript
-              - typescript-resolvers
-            config:
-              contextType: $graphql/kitQLServer#IKitQLContext
-              scalars:
-                Date: ../helpers/scalarTypes#CodegenDate
-                DateTime: Date
-
-        config:
-          useTypeImports: true
+      - ./src/**/*.gql
+      - ./$houdini/graphql/documents.gql
 ```
 
-3. Update `.kitql.yaml`
-```yaml
-generates:
-  ./src/lib/graphql/$kitql:
-    modules:
-      - ./src/lib/modules/*
-    actions:
-      # createEnumsModule:
-      #   prismaFile: ./prisma/schema.prisma
-      mergeModuleTypedefs: true
-      mergeModuleResolvers: true
-      mergeContexts: true
-      mergeModules: true
+<br />
+<br />- If you were already using the server side, follow the config [here](/docs/setup/02_server#code-generator).
 
-    moduleOutputFolder: $kitql
-    importBaseTypesFrom: $graphql/$kitql/graphqlTypes
+<br />
+### Usage update
 
-```
+functions `.query()` & `.queryLoad()` were renamed to `.fetch()`
 
-
-4. udpate `svelte.config.js`
-
-```js
-import watchAndRun from '@kitql/vite-plugin-watch-and-run';
-import adapter from '@sveltejs/adapter-auto';
-import houdini from 'houdini/preprocess';
-import path from 'path';
-import preprocess from 'svelte-preprocess';
-
-/** @type {import('@sveltejs/kit').Config} */
-const config = {
-	// Consult https://github.com/sveltejs/svelte-preprocess
-	// for more information about preprocessors
-	preprocess: [preprocess(), houdini()],
-
-	kit: {
-		adapter: adapter(),
-
-		vite: {
-			resolve: {
-				alias: {
-					$houdini: path.resolve('.', '$houdini'),
-					$graphql: path.resolve('./src/lib/graphql'),
-					$modules: path.resolve('./src/lib/modules')
-				}
-			},
-			server: {
-				fs: {
-					allow: ['.']
-				}
-			},
-			plugins: [
-				watchAndRun([
-					{
-						watch: '**/*.(svelte|gql|graphql)',
-						run: 'npm run gen'
-					}
-				])
-			]
-		}
-	}
-};
-
-export default config;
-
-```
-
-5. create a `houdini.config.js`
-
-```js
-/** @type {import('houdini').ConfigFile} */
-const config = {
-	schemaPath: 'src/**/*.graphql',
-	sourceGlob: 'src/**/*.{svelte,gql}',
-	scalars: {
-	}
-};
-
-export default config;
-```
-
-6. update `tsconfig.json`
-```json
-{
-	"extends": "./.svelte-kit/tsconfig.json",
-	"compilerOptions": {
-		"paths": {
-			"$lib": ["src/lib"],
-			"$lib/*": ["src/lib/*"],
-			"$houdini": ["$houdini"],
-			"$houdini/*": ["$houdini/*"],
-			"$graphql": ["src/lib/graphql"],
-			"$graphql/*": ["src/lib/graphql/*"],
-			"$modules": ["src/lib/modules"],
-			"$modules/*": ["src/lib/modules/*"]
-		}
-	}
-}
-```
-
-7. create `/lib/graphql/client.ts`
-```ts
-import type { RequestHandlerArgs } from '$houdini';
-import { HoudiniClient } from '$houdini';
-
-async function fetchQuery({ fetch, text = '', variables = {}, session, metadata }: RequestHandlerArgs) {
-	const url = import.meta.env.VITE_GRAPHQL_ENDPOINT || '/api/graphql';
-
-	const result = await fetch(url, {
-		method: 'POST',
-		headers: {
-			'Content-Type': 'application/json',
-		},
-		body: JSON.stringify({
-			query: text,
-			variables
-		})
-	});
-
-	return await result.json();
-}
-
-export const houdiniClient = new HoudiniClient(fetchQuery);
-```
-
-8. create `/routes/layout.svelte`
+Before:
 
 ```svelte
 <script context="module" lang="ts">
-	import { houdiniClient } from '$graphql/client';
+  import { KQL_FirstQuery } from '$lib/graphql/_kitql/graphqlStores'
 
-	houdiniClient.init();
+  export async function load({ fetch, url, params, session, stuff }) {
+    await KQL_FirstQuery.queryLoad({ fetch })
+    return {}
+  }
 </script>
 
-```
-
-9. Update store usage
-
-Before:
-```svelte
-import { KQL_Version } from '$lib/graphql/_kitql/graphqlStores';
-
-export async function load({ fetch, url, params, session, stuff }) {
-  await KQL_Version.queryLoad({ fetch });
-	return {};
-}
+{$GQL_FirstQuery.data.hello}
 ```
 
 After:
-```svelte
-import { GQL_Version } from '$houdini';
-import type { LoadEvent } from '@sveltejs/kit';
 
-export async function load(event: LoadEvent) {
-  await GQL_Version.fetch({ event });
-  return {};
-}
+```svelte
+<script context="module" lang="ts">
+  import { browser } from '$app/env'
+  import { GQL_FirstQuery } from '$houdini'
+  import type { LoadEvent } from '@sveltejs/kit'
+
+  export async function load(event: LoadEvent) {
+    await GQL_FirstQuery.fetch({ event })
+    return {}
+  }
+</script>
+
+<script>
+  $: browser && GQL_FirstQuery.fetch()
+</script>
+
+{$GQL_FirstQuery.data.hello}
 ```
+
+<br />
+You can check the usage of queries [here](/docs/usages/queries).

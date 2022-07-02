@@ -3,10 +3,10 @@ projects:
   default:
     schema:
       - ./src/lib/modules/**/typedefs/*.graphql
-      - ./$houdini/definitions.gql
+      - ./$houdini/graphql/schema.gql
     documents:
       - ./src/lib/modules/**/graphql/*.gql
-      # - ./$houdini/definitions.gql
+      - ./$houdini/graphql/documents.gql
     extensions:
       codegen:
         generates:

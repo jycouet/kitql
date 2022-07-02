@@ -5,148 +5,51 @@ sidebar_label: Getting started => All-In
 
 # ⚡Let's go All-In!
 
-### 1️⃣ In a SvelteKit project, install everything in one cmd!
+KitQL is primarily a list of tools/projects working together. You can opt-in or out of each any time,
+but we think that here you will find the _best in class_ way to do graphql from top to bottom!
 
-(step 0️ if not done, create a [sveltekit project](https://kit.svelte.dev/) with everything `true` 🙃)
+_In order to not repeat ourself **20** times, we have a dedicated page per package and the overview here 👍_
+
+<br />
+## Create SvelteKit project
+
+Create a new SvelteKit project or upgrade to a least `next-350` version.
+
+```sh
+npm create svelte my-app
+```
+
+We recommend typescript, eslint, playwrite, ... so answer `yes` to everything 🙃!
+
+<br />
+## Install `KitQL`
+
+The package `@kitql/all-in` will add all your dependencies so that you can worry only about your app!
 
 <PackageInstall packages={['@kitql/all-in']} />
 
-<p>&nbsp;</p>
+Then depending on your needs, you can configure packages individually.
 
-### 2️⃣ Create a `.graphqlrc.yaml` at the root of your project
+<br />
+## Configuration by package
 
-```yaml
-# Typical File for extension: vscode-graphql & CodeGen!
-projects:
-  default:
-    schema:
-			# If you have the introspection file already here:
-      - ./src/lib/graphql/schema.json
-			# If not, you can get the schema from the server with some thing like:
-			# - https://countries.trevorblades.com/graphql
-			# More options here https://www.graphql-code-generator.com/docs/config-reference/schema-field
-    documents:
-      - '**/*.gql'
-    extensions:
-      codegen:
-        generates:
-          ./src/lib/graphql/_kitql/graphqlTypes.ts:
-            plugins:
-              - typescript
-              - typescript-operations
-              - typed-document-node
-              - typescript-document-nodes
+### GraphQL Client - Houdini
 
-          ./src/lib/graphql/_kitql/graphqlStores.ts:
-            plugins:
-              - '@kitql/graphql-codegen'
-            config:
-              importBaseTypesFrom: $lib/graphql/_kitql/graphqlTypes
-```
+This package will take care of the frontend part of GraphQL. Typically, you will be able to
+use `queries`, `mutations` and `subscriptions` in your components & routes in an effortless manner!
 
-If you want more example, check the [Demo 1](https://raw.githubusercontent.com/jycouet/kitql/main/examples/demo1/.graphqlrc.yaml) file.
+--> [Configuration guide](/docs/setup/01_houdini)
 
-<p>&nbsp;</p>
+<br />
+### GraphQL Server
 
-### 3️⃣ update your `package.json` to generate everything
+This set of packages will take care of the backend part of GraphQL in SvelteKit
 
-```json
-"scripts": {
-  "prepare": "svelte-kit sync && npm run gen",
-  "gen": "graphql-codegen --config ./.graphqlrc.yaml",
-}
-```
+--> [Configuration guide](/docs/setup/02_server)
 
-<p>&nbsp;</p>
+<br />
+### Vite Plugin - watch and run
 
-### 4️⃣ Install “Watch & Run” plugin
+This package will watch some files and trigger a command. We will use it to regenerate some graphql on some files changes.
 
-In your `svelte.config.js` add a watchAndRun with the following configuration:
-
-```js
-import watchAndRun from '@kitql/vite-plugin-watch-and-run'
-
-/** @type {import('@sveltejs/kit').Config} */
-const config = {
-  kit: {
-    vite: {
-      plugins: [
-        watchAndRun([
-          {
-            watch: '**/*.(gql|graphql)',
-            run: 'npm run gen'
-          }
-        ])
-      ]
-    }
-  }
-}
-
-export default config
-```
-
-<p>&nbsp;</p>
-
-### 5️⃣ Create `$lib/graphql/kitQLClient.js`
-
-```js
-import { KitQLClient } from '@kitql/client';
-
-export const kitQLClient = new KitQLClient({
-	url: `https://countries.trevorblades.com/graphql`, # Your GraphQL server URL
-	headersContentType: 'application/json',
-	logType: ['client', 'server', 'operationAndvariables']
-});
-```
-
-<p>&nbsp;</p>
-
-### 6️⃣ Run
-
-```bash
-yarn dev
-```
-
-<p>&nbsp;</p>
-
-### 7️⃣ Create your first GraphQL operation
-
-```graphql
-# $lib/graphql/operations/AllContinents_QUERY.gql
-
-query AllContinents {
-  continents {
-    name
-    code
-  }
-}
-```
-
-<p>&nbsp;</p>
-
-### 8️⃣ Use your operation
-
-```html
-<!-- For SSR -->
-<script context="module" lang="ts">
-  import { KQL_AllContinents } from '$lib/graphql/_kitql/graphqlStores'
-  export async function load({ fetch }) {
-    await KQL_AllContinents.queryLoad({ fetch }) // Filling the store
-    return {}
-  }
-</script>
-
-<!-- Or in a svelte component -->
-<script lang="ts">
-  await KQL_AllContinents.query() // Filling the store
-</script>
-
-<!-- Using the store where you want in the app -->
-<ul>
-  {#each $KQL_AllContinents.data?.continents as continent}
-  <li>
-    <p>{continent?.name}</p>
-  </li>
-  {/each}
-</ul>
-```
+--> [Configuration guide](/docs/setup/03_vite-plugin-watch-and-run)
