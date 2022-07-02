@@ -1,19 +1,19 @@
 <script lang="ts">
-	import { KQL_AllCountriesOfContinent } from '$lib/graphql/_kitql/graphqlStores';
+	import { GQL_AllCountriesOfContinent } from '$houdini';
 </script>
 
 <div>
 	<h2>
-		{#if $KQL_AllCountriesOfContinent.data}
-			Continent: {$KQL_AllCountriesOfContinent.data?.continent?.name}
+		{#if $GQL_AllCountriesOfContinent.data}
+			Continent: {$GQL_AllCountriesOfContinent.data?.continent?.name}
 		{:else}
 			<i>Loading...</i>
 		{/if}
 	</h2>
 
-	{#if $KQL_AllCountriesOfContinent.data?.continent}
+	{#if $GQL_AllCountriesOfContinent.data?.continent}
 		<ul>
-			{#each $KQL_AllCountriesOfContinent.data?.continent?.countries ?? [] as country, i}
+			{#each $GQL_AllCountriesOfContinent.data?.continent?.countries ?? [] as country}
 				<li>
 					{country.name}
 				</li>

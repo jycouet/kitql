@@ -1,14 +1,14 @@
-<script lang="ts">
-	import { KQL__Init } from '$lib/graphql/_kitql/graphqlStores';
+<script context="module" lang="ts">
+	import { houdiniClient } from '$graphql/client';
 
-	// KQL__Init();
+	houdiniClient.init();
 </script>
 
 <svelte:head>
 	<title>KitQL</title>
 </svelte:head>
 
-<h1 class="vAlign">Welcome to KitQL <img class="ml-1" src="./logo.svg" alt="logo KitQL" /></h1>
+<h1 class="vAlign">Welcome to KitQL <img class="ml-1" src="/logo.svg" alt="logo KitQL" /></h1>
 
 <p>
 	Visit <a target="_blanck" href="https://github.com/jycouet/kitql">Github KitQL</a> to read the documentation
