@@ -25,12 +25,12 @@ You have to create `houdini.config.js` beside `svelte.config.js` that will hold 
 
 /** @type {import('houdini').ConfigFile} \*/
 const config = {
-schemaPath: 'src/**/_.graphql',
-sourceGlob: 'src/\*\*/_.{svelte,gql}',
-scalars: {
-// Houdini will help you with this part when you will `generate`
-// No worries 😉
-}
+	schemaPath: 'src/**/*.graphql',
+	sourceGlob: 'src/**/*.{svelte,gql}',
+	scalars: {
+		// Houdini will help you with this part when you will `generate`
+		// No worries 😉
+	}
 };
 
 export default config;
@@ -56,22 +56,22 @@ import preprocess from 'svelte-preprocess'
 const config = {
 preprocess: [preprocess(), houdini()],
 
-    kit: {
-    	adapter: adapter(),
+	kit: {
+		adapter: adapter(),
 
-    	vite: {
-    		resolve: {
-    			alias: {
-    				$houdini: path.resolve('.', '$houdini'),
-    			}
-    		},
-    		server: {
-    			fs: {
-    				allow: ['.']
-    			}
-    		},
-    	}
-    }
+		vite: {
+			resolve: {
+				alias: {
+					$houdini: path.resolve('.', '$houdini'),
+				}
+			},
+			server: {
+				fs: {
+					allow: ['.']
+				}
+			},
+		}
+	}
 
 };
 
@@ -84,20 +84,21 @@ export default config;
 1. Adding `$houdini` and `$houdini/*` to help typescript revolving these paths.
 
 <br />
-```json /* file: tsconfig.json */
+```json 
+/* file: tsconfig.json */
 
 {
-"extends": "./.svelte-kit/tsconfig.json",
-"compilerOptions": {
-"paths": {
-"$lib": ["src/lib"],
-			"$lib/_": ["src/lib/_"],
-"$graphql": ["src/graphql"],
-			"$graphql/_": ["src/graphql/_"],
-"$houdini": ["$houdini"],
-"$houdini/*": ["$houdini/\*"],
-}
-}
+	"extends": "./.svelte-kit/tsconfig.json",
+	"compilerOptions": {
+		"paths": {
+			"$lib": ["src/lib"],
+			"$lib/*": ["src/lib/*"],
+			"$graphql": ["src/lib/graphql"],
+			"$graphql/*": ["src/lib/graphql/*"],
+			"$houdini": ["$houdini"],
+			"$houdini/*": ["$houdini/*"],
+		}
+	}
 }
 
 ````
@@ -144,7 +145,8 @@ To enable the client everywhere add:
 ```svelte /* file: src/routes/__layout.svelte */
 
 <script context="module" lang="ts">
-  import {houdiniClient} from '$graphql/client'; houdiniClient.init();
+	import {houdiniClient} from '$graphql/client'; 
+	houdiniClient.init();
 </script>
 
 ````
@@ -160,13 +162,19 @@ Usually, we add it in the `package.json` like below, to be able to extend the `g
 {
   // ...
   "scripts": {
-		"prepare": "svelte-kit sync && npm run gen",
+    "prepare": "svelte-kit sync && npm run gen",
     "gen": "yarn gen:houdini",
     "gen:houdini": "houdini generate",
   }
   // ...
 }
 ````
+
+<br />
+### .gitignore
+
+Add `$houdini` in .gitignore.
+
 
 <br />
 ## Next step?

@@ -23,6 +23,8 @@ Here is the list of things to update:
 
 1. Configure Houdini, follow this [guide](/docs/setup/01_houdini). _And comeback here!_
 
+1. To migrate a big project, you can in `houdini.config.js` add `disableMasking: true`
+
 1. Usage update [👇](#usage-update)
 
 ---
@@ -45,13 +47,20 @@ projects:
       - ./$houdini/graphql/documents.gql
 ```
 
-<br />
-<br />- If you were already using the server side, follow the config [here](/docs/setup/02_server#code-generator).
+Do not forget to remove the generate cmd of your `package.json`. (`graphql-codegen --config ./.graphqlrc.yaml`)
+
+
+<br /><br />
+- If you were already using the server side, follow the config [here](/docs/setup/02_server#code-generator).
+
 
 <br />
 ### Usage update
 
-functions `.query()` & `.queryLoad()` were renamed to `.fetch()`
+1. functions `.query()` & `.queryLoad()` were renamed to `.fetch()`
+1. prefix `KQL_` is now `GQL_`
+1. `$lib/graphql/_kitql/graphqlStores` is most of the case replaced by `$houdini`
+
 
 Before:
 
