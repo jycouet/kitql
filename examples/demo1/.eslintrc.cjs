@@ -5,7 +5,6 @@ module.exports = {
 	plugins: ['svelte3', '@typescript-eslint'],
 	// Some preference rules by KitQL
 	rules: {
-		'@typescript-eslint/no-unused-vars': ['error', { argsIgnorePattern: '^_' }],
 		'no-console': ['error', { allow: ['info', 'warn', 'error', 'time', 'timeEnd'] }]
 	},
 	ignorePatterns: ['*.cjs'],
