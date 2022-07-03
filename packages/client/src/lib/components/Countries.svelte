@@ -10,7 +10,8 @@
 				.data?.continent?.code})
 		{/if}
 	</h2>
-	<KitQLInfo store={KQL_AllCountriesOfContinent} />
+
+	<!-- <KitQLInfo store={KQL_AllCountriesOfContinent} /> -->
 
 	{#if $KQL_AllCountriesOfContinent.status === 'LOADING'}
 		Loading...

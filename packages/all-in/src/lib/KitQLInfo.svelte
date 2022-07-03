@@ -5,7 +5,7 @@
   /** store (without the $) */
   export let store: any
 
-  let policy: 'cache-first' | 'cache-only' | 'network-only' | 'cache-and-network' = 'network-only'
+  let policy: 'CacheOrNetwork' | 'CacheAndNetwork' | 'NetworkOnly' | 'CacheOnly' = 'NetworkOnly'
   let visible = false
   let expend = false
   let top = 10
@@ -16,10 +16,10 @@
 
   onMount(() => {
     let ls = lsGet()
-    if (ls && ls[$store.operationName]) {
-      expend = ls[$store.operationName].expend
-      top = ls[$store.operationName].top
-      left = ls[$store.operationName].left
+    if (ls && ls[store.storeName]) {
+      expend = ls[store.storeName].expend
+      top = ls[store.storeName].top
+      left = ls[store.storeName].left
     } else {
       left = window.innerWidth / 2
     }
@@ -39,7 +39,7 @@
     if (!ls) {
       ls = {}
     }
-    ls[$store.operationName] = {
+    ls[store.storeName] = {
       expend,
       top,
       left,
@@ -99,58 +99,34 @@
           }}
           style="text-align: right; cursor: pointer;"
         >
-          {$store.operationName}
+          {store.storeName}
         </td>
       </tr>
       {#if expend}
         <tr>
-          <td>From</td>
-          <td><b>{$store.from}</b></td>
-        </tr>
-        <tr>
-          <td>Status</td>
-          <td><b>{$store.status}</b></td>
+          <td>Source</td>
+          <td><b>{$store.source}</b></td>
         </tr>
         <tr>
           <td>isFetching</td>
           <td><b>{$store.isFetching}</b></td>
         </tr>
         <tr>
-          <td>Date</td>
-          <td><i>{$store.date ? new Date($store.date).toISOString() : '-'}</i></td>
-        </tr>
-        <tr>
-          <td>Variables</td>
-          <td>{stry($store.variables)}</td>
-        </tr>
-        <tr>
           <td colspan="2"><hr /></td>
         </tr>
         <tr>
           <td colspan="2">
-            <button
-              on:click={() => {
-                store.resetCache()
-              }}>Reset</button
-            >
-            |
-            {#if $store.operationType === 'Query'}
+            {#if store.fetch !== undefined}
               <select style="color: black" bind:value={policy}>
-                <option value="cache-first">cache-first</option>
-                <option value="cache-and-network">cache-and-network</option>
-                <option value="network-only">network-only</option>
-                <option value="cache-only">cache-only</option>
+                <option value="CacheOrNetwork">CacheOrNetwork</option>
+                <option value="CacheAndNetwork">CacheAndNetwork</option>
+                <option value="NetworkOnly">NetworkOnly</option>
+                <option value="CacheOnly">CacheOnly</option>
               </select>
               <button
                 on:click={async () => {
-                  await store.query({ settings: { policy } })
-                }}>Query</button
-              >
-            {:else}
-              <button
-                on:click={async () => {
-                  await store.mutate({ settings: { policy } })
-                }}>Mutate</button
+                  await store.fetch({ policy })
+                }}>Fetch</button
               >
             {/if}
           </td>

@@ -19,7 +19,7 @@
 </script>
 
 <!-- Just for debugging -->
-<KitQLInfo store={GQL_Me} />
+<!-- <KitQLInfo store={GQL_Me} /> -->
 
 <!-- Me infos -->
 <div class="row">Me 👇</div>

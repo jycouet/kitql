@@ -18,7 +18,7 @@
 	$: browser && GQL_UserBestRepo.fetch({ variables });
 </script>
 
-<KitQLInfo store={GQL_UserBestRepo} />
+<!-- <KitQLInfo store={GQL_UserBestRepo} /> -->
 
 {#if $GQL_UserBestRepo.data}
 	<GhCard userBestRepoInfo={$GQL_UserBestRepo.data.user} />
