@@ -1,0 +1,32 @@
+---
+title: KitQL - Pagination
+sidebar_label: Pagination
+---
+
+# Pagination
+
+Essentially, you can find two kinds of pagination in your application.
+
+- Page by Page
+- Infinite Scroll
+
+Here is how it looks like:
+
+![pagination](/assets/20220703-Pagination.gif)
+
+<br />
+## Page by page
+
+This not more, not less than a regular query with some variables to control the pagination.
+
+Nothing special here. Note just that Houdini will of course cache results for you, so going back on page 1 will 
+not require a new network call.
+
+
+
+<br />
+## Infinite Scroll
+
+Here, Houdini makes it easy to load more data and append a list. Taking care of already cached data & co.
+
+More information about this can be found directly in [Houdini's documentation](https://www.houdinigraphql.com/guides/pagination).
