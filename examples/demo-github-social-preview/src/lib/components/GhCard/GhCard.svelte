@@ -1,9 +1,9 @@
 <script lang="ts">
 	import { GQL_AddStar, type userBestRepoInfo$data } from '$houdini';
 	import html2canvas from 'html2canvas';
-	import GhImg from '../gh-img/gh-img.svelte';
-	import GhRepoLanguages from '../gh-repo-languages/gh-repo-languages.svelte';
-	import GhStar from '../star/gh-star.svelte';
+	import GhImg from '../GhImg/GhImg.svelte';
+	import GhRepoLanguages from '../GhRepoLanguages/GhRepoLanguages.svelte';
+	import GhStar from '../star/GhStar.svelte';
 
 	export let userBestRepoInfo: userBestRepoInfo$data | null = null;
 

@@ -2,7 +2,7 @@
 	import { browser } from '$app/env';
 	import { GQL_Followers, GQL_Me } from '$houdini';
 	import Followers from '$lib/components/Followers.svelte';
-	import GhImg from '$lib/components/gh-img/gh-img.svelte';
+	import GhImg from '$lib/components/GhImg/GhImg.svelte';
 	import { KitQLInfo } from '@kitql/all-in';
 	import type { LoadEvent } from '@sveltejs/kit';
 

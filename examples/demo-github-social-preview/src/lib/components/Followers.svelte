@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { GQL_Followers } from '$houdini';
-	import GhImg from './gh-img/gh-img.svelte';
+	import GhImg from './GhImg/GhImg.svelte';
 	import ButtonPagination from './pagination/ButtonPagination.svelte';
 
 	// type: FollowersQueryVariables to be used
