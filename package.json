@@ -11,7 +11,7 @@
     "dev:c": "yarn workspace @kitql/client dev",
     "dev:w": "cd website && yarn dev",
     "test": "vitest --coverage",
-    "lint": "eslint --ignore-path .gitignore .",
+    "lint": "eslint --ignore-path .prettierignore .",
     "prettier": "prettier --write --list-different .",
     "prettier:check": "prettier --check .",
     "test:ci": "vitest run --coverage",
