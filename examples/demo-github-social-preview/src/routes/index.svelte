@@ -1,26 +1,29 @@
-<script context="module">
-	/** @type {import('./index').Load} */
-	export async function load({ fetch }) {
-		await KQL_Me.queryLoad({ fetch });
-		await KQL_Followers.queryLoad({ fetch, variables: { first: 5 } });
+<script context="module" lang="ts">
+	import { browser } from '$app/env';
+	import { GQL_Followers, GQL_Me } from '$houdini';
+	import Followers from '$lib/components/Followers.svelte';
+	import GhImg from '$lib/components/gh-img/gh-img.svelte';
+	import { KitQLInfo } from '@kitql/all-in';
+	import type { LoadEvent } from '@sveltejs/kit';
+
+	export async function load(event: LoadEvent) {
+		await GQL_Me.fetch({ event });
+		await GQL_Followers.fetch({ event, variables: { first: 5 } });
 		return {};
 	}
 </script>
 
 <script lang="ts">
-	import Followers from '$lib/components/Followers.svelte';
-	import GhImg from '$lib/components/gh-img/gh-img.svelte';
-	import { KQL_Followers, KQL_Me } from '$lib/graphql/_kitql/graphqlStores';
-	import { KitQLInfo } from '@kitql/all-in';
+	$: browser && GQL_Followers.fetch({ variables: { first: 5 } });
 </script>
 
 <!-- Just for debugging -->
-<KitQLInfo store={KQL_Me} />
+<KitQLInfo store={GQL_Me} />
 
 <!-- Me infos -->
 <div class="row">Me 👇</div>
 <div class="row">
-	<GhImg userInfo={$KQL_Me.data?.viewer} />
+	<GhImg userInfo={$GQL_Me.data?.viewer} />
 </div>
 
 <!-- Followers infos -->

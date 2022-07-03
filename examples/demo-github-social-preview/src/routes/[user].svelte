@@ -1,17 +1,25 @@
 <script context="module" lang="ts">
-	export async function load({ fetch, params }) {
-		await KQL_UserBestRepo.queryLoad({ fetch, variables: { login: params.user } });
-		return {};
+	import { browser } from '$app/env';
+	import { GQL_UserBestRepo } from '$houdini';
+	import GhCard from '$lib/components/gh-card/gh-card.svelte';
+	import { KitQLInfo } from '@kitql/all-in';
+	import type { LoadEvent } from '@sveltejs/kit';
+
+	export async function load(event: LoadEvent) {
+		const variables = { login: event.params.user };
+		await GQL_UserBestRepo.fetch({ event, variables });
+		return { props: variables };
 	}
 </script>
 
 <script lang="ts">
-	import GhCard from '$lib/components/gh-card/gh-card.svelte';
-	import { KQL_UserBestRepo } from '$lib/graphql/_kitql/graphqlStores';
-	import { KitQLInfo } from '@kitql/all-in';
+	export let variables;
+
+	$: browser && GQL_UserBestRepo.fetch({ variables });
 </script>
 
-<KitQLInfo store={KQL_UserBestRepo} />
-{#if $KQL_UserBestRepo.data}
-	<GhCard userBestRepoInfo={$KQL_UserBestRepo.data.user} />
+<KitQLInfo store={GQL_UserBestRepo} />
+
+{#if $GQL_UserBestRepo.data}
+	<GhCard userBestRepoInfo={$GQL_UserBestRepo.data.user} />
 {/if}

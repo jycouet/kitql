@@ -18,17 +18,17 @@ Typical CodeGen file (`.graphqlrc.yaml`)
 # ...
 codegen:
   generates:
-    ./graphql/_kitql/graphqlTypes.ts:
+    ./graphql/$kitql/graphqlTypes.ts:
       plugins:
         - typescript
         - typescript-resolvers
         - typescript-operations
         - typed-document-node
 
-    ./graphql/_kitql/graphqlStores.ts:
+    ./graphql/$kitql/graphqlStores.ts:
       plugins:
         - '@kitql/graphql-codegen'
       config:
-        importBaseTypesFrom: $graphql/_kitql/graphqlTypes # if you don't add this, you have to generate all types in the same file.
+        importBaseTypesFrom: $graphql/$kitql/graphqlTypes # if you don't add this, you have to generate all types in the same file.
 # ...
 ```

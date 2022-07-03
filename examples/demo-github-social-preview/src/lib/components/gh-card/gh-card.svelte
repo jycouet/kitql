@@ -1,29 +1,22 @@
 <script lang="ts">
-	import { KQL_AddStar, KQL_UserBestRepo } from '$lib/graphql/_kitql/graphqlStores';
-	import type { UserBestRepoInfoFragment } from '$lib/graphql/_kitql/graphqlTypes';
+	import { GQL_AddStar, type userBestRepoInfo$data } from '$houdini';
 	import html2canvas from 'html2canvas';
 	import GhImg from '../gh-img/gh-img.svelte';
 	import GhRepoLanguages from '../gh-repo-languages/gh-repo-languages.svelte';
 	import GhStar from '../star/gh-star.svelte';
 
-	export let userBestRepoInfo: UserBestRepoInfoFragment | null = null;
+	export let userBestRepoInfo: userBestRepoInfo$data | null = null;
 
 	async function wrongAdd(id: string) {
-		// Pre patch guessing 999!
-		const tmpStore = $KQL_UserBestRepo.data;
-		tmpStore.user.repositories.nodes[0].viewerHasStarred = true;
-		tmpStore.user.repositories.nodes[0].stargazers.totalCount = 999;
-		KQL_UserBestRepo.patch(tmpStore);
-
-		// Mutation
-		const result = await KQL_AddStar.mutate({ variables: { id } });
-
-		// Post patch
-		tmpStore.user.repositories.nodes[0].viewerHasStarred =
-			result.data.addStar.starrable.viewerHasStarred;
-		tmpStore.user.repositories.nodes[0].stargazers.totalCount =
-			result.data.addStar.starrable.stargazers.totalCount;
-		KQL_UserBestRepo.patch(tmpStore);
+		await GQL_AddStar.mutate({
+			variables: { id },
+			optimisticResponse: {
+				addStar: {
+					clientMutationId: '',
+					starrable: { id: '', viewerHasStarred: true, stargazers: { totalCount: 999 } }
+				}
+			}
+		});
 	}
 
 	async function dl() {

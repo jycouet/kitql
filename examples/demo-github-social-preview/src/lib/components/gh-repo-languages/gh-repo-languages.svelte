@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { LanguagesInfoFragment } from '$lib/graphql/_kitql/graphqlTypes';
+	import type { LanguagesInfoFragment } from '$lib/graphql/$kitql/graphqlTypes';
 
 	export let languagesInfo: LanguagesInfoFragment;
 

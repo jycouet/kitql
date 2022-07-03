@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
-	import { KQL_All_Conti } from '$lib/graphql/_kitql/graphqlStores';
+	import { KQL_All_Conti } from '$lib/graphql/$kitql/graphqlStores';
 	import { KitQLInfo } from '@kitql/all-in';
 
 	async function manualUpdate() {

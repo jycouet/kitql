@@ -2,7 +2,7 @@
 	import type {
 		FollowersQueryVariables,
 		PaginationInfoFragment
-	} from '$lib/graphql/_kitql/graphqlTypes';
+	} from '$lib/graphql/$kitql/graphqlTypes';
 	import { createEventDispatcher } from 'svelte';
 
 	export let type: 'before' | 'after' = 'before';

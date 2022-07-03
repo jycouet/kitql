@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { KQL__Init } from '$lib/graphql/_kitql/graphqlStores';
+	import { KQL__Init } from '$lib/graphql/$kitql/graphqlStores';
 	KQL__Init();
 </script>
 

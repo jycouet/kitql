@@ -11,22 +11,22 @@ projects:
           url: https://countries.trevorblades.com/graphql
       codegen:
         generates:
-          ./src/lib/graphql/_kitql/graphqlTypes.ts:
+          ./src/lib/graphql/$kitql/graphqlTypes.ts:
             plugins:
               - typescript
               - typescript-operations
               - typed-document-node
               - typescript-document-nodes
 
-          ./src/lib/graphql/_kitql/graphqlStores.ts:
+          ./src/lib/graphql/$kitql/graphqlStores.ts:
             plugins:
               - '@kitql/graphql-codegen'
             config:
-              importBaseTypesFrom: $lib/graphql/_kitql/graphqlTypes
+              importBaseTypesFrom: $lib/graphql/$kitql/graphqlTypes
 
           # # Almost ready for REPL.
           # # Just need to remove: TypedDocumentNode
-          # ./src/lib/graphql/_kitql/graphqlStores.js.ts:
+          # ./src/lib/graphql/$kitql/graphqlStores.js.ts:
           #   plugins:
           #     - typed-document-node
           #     - '@kitql/graphql-codegen'

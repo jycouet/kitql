@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { UserInfoFragment } from '$lib/graphql/_kitql/graphqlTypes';
+	import type { UserInfoFragment } from '$lib/graphql/$kitql/graphqlTypes';
 
 	export let userInfo: UserInfoFragment | null = null;
 </script>

@@ -9,7 +9,7 @@ import { write } from './readWrite'
 export function actionModuleContext(
   dataloadersModule: { moduleName: string; providerFile: string }[], // ["dlIchttsGetByIds"]
   moduleFolder: string, // src/lib/modules
-  moduleOutputFolder: string, //_kitql
+  moduleOutputFolder: string, //$kitql
   importBaseTypesFrom: string,
   withDbProvider: boolean
 ) {

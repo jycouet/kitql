@@ -54,10 +54,10 @@ describe('graphql-codegen', () => {
 
   it('With importBaseTypesFrom, should import Types', async () => {
     const result = (await plugin(null as any, operations, {
-      importBaseTypesFrom: '$graphql/_kitql/graphqlTypes',
+      importBaseTypesFrom: '$graphql/$kitql/graphqlTypes',
     })) as Types.ComplexPluginOutput
 
-    expect(result.prepend).toContain(`import * as Types from '$graphql/_kitql/graphqlTypes';`)
+    expect(result.prepend).toContain(`import * as Types from '$graphql/$kitql/graphqlTypes';`)
 
     expect(result.content).toContain(
       'writable<RequestResult<Types.DoSomethingMutation, Types.DoSomethingMutationVariables>>'

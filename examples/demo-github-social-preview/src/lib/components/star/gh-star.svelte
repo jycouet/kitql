@@ -1,55 +1,35 @@
 <script lang="ts">
-	import { KQL_AddStar, KQL_RemoveStar, KQL_UserBestRepo } from '$lib/graphql/_kitql/graphqlStores';
-	import type { StarInfoFragment } from '$lib/graphql/_kitql/graphqlTypes';
+	import { GQL_AddStar, GQL_RemoveStar, type starInfo$data } from '$houdini';
 	import LogoStar from './logo-star.svelte';
 
 	export let id: string;
-	export let starInfo: StarInfoFragment | null;
-
-	function setValues(viewerHasStarred: boolean, totalCount: number) {
-		const tmpStore = $KQL_UserBestRepo.data;
-		tmpStore.user.repositories.nodes[0].viewerHasStarred = viewerHasStarred;
-		tmpStore.user.repositories.nodes[0].stargazers.totalCount = totalCount;
-		return tmpStore;
-	}
+	export let starInfo: starInfo$data | null;
 
 	async function toggle() {
 		if (starInfo?.viewerHasStarred) {
-			// Pre patch
-			KQL_UserBestRepo.patch(
-				setValues(
-					false,
-					$KQL_UserBestRepo.data.user.repositories.nodes[0].stargazers.totalCount - 1
-				)
-			);
-
-			// Mutation
-			const result = await KQL_RemoveStar.mutate({ variables: { id } });
-
-			// Post patch
-			KQL_UserBestRepo.patch(
-				setValues(
-					result.data.removeStar.starrable.viewerHasStarred,
-					result.data.removeStar.starrable.stargazers.totalCount
-				)
-			);
+			await GQL_RemoveStar.mutate({
+				variables: { id }
+				// optimisticResponse: {
+				// 	removeStar: {
+				// 		clientMutationId: '',
+				// 		starrable: { id: '', viewerHasStarred: false, stargazers: { totalCount: 111 } }
+				// 	}
+				// }
+			});
 		} else {
-			KQL_UserBestRepo.patch(
-				setValues(true, $KQL_UserBestRepo.data.user.repositories.nodes[0].stargazers.totalCount + 1)
-			);
-
-			const result = await KQL_AddStar.mutate({ variables: { id } });
-
-			KQL_UserBestRepo.patch(
-				setValues(
-					result.data.addStar.starrable.viewerHasStarred,
-					result.data.addStar.starrable.stargazers.totalCount
-				)
-			);
+			await GQL_AddStar.mutate({
+				variables: { id }
+				// optimisticResponse: {
+				// 	addStar: {
+				// 		clientMutationId: '',
+				// 		starrable: { id: '', viewerHasStarred: true, stargazers: { totalCount: 111 } }
+				// 	}
+				// }
+			});
 		}
 
 		// Without Optimistic UI, you retrigger the query
-		// await KQL_UserBestRepo.query({ settings: { policy: 'network-only' } });
+		// await GQL_UserBestRepo.query({ settings: { policy: 'network-only' } });
 	}
 </script>
 
