@@ -1,6 +1,6 @@
 <script context="module" lang="ts">
 	import { browser } from '$app/env';
-	import { GQL_UserBestRepo } from '$houdini';
+	import { GQL_UserBestRepo, type UserBestRepo$input } from '$houdini';
 	import GhCard from '$lib/components/gh-card/gh-card.svelte';
 	import { KitQLInfo } from '@kitql/all-in';
 	import type { LoadEvent } from '@sveltejs/kit';
@@ -13,7 +13,7 @@
 </script>
 
 <script lang="ts">
-	export let variables;
+	export let variables: UserBestRepo$input;
 
 	$: browser && GQL_UserBestRepo.fetch({ variables });
 </script>

@@ -12,8 +12,13 @@
 			variables: { id },
 			optimisticResponse: {
 				addStar: {
-					clientMutationId: '',
-					starrable: { id: '', viewerHasStarred: true, stargazers: { totalCount: 999 } }
+					clientMutationId: 'From KitQL',
+					starrable: {
+						__typename: 'Repository',
+						id,
+						viewerHasStarred: true,
+						stargazers: { totalCount: 999 }
+					}
 				}
 			}
 		});

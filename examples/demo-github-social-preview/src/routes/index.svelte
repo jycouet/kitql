@@ -14,6 +14,7 @@
 </script>
 
 <script lang="ts">
+	$: browser && GQL_Me.fetch();
 	$: browser && GQL_Followers.fetch({ variables: { first: 5 } });
 </script>
 

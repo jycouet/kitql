@@ -6,25 +6,36 @@
 	export let starInfo: starInfo$data | null;
 
 	async function toggle() {
+		const totalCount = starInfo.stargazers.totalCount;
 		if (starInfo?.viewerHasStarred) {
 			await GQL_RemoveStar.mutate({
-				variables: { id }
-				// optimisticResponse: {
-				// 	removeStar: {
-				// 		clientMutationId: '',
-				// 		starrable: { id: '', viewerHasStarred: false, stargazers: { totalCount: 111 } }
-				// 	}
-				// }
+				variables: { id },
+				optimisticResponse: {
+					removeStar: {
+						clientMutationId: 'From KitQL',
+						starrable: {
+							__typename: 'Repository',
+							id,
+							viewerHasStarred: false,
+							stargazers: { totalCount }
+						}
+					}
+				}
 			});
 		} else {
 			await GQL_AddStar.mutate({
-				variables: { id }
-				// optimisticResponse: {
-				// 	addStar: {
-				// 		clientMutationId: '',
-				// 		starrable: { id: '', viewerHasStarred: true, stargazers: { totalCount: 111 } }
-				// 	}
-				// }
+				variables: { id },
+				optimisticResponse: {
+					addStar: {
+						clientMutationId: 'From KitQL',
+						starrable: {
+							__typename: 'Repository',
+							id,
+							viewerHasStarred: true,
+							stargazers: { totalCount }
+						}
+					}
+				}
 			});
 		}
 
