@@ -17,7 +17,7 @@
 							__typename: 'Repository',
 							id,
 							viewerHasStarred: false,
-							stargazers: { totalCount }
+							stargazers: { totalCount: totalCount - 1 }
 						}
 					}
 				}
@@ -32,7 +32,7 @@
 							__typename: 'Repository',
 							id,
 							viewerHasStarred: true,
-							stargazers: { totalCount }
+							stargazers: { totalCount: totalCount + 1 }
 						}
 					}
 				}

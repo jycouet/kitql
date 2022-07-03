@@ -41,7 +41,7 @@
 	}
 </script>
 
-{#if userBestRepoInfo}
+{#if userBestRepoInfo?.repositories?.nodes?.length > 0}
 	<div id="card" class="card">
 		<div class="container">
 			<div class="row">
@@ -68,14 +68,16 @@
 			<GhRepoLanguages languagesInfo={userBestRepoInfo.repositories.nodes[0]} />
 		</div>
 	</div>
-{/if}
 
-<div class="dlBtn">
-	<button on:click={() => wrongAdd(userBestRepoInfo.repositories.nodes[0].id)}
-		>Wrong Optimistic UI ADD</button
-	>
-	<button on:click={dl}>Download</button>
-</div>
+	<div class="dlBtn">
+		<button on:click={() => wrongAdd(userBestRepoInfo.repositories.nodes[0].id)}
+			>Wrong Optimistic UI ADD</button
+		>
+		<button on:click={dl}>Download</button>
+	</div>
+{:else}
+	No data!
+{/if}
 
 <style>
 	.container {

@@ -16,10 +16,10 @@
 
   onMount(() => {
     let ls = lsGet()
-    if (ls && ls[store.storeName]) {
-      expend = ls[store.storeName].expend
-      top = ls[store.storeName].top
-      left = ls[store.storeName].left
+    if (ls && ls[store.name]) {
+      expend = ls[store.name].expend
+      top = ls[store.name].top
+      left = ls[store.name].left
     } else {
       left = window.innerWidth / 2
     }
@@ -39,7 +39,7 @@
     if (!ls) {
       ls = {}
     }
-    ls[store.storeName] = {
+    ls[store.name] = {
       expend,
       top,
       left,
@@ -99,7 +99,7 @@
           }}
           style="text-align: right; cursor: pointer;"
         >
-          {store.storeName}
+          {store.name}
         </td>
       </tr>
       {#if expend}
