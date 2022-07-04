@@ -1,5 +1,11 @@
 # @kitql/client
 
+## 0.5.12
+
+### Patch Changes
+
+- [#166](https://github.com/jycouet/kitql/pull/166) [`58d9d27`](https://github.com/jycouet/kitql/commit/58d9d27d3a9badbedd8aa1d6eb3b946e5e9ccd09) Thanks [@jycouet](https://github.com/jycouet)! - This lib was deprecated check https://www.kitql.dev/docs/migrating-to-0.7.0 to upgrade
+
 ## 0.5.11
 
 ### Patch Changes

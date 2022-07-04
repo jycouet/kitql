@@ -1,5 +1,17 @@
 # @kitql/all-in
 
+## 0.7.0
+
+### Minor Changes
+
+- [#166](https://github.com/jycouet/kitql/pull/166) [`58d9d27`](https://github.com/jycouet/kitql/commit/58d9d27d3a9badbedd8aa1d6eb3b946e5e9ccd09) Thanks [@jycouet](https://github.com/jycouet)! - KitQL & Houdini projects are joining forces
+
+### Patch Changes
+
+- [#166](https://github.com/jycouet/kitql/pull/166) [`58d9d27`](https://github.com/jycouet/kitql/commit/58d9d27d3a9badbedd8aa1d6eb3b946e5e9ccd09) Thanks [@jycouet](https://github.com/jycouet)! - Houdini is in 🎉
+
+* [#166](https://github.com/jycouet/kitql/pull/166) [`58d9d27`](https://github.com/jycouet/kitql/commit/58d9d27d3a9badbedd8aa1d6eb3b946e5e9ccd09) Thanks [@jycouet](https://github.com/jycouet)! - houdini-next-24
+
 ## 0.6.11
 
 ### Patch Changes
