@@ -1,5 +1,19 @@
 # @kitql/all-in
 
+## 0.7.0
+
+Version 0.7.0 is the biggest release yet! Thanks for everyone who helped test/contribute 🎉 🥰 The biggest update here is that
+we use Houdini as our client. For more information on what's changed and how to update your project, check out this link:
+https://www.kitql.dev//docs/migrating-to-0.7.0
+
+### Minor Changes
+
+- [#166](https://github.com/jycouet/kitql/pull/166) [`58d9d27`](https://github.com/jycouet/kitql/commit/58d9d27d3a9badbedd8aa1d6eb3b946e5e9ccd09) Thanks [@AlecAivazis](https://github.com/AlecAivazis) and [@jycouet](https://github.com/jycouet)! - KitQL & Houdini projects are joining forces
+
+### Patch Changes
+
+- [#166](https://github.com/jycouet/kitql/pull/166) [`58d9d27`](https://github.com/jycouet/kitql/commit/58d9d27d3a9badbedd8aa1d6eb3b946e5e9ccd09) Thanks [@jycouet](https://github.com/jycouet)! - Houdini is in 🎉
+
 ## 0.6.11
 
 ### Patch Changes
