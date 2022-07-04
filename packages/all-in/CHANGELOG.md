@@ -2,8 +2,8 @@
 
 ## 0.7.0
 
-Version 0.7.0 is the biggest release yet! Thanks for everyone who helped test/contribute 🎉 🥰 The biggest update here is that 
-we use Houdini as our client. For more information on what's changed and how to update your project, check out this link: 
+Version 0.7.0 is the biggest release yet! Thanks for everyone who helped test/contribute 🎉 🥰 The biggest update here is that
+we use Houdini as our client. For more information on what's changed and how to update your project, check out this link:
 https://www.kitql.dev//docs/migrating-to-0.7.0
 
 ### Minor Changes
