@@ -1,29 +1,27 @@
 <script lang="ts">
-	import { KQL_AddStar, KQL_UserBestRepo } from '$lib/graphql/_kitql/graphqlStores';
-	import type { UserBestRepoInfoFragment } from '$lib/graphql/_kitql/graphqlTypes';
+	import { GQL_AddStar, type userBestRepoInfo$data } from '$houdini';
 	import html2canvas from 'html2canvas';
-	import GhImg from '../gh-img/gh-img.svelte';
-	import GhRepoLanguages from '../gh-repo-languages/gh-repo-languages.svelte';
-	import GhStar from '../star/gh-star.svelte';
+	import GhImg from '../GhImg/GhImg.svelte';
+	import GhRepoLanguages from '../GhRepoLanguages/GhRepoLanguages.svelte';
+	import GhStar from '../star/GhStar.svelte';
 
-	export let userBestRepoInfo: UserBestRepoInfoFragment | null = null;
+	export let userBestRepoInfo: userBestRepoInfo$data | null = null;
 
 	async function wrongAdd(id: string) {
-		// Pre patch guessing 999!
-		const tmpStore = $KQL_UserBestRepo.data;
-		tmpStore.user.repositories.nodes[0].viewerHasStarred = true;
-		tmpStore.user.repositories.nodes[0].stargazers.totalCount = 999;
-		KQL_UserBestRepo.patch(tmpStore);
-
-		// Mutation
-		const result = await KQL_AddStar.mutate({ variables: { id } });
-
-		// Post patch
-		tmpStore.user.repositories.nodes[0].viewerHasStarred =
-			result.data.addStar.starrable.viewerHasStarred;
-		tmpStore.user.repositories.nodes[0].stargazers.totalCount =
-			result.data.addStar.starrable.stargazers.totalCount;
-		KQL_UserBestRepo.patch(tmpStore);
+		await GQL_AddStar.mutate({
+			variables: { id },
+			optimisticResponse: {
+				addStar: {
+					clientMutationId: 'From KitQL',
+					starrable: {
+						__typename: 'Repository',
+						id,
+						viewerHasStarred: true,
+						stargazers: { totalCount: 999 }
+					}
+				}
+			}
+		});
 	}
 
 	async function dl() {
@@ -43,7 +41,7 @@
 	}
 </script>
 
-{#if userBestRepoInfo}
+{#if userBestRepoInfo?.repositories?.nodes?.length > 0}
 	<div id="card" class="card">
 		<div class="container">
 			<div class="row">
@@ -70,14 +68,16 @@
 			<GhRepoLanguages languagesInfo={userBestRepoInfo.repositories.nodes[0]} />
 		</div>
 	</div>
-{/if}
 
-<div class="dlBtn">
-	<button on:click={() => wrongAdd(userBestRepoInfo.repositories.nodes[0].id)}
-		>Wrong Optimistic UI ADD</button
-	>
-	<button on:click={dl}>Download</button>
-</div>
+	<div class="dlBtn">
+		<button on:click={() => wrongAdd(userBestRepoInfo.repositories.nodes[0].id)}
+			>Wrong Optimistic UI ADD</button
+		>
+		<button on:click={dl}>Download</button>
+	</div>
+{:else}
+	No data!
+{/if}
 
 <style>
 	.container {

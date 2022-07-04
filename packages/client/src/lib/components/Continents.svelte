@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
-	import { KQL_All_Conti } from '$lib/graphql/_kitql/graphqlStores';
+	import { KQL_All_Conti } from '$lib/graphql/$kitql/graphqlStores';
 	import { KitQLInfo } from '@kitql/all-in';
 
 	async function manualUpdate() {
@@ -20,7 +20,9 @@
 			<button on:click={() => manualUpdate()}>Demo patch with some random data</button>
 		</div>
 	</h2>
-	<KitQLInfo store={KQL_All_Conti} />
+
+	<!-- <KitQLInfo store={KQL_All_Conti} /> -->
+
 	<ul>
 		{#if $KQL_All_Conti.status === 'LOADING'}
 			Loading...

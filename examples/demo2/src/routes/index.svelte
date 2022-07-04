@@ -1,24 +1,26 @@
 <script context="module" lang="ts">
-	import { KQL_Version } from '$lib/graphql/_kitql/graphqlStores';
-	import { KitQLInfo } from '@kitql/all-in';
+	import { GQL_Version } from '$houdini';
+	import type { LoadEvent } from '@sveltejs/kit';
 
-	export async function load({ fetch, url, params, session, stuff }) {
-		await KQL_Version.queryLoad({ fetch });
+	export async function load(event: LoadEvent) {
+		await GQL_Version.fetch({ event });
 		return {};
 	}
 </script>
 
-<KitQLInfo store={KQL_Version} />
-
 <div>✅ Your #GraphQL endpoint on SvelteKit is working 👌</div>
 <div>
 	✅ Your first query - <b>Version</b>:
-	<pre>{$KQL_Version.data?.version.releaseCreatedAtUtc}</pre>
+	<pre>{$GQL_Version.data?.version.releaseCreatedAtUtc.toISOString()}</pre>
+	<pre>{$GQL_Version.data?.version.releaseCreatedAtUtc.toLocaleDateString() +
+			' ' +
+			$GQL_Version.data?.version.releaseCreatedAtUtc.toLocaleTimeString()}</pre>
 </div>
 <div>
 	✅ Your own 👉 <a href="/api/playql" target="_blank" rel="external">Graph<i>i</i>QL</a>
 </div>
 <br />
+<hr />
 <br />
 <br />
 <br />

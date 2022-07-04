@@ -5,9 +5,17 @@ sidebar_label: vite plugin - watch and run
 
 # ⚡How to - vite-plugin-watch-and-run
 
+<br />
+## Installation
+
+If you have `@kitql/all-in` you don't need to install this manually.
+
+If you want to install it stand alone, please do
+
 <PackageInstall packages={['-D @kitql/vite-plugin-watch-and-run']} />
 
-In your `svelte.config.js` add watchAndRun with the following configuration:
+<br />
+## Configuration In your `svelte.config.js` add watchAndRun with the following configuration:
 
 - `watch`: a glob pattern to watch for changes. This will be matched against the _absolute path_ for altered files.
 - `run`: a command to trigger when a file change is detected (You can be very creative 🥳!)
@@ -24,7 +32,8 @@ const config = {
           {
             watch: '**/*.(gql|graphql)',
             run: 'npm run gen' // to trigger the script "gen" of your package.json
-            // delay: 500, Optional parameter to delay the run command.
+            // delay: 300, Optional parameter to delay the run command.
+            // name: 'kitql tools', Optional parameter to display a name in the terminal
           }
         ])
       ]
@@ -35,8 +44,13 @@ const config = {
 export default config
 ```
 
-### Side Notes
+<br />
+## Side Notes
 
 - `delay` is good in case you have 200 files added realy fast! Like this the cmd is executed only once.
 
-- For the `run` command I recommend to use `npm run xxx` as it will work for `npm` `yarn` and `pnpm` 🙃
+- For the `run` command I recommend to use `npm run xxx` as it will work for `npm`, `yarn` and `pnpm` 🙃
+
+<br />
+<br />
+Go back to [Get Started](/docs/all-in).

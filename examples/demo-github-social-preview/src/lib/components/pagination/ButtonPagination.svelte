@@ -1,16 +1,13 @@
 <script lang="ts">
-	import type {
-		FollowersQueryVariables,
-		PaginationInfoFragment
-	} from '$lib/graphql/_kitql/graphqlTypes';
+	import type { Followers$input, paginationInfo$data } from '$houdini';
 	import { createEventDispatcher } from 'svelte';
 
 	export let type: 'before' | 'after' = 'before';
-	export let paginationInfo: PaginationInfoFragment | null = null;
+	export let paginationInfo: paginationInfo$data | null = null;
 
 	const dispatch = createEventDispatcher();
 
-	function dispatchPaginate(data: FollowersQueryVariables) {
+	function dispatchPaginate(data: Followers$input) {
 		dispatch('paginate', {
 			data
 		});

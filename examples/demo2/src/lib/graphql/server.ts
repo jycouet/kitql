@@ -2,10 +2,9 @@ import { useErrorHandler } from '@envelop/core';
 import { useGraphQlJit } from '@envelop/graphql-jit';
 import { useGraphQLModules } from '@envelop/graphql-modules';
 import { createServer } from '@graphql-yoga/common';
-import type { RequestEvent } from '@sveltejs/kit/types/internal';
 import type { Application } from 'graphql-modules';
 import { createApplication } from 'graphql-modules';
-import { modules } from './_kitql/_appModules';
+import { modules } from './$kitql/_appModules';
 
 const plugins = [
 	useGraphQLModules(
@@ -32,8 +31,9 @@ function getContext({ request }) {
 	};
 }
 
-export const kitQLServer = createServer({
+export const yogaServer = createServer({
 	logging: false,
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	context: getContext as any, //Context will be typed in each resolver with IYogaContext (under)
 	plugins
 });

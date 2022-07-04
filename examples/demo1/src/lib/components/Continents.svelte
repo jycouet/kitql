@@ -1,20 +1,20 @@
 <script lang="ts">
-	import { KQL_AllContinents } from '$lib/graphql/_kitql/graphqlStores';
+	import { browser } from '$app/env';
+	import { CachePolicy, GQL_AllContinents } from '$houdini';
 
-	async function manualUpdate() {
-		KQL_AllContinents.patch({ continents: [{ name: 'JYC Land', code: 'JYC' }] });
-	}
 	async function query() {
-		KQL_AllContinents.query({ settings: { policy: 'network-only' } });
+		GQL_AllContinents.fetch({ policy: CachePolicy.NetworkOnly });
 	}
+
+	$: browser && GQL_AllContinents.fetch();
 </script>
 
 <h2>Continents</h2>
-{#if $KQL_AllContinents.status === 'LOADING'}
+{#if $GQL_AllContinents.isFetching}
 	Loading...
 {:else}
 	<ul>
-		{#each $KQL_AllContinents.data?.continents ?? [] as continent}
+		{#each $GQL_AllContinents.data?.continents ?? [] as continent}
 			<li class="allSpace">
 				<a href={`/continent/${continent?.code}`}>{continent?.name}</a>
 			</li>
@@ -26,5 +26,4 @@
 
 <hr />
 
-<button on:click={() => manualUpdate()}>Manual Update</button>
 <button on:click={() => query()}>ReQuery</button>

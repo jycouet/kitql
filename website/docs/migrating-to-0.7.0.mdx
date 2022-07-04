@@ -1,0 +1,103 @@
+---
+title: KitQL - Migrating to 0.7.0
+sidebar_label: Migrating to 0.7.0
+---
+
+# Migrating to 0.7.0
+
+Lot’s changed in v0.7.0. Hopefully this guide should help you understand those changes as well as
+show you what you should update to work with the new features. If you want some more context about the "why", please have a look at
+the [blog post](https://www.the-guild.dev/blog/houdini-and-kitql) we wrote.
+
+<br />
+## What changed
+
+The biggest change for KitQL users is that generated stores are done from Houdini now instead of KitQL Client package.
+
+<br />
+Here is the list of things to update:
+
+1. Bump your `@kitlql/all-in` version to 0.7.0
+
+1. The file `.graphqlrc.yaml` doesn't hold any client info for generation [👇](#graphqlrcyaml-file)
+
+1. Configure Houdini, follow this [guide](/docs/setup/01_houdini). _And comeback here!_
+
+1. To migrate a big project, you can in `houdini.config.js` add `disableMasking: true`
+
+1. Usage update [👇](#usage-update)
+
+---
+
+<br />
+### .graphqlrc.yaml file
+
+- If you were using `KitQL` only in a client context, you should probably strip down your `.graphqlrc.yaml` file down to
+
+```yaml
+projects:
+  # You can add multiple projects and generate with -p args
+  default:
+    # 👇 For vscode-graphql and intellisense
+    schema:
+      - ./src/**/*.graphql
+      - ./$houdini/graphql/schema.gql
+    documents:
+      - ./src/**/*.gql
+      - ./$houdini/graphql/documents.gql
+```
+
+Do not forget to remove the generate cmd of your `package.json`. (`graphql-codegen --config ./.graphqlrc.yaml`)
+
+
+<br /><br />
+- If you were already using the server side, follow the config [here](/docs/setup/02_server#code-generator).
+
+
+<br />
+### Usage update
+
+1. functions `.query()` & `.queryLoad()` were renamed to `.fetch()`
+1. prefix `KQL_` is now `GQL_`
+1. `$lib/graphql/_kitql/graphqlStores` is most of the case replaced by `$houdini`
+1. Fragment `XXXFragment` => `xXX$data`
+
+
+Before:
+
+```svelte
+<script context="module" lang="ts">
+  import { KQL_FirstQuery } from '$lib/graphql/_kitql/graphqlStores'
+
+  export async function load({ fetch, url, params, session, stuff }) {
+    await KQL_FirstQuery.queryLoad({ fetch })
+    return {}
+  }
+</script>
+
+{$GQL_FirstQuery.data.hello}
+```
+
+After:
+
+```svelte
+<script context="module" lang="ts">
+  import { browser } from '$app/env'
+  import { GQL_FirstQuery } from '$houdini'
+  import type { LoadEvent } from '@sveltejs/kit'
+
+  export async function load(event: LoadEvent) {
+    await GQL_FirstQuery.fetch({ event })
+    return {}
+  }
+</script>
+
+<script>
+  $: browser && GQL_FirstQuery.fetch()
+</script>
+
+{$GQL_FirstQuery.data.hello}
+```
+
+<br />
+You can check the usage of queries [here](/docs/usages/queries).

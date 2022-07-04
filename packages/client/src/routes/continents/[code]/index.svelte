@@ -1,6 +1,6 @@
 <script context="module" lang="ts">
 	import Countries from '$lib/components/Countries.svelte';
-	import { KQL_All_Conti, KQL_AllCountriesOfContinent } from '$lib/graphql/_kitql/graphqlStores';
+	import { KQL_All_Conti, KQL_AllCountriesOfContinent } from '$lib/graphql/$kitql/graphqlStores';
 	import { get } from 'svelte/store';
 
 	export async function load({ fetch, params }) {

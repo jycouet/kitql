@@ -3,31 +3,7 @@ projects:
   default:
     schema:
       - ./src/lib/graphql/schema.json
+      - ./$houdini/graphql/schema.gql
     documents:
       - '**/*.gql'
-    extensions:
-      endpoints:
-        default:
-          url: https://api.github.com/graphql
-      codegen:
-        generates:
-          # ./src/lib/graphql/schema.json:
-          #   plugins:
-          #     - introspection
-
-          ./src/lib/graphql/_kitql/graphqlTypes.ts:
-            plugins:
-              - typescript
-              - typescript-operations
-              - typed-document-node
-              - typescript-document-nodes
-
-          ./src/lib/graphql/_kitql/graphqlStores.ts:
-            plugins:
-              - '@kitql/graphql-codegen'
-            config:
-              importBaseTypesFrom: $lib/graphql/_kitql/graphqlTypes
-              operationPrefix: 'KQL_'
-
-        config:
-          useTypeImports: true
+      - ./$houdini/graphql/documents.gql

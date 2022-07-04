@@ -1,5 +1,5 @@
 import { GraphQLYogaError } from '@graphql-yoga/common';
-import type { __InitModule } from '../_kitql/moduleTypes';
+import type { __InitModule } from '../$kitql/moduleTypes';
 
 export const resolvers: __InitModule.Resolvers = {
 	Mutation: {

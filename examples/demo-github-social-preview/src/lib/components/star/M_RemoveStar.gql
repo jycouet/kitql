@@ -2,6 +2,7 @@ mutation RemoveStar($id: ID!) {
 	removeStar(input: { starrableId: $id, clientMutationId: "From KitQL" }) {
 		clientMutationId
 		starrable {
+			__typename
 			id
 			stargazers {
 				totalCount

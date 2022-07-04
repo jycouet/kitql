@@ -1,3 +1,9 @@
+<script context="module" lang="ts">
+	import { houdiniClient } from '$graphql/client';
+
+	houdiniClient.init();
+</script>
+
 <svelte:head>
 	<title>KitQL Demo - Svelte London - March 23, 2022</title>
 </svelte:head>

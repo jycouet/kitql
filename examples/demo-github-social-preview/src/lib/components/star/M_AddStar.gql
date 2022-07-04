@@ -2,6 +2,7 @@ mutation AddStar($id: ID!) {
 	addStar(input: { starrableId: $id, clientMutationId: "From KitQL" }) {
 		clientMutationId
 		starrable {
+			__typename
 			id
 			stargazers {
 				totalCount

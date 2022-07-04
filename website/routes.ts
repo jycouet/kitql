@@ -9,9 +9,12 @@ export function getRoutes(): IRoutes {
       'all-in': {
         $name: 'Get started',
       },
+      'migrating-to-0.7.0': {
+        $name: 'Migrating to 0.7.0',
+      },
       usages: {
         $name: 'Usages',
-        $routes: ['queries', 'mutations', 'patch', 'tips'],
+        $routes: ['queries', 'mutations'],
       },
       demos: {
         $name: 'Demos',
@@ -19,7 +22,7 @@ export function getRoutes(): IRoutes {
       },
       setup: {
         $name: 'Package by package',
-        $routes: ['01_graphql-codegen', '02_client', '03_vite-plugin-watch-and-run'],
+        $routes: ['01_houdini', '02_server', '03_vite-plugin-watch-and-run'],
       },
     },
   }

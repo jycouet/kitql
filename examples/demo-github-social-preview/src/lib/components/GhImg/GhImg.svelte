@@ -1,7 +1,7 @@
 <script lang="ts">
-	import type { UserInfoFragment } from '$lib/graphql/_kitql/graphqlTypes';
+	import type { userInfo$data } from '$houdini';
 
-	export let userInfo: UserInfoFragment | null = null;
+	export let userInfo: userInfo$data | null = null;
 </script>
 
 {#if userInfo}

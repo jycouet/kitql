@@ -5,8 +5,8 @@ module.exports = {
 	plugins: ['svelte3', '@typescript-eslint'],
 	// Some preference rules by KitQL
 	rules: {
-		'@typescript-eslint/no-unused-vars': ['error', { argsIgnorePattern: '^_' }],
-		'no-console': ['error', { allow: ['info', 'warn', 'error', 'time', 'timeEnd'] }]
+		'no-console': ['error', { allow: ['info', 'warn', 'error', 'time', 'timeEnd'] }],
+		'@typescript-eslint/no-unused-vars': 'off'
 	},
 	ignorePatterns: ['*.cjs'],
 	overrides: [
@@ -22,15 +22,19 @@ module.exports = {
 			// Some preference rules by KitQL
 			rules: {
 				'@graphql-eslint/alphabetize': 'off',
-				'@graphql-eslint/match-document-filename': [
-					'error',
-					{
-						query: { style: 'PascalCase', suffix: '_QUERY' },
-						mutation: { style: 'PascalCase', suffix: '_MUTATION' },
-						subscription: { style: 'PascalCase', suffix: '_SUB' },
-						fragment: { style: 'PascalCase', suffix: '_FRAG' }
-					}
-				],
+				'@graphql-eslint/match-document-filename': 'off',
+				'@graphql-eslint/no-unreachable-types': 'off',
+				'@graphql-eslint/description-style': 'off',
+				'@graphql-eslint/executable-definitions': 'off',
+				// '@graphql-eslint/match-document-filename': [
+				// 	'error',
+				// 	{
+				// 		query: { style: 'PascalCase', suffix: '_QUERY' },
+				// 		mutation: { style: 'PascalCase', suffix: '_MUTATION' },
+				// 		subscription: { style: 'PascalCase', suffix: '_SUB' },
+				// 		fragment: { style: 'PascalCase', suffix: '_FRAG' }
+				// 	}
+				// ],
 				'@graphql-eslint/no-unused-fields': 'error',
 				'@graphql-eslint/unique-enum-value-names': 'error',
 				'@graphql-eslint/require-id-when-available': 'error'

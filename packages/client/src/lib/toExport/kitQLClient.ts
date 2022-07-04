@@ -164,6 +164,9 @@ export class KitQLClient<HeadersType extends Record<string, string>> {
 		this.endpointSSRDelayMs = endpointSSRDelayMs ?? 0;
 
 		this.log = new Log('KitQL Client');
+		this.log.info(
+			'This lib was deprecated check https://www.kitql.dev/docs/migrating-to-0.7.0 to upgrade.'
+		);
 	}
 
 	public getHeaders(): HeadersType {

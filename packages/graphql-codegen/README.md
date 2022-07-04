@@ -1,9 +1,11 @@
 # KitQL - graphql-codegen
 
-[KitQL](https://github.com/jycouet/kitql#kitql), _A set of tools, helping **you** building efficient apps in a fast way._
+![](https://img.shields.io/badge/State-deprecated-red)
+
+This _sub package_ of KitQL has been deprecated. It is no longer maintained and will be removed in the future.
+
+Please
 
 <p align="center">
   <img src="../../logo.svg" width="100" />
 </p>
-
-## Check the [⚡Doc⚡](https://kitql.dev/docs/setup/02_client)

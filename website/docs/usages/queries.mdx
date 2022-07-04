@@ -5,105 +5,103 @@ sidebar_label: Queries
 
 # Queries
 
-## Two ways
+You have multiple ways to enjoy Houdini, one of them would be with external documents.
 
-### In a component
+### Query in an external file
+
+```graphql
+# file: src/graphql/FirstQuery.gql
+
+query FirstQuery {
+  hello
+}
+```
+
+### Generate
+
+Run the cmd `generate` to get everything ready for your application: stores, types, cache, ... everything!
+
+```bash
+npm run houdini generate
+```
+
+_Note that you can also have a watcher running this cmd for you on changes.
+Check this [here](/docs/setup/03_vite-plugin-watch-and-run)._
+
+### Display the result
+
+This works in a component or in a page. You are doing a Client Side Rendering (a browser request).
+
+Additionnaly, the function `fetch` will make sure you are synchonized with your store.
 
 ```svelte
 <script lang="ts">
   import { browser } from '$app/env'
-  import { KQL_AllContinents } from '$lib/graphql/_kitql/graphqlStores'
+  import { GQL_FirstQuery } from '$houdini'
 
-  $: browser && KQL_AllContinents.query()
+  $: browser && GQL_FirstQuery.fetch()
 </script>
 
-<!-- Just use the store here, or anywhere else! -->
-{JSON.stringify($KQL_AllContinents.data, null, 2)}
+{$GQL_FirstQuery.data.hello}
 ```
 
-<p>&nbsp;</p>
+### Display using SSR
 
-### In context module
+Here, you want Server Side Rendering (SSR), you will use the same `fetch` function but in the `load` function of SvelteKit.
 
-If you do this in the route, you will have the data in `SSR` mode out of the box!
+You have to leave your `fetch` also in the component to be in sync with the store.
 
 ```svelte
 <script context="module" lang="ts">
-  import { KQL_AllContinents } from '$lib/graphql/_kitql/graphqlStores'
+  import { browser } from '$app/env'
+  import { GQL_FirstQuery } from '$houdini'
+  import type { LoadEvent } from '@sveltejs/kit'
 
-  export async function load({ fetch }) {
-    await KQL_AllContinents.queryLoad({ fetch })
+  export async function load(event: LoadEvent) {
+    await GQL_FirstQuery.fetch({ event })
+
     return {}
   }
 </script>
 
-<!-- Just use the store here, or anywhere else! -->
-{JSON.stringify($KQL_AllContinents.data, null, 2)}
+<script>
+  $: browser && GQL_FirstQuery.fetch()
+</script>
+
+{$GQL_FirstQuery.data.hello}
 ```
 
-<p>&nbsp;</p>
+<br />
+### With variables
 
-#### Advance information
+If you have variables, you should have them in the load (for SSR) and in the component to keep the synchronization.
 
-On a client side navigation, you don't want your `.query(...)` in load function to be awaited. That's why we created `.queryLoad(...)` that will do the correct awaiting for you!
-
-_FYI, check the graph 👇 showing what is meant by `client navigation`. (here from about page to home page)_
-
-<Graph>
-
-flowchart TB
-b3-->a2
-subgraph Page Home
-a0[New visitor]-->a1[load server]-->a2[load browser]-->a3[Enjoy the home page]
-style a0 fill:#29B56A,color:#000
-style a3 fill:#254CA0,color:#000
-end
-subgraph Page About
-b0[New visitor]-->b1[load server]-->b2[load browser]-->b3[Enjoy the about page]
-style b0 fill:#29B56A,color:#000
-style b3 fill:#254CA0,color:#000
-end
-
-</Graph>
-
-To have this working well, you should add globally (in `__layout.svelte`) the following code:
+We recommend to do something like:
 
 ```svelte
-<script lang="ts">
-  import { KQL__Init } from '$lib/graphql/_kitql/graphqlStores'
-  KQL__Init()
+<script context="module" lang="ts">
+  import { browser } from '$app/env'
+  import { GQL_FirstQuery } from '$houdini'
+  import type { LoadEvent } from '@sveltejs/kit'
+
+  export async function load(event: LoadEvent) {
+    const variables = { id: event.params.userId }
+    await GQL_FirstQuery.fetch({ event, variables })
+
+    return { props: { variables } }
+  }
 </script>
+
+<script lang="ts">
+  export let variables: FirstQuery$input
+
+  $: browser && GQL_FirstQuery.fetch({ variables })
+</script>
+
+{$GQL_FirstQuery.data.hello}
 ```
 
-<p>&nbsp;</p>
+<br />
+## Go further
 
-## Options
-
-### Policies
-
-- `cache-first` _(default)_: Will go first into the cache and if it's empty or outdated it will go to the network.
-- `cache-and-network`: Will grab from the cache AND will do a network call in the background.
-- `network-only`: Will only go to the network.
-- `cache-only`: Will only go to the cache. (offline scenarios)
-
-To be used like 👇
-
-```ts
-await KQL_AllContinents.query({ settings: { policy: 'cache-and-network' } })
-```
-
-<p>&nbsp;</p>
-
-### Reset Cache
-
-You can do it query by query like 👇
-
-```ts
-KQL_AllContinents.resetCache()
-```
-
-Or everything in one cmd 👇
-
-```ts
-KQL__ResetAllCaches
-```
+Use directly => [Houdini's doc](https://www.houdinigraphql.com/api/query).

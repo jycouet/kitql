@@ -1,7 +1,7 @@
 <script lang="ts">
-	import type { LanguagesInfoFragment } from '$lib/graphql/_kitql/graphqlTypes';
+	import type { languagesInfo$data } from '$houdini';
 
-	export let languagesInfo: LanguagesInfoFragment;
+	export let languagesInfo: languagesInfo$data;
 
 	function getPourcent(nodeSize: number) {
 		return ((nodeSize * 100) / languagesInfo.languages.totalSize).toFixed();

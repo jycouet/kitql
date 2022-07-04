@@ -20,6 +20,8 @@ function getOperationSuffix(
 export const plugin: PluginFunction<Record<string, any>, Types.ComplexPluginOutput> = (schema, documents, config) => {
   config = config ?? {}
 
+  console.info('This lib was deprecated check https://www.kitql.dev/docs/migrating-to-0.7.0 to upgrade.')
+
   const allAst = concatAST(documents.map(v => v.document))
   const convertName = convertFactory(config)
   const operationResultSuffix = getConfigValue(config.operationResultSuffix, '')
@@ -73,10 +75,10 @@ export const plugin: PluginFunction<Record<string, any>, Types.ComplexPluginOutp
 
         lines.push(`		async function ${fnKeyword}Local(`)
         // prettier-ignore
-        lines.push(`			params${jsDocStyle ? `` : `?: Request${node.operation === 'query' ? 'Query': ''}Parameters<${kqltypeVariable}>`}`);
+        lines.push(`			params${jsDocStyle ? `` : `?: Request${node.operation === 'query' ? 'Query' : ''}Parameters<${kqltypeVariable}>`}`);
         lines.push(`		)${jsDocStyle ? `` : `: Promise<RequestResult<${kqltypeQueryAndVariable}>>`} {`)
         // prettier-ignore
-        lines.push(`			let { fetch, variables${node.operation === 'query' ? ', settings': ''} } = params ?? {};`);
+        lines.push(`			let { fetch, variables${node.operation === 'query' ? ', settings' : ''} } = params ?? {};`);
         if (node.operation === 'query') {
           lines.push(`			let { cacheMs, policy } = settings ?? {};`)
         }
