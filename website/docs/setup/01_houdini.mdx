@@ -21,7 +21,8 @@ You will find here an overview of how to setup Houdini in a KitQL project.
 You have to create `houdini.config.js` beside `svelte.config.js` that will hold Houdini configuration
 
 <br />
-```js /* file: houdini.config.js */
+```js 
+/* file: houdini.config.js */
 
 /** @type {import('houdini').ConfigFile} */
 const config = {
@@ -46,7 +47,8 @@ _More about the [config](https://www.houdinigraphql.com/api/config)_
 3. Allowing server the access to "."
 
 <br />
-```js /* file: svelte.config.js */
+```js 
+/* file: svelte.config.js */
 
 import adapter from '@sveltejs/adapter-auto'
 import houdini from 'houdini/preprocess'
@@ -150,7 +152,8 @@ You will be able to use Subscription as well!
 To enable the client everywhere add:
 
 <br />
-```svelte /* file: src/routes/__layout.svelte */
+```svelte 
+/* file: src/routes/__layout.svelte */
 
 <script context="module" lang="ts">
 	import {houdiniClient} from '$graphql/client'; 
