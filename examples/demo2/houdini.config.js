@@ -8,7 +8,7 @@ const config = {
 		DateTime: {
 			type: 'Date',
 			unmarshal(val) {
-				// to typescript
+				// to typescript type
 				return new Date(val);
 			},
 			marshal(date) {
