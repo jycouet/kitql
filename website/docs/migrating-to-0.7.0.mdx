@@ -35,13 +35,16 @@ Here is the list of things to update:
 - If you were using `KitQL` only in a client context, you should probably strip down your `.graphqlrc.yaml` file down to
 
 ```yaml
+# file .graphqlrc.yaml
+
 projects:
   # You can add multiple projects and generate with -p args
   default:
     # 👇 For vscode-graphql and intellisense
     schema:
-      - ./src/**/*.graphql
-      - ./$houdini/graphql/schema.gql
+      - ./src/lib/graphql/schema.json
+      # - ./src/**/*.graphql
+      - ./$houdini/graphql/schema.graphql
     documents:
       - ./src/**/*.gql
       - ./$houdini/graphql/documents.gql
