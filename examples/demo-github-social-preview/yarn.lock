@@ -1255,10 +1255,10 @@
     "@jridgewell/resolve-uri" "^3.0.3"
     "@jridgewell/sourcemap-codec" "^1.4.10"
 
-"@kitql/all-in@0.7.0-next.4":
-  version "0.7.0-next.4"
-  resolved "https://registry.yarnpkg.com/@kitql/all-in/-/all-in-0.7.0-next.4.tgz#9ed3ac7af58abbd8fcec85cc720f26147b2793b6"
-  integrity sha512-XV0bcltNmv08wNZykZc+WMzsEzHt8MgSnZLxw6nCZd7Y7U6BA7kizx0jJq1PrvoFy1bNwnkRnLK5MYXcWtHOSw==
+"@kitql/all-in@0.7.1":
+  version "0.7.1"
+  resolved "https://registry.yarnpkg.com/@kitql/all-in/-/all-in-0.7.1.tgz#8f686bdc539d934557871a37f3ba776140aea1be"
+  integrity sha512-6crEPZLPhmKYGYp4DwsIdM/bckE4NGdVvpk1TuEVD1BBCoiuP5wFhehOwxGRxVZT7bAfbOEUm9IwlLuENNJssQ==
   dependencies:
     "@envelop/core" "2.4.0"
     "@envelop/graphql-jit" "4.3.0"
@@ -1277,7 +1277,7 @@
     "@kitql/vite-plugin-watch-and-run" "0.3.7"
     graphql-modules "2.1.0"
     graphql-scalars "1.17.0"
-    houdini "0.15.0-next.26"
+    houdini "^0.15.4"
 
 "@kitql/helper@0.3.5", "@kitql/helper@^0.3.4":
   version "0.3.5"
@@ -1446,10 +1446,10 @@
     "@vercel/nft" "^0.20.0"
     esbuild "^0.14.42"
 
-"@sveltejs/kit@next":
-  version "1.0.0-next.357"
-  resolved "https://registry.yarnpkg.com/@sveltejs/kit/-/kit-1.0.0-next.357.tgz#da92d327a8ea3881ccb61318f5c5e89205ac02eb"
-  integrity sha512-nCAehVybIEpQNnPu61V/EFVdfDb1nBSiQUfW9EcSSDEUbyAMCVBOKZZuzQ0qQDp3xniqRkyDzpBA4wN+ADxHBw==
+"@sveltejs/kit@1.0.0-next.358":
+  version "1.0.0-next.358"
+  resolved "https://registry.yarnpkg.com/@sveltejs/kit/-/kit-1.0.0-next.358.tgz#a463423b605a7ec05fbc0f8fb7f5450ea020f05b"
+  integrity sha512-GaP7oKS9eawpCy01piJmdDqobFVsFObXSC5sGydyqwqe1RXOR/QoISBys6SZJ+gx+1bp9AOwvIiw7+GrltDN8A==
   dependencies:
     "@sveltejs/vite-plugin-svelte" "^1.0.0-next.48"
     chokidar "^3.5.3"
@@ -3350,6 +3350,11 @@ graphql-ws@^5.4.1:
   resolved "https://registry.yarnpkg.com/graphql-ws/-/graphql-ws-5.9.1.tgz#9c0fa48ceb695d61d574ed3ab21b426729e87f2d"
   integrity sha512-mL/SWGBwIT9Meq0NlfS55yXXTOeWPMbK7bZBEZhFu46bcGk1coTx2Sdtzxdk+9yHWngD+Fk1PZDWaAutQa9tpw==
 
+graphql@16.5.0:
+  version "16.5.0"
+  resolved "https://registry.yarnpkg.com/graphql/-/graphql-16.5.0.tgz#41b5c1182eaac7f3d47164fb247f61e4dfb69c85"
+  integrity sha512-qbHgh8Ix+j/qY+a/ZcJnFQ+j8ezakqPiHwPiZhV/3PgGlgf96QMBB5/f2rkiC9sgLoy/xvT6TSiaf2nTHJh5iA==
+
 graphql@^15.5.0:
   version "15.8.0"
   resolved "https://registry.yarnpkg.com/graphql/-/graphql-15.8.0.tgz#33410e96b012fa3bdb1091cc99a94769db212b38"
@@ -3411,10 +3416,10 @@ header-case@^2.0.4:
     capital-case "^1.0.4"
     tslib "^2.0.3"
 
-houdini@0.15.0-next.26:
-  version "0.15.0-next.26"
-  resolved "https://registry.yarnpkg.com/houdini/-/houdini-0.15.0-next.26.tgz#ca412ea08b82fea7d6afbf9975864f070d055b58"
-  integrity sha512-BPjy6mPEgPBY/slfHThmQ2vn1Vpul1yt9wOT0lVZieGq+5FWCeFcK2n4X2g9VBYAoZ+uAY1b28qn+aS9nOD5qg==
+houdini@^0.15.4:
+  version "0.15.4"
+  resolved "https://registry.yarnpkg.com/houdini/-/houdini-0.15.4.tgz#c32bfb07cb5cd4f9de8080843a972118a3d40804"
+  integrity sha512-HChFKftUkYF+2aEG8TvlVPdeQV1KUgJ8hXocqV9xfMEVRQi5eghlP0tZs18A7lnZwLdi1D4EE57QJohbnDQIaw==
   dependencies:
     "@babel/parser" "^7.17.2"
     "@graphql-tools/schema" "^8.3.7"

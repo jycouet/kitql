@@ -3,7 +3,7 @@ projects:
   default:
     schema:
       - ./src/lib/modules/**/typedefs/*.graphql
-      - ./$houdini/graphql/schema.gql
+      - ./$houdini/graphql/schema.graphql
     documents:
       - ./src/lib/modules/**/graphql/*.gql
       - ./$houdini/graphql/documents.gql

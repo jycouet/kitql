@@ -5,7 +5,7 @@ projects:
       - ./src/lib/graphql/schema.json # or https://countries.trevorblades.com/graphql
         # headers:
         #   Authorization: 'Bearer ${TOKEN}'
-      - ./$houdini/graphql/schema.gql
+      - ./$houdini/graphql/schema.graphql
     documents:
       - '**/*.gql'
       - ./$houdini/graphql/documents.gql
