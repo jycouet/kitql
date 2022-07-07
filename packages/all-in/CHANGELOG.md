@@ -1,5 +1,11 @@
 # @kitql/all-in
 
+## 0.7.1
+
+### Patch Changes
+
+- [`032d3e1`](https://github.com/jycouet/kitql/commit/032d3e13285dcf0c9136e9c2d318c0f11d560aba) Thanks [@jycouet](https://github.com/jycouet)! - use Houdini 0.15.x
+
 ## 0.7.0
 
 Version 0.7.0 is the biggest release yet! Thanks for everyone who helped test/contribute 🎉 🥰 The biggest update here is that
