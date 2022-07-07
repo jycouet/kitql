@@ -22,9 +22,9 @@
 - Documentation: [https://kitql.dev](https://kitql.dev)
 - Day by day progress, check [twitter - jycouet](https://twitter.com/jycouet/status/1486052645567672324)
 - Video 👇
-<a href="https://www.youtube.com/watch?v=Ggz5cvxDwFs" target="_blank">
+  <a href="https://www.youtube.com/watch?v=Ggz5cvxDwFs" target="_blank">
   <img src="https://img.youtube.com/vi/Ggz5cvxDwFs/0.jpg" alt="Watch the video" width="100%" />
-</a>
+  </a>
 
 <br />
 
