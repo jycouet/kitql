@@ -3,7 +3,7 @@ projects:
   default:
     schema:
       - ./src/lib/graphql/schema.json
-      - ./$houdini/graphql/schema.gql
+      - ./$houdini/graphql/schema.graphql
     documents:
       - '**/*.gql'
       - ./$houdini/graphql/documents.gql
