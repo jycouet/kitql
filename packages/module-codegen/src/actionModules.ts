@@ -1,4 +1,4 @@
-import { join, relative } from 'path'
+import { join, posix } from 'path'
 import { createFolderIfNotExists } from './fileFolder'
 import { write } from './readWrite'
 
@@ -8,7 +8,7 @@ export function actionModules(modules: { directory: string; name: string }[], ou
   const dataAppModules = []
 
   modules.forEach(module => {
-    const moduleRelativePath = relative(outputFolder, module.directory)
+    const moduleRelativePath = posix.relative(outputFolder, module.directory)
     modulesImports.push(`import { ${module.name}Module } from '${moduleRelativePath}';`)
     modulesExports.push(`  ${module.name}Module,`)
   })

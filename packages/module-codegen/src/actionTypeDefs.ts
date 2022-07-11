@@ -8,14 +8,19 @@ export function actionTypeDefs(moduleFolder: string, moduleOutputFolder: string)
   const typedefsFiles = getFiles(join(moduleFolder, typedefsFolder))
 
   const dataTypedefs = []
-
-  dataTypedefs.push(`import { gql } from 'graphql-modules'`)
-  dataTypedefs.push(``)
-  dataTypedefs.push(`export const typeDefs = gql${'`'}`)
-  typedefsFiles.forEach(typedefs => {
-    dataTypedefs.push(read(join(moduleFolder, typedefsFolder, typedefs)))
-  })
-  dataTypedefs.push(`${'`'};`)
+  if (typedefsFiles.length > 0) {
+    dataTypedefs.push(`import { gql } from 'graphql-modules'`)
+    dataTypedefs.push(``)
+    dataTypedefs.push(`export const typeDefs = gql${'`'}`)
+    typedefsFiles.forEach(typedefs => {
+      dataTypedefs.push(read(join(moduleFolder, typedefsFolder, typedefs)))
+    })
+    dataTypedefs.push(`${'`'};`)
+  } else {
+    dataTypedefs.push(`// No typedefs!`)
+    dataTypedefs.push(``)
+    dataTypedefs.push(`export const typeDefs = null`)
+  }
 
   createFolderIfNotExists(join(moduleFolder, moduleOutputFolder))
 
