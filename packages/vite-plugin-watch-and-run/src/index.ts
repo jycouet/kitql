@@ -55,6 +55,11 @@ function checkConf(params: Options[]) {
       throw new Error('plugin watch-and-run, `run` is missing.')
     }
 
+    // @ts-ignore (because the config is in a js file, and people maybe didn't update their config.)
+    if (param.watchKind === 'ADD' || param.watchKind === 'CHANGE' || param.watchKind === 'DELETE') {
+      throw new Error('BREAKING: ADD, CHANGE, DELETE were renamed add, change, delete. Please update your config.')
+    }
+
     paramsChecked[param.watch] = {
       kind: param.watchKind ?? ['add', 'change', 'delete'],
       run: param.run,
