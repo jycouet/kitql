@@ -1,5 +1,11 @@
 # @kitql/vite-plugin-watch-and-run
 
+## 0.4.0
+
+### Minor Changes
+
+- [#171](https://github.com/jycouet/kitql/pull/171) [`e5b19b1`](https://github.com/jycouet/kitql/commit/e5b19b11af441b3efbc2f71cb91aad99658ef0b1) Thanks [@Giovannini](https://github.com/Giovannini)! - BREAKING: ADD, CHANGE, DELETE were renamed add, change, delete
+
 ## 0.3.7
 
 ### Patch Changes
