@@ -26,10 +26,14 @@ export type Options = {
   name?: string | null
 }
 
-export type WatchKind = 'ADD' | 'CHANGE' | 'DELETE'
+export const kindWithPath = ['add', 'addDir', 'change', 'delete', 'unlink', 'unlinkDir'] as const
+export type KindWithPath = typeof kindWithPath[number]
+export const kindWithoutPath = ['all', 'error', 'raw', 'ready'] as const
+export type KindWithoutPath = typeof kindWithoutPath[number]
+export type WatchKind = KindWithPath | KindWithoutPath
 
 export type StateDetail = {
-  kind: ('ADD' | 'CHANGE' | 'DELETE')[]
+  kind: WatchKind[]
   run: string
   delay: number
   isRunning: boolean
@@ -43,8 +47,7 @@ function checkConf(params: Options[]) {
 
   const paramsChecked: Record<string, StateDetail> = {}
 
-  for (let i = 0; i < params.length; i++) {
-    const param = params[i]
+  params.forEach(param => {
     if (!param.watch) {
       throw new Error('plugin watch-and-run, `watch` is missing.')
     }
@@ -52,22 +55,37 @@ function checkConf(params: Options[]) {
       throw new Error('plugin watch-and-run, `run` is missing.')
     }
 
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore (because the config is in a js file, and people maybe didn't update their config.)
+    if (param.watchKind === 'ADD' || param.watchKind === 'CHANGE' || param.watchKind === 'DELETE') {
+      throw new Error('BREAKING: ADD, CHANGE, DELETE were renamed add, change, delete. Please update your config.')
+    }
+
     paramsChecked[param.watch] = {
-      kind: param.watchKind ?? ['ADD', 'CHANGE', 'DELETE'],
+      kind: param.watchKind ?? ['add', 'change', 'delete'],
       run: param.run,
       delay: param.delay ?? 300,
       isRunning: false,
       name: param.name,
     }
-  }
+  })
 
   return paramsChecked
 }
 
-async function shouldRun(absolutePath: string, watchKind: WatchKind, watchAndRunConf: Record<string, StateDetail>) {
-  for (const globToWatch in watchAndRunConf) {
-    const param = watchAndRunConf[globToWatch]
-    if (!param.isRunning && param.kind.includes(watchKind) && micromatch.isMatch(absolutePath, globToWatch)) {
+type ShouldRunResult =
+  | { shouldRun: true; globToWatch: string; param: StateDetail }
+  | { shouldRun: false; globToWatch: null; param: null }
+function shouldRun(
+  absolutePath: string | null,
+  watchKind: WatchKind,
+  watchAndRunConf: Record<string, StateDetail>
+): ShouldRunResult {
+  for (const [globToWatch, param] of Object.entries(watchAndRunConf)) {
+    const isWatched = param.kind.includes(watchKind)
+    const isPathMatching = absolutePath && micromatch.isMatch(absolutePath, globToWatch)
+    const isWatchKindWithoutPath = kindWithoutPath.includes(watchKind as KindWithoutPath)
+    if (!param.isRunning && isWatched && (isPathMatching || isWatchKindWithoutPath)) {
       return {
         shouldRun: true,
         globToWatch,
@@ -86,14 +104,18 @@ function formatLog(str: string, name?: string) {
   return `${name ? logMagneta(`[${name}]`) : ''} ${str}`
 }
 
-async function watcher(absolutePath: string, watchKind: WatchKind, watchAndRunConf: Record<string, StateDetail>) {
-  const shouldRunInfo = await shouldRun(absolutePath, watchKind, watchAndRunConf)
+async function watcher(
+  absolutePath: string | null,
+  watchKind: WatchKind,
+  watchAndRunConf: Record<string, StateDetail>
+) {
+  const shouldRunInfo = shouldRun(absolutePath, watchKind, watchAndRunConf)
   if (shouldRunInfo.shouldRun) {
     watchAndRunConf[shouldRunInfo.globToWatch].isRunning = true
 
     log.info(
       `${logGreen('✔')} Thx to ${logGreen(shouldRunInfo.globToWatch)}, ` +
-        `triggered by ${logCyan(watchKind)} ${logGreen(absolutePath)}, ` +
+        `triggered by ${logCyan(watchKind)} ${absolutePath && logGreen(absolutePath)}, ` +
         `we will wait ${logCyan(shouldRunInfo.param.delay + 'ms')} and run ${logGreen(shouldRunInfo.param.run)}.`
     )
 
@@ -103,12 +125,12 @@ async function watcher(absolutePath: string, watchKind: WatchKind, watchAndRunCo
 
       //spit stdout to screen
       child.stdout.on('data', data => {
-        process.stdout.write(formatLog(data.toString(), shouldRunInfo.param.name))
+        process.stdout.write(formatLog(data.toString(), shouldRunInfo.param.name ?? ''))
       })
 
       //spit stderr to screen
       child.stderr.on('data', data => {
-        process.stdout.write(formatLog(data.toString(), shouldRunInfo.param.name))
+        process.stdout.write(formatLog(data.toString(), shouldRunInfo.param.name ?? ''))
       })
 
       child.on('close', code => {
@@ -139,19 +161,15 @@ export default function watchAndRun(params: Options[]) {
     watchAndRunConf,
 
     configureServer(server) {
-      const watcherAdd = async absolutePath => {
-        watcher(absolutePath, 'ADD', watchAndRunConf)
-      }
-      const watcherChange = async absolutePath => {
-        watcher(absolutePath, 'CHANGE', watchAndRunConf)
-      }
-      const watcherDelete = async absolutePath => {
-        watcher(absolutePath, 'DELETE', watchAndRunConf)
-      }
+      kindWithPath.forEach((kind: KindWithPath) => {
+        const _watcher = async (absolutePath: string) => watcher(absolutePath, kind, watchAndRunConf)
+        server.watcher.on(kind, _watcher)
+      })
 
-      server.watcher.on('add', watcherAdd)
-      server.watcher.on('change', watcherChange)
-      server.watcher.on('delete', watcherDelete)
+      kindWithoutPath.forEach((kind: KindWithoutPath) => {
+        const _watcher = () => watcher(null, kind, watchAndRunConf)
+        server.watcher.on(kind, _watcher)
+      })
     },
   }
 }
