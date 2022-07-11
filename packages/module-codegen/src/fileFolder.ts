@@ -30,7 +30,7 @@ export function getFileWODots(str) {
 
 export function createFolderIfNotExists(folder) {
   if (!existsSync(folder)) {
-    mkdirSync(folder)
+    mkdirSync(folder, { recursive: true })
   }
 }
 
