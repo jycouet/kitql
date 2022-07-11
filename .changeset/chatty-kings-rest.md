@@ -2,4 +2,4 @@
 "@kitql/module-codegen": patch
 ---
 
-fiw windows import
+fix: windows import relative path are now working

@@ -11,7 +11,10 @@ export function actionResolvers(moduleFolder: string, moduleOutputFolder: string
   const dataResolvers = []
   resolversFiles.forEach(resolver => {
     dataResolvers.push(
-      `import { resolvers as ${getFileWODots(resolver)} } from '${join(relativeResolversFolder, getFileWOTS(resolver))}';`
+      `import { resolvers as ${getFileWODots(resolver)} } from '${join(
+        relativeResolversFolder,
+        getFileWOTS(resolver)
+      )}';`
     )
   })
   dataResolvers.push(``)
