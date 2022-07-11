@@ -26,9 +26,9 @@ export type Options = {
   name?: string | null
 }
 
-const kindWithPath = ['add', 'addDir', 'change', 'delete', 'unlink', 'unlinkDir'] as const
+export const kindWithPath = ['add', 'addDir', 'change', 'delete', 'unlink', 'unlinkDir'] as const
 export type KindWithPath = typeof kindWithPath[number]
-const kindWithoutPath = ['all', 'error', 'raw', 'ready'] as const
+export const kindWithoutPath = ['all', 'error', 'raw', 'ready'] as const
 export type KindWithoutPath = typeof kindWithoutPath[number]
 export type WatchKind = KindWithPath | KindWithoutPath
 
