@@ -1,5 +1,15 @@
 # @kitql/module-codegen
 
+## 0.3.9
+
+### Patch Changes
+
+- [#178](https://github.com/jycouet/kitql/pull/178) [`9b9fff2`](https://github.com/jycouet/kitql/commit/9b9fff2612c82db76f7dc53eb25f85314e5083b7) Thanks [@jycouet](https://github.com/jycouet)! - fix: windows import relative path are now working
+
+* [#178](https://github.com/jycouet/kitql/pull/178) [`9b9fff2`](https://github.com/jycouet/kitql/commit/9b9fff2612c82db76f7dc53eb25f85314e5083b7) Thanks [@jycouet](https://github.com/jycouet)! - fix: nested moduleOutputFolder is not supported
+
+- [#178](https://github.com/jycouet/kitql/pull/178) [`9b9fff2`](https://github.com/jycouet/kitql/commit/9b9fff2612c82db76f7dc53eb25f85314e5083b7) Thanks [@jycouet](https://github.com/jycouet)! - fix: typedefs null if no folder or no files
+
 ## 0.3.8
 
 ### Patch Changes
