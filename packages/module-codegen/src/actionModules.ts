@@ -1,6 +1,7 @@
 import { join, relative } from 'path'
 import { createFolderIfNotExists } from './fileFolder'
 import { write } from './readWrite'
+import { toForwardSlash } from './helpers'
 
 export function actionModules(modules: { directory: string; name: string }[], outputFolder: string) {
   const modulesImports: string[] = []
@@ -8,7 +9,7 @@ export function actionModules(modules: { directory: string; name: string }[], ou
   const dataAppModules = []
 
   modules.forEach(module => {
-    const moduleRelativePath = relative(outputFolder, module.directory)
+    const moduleRelativePath = toForwardSlash(relative(outputFolder, module.directory))
     modulesImports.push(`import { ${module.name}Module } from '${moduleRelativePath}';`)
     modulesExports.push(`  ${module.name}Module,`)
   })
