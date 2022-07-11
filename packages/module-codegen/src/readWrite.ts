@@ -1,5 +1,5 @@
-import path from 'path'
 import fs from 'fs'
+import path from 'path'
 
 export function read(pathFile: string): string {
   return fs.readFileSync(pathFile, { encoding: 'utf8' })
@@ -10,9 +10,15 @@ export function readLines(pathFile: string): string[] {
 }
 
 export function write(pathFile: string, data: string | string[]) {
-  if (Array.isArray(data)) {
-    fs.writeFileSync(path.join(pathFile), data.join('\n'))
-  } else if (typeof data === 'string') {
-    fs.writeFileSync(path.join(pathFile), data)
+  const fullDataToWrite = Array.isArray(data) ? data.join('\n') : data
+
+  // Don't write if nothing changed!
+  if (fs.existsSync(pathFile)) {
+    const currentFileData = read(pathFile)
+    if (fullDataToWrite === currentFileData) {
+      return
+    }
   }
+
+  fs.writeFileSync(path.join(pathFile), fullDataToWrite)
 }
