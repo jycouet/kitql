@@ -1,5 +1,13 @@
 # @kitql/all-in
 
+## 0.7.2
+
+### Patch Changes
+
+- Updated dependencies [[`9b9fff2`](https://github.com/jycouet/kitql/commit/9b9fff2612c82db76f7dc53eb25f85314e5083b7), [`9b9fff2`](https://github.com/jycouet/kitql/commit/9b9fff2612c82db76f7dc53eb25f85314e5083b7), [`e5b19b1`](https://github.com/jycouet/kitql/commit/e5b19b11af441b3efbc2f71cb91aad99658ef0b1), [`9b9fff2`](https://github.com/jycouet/kitql/commit/9b9fff2612c82db76f7dc53eb25f85314e5083b7)]:
+  - @kitql/module-codegen@0.3.9
+  - @kitql/vite-plugin-watch-and-run@0.4.0
+
 ## 0.7.1
 
 ### Patch Changes
