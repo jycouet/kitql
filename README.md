@@ -100,4 +100,4 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
 
 <!-- ALL-CONTRIBUTORS-LIST:END -->
 
-Wanna contribute? Check [this page](./CONTRIBUTING.md)
+Wanna contribute? More info on [this page](./CONTRIBUTING.md)
