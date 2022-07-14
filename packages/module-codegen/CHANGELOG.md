@@ -1,5 +1,11 @@
 # @kitql/module-codegen
 
+## 0.3.10
+
+### Patch Changes
+
+- [#181](https://github.com/jycouet/kitql/pull/181) [`abee2a9`](https://github.com/jycouet/kitql/commit/abee2a97ea28581df616698fce44d00e8e4d3d51) Thanks [@jycouet](https://github.com/jycouet)! - fix: path import for windows
+
 ## 0.3.9
 
 ### Patch Changes
