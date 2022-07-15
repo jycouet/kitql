@@ -1,5 +1,12 @@
 # @kitql/all-in
 
+## 0.7.3
+
+### Patch Changes
+
+- Updated dependencies [[`abee2a9`](https://github.com/jycouet/kitql/commit/abee2a97ea28581df616698fce44d00e8e4d3d51)]:
+  - @kitql/module-codegen@0.3.10
+
 ## 0.7.2
 
 ### Patch Changes
