@@ -2,11 +2,17 @@ import { Log, logCyan, logGreen, logMagneta, logRed } from '@kitql/helper'
 import { spawn } from 'child_process'
 import micromatch from 'micromatch'
 
+function getArraysIntersection(a1: any[], a2) {
+  return a1.filter(n => {
+    return a2.includes(n)
+  })
+}
+
 export type Options = {
   /**
    * watch files to trigger the run action (glob format)
    */
-  watch: string
+  watch?: string
   /**
    * Kind of watch that will trigger the run action
    */
@@ -48,7 +54,15 @@ function checkConf(params: Options[]) {
   const paramsChecked: Record<string, StateDetail> = {}
 
   params.forEach(param => {
-    if (!param.watch) {
+    paramsChecked[param.watch] = {
+      kind: param.watchKind ?? ['add', 'change', 'delete'],
+      run: param.run,
+      delay: param.delay ?? 300,
+      isRunning: false,
+      name: param.name,
+    }
+
+    if (!param.watch && getArraysIntersection(paramsChecked[param.watch].kind, kindWithPath).length !== 0) {
       throw new Error('plugin watch-and-run, `watch` is missing.')
     }
     if (!param.run) {
@@ -59,14 +73,6 @@ function checkConf(params: Options[]) {
     // @ts-ignore (because the config is in a js file, and people maybe didn't update their config.)
     if (param.watchKind === 'ADD' || param.watchKind === 'CHANGE' || param.watchKind === 'DELETE') {
       throw new Error('BREAKING: ADD, CHANGE, DELETE were renamed add, change, delete. Please update your config.')
-    }
-
-    paramsChecked[param.watch] = {
-      kind: param.watchKind ?? ['add', 'change', 'delete'],
-      run: param.run,
-      delay: param.delay ?? 300,
-      isRunning: false,
-      name: param.name,
     }
   })
 
@@ -113,11 +119,17 @@ async function watcher(
   if (shouldRunInfo.shouldRun) {
     watchAndRunConf[shouldRunInfo.globToWatch].isRunning = true
 
-    log.info(
-      `${logGreen('✔')} Thx to ${logGreen(shouldRunInfo.globToWatch)}, ` +
-        `triggered by ${logCyan(watchKind)} ${absolutePath && logGreen(absolutePath)}, ` +
-        `we will wait ${logCyan(shouldRunInfo.param.delay + 'ms')} and run ${logGreen(shouldRunInfo.param.run)}.`
-    )
+    if (shouldRunInfo.globToWatch) {
+      log.info(
+        `${logGreen('✔')} Watch ${logCyan(watchKind)}${absolutePath && logGreen(' ' + absolutePath)}` +
+          ` and run ${logGreen(shouldRunInfo.param.run)} (+${logCyan(shouldRunInfo.param.delay + 'ms')}).`
+      )
+    } else {
+      log.info(
+        `${logGreen('✔')} Watch ${logCyan(watchKind)}` +
+          ` and run ${logGreen(shouldRunInfo.param.run)} (+${logCyan(shouldRunInfo.param.delay + 'ms')}).`
+      )
+    }
 
     // Run after a delay
     setTimeout(() => {
@@ -149,7 +161,7 @@ async function watcher(
   return
 }
 
-const log = new Log('KitQL vite-plugin-watch-and-run')
+const log = new Log('KitQL Watch-And-Run')
 
 export default function watchAndRun(params: Options[]) {
   // check params, throw Errors if not valid and return a new object representing the state of the plugin
