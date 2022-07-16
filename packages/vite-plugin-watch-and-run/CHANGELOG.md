@@ -1,5 +1,11 @@
 # @kitql/vite-plugin-watch-and-run
 
+## 0.4.1
+
+### Patch Changes
+
+- [#184](https://github.com/jycouet/kitql/pull/184) [`64fdc09`](https://github.com/jycouet/kitql/commit/64fdc09a052a9b9ea38d081910f13267522b71a1) Thanks [@jycouet](https://github.com/jycouet)! - fix: typing - watch is an optional parameter
+
 ## 0.4.0
 
 ### Minor Changes
