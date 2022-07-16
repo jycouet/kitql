@@ -2,7 +2,7 @@ import { Log, logCyan, logGreen, logMagneta, logRed } from '@kitql/helper'
 import { spawn } from 'child_process'
 import micromatch from 'micromatch'
 
-function getArraysIntersection(a1: any[], a2: any[]) {
+function getArraysIntersection(a1: any[], a2) {
   return a1.filter(n => {
     return a2.includes(n)
   })
