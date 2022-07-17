@@ -80,8 +80,8 @@ describe('vite-plugin-watch-and-run', () => {
       return 'error'
     })
     plugin.configureServer(server)
-    expect(spy).toHaveBeenCalledTimes(10)
-    const operations = ['add', 'addDir', 'change', 'unlink', 'unlink', 'unlinkDir', 'all', 'error', 'raw', 'ready']
+    expect(spy).toHaveBeenCalledTimes(9)
+    const operations = ['add', 'addDir', 'change', 'unlink', 'unlinkDir', 'all', 'error', 'raw', 'ready']
     spy.mock.calls.forEach((call, index) => {
       expect(spy).toHaveBeenNthCalledWith(index + 1, operations[index], call[1])
       expect(spy).toHaveNthReturnedWith(index + 1, 'registered')
