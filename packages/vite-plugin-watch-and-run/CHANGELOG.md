@@ -1,5 +1,13 @@
 # @kitql/vite-plugin-watch-and-run
 
+## 0.4.2
+
+### Patch Changes
+
+- [#186](https://github.com/jycouet/kitql/pull/186) [`3bb1347`](https://github.com/jycouet/kitql/commit/3bb13476f1951cf9b101fa4f6ad28d80bfc4f917) Thanks [@jycouet](https://github.com/jycouet)! - fix: typing - watch is an optional parameter
+
+* [#186](https://github.com/jycouet/kitql/pull/186) [`3bb1347`](https://github.com/jycouet/kitql/commit/3bb13476f1951cf9b101fa4f6ad28d80bfc4f917) Thanks [@jycouet](https://github.com/jycouet)! - fix: delete event doesn't exist, it's unlink
+
 ## 0.4.1
 
 ### Patch Changes
