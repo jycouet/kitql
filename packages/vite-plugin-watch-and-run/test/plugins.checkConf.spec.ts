@@ -37,14 +37,14 @@ describe('vite-plugin-watch-and-run', () => {
     expect(plugin.watchAndRunConf).to.have.property(watch).to.have.property('delay', 0)
   })
 
-  it('Should have a valid conf, with default watchKind:add / change / delete', async () => {
+  it('Should have a valid conf, with default watchKind:add / change / unlink', async () => {
     const watch = '**/*.(gql|graphql)'
     const plugin = watchAndRun([{ watch, run: 'yarn gen' }])
 
     expect(plugin.watchAndRunConf)
       .to.have.property(watch)
       .to.have.property('kind')
-      .to.have.all.members(['add', 'change', 'delete'])
+      .to.have.all.members(['add', 'change', 'unlink'])
   })
 
   it('Should run on ready state too', async () => {
@@ -53,14 +53,14 @@ describe('vite-plugin-watch-and-run', () => {
       {
         watch,
         run: 'yarn gen',
-        watchKind: ['add', 'change', 'delete', 'ready'],
+        watchKind: ['add', 'change', 'unlink', 'ready'],
       },
     ])
 
     expect(plugin.watchAndRunConf)
       .to.have.property(watch)
       .to.have.property('kind')
-      .to.have.all.members(['add', 'change', 'delete', 'ready'])
+      .to.have.all.members(['add', 'change', 'unlink', 'ready'])
   })
 
   it('Should register all watchers', async () => {
@@ -72,7 +72,7 @@ describe('vite-plugin-watch-and-run', () => {
         on: vi.fn(),
       },
     }
-    const spy = vi.spyOn(server.watcher, 'on').mockImplementation((type: 'add' | 'change' | 'delete', callback) => {
+    const spy = vi.spyOn(server.watcher, 'on').mockImplementation((type: 'add' | 'change' | 'unlink', callback) => {
       if (kindWithPath.includes(type) || kindWithoutPath.includes(type as KindWithoutPath)) {
         // eslint-disable-next-line unicorn/no-lonely-if
         if (typeof callback === 'function') return 'registered'
@@ -80,8 +80,8 @@ describe('vite-plugin-watch-and-run', () => {
       return 'error'
     })
     plugin.configureServer(server)
-    expect(spy).toHaveBeenCalledTimes(10)
-    const operations = ['add', 'addDir', 'change', 'delete', 'unlink', 'unlinkDir', 'all', 'error', 'raw', 'ready']
+    expect(spy).toHaveBeenCalledTimes(9)
+    const operations = ['add', 'addDir', 'change', 'unlink', 'unlinkDir', 'all', 'error', 'raw', 'ready']
     spy.mock.calls.forEach((call, index) => {
       expect(spy).toHaveBeenNthCalledWith(index + 1, operations[index], call[1])
       expect(spy).toHaveNthReturnedWith(index + 1, 'registered')

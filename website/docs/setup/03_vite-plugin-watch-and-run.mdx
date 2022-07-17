@@ -30,7 +30,7 @@ const config = {
     watchAndRun([
       {
         name: 'gen',
-        watchKind: ['add', 'change', 'delete'],
+        watchKind: ['add', 'change', 'unlink'],
         watch: path.resolve('src/**/*.(gql|svelte)'),
         run: 'npm run gen',
         delay: 300
@@ -44,9 +44,9 @@ export default config;
 
 <br />
 ## List of `watchKind`
-Default list when not set: `['add', 'change', 'delete']`
+Default list when not set: `['add', 'change', 'unlink']`
 
-Other possible events: `"addDir", "all", "error", "raw", "ready", "unlink", "unlinkDir"`.
+Other possible events: `"addDir", "all", "error", "raw", "ready", "unlinkDir"`.
 
 More info here: https://github.com/paulmillr/chokidar#api
 
