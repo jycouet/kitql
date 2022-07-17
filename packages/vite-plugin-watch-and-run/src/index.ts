@@ -32,7 +32,7 @@ export type Options = {
   name?: string | null
 }
 
-export const kindWithPath = ['add', 'addDir', 'change', 'delete', 'unlink', 'unlinkDir'] as const
+export const kindWithPath = ['add', 'addDir', 'change', 'unlink', 'unlinkDir'] as const
 export type KindWithPath = typeof kindWithPath[number]
 export const kindWithoutPath = ['all', 'error', 'raw', 'ready'] as const
 export type KindWithoutPath = typeof kindWithoutPath[number]
@@ -55,7 +55,7 @@ function checkConf(params: Options[]) {
 
   params.forEach(param => {
     paramsChecked[param.watch] = {
-      kind: param.watchKind ?? ['add', 'change', 'delete'],
+      kind: param.watchKind ?? ['add', 'change', 'unlink'],
       run: param.run,
       delay: param.delay ?? 300,
       isRunning: false,
@@ -72,7 +72,7 @@ function checkConf(params: Options[]) {
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore (because the config is in a js file, and people maybe didn't update their config.)
     if (param.watchKind === 'ADD' || param.watchKind === 'CHANGE' || param.watchKind === 'DELETE') {
-      throw new Error('BREAKING: ADD, CHANGE, DELETE were renamed add, change, delete. Please update your config.')
+      throw new Error('BREAKING: ADD, CHANGE, DELETE were renamed add, change, unlink. Please update your config.')
     }
   })
 
