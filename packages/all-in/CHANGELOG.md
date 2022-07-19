@@ -1,5 +1,11 @@
 # @kitql/all-in
 
+## 0.7.6
+
+### Patch Changes
+
+- [#190](https://github.com/jycouet/kitql/pull/190) [`bc6cf8e`](https://github.com/jycouet/kitql/commit/bc6cf8eaefd04f8fa112c43d23f72cb609435ecb) Thanks [@jycouet](https://github.com/jycouet)! - bump: houdini to 0.15.6
+
 ## 0.7.5
 
 ### Patch Changes
