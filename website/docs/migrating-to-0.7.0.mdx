@@ -17,11 +17,11 @@ The biggest change for KitQL users is that generated stores are done from Houdin
 <br />
 Here is the list of things to update:
 
-1. Bump your `@kitlql/all-in` version to 0.7.0
+1. Bump your `@kitlql/all-in` version to 0.7.x
 
 1. The file `.graphqlrc.yaml` doesn't hold any client info for generation [👇](#graphqlrcyaml-file)
 
-1. Configure Houdini, follow this [guide](/docs/setup/01_houdini). _And comeback here!_
+1. Configure Houdini, follow this [guide](/docs/setup/01_houdini). **_And comeback here!_**
 
 1. To migrate a big project, you can in `houdini.config.js` add `disableMasking: true`
 
@@ -88,9 +88,9 @@ After:
 <script context="module" lang="ts">
   import { browser } from '$app/env'
   import { GQL_FirstQuery } from '$houdini'
-  import type { LoadEvent } from '@sveltejs/kit'
+  import type { Load } from '@sveltejs/kit'
 
-  export async function load(event: LoadEvent) {
+  export const load: Load = async (event) => {
     await GQL_FirstQuery.fetch({ event })
     return {}
   }
