@@ -5,20 +5,39 @@ sidebar_label: GraphQL Client - Houdini
 
 # ⚡GraphQL Client - Houdini
 
-> FYI: From `SvelteKit 1.0.0-next.359` fetch has an issue. Please stay at `SvelteKit 1.0.0-next.358` until it's fixed.
+## Initial setup
 
-_To know each and every tips & tricks of Houdini, check out the [documentation](https://www.houdinigraphql.com)._
+To setup Houdini, you need to configure a few things in your project. 
+And to make things easy, you can simply do:
+
+```sh
+npx houdini init
+```
+
+And that's it 🎉🎉🎉
+
+_For more info, check out the complete guide 
+[setting-up-your-project](https://www.houdinigraphql.com/guides/setting-up-your-project#starting-a-new-project)
+on Houdini directly._
 
 <br />
-You will find here an overview of how to setup Houdini in a KitQL project.
+## Specials with KitQL
+
+Defaults of Houdini are great 👍.
+We list here a few tweaks to know that integrates well with KitQL.
 
 <br />
-## Configuration
+### Houdini's Tweaks
 
-<br />
-### Create Houdini config
+1/ If you want to host your GraphQL endpoint in SvelteKit, you can configure `schemaPath` to look at files with a  glob expression.
 
-You have to create `houdini.config.js` beside `svelte.config.js` that will hold Houdini configuration
+2/ To avoid conflits, you should write your operations in only 2 files extensions: 
+- `*.svelte`
+- `*.gql`
+
+_(`*.graphql` will be exclusively for graphql server definition)_
+
+Example 👇
 
 <br />
 ```js 
@@ -27,143 +46,19 @@ You have to create `houdini.config.js` beside `svelte.config.js` that will hold 
 /** @type {import('houdini').ConfigFile} */
 const config = {
 	schemaPath: 'src/**/*.graphql',
-	// schemaPath: 'src/lib/graphql/schema.json',
 	sourceGlob: 'src/**/*.{svelte,gql}',
-	scalars: {
-		// Houdini will help you with this part when you will `generate`
-		// No worries 😉
-	}
 };
 
 export default config;
 ```
 _More about the [config](https://www.houdinigraphql.com/api/config)_
 
-<br />
-### Update Svelte config
 
-1. Adding `houdini()` as preprocess
-2. Adding the alias for `$houdini`
-3. Allowing server the access to "."
 
-<br />
-```js 
-/* file: svelte.config.js */
 
-import adapter from '@sveltejs/adapter-auto'
-import houdini from 'houdini/preprocess'
-import path from 'path'
-import preprocess from 'svelte-preprocess'
 
-/\*_ @type {import('@sveltejs/kit').Config} _/
-const config = {
-preprocess: [preprocess(), houdini()],
 
-	kit: {
-		adapter: adapter(),
-
-		vite: {
-			resolve: {
-				alias: {
-					$houdini: path.resolve('.', '$houdini'),
-					$graphql: path.resolve('src', 'lib', 'graphql')
-				}
-			},
-			server: {
-				fs: {
-					allow: ['.']
-				}
-			},
-		}
-	}
-
-};
-
-export default config;
-```
-
-<br />
-### Update TypeScript config
-
-1. Adding `$houdini` and `$houdini/*` to help typescript revolving these paths.
-
-<br />
-```json 
-/* file: tsconfig.json */
-
-{
-	"extends": "./.svelte-kit/tsconfig.json",
-	"compilerOptions": {
-		"paths": {
-			"$lib": ["src/lib"],
-			"$lib/*": ["src/lib/*"],
-			"$graphql": ["src/lib/graphql"],
-			"$graphql/*": ["src/lib/graphql/*"],
-			"$houdini": ["$houdini"]
-		}
-	}
-}
-
-````
-
-<br />
-### Create Houdini client
-
-Your first Houdini client will look like this:
-
-```ts
-/* file: src/graphql/client.ts */
-
-import type { RequestHandlerArgs } from '$houdini';
-import { HoudiniClient } from '$houdini';
-
-async function fetchQuery({
-	fetch,
-	text = '',
-	variables = {},
-	session,
-	metadata
-}: RequestHandlerArgs) {
-	const url = import.meta.env.VITE_GRAPHQL_ENDPOINT || 'https://countries.trevorblades.com/graphql';
-
-	const result = await fetch(url, {
-		method: 'POST',
-		headers: {
-			'Content-Type': 'application/json'
-		},
-		body: JSON.stringify({
-			query: text,
-			variables
-		})
-	});
-
-	return await result.json();
-}
-
-export const houdiniClient = new HoudiniClient(fetchQuery);
-```
-
-You will be able to use Subscription as well!
-
-<br />
-### Initialize Houdini client
-
-To enable the client everywhere add:
-
-<br />
-```svelte 
-/* file: src/routes/__layout.svelte */
-
-<script context="module" lang="ts">
-	import {houdiniClient} from '$graphql/client'; 
-	
-	houdiniClient.init();
-</script>
-
-````
-
-<br />
-### Generate
+### Scripts Tweaks
 
 Run the cmd `houdini generate` to get everything ready for your application: stores, types, cache, ... everything!
 
@@ -181,10 +76,6 @@ Usually, we add it in the `package.json` like below, to be able to extend the `g
 }
 ````
 
-<br />
-### .gitignore
-
-Add `$houdini` in .gitignore.
 
 
 <br />
