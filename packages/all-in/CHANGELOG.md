@@ -1,5 +1,11 @@
 # @kitql/all-in
 
+## 0.7.7
+
+### Patch Changes
+
+- [#194](https://github.com/jycouet/kitql/pull/194) [`fe5cab9`](https://github.com/jycouet/kitql/commit/fe5cab9b773c03b987907107c3faf1f6f3340eed) Thanks [@jycouet](https://github.com/jycouet)! - bump: deps
+
 ## 0.7.6
 
 ### Patch Changes
