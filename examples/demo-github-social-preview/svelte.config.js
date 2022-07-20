@@ -1,4 +1,3 @@
-import watchAndRun from '@kitql/vite-plugin-watch-and-run';
 import adapter from '@sveltejs/adapter-auto';
 import houdini from 'houdini/preprocess';
 import path from 'path';
@@ -12,26 +11,9 @@ const config = {
 
 	kit: {
 		adapter: adapter(),
-		vite: {
-			resolve: {
-				alias: {
-					$houdini: path.resolve('.', '$houdini'),
-					$graphql: path.resolve('src', 'lib', 'graphql')
-				}
-			},
-			server: {
-				fs: {
-					allow: ['.']
-				}
-			},
-			plugins: [
-				watchAndRun([
-					{
-						watch: '**/*.(gql|graphql)',
-						run: 'npm run gen'
-					}
-				])
-			]
+		alias: {
+			$houdini: path.resolve('.', '$houdini'),
+			$graphql: path.resolve('src', 'lib', 'graphql')
 		}
 	}
 };
