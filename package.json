@@ -6,9 +6,8 @@
   "license": "MIT",
   "scripts": {
     "ws": "workspace",
-    "prepare": "husky install && yarn workspace @kitql/client prepare",
+    "prepare": "husky install",
     "dev:t": "yarn build && yarn workspace @kitql/template dev",
-    "dev:c": "yarn workspace @kitql/client dev",
     "dev:w": "cd website && yarn dev",
     "test": "vitest --coverage",
     "lint": "eslint --ignore-path .prettierignore .",
@@ -22,7 +21,7 @@
     "release:version": "yarn changeset version",
     "release": "yarn build && changeset publish",
     "reset": "git clean -xdf",
-    "update": "npm exec --workspaces -- npx ncu -u -p yarn"
+    "update": "npm exec --workspaces -- npx npm-check-updates -u -p yarn"
   },
   "workspaces": {
     "packages": [
@@ -53,8 +52,5 @@
   "volta": {
     "node": "17.4.0",
     "yarn": "1.22.17"
-  },
-  "dependencies": {
-    "svelte2tsx": "0.5.6"
   }
 }

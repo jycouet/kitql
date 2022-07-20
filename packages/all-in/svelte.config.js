@@ -17,14 +17,6 @@ const config = {
         return true
       },
     },
-
-    vite: {
-      resolve: {
-        alias: {
-          '@kitql/client': path.resolve('./src/lib/toExport'),
-        },
-      },
-    },
   },
 }
 
