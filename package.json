@@ -6,7 +6,7 @@
   "license": "MIT",
   "scripts": {
     "ws": "workspace",
-    "prepare": "husky install",
+    "prepare": "husky install && cd packages/all-in && yarn prepare",
     "dev:t": "yarn build && yarn workspace @kitql/template dev",
     "dev:w": "cd website && yarn dev",
     "test": "vitest --coverage",
@@ -45,6 +45,7 @@
     "prettier": "2.7.1",
     "prettier-plugin-svelte": "2.7.0",
     "rimraf": "3.0.2",
+    "svelte2tsx": "^0.5.12",
     "typescript": "4.5.5",
     "vitest": "0.4.1"
   },
