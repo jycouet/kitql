@@ -10,6 +10,10 @@ async function fetchQuery({
 }: RequestHandlerArgs) {
 	const url = import.meta.env.VITE_GRAPHQL_ENDPOINT;
 
+	if (!url) {
+		throw new Error('Did you create `.env` from `.env.example`? 😅');
+	}
+
 	const result = await fetch(url, {
 		method: 'POST',
 		headers: {

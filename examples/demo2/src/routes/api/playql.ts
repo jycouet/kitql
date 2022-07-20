@@ -14,7 +14,7 @@ mutation GenerateError {
 	_generateError
 }`;
 
-export async function get() {
+export async function GET() {
 	return {
 		status: 200,
 		headers: {
