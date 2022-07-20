@@ -1,9 +1,0 @@
-query AllCountriesOfContinent($code: ID!) {
-	continent(code: $code) {
-		...ContinentFields
-		countries {
-			code
-			name
-		}
-	}
-}
