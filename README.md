@@ -59,9 +59,7 @@ You have 3 main options to use `KitQL`:
 ## ✨ Contributors
 
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
-
-[![All Contributors](https://img.shields.io/badge/all_contributors-17-orange.svg)](#contributors)
-
+[![All Contributors](https://img.shields.io/badge/all_contributors-18-orange.svg)](#contributors)
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 
 Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/docs/en/emoji-key)):
@@ -92,6 +90,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
     <td align="center"><a href="https://github.com/dminikm"><img src="https://avatars.githubusercontent.com/u/9631648?v=4" width="100px;" alt=""/><br /><sub><b>Dominik Meca</b></sub></a></td>
     <td align="center"><a href="https://github.com/Giovannini"><img src="https://avatars.githubusercontent.com/u/5586669?v=4" width="100px;" alt=""/><br /><sub><b>Thomas GIOVANNINI</b></sub></a></td>
     <td align="center"><a href="https://github.com/Nukiloco"><img src="https://avatars.githubusercontent.com/u/16618467?v=4" width="100px;" alt=""/><br /><sub><b>Nukiloco</b></sub></a></td>
+    <td align="center"><a href="http://danielsalvado.com"><img src="https://avatars.githubusercontent.com/u/9869755?v=4" width="100px;" alt=""/><br /><sub><b>Daniel Salvado</b></sub></a></td>
   </tr>
 </table>
 
