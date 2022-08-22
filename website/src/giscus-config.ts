@@ -1,8 +1,8 @@
 import { GiscusProps } from '@guild-docs/client/giscus'
 
 export const giscus: Readonly<GiscusProps> = {
-  repo: 'dotansimha/graphql-yoga',
-  repoId: 'MDEwOlJlcG9zaXRvcnkxMTA4MTk5Mzk=',
+  repo: 'jycouet/kitql',
+  repoId: 'R_kgDOGu-rcA',
   category: 'Docs Discussion',
-  categoryId: 'DIC_kwDOBpr6Y84CAquY',
+  categoryId: 'DIC_kwDOGu-rcM4CQ-ZF',
 }
