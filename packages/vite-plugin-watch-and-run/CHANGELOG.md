@@ -1,5 +1,11 @@
 # @kitql/vite-plugin-watch-and-run
 
+## 2.0.0
+
+### Major Changes
+
+- [#203](https://github.com/jycouet/kitql/pull/203) [`c92b5ed`](https://github.com/jycouet/kitql/commit/c92b5edd42d31e789209db2c2f839249b432f37f) Thanks [@jycouet](https://github.com/jycouet)! - rename package to be independent
+
 ## 0.4.2
 
 ### Patch Changes
