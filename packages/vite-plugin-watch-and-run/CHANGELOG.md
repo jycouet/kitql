@@ -1,6 +1,6 @@
 # @kitql/vite-plugin-watch-and-run
 
-## 2.0.0
+## 1.0.0
 
 ### Major Changes
 
