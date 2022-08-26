@@ -1,11 +1,10 @@
 import { Log, logCyan, logGreen, logMagneta, logRed } from '@kitql/helper'
 import { spawn } from 'child_process'
 import micromatch from 'micromatch'
+import type { Plugin } from 'vite'
 
-function getArraysIntersection(a1: any[], a2) {
-  return a1.filter(n => {
-    return a2.includes(n)
-  })
+const nbOverlap = (a1: readonly any[], a2: readonly any[]) => {
+  return a1.filter(value => a2?.includes(value)).length
 }
 
 export type Options = {
@@ -13,19 +12,33 @@ export type Options = {
    * watch files to trigger the run action (glob format)
    */
   watch?: string
+
+  /**
+   * watch files to trigger the run action (function format)
+   */
+  watchFile?: (filepath: string) => Promise<boolean>
+
   /**
    * Kind of watch that will trigger the run action
    */
   watchKind?: WatchKind[]
+
+  /**
+   * Don't print anything extra to the console when an event is trigger
+   */
+  quiet?: boolean
+
   /**
    * run command (yarn gen for example!)
    */
-  run: string
+  run: string | (() => void | Promise<void>)
+
   /**
    * Delay before running the run command (in ms)
    * @default 300 ms
    */
   delay?: number | null
+
   /**
    * Name to display in the logs as prefix
    */
@@ -40,109 +53,125 @@ export type WatchKind = KindWithPath | KindWithoutPath
 
 export type StateDetail = {
   kind: WatchKind[]
-  run: string
+  quiet: boolean
+  run: string | (() => void | Promise<void>)
   delay: number
   isRunning: boolean
+  watchFile?: (filepath: string) => boolean | Promise<boolean>
+  watch?: string
   name?: string | null
 }
 
-function checkConf(params: Options[]) {
+async function checkConf(params: Options[]) {
   if (!Array.isArray(params)) {
     throw new Error('plugin watchAndRun, `params` needs to be an array.')
   }
 
-  const paramsChecked: Record<string, StateDetail> = {}
+  const paramsChecked: StateDetail[] = []
 
-  params.forEach(param => {
-    paramsChecked[param.watch] = {
-      kind: param.watchKind ?? ['add', 'change', 'unlink'],
-      run: param.run,
-      delay: param.delay ?? 300,
+  for (const paramRow of params) {
+    const param = {
+      kind: paramRow.watchKind ?? ['add', 'change', 'unlink'],
+      run: paramRow.run,
+      delay: paramRow.delay ?? 300,
       isRunning: false,
-      name: param.name,
-    }
-
-    if (!param.watch && getArraysIntersection(paramsChecked[param.watch].kind, kindWithPath).length !== 0) {
-      throw new Error('plugin watch-and-run, `watch` is missing.')
-    }
-    if (!param.run) {
-      throw new Error('plugin watch-and-run, `run` is missing.')
+      name: paramRow.name,
+      quiet: !!paramRow.quiet,
+      watch: paramRow.watch,
+      watchFile: paramRow.watchFile,
     }
 
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore (because the config is in a js file, and people maybe didn't update their config.)
-    if (param.watchKind === 'ADD' || param.watchKind === 'CHANGE' || param.watchKind === 'DELETE') {
+    if (['ADD', 'CHANGE', 'DELETE'].includes(param.kind || '')) {
       throw new Error('BREAKING: ADD, CHANGE, DELETE were renamed add, change, unlink. Please update your config.')
     }
-  })
+
+    // If you use a kind that needs a watch, we need to make you you have one watch or watchFile set
+    if (nbOverlap(kindWithPath, param.kind) !== 0 && !param.watch && !param.watchFile) {
+      throw new Error('plugin watch-and-run, `watch` or `watchFile` is missing.')
+    }
+
+    // You need to have a run command
+    if (!param.run) {
+      throw new Error('plugin watch-and-run, `run` is missing.')
+    }
+
+    // watch can be a function or a string
+    paramsChecked.push(param)
+  }
 
   return paramsChecked
 }
 
-type ShouldRunResult =
-  | { shouldRun: true; globToWatch: string; param: StateDetail }
-  | { shouldRun: false; globToWatch: null; param: null }
-function shouldRun(
+async function shouldRun(
   absolutePath: string | null,
   watchKind: WatchKind,
-  watchAndRunConf: Record<string, StateDetail>
-): ShouldRunResult {
-  for (const [globToWatch, param] of Object.entries(watchAndRunConf)) {
-    const isWatched = param.kind.includes(watchKind)
-    const isPathMatching = absolutePath && micromatch.isMatch(absolutePath, globToWatch)
+  watchAndRunConf: StateDetail[]
+): Promise<StateDetail | null> {
+  for (const info of watchAndRunConf) {
+    if (!absolutePath || (!info.watchFile && !info.watch)) {
+      continue
+    }
+
+    const isWatched = info.kind.includes(watchKind)
+    let isPathMatching = false
+
+    if (info.watchFile) {
+      isPathMatching = await info.watchFile(absolutePath)
+    } else {
+      isPathMatching = micromatch.isMatch(absolutePath, info.watch!)
+    }
+
     const isWatchKindWithoutPath = kindWithoutPath.includes(watchKind as KindWithoutPath)
-    if (!param.isRunning && isWatched && (isPathMatching || isWatchKindWithoutPath)) {
-      return {
-        shouldRun: true,
-        globToWatch,
-        param,
-      }
+    if (!info.isRunning && isWatched && (isPathMatching || isWatchKindWithoutPath)) {
+      return info
     }
   }
-  return {
-    shouldRun: false,
-    globToWatch: null,
-    param: null,
-  }
+  return null
 }
 
 function formatLog(str: string, name?: string) {
   return `${name ? logMagneta(`[${name}]`) : ''} ${str}`
 }
 
-async function watcher(
-  absolutePath: string | null,
-  watchKind: WatchKind,
-  watchAndRunConf: Record<string, StateDetail>
-) {
-  const shouldRunInfo = shouldRun(absolutePath, watchKind, watchAndRunConf)
-  if (shouldRunInfo.shouldRun) {
-    watchAndRunConf[shouldRunInfo.globToWatch].isRunning = true
+async function watcher(absolutePath: string | null, watchKind: WatchKind, watchAndRunConf: StateDetail[]) {
+  const info = await shouldRun(absolutePath, watchKind, watchAndRunConf)
+  if (info) {
+    info.isRunning = true
 
-    if (shouldRunInfo.globToWatch) {
-      log.info(
-        `${logGreen('✔')} Watch ${logCyan(watchKind)}${absolutePath && logGreen(' ' + absolutePath)}` +
-          ` and run ${logGreen(shouldRunInfo.param.run)} (+${logCyan(shouldRunInfo.param.delay + 'ms')}).`
-      )
-    } else {
-      log.info(
-        `${logGreen('✔')} Watch ${logCyan(watchKind)}` +
-          ` and run ${logGreen(shouldRunInfo.param.run)} (+${logCyan(shouldRunInfo.param.delay + 'ms')}).`
-      )
+    // print the message
+    if (!info.quiet) {
+      let message = `${logGreen('✔')} Watch ${logCyan(watchKind)}`
+      if (info.watch && absolutePath) {
+        message += logGreen(' ' + absolutePath)
+      }
+      if (typeof info.run === 'string') {
+        message + ` and run ${logGreen(info.run)} `
+      }
+      message += logCyan(info.delay + 'ms')
+
+      log.info(message)
     }
 
     // Run after a delay
     setTimeout(() => {
-      const child = spawn(shouldRunInfo.param.run, [], { shell: true })
+      // if the run value is a function, we just have to call it and we're done
+      if (typeof info.run === 'function') {
+        info.run()
+        return
+      }
+
+      const child = spawn(info.run, [], { shell: true })
 
       //spit stdout to screen
       child.stdout.on('data', data => {
-        process.stdout.write(formatLog(data.toString(), shouldRunInfo.param.name ?? ''))
+        process.stdout.write(formatLog(data.toString(), info.name ?? ''))
       })
 
       //spit stderr to screen
       child.stderr.on('data', data => {
-        process.stdout.write(formatLog(data.toString(), shouldRunInfo.param.name ?? ''))
+        process.stdout.write(formatLog(data.toString(), info.name ?? ''))
       })
 
       child.on('close', code => {
@@ -151,28 +180,31 @@ async function watcher(
         } else {
           log.error(`finished with some ${logRed('errors')}`)
         }
-        shouldRunInfo.param.isRunning = false
+        info.isRunning = false
       })
 
       return
-    }, shouldRunInfo.param.delay)
+    }, info.delay)
   }
 
   return
 }
 
-const log = new Log('KitQL Watch-And-Run')
+const log = new Log('Watch-and-Run')
 
-export default function watchAndRun(params: Options[]) {
-  // check params, throw Errors if not valid and return a new object representing the state of the plugin
-  const watchAndRunConf = checkConf(params)
-
+export default function watchAndRun(params: Options[]): Plugin & { getCheckedConf: () => Promise<StateDetail[]> } {
   return {
     name: 'watch-and-run',
 
-    watchAndRunConf,
+    // jsut for testing purposes
+    async getCheckedConf() {
+      return await checkConf(params)
+    },
 
-    configureServer(server) {
+    async configureServer(server) {
+      // check params, throw Errors if not valid and return a new object representing the state of the plugin
+      const watchAndRunConf = await checkConf(params)
+
       kindWithPath.forEach((kind: KindWithPath) => {
         const _watcher = async (absolutePath: string) => watcher(absolutePath, kind, watchAndRunConf)
         server.watcher.on(kind, _watcher)
