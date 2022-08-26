@@ -16,7 +16,7 @@ describe('vite-plugin-watch-and-run', () => {
     try {
       await p.getCheckedConf()
     } catch (error) {
-      expect(error.message).toEqual("plugin watch-and-run, `watch` or `watchFile` is missing.")
+      expect(error.message).toEqual('plugin watch-and-run, `watch` or `watchFile` is missing.')
     }
   })
 
@@ -25,7 +25,7 @@ describe('vite-plugin-watch-and-run', () => {
     try {
       await p.getCheckedConf()
     } catch (error) {
-      expect(error.message).toEqual("plugin watch-and-run, `run` is missing.")
+      expect(error.message).toEqual('plugin watch-and-run, `run` is missing.')
     }
   })
 
@@ -51,32 +51,4 @@ describe('vite-plugin-watch-and-run', () => {
       ]
     `)
   })
-
-  // it('Should register all watchers', async () => {
-  //   const watch = '**/*.(gql|graphql)'
-  //   const plugin = watchAndRun([{ watch, run: 'yarn gen' }])
-
-  //   const server = {
-  //     watcher: {
-  //       on: vi.fn(),
-  //     },
-  //   }
-
-  //   const spy = vi.spyOn(server.watcher, 'on').mockImplementation((type: 'add' | 'change' | 'unlink', callback) => {
-  //     if (kindWithPath.includes(type) || kindWithoutPath.includes(type as KindWithoutPath)) {
-  //       // eslint-disable-next-line unicorn/no-lonely-if
-  //       if (typeof callback === 'function') return 'registered'
-  //     }
-  //     return 'error'
-  //   })
-    
-  //   plugin.configureServer(server)
-    
-  //   expect(spy).toHaveBeenCalledTimes(9)
-  //   const operations = ['add', 'addDir', 'change', 'unlink', 'unlinkDir', 'all', 'error', 'raw', 'ready']
-  //   spy.mock.calls.forEach((call, index) => {
-  //     expect(spy).toHaveBeenNthCalledWith(index + 1, operations[index], call[1])
-  //     expect(spy).toHaveNthReturnedWith(index + 1, 'registered')
-  //   })
-  // })
 })

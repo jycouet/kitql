@@ -155,10 +155,18 @@ async function watcher(absolutePath: string | null, watchKind: WatchKind, watchA
     }
 
     // Run after a delay
-    setTimeout(() => {
+    setTimeout(async () => {
       // if the run value is a function, we just have to call it and we're done
       if (typeof info.run === 'function') {
-        info.run()
+        const promise = info.run()
+        try {
+          if (promise) {
+            await promise
+          }
+        } catch (e) {
+          throw e
+        }
+        info.isRunning = false
         return
       }
 
