@@ -159,6 +159,7 @@ async function watcher(absolutePath: string | null, watchKind: WatchKind, watchA
       // if the run value is a function, we just have to call it and we're done
       if (typeof info.run === 'function') {
         const promise = info.run()
+        // eslint-disable-next-line no-useless-catch
         try {
           if (promise) {
             await promise

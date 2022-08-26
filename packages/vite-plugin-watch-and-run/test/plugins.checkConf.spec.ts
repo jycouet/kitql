@@ -1,5 +1,5 @@
-import watchAndRun, { KindWithoutPath, kindWithoutPath, kindWithPath } from '../src'
-import { describe, expect, it, vi } from 'vitest'
+import { describe, expect, it } from 'vitest'
+import watchAndRun from '../src'
 
 describe('vite-plugin-watch-and-run', () => {
   it('Should throw an error as no config is sent', async () => {
