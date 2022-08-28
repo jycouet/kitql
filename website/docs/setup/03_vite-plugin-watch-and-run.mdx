@@ -1,5 +1,5 @@
 ---
-title: KitQL - vite plugin - watch and run
+title: vite plugin - watch and run
 sidebar_label: vite plugin - watch and run
 ---
 
@@ -12,7 +12,7 @@ If you have `@kitql/all-in` you don't need to install this manually.
 
 If you want to install it stand alone, please do
 
-<PackageInstall packages={['-D @kitql/vite-plugin-watch-and-run']} />
+<PackageInstall packages={['-D vite-plugin-watch-and-run']} />
 
 <br />
 ## Configuration In your `vite.config.js` add watchAndRun with the following configuration:
@@ -21,7 +21,7 @@ If you want to install it stand alone, please do
 - `run`: a command to trigger when a file change is detected (You can be very creative 🥳!)
 
 ```js
-import watchAndRun from '@kitql/vite-plugin-watch-and-run'
+import watchAndRun from 'vite-plugin-watch-and-run'
 import path from 'path';
 
 /** @type {import('vite').UserConfig} */
