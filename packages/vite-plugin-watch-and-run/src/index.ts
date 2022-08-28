@@ -43,6 +43,11 @@ export type Options = {
    * Name to display in the logs as prefix
    */
   name?: string | null
+
+  /**
+   * formatErrors instead of throwing an error
+   */
+  formatErrors?: (e: unknown, afterError?: (e: Error) => void) => void
 }
 
 export const kindWithPath = ['add', 'addDir', 'change', 'unlink', 'unlinkDir'] as const
@@ -60,6 +65,7 @@ export type StateDetail = {
   watchFile?: (filepath: string) => boolean | Promise<boolean>
   watch?: string
   name?: string | null
+  formatErrors?: (e: unknown, afterError?: (e: Error) => void) => void
 }
 
 async function checkConf(params: Options[]) {
@@ -79,6 +85,7 @@ async function checkConf(params: Options[]) {
       quiet: !!paramRow.quiet,
       watch: paramRow.watch,
       watchFile: paramRow.watchFile,
+      formatErrors: paramRow.formatErrors,
     }
 
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -159,13 +166,16 @@ async function watcher(absolutePath: string | null, watchKind: WatchKind, watchA
       // if the run value is a function, we just have to call it and we're done
       if (typeof info.run === 'function') {
         const promise = info.run()
-        // eslint-disable-next-line no-useless-catch
         try {
           if (promise) {
             await promise
           }
         } catch (e) {
-          throw e
+          if (info.formatErrors) {
+            info.formatErrors(e)
+          } else {
+            throw e
+          }
         }
         info.isRunning = false
         return

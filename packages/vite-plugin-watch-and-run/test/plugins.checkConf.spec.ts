@@ -36,6 +36,7 @@ describe('vite-plugin-watch-and-run', () => {
       [
         {
           "delay": 300,
+          "formatErrors": undefined,
           "isRunning": false,
           "kind": [
             "add",

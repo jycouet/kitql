@@ -51,13 +51,13 @@
     "@graphql-typed-document-node/core": "3.1.1",
     "@graphql-yoga/common": "2.12.3",
     "@kitql/module-codegen": "0.3.10",
-    "@kitql/vite-plugin-watch-and-run": "0.4.2",
     "graphql-modules": "2.1.0",
     "graphql-scalars": "1.17.0",
-    "houdini": "^0.15.7"
+    "vite-plugin-watch-and-run": "1.0.0"
   },
   "peerDependencies": {
-    "graphql": "^15.0.0 || ^16.0.0"
+    "graphql": "^15.0.0 || ^16.0.0",
+    "houdini": "^0.15.9"
   },
   "type": "module",
   "publishConfig": {
