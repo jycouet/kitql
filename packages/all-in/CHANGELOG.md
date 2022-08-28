@@ -1,5 +1,16 @@
 # @kitql/all-in
 
+## 0.7.8
+
+### Patch Changes
+
+- [#207](https://github.com/jycouet/kitql/pull/207) [`411e9dd`](https://github.com/jycouet/kitql/commit/411e9dd158ac6aea6c61c1ed8366827868a635c4) Thanks [@jycouet](https://github.com/jycouet)! - using latest vite-plugin-watch-and-run
+
+* [#207](https://github.com/jycouet/kitql/pull/207) [`411e9dd`](https://github.com/jycouet/kitql/commit/411e9dd158ac6aea6c61c1ed8366827868a635c4) Thanks [@jycouet](https://github.com/jycouet)! - Houdini as a peerDependencies
+
+* Updated dependencies [[`411e9dd`](https://github.com/jycouet/kitql/commit/411e9dd158ac6aea6c61c1ed8366827868a635c4)]:
+  - vite-plugin-watch-and-run@1.0.1
+
 ## 0.7.7
 
 ### Patch Changes
