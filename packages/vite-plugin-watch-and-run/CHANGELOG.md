@@ -1,5 +1,11 @@
 # @kitql/vite-plugin-watch-and-run
 
+## 1.0.1
+
+### Patch Changes
+
+- [#207](https://github.com/jycouet/kitql/pull/207) [`411e9dd`](https://github.com/jycouet/kitql/commit/411e9dd158ac6aea6c61c1ed8366827868a635c4) Thanks [@jycouet](https://github.com/jycouet)! - add formatError option
+
 ## 1.0.0
 
 ### Major Changes
