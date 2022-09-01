@@ -167,6 +167,7 @@ describe('kitql - helper - Log', () => {
   it('are we in the browser?', async () => {
     const log = new Log('tool name')
 
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
     this.window = { document: 'coucou' }
 
