@@ -81,6 +81,35 @@ describe('kitql - helper - Log', () => {
     )
   })
 
+  it('with all colors browser', async () => {
+    const log = new Log('tool name')
+
+    const msg = `with all colors: ${logGreen('green')}, ${logMagneta('magneta')}, ${logRed('red')}, ${logCyan(
+      'cyan'
+    )}, ${logYellow('yellow')}`
+    const result = log.info(msg, { browser: true })
+
+    expect(result).toMatchInlineSnapshot(
+      `
+      [
+        "%c[tool name]%c with all colors: %cgreen%c, %cmagneta%c, %cred%c, %ccyan%c, %cyellow%c",
+        "color: #ff00ff",
+        "",
+        "color: green",
+        "",
+        "color: #ff00ff",
+        "",
+        "color: red",
+        "",
+        "color: cyan",
+        "",
+        "color: yellow",
+        "",
+      ]
+    `
+    )
+  })
+
   it('with DateTime', async () => {
     const log = new Log('tool name', { levelsToShow: 2, withDate: 'dateTime' })
     expect(log).to.have.property('toolName', 'tool name')
@@ -148,7 +177,7 @@ describe('kitql - helper - Log', () => {
     expect(result).toMatchInlineSnapshot(`
       [
         "%c[tool name]%c with red: %cred%c and another %cred2%c",
-        "color: magneta",
+        "color: #ff00ff",
         "",
         "color: red",
         "",
@@ -180,7 +209,7 @@ describe('kitql - helper - Log', () => {
     expect(result).toMatchInlineSnapshot(`
       [
         "%c[tool name]%c with red: %cred%c and another %cred2%c",
-        "color: magneta",
+        "color: #ff00ff",
         "",
         "color: red",
         "",
