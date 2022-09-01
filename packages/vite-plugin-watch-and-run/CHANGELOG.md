@@ -1,5 +1,12 @@
 # @kitql/vite-plugin-watch-and-run
 
+## 1.0.2
+
+### Patch Changes
+
+- Updated dependencies [[`1abe98d`](https://github.com/jycouet/kitql/commit/1abe98d53d07e0ea55f600526bc68a87764a546c)]:
+  - @kitql/helper@0.4.0
+
 ## 1.0.1
 
 ### Patch Changes
