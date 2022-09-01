@@ -9,7 +9,7 @@ const config = {
   },
   magneta: {
     node: `\x1b[35m`,
-    browser: 'color: magneta',
+    browser: 'color: #ff00ff',
   },
   red: {
     node: `\u001B[31m`,
@@ -103,9 +103,10 @@ export class Log {
     }
     table.push(`${msg}`)
 
-    let str = table.join('')
+    const str = table.join('')
 
     if (browser) {
+      let replacedStr = str
       // switch to browser console
       const posToReplace: { index: number; key: string }[] = []
       for (const key in config) {
@@ -115,8 +116,8 @@ export class Log {
           posToReplace.push({ index, key })
         })
 
-        // replace with %c
-        str = str.replaceAll(config[key].node, '%c')
+        // replace with %c in another str to make sure we don't change the order of indexes
+        replacedStr = replacedStr.replaceAll(config[key].node, '%c')
       }
       const colors = []
       posToReplace
@@ -125,7 +126,7 @@ export class Log {
           colors.push(config[c.key].browser)
         })
 
-      return [str, ...colors]
+      return [replacedStr, ...colors]
     }
 
     // wrap it because we always unwrap after ;)
