@@ -1,5 +1,11 @@
 # @kitql/helper
 
+## 0.4.0
+
+### Minor Changes
+
+- [#209](https://github.com/jycouet/kitql/pull/209) [`1abe98d`](https://github.com/jycouet/kitql/commit/1abe98d53d07e0ea55f600526bc68a87764a546c) Thanks [@jycouet](https://github.com/jycouet)! - stylish logs in node or in browser
+
 ## 0.3.5
 
 ### Patch Changes
