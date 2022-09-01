@@ -1,5 +1,6 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 import { Log, logCyan, logGreen, logMagneta, logRed, logYellow } from '../src/Log'
+import { stry } from '../src/stry'
 
 describe('kitql - helper - Log', () => {
   beforeEach(() => {
@@ -72,10 +73,12 @@ describe('kitql - helper - Log', () => {
     const msg = `with all colors: ${logGreen('green')}, ${logMagneta('magneta')}, ${logRed('red')}, ${logCyan(
       'cyan'
     )}, ${logYellow('yellow')}`
-    log.info(msg)
+    const result = log.info(msg)
     expect(spy).toHaveBeenCalledOnce()
 
-    expect(log).to.have.property('lastStr', `${logMagneta('[tool name]')} ${msg}`)
+    expect(stry(result, 0)).toMatchInlineSnapshot(
+      '"{\\"0\\":\\"\\\\u001b[35m[tool name]\\\\u001b[37m\\\\u001b[0m with all colors: \\\\u001b[32mgreen\\\\u001b[37m\\\\u001b[0m, \\\\u001b[35mmagneta\\\\u001b[37m\\\\u001b[0m, \\\\u001b[31mred\\\\u001b[37m\\\\u001b[0m, \\\\u001b[36mcyan\\\\u001b[37m\\\\u001b[0m, \\\\u001b[33myellow\\\\u001b[37m\\\\u001b[0m\\"}"'
+    )
   })
 
   it('with DateTime', async () => {
@@ -111,10 +114,78 @@ describe('kitql - helper - Log', () => {
     const log = new Log('')
 
     const spy = vi.spyOn(console, 'info')
-    log.info(`with no name`)
+    const result = log.info(`with no name`)
 
     expect(spy).toHaveBeenCalledOnce()
 
-    expect(log).to.have.property('lastStr', 'with no name')
+    expect(result).toMatchInlineSnapshot(`
+      [
+        "with no name",
+      ]
+    `)
+  })
+
+  it('with 2 red', async () => {
+    const log = new Log('tool name')
+    expect(log).to.have.property('toolName', 'tool name')
+
+    const spy = vi.spyOn(console, 'info')
+    const msg = `with red: ${logRed('red')} and another ${logRed('red2')}`
+    const result = log.info(msg)
+    expect(spy).toHaveBeenCalledOnce()
+
+    expect(stry(result, 0)).toMatchInlineSnapshot(
+      '"{\\"0\\":\\"\\\\u001b[35m[tool name]\\\\u001b[37m\\\\u001b[0m with red: \\\\u001b[31mred\\\\u001b[37m\\\\u001b[0m and another \\\\u001b[31mred2\\\\u001b[37m\\\\u001b[0m\\"}"'
+    )
+  })
+
+  it('with 2 red browser', async () => {
+    const log = new Log('tool name')
+
+    const msg = `with red: ${logRed('red')} and another ${logRed('red2')}`
+    const result = log.info(msg, { browser: true })
+
+    expect(result).toMatchInlineSnapshot(`
+      [
+        "%c[tool name]%c with red: %cred%c and another %cred2%c",
+        "color: magneta",
+        "",
+        "color: red",
+        "",
+        "color: red",
+        "",
+      ]
+    `)
+  })
+
+  it('are we NOT in the browser?', async () => {
+    const log = new Log('tool name')
+
+    expect(log).to.have.property('isBrowser', false)
+  })
+
+  it('are we in the browser?', async () => {
+    const log = new Log('tool name')
+
+    // @ts-ignore
+    this.window = { document: 'coucou' }
+
+    expect(log).to.have.property('isBrowser', true)
+
+    const msg = `with red: ${logRed('red')} and another ${logRed('red2')}`
+    // no need to put browser: true! it's detected with this.windows
+    const result = log.info(msg)
+
+    expect(result).toMatchInlineSnapshot(`
+      [
+        "%c[tool name]%c with red: %cred%c and another %cred2%c",
+        "color: magneta",
+        "",
+        "color: red",
+        "",
+        "color: red",
+        "",
+      ]
+    `)
   })
 })
