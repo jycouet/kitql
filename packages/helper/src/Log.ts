@@ -55,10 +55,6 @@ export class Log {
     return typeof window !== 'undefined' && typeof window.document !== 'undefined'
   }
 
-  get isBrowser() {
-    return typeof window !== 'undefined' && typeof window.document !== 'undefined'
-  }
-
   constructor(
     toolName: string,
     options?: {
@@ -68,21 +64,19 @@ export class Log {
     }
   ) {
     this.toolName = toolName
-    this.levelsToShow = options??.levelsToShow ?? 2
-    this.withDate = options??.withDate ?? null
-    this.prefixEmoji = options??.prefixEmoji ?? ''
+    this.levelsToShow = options?.levelsToShow ?? 2
+    this.withDate = options?.withDate ?? null
+    this.prefixEmoji = options?.prefixEmoji ?? ''
   }
 
   public setLevel(logLevel?: null | number) {
     this.levelsToShow = logLevel
   }
 
-  private buildStr(msg: string, withError: boolean, withSuccess: boolean, indent: string, browser: boolean, browser: boolean) {
+  private buildStr(msg: string, withError: boolean, withSuccess: boolean, indent: string, browser: boolean) {
     const table = []
     if (this.toolName) {
-      if (this.toolName) {
       table.push(`${logMagneta(`[${this.toolName}]`)}`)
-    }
     }
 
     // DateTime or Time or nothing
