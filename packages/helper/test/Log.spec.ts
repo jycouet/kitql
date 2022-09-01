@@ -69,12 +69,13 @@ describe('kitql - helper - Log', () => {
     expect(log).to.have.property('toolName', 'tool name')
 
     const spy = vi.spyOn(console, 'info')
-    log.info(
-      `with all colors: ${logGreen('green')}, ${logMagneta('magneta')}, ${logRed('red')}, ${logCyan(
-        'cyan'
-      )}, ${logYellow('yellow')}`
-    )
+    const msg = `with all colors: ${logGreen('green')}, ${logMagneta('magneta')}, ${logRed('red')}, ${logCyan(
+      'cyan'
+    )}, ${logYellow('yellow')}`
+    log.info(msg)
     expect(spy).toHaveBeenCalledOnce()
+
+    expect(log).to.have.property('lastStr', `${logMagneta('[tool name]')} ${msg}`)
   })
 
   it('with DateTime', async () => {
@@ -104,5 +105,16 @@ describe('kitql - helper - Log', () => {
     log.setLevel(1)
     log.info(`log level 1 SHOWN`, { level: 1 })
     expect(spy).toHaveBeenCalledTimes(1)
+  })
+
+  it('with no name', async () => {
+    const log = new Log('')
+
+    const spy = vi.spyOn(console, 'info')
+    log.info(`with no name`)
+
+    expect(spy).toHaveBeenCalledOnce()
+
+    expect(log).to.have.property('lastStr', 'with no name')
   })
 })

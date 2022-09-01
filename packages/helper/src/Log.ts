@@ -24,6 +24,8 @@ export class Log {
   private withDate: null | 'dateTime' | 'time'
   private prefixEmoji: string
 
+  private lastStr: string
+
   constructor(
     toolName: string,
     options: { levelsToShow?: null | number; withDate?: 'dateTime' | 'time'; prefixEmoji?: string } = {}
@@ -40,7 +42,9 @@ export class Log {
 
   private buildStr(msg: string, withError: boolean, withSuccess: boolean, indent: string) {
     const table = []
-    table.push(`${logMagneta(`[${this.toolName}]`)}`)
+    if (this.toolName) {
+      table.push(`${logMagneta(`[${this.toolName}]`)}`)
+    }
 
     // DateTime or Time or nothing
     if (this.withDate === 'dateTime') {
@@ -59,9 +63,16 @@ export class Log {
     }
 
     table.push(indent)
-    table.push(` ${msg}`)
 
-    return table.join('')
+    // prefix message with a space if there is already something in the table
+    if (table.join('').length > 0) {
+      table.push(` `)
+    }
+    table.push(`${msg}`)
+
+    this.lastStr = table.join('')
+
+    return this.lastStr
   }
 
   info(msg: string, conf: { level?: number; withSuccess?: boolean } = { level: 0, withSuccess: false }) {
