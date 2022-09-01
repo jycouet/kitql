@@ -1,5 +1,15 @@
 # @kitql/helper
 
+## 0.5.0
+
+### Minor Changes
+
+- [#211](https://github.com/jycouet/kitql/pull/211) [`62e6a61`](https://github.com/jycouet/kitql/commit/62e6a6120f4e08ff9fc1e1a473021ee98831b86f) Thanks [@jycouet](https://github.com/jycouet)! - stylish logs in node or in browser
+
+### Patch Changes
+
+- [#211](https://github.com/jycouet/kitql/pull/211) [`62e6a61`](https://github.com/jycouet/kitql/commit/62e6a6120f4e08ff9fc1e1a473021ee98831b86f) Thanks [@jycouet](https://github.com/jycouet)! - magneta => #ff00ff
+
 ## 0.4.0
 
 ### Minor Changes

@@ -1,5 +1,12 @@
 # @kitql/module-codegen
 
+## 0.3.12
+
+### Patch Changes
+
+- Updated dependencies [[`62e6a61`](https://github.com/jycouet/kitql/commit/62e6a6120f4e08ff9fc1e1a473021ee98831b86f), [`62e6a61`](https://github.com/jycouet/kitql/commit/62e6a6120f4e08ff9fc1e1a473021ee98831b86f)]:
+  - @kitql/helper@0.5.0
+
 ## 0.3.11
 
 ### Patch Changes
