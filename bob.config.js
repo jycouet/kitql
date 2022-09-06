@@ -22,12 +22,12 @@ module.exports = {
         // }
 
         // why such a weird syntax? We use spawn, so you have too
-        return [`yarn`, ['test', ...affected.paths]]
+        return [`npm run`, ['test', ...affected.paths]]
       },
     },
     build: {
       run() {
-        return [`yarn`, ['build']]
+        return [`npm run`, ['build']]
       },
     },
   },

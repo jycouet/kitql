@@ -12,7 +12,7 @@
     "prepack": "bob prepack",
     "dev": "vite dev",
     "build": "vite build",
-    "package": "yarn build && svelte-kit package",
+    "package": "npm run build && svelte-kit package",
     "preview": "vite preview",
     "check": "svelte-check --tsconfig ./tsconfig.json",
     "check:watch": "svelte-check --tsconfig ./tsconfig.json --watch",
@@ -65,7 +65,6 @@
     "access": "public"
   },
   "volta": {
-    "node": "17.4.0",
-    "yarn": "1.22.17"
+    "node": "17.4.0"
   }
 }

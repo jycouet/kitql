@@ -6,21 +6,21 @@
   "license": "MIT",
   "scripts": {
     "ws": "workspace",
-    "prepare": "husky install && cd packages/all-in && yarn prepare",
-    "dev:t": "yarn build && yarn workspace @kitql/template dev",
-    "dev:w": "cd website && yarn dev",
+    "prepare": "husky install && cd packages/all-in && npm run prepare",
+    "dev:t": "npm run build && npm run workspace @kitql/template dev",
+    "dev:w": "cd website && npm run dev",
     "test": "vitest --coverage",
     "lint": "eslint --ignore-path .prettierignore .",
     "prettier": "prettier --write --list-different .",
     "prettier:check": "prettier --check .",
     "test:ci": "vitest run --coverage",
-    "test:update-badge": "yarn update-badge",
+    "test:update-badge": "npm run update-badge",
     "prebuild": "rimraf packages/*/dist",
-    "build": "tsc --project tsconfig.json && bob build && rm -rf packages/client/dist/lib/graphql && yarn workspace @kitql/all-in package",
-    "release:version": "yarn changeset version",
-    "release": "yarn build && changeset publish",
+    "build": "tsc --project tsconfig.json && bob build && rm -rf packages/client/dist/lib/graphql && npm run workspace @kitql/all-in package",
+    "release:version": "npm run changeset version",
+    "release": "npm run build && changeset publish",
     "reset": "git clean -xdf",
-    "update": "npm exec --workspaces -- npx npm-check-updates -u -p yarn"
+    "update": "npm exec --workspaces -- npx npm-check-updates -u -p npm run"
   },
   "workspaces": {
     "packages": [
@@ -50,7 +50,6 @@
     "vitest": "0.4.1"
   },
   "volta": {
-    "node": "17.4.0",
-    "yarn": "1.22.17"
+    "node": "17.4.0"
   }
 }

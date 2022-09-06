@@ -10,7 +10,7 @@
   "type": "module",
   "license": "MIT",
   "scripts": {
-    "dev": "cd ../.. && yarn build && cd packages/module-codegen && node ./dist/index.mjs",
+    "dev": "cd ../.. && npm run build && cd packages/module-codegen && node ./dist/index.mjs",
     "start": "node ./dist/index.mjs",
     "prepack": "bob prepack"
   },
@@ -51,7 +51,6 @@
     "access": "public"
   },
   "volta": {
-    "node": "17.4.0",
-    "yarn": "1.22.17"
+    "node": "17.4.0"
   }
 }

@@ -30,7 +30,7 @@ describe('vite-plugin-watch-and-run', () => {
   })
 
   it('Should have a valid conf, with default all defaults', async () => {
-    const p = watchAndRun([{ watch: '**/*.(gql|graphql)', run: 'yarn gen' }])
+    const p = watchAndRun([{ watch: '**/*.(gql|graphql)', run: 'npm run gen' }])
 
     expect(await p.getCheckedConf()).toMatchInlineSnapshot(`
       [
@@ -45,7 +45,7 @@ describe('vite-plugin-watch-and-run', () => {
           ],
           "name": undefined,
           "quiet": false,
-          "run": "yarn gen",
+          "run": "npm run gen",
           "watch": "**/*.(gql|graphql)",
           "watchFile": undefined,
         },

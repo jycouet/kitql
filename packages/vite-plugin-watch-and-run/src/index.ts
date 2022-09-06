@@ -29,7 +29,7 @@ export type Options = {
   quiet?: boolean
 
   /**
-   * run command (yarn gen for example!)
+   * run command (npm run gen for example!)
    */
   run: string | (() => void | Promise<void>)
 

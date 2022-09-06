@@ -92,7 +92,7 @@ Update your `gen` script so that we generate `modules`, `houdini` and `codegen`.
   // ...
   "scripts": {
     "prepare": "svelte-kit sync && npm run gen",
-    "gen": "npm run gen:modules && yarn gen:houdini && yarn gen:types",
+    "gen": "npm run gen:modules && npm run gen:houdini && npm run gen:types",
     "gen:modules": "node ./node_modules/@kitql/module-codegen/index.js",
     "gen:houdini": "houdini generate",
     "gen:types": "graphql-codegen --config ./.graphqlrc.yaml"
