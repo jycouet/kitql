@@ -147,13 +147,17 @@ importers:
   packages/vite-plugin-watch-and-run:
     specifiers:
       '@kitql/helper': 0.5.0
+      '@types/micromatch': ^4.0.2
       micromatch: 4.0.5
       tslib: 2.4.0
+      vite: ^3.0.2
     dependencies:
       '@kitql/helper': link:../helper
       micromatch: 4.0.5
     devDependencies:
+      '@types/micromatch': 4.0.2
       tslib: 2.4.0
+      vite: 3.1.0
     publishDirectory: dist
 
   website:
@@ -4462,6 +4466,10 @@ packages:
       '@types/estree': 1.0.0
     dev: false
 
+  /@types/braces/3.0.1:
+    resolution: {integrity: sha512-+euflG6ygo4bn0JHtn4pYqcXwRtLvElQ7/nnjDu7iYG56H0+OhCd7d6Ug0IE3WcFpZozBKW2+80FUbv5QGk5AQ==}
+    dev: true
+
   /@types/cacheable-request/6.0.2:
     resolution: {integrity: sha512-B3xVo+dlKM6nnKTcmm5ZtY/OL8bOAOd2Olee9M1zft65ox50OzjEHW91sDiU9j6cvW8Ejg1/Qkf4xd2kugApUA==}
     dependencies:
@@ -4607,6 +4615,12 @@ packages:
   /@types/mdx/2.0.2:
     resolution: {integrity: sha512-mJGfgj4aWpiKb8C0nnJJchs1sHBHn0HugkVfqqyQi7Wn6mBRksLeQsPOFvih/Pu8L1vlDzfe/LidhVHBeUk3aQ==}
     dev: false
+
+  /@types/micromatch/4.0.2:
+    resolution: {integrity: sha512-oqXqVb0ci19GtH0vOA/U2TmHTcRY9kuZl4mqUxe0QmJAlIW13kzhuK5pi1i9+ngav8FjpSb9FVS/GE00GLX1VA==}
+    dependencies:
+      '@types/braces': 3.0.1
+    dev: true
 
   /@types/minimatch/5.1.2:
     resolution: {integrity: sha512-K0VQKziLUWkVKiRVrx4a40iPaxTUefQmjtkQofBkYRcoaaL/8rhwDWww9qWbrgicNOgnpIsMxyNIUM4+n6dUIA==}
