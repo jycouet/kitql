@@ -14,12 +14,11 @@
     "test:ci": "vitest run --coverage",
     "test:update-badge": "npm run update-badge",
     "prebuild": "rimraf packages/*/dist",
-    "build": "npm run build:bob && npm run build:all-in",
-    "build:bob": "tsc --project tsconfig.json && bob build",
-    "build:all-in": "pnpm --filter @kitql/all-in run package",
+    "build": "turbo run build",
     "release:version": "npm run changeset version",
     "release": "npm run build && changeset publish",
-    "reset": "git clean -xdf"
+    "reset": "git clean -xdf",
+    "turbo": "turbo run --color"
   },
   "workspaces": {
     "packages": [
@@ -37,13 +36,16 @@
     "bob-the-bundler": "4.0.0",
     "c8": "7.11.0",
     "check-code-coverage": "1.10.0",
+    "eslint": "8.20.0",
     "husky": "8.0.1",
     "jsdom": "19.0.0",
     "prettier": "2.7.1",
     "prettier-plugin-svelte": "2.7.0",
     "rimraf": "3.0.2",
-    "svelte2tsx": "^0.5.12",
-    "typescript": "4.5.5",
+    "svelte": "3.49.0",
+    "svelte2tsx": "^0.5.16",
+    "turbo": "^1.4.5",
+    "typescript": "4.7.4",
     "vitest": "0.4.1"
   },
   "volta": {
