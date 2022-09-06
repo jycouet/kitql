@@ -5,9 +5,7 @@
   "private": true,
   "license": "MIT",
   "scripts": {
-    "ws": "workspace",
     "prepare": "husky install && cd packages/all-in && npm run prepare",
-    "dev:t": "npm run build && npm run workspace @kitql/template dev",
     "dev:w": "cd website && npm run dev",
     "test": "vitest --coverage",
     "lint": "eslint --ignore-path .prettierignore .",
@@ -16,11 +14,12 @@
     "test:ci": "vitest run --coverage",
     "test:update-badge": "npm run update-badge",
     "prebuild": "rimraf packages/*/dist",
-    "build": "tsc --project tsconfig.json && bob build && rm -rf packages/client/dist/lib/graphql && npm run workspace @kitql/all-in package",
+    "build": "npm run build:bob && npm run build:all-in",
+    "build:bob": "tsc --project tsconfig.json && bob build",
+    "build:all-in": "pnpm --filter @kitql/all-in run package",
     "release:version": "npm run changeset version",
     "release": "npm run build && changeset publish",
-    "reset": "git clean -xdf",
-    "update": "npm exec --workspaces -- npx npm-check-updates -u -p npm run"
+    "reset": "git clean -xdf"
   },
   "workspaces": {
     "packages": [
@@ -30,14 +29,12 @@
     ]
   },
   "devDependencies": {
-    "@babel/preset-env": "7.16.11",
-    "@babel/preset-typescript": "7.16.7",
     "@changesets/changelog-github": "0.4.5",
     "@changesets/cli": "2.23.0",
-    "@theguild/eslint-config": "0.0.1",
-    "@theguild/prettier-config": "0.0.1",
-    "@vitest/ui": "0.4.1",
-    "bob-the-bundler": "1.6.1",
+    "@theguild/eslint-config": "0.0.2",
+    "@theguild/prettier-config": "0.0.3",
+    "@vitest/ui": "0.23.1",
+    "bob-the-bundler": "4.0.0",
     "c8": "7.11.0",
     "check-code-coverage": "1.10.0",
     "husky": "8.0.1",
