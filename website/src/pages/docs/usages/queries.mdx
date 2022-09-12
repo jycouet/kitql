@@ -1,0 +1,106 @@
+---
+title: Queries
+---
+
+# Queries
+
+You have multiple ways to enjoy Houdini, one of them would be with external documents.
+
+### Query in an external file
+
+```graphql
+# file: src/graphql/FirstQuery.gql
+
+query FirstQuery {
+  hello
+}
+```
+
+### Generate
+
+Run the cmd `generate` to get everything ready for your application: stores, types, cache, ... everything!
+
+```bash
+npm run houdini generate
+```
+
+_Note that you can also have a watcher running this cmd for you on changes.
+Check this [here](/docs/setup/03_vite-plugin-watch-and-run)._
+
+### Display the result
+
+This works in a component or in a page. You are doing a Client Side Rendering (a browser request).
+
+Additionally, the function `fetch` will make sure you are synchonized with your store.
+
+```svelte
+<script lang="ts">
+  import { browser } from '$app/env'
+  import { GQL_FirstQuery } from '$houdini'
+
+  $: browser && GQL_FirstQuery.fetch()
+</script>
+
+{$GQL_FirstQuery.data.hello}
+```
+
+### Display using SSR
+
+Here, you want Server Side Rendering (SSR), you will use the same `fetch` function but in the `load` function of SvelteKit.
+
+You have to leave your `fetch` also in the component to be in sync with the store.
+
+```svelte
+<script context="module" lang="ts">
+  import { browser } from '$app/env'
+  import { GQL_FirstQuery } from '$houdini'
+  import type { LoadEvent } from '@sveltejs/kit'
+
+  export async function load(event: LoadEvent) {
+    await GQL_FirstQuery.fetch({ event })
+
+    return {}
+  }
+</script>
+
+<script>
+  $: browser && GQL_FirstQuery.fetch()
+</script>
+
+{$GQL_FirstQuery.data.hello}
+```
+
+<br />
+### With variables
+
+If you have variables, you should have them in the load (for SSR) and in the component to keep the synchronization.
+
+We recommend to do something like:
+
+```svelte
+<script context="module" lang="ts">
+  import { browser } from '$app/env'
+  import { GQL_FirstQuery } from '$houdini'
+  import type { LoadEvent } from '@sveltejs/kit'
+
+  export async function load(event: LoadEvent) {
+    const variables = { id: event.params.userId }
+    await GQL_FirstQuery.fetch({ event, variables })
+
+    return { props: { variables } }
+  }
+</script>
+
+<script lang="ts">
+  export let variables: FirstQuery$input
+
+  $: browser && GQL_FirstQuery.fetch({ variables })
+</script>
+
+{$GQL_FirstQuery.data.hello}
+```
+
+<br />
+## Go further
+
+Use directly => [Houdini's doc](https://www.houdinigraphql.com/api/query).

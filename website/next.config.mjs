@@ -1,24 +1,31 @@
-import { createRequire } from 'node:module'
-import nextBundleAnalyzer from '@next/bundle-analyzer'
-import { withGuildDocs } from '@guild-docs/server'
-import { register } from 'esbuild-register/dist/node.js'
-import { i18n } from './next-i18next.config.js'
+import { withGuildDocs } from 'guild-docs/next.config'
+import { applyUnderscoreRedirects } from 'guild-docs/underscore-redirects'
 
-register({ extensions: ['.ts', '.tsx'] })
-
-const require = createRequire(import.meta.url)
-
-const { getRoutes } = require('./routes.ts')
-
-const withBundleAnalyzer = nextBundleAnalyzer({
-  enabled: process.env.ANALYZE === 'true',
-})
-export default withBundleAnalyzer(
-  withGuildDocs({
-    i18n,
-    getRoutes,
-    redirects: () => {
-      return []
+export default withGuildDocs({
+  basePath:
+    process.env.NEXT_BASE_PATH && process.env.NEXT_BASE_PATH !== ''
+      ? process.env.NEXT_BASE_PATH
+      : undefined,
+  experimental: {
+    images: {
+      unoptimized: true, // doesn't work with `next export`
+      allowFutureImage: true,
     },
-  })
-)
+  },
+  webpack(config, meta) {
+    applyUnderscoreRedirects(config, meta)
+
+    return config
+  },
+  redirects: () =>
+    Object.entries({
+      '/docs/quick-start': '/docs',
+      '/tutorial': '/tutorial/basic',
+      '/tutorial/basic/00-introduction': '/tutorial/basic',
+      '/docs/testing': '/docs/features/testing',
+    }).map(([from, to]) => ({
+      source: from,
+      destination: to,
+      permanent: true,
+    })),
+})
