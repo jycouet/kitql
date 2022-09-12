@@ -2,7 +2,7 @@ import YAML from 'yaml'
 import path from 'path'
 import fs from 'fs'
 
-function sar(str, sarObj) {
+function sar(str: string, sarObj: Record<string, string>) {
   for (const key in sarObj) {
     str = str.replaceAll(key, sarObj[key])
   }
@@ -37,7 +37,7 @@ const configFile = YAML.parse(content)
 // Files get folders...
 // Create Folders if they don't exsist .fft, modulename, ... ui, ...
 
-configFile.up.forEach(up => {
+configFile.up.forEach((up: any) => {
   up.files.forEach((file: string) => {
     const sarObj = getSarObj(configFile.replacesList, up.replacesList)
     const fileName = path.basename(file)

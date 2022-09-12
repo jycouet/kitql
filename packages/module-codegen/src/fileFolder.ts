@@ -11,7 +11,7 @@ export const getDirectories = (source: string) => {
   return directories
 }
 
-export function getFiles(source) {
+export function getFiles(source: string) {
   if (existsSync(source)) {
     return readdirSync(source, { withFileTypes: true })
       .filter(dirent => dirent.isFile())
@@ -20,21 +20,21 @@ export function getFiles(source) {
   return []
 }
 
-export function getFileWOTS(str) {
+export function getFileWOTS(str: string) {
   return str.replace('.ts', '')
 }
 
-export function getFileWODots(str) {
+export function getFileWODots(str: string) {
   return getFileWOTS(str).replace('.', '')
 }
 
-export function createFolderIfNotExists(folder) {
+export function createFolderIfNotExists(folder: string) {
   if (!existsSync(folder)) {
     mkdirSync(folder, { recursive: true })
   }
 }
 
-export function getFullPath(folder) {
+export function getFullPath(folder: string) {
   if (folder.startsWith('/')) {
     return folder
   }

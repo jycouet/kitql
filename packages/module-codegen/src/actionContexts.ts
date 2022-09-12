@@ -3,7 +3,7 @@ import { toPascalCase } from './formatString'
 import { join } from 'path'
 import { write } from './readWrite'
 
-export function actionContext(ctxModules, outputFolder: string) {
+export function actionContext(ctxModules: { ctxName: string; moduleName: string }[], outputFolder: string) {
   const dataCtxModules = []
 
   ctxModules.forEach(ctx => {

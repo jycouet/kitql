@@ -23,7 +23,7 @@ export type TConfigFile = {
   generates: Record<string, TGenerationConfig>
 }
 
-export function writeDefaultConfigFile(pathFile) {
+export function writeDefaultConfigFile(pathFile: string) {
   const data = `
     generates:
       apps/firstApp/src/lib/graphql/_gen:

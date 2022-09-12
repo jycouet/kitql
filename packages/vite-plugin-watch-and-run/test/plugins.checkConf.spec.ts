@@ -6,7 +6,7 @@ describe('vite-plugin-watch-and-run', () => {
     const p = watchAndRun(null as any)
     try {
       await p.getCheckedConf()
-    } catch (error) {
+    } catch (error: any) {
       expect(error.message).toEqual('plugin watchAndRun, `params` needs to be an array.')
     }
   })
@@ -15,7 +15,7 @@ describe('vite-plugin-watch-and-run', () => {
     const p = watchAndRun([{} as any])
     try {
       await p.getCheckedConf()
-    } catch (error) {
+    } catch (error: any) {
       expect(error.message).toEqual('plugin watch-and-run, `watch` or `watchFile` is missing.')
     }
   })
@@ -24,7 +24,7 @@ describe('vite-plugin-watch-and-run', () => {
     const p = watchAndRun([{ watch: 'hello!' } as any])
     try {
       await p.getCheckedConf()
-    } catch (error) {
+    } catch (error: any) {
       expect(error.message).toEqual('plugin watch-and-run, `run` is missing.')
     }
   })
