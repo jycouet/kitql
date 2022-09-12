@@ -126,10 +126,8 @@ async function shouldRun(
 
     if (info.watchFile) {
       isPathMatching = await info.watchFile(absolutePath)
-    } else {
-      if (info.watch) {
-        isPathMatching = micromatch.isMatch(absolutePath, info.watch)
-      }
+    } else if (info.watch) {
+      isPathMatching = micromatch.isMatch(absolutePath, info.watch)
     }
 
     const isWatchKindWithoutPath = kindWithoutPath.includes(watchKind as KindWithoutPath)
