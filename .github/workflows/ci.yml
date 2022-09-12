@@ -1,15 +1,9 @@
 name: Tests
 
 on:
-  # pull requests to master
   pull_request:
     paths:
-      - main
-
-  # every commit on master
-  push:
-    branches:
-      - main
+      - '**'
 
 jobs:
   build:
