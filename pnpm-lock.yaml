@@ -76,7 +76,7 @@ importers:
       svelte2tsx: 0.5.12
       tslib: 2.4.0
       typescript: 4.7.4
-      vite: ^3.0.2
+      vite: 3.1.0
       vite-plugin-watch-and-run: 1.0.3
     dependencies:
       '@envelop/core': 2.4.0
@@ -120,7 +120,7 @@ importers:
 
   packages/module-codegen:
     specifiers:
-      '@kitql/helper': 0.5.0
+      '@kitql/helper': workspace:^
       '@types/glob': ^7.2.0
       glob: ^8.0.3
       tslib: 2.4.0
@@ -146,11 +146,11 @@ importers:
 
   packages/vite-plugin-watch-and-run:
     specifiers:
-      '@kitql/helper': 0.5.0
+      '@kitql/helper': workspace:^
       '@types/micromatch': ^4.0.2
       micromatch: 4.0.5
       tslib: 2.4.0
-      vite: ^3.0.2
+      vite: 3.1.0
     dependencies:
       '@kitql/helper': link:../helper
       micromatch: 4.0.5
@@ -184,8 +184,8 @@ importers:
       react-dom: 18.2.0
       typescript: 4.8.2
     dependencies:
-      '@graphql-inspector/core': 3.3.0_graphql@16.6.0
-      '@graphql-inspector/github': 3.3.0_graphql@16.6.0
+      '@graphql-inspector/core': 3.4.0_graphql@16.6.0
+      '@graphql-inspector/github': 3.4.0_graphql@16.6.0
       '@graphql-yoga/node': 2.13.13_graphql@16.6.0
       '@graphql-yoga/render-graphiql': 2.13.12
       '@monaco-editor/react': 4.4.5_biqbaboplfbrettd7655fr4n2y
@@ -1736,8 +1736,8 @@ packages:
       - utf-8-validate
     dev: false
 
-  /@graphql-inspector/core/3.3.0_graphql@16.6.0:
-    resolution: {integrity: sha512-LRtk9sHgj9qqVPIkkThAVq3iZ7QxgHCx6elEwd0eesZBCmaIYQxD/BFu+VT8jr10YfOURBZuAnVdyGu64vYpBg==}
+  /@graphql-inspector/core/3.4.0_graphql@16.6.0:
+    resolution: {integrity: sha512-035TchqbbyWaNDOJKxp+RG6Ho/nGMXKKgzojQ6Dn1N20jgR/oX9rTVvR8qkzpy0/IxxP8PD9RcZ52vsTAehxdg==}
     peerDependencies:
       graphql: ^0.13.0 || ^14.0.0 || ^15.0.0 || ^16.0.0
     dependencies:
@@ -1747,13 +1747,13 @@ packages:
       tslib: 2.4.0
     dev: false
 
-  /@graphql-inspector/github/3.3.0_graphql@16.6.0:
-    resolution: {integrity: sha512-r9dGNV0hOwaimYLo/y//Lu1ZFHmRP1Pzt+41rcdaCh9+Eq3BeboB5DX0aKSCbeetb5kdsUE7zktOWTzKfzBPsA==}
+  /@graphql-inspector/github/3.4.0_graphql@16.6.0:
+    resolution: {integrity: sha512-H2q/kWAVrT/uyJ+fQKJ7v9QAwLliBute4cnr8cvLQoV/MKHhLHFUg/ME5kZ+fX+ySX219zUSBSEHj55gT60OCg==}
     peerDependencies:
       graphql: ^14.0.0 || ^15.0.0 || ^16.0.0
       probot: ^9.0.1 || ^10.0.0 || ^11.0.0
     dependencies:
-      '@graphql-inspector/core': 3.3.0_graphql@16.6.0
+      '@graphql-inspector/core': 3.4.0_graphql@16.6.0
       axios: 0.21.4
       dataloader: 2.0.0
       graphql: 16.6.0
