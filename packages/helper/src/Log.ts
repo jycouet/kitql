@@ -69,7 +69,7 @@ export class Log {
     this.prefixEmoji = options?.prefixEmoji ?? ''
   }
 
-  public setLevel(logLevel?: null | number) {
+  public setLevel(logLevel: number) {
     this.levelsToShow = logLevel
   }
 
@@ -119,7 +119,7 @@ export class Log {
         // replace with %c in another str to make sure we don't change the order of indexes
         replacedStr = replacedStr.replaceAll(config[key].node, '%c')
       }
-      const colors = []
+      const colors: string[] = []
       posToReplace
         .sort((a, b) => a.index - b.index)
         .forEach(c => {
