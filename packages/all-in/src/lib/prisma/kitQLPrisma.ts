@@ -27,7 +27,7 @@ export const getKitQLPrisma = (withSQL = false, withLog = true) => {
   })
 
   if (withSQL) {
-    prismaInstance.$on('query', e => {
+    prismaInstance.$on('query', (e: any) => {
       log.info(
         `${logCyan(`  🔷 prisma SQL   (${e.duration.toFixed(0).padStart(3, ' ')} ms)`)}` +
           ` ${logMagneta(e.query)} ${logYellow(e.params)}`
@@ -35,7 +35,7 @@ export const getKitQLPrisma = (withSQL = false, withLog = true) => {
     })
   }
 
-  prismaInstance.$use(async (params, next) => {
+  prismaInstance.$use(async (params: any, next: any) => {
     const start = performance.now()
     const result = await next(params)
     if (withLog) {

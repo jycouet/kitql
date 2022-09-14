@@ -1,8 +1,8 @@
-import type { __InitModule } from '../_gen/moduleTypes'
+import type { _InitModule } from '../_kitql/moduleTypes'
 
-export const resolvers: __InitModule.Resolvers = {
+export const resolvers: _InitModule.Resolvers = {
   Mutation: {
-    _boostServer: async (_root, _args, _ctx) => {
+    _boostServer: async (root, args, ctx) => {
       return `Done! KitQL is on 🔥`
     },
   },

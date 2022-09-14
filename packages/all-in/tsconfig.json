@@ -1,11 +1,15 @@
 {
   "extends": "./.svelte-kit/tsconfig.json",
   "compilerOptions": {
+    "importsNotUsedAsValues": "preserve",
     "paths": {
       "$lib": ["src/lib"],
       "$lib/*": ["src/lib/*"],
+      "$graphql": ["src/lib/graphql"],
+      "$graphql/*": ["src/lib/graphql/*"],
       "@kitql/helper": ["../helper/src"],
       "@kitql/helper/*": ["../helper/src/*"]
     }
-  }
+  },
+  "exclude": ["_kitql"]
 }

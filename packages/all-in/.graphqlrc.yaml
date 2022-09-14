@@ -21,6 +21,7 @@ projects:
               - typescript-resolvers
             config:
               contextType: '$graphql/kitQLServer#IKitQLContext'
+              useTypeImports: true
               # scalars:
               #   - Date: "../helpers/scalarTypes#CodegenDate"
               #     DateTime: Date

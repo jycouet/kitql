@@ -47,7 +47,7 @@
     window.localStorage.setItem('KitQLInfo', stry(ls, 0))
   }
 
-  function startDrag(event) {
+  function startDrag(event: any) {
     if (!drag) {
       offsetLeft = left - event.clientX
       offsetTop = top - event.clientY
@@ -55,12 +55,12 @@
     }
   }
 
-  function stopDrag(event) {
+  function stopDrag(event: any) {
     drag = false
     lsSet()
   }
 
-  function handleMousemove(event) {
+  function handleMousemove(event: any) {
     if (drag) {
       left = event.clientX + offsetLeft
       top = event.clientY + offsetTop

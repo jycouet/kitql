@@ -21,7 +21,7 @@ function getContext({ request }: RequestEvent) {
   const coolInfo = request.headers.get('Authorization')
 
   // get the user from the coolInfo (redis or db)
-  let user = { id: 1, name: 'John' }
+  const user = { id: 1, name: 'John' }
 
   return {
     request,
