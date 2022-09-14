@@ -12,8 +12,7 @@
     "prepare": "svelte-kit sync",
     "prepack": "bob prepack",
     "dev": "vite dev",
-    "build": "vite build",
-    "package": "npm run build && svelte-kit package",
+    "build": "vite build && svelte-kit package",
     "preview": "vite preview",
     "check": "svelte-check --tsconfig ./tsconfig.json",
     "check:watch": "svelte-check --tsconfig ./tsconfig.json --watch",
@@ -57,7 +56,7 @@
     "vite-plugin-watch-and-run": "1.0.3"
   },
   "peerDependencies": {
-    "graphql": "^15.0.0 || ^16.0.0",
+    "graphql": "^15.5.0",
     "houdini": "^0.15.9"
   },
   "type": "module",
