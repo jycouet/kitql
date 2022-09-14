@@ -2,26 +2,26 @@ import type { GraphiQLOptions as Options } from '@graphql-yoga/common'
 import { renderGraphiQL } from '@graphql-yoga/common'
 import type { Handle } from '@sveltejs/kit'
 
-type GraphiQLOptions = Omit<Options, 'headers'> & {
+export type GraphiQLOptions = Omit<Options, 'headers'> & {
   headers?: Record<string, string>
 
   /**
-   * This is the path in the SvelteKit app
-   * @default is '/api/graphiql'
+   * This is the graphiQLPath in the SvelteKit app
+   * @default is '/graphiql'
    */
-  path?: string
+  graphiQLPath?: string
 }
 
 export function graphiql(options?: GraphiQLOptions): Handle {
-  const { path, headers, ...opts } = {
+  const { graphiQLPath, headers, ...opts } = {
     title: 'KitQL',
-    endpoint: '/api/graphql',
-    path: '/api/graphiql',
+    endpoint: '/graphql',
+    graphiQLPath: '/graphiql',
     ...options,
   }
 
-  if (!path.startsWith('/')) {
-    throw new Error("graphiql path must start with '/'")
+  if (!graphiQLPath.startsWith('/')) {
+    throw new Error("graphiql graphiQLPath must start with '/'")
   }
 
   const body = renderGraphiQL({
@@ -30,7 +30,7 @@ export function graphiql(options?: GraphiQLOptions): Handle {
   })
 
   return ({ event, resolve }) => {
-    if (event.url.pathname === path) {
+    if (event.url.pathname === graphiQLPath) {
       return new Response(body, {
         status: 200,
         headers: {

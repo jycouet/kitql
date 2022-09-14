@@ -1,12 +1,11 @@
 import type { YogaServerInstance } from '@graphql-yoga/common'
-import { renderGraphiQL } from '@graphql-yoga/common'
 import type { Handle } from '@sveltejs/kit'
 
-type GraphQLOptions = {
+export type GraphQLOptions = {
   endpoint?: string
 
   /**
-   * If you fill the `graphiQLPath`, on a GET request you will be redirected there
+   * If you set the `graphiQLPath`, on a GET request you will be redirected there
    * If not, you will get a 404 (security by default ;))))))))))))))))))
    */
   graphiQLPath?: string
@@ -14,7 +13,7 @@ type GraphQLOptions = {
 
 export function graphql(kitqlServer: YogaServerInstance<{}, {}, {}>, options?: GraphQLOptions): Handle {
   const { endpoint, graphiQLPath } = {
-    endpoint: '/api/graphql',
+    endpoint: '/graphql',
     graphiQLPath: undefined,
     ...options,
   }

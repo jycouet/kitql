@@ -12,7 +12,7 @@
     "prepare": "svelte-kit sync",
     "prepack": "bob prepack",
     "dev": "vite dev",
-    "build": "vite build && svelte-kit package",
+    "build": "vite build && svelte-package",
     "preview": "vite preview",
     "check": "svelte-check --tsconfig ./tsconfig.json",
     "check:watch": "svelte-check --tsconfig ./tsconfig.json --watch",
