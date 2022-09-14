@@ -1,0 +1,29 @@
+---
+projects:
+  default:
+    schema:
+      - src/lib/modules/**/typedefs/*.graphql
+      # - $houdini/graphql/schema.graphql
+    documents:
+      - src/lib/modules/**/graphql/*.gql
+      # - $houdini/graphql/documents.gql
+    extensions:
+      codegen:
+        generates:
+          src/lib/modules:
+            preset: graphql-modules
+            presetConfig:
+              baseTypesPath: '../graphql/_kitql/graphqlTypes.ts'
+              importBaseTypesFrom: '$graphql/_kitql/graphqlTypes'
+              filename: _kitql/moduleTypes.ts
+            plugins:
+              - typescript
+              - typescript-resolvers
+            config:
+              contextType: '$graphql/kitQLServer#IKitQLContext'
+              # scalars:
+              #   - Date: "../helpers/scalarTypes#CodegenDate"
+              #     DateTime: Date
+              #     PrismaDecimal: "../helpers/scalarTypes#CodegenDecimal"
+        config:
+          useTypeImports: true

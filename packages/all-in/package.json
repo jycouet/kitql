@@ -7,10 +7,12 @@
     "url": "https://github.com/jycouet/kitql",
     "directory": "packages/all-in"
   },
+  "type": "module",
   "bob": false,
   "scripts": {
     "prepare": "svelte-kit sync",
-    "prepack": "bob prepack",
+    "gen": "graphql-codegen && pnpm run gen:kitql-module",
+    "gen:kitql-module": "node node_modules/@kitql/module-codegen/dist/cjs/index.js",
     "dev": "vite dev",
     "build": "vite build && svelte-package",
     "preview": "vite preview",
@@ -22,6 +24,8 @@
   "devDependencies": {
     "@sveltejs/adapter-auto": "1.0.0-next.74",
     "@sveltejs/kit": "1.0.0-next.482",
+    "@sveltejs/package": "1.0.0-next.3",
+    "@types/node": "^16.11.7",
     "@typescript-eslint/eslint-plugin": "5.30.7",
     "@typescript-eslint/parser": "5.30.7",
     "eslint": "8.20.0",
@@ -39,7 +43,6 @@
   },
   "dependencies": {
     "@envelop/core": "2.4.0",
-    "@envelop/graphql-jit": "4.4.0",
     "@envelop/graphql-modules": "3.4.0",
     "@graphql-codegen/cli": "2.9.0",
     "@graphql-codegen/graphql-modules-preset": "2.4.2",
@@ -51,7 +54,7 @@
     "@graphql-typed-document-node/core": "3.1.1",
     "@graphql-yoga/common": "2.12.3",
     "@kitql/module-codegen": "0.3.12",
-    "@sveltejs/package": "1.0.0-next.3",
+    "graphql": "15.5.0",
     "graphql-modules": "2.1.0",
     "graphql-scalars": "1.17.0",
     "vite-plugin-watch-and-run": "1.0.3"
@@ -60,7 +63,6 @@
     "graphql": "^15.5.0",
     "houdini": "^0.15.9"
   },
-  "type": "module",
   "publishConfig": {
     "directory": "dist",
     "access": "public"

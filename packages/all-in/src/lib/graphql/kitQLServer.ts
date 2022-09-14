@@ -1,6 +1,8 @@
 import { createServer } from '@graphql-yoga/common'
 import type { RequestEvent } from '@sveltejs/kit'
-// import type { Application } from 'graphql-modules'
+import { kitQLModules } from './kitQLModules'
+// This should be fully generated 🥳
+import { modules } from './_kitql/_appModules'
 
 // export type IKitQLContext ables to use it in code gen, and have resolvers fully typed!
 // config:
@@ -27,6 +29,10 @@ function getContext({ request }: RequestEvent) {
   }
 }
 
+const plugins = []
+plugins.push(kitQLModules(modules))
+
 export const kitqlServer = createServer<IKitQLContext>({
   context: getContext,
+  plugins,
 })

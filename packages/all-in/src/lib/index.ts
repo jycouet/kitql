@@ -5,7 +5,7 @@ export { default as KitQLInfo } from './KitQLInfo.svelte'
 export { createServer } from '@graphql-yoga/common'
 
 // graphql-modules
-export { createApplication, type Application } from 'graphql-modules'
+export { kitQLModules } from './graphql/kitQLModules'
 
 // SvelteKit hooks
 export { type GraphQLOptions } from './hooks/graphql'
