@@ -7,6 +7,7 @@
   "scripts": {
     "prepare": "husky install && cd packages/all-in && npm run prepare",
     "dev:w": "cd website && npm run dev",
+    "dev:w2": "cd website2 && npm run dev",
     "test": "vitest --coverage",
     "lint": "eslint --ignore-path .prettierignore .",
     "prettier": "prettier --write --list-different .",
@@ -23,7 +24,8 @@
   "workspaces": [
     "packages/*",
     "kit-modules/*",
-    "website"
+    "website",
+    "website2"
   ],
   "devDependencies": {
     "@changesets/changelog-github": "0.4.5",
