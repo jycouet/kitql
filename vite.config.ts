@@ -1,5 +1,6 @@
 /// <reference types="vitest" />
 import { defineConfig } from 'vite'
+import { resolve } from 'path'
 
 export default defineConfig({
   test: {
@@ -8,5 +9,10 @@ export default defineConfig({
       exclude: ['**/node_modules/**', '**/vite.config.mjs', '**/dist/**', '**/test/**'],
     },
     reporters: 'default',
+  },
+  resolve: {
+    alias: {
+      '@kitql/helper': resolve('./packages/helper/src/index'),
+    },
   },
 })
