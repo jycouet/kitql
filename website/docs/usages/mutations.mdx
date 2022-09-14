@@ -1,0 +1,43 @@
+---
+title: KitQL - Mutations
+sidebar_label: Mutations
+---
+
+# Mutations
+
+Mutations methods are exposed in a straightforward way from Houdini. Check 👇
+
+```svelte
+<script lang="ts">
+  // Having a "AddUser.gql" mutation in a file will generate "GQL_AddUser" store
+  import { GQL_AddUser } from '$houdini'
+
+  async function add() {
+    await GQL_AddUser.mutate({
+      variables: { name: 'JYC', birthDate: new Date('1986-11-07') },
+
+      // (optional) optimisticResponse while the response is not yet received
+      optimisticResponse: {
+        addUser: {
+          id: '???',
+          name: '...optimisticResponse... I could have guessed JYC!',
+          birthDate: new Date('1986-11-07')
+        }
+      }
+    })
+  }
+</script>
+
+<h1>Mutation</h1>
+
+<button id="mutate" on:click={add}>Add User</button>
+
+<pre>
+  {JSON.stringify($GQL_AddUser, null, 2)}
+</pre>
+```
+
+<br />
+## Go further
+
+Use directly => [Houdini's doc](https://www.houdinigraphql.com/api/mutation).

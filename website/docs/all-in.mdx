@@ -1,0 +1,55 @@
+---
+title: KitQL - All-In
+sidebar_label: Getting started => All-In
+---
+
+# ⚡Let's go All-In!
+
+KitQL is primarily a list of tools/projects working together. You can opt-in or out of each any time,
+but we think that here you will find the _best in class_ way to do graphql from top to bottom!
+
+_In order to not repeat ourself **20** times, we have a dedicated page per package and the overview here 👍_
+
+<br />
+## Create SvelteKit project
+
+Create a new SvelteKit project or upgrade to a least `next-350` version.
+
+```sh
+npm create svelte my-app
+```
+
+We recommend typescript, eslint, playwright, ... so answer `yes` to everything 🙃!
+
+<br />
+## Install `KitQL`
+
+The package `@kitql/all-in` will add all your dependencies so that you can worry only about your app!
+
+<PackageInstall packages={['@kitql/all-in', 'graphql']} />
+
+Then depending on your needs, you can configure packages individually.
+
+<br />
+## Configuration by package
+
+### GraphQL Client - Houdini
+
+This package will take care of the frontend part of GraphQL. Typically, you will be able to
+use `queries`, `mutations` and `subscriptions` in your components & routes in an effortless manner!
+
+--> [Configuration guide](/docs/setup/01_houdini)
+
+<br />
+### GraphQL Server
+
+This set of packages will take care of the backend part of GraphQL in SvelteKit
+
+--> [Configuration guide](/docs/setup/02_server)
+
+<br />
+### Vite Plugin - watch and run
+
+This package will watch some files and trigger a command. We will use it to regenerate some graphql on some files changes.
+
+--> [Configuration guide](/docs/setup/03_vite-plugin-watch-and-run)
