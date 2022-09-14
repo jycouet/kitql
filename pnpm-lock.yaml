@@ -57,7 +57,9 @@ importers:
       '@graphql-eslint/eslint-plugin': 3.10.6
       '@graphql-typed-document-node/core': 3.1.1
       '@graphql-yoga/common': 2.12.3
+      '@kitql/helper': 0.5.0
       '@kitql/module-codegen': 0.3.12
+      '@prisma/client': ^4.3.1
       '@sveltejs/adapter-auto': 1.0.0-next.74
       '@sveltejs/kit': 1.0.0-next.482
       '@sveltejs/package': 1.0.0-next.3
@@ -92,7 +94,9 @@ importers:
       '@graphql-eslint/eslint-plugin': 3.10.6_5zkwo6l754es5grzzhquxs5zly
       '@graphql-typed-document-node/core': 3.1.1_graphql@15.5.0
       '@graphql-yoga/common': 2.12.3_graphql@15.5.0
+      '@kitql/helper': link:../helper
       '@kitql/module-codegen': link:../module-codegen
+      '@prisma/client': 4.3.1
       graphql: 15.5.0
       graphql-modules: 2.1.0_graphql@15.5.0
       graphql-scalars: 1.17.0_graphql@15.5.0
@@ -3907,6 +3911,23 @@ packages:
 
   /@popperjs/core/2.11.6:
     resolution: {integrity: sha512-50/17A98tWUfQ176raKiOGXuYpLyyVMkxxG6oylzL3BPOlA6ADGdK7EYunSa4I064xerltq9TGXs8HmOk5E+vw==}
+    dev: false
+
+  /@prisma/client/4.3.1:
+    resolution: {integrity: sha512-FA0/d1VMJNWqzU7WVWTNWJ+lGOLR9JUBnF73GdIPAEVo/6dWk4gHx0EmgeU+SMv4MZoxgOeTBJF2azhg7x0hMw==}
+    engines: {node: '>=14.17'}
+    requiresBuild: true
+    peerDependencies:
+      prisma: '*'
+    peerDependenciesMeta:
+      prisma:
+        optional: true
+    dependencies:
+      '@prisma/engines-version': 4.3.0-32.c875e43600dfe042452e0b868f7a48b817b9640b
+    dev: false
+
+  /@prisma/engines-version/4.3.0-32.c875e43600dfe042452e0b868f7a48b817b9640b:
+    resolution: {integrity: sha512-8yWpXkQRmiSfsi2Wb/ZS5D3RFbeu/btL9Pm/gdF4phB0Lo5KGsDFMxFMgaD64mwED2nHc8ZaEJg/+4Jymb9Znw==}
     dev: false
 
   /@radix-ui/primitive/0.1.0:

@@ -3,7 +3,9 @@
   "compilerOptions": {
     "paths": {
       "$lib": ["src/lib"],
-      "$lib/*": ["src/lib/*"]
+      "$lib/*": ["src/lib/*"],
+      "@kitql/helper": ["../helper/src"],
+      "@kitql/helper/*": ["../helper/src/*"]
     }
   }
 }

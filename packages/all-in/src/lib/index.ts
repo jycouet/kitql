@@ -12,3 +12,6 @@ export { type GraphQLOptions } from './hooks/graphql'
 export { graphql } from './hooks/graphql'
 export { type GraphiQLOptions } from './hooks/graphiql'
 export { graphiql } from './hooks/graphiql'
+
+// Prisma
+export { getKitQLPrisma } from './prisma/kitQLPrisma'

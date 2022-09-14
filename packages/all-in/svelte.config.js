@@ -9,6 +9,10 @@ const config = {
 
   kit: {
     adapter: adapter(),
+
+    alias: {
+      '@kitql/helper': '../helper/src',
+    },
   },
 
   package: {
