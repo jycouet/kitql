@@ -8,10 +8,11 @@
     "directory": "packages/vite-plugin-watch-and-run",
     "homepage": "https://github.com/jycouet/kitql/tree/main/packages/vite-plugin-watch-and-run#readme"
   },
+  "type": "module",
   "license": "MIT",
   "scripts": {
     "test": "vitest run",
-    "build": "bob build"
+    "build": "bob runify --single"
   },
   "devDependencies": {
     "@types/micromatch": "^4.0.2",

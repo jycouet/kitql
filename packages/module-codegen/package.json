@@ -12,7 +12,7 @@
   "scripts": {
     "dev": "cd ../.. && npm run build && cd packages/module-codegen && node ./dist/index.mjs",
     "start": "node ./dist/index.mjs",
-    "build": "bob build"
+    "build": "bob runify --single"
   },
   "devDependencies": {
     "@types/glob": "^7.2.0",

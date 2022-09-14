@@ -6,9 +6,10 @@
     "url": "https://github.com/jycouet/kitql",
     "directory": "packages/helper"
   },
+  "type": "module",
   "license": "MIT",
   "scripts": {
-    "build": "bob build"
+    "build": "bob runify --single"
   },
   "dependencies": {},
   "main": "dist/cjs/index.js",
