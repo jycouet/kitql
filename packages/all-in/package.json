@@ -10,11 +10,10 @@
   "type": "module",
   "bob": false,
   "scripts": {
-    "prepare": "svelte-kit sync",
     "gen": "graphql-codegen && pnpm run gen:kitql-module",
     "gen:kitql-module": "node node_modules/@kitql/module-codegen/dist/cjs/index.js",
     "dev": "vite dev",
-    "build": "pnpm run gen && vite build && svelte-package",
+    "build": "svelte-kit sync && pnpm run gen && vite build && svelte-package",
     "preview": "vite preview",
     "check": "svelte-check --tsconfig ./tsconfig.json",
     "check:watch": "svelte-check --tsconfig ./tsconfig.json --watch",

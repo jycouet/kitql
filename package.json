@@ -5,7 +5,7 @@
   "private": true,
   "license": "MIT",
   "scripts": {
-    "prepare": "husky install && cd packages/all-in && npm run prepare",
+    "prepare": "husky install",
     "dev:w": "cd website && npm run dev",
     "dev:w2": "cd website2 && npm run dev",
     "test": "vitest --coverage",
