@@ -7,7 +7,6 @@
   "scripts": {
     "prepare": "husky install",
     "dev:w": "cd website && npm run dev",
-    "dev:w2": "cd website2 && npm run dev",
     "test": "vitest --coverage",
     "lint": "eslint --ignore-path .prettierignore .",
     "prettier": "prettier --write --list-different .",
@@ -15,7 +14,8 @@
     "test:ci": "vitest run --coverage",
     "test:update-badge": "npm run update-badge",
     "prebuild": "rimraf packages/*/dist",
-    "build": "turbo run build",
+    "build": "bob build && pnpm --filter @kitql/all-in build",
+    "build:turbo:not:working": "turbo run build",
     "release:version": "npm run changeset version",
     "release": "npm run build && changeset publish",
     "reset": "git clean -xdf",

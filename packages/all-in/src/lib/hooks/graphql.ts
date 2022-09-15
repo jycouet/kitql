@@ -11,7 +11,10 @@ export type GraphQLOptions = {
   graphiQLPath?: string
 }
 
-export function graphql(kitqlServer: YogaServerInstance<{}, {}, {}>, options?: GraphQLOptions): Handle {
+export function graphql<TServerContext, TUserContext, TRootValue>(
+  kitqlServer: YogaServerInstance<TServerContext, TUserContext, TRootValue>,
+  options?: GraphQLOptions
+): Handle {
   const { endpoint, graphiQLPath } = {
     endpoint: '/graphql',
     graphiQLPath: undefined,
@@ -38,6 +41,7 @@ export function graphql(kitqlServer: YogaServerInstance<{}, {}, {}>, options?: G
       }
 
       if (event.request.method === 'POST') {
+        // @ts-ignore
         return kitqlServer.handleRequest(event.request)
       }
     }

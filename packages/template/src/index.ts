@@ -30,7 +30,7 @@ function createRecursiveFolder(folderPath: string) {
 }
 
 console.info(`START`)
-const content = fs.readFileSync(path.join(__dirname, '../toto.yaml'), { encoding: 'utf8' })
+const content = fs.readFileSync(path.join(__dirname, '../.template.yaml'), { encoding: 'utf8' })
 
 const configFile = YAML.parse(content)
 

@@ -22,11 +22,9 @@
     "resolveJsonModule": true,
     "skipLibCheck": true,
     "paths": {
-      "@kitql/module-codegen": ["packages/module-codegen/src/index"],
-      "@kitql/helper": ["packages/helper/src/index"],
-      "@kitql/all-in": ["packages/all-in/src/lib/index"]
+      "@kitql/helper": ["packages/helper/src/index"]
     }
   },
   "include": ["packages"],
-  "exclude": ["**/dist", "**/temp", "**/.bob"]
+  "exclude": ["**/dist", "**/temp", "**/.bob", "packages/all-in/**/*"]
 }
