@@ -11,7 +11,7 @@
   "bob": false,
   "scripts": {
     "gen": "graphql-codegen && pnpm run gen:kitql-module",
-    "gen:kitql-module": "node node_modules/@kitql/module-codegen/dist/cjs/index.js",
+    "gen:kitql-module": "node ../module-codegen/dist/cjs/index.js",
     "dev": "vite dev",
     "build": "svelte-kit sync && pnpm run gen && vite build && svelte-package",
     "preview": "vite preview",
