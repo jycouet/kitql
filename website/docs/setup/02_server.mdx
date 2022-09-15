@@ -22,15 +22,15 @@ The idea is to bring functionalities with hooks, something like:
 // hooks.server.ts
 import { dev } from '$app/environment'
 import { kitqlServer } from '$lib/graphql/kitQLServer'
-import { graphiql, graphql } from '@kitql/all-in'
+import { handleGraphiql, handleGraphql } from '@kitql/all-in'
 import { sequence } from '@sveltejs/kit/hooks'
 
 export const handle = sequence(
   // Add graphql
-  graphql(kitqlServer),
+  handleGraphql(kitqlServer),
 
   // graphiql
-  graphiql({
+  handleGraphiql({
     enabled: dev,
   })
 )

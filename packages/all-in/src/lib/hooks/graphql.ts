@@ -11,7 +11,7 @@ export type GraphQLOptions = {
   graphiQLPath?: string
 }
 
-export function graphql<TServerContext, TUserContext, TRootValue>(
+export function handleGraphql<TServerContext, TUserContext, TRootValue>(
   kitqlServer: YogaServerInstance<TServerContext, TUserContext, TRootValue>,
   options?: GraphQLOptions
 ): Handle {

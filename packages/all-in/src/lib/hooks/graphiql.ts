@@ -14,7 +14,7 @@ export type GraphiQLOptions = Omit<Options, 'headers'> & {
   graphiQLPath?: string
 }
 
-export function graphiql(options?: GraphiQLOptions): Handle {
+export function handleGraphiql(options?: GraphiQLOptions): Handle {
   const { graphiQLPath, headers, enabled, ...opts } = {
     title: 'KitQL',
     endpoint: '/graphql',
