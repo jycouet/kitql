@@ -1,5 +1,5 @@
-import { createServer } from '@graphql-yoga/common'
 import type { RequestEvent } from '@sveltejs/kit'
+import { createServer } from './createServer'
 import { kitQLModules } from './kitQLModules'
 // This should be fully generated 🥳
 import { modules } from './_kitql/_appModules'

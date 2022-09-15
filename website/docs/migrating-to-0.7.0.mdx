@@ -86,12 +86,13 @@ After:
 
 ```ts
 // +page.ts
-import { GQL_FirstQuery } from '$houdini'
+import { load_FirstQuery } from '$houdini'
 import type { Load } from './$types'
 
 export const load: Load = async (event) => {
-  await GQL_FirstQuery.fetch({ event })
-  return {}
+  return {
+		...(await load_FirstQuery({ event }))
+	}
 }
 ```
 
