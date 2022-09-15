@@ -41,6 +41,7 @@ export function graphql<TServerContext, TUserContext, TRootValue>(
       }
 
       if (event.request.method === 'POST') {
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore
         return kitqlServer.handleRequest(event.request)
       }

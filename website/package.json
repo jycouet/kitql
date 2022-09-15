@@ -5,7 +5,7 @@
   "private": true,
   "bob": false,
   "scripts": {
-    "buildOLD": "next build",
+    "build": "next build",
     "algolia-sync": "node scripts/algolia-ci.mjs",
     "postbuild": "npx next-sitemap && node scripts/sitemap-ci.mjs",
     "dev": "concurrently -r \"next-remote-watch ./docs ./routes.ts ./src/pages/_app.tsx ./src/pages/_document.tsx\" \"wait-on -s 1 http://localhost:3000 && open-cli http://localhost:3000\"",
@@ -48,7 +48,7 @@
     "@theguild/components": "1.11.8",
     "framer-motion": "^6.2.6",
     "graphql": "16.5.0",
-    "next": "^12.0.10",
+    "next": "^12.3.0",
     "next-i18next": "^11.0.0",
     "next-seo": "^5.2.0",
     "next-sitemap": "^2.5.17",
