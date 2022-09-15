@@ -158,7 +158,6 @@ export class Log {
       return built
     }
     return null
-    return null
   }
 
   success(msg: string, conf?: { level?: number; browser?: boolean }) {
