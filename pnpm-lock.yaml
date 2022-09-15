@@ -8,6 +8,7 @@ importers:
       '@changesets/cli': 2.24.4
       '@theguild/eslint-config': 0.0.2
       '@theguild/prettier-config': 0.0.3
+      '@vitest/coverage-c8': ^0.23.2
       '@vitest/ui': 0.23.2
       bob-the-bundler: 4.0.0
       c8: 7.12.0
@@ -27,6 +28,7 @@ importers:
       '@changesets/cli': 2.24.4
       '@theguild/eslint-config': 0.0.2_irgkl5vooow2ydyo6aokmferha
       '@theguild/prettier-config': 0.0.3_prettier@2.7.1
+      '@vitest/coverage-c8': 0.23.2_nfqmtj2i2wbshsdqjmmrigkz7a
       '@vitest/ui': 0.23.2
       bob-the-bundler: 4.0.0_typescript@4.8.3
       c8: 7.12.0
@@ -5018,6 +5020,24 @@ packages:
     transitivePeerDependencies:
       - encoding
       - supports-color
+    dev: true
+
+  /@vitest/coverage-c8/0.23.2_nfqmtj2i2wbshsdqjmmrigkz7a:
+    resolution: {integrity: sha512-VWT6zGj9iXEZCimnRLAUhf3siYVGIG9VryyMoo7B8zMOd+bnAbH8/7PhqvmjedVwa9wh61nkxqgG7/3Y/mzofQ==}
+    dependencies:
+      c8: 7.12.0
+      vitest: 0.23.2_nfqmtj2i2wbshsdqjmmrigkz7a
+    transitivePeerDependencies:
+      - '@edge-runtime/vm'
+      - '@vitest/browser'
+      - '@vitest/ui'
+      - happy-dom
+      - jsdom
+      - less
+      - sass
+      - stylus
+      - supports-color
+      - terser
     dev: true
 
   /@vitest/ui/0.23.2:
