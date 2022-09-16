@@ -29,8 +29,8 @@ export const handle = sequence(
   // Add graphql
   handleGraphql(kitqlServer),
 
-  // graphiql
-  await handleGraphiql({
+  // Add graphiql
+  handleGraphiql({
     enabled: dev,
   })
 )
