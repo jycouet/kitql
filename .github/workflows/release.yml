@@ -12,6 +12,5 @@ jobs:
       releaseScript: release # script to run as part of publish command
       nodeVersion: 17
     secrets:
-      packageManager: pnpm
       githubToken: ${{ secrets.GITHUB_TOKEN }}
       npmToken: ${{ secrets.NPM_TOKEN }}
