@@ -57,8 +57,8 @@ importers:
       '@graphql-eslint/eslint-plugin': 3.10.7
       '@graphql-typed-document-node/core': 3.1.1
       '@graphql-yoga/common': 2.12.12
-      '@kitql/helper': workspace:0.5.0
-      '@kitql/module-codegen': workspace:0.3.12
+      '@kitql/helper': workspace:0.6.0-next.0
+      '@kitql/module-codegen': workspace:0.4.0-next.0
       '@prisma/client': ^4.3.1
       '@sveltejs/adapter-auto': 1.0.0-next.75
       '@sveltejs/kit': 1.0.0-next.483
@@ -82,7 +82,7 @@ importers:
       tslib: 2.4.0
       typescript: 4.8.3
       vite: 3.1.1
-      vite-plugin-watch-and-run: workspace:1.0.3
+      vite-plugin-watch-and-run: workspace:1.1.0-next.0
     dependencies:
       '@envelop/core': 2.6.0_graphql@16.6.0
       '@envelop/graphql-modules': 3.6.0_jfatjyidzncm7csfq2dmydjz6a
@@ -130,7 +130,7 @@ importers:
 
   packages/module-codegen:
     specifiers:
-      '@kitql/helper': workspace:0.5.0
+      '@kitql/helper': workspace:0.6.0-next.0
       '@types/glob': ^8.0.0
       glob: ^8.0.3
       tslib: 2.4.0
@@ -156,7 +156,7 @@ importers:
 
   packages/vite-plugin-watch-and-run:
     specifiers:
-      '@kitql/helper': workspace:0.5.0
+      '@kitql/helper': workspace:0.6.0-next.0
       '@types/micromatch': ^4.0.2
       micromatch: 4.0.5
       tslib: 2.4.0
