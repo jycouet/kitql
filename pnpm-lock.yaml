@@ -179,7 +179,6 @@ importers:
       '@emotion/react': ^11.7.1
       '@emotion/styled': ^11.6.0
       '@graphql-yoga/node': 2.6.0
-      '@graphql-yoga/render-graphiql': 2.7.0
       '@guild-docs/algolia': 0.0.5
       '@guild-docs/client': ^3.0.2
       '@guild-docs/server': ^4.0.0
@@ -220,7 +219,6 @@ importers:
       '@emotion/react': 11.10.0_pxzommwrsowkd4kgag6q3sluym
       '@emotion/styled': 11.10.0_3odwv5oyyouvv32bz24q6ofhsa
       '@graphql-yoga/node': 2.6.0_graphql@16.5.0
-      '@graphql-yoga/render-graphiql': 2.7.0
       '@guild-docs/client': 3.1.0_rbrkacffyemttfa5qfmgcuuw4i
       '@guild-docs/server': 4.0.0_ckxhvk7oeq6hvkqzyqcwyww7t4
       '@mdx-js/react': 2.1.3_react@17.0.2
@@ -612,7 +610,7 @@ packages:
       '@babel/helper-function-name': 7.19.0
       '@babel/helper-member-expression-to-functions': 7.18.9
       '@babel/helper-optimise-call-expression': 7.18.6
-      '@babel/helper-replace-supers': 7.19.1
+      '@babel/helper-replace-supers': 7.18.9
       '@babel/helper-split-export-declaration': 7.18.6
     transitivePeerDependencies:
       - supports-color
@@ -918,7 +916,7 @@ packages:
       '@babel/core': ^7.0.0-0
     dependencies:
       '@babel/core': 7.12.9
-      '@babel/helper-plugin-utils': 7.10.4
+      '@babel/helper-plugin-utils': 7.19.0
     dev: true
     optional: true
 
@@ -3315,12 +3313,6 @@ packages:
       tslib: 2.4.0
     transitivePeerDependencies:
       - encoding
-    dev: false
-
-  /@graphql-yoga/render-graphiql/2.7.0:
-    resolution: {integrity: sha512-t6X/GBV9mDEvdY++3BR4M32NVCG3pzA7BXzemuTnTxET+f76+jNVcxQqwdp89lrrQimqw8jcHvsN9i7eImhHKA==}
-    peerDependencies:
-      '@graphql-yoga/common': ^2.6.0
     dev: false
 
   /@graphql-yoga/subscription/2.0.0:

@@ -9,7 +9,7 @@ export const handle = sequence(
   handleGraphql(kitqlServer),
 
   //
-  handleGraphiql({
+  await handleGraphiql({
     enabled: dev,
   })
 )

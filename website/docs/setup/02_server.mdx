@@ -30,13 +30,15 @@ export const handle = sequence(
   handleGraphql(kitqlServer),
 
   // graphiql
-  handleGraphiql({
+  await handleGraphiql({
     enabled: dev,
   })
 )
 ```
 
 _You could use only `graphiql` here for example!_
+
+> Side note: if you want **offline support** for _graphiql_, add `@graphql-yoga/render-graphiql` as dependency, KitQL will pick it up automatically if it's there
 
 Now, let's build the `kitqlServer` instance 👇
 

@@ -1,5 +1,5 @@
 import type { GraphiQLOptions as Options } from '@graphql-yoga/common'
-import { renderGraphiQL } from '@graphql-yoga/common'
+import { renderGraphiQL as renderGraphiQLOnline } from '@graphql-yoga/common'
 import type { Handle } from '@sveltejs/kit'
 
 export type GraphiQLOptions = Omit<Options, 'headers'> & {
@@ -14,7 +14,7 @@ export type GraphiQLOptions = Omit<Options, 'headers'> & {
   graphiQLPath?: string
 }
 
-export function handleGraphiql(options?: GraphiQLOptions): Handle {
+export async function handleGraphiql(options?: GraphiQLOptions): Promise<Handle> {
   const { graphiQLPath, headers, enabled, ...opts } = {
     title: 'KitQL',
     endpoint: '/graphql',
@@ -27,10 +27,19 @@ export function handleGraphiql(options?: GraphiQLOptions): Handle {
     throw new Error("graphiql graphiQLPath must start with '/'")
   }
 
-  const body = renderGraphiQL({
+  const graphiqlOptions = {
     ...opts,
     headers: JSON.stringify(headers ?? {}),
-  })
+  }
+
+  let body = ''
+  try {
+    const { renderGraphiQL: renderGraphiQLOffline } = await import('@graphql-yoga/render-graphiql')
+    body = renderGraphiQLOffline(graphiqlOptions)
+  } catch (err) {
+    // user did not add it as a dependency
+    body = renderGraphiQLOnline(graphiqlOptions)
+  }
 
   return ({ event, resolve }) => {
     if (enabled && event.url.pathname === graphiQLPath) {
