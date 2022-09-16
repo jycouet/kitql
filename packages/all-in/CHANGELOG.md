@@ -1,5 +1,18 @@
 # @kitql/all-in
 
+## 0.8.0-next.0
+
+### Minor Changes
+
+- [#215](https://github.com/jycouet/kitql/pull/215) [`6261921`](https://github.com/jycouet/kitql/commit/6261921157c3581258fa12c1a57fd450f5b26547) Thanks [@jycouet](https://github.com/jycouet)! - update with sveltekit next.483 & import form @kitql/all-in
+
+### Patch Changes
+
+- Updated dependencies [[`6261921`](https://github.com/jycouet/kitql/commit/6261921157c3581258fa12c1a57fd450f5b26547)]:
+  - @kitql/helper@0.6.0-next.0
+  - @kitql/module-codegen@0.4.0-next.0
+  - vite-plugin-watch-and-run@1.1.0-next.0
+
 ## 0.7.10
 
 ### Patch Changes
