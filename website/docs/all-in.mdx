@@ -13,7 +13,7 @@ _In order to not repeat ourself **20** times, we have a dedicated page per packa
 <br />
 ## Create SvelteKit project
 
-Create a new SvelteKit project or upgrade to a least `next-350` version.
+Create a new SvelteKit project.
 
 ```sh
 npm create svelte my-app
@@ -24,14 +24,20 @@ We recommend typescript, eslint, playwright, ... so answer `yes` to everything ð
 <br />
 ## Install `KitQL`
 
-The package `@kitql/all-in` will add all your dependencies so that you can worry only about your app!
-
-<PackageInstall packages={['@kitql/all-in', 'graphql']} />
+<PackageInstall packages={['@kitql/all-in', 'houdini', 'graphql']} />
 
 Then depending on your needs, you can configure packages individually.
 
 <br />
 ## Configuration by package
+
+### KitQL
+
+Create everything you need for your endpoint.
+
+--> [Configuration guide](/docs/setup/02_server)
+
+<br />
 
 ### GraphQL Client - Houdini
 
@@ -41,13 +47,7 @@ use `queries`, `mutations` and `subscriptions` in your components & routes in an
 --> [Configuration guide](/docs/setup/01_houdini)
 
 <br />
-### GraphQL Server
 
-This set of packages will take care of the backend part of GraphQL in SvelteKit
-
---> [Configuration guide](/docs/setup/02_server)
-
-<br />
 ### Vite Plugin - watch and run
 
 This package will watch some files and trigger a command. We will use it to regenerate some graphql on some files changes.

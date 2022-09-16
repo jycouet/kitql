@@ -20,5 +20,8 @@ export default withBundleAnalyzer(
     redirects: () => {
       return []
     },
+    typescript: {
+      ignoreBuildErrors: true,
+    },
   })
 )

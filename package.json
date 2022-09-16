@@ -5,52 +5,47 @@
   "private": true,
   "license": "MIT",
   "scripts": {
-    "ws": "workspace",
-    "prepare": "husky install && cd packages/all-in && yarn prepare",
-    "dev:t": "yarn build && yarn workspace @kitql/template dev",
-    "dev:w": "cd website && yarn dev",
+    "prepare": "husky install",
+    "dev:w": "cd website && npm run dev",
     "test": "vitest --coverage",
     "lint": "eslint --ignore-path .prettierignore .",
     "prettier": "prettier --write --list-different .",
     "prettier:check": "prettier --check .",
     "test:ci": "vitest run --coverage",
-    "test:update-badge": "yarn update-badge",
+    "test:update-badge": "npm run update-badge",
     "prebuild": "rimraf packages/*/dist",
-    "build": "tsc --project tsconfig.json && bob build && rm -rf packages/client/dist/lib/graphql && yarn workspace @kitql/all-in package",
-    "release:version": "yarn changeset version",
-    "release": "yarn build && changeset publish",
-    "reset": "git clean -xdf",
-    "update": "npm exec --workspaces -- npx npm-check-updates -u -p yarn"
+    "build": "bob build && pnpm --filter @kitql/all-in build",
+    "release:version": "npm run changeset version",
+    "release": "npm run build && changeset publish",
+    "reset": "git clean -xdf"
   },
-  "workspaces": {
-    "packages": [
-      "packages/*",
-      "kit-modules/*",
-      "website"
-    ]
-  },
+  "workspaces": [
+    "packages/*",
+    "kit-modules/*",
+    "website"
+  ],
   "devDependencies": {
-    "@babel/preset-env": "7.16.11",
-    "@babel/preset-typescript": "7.16.7",
-    "@changesets/changelog-github": "0.4.5",
-    "@changesets/cli": "2.23.0",
-    "@theguild/eslint-config": "0.0.1",
-    "@theguild/prettier-config": "0.0.1",
-    "@vitest/ui": "0.4.1",
-    "bob-the-bundler": "1.6.1",
-    "c8": "7.11.0",
+    "@changesets/changelog-github": "0.4.6",
+    "@changesets/cli": "2.24.4",
+    "@theguild/eslint-config": "0.0.2",
+    "@theguild/prettier-config": "0.0.3",
+    "@vitest/coverage-c8": "^0.23.2",
+    "@vitest/ui": "0.23.2",
+    "bob-the-bundler": "4.0.0",
+    "c8": "7.12.0",
     "check-code-coverage": "1.10.0",
+    "eslint": "8.23.1",
     "husky": "8.0.1",
-    "jsdom": "19.0.0",
+    "jsdom": "20.0.0",
     "prettier": "2.7.1",
     "prettier-plugin-svelte": "2.7.0",
     "rimraf": "3.0.2",
-    "svelte2tsx": "^0.5.12",
-    "typescript": "4.5.5",
-    "vitest": "0.4.1"
+    "svelte": "3.50.1",
+    "svelte2tsx": "^0.5.17",
+    "typescript": "4.8.3",
+    "vitest": "0.23.2"
   },
   "volta": {
-    "node": "17.4.0",
-    "yarn": "1.22.17"
+    "node": "17.4.0"
   }
 }

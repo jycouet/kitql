@@ -12,17 +12,13 @@ export function getRoutes(): IRoutes {
       'migrating-to-0.7.0': {
         $name: 'Migrating to 0.7.0',
       },
-      usages: {
-        $name: 'Usages',
-        $routes: ['queries', 'mutations'],
-      },
       demos: {
         $name: 'Demos',
         $routes: ['01_demo-01', '02_demo-github-social-preview', '03_demo-02'],
       },
       setup: {
         $name: 'Package by package',
-        $routes: ['01_houdini', '02_server', '03_vite-plugin-watch-and-run'],
+        $routes: ['02_server', '01_houdini', '03_vite-plugin-watch-and-run'],
       },
     },
   }

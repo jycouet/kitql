@@ -9,8 +9,10 @@ module.exports = {
     'no-restricted-syntax': 'off',
     'import/no-default-export': 'off',
     '@typescript-eslint/ban-types': 'off',
+    '@typescript-eslint/no-unused-vars': 'off',
+    '@typescript-eslint/no-namespace': 'off',
   },
-  ignorePatterns: ['examples', 'website'],
+  ignorePatterns: ['examples', 'website', 'dist'],
   plugins: ['svelte3'],
   overrides: [{ files: ['*.svelte'], processor: 'svelte3/svelte3' }],
   settings: {

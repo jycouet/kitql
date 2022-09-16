@@ -29,7 +29,7 @@ export type Options = {
   quiet?: boolean
 
   /**
-   * run command (yarn gen for example!)
+   * run command (npm run gen for example!)
    */
   run: string | (() => void | Promise<void>)
 
@@ -126,8 +126,8 @@ async function shouldRun(
 
     if (info.watchFile) {
       isPathMatching = await info.watchFile(absolutePath)
-    } else {
-      isPathMatching = micromatch.isMatch(absolutePath, info.watch!)
+    } else if (info.watch) {
+      isPathMatching = micromatch.isMatch(absolutePath, info.watch)
     }
 
     const isWatchKindWithoutPath = kindWithoutPath.includes(watchKind as KindWithoutPath)
