@@ -8,7 +8,7 @@
 
 ### Patch Changes
 
-- [#222](https://github.com/jycouet/kitql/pull/222) [`d8a2095`](https://github.com/jycouet/kitql/commit/d8a2095c58c6dd967040c11888d49562c31e66ee) Thanks [@jycouet](https://github.com/jycouet)! - Improve GraphiQL offline / online option
+- [#222](https://github.com/jycouet/kitql/pull/222) [`d8a2095`](https://github.com/jycouet/kitql/commit/d8a2095c58c6dd967040c11888d49562c31e66ee) Thanks [@david-plugge](https://github.com/david-plugge)! - Improve GraphiQL offline / online option
 
 - Updated dependencies [[`6261921`](https://github.com/jycouet/kitql/commit/6261921157c3581258fa12c1a57fd450f5b26547)]:
   - @kitql/helper@0.6.0-next.0
