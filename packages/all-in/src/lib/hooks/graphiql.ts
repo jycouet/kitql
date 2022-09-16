@@ -1,5 +1,4 @@
 import type { GraphiQLOptions as Options } from '@graphql-yoga/common'
-import { renderGraphiQL as renderGraphiQLOnline } from '@graphql-yoga/common'
 import type { Handle } from '@sveltejs/kit'
 
 export type GraphiQLOptions = Omit<Options, 'headers'> & {
@@ -14,7 +13,18 @@ export type GraphiQLOptions = Omit<Options, 'headers'> & {
   graphiQLPath?: string
 }
 
-export async function handleGraphiql(options?: GraphiQLOptions): Promise<Handle> {
+async function getGraphiQLBody(graphiqlOptions: Options) {
+  try {
+    const { renderGraphiQL: renderGraphiQLOffline } = await import('@graphql-yoga/render-graphiql')
+    return renderGraphiQLOffline(graphiqlOptions)
+  } catch (e: any) {
+    // user did not add it as a dependency
+    const { renderGraphiQL: renderGraphiQLOnline } = await import('@graphql-yoga/common')
+    return renderGraphiQLOnline(graphiqlOptions)
+  }
+}
+
+export function handleGraphiql(options?: GraphiQLOptions): Handle {
   const { graphiQLPath, headers, enabled, ...opts } = {
     title: 'KitQL',
     endpoint: '/graphql',
@@ -27,23 +37,16 @@ export async function handleGraphiql(options?: GraphiQLOptions): Promise<Handle>
     throw new Error("graphiql graphiQLPath must start with '/'")
   }
 
-  const graphiqlOptions = {
-    ...opts,
-    headers: JSON.stringify(headers ?? {}),
-  }
+  const bodyPromise = enabled
+    ? getGraphiQLBody({
+        ...opts,
+        headers: JSON.stringify(headers ?? {}),
+      })
+    : ''
 
-  let body = ''
-  try {
-    const { renderGraphiQL: renderGraphiQLOffline } = await import('@graphql-yoga/render-graphiql')
-    body = renderGraphiQLOffline(graphiqlOptions)
-  } catch (err) {
-    // user did not add it as a dependency
-    body = renderGraphiQLOnline(graphiqlOptions)
-  }
-
-  return ({ event, resolve }) => {
+  return async ({ event, resolve }) => {
     if (enabled && event.url.pathname === graphiQLPath) {
-      return new Response(body, {
+      return new Response(await bodyPromise, {
         status: 200,
         headers: {
           'Content-Type': 'text/html',
