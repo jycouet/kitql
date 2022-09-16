@@ -1,21 +1,48 @@
+const config = {
+  reset: {
+    node: `\u001b[37m\u001b[0m`,
+    browser: '',
+  },
+  green: {
+    node: `\x1b[32m`,
+    browser: 'color: green',
+  },
+  magneta: {
+    node: `\x1b[35m`,
+    browser: 'color: #ff00ff',
+  },
+  red: {
+    node: `\u001B[31m`,
+    browser: 'color: red',
+  },
+  cyan: {
+    node: `\x1b[36m`,
+    browser: 'color: cyan',
+  },
+  yellow: {
+    node: `\x1b[33m`,
+    browser: 'color: yellow',
+  },
+}
+
 export function logGreen(str: string) {
-  return `\x1b[32m${str}\x1b[37m\x1b[0m`
+  return `${config.green.node}${str}${config.reset.node}`
 }
 
 export function logMagneta(str: string) {
-  return `\x1b[35m${str}\x1b[37m\x1b[0m`
+  return `${config.magneta.node}${str}${config.reset.node}`
 }
 
 export function logRed(str: string) {
-  return `\u001B[31m${str}\x1b[37m\x1b[0m`
+  return `${config.red.node}${str}${config.reset.node}`
 }
 
 export function logCyan(str: string) {
-  return `\x1b[36m${str}\x1b[37m\x1b[0m`
+  return `${config.cyan.node}${str}${config.reset.node}`
 }
 
 export function logYellow(str: string) {
-  return `\x1b[33m${str}\x1b[37m\x1b[0m`
+  return `${config.yellow.node}${str}${config.reset.node}`
 }
 
 export class Log {
@@ -24,23 +51,33 @@ export class Log {
   private withDate: null | 'dateTime' | 'time'
   private prefixEmoji: string
 
-  constructor(
-    toolName: string,
-    options: { levelsToShow?: null | number; withDate?: 'dateTime' | 'time'; prefixEmoji?: string } = {}
-  ) {
-    this.toolName = toolName
-    this.levelsToShow = options.levelsToShow ?? 2
-    this.withDate = options.withDate ?? null
-    this.prefixEmoji = options.prefixEmoji ?? ''
+  get isBrowser() {
+    return typeof window !== 'undefined' && typeof window.document !== 'undefined'
   }
 
-  public setLevel(logLevel?: null | number) {
+  constructor(
+    toolName: string,
+    options?: {
+      levelsToShow?: null | number
+      withDate?: 'dateTime' | 'time'
+      prefixEmoji?: string
+    }
+  ) {
+    this.toolName = toolName
+    this.levelsToShow = options?.levelsToShow ?? 2
+    this.withDate = options?.withDate ?? null
+    this.prefixEmoji = options?.prefixEmoji ?? ''
+  }
+
+  public setLevel(logLevel: number) {
     this.levelsToShow = logLevel
   }
 
-  private buildStr(msg: string, withError: boolean, withSuccess: boolean, indent: string) {
+  private buildStr(msg: string, withError: boolean, withSuccess: boolean, indent: string, browser: boolean) {
     const table = []
-    table.push(`${logMagneta(`[${this.toolName}]`)}`)
+    if (this.toolName) {
+      table.push(`${logMagneta(`[${this.toolName}]`)}`)
+    }
 
     // DateTime or Time or nothing
     if (this.withDate === 'dateTime') {
@@ -59,25 +96,80 @@ export class Log {
     }
 
     table.push(indent)
-    table.push(` ${msg}`)
 
-    return table.join('')
+    // prefix message with a space if there is already something in the table
+    if (table.join('').length > 0) {
+      table.push(` `)
+    }
+    table.push(`${msg}`)
+
+    const str = table.join('')
+
+    if (browser) {
+      let replacedStr = str
+      // switch to browser console
+      const posToReplace: { index: number; key: string }[] = []
+      for (const key in config) {
+        // check indexes
+        const indexes = this.getAllIndexOf(str, config[key].node)
+        indexes.forEach(index => {
+          posToReplace.push({ index, key })
+        })
+
+        // replace with %c in another str to make sure we don't change the order of indexes
+        replacedStr = replacedStr.replaceAll(config[key].node, '%c')
+      }
+      const colors: string[] = []
+      posToReplace
+        .sort((a, b) => a.index - b.index)
+        .forEach(c => {
+          colors.push(config[c.key].browser)
+        })
+
+      return [replacedStr, ...colors]
+    }
+
+    // wrap it because we always unwrap after ;)
+    return [str]
   }
 
-  info(msg: string, conf: { level?: number; withSuccess?: boolean } = { level: 0, withSuccess: false }) {
-    const level = conf.level ?? 0
-    const withSuccess = conf.withSuccess ?? false
+  private getAllIndexOf(str: string, subStr: string) {
+    let lastIndex = 0
+    const indexes = []
+    while (lastIndex !== -1) {
+      lastIndex = str.indexOf(subStr, lastIndex)
+      if (lastIndex !== -1) {
+        indexes.push(lastIndex)
+        lastIndex += subStr.length
+      }
+    }
+    return indexes
+  }
+
+  info(msg: string, conf?: { level?: number; withSuccess?: boolean; browser?: boolean }) {
+    const level = conf?.level ?? 0
+    const withSuccess = conf?.withSuccess ?? false
+    const browser = conf?.browser ?? this.isBrowser
+
     if (this.levelsToShow !== null && level <= this.levelsToShow) {
       const indent = ' '.repeat(level)
-      console.info(this.buildStr(msg, false, withSuccess, indent))
+      const built = this.buildStr(msg, false, withSuccess, indent, browser)
+      console.info(...built)
+      return built
     }
+    return null
   }
 
-  success(msg: string, conf: { level?: number } = { level: 0 }) {
-    this.info(msg, { level: conf.level, withSuccess: true })
+  success(msg: string, conf?: { level?: number; browser?: boolean }) {
+    const level = conf?.level ?? 0
+    const browser = conf?.browser ?? this.isBrowser
+    return this.info(msg, { level, withSuccess: true, browser })
   }
 
-  error(msg: string) {
-    console.error(this.buildStr(msg, true, false, ''))
+  error(msg: string, conf?: { browser?: boolean }) {
+    const browser = conf?.browser ?? this.isBrowser
+    const built = this.buildStr(msg, true, false, '', browser)
+    console.error(...built)
+    return built
   }
 }

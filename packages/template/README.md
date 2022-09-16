@@ -9,7 +9,7 @@
 # ⚡How to - graphql-codegen
 
 ```bash
-yarn add -D @kitql/graphql-codegen
+pnpm add -D @kitql/graphql-codegen
 ```
 
 Typical CodeGen file (`.graphqlrc.yaml`)

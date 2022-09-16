@@ -29,13 +29,9 @@ We list here a few tweaks to know that integrates well with KitQL.
 <br />
 ### Houdini's Tweaks
 
-1/ If you want to host your GraphQL endpoint in SvelteKit, you can configure `schemaPath` to look at files with a  glob expression.
-
-2/ To avoid conflits, you should write your operations in only 2 files extensions: 
-- `*.svelte`
-- `*.gql`
-
-_(`*.graphql` will be exclusively for graphql server definition)_
+Nice convention: 
+- `*.gql` for operations (client)
+- `*.graphql` for typedefs (endpoint, graphql type definition)
 
 Example 👇
 
@@ -46,7 +42,6 @@ Example 👇
 /** @type {import('houdini').ConfigFile} */
 const config = {
 	schemaPath: 'src/**/*.graphql',
-	sourceGlob: 'src/**/*.{svelte,gql}',
 };
 
 export default config;
@@ -54,37 +49,10 @@ export default config;
 _More about the [config](https://www.houdinigraphql.com/api/config)_
 
 
-
-
-
-
-### Scripts Tweaks
-
-Run the cmd `houdini generate` to get everything ready for your application: stores, types, cache, ... everything!
-
-Usually, we add it in the `package.json` like below, to be able to extend the `gen` cmd later with other generators.
-
-```json
-{
-  // ...
-  "scripts": {
-    "prepare": "svelte-kit sync && npm run gen",
-    "gen": "yarn gen:houdini",
-    "gen:houdini": "houdini generate",
-  }
-  // ...
-}
-````
-
-
-
 <br />
 ## Next step?
 
-To go forward with Houdini, you can check
-
-- Usages with: [Queries](/docs/usages/queries), [Mutations](/docs/usages/mutations), ...
-- Directly [Houdini's doc](https://www.houdinigraphql.com/guides/working-with-graphql).
+To go forward, you can directly check [Houdini's doc](https://www.houdinigraphql.com/guides/working-with-graphql).
 
 <br />
 <br />

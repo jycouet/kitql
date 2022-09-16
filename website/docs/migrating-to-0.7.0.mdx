@@ -17,7 +17,7 @@ The biggest change for KitQL users is that generated stores are done from Houdin
 <br />
 Here is the list of things to update:
 
-1. Bump your `@kitlql/all-in` version to 0.7.x
+1. Bump your `@kitlql/all-in` to the latest
 
 1. The file `.graphqlrc.yaml` doesn't hold any client info for generation [👇](#graphqlrcyaml-file)
 
@@ -84,24 +84,27 @@ Before:
 
 After:
 
+```ts
+// +page.ts
+import { load_FirstQuery } from '$houdini'
+import type { Load } from './$types'
+
+export const load: Load = async (event) => {
+  return {
+		...(await load_FirstQuery({ event }))
+	}
+}
+```
+
 ```svelte
-<script context="module" lang="ts">
+<!-- +page.svelte  -->
+<script lang="ts">
   import { browser } from '$app/env'
-  import { GQL_FirstQuery } from '$houdini'
-  import type { Load } from '@sveltejs/kit'
-
-  export const load: Load = async (event) => {
-    await GQL_FirstQuery.fetch({ event })
-    return {}
-  }
-</script>
-
-<script>
+  
   $: browser && GQL_FirstQuery.fetch()
 </script>
 
 {$GQL_FirstQuery.data.hello}
 ```
 
-<br />
-You can check the usage of queries [here](/docs/usages/queries).
+Then, the best is to directly check [Houdini's Doc](https://www.houdinigraphql.com/guides/working-with-graphql).

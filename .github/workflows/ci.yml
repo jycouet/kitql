@@ -1,15 +1,9 @@
 name: Tests
 
 on:
-  # pull requests to master
   pull_request:
     paths:
       - '**'
-
-  # every commit on master
-  push:
-    branches:
-      - main
 
 jobs:
   build:
@@ -22,29 +16,17 @@ jobs:
           # This makes Actions fetch all Git history so that Changesets can generate changelogs with the correct commits
           fetch-depth: 0
 
-      - name: Setup Node
-        uses: actions/setup-node@v3
+      - uses: the-guild-org/shared-config/setup@main
+        name: setup env
         with:
-          node-version: 17.5.0
-          cache: 'yarn'
+          nodeVersion: 18
+          packageManager: pnpm
 
-      - uses: actions/cache@v2
-        with:
-          path: '**/node_modules'
-          key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
+      - name: 🚧 Build Packages
+        run: pnpm run build
 
-      - name: Install packages
-        if: steps.yarn-cache.outputs.cache-hit != 'true'
-        run: yarn
-
-      - name: Install Dependencies
-        run: yarn
-
-      - name: Build Packages
-        run: yarn build
-
-      - name: Run Tests
-        run: yarn test
+      - name: 👌 Run Tests
+        run: pnpm run test
 
       - name: 🧹 Prettier Check
-        run: yarn prettier:check
+        run: pnpm run prettier:check

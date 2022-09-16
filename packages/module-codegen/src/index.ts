@@ -71,12 +71,12 @@ if (fs.existsSync(configFilePath)) {
       // log.info(`${logGreen('⏳')} merging ${mergeModuleAction.map(c => logGreen(c)).join(' and ')} in modules`)
     }
 
-    const contexts = []
-    const modules = []
+    const contexts: { moduleName: string; ctxName: string }[] = []
+    const modules: { name: string; directory: string }[] = []
     config.modules.forEach((source: string) => {
       const directories = getDirectories(source)
       directories.forEach(directory => {
-        const name = basename(directory, extname(directory))
+        const moduleName = basename(directory, extname(directory))
 
         let typedefsFilesLength = 0
         let resolversFilesLength = 0
@@ -94,14 +94,14 @@ if (fs.existsSync(configFilePath)) {
 
         // Contexts
         if (config.actions.mergeContexts) {
-          const dataloadersModule = []
+          const dataloadersModule: { moduleName: string; providerFile: string }[] = []
           const providersFiles = getFiles(join(directory, providersFolder))
           let withDbProvider = false
           providersFiles.forEach(providerFile => {
-            if (providerFile.startsWith(`dl${toPascalCase(name)}`)) {
-              dataloadersModule.push({ name, providerFile })
+            if (providerFile.startsWith(`dl${toPascalCase(moduleName)}`)) {
+              dataloadersModule.push({ moduleName, providerFile })
             }
-            if (providerFile.startsWith(`Db${toPascalCase(name)}`)) {
+            if (providerFile.startsWith(`Db${toPascalCase(moduleName)}`)) {
               withDbProvider = true
             }
           })
@@ -117,7 +117,7 @@ if (fs.existsSync(configFilePath)) {
           providersFiles.forEach(providerFile => {
             if (providerFile.startsWith('_ctx')) {
               const ctxName = providerFile.replace('_ctx', '').replace('.ts', '')
-              contexts.push({ name, ctxName })
+              contexts.push({ moduleName, ctxName })
             }
           })
         }
@@ -133,7 +133,7 @@ if (fs.existsSync(configFilePath)) {
           // )
         }
 
-        modules.push({ directory, name })
+        modules.push({ directory, name: moduleName })
       })
     })
 

@@ -17,7 +17,7 @@ export function actionModuleContext(
   const moduleName = basename(moduleFolder, extname(moduleFolder))
 
   const moduleNamePascalCase = toPascalCase(moduleName)
-  const functionsName = []
+  const functionsName: string[] = []
   dataloadersModule.forEach(dataloader => {
     const functionName = dataloader.providerFile
       .substring(moduleName.length + 2 + 3) // + 2 => dl & + 3 => Get

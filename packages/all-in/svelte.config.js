@@ -10,12 +10,15 @@ const config = {
   kit: {
     adapter: adapter(),
 
-    package: {
-      dir: 'dist',
-      exports: () => {
-        return true
-      },
+    alias: {
+      $graphql: './src/lib/graphql',
+
+      '@kitql/helper': '../helper/src',
     },
+  },
+
+  package: {
+    dir: 'dist',
   },
 }
 

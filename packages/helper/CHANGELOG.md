@@ -1,5 +1,27 @@
 # @kitql/helper
 
+## 0.6.0-next.0
+
+### Minor Changes
+
+- [#215](https://github.com/jycouet/kitql/pull/215) [`6261921`](https://github.com/jycouet/kitql/commit/6261921157c3581258fa12c1a57fd450f5b26547) Thanks [@jycouet](https://github.com/jycouet)! - update with sveltekit next.483 & import form @kitql/all-in
+
+## 0.5.0
+
+### Minor Changes
+
+- [#211](https://github.com/jycouet/kitql/pull/211) [`62e6a61`](https://github.com/jycouet/kitql/commit/62e6a6120f4e08ff9fc1e1a473021ee98831b86f) Thanks [@jycouet](https://github.com/jycouet)! - stylish logs in node or in browser
+
+### Patch Changes
+
+- [#211](https://github.com/jycouet/kitql/pull/211) [`62e6a61`](https://github.com/jycouet/kitql/commit/62e6a6120f4e08ff9fc1e1a473021ee98831b86f) Thanks [@jycouet](https://github.com/jycouet)! - magneta => #ff00ff
+
+## 0.4.0
+
+### Minor Changes
+
+- [#209](https://github.com/jycouet/kitql/pull/209) [`1abe98d`](https://github.com/jycouet/kitql/commit/1abe98d53d07e0ea55f600526bc68a87764a546c) Thanks [@jycouet](https://github.com/jycouet)! - stylish logs in node or in browser
+
 ## 0.3.5
 
 ### Patch Changes

@@ -1,5 +1,30 @@
 # @kitql/module-codegen
 
+## 0.4.0-next.0
+
+### Minor Changes
+
+- [#215](https://github.com/jycouet/kitql/pull/215) [`6261921`](https://github.com/jycouet/kitql/commit/6261921157c3581258fa12c1a57fd450f5b26547) Thanks [@jycouet](https://github.com/jycouet)! - update with sveltekit next.483 & import form @kitql/all-in
+
+### Patch Changes
+
+- Updated dependencies [[`6261921`](https://github.com/jycouet/kitql/commit/6261921157c3581258fa12c1a57fd450f5b26547)]:
+  - @kitql/helper@0.6.0-next.0
+
+## 0.3.12
+
+### Patch Changes
+
+- Updated dependencies [[`62e6a61`](https://github.com/jycouet/kitql/commit/62e6a6120f4e08ff9fc1e1a473021ee98831b86f), [`62e6a61`](https://github.com/jycouet/kitql/commit/62e6a6120f4e08ff9fc1e1a473021ee98831b86f)]:
+  - @kitql/helper@0.5.0
+
+## 0.3.11
+
+### Patch Changes
+
+- Updated dependencies [[`1abe98d`](https://github.com/jycouet/kitql/commit/1abe98d53d07e0ea55f600526bc68a87764a546c)]:
+  - @kitql/helper@0.4.0
+
 ## 0.3.10
 
 ### Patch Changes

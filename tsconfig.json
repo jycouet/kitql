@@ -1,9 +1,7 @@
 {
   "compilerOptions": {
-    "incremental": true,
     "baseUrl": ".",
     "outDir": "dist",
-    "rootDir": "packages",
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
     "importHelpers": true,
@@ -17,17 +15,16 @@
     "sourceMap": true,
     "declaration": true,
     "noImplicitThis": true,
+    "strict": true,
     "alwaysStrict": true,
     "noImplicitReturns": true,
     "noUnusedLocals": false,
     "resolveJsonModule": true,
     "skipLibCheck": true,
     "paths": {
-      "@kitql/module-codegen": ["packages/module-codegen/src/index"],
-      "@kitql/helper": ["packages/helper/src/index"],
-      "@kitql/all-in": ["packages/all-in/src/lib"]
+      "@kitql/helper": ["packages/helper/src/index"]
     }
   },
   "include": ["packages"],
-  "exclude": ["**/tests/test-files", "**/tests/test-documents", "**/dist", "**/temp"]
+  "exclude": ["**/dist", "**/temp", "**/.bob", "packages/all-in/**/*"]
 }

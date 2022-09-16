@@ -59,7 +59,7 @@ You have 3 main options to use `KitQL`:
 ## ✨ Contributors
 
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
-[![All Contributors](https://img.shields.io/badge/all_contributors-19-orange.svg)](#contributors)
+[![All Contributors](https://img.shields.io/badge/all_contributors-20-orange.svg)](#contributors)
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 
 Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/docs/en/emoji-key)):
@@ -70,23 +70,24 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
 <table>
   <tr>
     <td align="center"><a href="http://www.dynamicprocess.io"><img src="https://avatars.githubusercontent.com/u/5312607?v=4" width="100px;" alt=""/><br /><sub><b>JYC</b></sub></a></td>
+    <td align="center"><a href="https://alec.aivazis.com/"><img src="https://avatars.githubusercontent.com/u/916317?v=4" width="100px;" alt=""/><br /><sub><b>Alec Aivazis</b></sub></a></td>
     <td align="center"><a href="http://linkedin.com/in/julian-bruxelle"><img src="https://avatars.githubusercontent.com/u/36154424?v=4" width="100px;" alt=""/><br /><sub><b>Julian BRUXELLE</b></sub></a></td>
     <td align="center"><a href="https://github.com/richarddavenport"><img src="https://avatars.githubusercontent.com/u/3596012?v=4" width="100px;" alt=""/><br /><sub><b>Richard Davenport</b></sub></a></td>
     <td align="center"><a href="https://github.com/cya"><img src="https://avatars.githubusercontent.com/u/795915?v=4" width="100px;" alt=""/><br /><sub><b>Yuriy Chertkov</b></sub></a></td>
     <td align="center"><a href="https://github.com/frederikhors"><img src="https://avatars.githubusercontent.com/u/41120635?v=4" width="100px;" alt=""/><br /><sub><b>frederikhors</b></sub></a></td>
     <td align="center"><a href="https://scottspence.com"><img src="https://avatars.githubusercontent.com/u/234708?v=4" width="100px;" alt=""/><br /><sub><b>Scott Spence</b></sub></a></td>
-    <td align="center"><a href="http://szery.net.pl"><img src="https://avatars.githubusercontent.com/u/4786095?v=4" width="100px;" alt=""/><br /><sub><b>Łukasz Wiśniewski</b></sub></a></td>
   </tr>
   <tr>
+    <td align="center"><a href="http://szery.net.pl"><img src="https://avatars.githubusercontent.com/u/4786095?v=4" width="100px;" alt=""/><br /><sub><b>Łukasz Wiśniewski</b></sub></a></td>
     <td align="center"><a href="https://github.com/AlexanderBacklund"><img src="https://avatars.githubusercontent.com/u/22005025?v=4" width="100px;" alt=""/><br /><sub><b>Alexander Backlund</b></sub></a></td>
     <td align="center"><a href="https://graphql.wtf"><img src="https://avatars.githubusercontent.com/u/950181?v=4" width="100px;" alt=""/><br /><sub><b>Jamie Barton</b></sub></a></td>
     <td align="center"><a href="https://github.com/gregoryforel"><img src="https://avatars.githubusercontent.com/u/4669234?v=4" width="100px;" alt=""/><br /><sub><b>GregFo</b></sub></a></td>
     <td align="center"><a href="https://github.com/scottBowles"><img src="https://avatars.githubusercontent.com/u/59491167?v=4" width="100px;" alt=""/><br /><sub><b>Scott Bowles</b></sub></a></td>
     <td align="center"><a href="http://happycollision.com"><img src="https://avatars.githubusercontent.com/u/3663628?v=4" width="100px;" alt=""/><br /><sub><b>Don Denton</b></sub></a></td>
     <td align="center"><a href="https://github.com/B2o5T"><img src="https://avatars.githubusercontent.com/u/7361780?v=4" width="100px;" alt=""/><br /><sub><b>Dimitri POSTOLOV</b></sub></a></td>
-    <td align="center"><a href="https://github.com/nikfp"><img src="https://avatars.githubusercontent.com/u/46945607?v=4" width="100px;" alt=""/><br /><sub><b>Nik F P</b></sub></a></td>
   </tr>
   <tr>
+    <td align="center"><a href="https://github.com/nikfp"><img src="https://avatars.githubusercontent.com/u/46945607?v=4" width="100px;" alt=""/><br /><sub><b>Nik F P</b></sub></a></td>
     <td align="center"><a href="https://github.com/dminikm"><img src="https://avatars.githubusercontent.com/u/9631648?v=4" width="100px;" alt=""/><br /><sub><b>Dominik Meca</b></sub></a></td>
     <td align="center"><a href="https://github.com/Giovannini"><img src="https://avatars.githubusercontent.com/u/5586669?v=4" width="100px;" alt=""/><br /><sub><b>Thomas GIOVANNINI</b></sub></a></td>
     <td align="center"><a href="https://github.com/Nukiloco"><img src="https://avatars.githubusercontent.com/u/16618467?v=4" width="100px;" alt=""/><br /><sub><b>Nukiloco</b></sub></a></td>

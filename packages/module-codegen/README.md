@@ -9,7 +9,7 @@
 # ⚡How to - module-codegen
 
 ```bash
-yarn add -D @kitql/module-codegen
+pnpm add -D @kitql/module-codegen
 ```
 
 ```bash
