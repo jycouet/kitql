@@ -1,10 +1,6 @@
 extend type Query {
-  user: QueryUser!
-}
-
-type QueryUser {
-  get(id: ID!): User
-  connection(cursor: CursorArgs, filter: UserFilter): UserConnection
+  user(id: ID!): User
+  userConnection(cursor: CursorArgs, filter: UserFilter): UserConnection
 }
 
 type UserConnection {
