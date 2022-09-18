@@ -1,11 +1,7 @@
 extend type Mutation {
-  user: MutationUser!
-}
-
-type MutationUser {
-  create(fields: UserCreateFields!): User
-  update(id: ID!, fields: UserUpdateFields!): User
-  delete(id: ID!): User
+  userCreate(fields: UserCreateFields!): User
+  userUpdate(id: ID!, fields: UserUpdateFields!): User
+  userDelete(id: ID!): User
 }
 
 input UserCreateFields {

@@ -6,18 +6,13 @@ import { UserModule } from '../_kitql/moduleTypes'
 export const resolvers: UserModule.Resolvers = {
   Query: {
     user: async (root, args, ctx) => {
-      return {}
-    },
-  },
-
-  QueryUser: {
-    get: async (root, args, ctx) => {
       return {
         id: '1',
         username: 'JYC',
       }
     },
-    connection: async (root, args, ctx, info) => {
+
+    userConnection: async (root, args, ctx, info) => {
       const fields = topLevelFields(info)
       const toReturn: UserConnection = {
         __typename: 'UserConnection',
