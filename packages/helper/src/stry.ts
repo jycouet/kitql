@@ -1,38 +1,30 @@
-function sortObject(object: Object) {
-  const sortedObj = {}
-  const keys = Object.keys(object)
+/**
+ * Using https://github.com/BridgeAR/safe-stable-stringify because it's simply more robust and more performant!
+ */
+import stringify from 'safe-stable-stringify'
 
-  // If there are no keys, the Object was not {}, let's return the object directly
-  if (keys.length === 0) {
-    return object
-  }
-
-  keys.sort((key1, key2) => {
-    ;(key1 = key1.toLowerCase()), (key2 = key2.toLowerCase())
-    if (key1 < key2) return -1
-    if (key1 > key2) return 1
-    return 0
-  })
-
-  for (const index in keys) {
-    const key = keys[index]
-    if (typeof object[key] == 'object' && !Array.isArray(object[key]) && object[key]) {
-      sortedObj[key] = sortObject(object[key])
-    } else {
-      sortedObj[key] = object[key]
-    }
-  }
-
-  return sortedObj
+/**
+ * nice utility to stringify objects without spaces
+ */
+export function stry0(obj: Object | null | undefined): string | null | undefined {
+  return stry(obj, 0)
 }
 
-export function stry(obj: Object | null | undefined, space = 2): string | null | undefined {
+/**
+ * nice utility to stringify objects (with 2 spaces by default, but you can change it)
+ * Be careful, order of args are different than JSON.stringify
+ */
+export function stry(
+  obj: Object | null | undefined,
+  space: string | number | undefined = 2,
+  replacer?: (string | number)[] | null | undefined
+): string | null | undefined {
   if (obj === null) {
     return null
   }
   if (obj === undefined) {
     return undefined
   }
-  const ordered = sortObject(obj)
-  return JSON.stringify(ordered, null, space)
+  stringify.configure({ deterministic: true })
+  return stringify(obj, replacer, space)
 }

@@ -77,7 +77,7 @@ describe('kitql - helper - Log', () => {
     expect(spy).toHaveBeenCalledOnce()
 
     expect(stry(result, 0)).toMatchInlineSnapshot(
-      '"{\\"0\\":\\"\\\\u001b[35m[tool name]\\\\u001b[37m\\\\u001b[0m with all colors: \\\\u001b[32mgreen\\\\u001b[37m\\\\u001b[0m, \\\\u001b[35mmagneta\\\\u001b[37m\\\\u001b[0m, \\\\u001b[31mred\\\\u001b[37m\\\\u001b[0m, \\\\u001b[36mcyan\\\\u001b[37m\\\\u001b[0m, \\\\u001b[33myellow\\\\u001b[37m\\\\u001b[0m\\"}"'
+      '"[\\"\\\\u001b[35m[tool name]\\\\u001b[37m\\\\u001b[0m with all colors: \\\\u001b[32mgreen\\\\u001b[37m\\\\u001b[0m, \\\\u001b[35mmagneta\\\\u001b[37m\\\\u001b[0m, \\\\u001b[31mred\\\\u001b[37m\\\\u001b[0m, \\\\u001b[36mcyan\\\\u001b[37m\\\\u001b[0m, \\\\u001b[33myellow\\\\u001b[37m\\\\u001b[0m\\"]"'
     )
   })
 
@@ -164,7 +164,7 @@ describe('kitql - helper - Log', () => {
     expect(spy).toHaveBeenCalledOnce()
 
     expect(stry(result, 0)).toMatchInlineSnapshot(
-      '"{\\"0\\":\\"\\\\u001b[35m[tool name]\\\\u001b[37m\\\\u001b[0m with red: \\\\u001b[31mred\\\\u001b[37m\\\\u001b[0m and another \\\\u001b[31mred2\\\\u001b[37m\\\\u001b[0m\\"}"'
+      '"[\\"\\\\u001b[35m[tool name]\\\\u001b[37m\\\\u001b[0m with red: \\\\u001b[31mred\\\\u001b[37m\\\\u001b[0m and another \\\\u001b[31mred2\\\\u001b[37m\\\\u001b[0m\\"]"'
     )
   })
 
