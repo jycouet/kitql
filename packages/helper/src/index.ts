@@ -1,4 +1,4 @@
-export { Log, logMagneta, logCyan, logGreen, logRed, logYellow } from './Log'
+export { Log, logCyan, logGreen, logMagneta, logRed, logYellow } from './Log'
 export { queryStringApprend } from './queryStringApprend'
-export { stry } from './stry'
 export { sleep } from './sleep'
+export { stry, stry0 } from './stry'

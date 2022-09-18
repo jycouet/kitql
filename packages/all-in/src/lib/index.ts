@@ -6,6 +6,7 @@ export { createServer } from './graphql/createServer'
 export type { KitQLServerOptions } from './graphql/createServer'
 
 // graphql-modules
+export { createModule } from 'graphql-modules'
 export { kitQLModules } from './graphql/kitQLModules'
 
 // SvelteKit hooks

@@ -45,11 +45,11 @@ describe('kitql - helper - stry', () => {
     const obj = { a: 1, A: 'ONE' }
     const result = stry(obj)
     expect(result).toMatchInlineSnapshot(`
-			"{
-			  \\"a\\": 1,
-			  \\"A\\": \\"ONE\\"
-			}"
-		`)
+      "{
+        \\"A\\": \\"ONE\\",
+        \\"a\\": 1
+      }"
+    `)
   })
 
   it('order a b c with nested', async () => {
