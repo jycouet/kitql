@@ -1,5 +1,11 @@
 # @kitql/helper
 
+## 0.6.0-next.1
+
+### Patch Changes
+
+- [#220](https://github.com/jycouet/kitql/pull/220) [`a07b0e8`](https://github.com/jycouet/kitql/commit/a07b0e854d47540fb2169c69a08f39367609653e) Thanks [@github-actions](https://github.com/apps/github-actions)! - update to use safe-stable-stringify
+
 ## 0.6.0-next.0
 
 ### Minor Changes
