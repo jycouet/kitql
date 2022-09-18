@@ -4,8 +4,11 @@
   "author": "jycouet <jycouet@gmail.com>",
   "private": true,
   "license": "MIT",
+  "type": "module",
   "scripts": {
     "prepare": "husky install",
+    "gen:a": "pnpm --filter @kitql/all-in gen",
+    "dev:a": "pnpm --filter @kitql/all-in dev",
     "dev:w": "cd website && npm run dev",
     "test": "vitest --coverage",
     "lint": "eslint --ignore-path .prettierignore .",
