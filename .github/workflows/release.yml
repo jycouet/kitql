@@ -6,8 +6,8 @@ on:
       - main
 
 jobs:
-  stable:
-    name: stable
+  release:
+    name: Release
     runs-on: ubuntu-latest
     environment: Publishing
     steps:
@@ -23,12 +23,28 @@ jobs:
           NPM_NAME: ${{ secrets.NPM_NAME }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
 
-      - name: Publishing to NPM
-        uses: the-guild-org/shared-config/.github/workflows/release-stable.yml@main
+      - name: Checkout Repo
+        uses: actions/checkout@v3
         with:
-          releaseScript: release
-          nodeVersion: 17
-          packageManager: pnpm
-        secrets:
-          githubToken: ${{ secrets.GITHUB_TOKEN }}
-          npmToken: ${{ secrets.NPM_TOKEN }}
+          # This makes Actions fetch all Git history so that Changesets can generate changelogs with the correct commits
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 17
+
+      - name: Install Dependencies
+        run: pnpm i
+
+      - name: Create Release Pull Request or Publish to npm
+        id: changesets
+        uses: changesets/action@v1
+        with:
+          # This expects you to have a script called release which does a build for your packages and calls changeset publish
+          publish: pnpm release
+          commit: ':package: RELEASE: new version'
+          title: ':package: RELEASE: preparing next version'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
