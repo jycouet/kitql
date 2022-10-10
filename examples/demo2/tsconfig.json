@@ -9,6 +9,7 @@
 			"$graphql/*": ["src/lib/graphql/*"],
 			"$modules": ["src/lib/modules"],
 			"$modules/*": ["src/lib/modules/*"]
-		}
+		},
+		"rootDirs": [".", "./.svelte-kit/types", "./.$houdini/types"]
 	}
 }

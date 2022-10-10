@@ -8,7 +8,7 @@ async function fetchQuery({
 	session,
 	metadata
 }: RequestHandlerArgs) {
-	const url = import.meta.env.VITE_GRAPHQL_ENDPOINT || '/api/graphql';
+	const url = '/api/graphql';
 
 	const result = await fetch(url, {
 		method: 'POST',
@@ -24,4 +24,4 @@ async function fetchQuery({
 	return await result.json();
 }
 
-export const houdiniClient = new HoudiniClient(fetchQuery);
+export default new HoudiniClient(fetchQuery);
