@@ -1,7 +1,7 @@
 import { topLevelFields } from '$lib/graphql/helper'
-import type { UserConnection } from '$lib/graphql/_kitql/graphqlTypes'
-import { _InitModule } from '$lib/modules/_init/_kitql/moduleTypes'
-import { UserModule } from '../_kitql/moduleTypes'
+import type { UserConnection } from '$lib/graphql/$kitql/graphqlTypes'
+import { _InitModule } from '$lib/modules/_init/$kitql/moduleTypes'
+import { UserModule } from '../$kitql/moduleTypes'
 
 export const resolvers: UserModule.Resolvers = {
   Query: {

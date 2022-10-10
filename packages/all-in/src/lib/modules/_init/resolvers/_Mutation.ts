@@ -1,4 +1,4 @@
-import type { _InitModule } from '../_kitql/moduleTypes'
+import type { _InitModule } from '../$kitql/moduleTypes'
 
 export const resolvers: _InitModule.Resolvers = {
   Mutation: {
