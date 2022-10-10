@@ -1,9 +1,3 @@
-<script context="module" lang="ts">
-	import { houdiniClient } from '$graphql/client';
-
-	houdiniClient.init();
-</script>
-
 <svelte:head>
 	<title>KitQL</title>
 </svelte:head>

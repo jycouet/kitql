@@ -12,8 +12,6 @@ const config = {
 
     alias: {
       $graphql: './src/lib/graphql',
-
-      '@kitql/helper': '../helper/src',
     },
   },
 

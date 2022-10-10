@@ -5,7 +5,7 @@ import { DocsContent, DocsTOC, MDXPage, EditOnGitHubButton } from '@guild-docs/c
 import { MDXPaths, MDXProps } from '@guild-docs/server'
 
 import { getRoutes } from '../../../routes'
-import { giscus } from '../../giscus-config'
+// import { giscus } from '../../giscus-config'
 
 import type { GetStaticPaths, GetStaticProps } from 'next'
 
@@ -21,10 +21,10 @@ export default MDXPage(
         </DocsTOC>
       </>
     )
-  },
-  {
-    giscus,
   }
+  // {
+  //   giscus,
+  // }
 )
 
 export const getStaticProps: GetStaticProps = ctx => {
