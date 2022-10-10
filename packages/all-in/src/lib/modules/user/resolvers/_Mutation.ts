@@ -1,4 +1,4 @@
-import type { UserModule } from '../_kitql/moduleTypes'
+import type { UserModule } from '../$kitql/moduleTypes'
 
 export const resolvers: UserModule.Resolvers = {
   Mutation: {

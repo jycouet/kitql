@@ -10,7 +10,7 @@
 	},
 	"scripts": {
 		"sync": "svelte-kit sync && npm run gen",
-		"dev": "vite dev --port 3778",
+		"dev": "vite dev --port 3777",
 		"gen": "npm run gen:modules && yarn gen:houdini && yarn gen:types",
 		"gen:modules": "node ./node_modules/@kitql/module-codegen/cjs/index.js",
 		"gen:houdini": "houdini generate",
@@ -43,7 +43,7 @@
 		"vite": "3.0.2"
 	},
 	"dependencies": {
-		"@kitql/all-in": "0.8.0-next.2",
+		"@kitql/all-in": "0.8.0-next.3",
 		"houdini": "0.16.8",
 		"graphql": "15.5.3"
 	},

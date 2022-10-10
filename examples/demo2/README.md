@@ -8,13 +8,17 @@
 
 # ⚡How to - Demo 2 (frontend & backend)
 
-## Using
+## Based on
 
 - ✅ [SvelteKit](https://kit.svelte.dev/)
 - ✅ [GraphQL](https://graphql.org/)
-- ✅ [GraphQL - CodeGen](https://www.graphql-code-generator.com/)
-- ✅ [GraphQL - Yoga](https://www.graphql-yoga.com/)
 
+## Using
+
+- ✅ [Houdini](https://www.houdinigraphql.com/)
+- ✅ [KitQL](https://www.kitql.dev/)
+  - ✅ [GraphQL - CodeGen](https://www.graphql-code-generator.com/)
+  - ✅ [GraphQL - Yoga](https://www.graphql-yoga.com/)
 ## To start
 
 ```

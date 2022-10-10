@@ -1,6 +1,6 @@
 /** @type {import('houdini').ConfigFile} */
 const config = {
-	client: 'src/lib/graphql/client.ts',
+	client: 'src/lib/graphql/houdiniClient.ts',
 	schemaPath: 'src/**/*.graphql',
 	scalars: {
 		DateTime: {
