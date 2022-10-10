@@ -13,9 +13,9 @@ projects:
           src/lib/modules:
             preset: graphql-modules
             presetConfig:
-              baseTypesPath: '../graphql/_kitql/graphqlTypes.ts'
-              importBaseTypesFrom: '$graphql/_kitql/graphqlTypes'
-              filename: _kitql/moduleTypes.ts
+              baseTypesPath: '../graphql/$kitql/graphqlTypes.ts'
+              importBaseTypesFrom: '$graphql/$kitql/graphqlTypes'
+              filename: $kitql/moduleTypes.ts
             plugins:
               - typescript
               - typescript-resolvers
