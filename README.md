@@ -30,16 +30,13 @@
 
 # ⚡How to start?
 
-You have 3 main options to use `KitQL`:
-
-- Take a [Demo App](https://kitql.dev/docs/demos/01_demo-01) and tweak it to your needs
-- Follow the [KitQL - all-in](https://kitql.dev/docs/demos/01_demo-01) guide (easy)
-- Pick and choose the tools you need (advanced)
-  - [KitQL - client](https://github.com/jycouet/kitql/tree/main/packages/client)
-  - [KitQL - graphql-codegen](https://github.com/jycouet/kitql/tree/main/packages/graphql-codegen)
-  - [KitQL - vite-plugin-watch-and-run](https://github.com/jycouet/kitql/tree/main/packages/vite-plugin-watch-and-run)
-
-<br />
+Demo Init 👇
+<p><a target="_blank"
+    href="https://stackblitz.com/fork/github/jycouet/kitql/tree/main/examples/demo2?title=KitQL%20Demo%202"
+  >
+    <img src="https://developer.stackblitz.com/img/open_in_stackblitz.svg" alt="Open in StackBlitz" />
+  </a>
+</p>
 
 <br /><br />
 
@@ -47,6 +44,7 @@ You have 3 main options to use `KitQL`:
 
 - ✅ [SvelteKit](https://kit.svelte.dev/)
 - ✅ [GraphQL](https://graphql.org/)
+- ✅ [Houdini](https://www.houdinigraphql.com/)
 - ✅ [GraphQL - CodeGen](https://www.graphql-code-generator.com/)
 - ✅ [GraphQL - Yoga](https://www.graphql-yoga.com/)
 

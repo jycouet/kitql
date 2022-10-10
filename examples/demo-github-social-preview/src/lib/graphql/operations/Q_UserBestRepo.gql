@@ -1,5 +1,0 @@
-query UserBestRepo($login: String!) {
-	user(login: $login) {
-		...userBestRepoInfo
-	}
-}

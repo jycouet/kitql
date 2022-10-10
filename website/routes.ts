@@ -14,7 +14,7 @@ export function getRoutes(): IRoutes {
       },
       demos: {
         $name: 'Demos',
-        $routes: ['01_demo-01', '02_demo-github-social-preview', '03_demo-02'],
+        $routes: ['01_demo-init'],
       },
       setup: {
         $name: 'Package by package',

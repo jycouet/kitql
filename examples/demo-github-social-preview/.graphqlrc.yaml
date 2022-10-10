@@ -1,9 +1,0 @@
-# Typical File for extension: vscode-graphql & CodeGen!
-projects:
-  default:
-    schema:
-      - ./src/lib/graphql/schema.json
-      - ./$houdini/graphql/schema.graphql
-    documents:
-      - '**/*.gql'
-      - ./$houdini/graphql/documents.gql
