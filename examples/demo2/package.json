@@ -9,7 +9,7 @@
 		"directory": "examples/demo2"
 	},
 	"scripts": {
-		"prepare": "svelte-kit sync && npm run gen",
+		"sync": "svelte-kit sync && npm run gen",
 		"dev": "vite dev --port 3778",
 		"gen": "npm run gen:modules && yarn gen:houdini && yarn gen:types",
 		"gen:modules": "node ./node_modules/@kitql/module-codegen/cjs/index.js",
@@ -26,8 +26,8 @@
 		"update": "npm exec -- npx npm-check-updates -u -p yarn"
 	},
 	"devDependencies": {
-		"@sveltejs/adapter-auto": "next",
-		"@sveltejs/kit": "1.0.0-next.384",
+		"@sveltejs/adapter-auto": "1.0.0-next.80",
+		"@sveltejs/kit": "1.0.0-next.511",
 		"@typescript-eslint/eslint-plugin": "5.30.7",
 		"@typescript-eslint/parser": "5.30.7",
 		"eslint": "8.20.0",
