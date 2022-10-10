@@ -1,6 +1,6 @@
 {
   "name": "@kitql/all-in",
-  "version": "0.8.0-next.1",
+  "version": "0.8.0-next.2",
   "license": "MIT",
   "repository": {
     "type": "git",
@@ -21,8 +21,8 @@
     "format": "prettier --ignore-path .gitignore --write --plugin-search-dir=. ."
   },
   "devDependencies": {
-    "@sveltejs/adapter-auto": "1.0.0-next.75",
-    "@sveltejs/kit": "1.0.0-next.483",
+    "@sveltejs/adapter-auto": "1.0.0-next.80",
+    "@sveltejs/kit": "1.0.0-next.511",
     "@sveltejs/package": "1.0.0-next.3",
     "@types/node": "^18.7.18",
     "@typescript-eslint/eslint-plugin": "5.37.0",
@@ -51,7 +51,7 @@
     "@graphql-codegen/typescript-resolvers": "2.7.3",
     "@graphql-eslint/eslint-plugin": "3.10.7",
     "@graphql-typed-document-node/core": "3.1.1",
-    "@graphql-yoga/common": "2.12.12",
+    "graphql-yoga": "3.0.0-next.4",
     "@kitql/helper": "0.6.0-next.1",
     "@kitql/module-codegen": "0.4.0-next.1",
     "@prisma/client": "^4.3.1",
@@ -60,7 +60,7 @@
     "graphql-scalars": "1.18.0",
     "safe-stable-stringify": "^2.4.0",
     "ts-node": "^10.9.1",
-    "vite-plugin-watch-and-run": "1.1.0-next.1"
+    "vite-plugin-watch-and-run": "1.1.0-next.2"
   },
   "peerDependencies": {
     "graphql": "^15.5.0"

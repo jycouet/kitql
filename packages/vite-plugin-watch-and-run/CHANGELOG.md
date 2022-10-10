@@ -1,5 +1,11 @@
 # @kitql/vite-plugin-watch-and-run
 
+## 1.1.0-next.2
+
+### Patch Changes
+
+- [#226](https://github.com/jycouet/kitql/pull/226) [`e326e66`](https://github.com/jycouet/kitql/commit/e326e669b006a4a4dad5223e129dac4cbf9be232) Thanks [@jycouet](https://github.com/jycouet)! - bump vite version
+
 ## 1.1.0-next.1
 
 ### Patch Changes

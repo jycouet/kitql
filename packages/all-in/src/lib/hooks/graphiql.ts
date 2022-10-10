@@ -1,10 +1,12 @@
-import type { GraphiQLOptions as Options } from '@graphql-yoga/common'
 import type { Handle } from '@sveltejs/kit'
+import type { GraphiQLRendererOptions as GraphiQLYogaOptions } from 'graphql-yoga/typings/plugins/useGraphiQL'
 
-export type GraphiQLOptions = Omit<Options, 'headers'> & {
+export type GraphiQLKitQL = Omit<GraphiQLYogaOptions, 'headers' | 'endpoint'> & {
   headers?: Record<string, string>
 
   enabled?: boolean
+
+  endpoint?: string
 
   /**
    * This is the graphiQLPath in the SvelteKit app
@@ -13,18 +15,19 @@ export type GraphiQLOptions = Omit<Options, 'headers'> & {
   graphiQLPath?: string
 }
 
-async function getGraphiQLBody(graphiqlOptions: Options) {
+async function getGraphiQLBody(graphiqlOptions: GraphiQLYogaOptions) {
   try {
+    // @ts-ignore
     const { renderGraphiQL: renderGraphiQLOffline } = await import('@graphql-yoga/render-graphiql')
     return renderGraphiQLOffline(graphiqlOptions)
   } catch (e: any) {
     // user did not add it as a dependency
-    const { renderGraphiQL: renderGraphiQLOnline } = await import('@graphql-yoga/common')
+    const { renderGraphiQL: renderGraphiQLOnline } = await import('graphql-yoga')
     return renderGraphiQLOnline(graphiqlOptions)
   }
 }
 
-export function handleGraphiql(options?: GraphiQLOptions): Handle {
+export function handleGraphiql(options?: GraphiQLKitQL): Handle {
   const { graphiQLPath, headers, enabled, ...opts } = {
     title: 'KitQL',
     endpoint: '/graphql',
@@ -45,7 +48,7 @@ export function handleGraphiql(options?: GraphiQLOptions): Handle {
     : ''
 
   return async ({ event, resolve }) => {
-    if (enabled && event.url.pathname === graphiQLPath) {
+    if (enabled && event.url && event.url.pathname === graphiQLPath) {
       return new Response(await bodyPromise, {
         status: 200,
         headers: {
