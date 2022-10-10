@@ -1,5 +1,5 @@
 generates:
-  src/lib/graphql/_kitql:
+  src/lib/graphql/$kitql:
     modules:
       - src/lib/modules/*
       # - packages/modules/*(_edge)
@@ -13,5 +13,5 @@ generates:
       mergeContexts: true
       mergeModules: true
 
-    moduleOutputFolder: _kitql
-    importBaseTypesFrom: $graphql/_kitql/graphqlTypes
+    moduleOutputFolder: $kitql
+    importBaseTypesFrom: $graphql/$kitql/graphqlTypes

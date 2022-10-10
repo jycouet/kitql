@@ -4,11 +4,11 @@ import { HoudiniClient } from '$houdini';
 async function fetchQuery({
 	fetch,
 	text = '',
-	variables = {},
-	session,
-	metadata
-}: RequestHandlerArgs) {
-	const url = '/api/graphql';
+	variables = {}
+}: // session,
+// metadata
+RequestHandlerArgs) {
+	const url = '/graphql';
 
 	const result = await fetch(url, {
 		method: 'POST',
