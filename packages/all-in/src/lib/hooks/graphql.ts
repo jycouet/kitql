@@ -1,9 +1,14 @@
-import type { YogaServerInstance } from '@graphql-yoga/common'
+import type { YogaServerInstance } from 'graphql-yoga'
 import type { Handle } from '@sveltejs/kit'
 
-export type GraphQLOptions = {
+export type KitQLCreateServerOptions = {
+  /**
+   * defaults to /graphql
+   */
   endpoint?: string
+}
 
+export type GraphQLOptions = {
   /**
    * If you set the `graphiQLPath`, on a GET request you will be redirected there
    * If not, you will get a 404 (security by default ;))))))))))))))))))
@@ -11,12 +16,13 @@ export type GraphQLOptions = {
   graphiQLPath?: string
 }
 
-export function handleGraphql<TServerContext, TUserContext, TRootValue>(
-  kitqlServer: YogaServerInstance<TServerContext, TUserContext, TRootValue>,
+export function handleGraphql<TServerContext, TUserContext>(
+  kitqlServer: YogaServerInstance<TServerContext, TUserContext>,
   options?: GraphQLOptions
-): Handle {
-  const { endpoint, graphiQLPath } = {
-    endpoint: '/graphql',
+) {
+  const endpoint = kitqlServer.graphqlEndpoint
+
+  const { graphiQLPath } = {
     graphiQLPath: undefined,
     ...options,
   }
@@ -29,8 +35,8 @@ export function handleGraphql<TServerContext, TUserContext, TRootValue>(
     throw new Error("graphiQLPath path must start with '/'")
   }
 
-  return ({ event, resolve }) => {
-    if (event.url.pathname === endpoint) {
+  return async ({ event, resolve }) => {
+    if (event.url && event.url.pathname === endpoint) {
       if (event.request.method === 'GET') {
         // If we know graphiQLPath, let's go there
         if (graphiQLPath) {
@@ -41,9 +47,7 @@ export function handleGraphql<TServerContext, TUserContext, TRootValue>(
       }
 
       if (event.request.method === 'POST') {
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-ignore
-        return kitqlServer.handleRequest(event.request)
+        return kitqlServer.handleRequest(event.request, null)
       }
     }
 

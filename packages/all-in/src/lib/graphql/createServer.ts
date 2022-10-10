@@ -1,16 +1,13 @@
-import { createServer as createServerYoga, type YogaServerInstance, type YogaServerOptions } from '@graphql-yoga/common'
+import { createYoga, type YogaServerInstance, type YogaServerOptions } from 'graphql-yoga'
 
-export type KitQLServerOptions<TServerContext, TUserContext, TRootValue> = Omit<
-  YogaServerOptions<TServerContext, TUserContext, TRootValue>,
+export type KitQLServerOptions<TServerContext, TUserContext> = Omit<
+  YogaServerOptions<TServerContext, TUserContext>,
   'graphiql'
 >
 
 export function createServer<
   TServerContext extends Record<string, any> = {},
-  TUserContext extends Record<string, any> = {},
-  TRootValue = {}
->(
-  options?: KitQLServerOptions<TServerContext, TUserContext, TRootValue>
-): YogaServerInstance<TServerContext, TUserContext, TRootValue> {
-  return createServerYoga<TServerContext, TUserContext, TRootValue>(options)
+  TUserContext extends Record<string, any> = {}
+>(options?: KitQLServerOptions<TServerContext, TUserContext>): YogaServerInstance<TServerContext, TUserContext> {
+  return createYoga<TServerContext, TUserContext>(options)
 }

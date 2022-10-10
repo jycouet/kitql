@@ -1,3 +1,4 @@
+import type { KitQLCreateServerOptions } from '$lib/hooks/graphql'
 import type { RequestEvent } from '@sveltejs/kit'
 import { createServer } from './createServer'
 import { kitQLModules } from './kitQLModules'
@@ -32,7 +33,16 @@ function getContext({ request }: RequestEvent) {
 const plugins = []
 plugins.push(kitQLModules(modules))
 
-export const kitqlServer = createServer<IKitQLContext>({
-  context: getContext,
-  plugins,
-})
+export const kitqlServer = (options?: KitQLCreateServerOptions) => {
+  const { endpoint } = {
+    endpoint: '/graphql',
+    ...options,
+  }
+
+  return createServer<IKitQLContext>({
+    context: getContext,
+    plugins,
+    graphqlEndpoint: endpoint,
+    fetchAPI: globalThis,
+  })
+}
