@@ -1,5 +1,11 @@
 # @kitql/all-in
 
+## 0.8.0-next.3
+
+### Patch Changes
+
+- [#228](https://github.com/jycouet/kitql/pull/228) [`470d87b`](https://github.com/jycouet/kitql/commit/470d87bace0df3d761a4074de98073b63d431ae2) Thanks [@jycouet](https://github.com/jycouet)! - update the way @kitql/helper is used in all-in
+
 ## 0.8.0-next.2
 
 ### Patch Changes
