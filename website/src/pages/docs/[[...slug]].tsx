@@ -21,7 +21,7 @@ export default MDXPage(
         </DocsTOC>
       </>
     )
-  },
+  }
   // {
   //   giscus,
   // }
