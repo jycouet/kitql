@@ -1,4 +1,5 @@
 import { performance } from 'perf_hooks'
+// @ts-ignore
 import { PrismaClient } from '@prisma/client'
 import { Log, logCyan, logMagneta, logYellow } from '@kitql/helper'
 
