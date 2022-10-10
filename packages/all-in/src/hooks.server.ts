@@ -1,13 +1,15 @@
 import { dev } from '$app/environment'
-import { kitqlServer } from '$lib/graphql/kitQLServer'
+import { kitqlServer, type IKitQLContext } from '$lib/graphql/kitQLServer'
 import { handleGraphiql } from '$lib/hooks/graphiql'
 import { handleGraphql } from '$lib/hooks/graphql'
 import { sequence } from '@sveltejs/kit/hooks'
 
-// 1/ With all default options
+/**
+ * 1/ With all default options
+ */
 export const handle = sequence(
   // create the graphql endpoint
-  handleGraphql(kitqlServer()),
+  handleGraphql<IKitQLContext>(kitqlServer),
 
   // enable graphiql in dev mode
   handleGraphiql({
@@ -15,17 +17,24 @@ export const handle = sequence(
   })
 )
 
-// 2/ With custom options
+/**
+ * 2/ With custom options
+ */
 // const endpoint = '/graphql'
 // const graphiQLPath = '/graphiql'
 
 // export const handle = sequence(
 //   // create the graphql endpoint
-//   handleGraphql(kitqlServer({ endpoint }), { graphiQLPath }),
+//   handleGraphql<IKitQLContext>({
+//     endpoint,
+//     graphiQLPath,
+//     ...kitqlServer,
+//   }),
 
 //   // enable graphiql in dev mode
 //   handleGraphiql({
 //     enabled: dev,
+//     endpoint,
 //     graphiQLPath,
 //   })
 // )
