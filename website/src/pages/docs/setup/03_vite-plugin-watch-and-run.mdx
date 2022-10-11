@@ -1,7 +1,4 @@
----
-title: vite plugin - watch and run
-sidebar_label: vite plugin - watch and run
----
+import { PackageCmd } from '@theguild/components'
 
 # ⚡How to - vite-plugin-watch-and-run
 
@@ -12,7 +9,7 @@ If you have `@kitql/all-in` you don't need to install this manually.
 
 If you want to install it stand alone, please do
 
-<PackageInstall packages={['-D vite-plugin-watch-and-run']} />
+<PackageCmd packages={['-D vite-plugin-watch-and-run']} />
 
 <br />
 ## Configuration In your `vite.config.js` add watchAndRun with the following configuration:
@@ -22,7 +19,7 @@ If you want to install it stand alone, please do
 
 ```js
 import watchAndRun from 'vite-plugin-watch-and-run'
-import path from 'path';
+import path from 'path'
 
 /** @type {import('vite').UserConfig} */
 const config = {
@@ -36,15 +33,14 @@ const config = {
         delay: 300
       }
     ])
-  ],
-};
+  ]
+}
 
-export default config;
+export default config
 ```
 
 <br />
-## List of `watchKind`
-Default list when not set: `['add', 'change', 'unlink']`
+## List of `watchKind` Default list when not set: `['add', 'change', 'unlink']`
 
 Other possible events: `"addDir", "all", "error", "raw", "ready", "unlinkDir"`.
 
