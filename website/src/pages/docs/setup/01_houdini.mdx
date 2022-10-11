@@ -1,13 +1,10 @@
----
-title: KitQL - GraphQL Client
-sidebar_label: GraphQL Client - Houdini
----
+import { Callout } from '@theguild/components'
 
 # ⚡GraphQL Client - Houdini
 
 ## Initial setup
 
-To setup Houdini, you need to configure a few things in your project. 
+To setup Houdini, you need to configure a few things in your project.
 And to make things easy, you can simply do:
 
 ```sh
@@ -16,44 +13,37 @@ npx houdini init
 
 And that's it 🎉🎉🎉
 
-_For more info, check out the complete guide 
-[setting-up-your-project](https://www.houdinigraphql.com/guides/setting-up-your-project#starting-a-new-project)
-on Houdini directly._
+<Callout>
+  For more info, check out the complete guide
+  [setting-up-your-project](https://www.houdinigraphql.com/guides/setting-up-your-project#starting-a-new-project) on
+  Houdini directly.
+</Callout>
 
-<br />
 ## Specials with KitQL
 
 Defaults of Houdini are great 👍.
 We list here a few tweaks to know that integrates well with KitQL.
 
-<br />
 ### Houdini's Tweaks
 
-Nice convention: 
+Nice convention:
+
 - `*.gql` for operations (client)
 - `*.graphql` for typedefs (endpoint, graphql type definition)
 
-Example 👇
-
-<br />
-```js 
-/* file: houdini.config.js */
-
+```js filename="houdini.config.js"
 /** @type {import('houdini').ConfigFile} */
 const config = {
-	schemaPath: 'src/**/*.graphql',
-};
+  schemaPath: 'src/**/*.graphql'
+}
 
-export default config;
+export default config
 ```
+
 _More about the [config](https://www.houdinigraphql.com/api/config)_
 
-
-<br />
 ## Next step?
 
 To go forward, you can directly check [Houdini's doc](https://www.houdinigraphql.com/guides/working-with-graphql).
 
-<br />
-<br />
 Go back to [Get Started](/docs/all-in).

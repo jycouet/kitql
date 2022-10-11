@@ -1,7 +1,4 @@
----
-title: KitQL - All-In
-sidebar_label: Getting started => All-In
----
+import { PackageCmd } from '@theguild/components'
 
 # ⚡Let's go All-In!
 
@@ -10,7 +7,6 @@ but we think that here you will find the _best in class_ way to do graphql from 
 
 _In order to not repeat ourself **20** times, we have a dedicated page per package and the overview here 👍_
 
-<br />
 ## Create SvelteKit project
 
 Create a new SvelteKit project.
@@ -21,14 +17,12 @@ npm create svelte my-app
 
 We recommend typescript, eslint, playwright, ... so answer `yes` to everything 🙃!
 
-<br />
 ## Install `KitQL`
 
-<PackageInstall packages={['@kitql/all-in', 'houdini', 'graphql']} />
+<PackageCmd packages={['@kitql/all-in', 'houdini', 'graphql']} />
 
 Then depending on your needs, you can configure packages individually.
 
-<br />
 ## Configuration by package
 
 ### KitQL
@@ -37,16 +31,12 @@ Create everything you need for your endpoint.
 
 --> [Configuration guide](/docs/setup/02_server)
 
-<br />
-
 ### GraphQL Client - Houdini
 
 This package will take care of the frontend part of GraphQL. Typically, you will be able to
 use `queries`, `mutations` and `subscriptions` in your components & routes in an effortless manner!
 
 --> [Configuration guide](/docs/setup/01_houdini)
-
-<br />
 
 ### Vite Plugin - watch and run
 

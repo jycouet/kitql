@@ -1,7 +1,4 @@
----
-title: KitQL
-sidebar_label: KitQL
----
+import { Callout } from '@theguild/components'
 
 # ⚡KitQL
 
@@ -14,12 +11,11 @@ We make use of amazing Open Source projects:
 
 ## Configuration
 
-<br />
 ### Hooks
 
 The idea is to bring functionalities with hooks, something like:
-```ts
-// hooks.server.ts
+
+```ts filename="hooks.server.ts"
 import { dev } from '$app/environment'
 import { kitqlServer } from '$lib/graphql/kitQLServer'
 import { handleGraphiql, handleGraphql } from '@kitql/all-in'
@@ -31,7 +27,7 @@ export const handle = sequence(
 
   // Add graphiql
   handleGraphiql({
-    enabled: dev,
+    enabled: dev
   })
 )
 ```
@@ -42,8 +38,7 @@ _You could use only `graphiql` here for example!_
 
 Now, let's build the `kitqlServer` const 👇
 
-<br />
-### kitqlServer
+### `kitqlServer`
 
 This is the file where you will create your kitQL Server. To start, it should look like:
 
@@ -65,7 +60,7 @@ function getContext({ request }: RequestEvent) {
 
   return {
     request,
-    user,
+    user
   }
 }
 
@@ -86,22 +81,19 @@ export type IKitQLContext = ReturnType<typeof getContext>
 
 export const kitqlServer = {
   plugins,
-  getContext,
+  getContext
 }
-
 ```
 
 Now, we just need to generate everything... to have typings & modules.
 
-
-<br />
 ### Generators
 
 #### Type-codegen
 
 Create a config file `.graphqlrc.yaml` with the following content:
 
-```yaml
+```yaml filename=".graphqlrc.yaml"
 projects:
   # You can add multiple projects and generate with -p args
   default:
@@ -135,12 +127,11 @@ projects:
               useTypeImports: true
 ```
 
-<br />
 #### Module-codegen
 
 Create a config file `.kitql.yaml` with the following content:
 
-```yaml
+```yaml filename=".kitql.yaml"
 generates:
   ./src/lib/graphql/$kitql:
     modules:
@@ -157,14 +148,13 @@ generates:
     importBaseTypesFrom: $graphql/$kitql/graphqlTypes
 ```
 
-_We will probably move this somewhere else! (Vite Plugin?! Come and motivate us 😅)_
+<Callout>We will probably move this somewhere else! (Vite Plugin?! Come and motivate us 😅)</Callout>
 
-<br />
 #### Package scripts
 
 Update your `gen` script so that we generate `modules`, `houdini` and `codegen`.
 
-```json
+```json {4-7} filename="package.json"
 {
   // ...
   "scripts": {
@@ -177,6 +167,4 @@ Update your `gen` script so that we generate `modules`, `houdini` and `codegen`.
 }
 ```
 
-<br />
-<br />
 Go back to [Get Started](/docs/all-in).
