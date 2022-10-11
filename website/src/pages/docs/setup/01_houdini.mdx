@@ -1,3 +1,5 @@
+import { Callout } from '@theguild/components'
+
 # ⚡GraphQL Client - Houdini
 
 ## Initial setup
@@ -11,9 +13,11 @@ npx houdini init
 
 And that's it 🎉🎉🎉
 
-_For more info, check out the complete guide
-[setting-up-your-project](https://www.houdinigraphql.com/guides/setting-up-your-project#starting-a-new-project)
-on Houdini directly._
+<Callout>
+  For more info, check out the complete guide
+  [setting-up-your-project](https://www.houdinigraphql.com/guides/setting-up-your-project#starting-a-new-project) on
+  Houdini directly.
+</Callout>
 
 ## Specials with KitQL
 
@@ -27,9 +31,7 @@ Nice convention:
 - `*.gql` for operations (client)
 - `*.graphql` for typedefs (endpoint, graphql type definition)
 
-Example 👇
-
-```js filename="houdini.config.js
+```js filename="houdini.config.js"
 /** @type {import('houdini').ConfigFile} */
 const config = {
   schemaPath: 'src/**/*.graphql'
@@ -37,6 +39,7 @@ const config = {
 
 export default config
 ```
+
 _More about the [config](https://www.houdinigraphql.com/api/config)_
 
 ## Next step?

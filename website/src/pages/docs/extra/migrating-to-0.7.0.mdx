@@ -12,13 +12,13 @@ Here is the list of things to update:
 
 1. Bump your `@kitlql/all-in` to the latest
 
-1. The file `.graphqlrc.yaml` doesn't hold any client info for generation [👇](#graphqlrcyaml-file)
+1. The file `.graphqlrc.yaml` doesn't hold any client info for generation [help link](#graphqlrcyaml-file)
 
-1. Configure Houdini, follow this [guide](/docs/setup/01_houdini). **_And comeback here!_**
+1. Configure Houdini, follow this [guide](/docs/setup/01_houdini). _And comeback here!_
 
 1. To migrate a big project, you can in `houdini.config.js` add `disableMasking: true`
 
-1. Usage update [👇](#usage-update)
+1. Usage update [help link](#usage-update)
 
 ---
 
@@ -54,7 +54,7 @@ Do not forget to remove the generate cmd of your `package.json`. (`graphql-codeg
 
 Before:
 
-```svelte
+```svelte filename="page.svelte"
 <script context="module" lang="ts">
   import { KQL_FirstQuery } from '$lib/graphql/_kitql/graphqlStores'
 
@@ -74,7 +74,9 @@ import { load_FirstQuery } from '$houdini'
 import type { Load } from './$types'
 
 export const load: Load = async event => {
-  return load_FirstQuery({ event })
+  return {
+    ...(await load_FirstQuery({ event }))
+  }
 }
 ```
 

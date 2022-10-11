@@ -1,3 +1,5 @@
+import { Callout } from '@theguild/components'
+
 # ⚡KitQL
 
 We make use of amazing Open Source projects:
@@ -146,13 +148,13 @@ generates:
     importBaseTypesFrom: $graphql/$kitql/graphqlTypes
 ```
 
-_We will probably move this somewhere else! (Vite Plugin?! Come and motivate us 😅)_
+<Callout>We will probably move this somewhere else! (Vite Plugin?! Come and motivate us 😅)</Callout>
 
 #### Package scripts
 
 Update your `gen` script so that we generate `modules`, `houdini` and `codegen`.
 
-```jsonc filename="package.json"
+```json {4-7} filename="package.json"
 {
   // ...
   "scripts": {
