@@ -8,7 +8,7 @@ export function IndexPage() {
   return (
     <>
       <HeroGradient
-        title="Time to ease data management"
+        title="Time to Ease Data Management"
         description="KitQL brings the data management layer to SvelteKit"
         link={{
           href: '/docs',

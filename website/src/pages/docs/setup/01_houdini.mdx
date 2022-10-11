@@ -15,13 +15,11 @@ _For more info, check out the complete guide
 [setting-up-your-project](https://www.houdinigraphql.com/guides/setting-up-your-project#starting-a-new-project)
 on Houdini directly._
 
-<br />
 ## Specials with KitQL
 
 Defaults of Houdini are great 👍.
 We list here a few tweaks to know that integrates well with KitQL.
 
-<br />
 ### Houdini's Tweaks
 
 Nice convention:
@@ -31,23 +29,18 @@ Nice convention:
 
 Example 👇
 
-<br />
-```js /* file: houdini.config.js */
-
-/** @type {import('houdini').ConfigFile} \*/
+```js filename="houdini.config.js
+/** @type {import('houdini').ConfigFile} */
 const config = {
-schemaPath: 'src/**/\*.graphql',
-};
+  schemaPath: 'src/**/*.graphql'
+}
 
-export default config;
+export default config
 ```
 _More about the [config](https://www.houdinigraphql.com/api/config)_
 
-<br />
 ## Next step?
 
 To go forward, you can directly check [Houdini's doc](https://www.houdinigraphql.com/guides/working-with-graphql).
 
-<br />
-<br />
 Go back to [Get Started](/docs/all-in).
