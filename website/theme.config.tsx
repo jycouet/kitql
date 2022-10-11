@@ -1,6 +1,8 @@
 import { KitQLLogo, defineConfig } from '@theguild/components'
 
 const SITE_NAME = 'KitQL'
+const SITE_DESCRIPTION = 'bring data management layer to SvelteKit'
+const SOCIAL_IMAGE_URL = 'https://raw.githubusercontent.com/jycouet/kitql/main/website/public/assets/social-kitql.png'
 
 export default defineConfig({
   titleSuffix: ` – ${SITE_NAME}`,
@@ -8,8 +10,20 @@ export default defineConfig({
   head: (
     <>
       <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-      <meta name="description" content={`${SITE_NAME}: documentation`} />
+      <meta name="description" content={`${SITE_NAME}: ${SITE_DESCRIPTION}`} />
+
+      <meta property="og:url" content="https://www.kitql.dev" />
+      <meta property="og:type" content="website" />
       <meta name="og:title" content={`${SITE_NAME}: documentation`} />
+      <meta property="og:description" content={`${SITE_NAME}: ${SITE_DESCRIPTION}`} />
+      <meta property="og:image" content={SOCIAL_IMAGE_URL} />
+
+      <meta name="twitter:card" content="summary_large_image" />
+      <meta property="twitter:domain" content="kitql.dev" />
+      <meta property="twitter:url" content="https://www.kitql.dev" />
+      <meta name="twitter:title" content={`${SITE_NAME}: documentation`} />
+      <meta name="twitter:description" content={`${SITE_NAME}: ${SITE_DESCRIPTION}`} />
+      <meta name="twitter:image" content={SOCIAL_IMAGE_URL} />
     </>
   ),
   logo: (
@@ -19,11 +33,3 @@ export default defineConfig({
     </>
   ),
 })
-
-// const defaultSeo: AppSeoProps = {
-//   title: 'KitQL',
-//   description: 'A GraphQL plugin system for improved developer experience.',
-//   logo: {
-//     url: 'https://repository-images.githubusercontent.com/451914608/c7134472-769a-4d56-9380-bf66d3363196',
-//   },
-// };
