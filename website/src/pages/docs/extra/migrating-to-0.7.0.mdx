@@ -4,12 +4,10 @@ Lot’s changed in v0.7.0. Hopefully this guide should help you understand those
 show you what you should update to work with the new features. If you want some more context about the "why", please have a look at
 the [blog post](https://www.the-guild.dev/blog/houdini-and-kitql) we wrote.
 
-<br />
 ## What changed
 
 The biggest change for KitQL users is that generated stores are done from Houdini now instead of KitQL Client package.
 
-<br />
 Here is the list of things to update:
 
 1. Bump your `@kitlql/all-in` to the latest
@@ -24,14 +22,11 @@ Here is the list of things to update:
 
 ---
 
-<br />
-### .graphqlrc.yaml file
+### `.graphqlrc.yaml` file
 
 - If you were using `KitQL` only in a client context, you should probably strip down your `.graphqlrc.yaml` file down to
 
-```yaml
-# file .graphqlrc.yaml
-
+```yaml filename=".graphqlrc.yaml"
 projects:
   # You can add multiple projects and generate with -p args
   default:
@@ -47,10 +42,8 @@ projects:
 
 Do not forget to remove the generate cmd of your `package.json`. (`graphql-codegen --config ./.graphqlrc.yaml`)
 
-<br />
-<br />- If you were already using the server side, follow the config [here](/docs/setup/02_server#code-generator).
+- If you were already using the server side, follow the config [here](/docs/setup/02_server#code-generator).
 
-<br />
 ### Usage update
 
 1. functions `.query()` & `.queryLoad()` were renamed to `.fetch()`
@@ -76,20 +69,16 @@ Before:
 
 After:
 
-```ts
-// +page.ts
+```ts filename="page.ts"
 import { load_FirstQuery } from '$houdini'
 import type { Load } from './$types'
 
 export const load: Load = async event => {
-  return {
-    ...(await load_FirstQuery({ event }))
-  }
+  return load_FirstQuery({ event })
 }
 ```
 
-```svelte
-<!-- +page.svelte  -->
+```svelte filename="page.svelte"
 <script lang="ts">
   import { browser } from '$app/env'
 

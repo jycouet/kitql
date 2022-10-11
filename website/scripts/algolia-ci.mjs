@@ -7,13 +7,6 @@ indexToAlgolia({
   nextra: {
     docsBaseDir: resolve(CWD, 'src/pages'),
   },
-  postProcessor: objects =>
-    objects.map(o => {
-      if (o.url.includes('plugins/')) {
-        o.type = 'Plugin'
-      }
-      return o
-    }),
   source: 'KitQL',
   dryMode: process.env.ALGOLIA_DRY_RUN === 'true',
   domain: 'https://www.kitql.dev/',
