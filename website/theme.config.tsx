@@ -18,7 +18,7 @@ export default defineConfig({
       <meta property="og:description" content={`${SITE_NAME}: ${SITE_DESCRIPTION}`} />
       <meta property="og:image" content={SOCIAL_IMAGE_URL} />
 
-      <meta name="twitter:card" content="summary_large_image" />
+      <meta name="twitter:card" content={SOCIAL_IMAGE_URL} />
       <meta property="twitter:domain" content="kitql.dev" />
       <meta property="twitter:url" content="https://www.kitql.dev" />
       <meta name="twitter:title" content={`${SITE_NAME}: Documentation`} />
