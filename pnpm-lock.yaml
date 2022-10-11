@@ -58,7 +58,6 @@ importers:
       '@graphql-typed-document-node/core': 3.1.1
       '@kitql/helper': 0.6.0-next.1
       '@kitql/module-codegen': 0.4.0-next.1
-      '@prisma/client': ^4.3.1
       '@sveltejs/adapter-auto': 1.0.0-next.80
       '@sveltejs/kit': 1.0.0-next.511
       '@sveltejs/package': 1.0.0-next.3
@@ -82,7 +81,7 @@ importers:
       ts-node: ^10.9.1
       tslib: 2.4.0
       typescript: 4.8.3
-      vite: 3.1.2
+      vite: 3.1.7
       vite-plugin-watch-and-run: 1.1.0-next.2
     dependencies:
       '@envelop/core': 2.6.0_graphql@15.8.0
@@ -97,7 +96,6 @@ importers:
       '@graphql-typed-document-node/core': 3.1.1_graphql@15.8.0
       '@kitql/helper': link:../helper
       '@kitql/module-codegen': link:../module-codegen
-      '@prisma/client': 4.3.1
       graphql: 15.8.0
       graphql-modules: 2.1.0_graphql@15.8.0
       graphql-scalars: 1.18.0_graphql@15.8.0
@@ -107,7 +105,7 @@ importers:
       vite-plugin-watch-and-run: link:../vite-plugin-watch-and-run
     devDependencies:
       '@sveltejs/adapter-auto': 1.0.0-next.80
-      '@sveltejs/kit': 1.0.0-next.511_svelte@3.50.1+vite@3.1.2
+      '@sveltejs/kit': 1.0.0-next.511_svelte@3.50.1+vite@3.1.7
       '@sveltejs/package': 1.0.0-next.3_iprco5tylfmvffqgrvqxc46njy
       '@types/node': 18.7.18
       '@typescript-eslint/eslint-plugin': 5.37.0_22c5fnooleyfkzrkkgdmel5kmi
@@ -123,7 +121,7 @@ importers:
       svelte2tsx: 0.5.17_iprco5tylfmvffqgrvqxc46njy
       tslib: 2.4.0
       typescript: 4.8.3
-      vite: 3.1.2
+      vite: 3.1.7
     publishDirectory: dist
 
   packages/helper:
@@ -3796,23 +3794,6 @@ packages:
     resolution: {integrity: sha512-50/17A98tWUfQ176raKiOGXuYpLyyVMkxxG6oylzL3BPOlA6ADGdK7EYunSa4I064xerltq9TGXs8HmOk5E+vw==}
     dev: false
 
-  /@prisma/client/4.3.1:
-    resolution: {integrity: sha512-FA0/d1VMJNWqzU7WVWTNWJ+lGOLR9JUBnF73GdIPAEVo/6dWk4gHx0EmgeU+SMv4MZoxgOeTBJF2azhg7x0hMw==}
-    engines: {node: '>=14.17'}
-    requiresBuild: true
-    peerDependencies:
-      prisma: '*'
-    peerDependenciesMeta:
-      prisma:
-        optional: true
-    dependencies:
-      '@prisma/engines-version': 4.3.0-32.c875e43600dfe042452e0b868f7a48b817b9640b
-    dev: false
-
-  /@prisma/engines-version/4.3.0-32.c875e43600dfe042452e0b868f7a48b817b9640b:
-    resolution: {integrity: sha512-8yWpXkQRmiSfsi2Wb/ZS5D3RFbeu/btL9Pm/gdF4phB0Lo5KGsDFMxFMgaD64mwED2nHc8ZaEJg/+4Jymb9Znw==}
-    dev: false
-
   /@radix-ui/primitive/0.1.0:
     resolution: {integrity: sha512-tqxZKybwN5Fa3VzZry4G6mXAAb9aAqKmPtnVbZpL0vsBwvOHTBwsjHVPXylocYLwEtBY9SCe665bYnNB515uoA==}
     dependencies:
@@ -4186,7 +4167,7 @@ packages:
       - supports-color
     dev: true
 
-  /@sveltejs/kit/1.0.0-next.511_svelte@3.50.1+vite@3.1.2:
+  /@sveltejs/kit/1.0.0-next.511_svelte@3.50.1+vite@3.1.7:
     resolution: {integrity: sha512-A/fxd4qHWDD07Mjo6qEEEfsBEkoj5C4/dPSzx6xPUoWmPvRPhU8t+P0oMc8BOn5YHOhPDq3coH8bmafbh73zKg==}
     engines: {node: '>=16.14'}
     hasBin: true
@@ -4195,7 +4176,7 @@ packages:
       svelte: ^3.44.0
       vite: ^3.1.0
     dependencies:
-      '@sveltejs/vite-plugin-svelte': 1.0.5_svelte@3.50.1+vite@3.1.2
+      '@sveltejs/vite-plugin-svelte': 1.0.5_svelte@3.50.1+vite@3.1.7
       '@types/cookie': 0.5.1
       cookie: 0.5.0
       devalue: 4.0.0
@@ -4208,7 +4189,7 @@ packages:
       svelte: 3.50.1
       tiny-glob: 0.2.9
       undici: 5.11.0
-      vite: 3.1.2
+      vite: 3.1.7
     transitivePeerDependencies:
       - diff-match-patch
       - supports-color
@@ -4230,7 +4211,7 @@ packages:
       - typescript
     dev: true
 
-  /@sveltejs/vite-plugin-svelte/1.0.5_svelte@3.50.1+vite@3.1.2:
+  /@sveltejs/vite-plugin-svelte/1.0.5_svelte@3.50.1+vite@3.1.7:
     resolution: {integrity: sha512-CmSdSow0Dr5ua1A11BQMtreWnE0JZmkVIcRU/yG3PKbycKUpXjNdgYTWFSbStLB0vdlGnBbm2+Y4sBVj+C+TIw==}
     engines: {node: ^14.18.0 || >= 16}
     peerDependencies:
@@ -4248,7 +4229,7 @@ packages:
       magic-string: 0.26.3
       svelte: 3.50.1
       svelte-hmr: 0.14.12_svelte@3.50.1
-      vite: 3.1.2
+      vite: 3.1.7
     transitivePeerDependencies:
       - supports-color
     dev: true
@@ -14432,33 +14413,6 @@ packages:
       unist-util-stringify-position: 3.0.2
       vfile-message: 3.1.2
     dev: false
-
-  /vite/3.1.2:
-    resolution: {integrity: sha512-wTDKPkiVbeT+drTPdkuvjVIC/2vKKUc1w3qNOuwgpyvPCZF6fvdxB5v5WEcCsqaYea0zrwA4+XialJKCHM3oVQ==}
-    engines: {node: ^14.18.0 || >=16.0.0}
-    hasBin: true
-    peerDependencies:
-      less: '*'
-      sass: '*'
-      stylus: '*'
-      terser: ^5.4.0
-    peerDependenciesMeta:
-      less:
-        optional: true
-      sass:
-        optional: true
-      stylus:
-        optional: true
-      terser:
-        optional: true
-    dependencies:
-      esbuild: 0.15.10
-      postcss: 8.4.16
-      resolve: 1.22.1
-      rollup: 2.78.1
-    optionalDependencies:
-      fsevents: 2.3.2
-    dev: true
 
   /vite/3.1.7:
     resolution: {integrity: sha512-5vCAmU4S8lyVdFCInu9M54f/g8qbOMakVw5xJ4pjoaDy5wgy9sLLZkGdSLN52dlsBqh0tBqxjaqqa8LgPqwRAA==}
