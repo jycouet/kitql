@@ -1,6 +1,7 @@
 # KitQL - Demo Init
 
 [KitQL](https://github.com/jycouet/kitql#kitql)
+
 ## ⚡ How to (stackblitz)
 
 1. Wait a few seconds for the stackblitz to load
