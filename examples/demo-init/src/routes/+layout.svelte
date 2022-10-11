@@ -2,11 +2,17 @@
 	<title>KitQL</title>
 </svelte:head>
 
-<h1 class="vAlign">Welcome to KitQL <img class="ml-1" src="./logo.svg" alt="logo KitQL" /></h1>
+<h1 class="vAlign">
+	Welcome
 
-<p>
-	Visit <a target="_blanck" href="https://github.com/jycouet/kitql">KitQL</a> Github to read the documentation
-</p>
+	<a target="_blanck" href="https://github.com/jycouet/kitql">
+		<img src="./logo.svg" alt="logo KitQL" />
+		<img
+			src="https://raw.githubusercontent.com/jycouet/jycouet/main/img/GitHub-Light.png"
+			alt="Github Logo"
+		/>
+	</a>
+</h1>
 
 <hr />
 
@@ -23,11 +29,21 @@
 		color: #ff3e00;
 	}
 
+	img {
+		width: 50px;
+	}
+
+	a {
+		margin-left: 1rem;
+	}
+
+	a,
+	img {
+		text-decoration-line: none;
+	}
+
 	.vAlign {
 		display: flex;
 		align-items: center;
-	}
-	.ml-1 {
-		margin-left: 1rem;
 	}
 </style>

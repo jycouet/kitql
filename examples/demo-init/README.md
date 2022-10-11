@@ -1,28 +1,19 @@
 # KitQL - Demo Init
 
-[KitQL](https://github.com/jycouet/kitql#kitql), _A set of tools, helping **you** building efficient apps in a fast way._
+[KitQL](https://github.com/jycouet/kitql#kitql)
+## ⚡ How to (stackblitz)
 
-<p align="center">
-  <img src="../../logo.svg" width="100" />
-</p>
+1. Wait a few seconds for the stackblitz to load
+2. Check the preview on the right side 👉
+3. Click on the GraphiQL link 👉
 
-# ⚡How to - Demo Init
+<br />
 
-## Based on
-
-- ✅ [SvelteKit](https://kit.svelte.dev/)
-- ✅ [GraphQL](https://graphql.org/)
-
-## Using
-
-- ✅ [Houdini](https://www.houdinigraphql.com/)
-- ✅ [KitQL](https://www.kitql.dev/)
-  - ✅ [GraphQL - CodeGen](https://www.graphql-code-generator.com/)
-  - ✅ [GraphQL - Yoga](https://www.graphql-yoga.com/)
-## To start
+## ⚡ How to (manual)
 
 ```
 yarn
 yarn dev
+
 🥳 check: http://localhost:3777/
 ```
