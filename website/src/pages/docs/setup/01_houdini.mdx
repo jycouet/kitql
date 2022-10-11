@@ -2,7 +2,7 @@
 
 ## Initial setup
 
-To setup Houdini, you need to configure a few things in your project. 
+To setup Houdini, you need to configure a few things in your project.
 And to make things easy, you can simply do:
 
 ```sh
@@ -11,7 +11,7 @@ npx houdini init
 
 And that's it 🎉🎉🎉
 
-_For more info, check out the complete guide 
+_For more info, check out the complete guide
 [setting-up-your-project](https://www.houdinigraphql.com/guides/setting-up-your-project#starting-a-new-project)
 on Houdini directly._
 
@@ -24,25 +24,24 @@ We list here a few tweaks to know that integrates well with KitQL.
 <br />
 ### Houdini's Tweaks
 
-Nice convention: 
+Nice convention:
+
 - `*.gql` for operations (client)
 - `*.graphql` for typedefs (endpoint, graphql type definition)
 
 Example 👇
 
 <br />
-```js 
-/* file: houdini.config.js */
+```js /* file: houdini.config.js */
 
-/** @type {import('houdini').ConfigFile} */
+/** @type {import('houdini').ConfigFile} \*/
 const config = {
-	schemaPath: 'src/**/*.graphql',
+schemaPath: 'src/**/\*.graphql',
 };
 
 export default config;
 ```
 _More about the [config](https://www.houdinigraphql.com/api/config)_
-
 
 <br />
 ## Next step?

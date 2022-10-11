@@ -24,18 +24,25 @@
     ]
   },
   "dependencies": {
+    "@algolia/autocomplete-js": "^1.7.1",
+    "@algolia/autocomplete-preset-algolia": "^1.7.1",
+    "@algolia/client-search": "^4.14.2",
+    "@next/env": "^12.3.1",
+    "@theguild/components": "4.2.1",
+    "algoliasearch": "^4.14.2",
     "date-fns": "2.29.3",
-    "next-sitemap": "3.1.23",
-    "@theguild/components": "4.2.0",
     "next": "12.3.1",
+    "next-mdx-remote": "4.1.0",
+    "next-sitemap": "3.1.24",
+    "prop-types": "^15.8.1",
     "react": "18.2.0",
     "react-dom": "18.2.0",
-    "next-mdx-remote": "4.1.0"
+    "webpack": "^5.74.0"
   },
   "devDependencies": {
-    "@theguild/algolia": "0.1.0",
+    "@theguild/algolia": "1.0.1",
     "@theguild/tailwind-config": "0.1.1",
-    "@types/node": "18.6.2",
-    "@types/react": "18.0.18"
+    "@types/node": "18.8.4",
+    "@types/react": "18.0.21"
   }
 }

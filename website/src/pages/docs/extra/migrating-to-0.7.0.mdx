@@ -47,10 +47,8 @@ projects:
 
 Do not forget to remove the generate cmd of your `package.json`. (`graphql-codegen --config ./.graphqlrc.yaml`)
 
-
-<br /><br />
-- If you were already using the server side, follow the config [here](/docs/setup/02_server#code-generator).
-
+<br />
+<br />- If you were already using the server side, follow the config [here](/docs/setup/02_server#code-generator).
 
 <br />
 ### Usage update
@@ -60,7 +58,6 @@ Do not forget to remove the generate cmd of your `package.json`. (`graphql-codeg
 1. `$lib/graphql/_kitql/graphqlStores` is most of the case replaced by `$houdini`
 1. variables inputs `STOREQueryVariables` is now `STORE$input`
 1. Fragment `XXXFragment` => `xXX$data`
-
 
 Before:
 
@@ -84,10 +81,10 @@ After:
 import { load_FirstQuery } from '$houdini'
 import type { Load } from './$types'
 
-export const load: Load = async (event) => {
+export const load: Load = async event => {
   return {
-		...(await load_FirstQuery({ event }))
-	}
+    ...(await load_FirstQuery({ event }))
+  }
 }
 ```
 
@@ -95,7 +92,7 @@ export const load: Load = async (event) => {
 <!-- +page.svelte  -->
 <script lang="ts">
   import { browser } from '$app/env'
-  
+
   $: browser && GQL_FirstQuery.fetch()
 </script>
 

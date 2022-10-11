@@ -13,6 +13,7 @@ We make use of amazing Open Source projects:
 ### Hooks
 
 The idea is to bring functionalities with hooks, something like:
+
 ```ts
 // hooks.server.ts
 import { dev } from '$app/environment'
@@ -26,7 +27,7 @@ export const handle = sequence(
 
   // Add graphiql
   handleGraphiql({
-    enabled: dev,
+    enabled: dev
   })
 )
 ```
@@ -60,7 +61,7 @@ function getContext({ request }: RequestEvent) {
 
   return {
     request,
-    user,
+    user
   }
 }
 
@@ -81,13 +82,11 @@ export type IKitQLContext = ReturnType<typeof getContext>
 
 export const kitqlServer = {
   plugins,
-  getContext,
+  getContext
 }
-
 ```
 
 Now, we just need to generate everything... to have typings & modules.
-
 
 <br />
 ### Generators
