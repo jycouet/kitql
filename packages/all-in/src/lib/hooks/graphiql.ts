@@ -1,7 +1,7 @@
 import type { Handle } from '@sveltejs/kit'
 import type { GraphiQLRendererOptions as GraphiQLYogaOptions } from 'graphql-yoga/typings/plugins/useGraphiQL'
 
-export type GraphiQLKitQL = Omit<GraphiQLYogaOptions, 'headers' | 'endpoint'> & {
+export type KitQLHandleGraphiQL = Omit<GraphiQLYogaOptions, 'headers' | 'endpoint'> & {
   headers?: Record<string, string>
 
   enabled?: boolean
@@ -27,7 +27,7 @@ async function getGraphiQLBody(graphiqlOptions: GraphiQLYogaOptions) {
   }
 }
 
-export function handleGraphiql(options?: GraphiQLKitQL): Handle {
+export function handleGraphiql(options?: KitQLHandleGraphiQL): Handle {
   const { graphiQLPath, headers, enabled, ...opts } = {
     title: 'KitQL',
     endpoint: '/graphql',

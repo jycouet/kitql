@@ -14,7 +14,7 @@
 		"gen": "npm run gen:modules && yarn gen:houdini && yarn gen:types",
 		"gen:modules": "node ./node_modules/@kitql/module-codegen/cjs/index.js",
 		"gen:houdini": "houdini generate",
-		"gen:types": "graphql-codegen --config ./.graphqlrc.yaml",
+		"gen:types": "graphql-codegen --config ./graphql.config.cjs --project init",
 		"build": "yarn build:date && vite build",
 		"build:date": "./tools/preStart.sh",
 		"preview": "vite preview",

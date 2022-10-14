@@ -5,7 +5,7 @@ import { createSchema, createYoga, type Plugin, type YogaInitialContext } from '
 //   YogaServerOptions<TServerContext, TUserContext>,
 //   'graphiql'
 // >
-export type GraphQLKitQL<TUserContext> = {
+export type KitQLHandleGraphQL<TUserContext> = {
   /**
    * If you set the `graphiQLPath`, on a GET request you will be redirected there
    * If not, you will get a 404 (security by default ;))))))))))))))))))
@@ -24,7 +24,7 @@ export type GraphQLKitQL<TUserContext> = {
   plugins?: Plugin[]
 }
 
-export function handleGraphql<TUserContext>(options?: GraphQLKitQL<TUserContext>): Handle {
+export function handleGraphql<TUserContext>(options?: KitQLHandleGraphQL<TUserContext>): Handle {
   // set defaults
   const { graphiQLPath, endpoint, plugins, context } = {
     graphiQLPath: undefined,
