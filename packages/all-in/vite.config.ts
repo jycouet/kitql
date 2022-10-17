@@ -1,6 +1,7 @@
 import { sveltekit } from '@sveltejs/kit/vite'
 import { type UserConfig } from 'vite'
 import { kitql } from './src/lib/vite/plugin'
+// import { kitql } from '@kitql/all-in'
 
 const config: UserConfig = {
   plugins: [kitql(), sveltekit()],

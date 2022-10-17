@@ -10,7 +10,7 @@ export function kitql(config?: KitQLVite): Plugin {
       try {
         generate(config)
       } catch (e) {
-        console.error(`e`, e)
+        console.error(e)
       }
     },
   }
