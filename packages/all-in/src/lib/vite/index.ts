@@ -21,14 +21,14 @@ export function generate(config?: KitQLVite) {
     moduleOutputFolder: '',
     importBaseTypesFrom: '',
     modules: [],
-    ...(config || {}),
+    ...config,
   }
   const { mergeModuleTypedefs, mergeModuleResolvers, mergeContexts, mergeModules } = {
     mergeModuleTypedefs: '',
     mergeModuleResolvers: '',
     mergeContexts: '',
     mergeModules: '',
-    ...(config?.actions || {}),
+    ...config?.actions,
   }
 
   const meta = {
@@ -36,7 +36,6 @@ export function generate(config?: KitQLVite) {
     modules: 0,
     typedefs: 0,
     resolvers: 0,
-    contexts: 0,
   }
 
   // Enums
@@ -79,7 +78,6 @@ export function generate(config?: KitQLVite) {
 
       let typedefsFilesLength = 0
       let resolversFilesLength = 0
-      let contextsFilesLength = 0
 
       // TypeDefs
       if (mergeModuleTypedefs) {
@@ -92,31 +90,30 @@ export function generate(config?: KitQLVite) {
       }
 
       // Contexts
-      if (mergeContexts) {
-        const dataloadersModule: { moduleName: string; providerFile: string }[] = []
-        const providersFiles = getFiles(join(directory, providersFolder))
-        let withDbProvider = false
-        providersFiles.forEach(providerFile => {
-          if (providerFile.startsWith(`dl${toPascalCase(moduleName)}`)) {
-            dataloadersModule.push({ moduleName, providerFile })
-          }
-          if (providerFile.startsWith(`Db${toPascalCase(moduleName)}`)) {
-            withDbProvider = true
-          }
-        })
+      // if (mergeContexts) {
+      //   const dataloadersModule: { moduleName: string; providerFile: string }[] = []
+      //   const providersFiles = getFiles(join(directory, providersFolder))
+      //   let withDbProvider = false
+      //   providersFiles.forEach(providerFile => {
+      //     if (providerFile.startsWith(`dl${toPascalCase(moduleName)}`)) {
+      //       dataloadersModule.push({ moduleName, providerFile })
+      //     }
+      //     if (providerFile.startsWith(`Db${toPascalCase(moduleName)}`)) {
+      //       withDbProvider = true
+      //     }
+      //   })
 
-        providersFiles.forEach(providerFile => {
-          if (providerFile.startsWith('_ctx')) {
-            const ctxName = providerFile.replace('_ctx', '').replace('.ts', '')
-            contexts.push({ moduleName, ctxName })
-          }
-        })
-      }
+      //   providersFiles.forEach(providerFile => {
+      //     if (providerFile.startsWith('_ctx')) {
+      //       const ctxName = providerFile.replace('_ctx', '').replace('.ts', '')
+      //       contexts.push({ moduleName, ctxName })
+      //     }
+      //   })
+      // }
 
       if (mergeModuleAction.length > 0) {
         meta.typedefs += typedefsFilesLength
         meta.resolvers += resolversFilesLength
-        meta.contexts += contextsFilesLength
       }
 
       modulesObj.push({ directory, name: moduleName })
@@ -140,7 +137,6 @@ export function generate(config?: KitQLVite) {
       `[${logGreen('' + meta.modules)} modules, ` +
       `${logGreen('' + meta.enums)} enums, ` +
       `${logGreen('' + meta.typedefs)} typedefs, ` +
-      `${logGreen('' + meta.resolvers)} resolvers, ` +
-      `${logGreen('' + meta.contexts)} contexts]`
+      `${logGreen('' + meta.resolvers)} resolvers]`
   )
 }
