@@ -1,5 +1,4 @@
 import { Log, logGreen, logRed } from '@kitql/helper'
-import fs from 'fs'
 import { basename, extname, join } from 'path'
 import { actionContext } from './actionContexts'
 import { actionEnum } from './actionEnum'
@@ -12,10 +11,25 @@ import { type KitQLVite } from './KitQLVite'
 import { getPrismaEnum } from './prismaHelper'
 import { readLines } from './readWrite'
 
-export function generate(config: KitQLVite) {
+export function generate(config?: KitQLVite) {
   const log = new Log('KitQL module-codegen')
 
   const providersFolder = 'providers' as const
+
+  const { outputFolder, moduleOutputFolder, importBaseTypesFrom, modules } = {
+    outputFolder: '',
+    moduleOutputFolder: '',
+    importBaseTypesFrom: '',
+    modules: [],
+    ...(config || {}),
+  }
+  const { mergeModuleTypedefs, mergeModuleResolvers, mergeContexts, mergeModules } = {
+    mergeModuleTypedefs: '',
+    mergeModuleResolvers: '',
+    mergeContexts: '',
+    mergeModules: '',
+    ...(config?.actions || {}),
+  }
 
   const meta = {
     enums: 0,
@@ -27,16 +41,16 @@ export function generate(config: KitQLVite) {
 
   // Enums
   if (config.actions.createEnumsModule) {
-    const createEnumsModuleConfig = config.actions.createEnumsModule
-    const prismaFilePath = getFullPath(createEnumsModuleConfig.prismaFile)
-    if (fs.existsSync(prismaFilePath)) {
+    const { prismaFile, enumsModuleFolder } = {
+      prismaFile: '',
+      enumsModuleFolder: '',
+      ...config.actions.createEnumsModule,
+    }
+
+    const prismaFilePath = getFullPath(prismaFile)
+    if (readLines(prismaFilePath).length === 0) {
       const enums = getPrismaEnum(readLines(prismaFilePath))
-      const enumsKeys = actionEnum(
-        createEnumsModuleConfig.enumsModuleFolder,
-        config.moduleOutputFolder,
-        config.importBaseTypesFrom,
-        enums
-      )
+      const enumsKeys = actionEnum(enumsModuleFolder, moduleOutputFolder, importBaseTypesFrom, enums)
       meta.enums = enumsKeys.length
     } else {
       log.error(`${'❌'} file ${logRed(prismaFilePath)} not found!`)
@@ -46,19 +60,19 @@ export function generate(config: KitQLVite) {
 
   // Typedefs && Resolvers
   const mergeModuleAction = []
-  if (config.actions.mergeModuleTypedefs) {
+  if (mergeModuleTypedefs) {
     mergeModuleAction.push('Typedefs')
   }
-  if (config.actions.mergeModuleResolvers) {
+  if (mergeModuleResolvers) {
     mergeModuleAction.push('Resolvers')
   }
-  if (config.actions.mergeContexts) {
+  if (mergeContexts) {
     mergeModuleAction.push('Contexts')
   }
 
   const contexts: { moduleName: string; ctxName: string }[] = []
-  const modules: { name: string; directory: string }[] = []
-  config.modules.forEach((source: string) => {
+  const modulesObj: { name: string; directory: string }[] = []
+  modules.forEach((source: string) => {
     const directories = getDirectories(source)
     directories.forEach(directory => {
       const moduleName = basename(directory, extname(directory))
@@ -68,17 +82,17 @@ export function generate(config: KitQLVite) {
       let contextsFilesLength = 0
 
       // TypeDefs
-      if (config.actions.mergeModuleTypedefs) {
-        typedefsFilesLength = actionTypeDefs(directory, config.moduleOutputFolder)
+      if (mergeModuleTypedefs) {
+        typedefsFilesLength = actionTypeDefs(directory, moduleOutputFolder)
       }
 
       // Resolvers
-      if (config.actions.mergeModuleResolvers) {
-        resolversFilesLength = actionResolvers(directory, config.moduleOutputFolder)
+      if (mergeModuleResolvers) {
+        resolversFilesLength = actionResolvers(directory, moduleOutputFolder)
       }
 
       // Contexts
-      if (config.actions.mergeContexts) {
+      if (mergeContexts) {
         const dataloadersModule: { moduleName: string; providerFile: string }[] = []
         const providersFiles = getFiles(join(directory, providersFolder))
         let withDbProvider = false
@@ -105,19 +119,19 @@ export function generate(config: KitQLVite) {
         meta.contexts += contextsFilesLength
       }
 
-      modules.push({ directory, name: moduleName })
+      modulesObj.push({ directory, name: moduleName })
     })
   })
 
   // mergeContexts
-  if (config.actions.mergeContexts) {
-    actionContext(contexts, config.outputFolder)
+  if (mergeContexts) {
+    actionContext(contexts, outputFolder)
   }
 
   // mergeModules
-  if (config.actions.mergeModules) {
-    actionModules(modules, config.outputFolder)
-    meta.modules = modules.length
+  if (mergeModules) {
+    actionModules(modulesObj, outputFolder)
+    meta.modules = modulesObj.length
   }
 
   // Done

@@ -3,7 +3,7 @@ import { kitql } from './src/lib/vite/plugin'
 
 /** @type {import('vite').UserConfig} */
 const config = {
-  plugins: [kitql({}), sveltekit()],
+  plugins: [kitql(), sveltekit()],
 
   optimizeDeps: {
     include: ['safe-stable-stringify'],
