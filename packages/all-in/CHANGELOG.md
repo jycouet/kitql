@@ -1,5 +1,16 @@
 # @kitql/all-in
 
+## 0.8.0-next.5
+
+### Patch Changes
+
+- [#235](https://github.com/jycouet/kitql/pull/235) [`9794890`](https://github.com/jycouet/kitql/commit/9794890736297fcf9d9a25c93bf71a1cbf889efa) Thanks [@jycouet](https://github.com/jycouet)! - first version of kitql vite plugin
+
+- Updated dependencies [[`9794890`](https://github.com/jycouet/kitql/commit/9794890736297fcf9d9a25c93bf71a1cbf889efa)]:
+  - @kitql/helper@0.6.0-next.2
+  - @kitql/module-codegen@0.4.0-next.2
+  - vite-plugin-watch-and-run@1.1.0-next.3
+
 ## 0.8.0-next.4
 
 ### Patch Changes

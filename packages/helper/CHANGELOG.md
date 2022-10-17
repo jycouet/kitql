@@ -1,5 +1,11 @@
 # @kitql/helper
 
+## 0.6.0-next.2
+
+### Patch Changes
+
+- [#235](https://github.com/jycouet/kitql/pull/235) [`9794890`](https://github.com/jycouet/kitql/commit/9794890736297fcf9d9a25c93bf71a1cbf889efa) Thanks [@jycouet](https://github.com/jycouet)! - import with ext
+
 ## 0.6.0-next.1
 
 ### Patch Changes
