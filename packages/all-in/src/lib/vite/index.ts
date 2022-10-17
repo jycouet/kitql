@@ -1,33 +1,32 @@
 import { Log, logGreen, logRed } from '@kitql/helper'
-import { basename, extname, join } from 'path'
+import { basename, extname } from 'path'
 import { actionContext } from './actionContexts'
 import { actionEnum } from './actionEnum'
 import { actionModules } from './actionModules'
 import { actionResolvers } from './actionResolvers'
 import { actionTypeDefs } from './actionTypeDefs'
-import { getDirectories, getFiles, getFullPath } from './fileFolder'
-import { toPascalCase } from './formatString'
+import { getDirectories, getFullPath } from './fileFolder'
 import { type KitQLVite } from './KitQLVite'
 import { getPrismaEnum } from './prismaHelper'
 import { readLines } from './readWrite'
 
 export function generate(config?: KitQLVite) {
-  const log = new Log('KitQL module-codegen')
+  const log = new Log('KitQL')
 
-  const providersFolder = 'providers' as const
+  // const providersFolder = 'providers' as const
 
   const { outputFolder, moduleOutputFolder, importBaseTypesFrom, modules } = {
-    outputFolder: '',
-    moduleOutputFolder: '',
-    importBaseTypesFrom: '',
-    modules: [],
+    outputFolder: 'src/lib/graphql/$kitql',
+    moduleOutputFolder: '$kitql',
+    importBaseTypesFrom: '$graphql/$kitql/graphqlTypes',
+    modules: ['src/lib/modules/*'],
     ...config,
   }
   const { mergeModuleTypedefs, mergeModuleResolvers, mergeContexts, mergeModules } = {
-    mergeModuleTypedefs: '',
-    mergeModuleResolvers: '',
-    mergeContexts: '',
-    mergeModules: '',
+    mergeModuleTypedefs: true,
+    mergeModuleResolvers: true,
+    mergeContexts: true,
+    mergeModules: true,
     ...config?.actions,
   }
 
@@ -39,7 +38,7 @@ export function generate(config?: KitQLVite) {
   }
 
   // Enums
-  if (config.actions.createEnumsModule) {
+  if (config?.actions.createEnumsModule) {
     const { prismaFile, enumsModuleFolder } = {
       prismaFile: '',
       enumsModuleFolder: '',

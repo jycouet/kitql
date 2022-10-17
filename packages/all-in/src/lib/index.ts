@@ -1,5 +1,5 @@
 // Svelte Component
-export { default as KitQLInfo } from './KitQLInfo.svelte'
+// export { default as KitQLInfo } from './KitQLInfo.svelte'
 
 // graphql-modules
 export { createModule } from 'graphql-modules'
@@ -19,3 +19,6 @@ export type { CodegenConfig as KitQLCodegenConfig } from '@graphql-codegen/cli'
 export type { IGraphQLProject as KitQLProject } from 'graphql-config'
 export type { KitQLProjects, KitQLConfig, KitQLScalar } from './graphql/graphqlConfig'
 export { kitQLConfig } from './graphql/graphqlConfig'
+
+// vite plugin
+export { kitql } from './vite/plugin'
