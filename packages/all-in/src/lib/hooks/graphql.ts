@@ -1,11 +1,13 @@
+import { useEngine } from '@envelop/core'
 import type { Handle } from '@sveltejs/kit'
+import * as GraphQLJS from 'graphql'
 import { createSchema, createYoga, type Plugin, type YogaInitialContext } from 'graphql-yoga'
 
 // export type KitQLServerOptions<TServerContext, TUserContext> = Omit<
 //   YogaServerOptions<TServerContext, TUserContext>,
 //   'graphiql'
 // >
-export type GraphQLKitQL<TUserContext> = {
+export type KitQLHandleGraphQL<TUserContext> = {
   /**
    * If you set the `graphiQLPath`, on a GET request you will be redirected there
    * If not, you will get a 404 (security by default ;))))))))))))))))))
@@ -24,7 +26,7 @@ export type GraphQLKitQL<TUserContext> = {
   plugins?: Plugin[]
 }
 
-export function handleGraphql<TUserContext>(options?: GraphQLKitQL<TUserContext>): Handle {
+export function handleGraphql<TUserContext>(options?: KitQLHandleGraphQL<TUserContext>): Handle {
   // set defaults
   const { graphiQLPath, endpoint, plugins, context } = {
     graphiQLPath: undefined,
@@ -44,6 +46,9 @@ export function handleGraphql<TUserContext>(options?: GraphQLKitQL<TUserContext>
     throw new Error("graphiQLPath path must start with '/'")
   }
 
+  // defaults plugins of kitql
+  const kitqlPlugins = [useEngine(GraphQLJS)]
+
   const kitqlServer = createYoga<YogaInitialContext, TUserContext>({
     logging: true,
     schema: createSchema({
@@ -60,7 +65,7 @@ export function handleGraphql<TUserContext>(options?: GraphQLKitQL<TUserContext>
       },
     }),
     context,
-    plugins,
+    plugins: kitqlPlugins.concat(plugins || []),
     graphqlEndpoint: endpoint,
     fetchAPI: globalThis,
   })

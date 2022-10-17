@@ -1,19 +1,24 @@
 // Svelte Component
-export { default as KitQLInfo } from './KitQLInfo.svelte'
-
-// Yoga server
-// export { createServer } from './graphql/createServer'
-// export type { KitQLServerOptions } from './graphql/createServer'
+// export { default as KitQLInfo } from './KitQLInfo.svelte'
 
 // graphql-modules
 export { createModule } from 'graphql-modules'
 export { kitQLModules } from './graphql/kitQLModules'
 
 // SvelteKit hooks
-export { type GraphQLKitQL } from './hooks/graphql'
+export { type KitQLHandleGraphQL } from './hooks/graphql'
 export { handleGraphql } from './hooks/graphql'
-export { type GraphiQLKitQL } from './hooks/graphiql'
+export { type KitQLHandleGraphiQL } from './hooks/graphiql'
 export { handleGraphiql } from './hooks/graphiql'
 
 // Prisma
 // export { getKitQLPrisma } from './prisma/kitQLPrisma'
+
+// GraphQL Config
+export type { CodegenConfig as KitQLCodegenConfig } from '@graphql-codegen/cli'
+export type { IGraphQLProject as KitQLProject } from 'graphql-config'
+export type { KitQLProjects, KitQLConfig, KitQLScalar } from './graphql/graphqlConfig'
+export { kitQLConfig } from './graphql/graphqlConfig'
+
+// vite plugin
+export { kitql } from './vite/plugin'

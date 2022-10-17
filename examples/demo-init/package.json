@@ -11,11 +11,11 @@
 	"scripts": {
 		"sync": "svelte-kit sync && npm run gen",
 		"dev": "vite dev --port 3777",
-		"gen": "npm run gen:modules && yarn gen:houdini && yarn gen:types",
+		"gen": "npm run gen:modules && npm run gen:houdini && npm run gen:types",
 		"gen:modules": "node ./node_modules/@kitql/module-codegen/cjs/index.js",
 		"gen:houdini": "houdini generate",
-		"gen:types": "graphql-codegen --config ./.graphqlrc.yaml",
-		"build": "yarn build:date && vite build",
+		"gen:types": "graphql-codegen --config ./graphql.config.cjs --project init",
+		"build": "npm run build:date && vite build",
 		"build:date": "./tools/preStart.sh",
 		"preview": "vite preview",
 		"quality": "npm run quality:eslint && npm run quality:prettier && npm run quality:ts",
@@ -23,7 +23,7 @@
 		"quality:eslint": "eslint --ignore-path .gitignore .",
 		"quality:prettier": "prettier --ignore-path .gitignore --check --plugin-search-dir=. .",
 		"quality:ts": "svelte-check --tsconfig ./tsconfig.json",
-		"update": "npm exec -- npx npm-check-updates -u -p yarn"
+		"update": "npm exec -- npx npm-check-updates -u -p npm run"
 	},
 	"devDependencies": {
 		"@sveltejs/adapter-auto": "1.0.0-next.80",
@@ -56,7 +56,6 @@
 	},
 	"volta": {
 		"node": "17.4.0",
-		"yarn": "1.22.17",
-		"pnpm": "6.32.1"
+		"pnpm": "7.13.5"
 	}
 }

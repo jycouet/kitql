@@ -1,8 +1,10 @@
 import { sveltekit } from '@sveltejs/kit/vite'
+import { type UserConfig } from 'vite'
+import { kitql } from './src/lib/vite/plugin'
+// import { kitql } from '@kitql/all-in'
 
-/** @type {import('vite').UserConfig} */
-const config = {
-  plugins: [sveltekit()],
+const config: UserConfig = {
+  plugins: [kitql(), sveltekit()],
 
   optimizeDeps: {
     include: ['safe-stable-stringify'],
