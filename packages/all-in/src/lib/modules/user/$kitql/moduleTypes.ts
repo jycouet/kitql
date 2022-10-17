@@ -1,5 +1,5 @@
-import * as Types from "$graphql/$kitql/graphqlTypes";
-import * as gm from "graphql-modules";
+import type * as Types from "$graphql/$kitql/graphqlTypes";
+import type * as gm from "graphql-modules";
 export namespace UserModule {
   interface DefinedFields {
     User: 'id' | 'username';

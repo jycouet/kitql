@@ -1,4 +1,6 @@
+import { useEngine } from '@envelop/core'
 import type { Handle } from '@sveltejs/kit'
+import * as GraphQLJS from 'graphql'
 import { createSchema, createYoga, type Plugin, type YogaInitialContext } from 'graphql-yoga'
 
 // export type KitQLServerOptions<TServerContext, TUserContext> = Omit<
@@ -44,6 +46,9 @@ export function handleGraphql<TUserContext>(options?: KitQLHandleGraphQL<TUserCo
     throw new Error("graphiQLPath path must start with '/'")
   }
 
+  // defaults plugins of kitql
+  const kitqlPlugins = [useEngine(GraphQLJS)]
+
   const kitqlServer = createYoga<YogaInitialContext, TUserContext>({
     logging: true,
     schema: createSchema({
@@ -60,7 +65,7 @@ export function handleGraphql<TUserContext>(options?: KitQLHandleGraphQL<TUserCo
       },
     }),
     context,
-    plugins,
+    plugins: kitqlPlugins.concat(plugins || []),
     graphqlEndpoint: endpoint,
     fetchAPI: globalThis,
   })

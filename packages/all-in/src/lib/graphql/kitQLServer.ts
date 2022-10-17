@@ -1,6 +1,6 @@
 import type { RequestEvent } from '@sveltejs/kit'
-import { kitQLModules } from './kitQLModules'
 import { modules } from './$kitql/_appModules'
+import { kitQLModules } from './kitQLModules'
 
 const plugins = []
 plugins.push(kitQLModules(modules))

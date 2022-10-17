@@ -9,10 +9,11 @@
   },
   "type": "module",
   "license": "MIT",
+  "bob": false,
   "scripts": {
     "dev": "cd ../.. && npm run build && cd packages/module-codegen && node ./dist/index.mjs",
     "start": "node ./dist/index.mjs",
-    "build": "bob runify --single"
+    "buildOLD": "bob runify --single"
   },
   "devDependencies": {
     "@types/glob": "^8.0.0",
