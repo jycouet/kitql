@@ -1,5 +1,11 @@
 # @kitql/all-in
 
+## 0.8.0-next.6
+
+### Patch Changes
+
+- [#237](https://github.com/jycouet/kitql/pull/237) [`f171757`](https://github.com/jycouet/kitql/commit/f1717572abc97139e5e126ceb2751f1240f297dc) Thanks [@jycouet](https://github.com/jycouet)! - fix exports
+
 ## 0.8.0-next.5
 
 ### Patch Changes
