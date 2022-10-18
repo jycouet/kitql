@@ -3,13 +3,13 @@
 
 // graphql-modules
 export { createModule } from 'graphql-modules'
-export { kitQLModules } from './graphql/kitQLModules'
+export { kitQLModules } from './graphql/kitQLModules.js'
 
 // SvelteKit hooks
 export { type KitQLHandleGraphQL } from './hooks/graphql'
-export { handleGraphql } from './hooks/graphql'
+export { handleGraphql } from './hooks/graphql.js'
 export { type KitQLHandleGraphiQL } from './hooks/graphiql'
-export { handleGraphiql } from './hooks/graphiql'
+export { handleGraphiql } from './hooks/graphiql.js'
 
 // Prisma
 // export { getKitQLPrisma } from './prisma/kitQLPrisma'
@@ -18,7 +18,7 @@ export { handleGraphiql } from './hooks/graphiql'
 export type { CodegenConfig as KitQLCodegenConfig } from '@graphql-codegen/cli'
 export type { IGraphQLProject as KitQLProject } from 'graphql-config'
 export type { KitQLProjects, KitQLConfig, KitQLScalar } from './graphql/graphqlConfig'
-export { kitQLConfig } from './graphql/graphqlConfig'
+export { kitQLConfig } from './graphql/graphqlConfig.js'
 
 // vite plugin
-export { kitql } from './vite/plugin'
+export { kitql } from './vite/plugin.js'
