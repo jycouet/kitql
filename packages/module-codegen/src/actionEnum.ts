@@ -1,5 +1,6 @@
 import { existsSync } from 'fs'
 import { join } from 'path'
+
 import { createFolderIfNotExists } from './fileFolder'
 import { toPascalCase } from './formatString'
 import { write } from './readWrite'

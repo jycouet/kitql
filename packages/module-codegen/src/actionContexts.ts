@@ -1,6 +1,7 @@
+import { join } from 'path'
+
 import { createFolderIfNotExists } from './fileFolder'
 import { toPascalCase } from './formatString'
-import { join } from 'path'
 import { write } from './readWrite'
 
 export function actionContext(ctxModules: { ctxName: string; moduleName: string }[], outputFolder: string) {

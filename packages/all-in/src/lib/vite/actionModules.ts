@@ -1,6 +1,7 @@
 import { join, posix } from 'path'
-import { createFolderIfNotExists } from './fileFolder'
-import { write } from './readWrite'
+
+import { createFolderIfNotExists } from './fileFolder.js'
+import { write } from './readWrite.js'
 
 export function actionModules(modules: { directory: string; name: string }[], outputFolder: string) {
   const modulesImports: string[] = []

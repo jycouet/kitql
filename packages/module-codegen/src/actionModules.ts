@@ -1,4 +1,5 @@
 import { join, posix } from 'path'
+
 import { createFolderIfNotExists } from './fileFolder'
 import { write } from './readWrite'
 

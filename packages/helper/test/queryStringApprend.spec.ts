@@ -1,4 +1,5 @@
 import { describe, expect, it } from 'vitest'
+
 import { queryStringApprend } from '../src/queryStringApprend'
 
 describe('kitql - helper - queryStringApprend', () => {

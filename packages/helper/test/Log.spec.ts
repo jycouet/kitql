@@ -1,4 +1,5 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest'
+
 import { Log, logCyan, logGreen, logMagneta, logRed, logYellow } from '../src/Log'
 import { stry } from '../src/stry'
 

@@ -44,9 +44,10 @@ This is the file where you will create your kitQL Server. To start, it should lo
 
 ```ts
 import type { RequestEvent } from '@sveltejs/kit'
-import { kitQLModules } from './kitQLModules'
+
 // This should be fully generated 🥳
 import { modules } from './$kitql/_appModules'
+import { kitQLModules } from './kitQLModules'
 
 const plugins = []
 plugins.push(kitQLModules(modules))

@@ -6,10 +6,8 @@ export { createModule } from 'graphql-modules'
 export { kitQLModules } from './graphql/kitQLModules.js'
 
 // SvelteKit hooks
-export type { KitQLHandleGraphQL } from './hooks/graphql.js'
-export { handleGraphql } from './hooks/graphql.js'
-export type { KitQLHandleGraphiQL } from './hooks/graphiql.js'
-export { handleGraphiql } from './hooks/graphiql.js'
+export { type KitQLHandleGraphQL, handleGraphql } from './hooks/graphql.js'
+export { type KitQLHandleGraphiQL, handleGraphiql } from './hooks/graphiql.js'
 
 // Prisma
 // export { getKitQLPrisma } from './prisma/kitQLPrisma'

@@ -1,4 +1,5 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest'
+
 import { sleep } from '../src/sleep'
 
 describe('kitql - helper - sleep', () => {

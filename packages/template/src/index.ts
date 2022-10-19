@@ -1,6 +1,6 @@
-import YAML from 'yaml'
-import path from 'path'
 import fs from 'fs'
+import path from 'path'
+import YAML from 'yaml'
 
 function sar(str: string, sarObj: Record<string, string>) {
   for (const key in sarObj) {

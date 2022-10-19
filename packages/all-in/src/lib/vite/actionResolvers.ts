@@ -1,6 +1,7 @@
 import { join, posix } from 'path'
-import { createFolderIfNotExists, getFiles, getFileWODots, getFileWOTS } from './fileFolder'
-import { write } from './readWrite'
+
+import { createFolderIfNotExists, getFiles, getFileWODots, getFileWOTS } from './fileFolder.js'
+import { write } from './readWrite.js'
 
 export function actionResolvers(moduleFolder: string, moduleOutputFolder: string) {
   const resolversFolder = 'resolvers'
