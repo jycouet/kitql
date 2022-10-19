@@ -1,0 +1,13 @@
+extend type Mutation {
+	userCreate(fields: UserCreateFields!): User
+	userUpdate(id: ID!, fields: UserUpdateFields!): User
+	userDelete(id: ID!): User
+}
+
+input UserCreateFields {
+	username: String!
+}
+
+input UserUpdateFields {
+	username: String
+}

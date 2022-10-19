@@ -2,7 +2,6 @@ import { Log, logGreen, logRed } from '@kitql/helper'
 import { basename, extname } from 'path'
 
 import { type KitQLVite } from './KitQLVite.js'
-import { actionContext } from './actionContexts.js'
 import { actionEnum } from './actionEnum.js'
 import { actionModules } from './actionModules.js'
 import { actionResolvers } from './actionResolvers.js'
@@ -119,11 +118,6 @@ export function generate(config?: KitQLVite) {
       modulesObj.push({ directory, name: moduleName })
     })
   })
-
-  // mergeContexts
-  if (mergeContexts) {
-    actionContext(contexts, outputFolder)
-  }
 
   // mergeModules
   if (mergeModules) {

@@ -1,5 +1,5 @@
 import type { UserConnection } from '$lib/graphql/$kitql/graphqlTypes'
-import { topLevelFields } from '$lib/graphql/helper'
+import { rootFields } from '$lib/graphql/helper'
 import { _InitModule } from '$lib/modules/_init/$kitql/moduleTypes'
 
 import { UserModule } from '../$kitql/moduleTypes'
@@ -14,7 +14,7 @@ export const resolvers: UserModule.Resolvers = {
     },
 
     userConnection: async (root, args, ctx, info) => {
-      const fields = topLevelFields(info)
+      const fields = rootFields(info)
       const toReturn: UserConnection = {
         __typename: 'UserConnection',
         edges: null,
