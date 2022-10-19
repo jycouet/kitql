@@ -1,33 +1,33 @@
 extend type Query {
-  user(id: ID!): User
-  userConnection(cursor: CursorArgs, filter: UserFilter): UserConnection
+	user(id: ID!): User
+	userConnection(cursor: CursorArgs, filter: UserFilter): UserConnection
 }
 
 type UserConnection {
-  edges: [UserEdge]
-  pageInfo: PageInfo
-  totalCount: Int
+	edges: [UserEdge]
+	pageInfo: PageInfo
+	totalCount: Int
 }
 
 type UserEdge {
-  cursor: String
-  node: User
+	cursor: String
+	node: User
 }
 
 input UserFilter {
-  name: String
+	name: String
 }
 
 input CursorArgs {
-  first: Int
-  after: String
-  last: Int
-  before: String
+	first: Int
+	after: String
+	last: Int
+	before: String
 }
 
 type PageInfo {
-  hasNextPage: Boolean
-  hasPreviousPage: Boolean
-  startCursor: String
-  endCursor: String
+	hasNextPage: Boolean
+	hasPreviousPage: Boolean
+	startCursor: String
+	endCursor: String
 }

@@ -1,5 +1,5 @@
 import { createContext, generate as codeGen_generate } from '@graphql-codegen/cli'
-import path from 'path'
+import { resolve } from 'path'
 import type { Plugin } from 'vite'
 import watch_and_run from 'vite-plugin-watch-and-run'
 
@@ -18,7 +18,7 @@ export function kitql(config?: KitQLVite): Plugin[] {
     watch_and_run([
       {
         name: 'kitql',
-        watch: path.resolve('src/**/*.(graphql)'),
+        watch: resolve('src/**/*.(graphql)'),
         run: () => gooo(config),
       },
     ]),

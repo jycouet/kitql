@@ -1,4 +1,5 @@
-console.info('getKitQLPrisma...')
+// console.info('getKitQLPrisma...')
+export {}
 // import { performance } from 'perf_hooks'
 // // @ts-ignore
 // import { PrismaClient } from '@prisma/client'

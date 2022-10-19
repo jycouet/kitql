@@ -5,5 +5,11 @@ export const resolvers: UserModule.Resolvers = {
     userCreate: async (root, args, ctx) => {
       return { id: '77', username: args.fields.username }
     },
+    userDelete: async (root, args, ctx) => {
+      return { id: '77', username: 'args.fields.username' }
+    },
+    userUpdate: async (root, args, ctx) => {
+      return { id: '77', username: args.fields.username }
+    },
   },
 }

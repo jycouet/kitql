@@ -2,7 +2,7 @@ function kitQLCodegen(projectLocation, scalars) {
   return {
     generates: {
       [`${projectLocation}src/lib/graphql/$kitql/graphqlTypes.ts`]: {
-        plugins: ['typescript'],
+        plugins: ['typescript', 'typescript-resolvers'],
       },
       [`${projectLocation}src/lib/modules/`]: {
         preset: 'graphql-modules',
