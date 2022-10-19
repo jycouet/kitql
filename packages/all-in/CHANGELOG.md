@@ -1,5 +1,11 @@
 # @kitql/all-in
 
+## 0.8.0-next.9
+
+### Patch Changes
+
+- [#245](https://github.com/jycouet/kitql/pull/245) [`7a311fa`](https://github.com/jycouet/kitql/commit/7a311fa6948ebca609822fc8c4f2d79f4cf5c34a) Thanks [@jycouet](https://github.com/jycouet)! - all types should be ok now
+
 ## 0.8.0-next.8
 
 ### Patch Changes
