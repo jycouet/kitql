@@ -8,6 +8,7 @@
 		"url": "https://github.com/jycouet/kitql",
 		"directory": "examples/demo-init"
 	},
+	"type": "module",
 	"scripts": {
 		"dev": "vite dev --port 3777",
 		"build": "npm run build:date && vite build",
@@ -38,14 +39,10 @@
 		"vite": "3.1.7"
 	},
 	"dependencies": {
-		"@kitql/all-in": "0.8.0-next.6",
+		"@kitql/all-in": "0.8.0-next.7",
 		"houdini": "0.16.8",
 		"graphql": "15.5.3"
 	},
-	"resolutions": {
-		"graphql": "15.5.3"
-	},
-	"type": "module",
 	"engines": {
 		"node": ">=16.0.0"
 	},

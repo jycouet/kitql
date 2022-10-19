@@ -1,4 +1,5 @@
 import { FeatureList, HeroGradient, NPMBadge } from '@theguild/components'
+
 import houdini_kitql from '../../public/assets/houdini-kitql.png'
 import graphql from '../../public/assets/logos/graphql.png'
 import houdini from '../../public/assets/logos/houdini.png'

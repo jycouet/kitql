@@ -1,14 +1,15 @@
-import { topLevelFields } from '$lib/graphql/helper'
 import type { UserConnection } from '$lib/graphql/$kitql/graphqlTypes'
+import { topLevelFields } from '$lib/graphql/helper'
 import { _InitModule } from '$lib/modules/_init/$kitql/moduleTypes'
+
 import { UserModule } from '../$kitql/moduleTypes'
 
 export const resolvers: UserModule.Resolvers = {
   Query: {
     user: async (root, args, ctx) => {
       return {
-        id: '1',
-        username: 'JYC',
+        id: ctx.user.id.toString(),
+        username: ctx.user.name,
       }
     },
 

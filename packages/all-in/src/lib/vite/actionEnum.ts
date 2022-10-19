@@ -1,8 +1,9 @@
 import { existsSync } from 'fs'
 import { join } from 'path'
-import { createFolderIfNotExists } from './fileFolder'
-import { toPascalCase } from './formatString'
-import { write } from './readWrite'
+
+import { createFolderIfNotExists } from './fileFolder.js'
+import { toPascalCase } from './formatString.js'
+import { write } from './readWrite.js'
 
 export function actionEnum(
   enumsModuleFolder: string,

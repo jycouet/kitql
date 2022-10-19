@@ -1,6 +1,7 @@
 import { join } from 'path'
-import { createFolderIfNotExists, getFiles } from './fileFolder'
-import { read, write } from './readWrite'
+
+import { createFolderIfNotExists, getFiles } from './fileFolder.js'
+import { read, write } from './readWrite.js'
 
 export function actionTypeDefs(moduleFolder: string, moduleOutputFolder: string) {
   const typedefsFolder = 'typedefs'

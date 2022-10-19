@@ -1,4 +1,4 @@
-import { toPascalCase } from './formatString'
+import { toPascalCase } from './formatString.js'
 
 export function getPrismaEnum(lines: string[]): Record<string, string[]> {
   const enums = {}

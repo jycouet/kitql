@@ -1,4 +1,5 @@
 import path from 'path'
+
 import { write } from './readWrite'
 
 type TEnumsModuleConfig = {

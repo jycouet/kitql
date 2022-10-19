@@ -1,14 +1,15 @@
 import { Log, logGreen, logRed } from '@kitql/helper'
 import { basename, extname } from 'path'
-import { actionContext } from './actionContexts'
-import { actionEnum } from './actionEnum'
-import { actionModules } from './actionModules'
-import { actionResolvers } from './actionResolvers'
-import { actionTypeDefs } from './actionTypeDefs'
-import { getDirectories, getFullPath } from './fileFolder'
-import { type KitQLVite } from './KitQLVite'
-import { getPrismaEnum } from './prismaHelper'
-import { readLines } from './readWrite'
+
+import { type KitQLVite } from './KitQLVite.js'
+import { actionContext } from './actionContexts.js'
+import { actionEnum } from './actionEnum.js'
+import { actionModules } from './actionModules.js'
+import { actionResolvers } from './actionResolvers.js'
+import { actionTypeDefs } from './actionTypeDefs.js'
+import { getDirectories, getFullPath } from './fileFolder.js'
+import { getPrismaEnum } from './prismaHelper.js'
+import { readLines } from './readWrite.js'
 
 export function generate(config?: KitQLVite) {
   const log = new Log('KitQL')
