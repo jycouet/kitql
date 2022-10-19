@@ -27,9 +27,10 @@ function extractSelectionSet(node: FieldNode | InlineFragmentNode | FragmentDefi
   return [...new Set(a)]
 }
 
-export const topLevelFields = (info: GraphQLResolveInfo) => {
+export const rootFields = (info: GraphQLResolveInfo) => {
   const fields = info.fieldNodes.flatMap(c => {
     return extractSelectionSet(c, info)
   })
+
   return fields
 }

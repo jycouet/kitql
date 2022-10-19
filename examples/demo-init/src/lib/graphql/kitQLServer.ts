@@ -1,16 +1,17 @@
+import { kitQLModules, type KitQLHandleGraphQL } from '@kitql/all-in';
 import type { RequestEvent } from '@sveltejs/kit';
-import { kitQLModules } from '@kitql/all-in';
 import { modules } from './$kitql/_appModules';
 
 const plugins = [];
 plugins.push(kitQLModules(modules));
 
+export type IKitQLContext = ReturnType<typeof getContext>;
 function getContext({ request }: RequestEvent) {
 	// get the cookie or the token...
 	const coolInfo = request.headers.get('Authorization');
 
-	// get the user from the coolInfo (redis or db)
-	const user = { id: 1, name: 'John' };
+	// get the user from the coolInfo (redis or db or ...)
+	const user = { id: 7, name: 'JYC' };
 
 	return {
 		request,
@@ -18,22 +19,7 @@ function getContext({ request }: RequestEvent) {
 	};
 }
 
-// Option 1 => explicitly set the context type
-// export type IKitQLContext = {
-//   request: Request
-//   user?: {
-//     id: number
-//     name: string
-//   }
-// }
-// Option 2 => build IKitQLContext from getContext return
-export type IKitQLContext = ReturnType<typeof getContext>;
-
-// then, make use of "IKitQLContext" in code gen, generate resolvers fully typed!
-// config:
-//   contextType: $graphql/kitQLServer#IKitQLContext
-
-export const kitqlServer = {
+export const kitqlServer: KitQLHandleGraphQL<IKitQLContext> = {
 	plugins,
-	getContext
+	context: getContext
 };
