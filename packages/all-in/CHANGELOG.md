@@ -1,5 +1,11 @@
 # @kitql/all-in
 
+## 0.8.0-next.8
+
+### Patch Changes
+
+- [#243](https://github.com/jycouet/kitql/pull/243) [`f2596b1`](https://github.com/jycouet/kitql/commit/f2596b1ab620ed76014bd7cc5d36ba23ad347616) Thanks [@jycouet](https://github.com/jycouet)! - export all the lib in svelte esm
+
 ## 0.8.0-next.7
 
 ### Patch Changes
