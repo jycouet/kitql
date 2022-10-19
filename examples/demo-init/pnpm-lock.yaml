@@ -1,7 +1,6 @@
 lockfileVersion: 5.4
 
 overrides:
-  '@kitql/module-codegen': 0.4.0-next.1
   graphql: 15.5.3
 
 importers:
@@ -11,7 +10,7 @@ importers:
 
   .:
     specifiers:
-      '@kitql/all-in': 0.8.0-next.5
+      '@kitql/all-in': 0.8.0-next.6
       '@playwright/test': ^1.25.0
       '@sveltejs/adapter-auto': 1.0.0-next.80
       '@sveltejs/kit': 1.0.0-next.511
@@ -31,7 +30,7 @@ importers:
       typescript: 4.7.4
       vite: 3.1.7
     dependencies:
-      '@kitql/all-in': 0.8.0-next.5_pc72mchvuva65atzv2lure54iq
+      '@kitql/all-in': 0.8.0-next.6_pc72mchvuva65atzv2lure54iq
       graphql: 15.5.3
       houdini: 0.16.8_graphql@15.5.3
     devDependencies:
@@ -1401,8 +1400,8 @@ packages:
       '@jridgewell/sourcemap-codec': 1.4.14
     dev: false
 
-  /@kitql/all-in/0.8.0-next.5_pc72mchvuva65atzv2lure54iq:
-    resolution: {integrity: sha512-wOCqfChYIuNR1WciIbLYThB2Wn3m8cs2qrZzHw0h71WIDPjZ7fiV9Y4ZdDVbyShLFhjwWlqxx3b2szl6Nq77lQ==}
+  /@kitql/all-in/0.8.0-next.6_pc72mchvuva65atzv2lure54iq:
+    resolution: {integrity: sha512-1QooWfjLes2hAoZKP5OJH+mynYv56jxH+hiegq9aDjFlmfDtpELZ7dZZvwZ4OcMC/sXjzMH51KklgGfNkOcaRw==}
     peerDependencies:
       graphql: ^15.5.0
     dependencies:
@@ -1417,7 +1416,6 @@ packages:
       '@graphql-eslint/eslint-plugin': 3.12.0_pc72mchvuva65atzv2lure54iq
       '@graphql-typed-document-node/core': 3.1.1_graphql@15.5.3
       '@kitql/helper': 0.6.0-next.2
-      '@kitql/module-codegen': 0.4.0-next.1_graphql@15.5.3
       glob: 8.0.3
       graphql: 15.5.3
       graphql-config: 4.3.6_pc72mchvuva65atzv2lure54iq
@@ -1447,27 +1445,10 @@ packages:
     resolution: {integrity: sha512-qTDsv8qmbvSyZLb75hE9N4AnmZHtCi8JxgHYAj4dbgViEjs6HVYJKqHabGR7rZCAVQj7LwWu+cTfh52QhlNMcg==}
     dev: false
 
-  /@kitql/helper/0.6.0-next.1:
-    resolution: {integrity: sha512-JbfCMcMGln/QTczjmKICqmHLVKZqyPDDQ/tNJO7Y4hzMZgt9qvwZkDEPzyP6fQkBriuVSNTbSq2zlOftA5wG1g==}
-    dependencies:
-      safe-stable-stringify: 2.4.0
-    dev: false
-
   /@kitql/helper/0.6.0-next.2:
     resolution: {integrity: sha512-CjbXMop6mYIICnOZ2WOgyObPl7pZlv4duSFxz7GrrV+Wl6c4KHGIRO59IV0xPoUmnKTT1c6nZVnxLkYVSlGKMw==}
     dependencies:
       safe-stable-stringify: 2.4.0
-    dev: false
-
-  /@kitql/module-codegen/0.4.0-next.1_graphql@15.5.3:
-    resolution: {integrity: sha512-njAhMlrIPTxvMfxiqJVF3j1zZm2nsF18BSqLuYV9arE159UTXgnDCDmgEE1IJzWafkrfluIB1wConLwNs+hl1w==}
-    peerDependencies:
-      graphql: ^15.0.0 || ^16.0.0
-    dependencies:
-      '@kitql/helper': 0.6.0-next.1
-      glob: 8.0.3
-      graphql: 15.5.3
-      yaml: 2.1.1
     dev: false
 
   /@mapbox/node-pre-gyp/1.0.10:
@@ -5300,11 +5281,6 @@ packages:
   /yaml/1.10.2:
     resolution: {integrity: sha512-r3vXyErRCYJ7wg28yvBY5VSoAF8ZvlcW9/BwUzEtUsjvX/DKs24dIkuwjtuprwJJHsbyUbLApepYTR1BN4uHrg==}
     engines: {node: '>= 6'}
-    dev: false
-
-  /yaml/2.1.1:
-    resolution: {integrity: sha512-o96x3OPo8GjWeSLF+wOAbrPfhFOGY0W00GNaxCDv+9hkcDJEnev1yh8S7pgHF0ik6zc8sQLuL8hjHjJULZp8bw==}
-    engines: {node: '>= 14'}
     dev: false
 
   /yargs-parser/18.1.3:
