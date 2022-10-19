@@ -1,4 +1,4 @@
-const kitQLConfig = require('./dist/graphql/cjs/graphqlConfigCJS.cjs')
+const kitQLConfig = require('./dist/cjs.cjs')
 
 const scalars = {
   Date: '../helpers/scalarTypes#CodegenDate',

@@ -16,8 +16,6 @@ export { type KitQLHandleGraphiQL, handleGraphiql } from './hooks/graphiql.js'
 export type { CodegenConfig as KitQLCodegenConfig } from '@graphql-codegen/cli'
 export type { IGraphQLProject as KitQLProject } from 'graphql-config'
 export { type KitQLProjects, type KitQLConfig, type KitQLScalar } from './graphql/graphqlConfig.js'
-// To make it available for GrapQL Vs Code extension!
-module.exports = './graphql/cjs/graphqlConfig.cjs'
 
 // GraphQL Helper
 export { rootFields } from './graphql/helper.js'

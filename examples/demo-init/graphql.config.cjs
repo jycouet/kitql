@@ -1,5 +1,5 @@
 // I have to make it better one day!
-const kitQLConfig = require('@kitql/all-in/graphql/cjs/graphqlConfigCJS.cjs');
+const kitQLConfig = require('@kitql/all-in/cjs.cjs');
 
 const scalars = {
 	Date: '../helpers/scalarTypes#CodegenDate',
