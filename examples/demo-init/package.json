@@ -10,7 +10,7 @@
 	},
 	"type": "module",
 	"scripts": {
-		"dev": "vite dev --port 3777",
+		"dev": "svelte-kit sync && vite dev --port 3777",
 		"build": "npm run build:date && vite build",
 		"build:date": "./tools/preStart.sh",
 		"preview": "vite preview",
