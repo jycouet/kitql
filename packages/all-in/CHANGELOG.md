@@ -1,5 +1,11 @@
 # @kitql/all-in
 
+## 0.8.0-next.10
+
+### Patch Changes
+
+- [`d780743`](https://github.com/jycouet/kitql/commit/d7807434a26483e586b8598f4c9104f2f7173449) Thanks [@jycouet](https://github.com/jycouet)! - custom project name
+
 ## 0.8.0-next.9
 
 ### Patch Changes
