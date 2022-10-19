@@ -4,6 +4,7 @@ export type TEnumsModuleConfig = {
 }
 
 export type KitQLVite = {
+  projectName?: string
   outputFolder: string
   moduleOutputFolder: string
   importBaseTypesFrom: string
