@@ -8,8 +8,8 @@ export const resolvers: UserModule.Resolvers = {
   Query: {
     user: async (root, args, ctx) => {
       return {
-        id: '1',
-        username: 'JYC',
+        id: ctx.user.id.toString(),
+        username: ctx.user.name,
       }
     },
 

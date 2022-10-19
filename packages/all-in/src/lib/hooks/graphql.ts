@@ -51,6 +51,7 @@ export function handleGraphql<TUserContext>(options?: KitQLHandleGraphQL<TUserCo
 
   const kitqlServer = createYoga<YogaInitialContext, TUserContext>({
     logging: true,
+    // will be overwritten by modules
     schema: createSchema({
       typeDefs: `
         type Query {
