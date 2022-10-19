@@ -1,5 +1,11 @@
 # @kitql/all-in
 
+## 0.8.0-next.11
+
+### Patch Changes
+
+- [`5dcdd25`](https://github.com/jycouet/kitql/commit/5dcdd25d8b79cab188ccc9778ab507e9f526c265) Thanks [@jycouet](https://github.com/jycouet)! - cjs tmp location
+
 ## 0.8.0-next.10
 
 ### Patch Changes
