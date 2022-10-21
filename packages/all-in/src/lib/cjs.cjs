@@ -15,6 +15,7 @@ function kitQLCodegen(projectLocation, scalars) {
         config: {
           contextType: '$graphql/kitQLServer#IKitQLContext',
           scalars,
+          useTypeImports: true,
         },
       },
     },
