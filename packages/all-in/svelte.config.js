@@ -17,6 +17,10 @@ const config = {
 
   package: {
     dir: 'dist',
+    exports: file => {
+      const list_ok = ['index.ts', 'cjs.cjs']
+      return list_ok.includes(file)
+    },
   },
 }
 

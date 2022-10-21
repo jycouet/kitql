@@ -2,10 +2,10 @@ import type { KitQLHandleGraphQL } from '$lib/hooks/graphql'
 import type { RequestEvent } from '@sveltejs/kit'
 
 import { modules } from './$kitql/_appModules'
-import { kitQLModules } from './kitQLModules.js'
+import { useKitModules } from './useKitModules.js'
 
 const plugins = []
-plugins.push(kitQLModules(modules))
+plugins.push(useKitModules(modules))
 
 function getContext({ request }: RequestEvent) {
   // get the cookie or the token...

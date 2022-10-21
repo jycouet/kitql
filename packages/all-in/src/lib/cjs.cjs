@@ -3,6 +3,9 @@ function kitQLCodegen(projectLocation, scalars) {
     generates: {
       [`${projectLocation}src/lib/graphql/$kitql/graphqlTypes.ts`]: {
         plugins: ['typescript', 'typescript-resolvers'],
+        config: {
+          scalars,
+        },
       },
       [`${projectLocation}src/lib/modules/`]: {
         preset: 'graphql-modules',
@@ -21,6 +24,7 @@ function kitQLCodegen(projectLocation, scalars) {
     },
     config: {
       useTypeImports: true,
+      enumsAsTypes: true,
     },
   }
 }
