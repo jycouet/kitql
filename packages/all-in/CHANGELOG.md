@@ -1,5 +1,11 @@
 # @kitql/all-in
 
+## 0.8.0-next.12
+
+### Patch Changes
+
+- [`bc69faa`](https://github.com/jycouet/kitql/commit/bc69faa148f7ea5b1eecb5a714165b920eab3b2f) Thanks [@jycouet](https://github.com/jycouet)! - ctx generation are back
+
 ## 0.8.0-next.11
 
 ### Patch Changes
