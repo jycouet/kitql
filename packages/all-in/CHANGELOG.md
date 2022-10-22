@@ -1,5 +1,11 @@
 # @kitql/all-in
 
+## 0.8.0-next.14
+
+### Patch Changes
+
+- [`98ef01d`](https://github.com/jycouet/kitql/commit/98ef01d4882ba6cd5dd255721a6dbd4a8a40c57c) Thanks [@jycouet](https://github.com/jycouet)! - add handleGraphiqlOffline
+
 ## 0.8.0-next.13
 
 ### Patch Changes
