@@ -1113,10 +1113,10 @@
     "@jridgewell/resolve-uri" "3.1.0"
     "@jridgewell/sourcemap-codec" "1.4.14"
 
-"@kitql/all-in@0.8.0-next.14":
-  version "0.8.0-next.14"
-  resolved "https://registry.yarnpkg.com/@kitql/all-in/-/all-in-0.8.0-next.14.tgz#789c7fcea51d755fff900672c2d73e3aa794b82a"
-  integrity sha512-ZRgMhRJj4dbJtK6398p7ca1h3Hl/t7wrj3diwv3XBJhae0YE6/8idWVwWU2LvlZfY61gp+FEQp8AMxQJ7dNrAw==
+"@kitql/all-in@0.8.0-next.15":
+  version "0.8.0-next.15"
+  resolved "https://registry.yarnpkg.com/@kitql/all-in/-/all-in-0.8.0-next.15.tgz#fffcf839c88e1fd2cf68b1199a620efad964f7ce"
+  integrity sha512-OnqDuT8UGT3ejZqQYeGJItZF1cR+tPN9yOjAt37nO/T1cLHjiEIyFE4TJYG1CjlaMVRMvBfAWzgStfERA06iQg==
   dependencies:
     "@envelop/core" "3.0.2"
     "@envelop/graphql-modules" "4.0.2"
@@ -1128,7 +1128,7 @@
     "@graphql-codegen/typescript-resolvers" "2.7.4"
     "@graphql-eslint/eslint-plugin" "3.12.0"
     "@graphql-typed-document-node/core" "3.1.1"
-    "@kitql/helper" "0.6.0-next.2"
+    "@kitql/helper" "0.6.0-next.3"
     glob "^8.0.3"
     graphql "^15.8.0"
     graphql-config "^4.3.6"
@@ -1137,17 +1137,17 @@
     graphql-yoga "3.0.0-next.5"
     safe-stable-stringify "^2.4.0"
     ts-node "^10.9.1"
-    vite-plugin-watch-and-run "1.1.0-next.3"
+    vite-plugin-watch-and-run "1.1.0-next.4"
 
 "@kitql/helper@0.5.0", "@kitql/helper@^0.5.0":
   version "0.5.0"
   resolved "https://registry.yarnpkg.com/@kitql/helper/-/helper-0.5.0.tgz#d746da757dab6cbf1cd84fd502fe0ea97cd2d6d7"
   integrity sha512-qTDsv8qmbvSyZLb75hE9N4AnmZHtCi8JxgHYAj4dbgViEjs6HVYJKqHabGR7rZCAVQj7LwWu+cTfh52QhlNMcg==
 
-"@kitql/helper@0.6.0-next.2":
-  version "0.6.0-next.2"
-  resolved "https://registry.yarnpkg.com/@kitql/helper/-/helper-0.6.0-next.2.tgz#33b0121df0fc15ffa70380826675568cffadef8d"
-  integrity sha512-CjbXMop6mYIICnOZ2WOgyObPl7pZlv4duSFxz7GrrV+Wl6c4KHGIRO59IV0xPoUmnKTT1c6nZVnxLkYVSlGKMw==
+"@kitql/helper@0.6.0-next.3":
+  version "0.6.0-next.3"
+  resolved "https://registry.yarnpkg.com/@kitql/helper/-/helper-0.6.0-next.3.tgz#30c79326fdd26a6386b5d93990895b6523e0a974"
+  integrity sha512-tSACyCqYeOcPLGUM/AgVNlZB2KhBvfqL9+8mSK2gFt7c62oSVcXwuidXnAEgri0FwSN9oy1gv+uA1pTE8YsR9Q==
   dependencies:
     safe-stable-stringify "^2.4.0"
 
@@ -4766,12 +4766,12 @@ value-or-promise@1.0.11, value-or-promise@^1.0.11:
   resolved "https://registry.yarnpkg.com/value-or-promise/-/value-or-promise-1.0.11.tgz#3e90299af31dd014fe843fe309cefa7c1d94b140"
   integrity sha512-41BrgH+dIbCFXClcSapVs5M6GkENd3gQOJpEfPDNa71LsUGMXDL0jMWpI/Rh7WhX+Aalfz2TTS3Zt5pUsbnhLg==
 
-vite-plugin-watch-and-run@1.1.0-next.3:
-  version "1.1.0-next.3"
-  resolved "https://registry.yarnpkg.com/vite-plugin-watch-and-run/-/vite-plugin-watch-and-run-1.1.0-next.3.tgz#2c31e7babc09ce02d65a28c5feb3600da3c0991a"
-  integrity sha512-4w7hYoa4I4PRVL7hgYODWPU2fqx2r50sXUaegSwtKIOqPKrAnC1tT4+EgulyKcNaf62YW1nctW6TgU3WtKpybw==
+vite-plugin-watch-and-run@1.1.0-next.4:
+  version "1.1.0-next.4"
+  resolved "https://registry.yarnpkg.com/vite-plugin-watch-and-run/-/vite-plugin-watch-and-run-1.1.0-next.4.tgz#ee6fe21705dcfd3a9a8f4d38dbe68c8c60a212ac"
+  integrity sha512-LFBAvcxCxLh8Vw9KnksQC8Y5HssKkzSpgc0Y/RZ93tTzuskt1jvI6d4jBSJVTn07Bt5f9otHCCwxFF2qojS4bA==
   dependencies:
-    "@kitql/helper" "0.6.0-next.2"
+    "@kitql/helper" "0.6.0-next.3"
     micromatch "4.0.5"
 
 vite-plugin-watch-and-run@^1.0.3:
