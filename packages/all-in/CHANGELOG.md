@@ -1,5 +1,11 @@
 # @kitql/all-in
 
+## 0.8.0-next.13
+
+### Patch Changes
+
+- [#250](https://github.com/jycouet/kitql/pull/250) [`63e40d2`](https://github.com/jycouet/kitql/commit/63e40d2dbab2ac2852be9af9a851a8e8c5bb1eca) Thanks [@jycouet](https://github.com/jycouet)! - add useKitModules middlewares & providers
+
 ## 0.8.0-next.12
 
 ### Patch Changes
