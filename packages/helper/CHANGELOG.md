@@ -1,5 +1,11 @@
 # @kitql/helper
 
+## 0.6.0-next.3
+
+### Patch Changes
+
+- [#253](https://github.com/jycouet/kitql/pull/253) [`e575c28`](https://github.com/jycouet/kitql/commit/e575c28a6af90beef015368e5da7205da63987ac) Thanks [@jycouet](https://github.com/jycouet)! - check str0
+
 ## 0.6.0-next.2
 
 ### Patch Changes
