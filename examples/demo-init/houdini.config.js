@@ -1,7 +1,15 @@
+/// <references types="houdini-svelte">
+
 /** @type {import('houdini').ConfigFile} */
 const config = {
-	client: 'src/lib/graphql/houdiniClient.ts',
 	schemaPath: 'src/**/*.graphql',
+
+	plugins: {
+		'houdini-svelte': {
+			client: 'src/lib/graphql/houdiniClient.ts'
+		}
+	},
+
 	scalars: {
 		DateTime: {
 			type: 'Date',

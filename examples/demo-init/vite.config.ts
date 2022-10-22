@@ -5,7 +5,7 @@ import houdini from 'houdini/vite';
 import type { UserConfig } from 'vite';
 
 const config: UserConfig = {
-	plugins: [kitql(), houdini(), sveltekit()]
+	plugins: [houdini(), kitql(), sveltekit()]
 };
 
 export default config;

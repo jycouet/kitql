@@ -16,11 +16,16 @@ export type KitQLHandleGraphiQL = Omit<GraphiQLYogaOptions, 'headers' | 'endpoin
 }
 
 async function getGraphiQLBody(graphiqlOptions: GraphiQLYogaOptions) {
-  const { renderGraphiQL: renderGraphiQLOnline } = await import('graphql-yoga')
-  return renderGraphiQLOnline(graphiqlOptions)
+  try {
+    // @ts-ignore
+    const { renderGraphiQL: renderGraphiQLOffline } = await import('@graphql-yoga/render-graphiql')
+    return renderGraphiQLOffline(graphiqlOptions)
+  } catch (e: any) {
+    console.error("You should have '@graphql-yoga/render-graphiql' as a dependency")
+  }
 }
 
-export function handleGraphiql(options?: KitQLHandleGraphiQL): Handle {
+export function handleGraphiqlOffline(options?: KitQLHandleGraphiQL): Handle {
   const { graphiQLPath, headers, enabled, ...opts } = {
     title: 'KitQL',
     endpoint: '/graphql',

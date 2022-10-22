@@ -43,21 +43,21 @@ Now, let's build the `kitqlServer` const 👇
 This is the file where you will create your kitQL Server. To start, it should look like:
 
 ```ts
+import { useKitModules, type KitQLHandleGraphQL } from '@kitql/all-in'
 import type { RequestEvent } from '@sveltejs/kit'
 
-// This should be fully generated 🥳
 import { modules } from './$kitql/_appModules'
-import { kitQLModules } from './kitQLModules'
 
 const plugins = []
-plugins.push(kitQLModules(modules))
+plugins.push(useKitModules(modules))
 
+export type IKitQLContext = ReturnType<typeof getContext>
 function getContext({ request }: RequestEvent) {
   // get the cookie or the token...
   const coolInfo = request.headers.get('Authorization')
 
-  // get the user from the coolInfo (redis or db)
-  const user = { id: 1, name: 'John' }
+  // get the user from the coolInfo (redis or db or ...)
+  const user = { id: 7, name: 'JYC' }
 
   return {
     request,
@@ -65,24 +65,9 @@ function getContext({ request }: RequestEvent) {
   }
 }
 
-// Option 1 => explicitly set the context type
-// export type IKitQLContext = {
-//   request: Request
-//   user?: {
-//     id: number
-//     name: string
-//   }
-// }
-// Option 2 => build IKitQLContext from getContext return
-export type IKitQLContext = ReturnType<typeof getContext>
-
-// then, make use of "IKitQLContext" in code gen, generate resolvers fully typed!
-// config:
-//   contextType: $graphql/kitQLServer#IKitQLContext
-
-export const kitqlServer = {
+export const kitqlServer: KitQLHandleGraphQL<IKitQLContext> = {
   plugins,
-  getContext
+  context: getContext
 }
 ```
 
@@ -92,80 +77,49 @@ Now, we just need to generate everything... to have typings & modules.
 
 #### Type-codegen
 
-Create a config file `.graphqlrc.yaml` with the following content:
+Create a config file `graphql.config.cjs` with the following content:
 
-```yaml filename=".graphqlrc.yaml"
-projects:
-  # You can add multiple projects and generate with -p args
-  default:
-    # 👇 For vscode-graphql and intellisense
-    schema:
-      - ./src/lib/modules/**/typedefs/*.graphql
-      - ./$houdini/graphql/schema.graphql
-    documents:
-      - ./src/lib/modules/**/graphql/*.gql
-      - ./$houdini/graphql/documents.gql
+```js filename="graphql.config.cjs"
+const kitQLConfig = require('@kitql/all-in/cjs.cjs')
 
-    # 👇 For code generation
-    extensions:
-      codegen:
-        generates:
-          ./src/lib/graphql/$kitql/graphqlTypes.ts:
-            plugins:
-              - typescript
-
-          ./src/lib/modules/:
-            preset: graphql-modules
-            presetConfig:
-              baseTypesPath: ../graphql/$kitql/graphqlTypes.ts
-              importBaseTypesFrom: $graphql/$kitql/graphqlTypes
-              filename: $kitql/moduleTypes.ts
-            plugins:
-              - typescript
-              - typescript-resolvers
-            config:
-              contextType: $graphql/kitQLServer#IKitQLContext
-              useTypeImports: true
-```
-
-#### Module-codegen
-
-Create a config file `.kitql.yaml` with the following content:
-
-```yaml filename=".kitql.yaml"
-generates:
-  ./src/lib/graphql/$kitql:
-    modules:
-      - ./src/lib/modules/*
-    actions:
-      # createEnumsModule:
-      #   prismaFile: ./prisma/schema.prisma
-      mergeModuleTypedefs: true
-      mergeModuleResolvers: true
-      mergeContexts: true
-      mergeModules: true
-
-    moduleOutputFolder: $kitql
-    importBaseTypesFrom: $graphql/$kitql/graphqlTypes
-```
-
-<Callout>We will probably move this somewhere else! (Vite Plugin?! Come and motivate us 😅)</Callout>
-
-#### Package scripts
-
-Update your `gen` script so that we generate `modules`, `houdini` and `codegen`.
-
-```json {4-7} filename="package.json"
-{
-  // ...
-  "scripts": {
-    "prepare": "svelte-kit sync && npm run gen",
-    "gen": "npm run gen:modules && npm run gen:types",
-    "gen:modules": "node ./node_modules/@kitql/module-codegen/index.js",
-    "gen:types": "graphql-codegen --config ./.graphqlrc.yaml"
-  }
-  // ...
+const scalars = {
+  Date: '../helpers/scalarTypes#CodegenDate',
+  DateTime: 'Date'
 }
+
+/** @type {import('@kitql/all-in').KitQLProjects} */
+const config = {
+  projects: {
+    init: kitQLConfig({ scalars })
+  }
+}
+
+module.exports = config
 ```
+
+### Vite plugins
+
+You should add the following plugins to your `vite.config.ts`. Like this, no need to generate manualy things,
+it will be generated on demand when you run your project.
+
+```ts filename="vite.config.ts"
+import { kitql } from '@kitql/all-in'
+import { sveltekit } from '@sveltejs/kit/vite'
+import houdini from 'houdini/vite'
+import type { UserConfig } from 'vite'
+
+const config: UserConfig = {
+  plugins: [houdini(), kitql(), sveltekit()]
+}
+
+export default config
+```
+
+## GraphiQL offline mode
+
+if you want to have it offline, you need to add `@graphql-yoga/render-graphiql` as dependency.
+and you should use `handleGraphiqlOffline` handle.
+
+<hr />
 
 Go back to [Get Started](/docs/all-in).

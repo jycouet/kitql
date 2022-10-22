@@ -2,12 +2,13 @@
 // export { default as KitQLInfo } from './KitQLInfo.svelte'
 
 // graphql-modules
-export { createModule as kitQLModules } from 'graphql-modules'
-export { useKitModules } from './graphql/useKitModules.js'
+export { createModule as kitqlModules } from 'graphql-modules'
+export { useKitqlModules } from './graphql/useKitqlModules.js'
 
 // SvelteKit hooks
 export { type KitQLHandleGraphQL, handleGraphql } from './hooks/graphql.js'
 export { type KitQLHandleGraphiQL, handleGraphiql } from './hooks/graphiql.js'
+export { handleGraphiqlOffline } from './hooks/graphiqlOffline.js'
 
 // Prisma
 // export { getKitQLPrisma } from './prisma/kitQLPrisma'

@@ -1,9 +1,9 @@
-import { kitQLModules, type KitQLHandleGraphQL } from '@kitql/all-in';
+import { useKitModules, type KitQLHandleGraphQL } from '@kitql/all-in';
 import type { RequestEvent } from '@sveltejs/kit';
 import { modules } from './$kitql/_appModules';
 
 const plugins = [];
-plugins.push(kitQLModules(modules));
+plugins.push(useKitModules(modules));
 
 export type IKitQLContext = ReturnType<typeof getContext>;
 function getContext({ request }: RequestEvent) {

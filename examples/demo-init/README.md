@@ -13,8 +13,8 @@
 ## ⚡ How to (manual)
 
 ```
-pnpm i
-pnpm dev
+yarn
+yarn dev
 
 🥳 check: http://localhost:3777/
 ```
