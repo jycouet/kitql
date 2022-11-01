@@ -57,13 +57,14 @@ export function actionEnum(
 
   // Index
   const enumFileData = []
-  enumFileData.push(`import { createModule } from 'graphql-modules';`)
-  enumFileData.push(`import { typeDefs } from './${moduleOutputFolder}/typedefs';`)
+  enumFileData.push(`import { createModule } from 'graphql-modules'`)
+  enumFileData.push(``)
+  enumFileData.push(`import { typeDefs } from './${moduleOutputFolder}/typedefs'`)
   enumFileData.push(``)
   enumFileData.push(`export const _enumsModule = createModule({`)
   enumFileData.push(`\tid: 'enums-module',`)
   enumFileData.push(`\ttypeDefs`)
-  enumFileData.push(`});`)
+  enumFileData.push(`})`)
   enumFileData.push(``)
 
   write(join(enumsModuleFolder, '_enums', 'index.ts'), enumFileData)

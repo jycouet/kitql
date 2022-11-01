@@ -1,5 +1,4 @@
 import type { GraphQLResolveInfo } from 'graphql';
-import type { IKitQLContext } from '$graphql/kitQLServer';
 export type Maybe<T> = T | null;
 export type InputMaybe<T> = Maybe<T>;
 export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
@@ -213,14 +212,14 @@ export type ResolversParentTypes = {
   UserUpdateFields: UserUpdateFields;
 };
 
-export type MutationResolvers<ContextType = IKitQLContext, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = {
+export type MutationResolvers<ContextType = any, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = {
   _boostServer?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   userCreate?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType, RequireFields<MutationUserCreateArgs, 'fields'>>;
   userDelete?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType, RequireFields<MutationUserDeleteArgs, 'id'>>;
   userUpdate?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType, RequireFields<MutationUserUpdateArgs, 'fields' | 'id'>>;
 };
 
-export type PageInfoResolvers<ContextType = IKitQLContext, ParentType extends ResolversParentTypes['PageInfo'] = ResolversParentTypes['PageInfo']> = {
+export type PageInfoResolvers<ContextType = any, ParentType extends ResolversParentTypes['PageInfo'] = ResolversParentTypes['PageInfo']> = {
   endCursor?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   hasNextPage?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
   hasPreviousPage?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
@@ -228,32 +227,32 @@ export type PageInfoResolvers<ContextType = IKitQLContext, ParentType extends Re
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type QueryResolvers<ContextType = IKitQLContext, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
+export type QueryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
   _greetings?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   user?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType, RequireFields<QueryUserArgs, 'id'>>;
   userConnection?: Resolver<Maybe<ResolversTypes['UserConnection']>, ParentType, ContextType, Partial<QueryUserConnectionArgs>>;
 };
 
-export type UserResolvers<ContextType = IKitQLContext, ParentType extends ResolversParentTypes['User'] = ResolversParentTypes['User']> = {
+export type UserResolvers<ContextType = any, ParentType extends ResolversParentTypes['User'] = ResolversParentTypes['User']> = {
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   username?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type UserConnectionResolvers<ContextType = IKitQLContext, ParentType extends ResolversParentTypes['UserConnection'] = ResolversParentTypes['UserConnection']> = {
+export type UserConnectionResolvers<ContextType = any, ParentType extends ResolversParentTypes['UserConnection'] = ResolversParentTypes['UserConnection']> = {
   edges?: Resolver<Maybe<Array<Maybe<ResolversTypes['UserEdge']>>>, ParentType, ContextType>;
   pageInfo?: Resolver<Maybe<ResolversTypes['PageInfo']>, ParentType, ContextType>;
   totalCount?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type UserEdgeResolvers<ContextType = IKitQLContext, ParentType extends ResolversParentTypes['UserEdge'] = ResolversParentTypes['UserEdge']> = {
+export type UserEdgeResolvers<ContextType = any, ParentType extends ResolversParentTypes['UserEdge'] = ResolversParentTypes['UserEdge']> = {
   cursor?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   node?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type Resolvers<ContextType = IKitQLContext> = {
+export type Resolvers<ContextType = any> = {
   Mutation?: MutationResolvers<ContextType>;
   PageInfo?: PageInfoResolvers<ContextType>;
   Query?: QueryResolvers<ContextType>;
