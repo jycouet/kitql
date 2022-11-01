@@ -35,7 +35,7 @@ export type IKitQLContext = ReturnType<typeof getContext>
 // config:
 //   contextType: $graphql/kitQLServer#IKitQLContext
 
-export const kitqlServer: KitQLHandleGraphQL<IKitQLContext> = {
+export const kitqlServer: KitQLHandleGraphQL<IKitQLContext, {}> = {
   plugins,
   context: getContext,
 }

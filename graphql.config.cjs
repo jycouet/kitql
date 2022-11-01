@@ -1,4 +1,4 @@
-const kitQLConfig = require('./packages/all-in/dist/cjs.cjs')
+const kitQLConfig = require('./packages/all-in/src/lib/cjs.cjs')
 
 const scalars = {
   Date: '../helpers/scalarTypes#CodegenDate',

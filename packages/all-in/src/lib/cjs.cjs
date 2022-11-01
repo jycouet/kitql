@@ -1,12 +1,12 @@
-function kitQLCodegen(scalars) {
+function kitQLCodegen(projectLocation, scalars) {
   return {
     generates: {
-      [`./src/lib/graphql/$kitql/graphqlTypes.ts`]: {
-        plugins: ['typescript', 'typescript-resolvers'],
-        config: {
-          scalars,
-        },
-      },
+      // [`${projectLocation}/src/lib/graphql/$kitql/graphqlTypes.ts`]: {
+      //   plugins: ['typescript', 'typescript-resolvers'],
+      //   config: {
+      //     scalars,
+      //   },
+      // },
       [`./src/lib/modules/`]: {
         preset: 'graphql-modules',
         presetConfig: {
@@ -16,7 +16,7 @@ function kitQLCodegen(scalars) {
         },
         plugins: ['typescript', 'typescript-resolvers'],
         config: {
-          contextType: '$graphql/kitQLServer#IKitQLContext',
+          contextType: '$graphql/kitqlServer#IKitQLContext',
           scalars,
           useTypeImports: true,
         },
@@ -39,7 +39,7 @@ module.exports = function kitQLConfig(options) {
     ],
     documents: [`${projectLocation}/src/**/*.gql`, `${projectLocation}/$houdini/graphql/documents.gql`],
     extensions: {
-      codegen: kitQLCodegen(scalars),
+      codegen: kitQLCodegen(projectLocation, scalars),
     },
   }
 }

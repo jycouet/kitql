@@ -3,11 +3,7 @@ import type { Handle } from '@sveltejs/kit'
 import * as GraphQLJS from 'graphql'
 import { createSchema, createYoga, type Plugin, type YogaInitialContext } from 'graphql-yoga'
 
-// export type KitQLServerOptions<TServerContext, TUserContext> = Omit<
-//   YogaServerOptions<TServerContext, TUserContext>,
-//   'graphiql'
-// >
-export type KitQLHandleGraphQL<TUserContext> = {
+export type KitQLHandleGraphQL<TUserContext, TServerContext extends Record<string, any>> = {
   /**
    * If you set the `graphiQLPath`, on a GET request you will be redirected there
    * If not, you will get a 404 (security by default ;))))))))))))))))))
@@ -19,14 +15,21 @@ export type KitQLHandleGraphQL<TUserContext> = {
   endpoint?: string
 
   context?:
-    | ((initialContext: YogaInitialContext) => Promise<TUserContext> | TUserContext)
+    | ((initialContext: YogaInitialContext & TServerContext) => Promise<TUserContext> | TUserContext)
     | Promise<TUserContext>
     | TUserContext
+
+  // context?:
+  //   | ((initialContext: YogaInitialContext) => Promise<TUserContext> | TUserContext)
+  //   | Promise<TUserContext>
+  //   | TUserContext
 
   plugins?: Plugin[]
 }
 
-export function handleGraphql<TUserContext>(options?: KitQLHandleGraphQL<TUserContext>): Handle {
+export function handleGraphql<TUserContext, TServerContext>(
+  options?: KitQLHandleGraphQL<TUserContext, TServerContext>
+): Handle {
   // set defaults
   const { graphiQLPath, endpoint, plugins, context } = {
     graphiQLPath: undefined,

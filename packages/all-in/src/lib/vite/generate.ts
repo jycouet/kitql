@@ -18,12 +18,15 @@ export function generate(config?: KitQLVite) {
 
   const providersFolder = 'providers' as const
 
-  const { outputFolder, moduleOutputFolder, importBaseTypesFrom, modules } = {
+  const { outputFolder, moduleOutputFolder, importBaseTypesFrom, modules, localDev } = {
     outputFolder: 'src/lib/graphql/$kitql',
     moduleOutputFolder: '$kitql',
     importBaseTypesFrom: '$graphql/$kitql/graphqlTypes',
     modules: ['src/lib/modules/*'],
+    localDev: false,
+    ...config,
   }
+
   const { mergeModuleTypedefs, mergeModuleResolvers, mergeContexts, mergeModules } = {
     mergeModuleTypedefs: true,
     mergeModuleResolvers: true,
@@ -87,7 +90,7 @@ export function generate(config?: KitQLVite) {
 
       // TypeDefs
       if (mergeModuleTypedefs) {
-        typedefsFilesLength = actionTypeDefs(directory, moduleOutputFolder)
+        typedefsFilesLength = actionTypeDefs(directory, moduleOutputFolder, localDev)
       }
 
       // Resolvers

@@ -3,14 +3,14 @@ import { join } from 'path'
 import { createFolderIfNotExists, getFiles } from './fileFolder.js'
 import { read, write } from './readWrite.js'
 
-export function actionTypeDefs(moduleFolder: string, moduleOutputFolder: string) {
+export function actionTypeDefs(moduleFolder: string, moduleOutputFolder: string, localDev: boolean) {
   const typedefsFolder = 'typedefs'
 
   const typedefsFiles = getFiles(join(moduleFolder, typedefsFolder))
 
   const dataTypedefs = []
   if (typedefsFiles.length > 0) {
-    dataTypedefs.push(`import { gql } from '@kitql/all-in'`)
+    dataTypedefs.push(`import { gql } from ${localDev ? `'graphql-modules'` : `'@kitql/all-in'`}`)
     dataTypedefs.push(``)
     dataTypedefs.push(`export const typeDefs = gql${'`'}`)
     typedefsFiles.forEach(typedefs => {

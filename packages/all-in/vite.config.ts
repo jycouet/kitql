@@ -6,7 +6,7 @@ import { kitql } from './src/lib/vite/plugin.js'
 // import { kitql } from '@kitql/all-in'
 
 const config: UserConfig = {
-  plugins: [kitql({ projectName: 'myPrj' }), sveltekit()],
+  plugins: [kitql({ projectName: 'myPrj', localDev: true }), sveltekit()],
 
   optimizeDeps: {
     include: ['safe-stable-stringify'],

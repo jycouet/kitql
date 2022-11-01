@@ -2,7 +2,7 @@
 // export { default as KitQLInfo } from './KitQLInfo.svelte'
 
 // graphql-modules
-export { createModule as kitqlModules, gql } from 'graphql-modules'
+export { createModule as kitqlModules, gql as gql } from 'graphql-modules'
 export { useKitqlModules } from './graphql/useKitqlModules.js'
 
 // SvelteKit hooks
@@ -23,3 +23,6 @@ export { rootFields } from './graphql/helper.js'
 // vite plugin
 export { kitql } from './vite/plugin.js'
 export type { KitQLVite } from './vite/KitQLVite.js'
+
+// graphql-yoga
+export type { Plugin as EnvelopPlugin } from '@envelop/core'

@@ -1,8 +1,10 @@
-import * as fs from 'fs'
-import * as path from 'path'
+import { existsSync, readFileSync, writeFileSync } from 'fs'
+import { dirname, join } from 'path'
+
+import { createFolderIfNotExists } from './fileFolder.js'
 
 export function read(pathFile: string): string {
-  return fs.readFileSync(pathFile, { encoding: 'utf8' })
+  return readFileSync(pathFile, { encoding: 'utf8' })
 }
 
 export function readLines(pathFile: string): string[] {
@@ -12,15 +14,15 @@ export function readLines(pathFile: string): string[] {
 export function write(pathFile: string, data: string | string[]) {
   const fullDataToWrite = Array.isArray(data) ? data.join('\n') : data
 
-  fs.mkdirSync(path.dirname(pathFile), { recursive: true })
+  createFolderIfNotExists(dirname(pathFile))
 
   // Don't write if nothing changed!
-  if (fs.existsSync(pathFile)) {
+  if (existsSync(pathFile)) {
     const currentFileData = read(pathFile)
     if (fullDataToWrite === currentFileData) {
       return
     }
   }
 
-  fs.writeFileSync(path.join(pathFile), fullDataToWrite)
+  writeFileSync(join(pathFile), fullDataToWrite)
 }

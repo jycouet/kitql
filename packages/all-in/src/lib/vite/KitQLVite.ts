@@ -16,4 +16,9 @@ export type KitQLVite = {
   //   mergeModuleResolvers?: boolean
   //   mergeContexts?: boolean
   //   mergeModules?: boolean
+
+  /**
+   * @deprecated for library development only
+   */
+  localDev?: boolean
 }
