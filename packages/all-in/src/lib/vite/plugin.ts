@@ -39,7 +39,6 @@ async function gooo(config?: KitQLVite) {
       errorsOnly: false,
       profile: false,
     })
-
     await codeGen_generate(context)
 
     // KitQL

@@ -1,13 +1,13 @@
-function kitQLCodegen(projectLocation, scalars) {
+function kitQLCodegen(scalars) {
   return {
     generates: {
-      [`${projectLocation}/src/lib/graphql/$kitql/graphqlTypes.ts`]: {
+      [`./src/lib/graphql/$kitql/graphqlTypes.ts`]: {
         plugins: ['typescript', 'typescript-resolvers'],
         config: {
           scalars,
         },
       },
-      [`${projectLocation}/src/lib/modules/`]: {
+      [`./src/lib/modules/`]: {
         preset: 'graphql-modules',
         presetConfig: {
           baseTypesPath: '../graphql/$kitql/graphqlTypes.ts',
@@ -39,7 +39,7 @@ module.exports = function kitQLConfig(options) {
     ],
     documents: [`${projectLocation}/src/**/*.gql`, `${projectLocation}/$houdini/graphql/documents.gql`],
     extensions: {
-      codegen: kitQLCodegen(projectLocation, scalars),
+      codegen: kitQLCodegen(scalars),
     },
   }
 }

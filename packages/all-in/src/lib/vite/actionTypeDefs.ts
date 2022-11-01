@@ -10,7 +10,7 @@ export function actionTypeDefs(moduleFolder: string, moduleOutputFolder: string)
 
   const dataTypedefs = []
   if (typedefsFiles.length > 0) {
-    dataTypedefs.push(`import { gql } from 'graphql-modules'`)
+    dataTypedefs.push(`import { gql } from '@kitql/all-in'`)
     dataTypedefs.push(``)
     dataTypedefs.push(`export const typeDefs = gql${'`'}`)
     typedefsFiles.forEach(typedefs => {

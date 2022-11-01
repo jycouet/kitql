@@ -2,7 +2,7 @@
 // export { default as KitQLInfo } from './KitQLInfo.svelte'
 
 // graphql-modules
-export { createModule as kitqlModules } from 'graphql-modules'
+export { createModule as kitqlModules, gql } from 'graphql-modules'
 export { useKitqlModules } from './graphql/useKitqlModules.js'
 
 // SvelteKit hooks

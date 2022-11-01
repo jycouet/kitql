@@ -8,7 +8,7 @@ const scalars = {
 /** @type {import('@kitql/all-in').KitQLProjects} */
 const config = {
   projects: {
-    init: kitQLConfig({ scalars, projectLocation: './packages/all-in' }),
+    myPrj: kitQLConfig({ scalars, projectLocation: './packages/all-in' }),
   },
 }
 

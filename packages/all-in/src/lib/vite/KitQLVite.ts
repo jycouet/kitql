@@ -6,15 +6,14 @@ export type TEnumsModuleConfig = {
 export type KitQLVite = {
   projectName?: string
 
-  outputFolder?: string
-  moduleOutputFolder?: string
-  importBaseTypesFrom?: string
-  modules?: string[]
-  actions?: {
-    createEnumsModule?: TEnumsModuleConfig | false
-    mergeModuleTypedefs?: boolean
-    mergeModuleResolvers?: boolean
-    mergeContexts?: boolean
-    mergeModules?: boolean
-  }
+  // outputFolder?: string
+  // moduleOutputFolder?: string
+  // importBaseTypesFrom?: string
+  // modules?: string[]
+
+  createEnumsModule?: TEnumsModuleConfig | false
+  //   mergeModuleTypedefs?: boolean
+  //   mergeModuleResolvers?: boolean
+  //   mergeContexts?: boolean
+  //   mergeModules?: boolean
 }

@@ -23,14 +23,12 @@ export function generate(config?: KitQLVite) {
     moduleOutputFolder: '$kitql',
     importBaseTypesFrom: '$graphql/$kitql/graphqlTypes',
     modules: ['src/lib/modules/*'],
-    ...config,
   }
   const { mergeModuleTypedefs, mergeModuleResolvers, mergeContexts, mergeModules } = {
     mergeModuleTypedefs: true,
     mergeModuleResolvers: true,
     mergeContexts: true,
     mergeModules: true,
-    ...config?.actions,
   }
 
   const meta = {
@@ -42,11 +40,11 @@ export function generate(config?: KitQLVite) {
   }
 
   // Enums
-  if (config?.actions.createEnumsModule) {
+  if (config?.createEnumsModule) {
     const { prismaFile, enumsModuleFolder } = {
       prismaFile: '',
       enumsModuleFolder: '',
-      ...config.actions.createEnumsModule,
+      ...config?.createEnumsModule,
     }
 
     const prismaFilePath = getFullPath(prismaFile)

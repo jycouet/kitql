@@ -12,6 +12,8 @@ export function readLines(pathFile: string): string[] {
 export function write(pathFile: string, data: string | string[]) {
   const fullDataToWrite = Array.isArray(data) ? data.join('\n') : data
 
+  fs.mkdirSync(path.dirname(pathFile), { recursive: true })
+
   // Don't write if nothing changed!
   if (fs.existsSync(pathFile)) {
     const currentFileData = read(pathFile)
