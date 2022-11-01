@@ -1,5 +1,11 @@
 # @kitql/all-in
 
+## 0.8.0-next.16
+
+### Patch Changes
+
+- [#258](https://github.com/jycouet/kitql/pull/258) [`fc75d5b`](https://github.com/jycouet/kitql/commit/fc75d5bfebd37bdbfd77a742dd8f5dfba1df8020) Thanks [@jycouet](https://github.com/jycouet)! - update yoga version & check conf
+
 ## 0.8.0-next.15
 
 ### Patch Changes
