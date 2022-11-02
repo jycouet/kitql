@@ -5,7 +5,7 @@ const SITE_DESCRIPTION = 'Bring data management layer to SvelteKit'
 const SOCIAL_IMAGE_URL = 'https://raw.githubusercontent.com/jycouet/kitql/main/website/public/assets/social-kitql.png'
 
 export default defineConfig({
-  titleSuffix: ` – ${SITE_NAME}`,
+  siteName: SITE_NAME,
   docsRepositoryBase: 'https://github.com/jycouet/kitql/tree/main/website',
   head: (
     <>
