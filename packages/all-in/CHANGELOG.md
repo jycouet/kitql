@@ -1,5 +1,11 @@
 # @kitql/all-in
 
+## 0.8.0-next.18
+
+### Patch Changes
+
+- [#261](https://github.com/jycouet/kitql/pull/261) [`e064bbd`](https://github.com/jycouet/kitql/commit/e064bbd9bc66c6034004b76d630f54ade919ea72) Thanks [@jycouet](https://github.com/jycouet)! - working with mono-repo & user check working
+
 ## 0.8.0-next.16
 
 ### Patch Changes
