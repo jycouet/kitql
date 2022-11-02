@@ -1,11 +1,12 @@
+import type * as gm from 'graphql-modules'
+
 // Svelte Component
 // export { default as KitQLInfo } from './KitQLInfo.svelte'
 
 // graphql-modules
 export { createModule as kitqlModules, gql as gql } from 'graphql-modules'
 export { useKitqlModules } from './graphql/useKitqlModules.js'
-import type * as gm from "graphql-modules";
-export { gm };
+export { gm }
 
 // SvelteKit hooks
 export { type KitQLHandleGraphQL, handleGraphql } from './hooks/graphql.js'
