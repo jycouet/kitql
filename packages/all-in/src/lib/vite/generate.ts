@@ -12,6 +12,7 @@ import { getDirectories, getFiles, getFullPath } from './fileFolder.js'
 import { toPascalCase } from './formatString.js'
 import { getPrismaEnum } from './prismaHelper.js'
 import { readLines } from './readWrite.js'
+import { updateModuleTypes } from './updateModuleTypes.js'
 
 export function generate(config?: KitQLVite) {
   const log = new Log('KitQL')
@@ -128,6 +129,9 @@ export function generate(config?: KitQLVite) {
         })
       }
 
+      // updateModuleTypes
+      updateModuleTypes(directory, moduleOutputFolder, localDev)
+
       if (mergeModuleAction.length > 0) {
         meta.typedefs += typedefsFilesLength
         meta.resolvers += resolversFilesLength
@@ -200,8 +204,6 @@ export function generate(config?: KitQLVite) {
     //     .join(',')}]`
     // )
   }
-
-  //
 
   // Done
   // log.info(`${logGreen('✔')} finished ${logGreen('successfully')}`)

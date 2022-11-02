@@ -1,5 +1,5 @@
 import { dev } from '$app/environment'
-import { kitqlServer, type IKitQLContext } from '$lib/graphql/kitQLServer'
+import { kitqlServer, type IKitQLContext } from '$lib/graphql/kitqlServer'
 import { handleGraphiql } from '$lib/hooks/graphiql'
 import { handleGraphql } from '$lib/hooks/graphql'
 import { sequence } from '@sveltejs/kit/hooks'

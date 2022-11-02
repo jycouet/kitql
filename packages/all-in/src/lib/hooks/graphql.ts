@@ -19,11 +19,6 @@ export type KitQLHandleGraphQL<TUserContext, TServerContext extends Record<strin
     | Promise<TUserContext>
     | TUserContext
 
-  // context?:
-  //   | ((initialContext: YogaInitialContext) => Promise<TUserContext> | TUserContext)
-  //   | Promise<TUserContext>
-  //   | TUserContext
-
   plugins?: Plugin[]
 }
 
