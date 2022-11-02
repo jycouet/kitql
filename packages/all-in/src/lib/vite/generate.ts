@@ -12,25 +12,27 @@ import { getDirectories, getFiles, getFullPath } from './fileFolder.js'
 import { toPascalCase } from './formatString.js'
 import { getPrismaEnum } from './prismaHelper.js'
 import { readLines } from './readWrite.js'
+import { updateModuleTypes } from './updateModuleTypes.js'
 
 export function generate(config?: KitQLVite) {
   const log = new Log('KitQL')
 
   const providersFolder = 'providers' as const
 
-  const { outputFolder, moduleOutputFolder, importBaseTypesFrom, modules } = {
+  const { outputFolder, moduleOutputFolder, importBaseTypesFrom, modules, localDev } = {
     outputFolder: 'src/lib/graphql/$kitql',
     moduleOutputFolder: '$kitql',
     importBaseTypesFrom: '$graphql/$kitql/graphqlTypes',
     modules: ['src/lib/modules/*'],
+    localDev: false,
     ...config,
   }
+
   const { mergeModuleTypedefs, mergeModuleResolvers, mergeContexts, mergeModules } = {
     mergeModuleTypedefs: true,
     mergeModuleResolvers: true,
     mergeContexts: true,
     mergeModules: true,
-    ...config?.actions,
   }
 
   const meta = {
@@ -42,11 +44,11 @@ export function generate(config?: KitQLVite) {
   }
 
   // Enums
-  if (config?.actions.createEnumsModule) {
+  if (config?.createEnumsModule) {
     const { prismaFile, enumsModuleFolder } = {
       prismaFile: '',
       enumsModuleFolder: '',
-      ...config.actions.createEnumsModule,
+      ...config?.createEnumsModule,
     }
 
     const prismaFilePath = getFullPath(prismaFile)
@@ -89,7 +91,7 @@ export function generate(config?: KitQLVite) {
 
       // TypeDefs
       if (mergeModuleTypedefs) {
-        typedefsFilesLength = actionTypeDefs(directory, moduleOutputFolder)
+        typedefsFilesLength = actionTypeDefs(directory, moduleOutputFolder, localDev)
       }
 
       // Resolvers
@@ -126,6 +128,9 @@ export function generate(config?: KitQLVite) {
           }
         })
       }
+
+      // updateModuleTypes
+      updateModuleTypes(directory, moduleOutputFolder, localDev)
 
       if (mergeModuleAction.length > 0) {
         meta.typedefs += typedefsFilesLength
@@ -199,8 +204,6 @@ export function generate(config?: KitQLVite) {
     //     .join(',')}]`
     // )
   }
-
-  //
 
   // Done
   // log.info(`${logGreen('✔')} finished ${logGreen('successfully')}`)

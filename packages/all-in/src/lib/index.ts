@@ -1,9 +1,12 @@
+import type * as gm from 'graphql-modules'
+
 // Svelte Component
 // export { default as KitQLInfo } from './KitQLInfo.svelte'
 
 // graphql-modules
-export { createModule as kitqlModules } from 'graphql-modules'
+export { createModule as kitqlModules, gql as gql } from 'graphql-modules'
 export { useKitqlModules } from './graphql/useKitqlModules.js'
+export { gm }
 
 // SvelteKit hooks
 export { type KitQLHandleGraphQL, handleGraphql } from './hooks/graphql.js'
@@ -23,3 +26,6 @@ export { rootFields } from './graphql/helper.js'
 // vite plugin
 export { kitql } from './vite/plugin.js'
 export type { KitQLVite } from './vite/KitQLVite.js'
+
+// graphql-yoga
+export type { Plugin as YogaPlugin } from 'graphql-yoga'

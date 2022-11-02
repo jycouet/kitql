@@ -1,5 +1,4 @@
 import { createContext, generate as codeGen_generate } from '@graphql-codegen/cli'
-import { Log, logGreen } from '@kitql/helper'
 import { resolve } from 'path'
 import type { Plugin } from 'vite'
 import watch_and_run from 'vite-plugin-watch-and-run'
@@ -42,7 +41,7 @@ async function gooo(config?: KitQLVite) {
 
     await codeGen_generate(context)
 
-    // KitQL
+    // KitQL (needs to be second as we write in the codegen module files)
     generate(config)
   } catch (e) {
     console.error(e)
