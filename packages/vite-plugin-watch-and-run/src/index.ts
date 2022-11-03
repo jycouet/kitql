@@ -150,12 +150,12 @@ async function watcher(absolutePath: string | null, watchKind: WatchKind, watchA
     if (!info.quiet) {
       let message = `${logGreen('✔')} Watch ${logCyan(watchKind)}`
       if (info.watch && absolutePath) {
-        message += logGreen(' ' + absolutePath)
+        message += logGreen(' ' + absolutePath.replaceAll(process.cwd(), ''))
       }
       if (typeof info.run === 'string') {
         message + ` and run ${logGreen(info.run)} `
       }
-      message += logCyan(info.delay + 'ms')
+      message += ` ${logCyan(info.delay + 'ms')}`
 
       log.info(message)
     }

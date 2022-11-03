@@ -7,8 +7,7 @@
   "type": "module",
   "scripts": {
     "prepare": "husky install",
-    "all:gen": "pnpm --filter @kitql/all-in gen",
-    "all:dev": "pnpm --filter @kitql/all-in dev",
+    "dev:all": "pnpm --filter @kitql/all-in dev",
     "dev:w": "cd website && npm run dev",
     "test": "vitest --coverage",
     "lint": "eslint --ignore-path .prettierignore .",
