@@ -14,9 +14,7 @@ import { getPrismaEnum } from './prismaHelper.js'
 import { readLines } from './readWrite.js'
 import { updateModuleTypes } from './updateModuleTypes.js'
 
-export function generate(config?: KitQLVite) {
-  const log = new Log('KitQL')
-
+export function generate(log: Log, config?: KitQLVite) {
   const providersFolder = 'providers' as const
 
   const { outputFolder, moduleOutputFolder, importBaseTypesFrom, modules, localDev } = {
