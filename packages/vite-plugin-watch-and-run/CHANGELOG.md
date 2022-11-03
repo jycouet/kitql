@@ -1,5 +1,11 @@
 # @kitql/vite-plugin-watch-and-run
 
+## 1.1.0-next.5
+
+### Patch Changes
+
+- [#263](https://github.com/jycouet/kitql/pull/263) [`2e8385d`](https://github.com/jycouet/kitql/commit/2e8385de17ee0644adf2a078b19dab191115e1d2) Thanks [@jycouet](https://github.com/jycouet)! - format message update with correct space
+
 ## 1.1.0-next.4
 
 ### Patch Changes
