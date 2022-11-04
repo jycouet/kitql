@@ -2,4 +2,4 @@
 '@kitql/all-in': patch
 ---
 
-rmv kitqlPrisma
+consistant casing for kitql

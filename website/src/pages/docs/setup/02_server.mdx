@@ -46,7 +46,7 @@ Now, let's build the `kitqlServer` const 👇
 
 ### `kitqlServer`
 
-This is the file where you will create your kitQL Server. To start, it should look like:
+This is the file where you will create your KitQL Server. To start, it should look like:
 
 ```ts filename="src/lib/graphql/kitqlServer.ts"
 import { useKitqlModules, type KitQLHandleGraphQL } from '@kitql/all-in'
@@ -86,7 +86,7 @@ Now, we just need to generate everything... to have typings & modules.
 Create a config file `graphql.config.cjs` with the following content:
 
 ```js filename="graphql.config.cjs"
-const kitQLConfig = require('@kitql/all-in/cjs.cjs')
+const kitqlConfig = require('@kitql/all-in/cjs.cjs')
 
 const scalars = {
   Date: '../helpers/scalarTypes#CodegenDate',
@@ -96,7 +96,7 @@ const scalars = {
 /** @type {import('@kitql/all-in').KitQLProjects} */
 const config = {
   projects: {
-    init: kitQLConfig({ scalars })
+    init: kitqlConfig({ scalars })
   }
 }
 

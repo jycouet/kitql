@@ -1,5 +1,5 @@
 // I have to make it better one day!
-const kitQLConfig = require('@kitql/all-in/cjs.cjs');
+const kitqlConfig = require('@kitql/all-in/cjs.cjs');
 
 const scalars = {
 	Date: '../helpers/scalarTypes#CodegenDate',
@@ -9,7 +9,7 @@ const scalars = {
 /** @type {import('@kitql/all-in').KitQLProjects} */
 const config = {
 	projects: {
-		init: kitQLConfig({ scalars })
+		init: kitqlConfig({ scalars })
 	}
 };
 

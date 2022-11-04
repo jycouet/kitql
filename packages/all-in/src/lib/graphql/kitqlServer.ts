@@ -33,7 +33,7 @@ export type IKitQLContext = ReturnType<typeof getContext>
 
 // then, make use of "IKitQLContext" in code gen, generate resolvers fully typed!
 // config:
-//   contextType: $graphql/kitQLServer#IKitQLContext
+//   contextType: $graphql/kitqlServer#IKitQLContext
 
 export const kitqlServer: KitQLHandleGraphQL<IKitQLContext, Record<string, any>> = {
   plugins,

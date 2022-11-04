@@ -68,13 +68,13 @@ export function handleGraphql<TUserContext, TServerContext>(
     schema: createSchema({
       typeDefs: `
         type Query {
-          is_it_working: String
+          _greetings: String
         }
       `,
       resolvers: {
         Query: {
-          is_it_working: () =>
-            'Yes yoga is up and running! Now, to make it work with your own schema, you need to send kitQLModules(modules) via plugins',
+          _greetings: () =>
+            'Yes yoga is up and running! Now, to make it work with your own schema, you need to `useKitqlModules(modules)` via plugins',
         },
       },
     }),
