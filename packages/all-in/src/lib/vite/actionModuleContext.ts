@@ -28,7 +28,7 @@ export function actionModuleContext(
 
   if (withDbProvider) {
     dataCtxModules.push(`import { load_DataLoader } from '../../../../lib/graphql/helpers/dataLoaderHelper';`)
-    dataCtxModules.push(`import type { IKitQLContext } from '../../../../lib/graphql/kitQLServer';`)
+    dataCtxModules.push(`import type { IKitQLContext } from '../../../../lib/graphql/kitqlServer';`)
     if (functionsName.length > 0) {
       dataCtxModules.push(`import type { ${moduleNamePascalCase} } from '${importBaseTypesFrom}';`)
     }

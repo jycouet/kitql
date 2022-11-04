@@ -10,10 +10,11 @@ export { gm }
 
 // SvelteKit hooks
 export { type KitQLHandleGraphQL, handleGraphql } from './hooks/graphql.js'
-export { type KitQLHandleGraphiQL, handleGraphiql } from './hooks/graphiql.js'
+export { handleGraphiql } from './hooks/graphiql.js'
+export type { KitQLHandleGraphiQL } from './hooks/graphiqlCommon.js'
 
 // Prisma
-// export { getKitQLPrisma } from './prisma/kitQLPrisma'
+// export { getKitQLPrisma } from './prisma/kitqlPrisma'
 
 // GraphQL Config
 export type { CodegenConfig as KitQLCodegenConfig } from '@graphql-codegen/cli'

@@ -104,7 +104,7 @@
 
 ### Patch Changes
 
-- [`a7594a8`](https://github.com/jycouet/kitql/commit/a7594a8095eb94d11472585442daabd3b27f1c5e) Thanks [@jycouet](https://github.com/jycouet)! - rmv kitQLPrisma
+- [`a7594a8`](https://github.com/jycouet/kitql/commit/a7594a8095eb94d11472585442daabd3b27f1c5e) Thanks [@jycouet](https://github.com/jycouet)! - rmv kitqlPrisma
 
 - [`5ef6e2e`](https://github.com/jycouet/kitql/commit/5ef6e2eee71e70fa7897bf4bba8ec6553fe3be05) Thanks [@jycouet](https://github.com/jycouet)! - rmv @prisma/client for now
 

@@ -1,4 +1,4 @@
-const kitQLConfig = require('./packages/all-in/src/lib/cjs.cjs')
+const kitqlConfig = require('./packages/all-in/src/lib/cjs.cjs')
 
 const scalars = {
   Date: '../helpers/scalarTypes#CodegenDate',
@@ -8,7 +8,7 @@ const scalars = {
 /** @type {import('@kitql/all-in').KitQLProjects} */
 const config = {
   projects: {
-    myPrj: kitQLConfig({ scalars, projectLocation: './packages/all-in' }),
+    myPrj: kitqlConfig({ scalars, projectLocation: './packages/all-in' }),
   },
 }
 
