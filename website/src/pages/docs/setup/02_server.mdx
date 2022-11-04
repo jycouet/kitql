@@ -17,17 +17,23 @@ The idea is to bring functionalities with hooks, something like:
 
 ```ts filename="hooks.server.ts"
 import { dev } from '$app/environment'
-import { kitqlServer } from '$lib/graphql/kitQLServer'
+import { kitqlServer } from '$lib/graphql/kitqlServer'
 import { handleGraphiql, handleGraphql } from '@kitql/all-in'
 import { sequence } from '@sveltejs/kit/hooks'
 
-export const handle = sequence(
-  // Add graphql
-  handleGraphql(kitqlServer),
+const graphiQLPath = dev ? '/api/playql' : undefined
 
-  // Add graphiql
+export const handle = sequence(
+  // create the graphql endpoint
+  handleGraphql<IKitQLContext, RequestEvent>({
+    graphiQLPath,
+    ...kitqlServer
+  }),
+
+  // enable graphiql in dev mode
   handleGraphiql({
-    enabled: dev
+    enabled: dev,
+    graphiQLPath
   })
 )
 ```
@@ -42,14 +48,14 @@ Now, let's build the `kitqlServer` const 👇
 
 This is the file where you will create your kitQL Server. To start, it should look like:
 
-```ts
-import { useKitModules, type KitQLHandleGraphQL } from '@kitql/all-in'
+```ts filename="src/lib/graphql/kitqlServer.ts"
+import { useKitqlModules, type KitQLHandleGraphQL } from '@kitql/all-in'
 import type { RequestEvent } from '@sveltejs/kit'
 
 import { modules } from './$kitql/_appModules'
 
 const plugins = []
-plugins.push(useKitModules(modules))
+plugins.push(useKitqlModules(modules))
 
 export type IKitQLContext = ReturnType<typeof getContext>
 function getContext({ request }: RequestEvent) {
@@ -65,7 +71,7 @@ function getContext({ request }: RequestEvent) {
   }
 }
 
-export const kitqlServer: KitQLHandleGraphQL<IKitQLContext> = {
+export const kitqlServer: KitQLHandleGraphQL<IKitQLContext, RequestEvent> = {
   plugins,
   context: getContext
 }
