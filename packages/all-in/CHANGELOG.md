@@ -1,5 +1,11 @@
 # @kitql/all-in
 
+## 0.8.0-next.20
+
+### Patch Changes
+
+- [#265](https://github.com/jycouet/kitql/pull/265) [`5dcc4c4`](https://github.com/jycouet/kitql/commit/5dcc4c4e4959226b201608c5b9ed4a745148717a) Thanks [@jycouet](https://github.com/jycouet)! - bump versions so that it's working even in pnpm!
+
 ## 0.8.0-next.19
 
 ### Patch Changes
