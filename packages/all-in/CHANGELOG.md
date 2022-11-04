@@ -1,5 +1,11 @@
 # @kitql/all-in
 
+## 0.8.0-next.21
+
+### Patch Changes
+
+- [#267](https://github.com/jycouet/kitql/pull/267) [`81fa78b`](https://github.com/jycouet/kitql/commit/81fa78b8de903dc3de0a0259e74f0023c8817cd3) Thanks [@jycouet](https://github.com/jycouet)! - consistant casing for kitql
+
 ## 0.8.0-next.20
 
 ### Patch Changes
