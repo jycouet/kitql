@@ -52,12 +52,10 @@ importers:
       '@envelop/graphql-modules': ^4.0.3
       '@graphql-codegen/cli': ^2.13.11
       '@graphql-codegen/graphql-modules-preset': ^2.5.5
-      '@graphql-codegen/introspection': ^2.2.1
-      '@graphql-codegen/typed-document-node': ^2.3.6
       '@graphql-codegen/typescript': ^2.8.1
       '@graphql-codegen/typescript-resolvers': ^2.7.6
       '@graphql-eslint/eslint-plugin': ^3.13.0
-      '@graphql-typed-document-node/core': ^3.1.1
+      '@graphql-tools/graphql-tag-pluck': ^7.3.10
       '@kitql/helper': 0.6.0-next.3
       '@sveltejs/adapter-auto': 1.0.0-next.86
       '@sveltejs/kit': 1.0.0-next.532
@@ -66,6 +64,7 @@ importers:
       '@types/node': ^18.11.9
       '@typescript-eslint/eslint-plugin': 5.37.0
       '@typescript-eslint/parser': 5.37.0
+      '@vue/compiler-sfc': ^3.2.41
       eslint: 8.23.1
       eslint-config-prettier: 8.5.0
       eslint-plugin-svelte3: 4.0.0
@@ -81,7 +80,7 @@ importers:
       svelte: 3.50.1
       svelte-check: 2.9.0
       svelte-preprocess: 4.10.7
-      svelte2tsx: 0.5.17
+      svelte2tsx: ^0.5.20
       ts-node: ^10.9.1
       tslib: 2.4.0
       typescript: 4.8.3
@@ -92,14 +91,13 @@ importers:
       '@envelop/graphql-modules': 4.0.3_swcgnb6mat2fw2rmrwpn36pmpq
       '@graphql-codegen/cli': 2.13.11_7olbn5bsg7e4yewx4wbzcpnvwa
       '@graphql-codegen/graphql-modules-preset': 2.5.5_graphql@15.8.0
-      '@graphql-codegen/introspection': 2.2.1_graphql@15.8.0
-      '@graphql-codegen/typed-document-node': 2.3.6_graphql@15.8.0
       '@graphql-codegen/typescript': 2.8.1_graphql@15.8.0
       '@graphql-codegen/typescript-resolvers': 2.7.6_graphql@15.8.0
       '@graphql-eslint/eslint-plugin': 3.13.0_r3xgavq7eetcd4yxywff3dqswu
-      '@graphql-typed-document-node/core': 3.1.1_graphql@15.8.0
+      '@graphql-tools/graphql-tag-pluck': 7.3.10_graphql@15.8.0
       '@kitql/helper': link:../helper
       '@types/node': 18.11.9
+      '@vue/compiler-sfc': 3.2.41
       glob: 8.0.3
       graphql: 15.8.0
       graphql-config: 4.3.6_r3xgavq7eetcd4yxywff3dqswu
@@ -107,6 +105,7 @@ importers:
       graphql-scalars: 1.20.0_graphql@15.8.0
       graphql-yoga: 3.0.0-next.10_4mmsdp5dkkwvmk6zzd5moo5kfy
       safe-stable-stringify: 2.4.1
+      svelte2tsx: 0.5.20_iprco5tylfmvffqgrvqxc46njy
       ts-node: 10.9.1_h6wsvvmh4l7tb54yk3ecr4mgtm
       vite-plugin-watch-and-run: link:../vite-plugin-watch-and-run
     devDependencies:
@@ -124,11 +123,91 @@ importers:
       svelte: 3.50.1
       svelte-check: 2.9.0_svelte@3.50.1
       svelte-preprocess: 4.10.7_iprco5tylfmvffqgrvqxc46njy
-      svelte2tsx: 0.5.17_iprco5tylfmvffqgrvqxc46njy
       tslib: 2.4.0
       typescript: 4.8.3
       vite: 3.2.2
     publishDirectory: dist
+
+  packages/all-in/dist:
+    specifiers:
+      '@envelop/core': ^3.0.3
+      '@envelop/graphql-modules': ^4.0.3
+      '@graphql-codegen/cli': ^2.13.11
+      '@graphql-codegen/graphql-modules-preset': ^2.5.5
+      '@graphql-codegen/typescript': ^2.8.1
+      '@graphql-codegen/typescript-resolvers': ^2.7.6
+      '@graphql-eslint/eslint-plugin': ^3.13.0
+      '@graphql-tools/graphql-tag-pluck': ^7.3.10
+      '@kitql/helper': 0.6.0-next.3
+      '@sveltejs/adapter-auto': 1.0.0-next.86
+      '@sveltejs/kit': 1.0.0-next.532
+      '@sveltejs/package': 1.0.0-next.5
+      '@types/glob': 8.0.0
+      '@types/node': ^18.11.9
+      '@typescript-eslint/eslint-plugin': 5.37.0
+      '@typescript-eslint/parser': 5.37.0
+      '@vue/compiler-sfc': ^3.2.41
+      eslint: 8.23.1
+      eslint-config-prettier: 8.5.0
+      eslint-plugin-svelte3: 4.0.0
+      glob: ^8.0.3
+      graphql: ^15.8.0
+      graphql-config: ^4.3.6
+      graphql-modules: ^2.1.0
+      graphql-scalars: ^1.20.0
+      graphql-yoga: 3.0.0-next.10
+      prettier: 2.7.1
+      prettier-plugin-svelte: 2.7.0
+      safe-stable-stringify: ^2.4.1
+      svelte: 3.50.1
+      svelte-check: 2.9.0
+      svelte-preprocess: 4.10.7
+      svelte2tsx: ^0.5.20
+      ts-node: ^10.9.1
+      tslib: 2.4.0
+      typescript: 4.8.3
+      vite: 3.2.2
+      vite-plugin-watch-and-run: 1.1.0-next.5
+    dependencies:
+      '@envelop/core': 3.0.3
+      '@envelop/graphql-modules': 4.0.3_swcgnb6mat2fw2rmrwpn36pmpq
+      '@graphql-codegen/cli': 2.13.11_7olbn5bsg7e4yewx4wbzcpnvwa
+      '@graphql-codegen/graphql-modules-preset': 2.5.5_graphql@15.8.0
+      '@graphql-codegen/typescript': 2.8.1_graphql@15.8.0
+      '@graphql-codegen/typescript-resolvers': 2.7.6_graphql@15.8.0
+      '@graphql-eslint/eslint-plugin': 3.13.0_r3xgavq7eetcd4yxywff3dqswu
+      '@graphql-tools/graphql-tag-pluck': 7.3.10_graphql@15.8.0
+      '@kitql/helper': 0.6.0-next.3
+      '@types/node': 18.11.9
+      '@vue/compiler-sfc': 3.2.41
+      glob: 8.0.3
+      graphql: 15.8.0
+      graphql-config: 4.3.6_r3xgavq7eetcd4yxywff3dqswu
+      graphql-modules: 2.1.0_graphql@15.8.0
+      graphql-scalars: 1.20.0_graphql@15.8.0
+      graphql-yoga: 3.0.0-next.10_4mmsdp5dkkwvmk6zzd5moo5kfy
+      safe-stable-stringify: 2.4.1
+      svelte2tsx: 0.5.20_iprco5tylfmvffqgrvqxc46njy
+      ts-node: 10.9.1_h6wsvvmh4l7tb54yk3ecr4mgtm
+      vite-plugin-watch-and-run: 1.1.0-next.5
+    devDependencies:
+      '@sveltejs/adapter-auto': 1.0.0-next.86
+      '@sveltejs/kit': 1.0.0-next.532_svelte@3.50.1+vite@3.2.2
+      '@sveltejs/package': 1.0.0-next.5_iprco5tylfmvffqgrvqxc46njy
+      '@types/glob': 8.0.0
+      '@typescript-eslint/eslint-plugin': 5.37.0_22c5fnooleyfkzrkkgdmel5kmi
+      '@typescript-eslint/parser': 5.37.0_irgkl5vooow2ydyo6aokmferha
+      eslint: 8.23.1
+      eslint-config-prettier: 8.5.0_eslint@8.23.1
+      eslint-plugin-svelte3: 4.0.0_rhh4tpcyg7zwtq6pdnkzw5gxma
+      prettier: 2.7.1
+      prettier-plugin-svelte: 2.7.0_nk6d2fkgcllkkdynqbuearcure
+      svelte: 3.50.1
+      svelte-check: 2.9.0_svelte@3.50.1
+      svelte-preprocess: 4.10.7_iprco5tylfmvffqgrvqxc46njy
+      tslib: 2.4.0
+      typescript: 4.8.3
+      vite: 3.2.2
 
   packages/helper:
     specifiers:
@@ -430,10 +509,10 @@ packages:
       '@babel/helper-compilation-targets': 7.19.3_@babel+core@7.17.8
       '@babel/helper-module-transforms': 7.19.0
       '@babel/helpers': 7.19.4
-      '@babel/parser': 7.19.4
+      '@babel/parser': 7.20.1
       '@babel/template': 7.18.10
       '@babel/traverse': 7.19.4
-      '@babel/types': 7.19.4
+      '@babel/types': 7.20.0
       convert-source-map: 1.9.0
       debug: 4.3.4
       gensync: 1.0.0-beta.2
@@ -470,7 +549,7 @@ packages:
     resolution: {integrity: sha512-oLcVCTeIFadUoArDTwpluncplrYBmTCCZZgXCbgNGvOBBiSDDK3eWO4b/+eOTli5tKv1lg+a5/NAXg+nTcei1w==}
     engines: {node: '>=6.9.0'}
     dependencies:
-      '@babel/types': 7.19.4
+      '@babel/types': 7.20.0
       jsesc: 2.5.2
       source-map: 0.5.7
     dev: true
@@ -479,7 +558,7 @@ packages:
     resolution: {integrity: sha512-DxbNz9Lz4aMZ99qPpO1raTbcrI1ZeYh+9NR9qhfkQIbFtVEqotHojEBxHzmxhVONkGt6VyrqVQcgpefMy9pqcg==}
     engines: {node: '>=6.9.0'}
     dependencies:
-      '@babel/types': 7.19.4
+      '@babel/types': 7.20.0
       '@jridgewell/gen-mapping': 0.3.2
       jsesc: 2.5.2
     dev: true
@@ -584,7 +663,7 @@ packages:
       '@babel/helper-validator-identifier': 7.19.1
       '@babel/template': 7.18.10
       '@babel/traverse': 7.19.4
-      '@babel/types': 7.19.4
+      '@babel/types': 7.20.0
     transitivePeerDependencies:
       - supports-color
     dev: true
@@ -671,7 +750,7 @@ packages:
     dependencies:
       '@babel/template': 7.18.10
       '@babel/traverse': 7.19.4
-      '@babel/types': 7.19.4
+      '@babel/types': 7.20.0
     transitivePeerDependencies:
       - supports-color
     dev: true
@@ -700,15 +779,7 @@ packages:
     engines: {node: '>=6.0.0'}
     hasBin: true
     dependencies:
-      '@babel/types': 7.19.4
-    dev: true
-
-  /@babel/parser/7.19.4:
-    resolution: {integrity: sha512-qpVT7gtuOLjWeDTKLkJ6sryqLliBaFpAtGeqw5cs5giLldvh+Ch0plqnUMKoVAUS6ZEueQQiZV+p5pxtPitEsA==}
-    engines: {node: '>=6.0.0'}
-    hasBin: true
-    dependencies:
-      '@babel/types': 7.19.4
+      '@babel/types': 7.20.0
     dev: true
 
   /@babel/parser/7.20.1:
@@ -1091,8 +1162,8 @@ packages:
       '@babel/helper-function-name': 7.19.0
       '@babel/helper-hoist-variables': 7.18.6
       '@babel/helper-split-export-declaration': 7.18.6
-      '@babel/parser': 7.19.4
-      '@babel/types': 7.19.4
+      '@babel/parser': 7.20.1
+      '@babel/types': 7.20.0
       debug: 4.3.4
       globals: 11.12.0
     transitivePeerDependencies:
@@ -1109,8 +1180,8 @@ packages:
       '@babel/helper-function-name': 7.19.0
       '@babel/helper-hoist-variables': 7.18.6
       '@babel/helper-split-export-declaration': 7.18.6
-      '@babel/parser': 7.19.4
-      '@babel/types': 7.19.4
+      '@babel/parser': 7.20.1
+      '@babel/types': 7.20.0
       debug: 4.3.4
       globals: 11.12.0
     transitivePeerDependencies:
@@ -1138,15 +1209,6 @@ packages:
     resolution: {integrity: sha512-TmKSNO4D5rzhL5bjWFcVHHLETzfQ/AmbKpKPOSjlP0WoHZ6L911fgoOKY4Alp/emzG4cHJdyN49zpgkbXFEHHw==}
     engines: {node: '>=6.9.0'}
     dependencies:
-      '@babel/helper-validator-identifier': 7.19.1
-      to-fast-properties: 2.0.0
-    dev: true
-
-  /@babel/types/7.19.4:
-    resolution: {integrity: sha512-M5LK7nAeS6+9j7hAq+b3fQs+pNfUtTGq+yFFfHnauFA8zQtLRfmuipmsKDKKLuyG+wC8ABW43A153YNawNTEtw==}
-    engines: {node: '>=6.9.0'}
-    dependencies:
-      '@babel/helper-string-parser': 7.19.4
       '@babel/helper-validator-identifier': 7.19.1
       to-fast-properties: 2.0.0
     dev: true
@@ -1549,7 +1611,7 @@ packages:
       ts-log: 2.2.5
       tslib: 2.4.1
       yaml: 1.10.2
-      yargs: 17.6.1
+      yargs: 17.6.2
     transitivePeerDependencies:
       - '@swc/core'
       - '@swc/wasm'
@@ -1592,20 +1654,6 @@ packages:
       - supports-color
     dev: false
 
-  /@graphql-codegen/introspection/2.2.1_graphql@15.8.0:
-    resolution: {integrity: sha512-083tu9rSLL0k9LrAyGt1AjGQI/O9gX3w1UliaufLc3mofDSt7iV04tT9VJRuk4IoBvyPZ/8YCs5zIpmt/GexPA==}
-    peerDependencies:
-      graphql: ^0.8.0 || ^0.9.0 || ^0.10.0 || ^0.11.0 || ^0.12.0 || ^0.13.0 || ^14.0.0 || ^15.0.0 || ^16.0.0
-    dependencies:
-      '@graphql-codegen/plugin-helpers': 2.7.2_graphql@15.8.0
-      '@graphql-codegen/visitor-plugin-common': 2.13.1_graphql@15.8.0
-      graphql: 15.8.0
-      tslib: 2.4.1
-    transitivePeerDependencies:
-      - encoding
-      - supports-color
-    dev: false
-
   /@graphql-codegen/plugin-helpers/2.7.2_graphql@15.8.0:
     resolution: {integrity: sha512-kln2AZ12uii6U59OQXdjLk5nOlh1pHis1R98cDZGFnfaiAbX9V3fxcZ1MMJkB7qFUymTALzyjZoXXdyVmPMfRg==}
     peerDependencies:
@@ -1629,22 +1677,6 @@ packages:
       '@graphql-tools/utils': 8.13.1_graphql@15.8.0
       graphql: 15.8.0
       tslib: 2.4.1
-    dev: false
-
-  /@graphql-codegen/typed-document-node/2.3.6_graphql@15.8.0:
-    resolution: {integrity: sha512-uJqBNj9z/5iIUgLwXsyWmnBaCzRtK+OiZsknTQmjzx/BzKTXK5lrbn06n4KK690wqkelpdZplTtww34ExmHG9Q==}
-    peerDependencies:
-      graphql: ^0.8.0 || ^0.9.0 || ^0.10.0 || ^0.11.0 || ^0.12.0 || ^0.13.0 || ^14.0.0 || ^15.0.0 || ^16.0.0
-    dependencies:
-      '@graphql-codegen/plugin-helpers': 2.7.2_graphql@15.8.0
-      '@graphql-codegen/visitor-plugin-common': 2.13.1_graphql@15.8.0
-      auto-bind: 4.0.0
-      change-case-all: 1.0.14
-      graphql: 15.8.0
-      tslib: 2.4.1
-    transitivePeerDependencies:
-      - encoding
-      - supports-color
     dev: false
 
   /@graphql-codegen/typescript-resolvers/2.7.6_graphql@15.8.0:
@@ -2254,6 +2286,12 @@ packages:
     dependencies:
       '@jridgewell/resolve-uri': 3.1.0
       '@jridgewell/sourcemap-codec': 1.4.14
+    dev: false
+
+  /@kitql/helper/0.6.0-next.3:
+    resolution: {integrity: sha512-tSACyCqYeOcPLGUM/AgVNlZB2KhBvfqL9+8mSK2gFt7c62oSVcXwuidXnAEgri0FwSN9oy1gv+uA1pTE8YsR9Q==}
+    dependencies:
+      safe-stable-stringify: 2.4.1
     dev: false
 
   /@lit/reactive-element/1.4.1:
@@ -3694,6 +3732,58 @@ packages:
     dependencies:
       sirv: 2.0.2
     dev: true
+
+  /@vue/compiler-core/3.2.41:
+    resolution: {integrity: sha512-oA4mH6SA78DT+96/nsi4p9DX97PHcNROxs51lYk7gb9Z4BPKQ3Mh+BLn6CQZBw857Iuhu28BfMSRHAlPvD4vlw==}
+    dependencies:
+      '@babel/parser': 7.20.1
+      '@vue/shared': 3.2.41
+      estree-walker: 2.0.2
+      source-map: 0.6.1
+    dev: false
+
+  /@vue/compiler-dom/3.2.41:
+    resolution: {integrity: sha512-xe5TbbIsonjENxJsYRbDJvthzqxLNk+tb3d/c47zgREDa/PCp6/Y4gC/skM4H6PIuX5DAxm7fFJdbjjUH2QTMw==}
+    dependencies:
+      '@vue/compiler-core': 3.2.41
+      '@vue/shared': 3.2.41
+    dev: false
+
+  /@vue/compiler-sfc/3.2.41:
+    resolution: {integrity: sha512-+1P2m5kxOeaxVmJNXnBskAn3BenbTmbxBxWOtBq3mQTCokIreuMULFantBUclP0+KnzNCMOvcnKinqQZmiOF8w==}
+    dependencies:
+      '@babel/parser': 7.20.1
+      '@vue/compiler-core': 3.2.41
+      '@vue/compiler-dom': 3.2.41
+      '@vue/compiler-ssr': 3.2.41
+      '@vue/reactivity-transform': 3.2.41
+      '@vue/shared': 3.2.41
+      estree-walker: 2.0.2
+      magic-string: 0.25.9
+      postcss: 8.4.18
+      source-map: 0.6.1
+    dev: false
+
+  /@vue/compiler-ssr/3.2.41:
+    resolution: {integrity: sha512-Y5wPiNIiaMz/sps8+DmhaKfDm1xgj6GrH99z4gq2LQenfVQcYXmHIOBcs5qPwl7jaW3SUQWjkAPKMfQemEQZwQ==}
+    dependencies:
+      '@vue/compiler-dom': 3.2.41
+      '@vue/shared': 3.2.41
+    dev: false
+
+  /@vue/reactivity-transform/3.2.41:
+    resolution: {integrity: sha512-mK5+BNMsL4hHi+IR3Ft/ho6Za+L3FA5j8WvreJ7XzHrqkPq8jtF/SMo7tuc9gHjLDwKZX1nP1JQOKo9IEAn54A==}
+    dependencies:
+      '@babel/parser': 7.20.1
+      '@vue/compiler-core': 3.2.41
+      '@vue/shared': 3.2.41
+      estree-walker: 2.0.2
+      magic-string: 0.25.9
+    dev: false
+
+  /@vue/shared/3.2.41:
+    resolution: {integrity: sha512-W9mfWLHmJhkfAmV+7gDjcHeAWALQtgGT3JErxULl0oz6R6+3ug91I7IErs93eCFhPCZPHBs4QJS7YWEV7A3sxw==}
+    dev: false
 
   /@whatwg-node/events/0.0.2:
     resolution: {integrity: sha512-WKj/lI4QjnLuPrim0cfO7i+HsDSXHxNv1y0CrJhdntuO3hxWZmnXCwNDnwOvry11OjRin6cgWNF+j/9Pn8TN4w==}
@@ -5529,7 +5619,6 @@ packages:
 
   /dedent-js/1.0.1:
     resolution: {integrity: sha512-OUepMozQULMLUmhxS95Vudo0jb0UchLimi3+pQ2plj61Fcy8axbP9hbiD4Sz6DPqn6XG3kfmziVfQ1rSys5AJQ==}
-    dev: true
 
   /deep-eql/3.0.1:
     resolution: {integrity: sha512-+QeIQyN5ZuO+3Uk5DYh6/1eKO0m0YmJFGNmFHGACpf1ClL1nmlV/p4gNgbl2pJGxgXb4faqo6UE+M5ACEMyVcw==}
@@ -6897,7 +6986,6 @@ packages:
 
   /estree-walker/2.0.2:
     resolution: {integrity: sha512-Rfkk/Mp/DL7JVje3u18FxFujQlTNR2q6QfMSMB7AvCBx91NGj/ba3kCfza0f6dVDbw7YlRf/nDrn7pQrCCyQ/w==}
-    dev: true
 
   /estree-walker/3.0.1:
     resolution: {integrity: sha512-woY0RUD87WzMBUiZLx8NsYr23N5BKsOMZHhu2hoNRVh6NXGfoiT1KOL8G3UHlJAnEDGmfa5ubNA/AacfG+Kb0g==}
@@ -8623,7 +8711,6 @@ packages:
     resolution: {integrity: sha512-RmF0AsMzgt25qzqqLc1+MbHmhdx0ojF2Fvs4XnOqz2ZOBXzzkEwc/dJQZCYHAn7v1jbVOjAZfK8msRn4BxO4VQ==}
     dependencies:
       sourcemap-codec: 1.4.8
-    dev: true
 
   /magic-string/0.26.7:
     resolution: {integrity: sha512-hX9XH3ziStPoPhJxLq1syWuZMxbDvGNbVchfrdCtanC7D13888bMFow61x8axrx+GfHLtVeAx2kxL7tTGRl+Ow==}
@@ -10448,7 +10535,6 @@ packages:
       nanoid: 3.3.4
       picocolors: 1.0.0
       source-map-js: 1.0.2
-    dev: true
 
   /preact/10.11.2:
     resolution: {integrity: sha512-skAwGDFmgxhq1DCBHke/9e12ewkhc7WYwjuhHB8HHS8zkdtITXLRmUMTeol2ldxvLwYtwbFeifZ9uDDWuyL4Iw==}
@@ -11333,7 +11419,6 @@ packages:
     resolution: {integrity: sha512-UjgapumWlbMhkBgzT7Ykc5YXUT46F0iKu8SGXq0bcwP5dz/h0Plj6enJqjz1Zbq2l5WaqYnrVbwWOWMyF3F47g==}
     engines: {node: '>=0.10.0'}
     requiresBuild: true
-    dev: true
 
   /source-map/0.7.4:
     resolution: {integrity: sha512-l3BikUxvPOcn5E74dZiq5BGsTb5yEwhaTSzccU6t4sDOH8NWJCstKO5QT2CvtFoK6F0saL7p9xHAqHOlCPJygA==}
@@ -11349,7 +11434,6 @@ packages:
 
   /sourcemap-codec/1.4.8:
     resolution: {integrity: sha512-9NykojV5Uih4lgo5So5dtw+f0JgJX30KCNI8gwhz2J9A15wD0Ml6tjHKwf6fTSa6fAdVBdZeNOs9eJ71qCk8vA==}
-    dev: true
 
   /space-separated-tokens/2.0.1:
     resolution: {integrity: sha512-ekwEbFp5aqSPKaqeY1PGrlGQxPNaq+Cnx4+bE2D8sciBQrHpbwoBbawqTN2+6jPs9IdWxxiUcN0K2pkczD3zmw==}
@@ -11684,19 +11768,6 @@ packages:
   /svelte/3.50.1:
     resolution: {integrity: sha512-bS4odcsdj5D5jEg6riZuMg5NKelzPtmsCbD9RG+8umU03TeNkdWnP6pqbCm0s8UQNBkqk29w/Bdubn3C+HWSwA==}
     engines: {node: '>= 8'}
-    dev: true
-
-  /svelte2tsx/0.5.17_iprco5tylfmvffqgrvqxc46njy:
-    resolution: {integrity: sha512-4NAWuDhNu8AfBqivnbc9YZlWiHjLqoIPX6Fz2TwzzXM8a2qs3t6brAYa+C+vc2Gm5hNltDNJMmF0sC9D01PoCA==}
-    peerDependencies:
-      svelte: ^3.24
-      typescript: ^4.1.2
-    dependencies:
-      dedent-js: 1.0.1
-      pascal-case: 3.1.2
-      svelte: 3.50.1
-      typescript: 4.8.3
-    dev: true
 
   /svelte2tsx/0.5.20_iprco5tylfmvffqgrvqxc46njy:
     resolution: {integrity: sha512-yNHmN/uoAnJ7d1XqVohiNA6TMFOxibHyEddUAHVt1PiLXtbwAJF3WaGYlg8QbOdoXzOVsVNCAlqRUIdULUm+OA==}
@@ -11708,7 +11779,6 @@ packages:
       pascal-case: 3.1.2
       svelte: 3.50.1
       typescript: 4.8.3
-    dev: true
 
   /svgo/2.8.0:
     resolution: {integrity: sha512-+N/Q9kV1+F+UeWYoSiULYo4xYSDQlTgb+ayMobAXPwMnLvop7oxKMo9OzIrX5x3eS4L4f2UHhc9axXwY8DpChg==}
@@ -12469,6 +12539,13 @@ packages:
       vfile-message: 3.1.2
     dev: false
 
+  /vite-plugin-watch-and-run/1.1.0-next.5:
+    resolution: {integrity: sha512-LDwQvvmkXXlCuxEQrAbtD7UMy7tAVLZ3mwjQ2pvECOtohsyzt8RvyzQrC7wvVaVdO+IYoxIPgL1jTXCHQZwzcw==}
+    dependencies:
+      '@kitql/helper': 0.6.0-next.3
+      micromatch: 4.0.5
+    dev: false
+
   /vite/3.1.7:
     resolution: {integrity: sha512-5vCAmU4S8lyVdFCInu9M54f/g8qbOMakVw5xJ4pjoaDy5wgy9sLLZkGdSLN52dlsBqh0tBqxjaqqa8LgPqwRAA==}
     engines: {node: ^14.18.0 || >=16.0.0}
@@ -12969,8 +13046,8 @@ packages:
       yargs-parser: 21.1.1
     dev: true
 
-  /yargs/17.6.1:
-    resolution: {integrity: sha512-leBuCGrL4dAd6ispNOGsJlhd0uZ6Qehkbu/B9KCR+Pxa/NVdNwi+i31lo0buCm6XxhJQFshXCD0/evfV4xfoUg==}
+  /yargs/17.6.2:
+    resolution: {integrity: sha512-1/9UrdHjDZc0eOU0HxOHoS78C69UD3JRMvzlJ7S79S2nTaWRA/whGCTV8o9e/N/1Va9YIV7Q4sOxD8VV4pCWOw==}
     engines: {node: '>=12'}
     dependencies:
       cliui: 8.0.1

@@ -5,20 +5,35 @@ import { createSchema, createYoga, type Plugin, type YogaInitialContext } from '
 
 export type KitQLHandleGraphQL<TUserContext, TServerContext extends Record<string, any>> = {
   /**
-   * If you set the `graphiQLPath`, on a GET request you will be redirected there
-   * If not, you will get a 404 (security by default ;))))))))))))))))))
+   * The path to access your own GraphqiQL.
+   *
+   * Note that you will need to add `handleGraphiql` to have it working.
+   *
+   * **Default**: `undefined`
+   *
+   * ---
+   * _Note:_ By default graphiQLPath is undefined, so you will get a 404 on a GET request. (Security by default)
    */
   graphiQLPath?: string
+
   /**
-   * defaults to /graphql
+   * The path to your graphql endpoint
+   *
+   * **Default**: `/api/graphql`
    */
   endpoint?: string
 
+  /**
+   * THE context.
+   */
   context?:
     | ((initialContext: YogaInitialContext & TServerContext) => Promise<TUserContext> | TUserContext)
     | Promise<TUserContext>
     | TUserContext
 
+  /**
+   * List of plugins.
+   */
   plugins?: Plugin[]
 }
 
@@ -28,7 +43,7 @@ export function handleGraphql<TUserContext, TServerContext>(
   // set defaults
   const { graphiQLPath, endpoint, plugins, context } = {
     graphiQLPath: undefined,
-    endpoint: '/graphql',
+    endpoint: '/api/graphql',
     plugins: [],
     context: () => {
       return {} as TUserContext

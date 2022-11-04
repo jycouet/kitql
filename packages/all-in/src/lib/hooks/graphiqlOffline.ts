@@ -1,19 +1,7 @@
 import type { Handle } from '@sveltejs/kit'
 import type { GraphiQLRendererOptions as GraphiQLYogaOptions } from 'graphql-yoga/typings/plugins/useGraphiQL'
 
-export type KitQLHandleGraphiQL = Omit<GraphiQLYogaOptions, 'headers' | 'endpoint'> & {
-  headers?: Record<string, string>
-
-  enabled?: boolean
-
-  endpoint?: string
-
-  /**
-   * This is the graphiQLPath in the SvelteKit app
-   * @default is '/graphiql'
-   */
-  graphiQLPath?: string
-}
+import { defaultQuery, type KitQLHandleGraphiQL } from './graphiqlCommon.js'
 
 async function getGraphiQLBody(graphiqlOptions: GraphiQLYogaOptions) {
   try {
@@ -28,8 +16,8 @@ async function getGraphiQLBody(graphiqlOptions: GraphiQLYogaOptions) {
 export function handleGraphiqlOffline(options?: KitQLHandleGraphiQL): Handle {
   const { graphiQLPath, headers, enabled, ...opts } = {
     title: 'KitQL',
-    endpoint: '/graphql',
-    graphiQLPath: '/graphiql',
+    endpoint: '/api/graphql',
+    graphiQLPath: '/api/graphiql',
     enabled: true,
     ...options,
   }
@@ -42,6 +30,7 @@ export function handleGraphiqlOffline(options?: KitQLHandleGraphiQL): Handle {
     ? getGraphiQLBody({
         ...opts,
         headers: JSON.stringify(headers ?? {}),
+        defaultQuery,
       })
     : ''
 
