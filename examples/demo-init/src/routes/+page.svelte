@@ -10,7 +10,7 @@
 
 <div>
 	✅ Check your own 👉 <a
-		href="/graphiql?query=%23+Welcome+to+KitQL%0A%0Aquery+Version+%7B%0A++version+%7B%0A++++releaseCreatedAtUtc%0A++%7D%0A%7D"
+		href="/api/graphiql?query=%23+Welcome+to+KitQL%0A%0Aquery+Version+%7B%0A++version+%7B%0A++++releaseCreatedAtUtc%0A++%7D%0A%7D"
 		target="_blank"
 		rel="external">Graph<i>i</i>QL</a
 	> <i>v2</i>!
