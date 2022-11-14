@@ -1,0 +1,20 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model test {
+  id      String       @id @default(cuid())
+  name    String
+  my_demo my_demo_enum
+}
+
+enum my_demo_enum {
+  ONE
+  TWO
+  FOUR
+}

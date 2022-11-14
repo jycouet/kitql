@@ -9,7 +9,8 @@ export function actionEnum(
   enumsModuleFolder: string,
   moduleOutputFolder: string,
   importBaseTypesFrom: string,
-  enums: Record<string, string[]>
+  enums: Record<string, string[]>,
+  localDev: boolean
 ) {
   // Typedefs
   createFolderIfNotExists(join(enumsModuleFolder, '_enums'))
@@ -38,26 +39,30 @@ export function actionEnum(
     const keyWOEnum = key.replace('Enum', '')
     const enumFileData = []
 
-    enumFileData.push(`import { type ${key} } from '${importBaseTypesFrom}';`)
+    const line1 = `import { type ${key} } from '${importBaseTypesFrom}';`
+    enumFileData.push(line1)
     enumFileData.push(``)
-    enumFileData.push(`export const ${keyWOEnum}List: Record<${key}, string> = {`)
+    const line2 = `export const ${keyWOEnum}List: Record<${key}, string> = `
+    enumFileData.push(`${line2} {`)
     list.forEach((c, i) => {
       const isLast = i === list.length - 1
       enumFileData.push(`\t${c}: '${toPascalCase(c.toLowerCase())}'${isLast ? '' : ','}`)
     })
-    enumFileData.push(`};`)
+    enumFileData.push(`}`)
     enumFileData.push(``)
+
+    const filePath = join(enumsModuleFolder, '_enums', 'ui', 'lists', `${keyWOEnum}List.ts`)
 
     // Write this file only if it doesn't exist!
     // Like this, you can change the value with text that will be displayed in the UI!
-    if (!existsSync(join(enumsModuleFolder, '_enums', 'ui', 'lists', `${keyWOEnum}List.ts`))) {
-      write(join(enumsModuleFolder, '_enums', 'ui', 'lists', `${keyWOEnum}List.ts`), enumFileData)
+    if (!existsSync(filePath)) {
+      write(filePath, enumFileData)
     }
   }
 
   // Index
   const enumFileData = []
-  enumFileData.push(`import { createModule } from 'graphql-modules'`)
+  enumFileData.push(`import { createModule } from ${localDev ? `'graphql-modules'` : `'@kitql/all-in'`}`)
   enumFileData.push(``)
   enumFileData.push(`import { typeDefs } from './${moduleOutputFolder}/typedefs'`)
   enumFileData.push(``)

@@ -42,22 +42,19 @@ export function generate(log: Log, config?: KitQLVite) {
   }
 
   // Enums
-  if (config?.createEnumsModule) {
-    const { prismaFile, enumsModuleFolder } = {
-      prismaFile: '',
-      enumsModuleFolder: '',
-      ...config?.createEnumsModule,
-    }
+  if (config?.prismaFileForEnums) {
+    const enumsModuleFolder = './src/lib/modules'
+    const prismaFilePath = getFullPath(config.prismaFileForEnums)
+    const prismaFileContent = readLines(prismaFilePath)
 
-    const prismaFilePath = getFullPath(prismaFile)
-    if (readLines(prismaFilePath).length === 0) {
-      const enums = getPrismaEnum(readLines(prismaFilePath))
-      const enumsKeys = actionEnum(enumsModuleFolder, moduleOutputFolder, importBaseTypesFrom, enums)
+    if (prismaFileContent.length !== 0) {
+      const enums = getPrismaEnum(prismaFileContent)
+      const enumsKeys = actionEnum(enumsModuleFolder, moduleOutputFolder, importBaseTypesFrom, enums, localDev)
       meta.enums = enumsKeys.length
       // log.info(`${logGreen('✔')} ${logGreen('Enums')} created [${enumsKeys.map(c => logGreen(c)).join(',')}]`)
     } else {
-      log.error(`${'❌'} file ${logRed(prismaFilePath)} not found!`)
-      throw new Error(`file ${prismaFilePath} not found!`)
+      log.error(`file ${logRed(prismaFilePath)} not found!`)
+      // throw new Error(`file ${prismaFilePath} not found!`)
     }
   }
 

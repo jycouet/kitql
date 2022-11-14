@@ -6,7 +6,7 @@ import { kitql } from './src/lib/vite/plugin.js'
 // import { kitql } from '@kitql/all-in'
 
 const config: UserConfig = {
-  plugins: [kitql({ projectName: 'myPrj', localDev: true }), sveltekit()],
+  plugins: [kitql({ projectName: 'myPrj', localDev: true, prismaFileForEnums: './prisma/schema.prisma' }), sveltekit()],
 
   optimizeDeps: {
     include: ['safe-stable-stringify'],
