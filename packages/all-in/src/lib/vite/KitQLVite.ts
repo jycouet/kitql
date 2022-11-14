@@ -1,7 +1,7 @@
-export type TEnumsModuleConfig = {
-  prismaFile: string
-  enumsModuleFolder: string
-}
+// export type TEnumsModuleConfig = {
+//   prismaFile: string
+//   enumsModuleFolder: string
+// }
 
 export type KitQLVite = {
   projectName?: string
@@ -11,7 +11,8 @@ export type KitQLVite = {
   // importBaseTypesFrom?: string
   // modules?: string[]
 
-  createEnumsModule?: TEnumsModuleConfig | false
+  prismaFileForEnums?: string | false
+  // createEnumsModule?: TEnumsModuleConfig | false
   //   mergeModuleTypedefs?: boolean
   //   mergeModuleResolvers?: boolean
   //   mergeContexts?: boolean

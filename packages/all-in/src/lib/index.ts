@@ -30,3 +30,4 @@ export type { KitQLVite } from './vite/KitQLVite.js'
 
 // graphql-yoga
 export type { Plugin as YogaPlugin } from 'graphql-yoga'
+export { createSchema } from 'graphql-yoga'
