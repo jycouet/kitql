@@ -1,5 +1,11 @@
 # @kitql/all-in
 
+## 0.8.0-next.22
+
+### Patch Changes
+
+- [#270](https://github.com/jycouet/kitql/pull/270) [`a62009a`](https://github.com/jycouet/kitql/commit/a62009aa50c60217a0fed52060675caf188dcd50) Thanks [@jycouet](https://github.com/jycouet)! - add schema option to the handler if you don't want to work with modules
+
 ## 0.8.0-next.21
 
 ### Patch Changes
