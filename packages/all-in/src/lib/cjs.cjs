@@ -37,7 +37,11 @@ module.exports = function kitqlConfig(options) {
       `${projectLocation}/src/lib/modules/**/typedefs/*.graphql`,
       `${projectLocation}/$houdini/graphql/schema.graphql`,
     ],
-    documents: [`${projectLocation}/src/**/*.gql`, `${projectLocation}/$houdini/graphql/documents.gql`],
+    documents: [
+      `${projectLocation}/src/**/*.gql`,
+      `${projectLocation}/src/**/*.svelte`,
+      `${projectLocation}/$houdini/graphql/documents.gql`,
+    ],
     extensions: {
       codegen: kitqlCodegen(projectLocation, scalars),
     },
