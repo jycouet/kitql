@@ -62,11 +62,15 @@ export function actionEnum(
 
   // Index
   const enumFileData = []
-  enumFileData.push(`import { createModule } from ${localDev ? `'graphql-modules'` : `'@kitql/all-in'`}`)
+  enumFileData.push(
+    `import { ${localDev ? `createModule` : `kitqlModules`} } from ${
+      localDev ? `'graphql-modules'` : `'@kitql/all-in'`
+    }`
+  )
   enumFileData.push(``)
   enumFileData.push(`import { typeDefs } from './${moduleOutputFolder}/typedefs'`)
   enumFileData.push(``)
-  enumFileData.push(`export const _enumsModule = createModule({`)
+  enumFileData.push(`export const _enumsModule =  ${localDev ? `createModule` : `kitqlModules`}({`)
   enumFileData.push(`\tid: 'enums-module',`)
   enumFileData.push(`\ttypeDefs`)
   enumFileData.push(`})`)

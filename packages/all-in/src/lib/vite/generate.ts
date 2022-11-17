@@ -17,12 +17,13 @@ import { updateModuleTypes } from './updateModuleTypes.js'
 export function generate(log: Log, config?: KitQLVite) {
   const providersFolder = 'providers' as const
 
-  const { outputFolder, moduleOutputFolder, importBaseTypesFrom, modules, localDev } = {
+  const { outputFolder, moduleOutputFolder, importBaseTypesFrom, modules, localDev, typeDefsStyle } = {
     outputFolder: 'src/lib/graphql/$kitql',
     moduleOutputFolder: '$kitql',
     importBaseTypesFrom: '$graphql/$kitql/graphqlTypes',
     modules: ['src/lib/modules/*'],
     localDev: false,
+    typeDefsStyle: 'gql' as KitQLVite['typeDefsStyle'],
     ...config,
   }
 
@@ -86,7 +87,7 @@ export function generate(log: Log, config?: KitQLVite) {
 
       // TypeDefs
       if (mergeModuleTypedefs) {
-        typedefsFilesLength = actionTypeDefs(directory, moduleOutputFolder, localDev)
+        typedefsFilesLength = actionTypeDefs(directory, moduleOutputFolder, localDev, typeDefsStyle)
       }
 
       // Resolvers

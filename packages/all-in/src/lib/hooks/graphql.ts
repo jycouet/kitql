@@ -27,7 +27,7 @@ export type KitQLHandleGraphQL<TUserContext, TServerContext extends Record<strin
    * If you want to use your own schema, you can pass it here.
    * let's have a look at the type only after Yoga v3 is out!
    */
-  schema: any
+  schema?: any
 
   /**
    * THE context.
