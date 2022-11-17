@@ -1,5 +1,11 @@
 # @kitql/all-in
 
+## 0.8.0-next.23
+
+### Patch Changes
+
+- [#272](https://github.com/jycouet/kitql/pull/272) [`501bf4c`](https://github.com/jycouet/kitql/commit/501bf4cf602d96da28ca2c0504f80329e2be9b67) Thanks [@jycouet](https://github.com/jycouet)! - experiemental - add typeDefsStyle config string | gql
+
 ## 0.8.0-next.22
 
 ### Patch Changes
