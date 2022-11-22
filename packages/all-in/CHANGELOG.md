@@ -1,5 +1,45 @@
 # @kitql/all-in
 
+## 0.8.0
+
+### Minor Changes
+
+- [#215](https://github.com/jycouet/kitql/pull/215) [`6261921`](https://github.com/jycouet/kitql/commit/6261921157c3581258fa12c1a57fd450f5b26547) Thanks [@jycouet](https://github.com/jycouet)! - update with sveltekit next.483 & import form @kitql/all-in
+
+- [#261](https://github.com/jycouet/kitql/pull/261) [`e064bbd`](https://github.com/jycouet/kitql/commit/e064bbd9bc66c6034004b76d630f54ade919ea72) Thanks [@jycouet](https://github.com/jycouet)! - working with mono-repo & user check working
+
+- [#267](https://github.com/jycouet/kitql/pull/267) [`81fa78b`](https://github.com/jycouet/kitql/commit/81fa78b8de903dc3de0a0259e74f0023c8817cd3) Thanks [@jycouet](https://github.com/jycouet)! - consistant casing for kitql
+
+- [#228](https://github.com/jycouet/kitql/pull/228) [`470d87b`](https://github.com/jycouet/kitql/commit/470d87bace0df3d761a4074de98073b63d431ae2) Thanks [@jycouet](https://github.com/jycouet)! - update the way @kitql/helper is used in all-in
+
+- [#258](https://github.com/jycouet/kitql/pull/258) [`fc75d5b`](https://github.com/jycouet/kitql/commit/fc75d5bfebd37bdbfd77a742dd8f5dfba1df8020) Thanks [@jycouet](https://github.com/jycouet)! - update yoga version & check conf
+
+- [#272](https://github.com/jycouet/kitql/pull/272) [`501bf4c`](https://github.com/jycouet/kitql/commit/501bf4cf602d96da28ca2c0504f80329e2be9b67) Thanks [@jycouet](https://github.com/jycouet)! - experiemental - add typeDefsStyle config string | gql
+
+- [`d780743`](https://github.com/jycouet/kitql/commit/d7807434a26483e586b8598f4c9104f2f7173449) Thanks [@jycouet](https://github.com/jycouet)! - custom project name
+
+- [#222](https://github.com/jycouet/kitql/pull/222) [`d8a2095`](https://github.com/jycouet/kitql/commit/d8a2095c58c6dd967040c11888d49562c31e66ee) Thanks [@jycouet](https://github.com/jycouet)! - Improve GraphiQL offline / online option
+
+- [`bc69faa`](https://github.com/jycouet/kitql/commit/bc69faa148f7ea5b1eecb5a714165b920eab3b2f) Thanks [@jycouet](https://github.com/jycouet)! - ctx generation are back
+
+- [#263](https://github.com/jycouet/kitql/pull/263) [`2e8385d`](https://github.com/jycouet/kitql/commit/2e8385de17ee0644adf2a078b19dab191115e1d2) Thanks [@jycouet](https://github.com/jycouet)! - remove error when no module
+
+- [#250](https://github.com/jycouet/kitql/pull/250) [`63e40d2`](https://github.com/jycouet/kitql/commit/63e40d2dbab2ac2852be9af9a851a8e8c5bb1eca) Thanks [@jycouet](https://github.com/jycouet)! - add useKitModules middlewares & providers
+
+- [#270](https://github.com/jycouet/kitql/pull/270) [`a62009a`](https://github.com/jycouet/kitql/commit/a62009aa50c60217a0fed52060675caf188dcd50) Thanks [@jycouet](https://github.com/jycouet)! - add schema option to the handler if you don't want to work with modules
+
+- [#243](https://github.com/jycouet/kitql/pull/243) [`f2596b1`](https://github.com/jycouet/kitql/commit/f2596b1ab620ed76014bd7cc5d36ba23ad347616) Thanks [@jycouet](https://github.com/jycouet)! - export all the lib in svelte esm
+
+- [#226](https://github.com/jycouet/kitql/pull/226) [`e326e66`](https://github.com/jycouet/kitql/commit/e326e669b006a4a4dad5223e129dac4cbf9be232) Thanks [@jycouet](https://github.com/jycouet)! - using yoga v3 (beta)
+
+- [`98ef01d`](https://github.com/jycouet/kitql/commit/98ef01d4882ba6cd5dd255721a6dbd4a8a40c57c) Thanks [@jycouet](https://github.com/jycouet)! - add handleGraphiqlOffline
+
+- [#235](https://github.com/jycouet/kitql/pull/235) [`9794890`](https://github.com/jycouet/kitql/commit/9794890736297fcf9d9a25c93bf71a1cbf889efa) Thanks [@jycouet](https://github.com/jycouet)! - first version of kitql vite plugin
+
+- Updated dependencies [[`9794890`](https://github.com/jycouet/kitql/commit/9794890736297fcf9d9a25c93bf71a1cbf889efa), [`a07b0e8`](https://github.com/jycouet/kitql/commit/a07b0e854d47540fb2169c69a08f39367609653e), [`6261921`](https://github.com/jycouet/kitql/commit/6261921157c3581258fa12c1a57fd450f5b26547), [`e326e66`](https://github.com/jycouet/kitql/commit/e326e669b006a4a4dad5223e129dac4cbf9be232), [`2e8385d`](https://github.com/jycouet/kitql/commit/2e8385de17ee0644adf2a078b19dab191115e1d2), [`e575c28`](https://github.com/jycouet/kitql/commit/e575c28a6af90beef015368e5da7205da63987ac)]:
+  - @kitql/helper@0.6.0
+  - vite-plugin-watch-and-run@1.1.0
+
 ## 0.8.0-next.23
 
 ### Patch Changes

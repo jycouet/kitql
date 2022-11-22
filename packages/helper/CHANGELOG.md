@@ -1,5 +1,17 @@
 # @kitql/helper
 
+## 0.6.0
+
+### Minor Changes
+
+- [#215](https://github.com/jycouet/kitql/pull/215) [`6261921`](https://github.com/jycouet/kitql/commit/6261921157c3581258fa12c1a57fd450f5b26547) Thanks [@jycouet](https://github.com/jycouet)! - update with sveltekit next.483 & import form @kitql/all-in
+
+- [#235](https://github.com/jycouet/kitql/pull/235) [`9794890`](https://github.com/jycouet/kitql/commit/9794890736297fcf9d9a25c93bf71a1cbf889efa) Thanks [@jycouet](https://github.com/jycouet)! - import with ext
+
+- [#220](https://github.com/jycouet/kitql/pull/220) [`a07b0e8`](https://github.com/jycouet/kitql/commit/a07b0e854d47540fb2169c69a08f39367609653e) Thanks [@github-actions](https://github.com/apps/github-actions)! - update to use safe-stable-stringify
+
+- [#253](https://github.com/jycouet/kitql/pull/253) [`e575c28`](https://github.com/jycouet/kitql/commit/e575c28a6af90beef015368e5da7205da63987ac) Thanks [@jycouet](https://github.com/jycouet)! - check str0
+
 ## 0.6.0-next.3
 
 ### Patch Changes

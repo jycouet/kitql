@@ -1,5 +1,18 @@
 # @kitql/vite-plugin-watch-and-run
 
+## 1.1.0
+
+### Minor Changes
+
+- [#215](https://github.com/jycouet/kitql/pull/215) [`6261921`](https://github.com/jycouet/kitql/commit/6261921157c3581258fa12c1a57fd450f5b26547) Thanks [@jycouet](https://github.com/jycouet)! - update with sveltekit next.483 & import form @kitql/all-in
+
+- [#226](https://github.com/jycouet/kitql/pull/226) [`e326e66`](https://github.com/jycouet/kitql/commit/e326e669b006a4a4dad5223e129dac4cbf9be232) Thanks [@jycouet](https://github.com/jycouet)! - bump vite version
+
+- [#263](https://github.com/jycouet/kitql/pull/263) [`2e8385d`](https://github.com/jycouet/kitql/commit/2e8385de17ee0644adf2a078b19dab191115e1d2) Thanks [@jycouet](https://github.com/jycouet)! - format message update with correct space
+
+- Updated dependencies [[`9794890`](https://github.com/jycouet/kitql/commit/9794890736297fcf9d9a25c93bf71a1cbf889efa), [`a07b0e8`](https://github.com/jycouet/kitql/commit/a07b0e854d47540fb2169c69a08f39367609653e), [`6261921`](https://github.com/jycouet/kitql/commit/6261921157c3581258fa12c1a57fd450f5b26547), [`e575c28`](https://github.com/jycouet/kitql/commit/e575c28a6af90beef015368e5da7205da63987ac)]:
+  - @kitql/helper@0.6.0
+
 ## 1.1.0-next.5
 
 ### Patch Changes
