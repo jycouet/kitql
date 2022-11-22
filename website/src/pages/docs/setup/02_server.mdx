@@ -86,7 +86,7 @@ Now, we just need to generate everything... to have typings & modules.
 Create a config file `graphql.config.cjs` with the following content:
 
 ```js filename="graphql.config.cjs"
-const kitqlConfig = require('@kitql/all-in/cjs.cjs')
+const kitqlConfig = require('./packages/all-in/src/lib/cjs.cjs')
 
 const scalars = {
   Date: '../helpers/scalarTypes#CodegenDate',
@@ -96,7 +96,10 @@ const scalars = {
 /** @type {import('@kitql/all-in').KitQLProjects} */
 const config = {
   projects: {
-    init: kitqlConfig({ scalars })
+    init: kitqlConfig({
+      scalars
+      // projectLocation: './packages/init' // if you are in a mono-repo
+    })
   }
 }
 
@@ -115,7 +118,14 @@ import houdini from 'houdini/vite'
 import type { UserConfig } from 'vite'
 
 const config: UserConfig = {
-  plugins: [houdini(), kitql(), sveltekit()]
+  plugins: [
+    kitql({
+      projectName: 'init'
+      // prismaFileForEnums: './prisma/schema.prisma'
+    }),
+    houdini(),
+    sveltekit()
+  ]
 }
 
 export default config
