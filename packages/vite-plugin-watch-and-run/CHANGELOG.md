@@ -6,8 +6,6 @@
 
 - [#215](https://github.com/jycouet/kitql/pull/215) [`6261921`](https://github.com/jycouet/kitql/commit/6261921157c3581258fa12c1a57fd450f5b26547) Thanks [@jycouet](https://github.com/jycouet)! - update with sveltekit next.483 & import form @kitql/all-in
 
-### Patch Changes
-
 - [#226](https://github.com/jycouet/kitql/pull/226) [`e326e66`](https://github.com/jycouet/kitql/commit/e326e669b006a4a4dad5223e129dac4cbf9be232) Thanks [@jycouet](https://github.com/jycouet)! - bump vite version
 
 - [#263](https://github.com/jycouet/kitql/pull/263) [`2e8385d`](https://github.com/jycouet/kitql/commit/2e8385de17ee0644adf2a078b19dab191115e1d2) Thanks [@jycouet](https://github.com/jycouet)! - format message update with correct space
