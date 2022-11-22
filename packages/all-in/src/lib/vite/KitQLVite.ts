@@ -22,4 +22,9 @@ export type KitQLVite = {
    * @deprecated for library development only
    */
   localDev?: boolean
+
+  /**
+   * @experimental to generate as string or gql (default to gql)
+   */
+  typeDefsStyle?: 'string' | 'gql'
 }

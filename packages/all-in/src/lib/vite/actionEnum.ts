@@ -39,11 +39,9 @@ export function actionEnum(
     const keyWOEnum = key.replace('Enum', '')
     const enumFileData = []
 
-    const line1 = `import { type ${key} } from '${importBaseTypesFrom}';`
-    enumFileData.push(line1)
+    enumFileData.push(`import { type ${key} } from '${importBaseTypesFrom}'`)
     enumFileData.push(``)
-    const line2 = `export const ${keyWOEnum}List: Record<${key}, string> = `
-    enumFileData.push(`${line2} {`)
+    enumFileData.push(`export const ${keyWOEnum}List: Record<${key}, string> = {`)
     list.forEach((c, i) => {
       const isLast = i === list.length - 1
       enumFileData.push(`\t${c}: '${toPascalCase(c.toLowerCase())}'${isLast ? '' : ','}`)
@@ -62,11 +60,15 @@ export function actionEnum(
 
   // Index
   const enumFileData = []
-  enumFileData.push(`import { createModule } from ${localDev ? `'graphql-modules'` : `'@kitql/all-in'`}`)
+  enumFileData.push(
+    `import { ${localDev ? `createModule` : `kitqlModules`} } from ${
+      localDev ? `'graphql-modules'` : `'@kitql/all-in'`
+    }`
+  )
   enumFileData.push(``)
   enumFileData.push(`import { typeDefs } from './${moduleOutputFolder}/typedefs'`)
   enumFileData.push(``)
-  enumFileData.push(`export const _enumsModule = createModule({`)
+  enumFileData.push(`export const _enumsModule = ${localDev ? `createModule` : `kitqlModules`}({`)
   enumFileData.push(`\tid: 'enums-module',`)
   enumFileData.push(`\ttypeDefs`)
   enumFileData.push(`})`)

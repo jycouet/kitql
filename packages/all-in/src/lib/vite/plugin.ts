@@ -49,12 +49,7 @@ async function gooo(config?: KitQLVite) {
     // KitQL (needs to be second as we write in the codegen module files)
     kitql_generate(log, config)
   } catch (e) {
-    if (e.name === 'AggregateError') {
-      // No '*.graphql' found. Maybe schema is coming from mesh only?
-      // Still, let's run KitQL generate to clean up old files
-      kitql_generate(log, config)
-    } else {
-      console.error(e)
-    }
+    kitql_generate(log, config)
+    log.error(e.message)
   }
 }

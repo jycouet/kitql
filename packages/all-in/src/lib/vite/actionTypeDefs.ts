@@ -3,20 +3,29 @@ import { join } from 'path'
 import { createFolderIfNotExists, getFiles } from './fileFolder.js'
 import { read, write } from './readWrite.js'
 
-export function actionTypeDefs(moduleFolder: string, moduleOutputFolder: string, localDev: boolean) {
+export function actionTypeDefs(
+  moduleFolder: string,
+  moduleOutputFolder: string,
+  localDev: boolean,
+  typeDefsStyle: 'string' | 'gql'
+) {
   const typedefsFolder = 'typedefs'
 
   const typedefsFiles = getFiles(join(moduleFolder, typedefsFolder))
 
   const dataTypedefs = []
+  const prefix = typeDefsStyle === 'gql' ? 'gql' : ''
+
   if (typedefsFiles.length > 0) {
-    dataTypedefs.push(`import { gql } from ${localDev ? `'graphql-modules'` : `'@kitql/all-in'`}`)
-    dataTypedefs.push(``)
-    dataTypedefs.push(`export const typeDefs = gql${'`'}`)
+    if (typeDefsStyle === 'gql') {
+      dataTypedefs.push(`import { gql } from ${localDev ? `'graphql-modules'` : `'@kitql/all-in'`}`)
+      dataTypedefs.push(``)
+    }
+    dataTypedefs.push(`export const typeDefs = ${prefix}\``)
     typedefsFiles.forEach(typedefs => {
       dataTypedefs.push(read(join(moduleFolder, typedefsFolder, typedefs)))
     })
-    dataTypedefs.push(`${'`'};`)
+    dataTypedefs.push(`\`;`)
   } else {
     dataTypedefs.push(`// No typedefs!`)
     dataTypedefs.push(``)
