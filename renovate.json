@@ -9,13 +9,6 @@
     {
       "groupName": "houdini",
       "matchPackagePrefixes": "houdini"
-    },
-    {
-      "groupName": "all non-major dependencies",
-      "matchPackagePatterns": ["*"],
-      "matchUpdateTypes": ["minor", "patch"],
-      "groupSlug": "all-minor-patch",
-      "excludePackagePatterns": ["@changesets/*", "typescript", "next"]
     }
   ],
   "ignoreDeps": ["graphiql"],
