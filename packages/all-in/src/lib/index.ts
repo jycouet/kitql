@@ -14,6 +14,7 @@ export {
   Scope as Scope,
   InjectionToken as InjectionToken,
 } from 'graphql-modules'
+export type { Next as Next } from 'graphql-modules/shared/middleware'
 export { useKitqlModules } from './graphql/useKitqlModules.js'
 export { gm }
 
