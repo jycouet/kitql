@@ -1,0 +1,24 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": ["github>the-guild-org/shared-config:renovate", ":preserveSemverRanges"],
+  "packageRules": [
+    {
+      "groupName": "envelop",
+      "matchPackagePrefixes": "@envelop"
+    },
+    {
+      "groupName": "houdini",
+      "matchPackagePrefixes": "houdini"
+    },
+    {
+      "groupName": "all non-major dependencies",
+      "matchPackagePatterns": ["*"],
+      "matchUpdateTypes": ["minor", "patch"],
+      "groupSlug": "all-minor-patch",
+      "excludePackagePatterns": ["@changesets/*", "typescript", "next"]
+    }
+  ],
+  "ignoreDeps": ["graphiql"],
+  "ignorePaths": ["**/__tests__/**", "**/test/**", "**/tests/**", "**/__fixtures__/**"],
+  "baseBranches": ["main"]
+}
