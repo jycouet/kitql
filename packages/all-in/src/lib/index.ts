@@ -4,7 +4,14 @@ import type * as gm from 'graphql-modules'
 // export { default as KitQLInfo } from './KitQLInfo.svelte'
 
 // graphql-modules
-export { createModule as kitqlModules, gql as gql } from 'graphql-modules'
+export {
+  createModule as kitqlModules,
+  gql as gql,
+  CONTEXT as CONTEXT,
+  Inject as Inject,
+  Injectable as Injectable,
+  Scope as Scope,
+} from 'graphql-modules'
 export { useKitqlModules } from './graphql/useKitqlModules.js'
 export { gm }
 
@@ -30,4 +37,4 @@ export type { KitQLVite } from './vite/KitQLVite.js'
 
 // graphql-yoga
 export type { Plugin as YogaPlugin } from 'graphql-yoga'
-export { createSchema } from 'graphql-yoga'
+export { createSchema as createSchema } from 'graphql-yoga'
