@@ -9,8 +9,10 @@ export {
   gql as gql,
   CONTEXT as CONTEXT,
   Inject as Inject,
+  Injector as Injector,
   Injectable as Injectable,
   Scope as Scope,
+  InjectionToken as InjectionToken,
 } from 'graphql-modules'
 export { useKitqlModules } from './graphql/useKitqlModules.js'
 export { gm }

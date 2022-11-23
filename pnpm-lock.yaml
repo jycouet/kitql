@@ -4,8 +4,8 @@ importers:
 
   .:
     specifiers:
-      '@changesets/changelog-github': 0.4.6
-      '@changesets/cli': 2.24.4
+      '@changesets/changelog-github': 0.4.7
+      '@changesets/cli': 2.25.2
       '@theguild/eslint-config': 0.0.2
       '@theguild/prettier-config': 0.0.3
       '@trivago/prettier-plugin-sort-imports': ^3.4.0
@@ -13,7 +13,7 @@ importers:
       '@vitest/ui': 0.23.2
       bob-the-bundler: 4.0.0
       c8: 7.12.0
-      check-code-coverage: 1.10.0
+      check-code-coverage: 1.10.4
       eslint: 8.23.1
       husky: 8.0.1
       jsdom: 20.0.0
@@ -25,8 +25,8 @@ importers:
       typescript: 4.8.3
       vitest: 0.23.2
     devDependencies:
-      '@changesets/changelog-github': 0.4.6
-      '@changesets/cli': 2.24.4
+      '@changesets/changelog-github': 0.4.7
+      '@changesets/cli': 2.25.2
       '@theguild/eslint-config': 0.0.2_irgkl5vooow2ydyo6aokmferha
       '@theguild/prettier-config': 0.0.3_prettier@2.7.1
       '@trivago/prettier-plugin-sort-imports': 3.4.0_prettier@2.7.1
@@ -34,7 +34,7 @@ importers:
       '@vitest/ui': 0.23.2
       bob-the-bundler: 4.0.0_typescript@4.8.3
       c8: 7.12.0
-      check-code-coverage: 1.10.0
+      check-code-coverage: 1.10.4
       eslint: 8.23.1
       husky: 8.0.1
       jsdom: 20.0.0
@@ -78,7 +78,7 @@ importers:
       prettier-plugin-svelte: 2.7.0
       safe-stable-stringify: ^2.4.1
       svelte: 3.50.1
-      svelte-check: 2.9.0
+      svelte-check: 2.9.2
       svelte-preprocess: 4.10.7
       svelte2tsx: ^0.5.20
       ts-node: ^10.9.1
@@ -121,7 +121,7 @@ importers:
       prettier: 2.7.1
       prettier-plugin-svelte: 2.7.0_nk6d2fkgcllkkdynqbuearcure
       svelte: 3.50.1
-      svelte-check: 2.9.0_svelte@3.50.1
+      svelte-check: 2.9.2_svelte@3.50.1
       svelte-preprocess: 4.10.7_iprco5tylfmvffqgrvqxc46njy
       tslib: 2.4.0
       typescript: 4.8.3
@@ -1121,8 +1121,8 @@ packages:
       '@changesets/types': 5.2.0
     dev: true
 
-  /@changesets/changelog-github/0.4.6:
-    resolution: {integrity: sha512-ahR/+o3OPodzfG9kucEMU/tEtBgwy6QoJiWi1sDBPme8n3WjT6pBlbhqNYpWAJKilomwfjBGY0MTUTs6r9d1RQ==}
+  /@changesets/changelog-github/0.4.7:
+    resolution: {integrity: sha512-UUG5sKwShs5ha1GFnayUpZNcDGWoY7F5XxhOEHS62sDPOtoHQZsG3j1nC5RxZ3M1URHA321cwVZHeXgu99Y3ew==}
     dependencies:
       '@changesets/get-github-info': 0.5.1
       '@changesets/types': 5.2.0
@@ -1131,8 +1131,8 @@ packages:
       - encoding
     dev: true
 
-  /@changesets/cli/2.24.4:
-    resolution: {integrity: sha512-87JSwMv38zS3QW3062jXZYLsCNRtA08wa7vt3VnMmkGLfUMn2TTSfD+eSGVnKPJ/ycDCvAcCDnrv/B+gSX5KVA==}
+  /@changesets/cli/2.25.2:
+    resolution: {integrity: sha512-ACScBJXI3kRyMd2R8n8SzfttDHi4tmKSwVwXBazJOylQItSRSF4cGmej2E4FVf/eNfGy6THkL9GzAahU9ErZrA==}
     hasBin: true
     dependencies:
       '@babel/runtime': 7.20.1
@@ -2808,8 +2808,8 @@ packages:
     resolution: {integrity: sha512-sXo/qW2/pAcmT43VoRKOJbDOfV3cYpq3szSVfIThQXNt+E4DfKj361vaAt3c88U5tPUxzEswam7GW48PJqtKAg==}
     dev: true
 
-  /@sindresorhus/is/2.1.1:
-    resolution: {integrity: sha512-/aPsuoj/1Dw/kzhkgz+ES6TxG0zfTMGLwuK2ZG00k/iJzYHTLCE8mVU8EPqEOp/lmxPoq1C1C9RYToRKb2KEfg==}
+  /@sindresorhus/is/4.6.0:
+    resolution: {integrity: sha512-t09vSN3MdfsyCHoFcTRCH/iUtG7OJ0CsjzB8cjAmKc/va/kIgeDI/TxsigdncE/4be734m0cvIYwNaV4i2XqAw==}
     engines: {node: '>=10'}
     dev: true
 
@@ -4175,9 +4175,9 @@ packages:
     engines: {node: '>=8'}
     dev: true
 
-  /cacheable-lookup/4.3.0:
-    resolution: {integrity: sha512-PTUoCeIjj2awloqyVRUL33SjquU1Qv5xuDalYY8WAzd9NnUMUivZnGsOzVsMfg2YuMsWXaXkd/hjnsVoWc/3YA==}
-    engines: {node: '>=10'}
+  /cacheable-lookup/5.0.4:
+    resolution: {integrity: sha512-2/kNscPhpcxrOigMZzbiWF7dz8ilhb/nIHU3EyZiXWXpeq/au8qJ8VhdftMkty3n7Gj6HIGalQG8oiBNB3AJgA==}
+    engines: {node: '>=10.6.0'}
     dev: true
 
   /cacheable-request/7.0.2:
@@ -4369,14 +4369,14 @@ packages:
   /chardet/0.7.0:
     resolution: {integrity: sha512-mT8iDcrh03qDGRRmoA2hmBJnxpllMR+0/0qlzjqZES6NdiWDcZkCNAk4rPFZ9Q85r27unkiNNg8ZOiwZXBHwcA==}
 
-  /check-code-coverage/1.10.0:
-    resolution: {integrity: sha512-GUVIczwuUTMcHlSw6t+dYQj/8cBKnnfL+O7dk6sZOFcKHybOGrY8q2X8LszKVv80aGGGTfT2TXWBtuuDNnTVqw==}
+  /check-code-coverage/1.10.4:
+    resolution: {integrity: sha512-0kzwKFzxb0elHixpqeYAXuDq6HKjHKE3uqcb+S5qMcOyt1EZuSbq+PMVA3C94o/vt6pkIKN79iUr7oJfLNtW4A==}
     hasBin: true
     dependencies:
       arg: 4.1.3
-      debug: 4.1.1
-      got: 11.1.0
-      lodash: 4.17.15
+      debug: 4.3.4
+      got: 11.8.5
+      lodash: 4.17.21
     transitivePeerDependencies:
       - supports-color
     dev: true
@@ -5354,18 +5354,6 @@ packages:
       ms: 2.1.3
     dev: true
 
-  /debug/4.1.1:
-    resolution: {integrity: sha512-pYAIzeRo8J6KPEaJ0VWOh5Pzkbw/RetuzehGM7QRRX5he4fPHx2rdKMB256ehJCkX+XRQm16eZLqLNS8RSZXZw==}
-    deprecated: Debug versions >=3.2.0 <3.2.7 || >=4 <4.3.1 have a low-severity ReDos regression when used in a Node.js environment. It is recommended you upgrade to 3.2.7 or 4.3.1. (https://github.com/visionmedia/debug/issues/797)
-    peerDependencies:
-      supports-color: '*'
-    peerDependenciesMeta:
-      supports-color:
-        optional: true
-    dependencies:
-      ms: 2.1.3
-    dev: true
-
   /debug/4.3.4:
     resolution: {integrity: sha512-PRWFHuSU3eDtQJPvnNY7Jcket1j0t5OuOsFzPPzsekD52Zl8qUfFIPEiswXqIvHWGVHOgX+7G/vCNNhehwxfkQ==}
     engines: {node: '>=6.0'}
@@ -5399,11 +5387,11 @@ packages:
       character-entities: 2.0.2
     dev: false
 
-  /decompress-response/5.0.0:
-    resolution: {integrity: sha512-TLZWWybuxWgoW7Lykv+gq9xvzOsUjQ9tF09Tj6NSTYGMTCHNXzrPnD6Hi+TgZq19PyTAGH4Ll/NIM/eTGglnMw==}
+  /decompress-response/6.0.0:
+    resolution: {integrity: sha512-aW35yZM6Bb/4oJlZncMH2LCoZtJXTRxES17vE3hoRiowU2kWHaJKFkSBDnDR+cm9J+9QhXmREyIfv0pji9ejCQ==}
     engines: {node: '>=10'}
     dependencies:
-      mimic-response: 2.1.0
+      mimic-response: 3.1.0
     dev: true
 
   /dedent-js/1.0.1:
@@ -7022,18 +7010,17 @@ packages:
     resolution: {integrity: sha512-uHJgbwAMwNFf5mLst7IWLNg14x1CkeqglJb/K3doi4dw6q2IvAAmM/Y81kevy83wP+Sst+nutFTYOGg3d1lsxg==}
     dev: true
 
-  /got/11.1.0:
-    resolution: {integrity: sha512-9lZDzFe43s6HH60tSurUk04kEtssfLiIfMiY5lSE0+vVaDCmT7+0xYzzlHY5VArSiz41mQQC38LefW2KoE9erw==}
+  /got/11.8.5:
+    resolution: {integrity: sha512-o0Je4NvQObAuZPHLFoRSkdG2lTgtcynqymzg2Vupdx6PorhaT5MCbIyXG6d4D94kk8ZG57QeosgdiqfJWhEhlQ==}
     engines: {node: '>=10.19.0'}
     dependencies:
-      '@sindresorhus/is': 2.1.1
+      '@sindresorhus/is': 4.6.0
       '@szmarczak/http-timer': 4.0.6
       '@types/cacheable-request': 6.0.3
       '@types/responselike': 1.0.0
-      cacheable-lookup: 4.3.0
+      cacheable-lookup: 5.0.4
       cacheable-request: 7.0.2
-      decompress-response: 5.0.0
-      get-stream: 5.2.0
+      decompress-response: 6.0.0
       http2-wrapper: 1.0.3
       lowercase-keys: 2.0.0
       p-cancelable: 2.1.1
@@ -8167,10 +8154,6 @@ packages:
     resolution: {integrity: sha512-xfBaXQd9ryd9dlSDvnvI0lvxfLJlYAZzXomUYzLKtUeOQvOP5piqAWuGtrhWeqaXK9hhoM/iyJc5AV+XfsX3HQ==}
     dev: true
 
-  /lodash/4.17.15:
-    resolution: {integrity: sha512-8xOcRHvCjnocdS5cpwXQXVzmmh5e5+saE2QGoeQmbKmRS6J3VQppPOIt0MnmE+4xlZoumy0GPG0D0MVIQbNA1A==}
-    dev: true
-
   /lodash/4.17.21:
     resolution: {integrity: sha512-v2kDEe57lecTulaDIuNTPy3Ry4gLGJ6Z1O3vE1krgXZNrsQ+LFTGHVxVjcXPs17LhbZVGedAJv8XZ1tvj5FvSg==}
 
@@ -8943,9 +8926,9 @@ packages:
     engines: {node: '>=4'}
     dev: true
 
-  /mimic-response/2.1.0:
-    resolution: {integrity: sha512-wXqjST+SLt7R009ySCglWBCFpjUygmCIfD790/kVbiGmUgfYGuB14PiTd5DwVxSV4NcYHjzMkoj5LjQZwTQLEA==}
-    engines: {node: '>=8'}
+  /mimic-response/3.1.0:
+    resolution: {integrity: sha512-z0yWI+4FDrrweS8Zmt4Ej5HdJmky15+L2e6Wgn3+iK5fWzb6T3fhNFq2+MeTRb064c6Wr4N/wv0DzQTjNzHNGQ==}
+    engines: {node: '>=10'}
     dev: true
 
   /min-indent/1.0.1:
@@ -11170,8 +11153,8 @@ packages:
     engines: {node: '>= 0.4'}
     dev: true
 
-  /svelte-check/2.9.0_svelte@3.50.1:
-    resolution: {integrity: sha512-9AVrtP7WbfDgCdqTZNPdj5CCCy1OrYMxFVWAWzNw7fl93c9klFJFtqzVXa6fovfQ050CcpUyJE2dPFL9TFAREw==}
+  /svelte-check/2.9.2_svelte@3.50.1:
+    resolution: {integrity: sha512-DRi8HhnCiqiGR2YF9ervPGvtoYrheE09cXieCTEqeTPOTJzfoa54Py8rovIBv4bH4n5HgZYIyTQ3DDLHQLl2uQ==}
     hasBin: true
     peerDependencies:
       svelte: ^3.24.0
