@@ -1,5 +1,17 @@
 # @kitql/all-in
 
+## 0.8.2
+
+### Patch Changes
+
+- [`d9369d9`](https://github.com/jycouet/kitql/commit/d9369d91c57a55ea7196bde8671730391bfdcd1f) Thanks [@jycouet](https://github.com/jycouet)! - export InjectionToken & Injector
+
+## 0.8.1
+
+### Patch Changes
+
+- [`c5dbede`](https://github.com/jycouet/kitql/commit/c5dbedebb29879790b8857184f23fc0c428f9eed) Thanks [@jycouet](https://github.com/jycouet)! - adding some graphql-modules exports
+
 ## 0.8.0
 
 ### Minor Changes
