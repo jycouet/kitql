@@ -1,17 +1,4 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "extends": ["github>the-guild-org/shared-config:renovate", ":preserveSemverRanges"],
-  "packageRules": [
-    {
-      "groupName": "envelop",
-      "matchPackagePrefixes": "@envelop"
-    },
-    {
-      "groupName": "houdini",
-      "matchPackagePrefixes": "houdini"
-    }
-  ],
-  "ignoreDeps": ["graphiql"],
-  "ignorePaths": ["**/__tests__/**", "**/test/**", "**/tests/**", "**/__fixtures__/**"],
-  "baseBranches": ["main"]
+  "extends": ["github>jycouet/jycouet//shared-config/renovate"]
 }
