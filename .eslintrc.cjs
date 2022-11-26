@@ -14,6 +14,7 @@ module.exports = {
     '@typescript-eslint/ban-ts-comment': 'off',
     '@typescript-eslint/require-await': 'off',
     'import/extensions': 'off',
+    'simple-import-sort/imports': 'off',
   },
   ignorePatterns: [
     'packages/all-in/**',
