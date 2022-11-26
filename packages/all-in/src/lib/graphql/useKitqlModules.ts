@@ -6,13 +6,13 @@ import type { MiddlewareMap } from 'graphql-modules/shared/middleware'
 export const useKitqlModules = (
   modules: Module[],
   middlewares?: MiddlewareMap,
-  providers?: Provider<any>[] | (() => Provider<any>[])
+  providers?: Provider<any>[] | (() => Provider<any>[]),
 ): YogaPlugin => {
   return useGraphQLModules(
     createApplication({
       modules,
       middlewares,
       providers,
-    })
+    }),
   )
 }

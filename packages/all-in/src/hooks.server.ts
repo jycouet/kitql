@@ -14,7 +14,7 @@ export const handle = sequence(
   // enable graphiql in dev mode
   handleGraphiql({
     enabled: dev,
-  })
+  }),
 )
 
 /**

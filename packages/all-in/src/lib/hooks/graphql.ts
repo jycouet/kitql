@@ -33,7 +33,9 @@ export type KitQLHandleGraphQL<TUserContext, TServerContext extends Record<strin
    * THE context.
    */
   context?:
-    | ((initialContext: YogaInitialContext & TServerContext) => Promise<TUserContext> | TUserContext)
+    | ((
+        initialContext: YogaInitialContext & TServerContext,
+      ) => Promise<TUserContext> | TUserContext)
     | Promise<TUserContext>
     | TUserContext
 
@@ -44,7 +46,7 @@ export type KitQLHandleGraphQL<TUserContext, TServerContext extends Record<strin
 }
 
 export function handleGraphql<TUserContext, TServerContext>(
-  options?: KitQLHandleGraphQL<TUserContext, TServerContext>
+  options?: KitQLHandleGraphQL<TUserContext, TServerContext>,
 ): Handle {
   // set defaults
   const { graphiQLPath, endpoint, plugins, context, schema } = {

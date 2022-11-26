@@ -12,7 +12,7 @@ export function actionModuleContext(
   moduleFolder: string, // src/lib/modules
   moduleOutputFolder: string, //$kitql
   importBaseTypesFrom: string,
-  withDbProvider: boolean
+  withDbProvider: boolean,
 ) {
   const dataCtxModules = []
   const moduleName = basename(moduleFolder, extname(moduleFolder))
@@ -27,22 +27,28 @@ export function actionModuleContext(
   })
 
   if (withDbProvider) {
-    dataCtxModules.push(`import { load_DataLoader } from '../../../../lib/graphql/helpers/dataLoaderHelper';`)
+    dataCtxModules.push(
+      `import { load_DataLoader } from '../../../../lib/graphql/helpers/dataLoaderHelper';`,
+    )
     dataCtxModules.push(`import type { IKitQLContext } from '../../../../lib/graphql/kitqlServer';`)
     if (functionsName.length > 0) {
       dataCtxModules.push(`import type { ${moduleNamePascalCase} } from '${importBaseTypesFrom}';`)
     }
-    dataCtxModules.push(`import { Db${moduleNamePascalCase} } from '../providers/Db${moduleNamePascalCase}';`)
+    dataCtxModules.push(
+      `import { Db${moduleNamePascalCase} } from '../providers/Db${moduleNamePascalCase}';`,
+    )
     functionsName.forEach(functionName => {
       dataCtxModules.push(
-        `import { dl${moduleNamePascalCase}Get${functionName}s } from '../providers/dl${moduleNamePascalCase}Get${functionName}s';`
+        `import { dl${moduleNamePascalCase}Get${functionName}s } from '../providers/dl${moduleNamePascalCase}Get${functionName}s';`,
       )
     })
 
     dataCtxModules.push(``)
     dataCtxModules.push(`export function ctx${moduleNamePascalCase}(ctx: IKitQLContext) {`)
     dataCtxModules.push(` // @ts-ignore`)
-    dataCtxModules.push(` return ctx.injector.get(Db${moduleNamePascalCase}) as Db${moduleNamePascalCase};`)
+    dataCtxModules.push(
+      ` return ctx.injector.get(Db${moduleNamePascalCase}) as Db${moduleNamePascalCase};`,
+    )
     dataCtxModules.push(`}`)
     dataCtxModules.push(``)
   } else {
@@ -52,11 +58,11 @@ export function actionModuleContext(
 
   functionsName.forEach(functionName => {
     dataCtxModules.push(
-      `export async function ctx${moduleNamePascalCase}_Dl_${functionName}(ctx: IKitQLContext, id: string | number) {`
+      `export async function ctx${moduleNamePascalCase}_Dl_${functionName}(ctx: IKitQLContext, id: string | number) {`,
     )
     dataCtxModules.push(` // @ts-ignore`)
     dataCtxModules.push(
-      `	return load_DataLoader<${moduleNamePascalCase}>(ctx.injector, dl${moduleNamePascalCase}Get${functionName}s.provide, id) as ${moduleNamePascalCase};`
+      `	return load_DataLoader<${moduleNamePascalCase}>(ctx.injector, dl${moduleNamePascalCase}Get${functionName}s.provide, id) as ${moduleNamePascalCase};`,
     )
     dataCtxModules.push(`}`)
   })

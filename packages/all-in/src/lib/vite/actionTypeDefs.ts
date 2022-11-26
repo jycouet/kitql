@@ -7,7 +7,7 @@ export function actionTypeDefs(
   moduleFolder: string,
   moduleOutputFolder: string,
   localDev: boolean,
-  typeDefsStyle: 'string' | 'gql'
+  typeDefsStyle: 'string' | 'gql',
 ) {
   const typedefsFolder = 'typedefs'
 

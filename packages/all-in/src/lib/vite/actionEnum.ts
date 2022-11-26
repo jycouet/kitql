@@ -10,7 +10,7 @@ export function actionEnum(
   moduleOutputFolder: string,
   importBaseTypesFrom: string,
   enums: Record<string, string[]>,
-  localDev: boolean
+  localDev: boolean,
 ) {
   // Typedefs
   createFolderIfNotExists(join(enumsModuleFolder, '_enums'))
@@ -63,7 +63,7 @@ export function actionEnum(
   enumFileData.push(
     `import { ${localDev ? `createModule` : `kitqlModules`} } from ${
       localDev ? `'graphql-modules'` : `'@kitql/all-in'`
-    }`
+    }`,
   )
   enumFileData.push(``)
   enumFileData.push(`import { typeDefs } from './${moduleOutputFolder}/typedefs'`)

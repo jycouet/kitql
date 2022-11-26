@@ -17,7 +17,14 @@ import { updateModuleTypes } from './updateModuleTypes.js'
 export function generate(log: Log, config?: KitQLVite) {
   const providersFolder = 'providers' as const
 
-  const { outputFolder, moduleOutputFolder, importBaseTypesFrom, modules, localDev, typeDefsStyle } = {
+  const {
+    outputFolder,
+    moduleOutputFolder,
+    importBaseTypesFrom,
+    modules,
+    localDev,
+    typeDefsStyle,
+  } = {
     outputFolder: 'src/lib/graphql/$kitql',
     moduleOutputFolder: '$kitql',
     importBaseTypesFrom: '$graphql/$kitql/graphqlTypes',
@@ -50,7 +57,13 @@ export function generate(log: Log, config?: KitQLVite) {
 
     if (prismaFileContent.length !== 0) {
       const enums = getPrismaEnum(prismaFileContent)
-      const enumsKeys = actionEnum(enumsModuleFolder, moduleOutputFolder, importBaseTypesFrom, enums, localDev)
+      const enumsKeys = actionEnum(
+        enumsModuleFolder,
+        moduleOutputFolder,
+        importBaseTypesFrom,
+        enums,
+        localDev,
+      )
       meta.enums = enumsKeys.length
       // log.info(`${logGreen('✔')} ${logGreen('Enums')} created [${enumsKeys.map(c => logGreen(c)).join(',')}]`)
     } else {
@@ -113,7 +126,7 @@ export function generate(log: Log, config?: KitQLVite) {
           directory,
           moduleOutputFolder,
           importBaseTypesFrom,
-          withDbProvider
+          withDbProvider,
         )
 
         // log.info(`${logGreen('⏳')} merging ${logGreen('Contexts')}`)
@@ -209,6 +222,6 @@ export function generate(log: Log, config?: KitQLVite) {
       `${logGreen('' + meta.enums)} enums, ` +
       `${logGreen('' + meta.typedefs)} typedefs, ` +
       `${logGreen('' + meta.resolvers)} resolvers, ` +
-      `${logGreen('' + meta.contexts)} contexts]`
+      `${logGreen('' + meta.contexts)} contexts]`,
   )
 }

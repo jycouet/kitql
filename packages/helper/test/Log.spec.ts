@@ -71,23 +71,23 @@ describe('kitql - helper - Log', () => {
     expect(log).to.have.property('toolName', 'tool name')
 
     const spy = vi.spyOn(console, 'info')
-    const msg = `with all colors: ${logGreen('green')}, ${logMagneta('magneta')}, ${logRed('red')}, ${logCyan(
-      'cyan'
-    )}, ${logYellow('yellow')}`
+    const msg = `with all colors: ${logGreen('green')}, ${logMagneta('magneta')}, ${logRed(
+      'red',
+    )}, ${logCyan('cyan')}, ${logYellow('yellow')}`
     const result = log.info(msg)
     expect(spy).toHaveBeenCalledOnce()
 
     expect(stry(result, 0)).toMatchInlineSnapshot(
-      '"[\\"\\\\u001b[35m[tool name]\\\\u001b[37m\\\\u001b[0m with all colors: \\\\u001b[32mgreen\\\\u001b[37m\\\\u001b[0m, \\\\u001b[35mmagneta\\\\u001b[37m\\\\u001b[0m, \\\\u001b[31mred\\\\u001b[37m\\\\u001b[0m, \\\\u001b[36mcyan\\\\u001b[37m\\\\u001b[0m, \\\\u001b[33myellow\\\\u001b[37m\\\\u001b[0m\\"]"'
+      '"[\\"\\\\u001b[35m[tool name]\\\\u001b[37m\\\\u001b[0m with all colors: \\\\u001b[32mgreen\\\\u001b[37m\\\\u001b[0m, \\\\u001b[35mmagneta\\\\u001b[37m\\\\u001b[0m, \\\\u001b[31mred\\\\u001b[37m\\\\u001b[0m, \\\\u001b[36mcyan\\\\u001b[37m\\\\u001b[0m, \\\\u001b[33myellow\\\\u001b[37m\\\\u001b[0m\\"]"',
     )
   })
 
   it('with all colors browser', async () => {
     const log = new Log('tool name')
 
-    const msg = `with all colors: ${logGreen('green')}, ${logMagneta('magneta')}, ${logRed('red')}, ${logCyan(
-      'cyan'
-    )}, ${logYellow('yellow')}`
+    const msg = `with all colors: ${logGreen('green')}, ${logMagneta('magneta')}, ${logRed(
+      'red',
+    )}, ${logCyan('cyan')}, ${logYellow('yellow')}`
     const result = log.info(msg, { browser: true })
 
     expect(result).toMatchInlineSnapshot(
@@ -107,7 +107,7 @@ describe('kitql - helper - Log', () => {
         "color: yellow",
         "",
       ]
-    `
+    `,
     )
   })
 
@@ -165,7 +165,7 @@ describe('kitql - helper - Log', () => {
     expect(spy).toHaveBeenCalledOnce()
 
     expect(stry(result, 0)).toMatchInlineSnapshot(
-      '"[\\"\\\\u001b[35m[tool name]\\\\u001b[37m\\\\u001b[0m with red: \\\\u001b[31mred\\\\u001b[37m\\\\u001b[0m and another \\\\u001b[31mred2\\\\u001b[37m\\\\u001b[0m\\"]"'
+      '"[\\"\\\\u001b[35m[tool name]\\\\u001b[37m\\\\u001b[0m with red: \\\\u001b[31mred\\\\u001b[37m\\\\u001b[0m and another \\\\u001b[31mred2\\\\u001b[37m\\\\u001b[0m\\"]"',
     )
   })
 

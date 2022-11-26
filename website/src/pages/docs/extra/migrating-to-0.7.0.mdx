@@ -1,18 +1,21 @@
 # Migrating to 0.7.0
 
 Lot’s changed in v0.7.0. Hopefully this guide should help you understand those changes as well as
-show you what you should update to work with the new features. If you want some more context about the "why", please have a look at
-the [blog post](https://www.the-guild.dev/blog/houdini-and-kitql) we wrote.
+show you what you should update to work with the new features. If you want some more context about
+the "why", please have a look at the [blog post](https://www.the-guild.dev/blog/houdini-and-kitql)
+we wrote.
 
 ## What changed
 
-The biggest change for KitQL users is that generated stores are done from Houdini now instead of KitQL Client package.
+The biggest change for KitQL users is that generated stores are done from Houdini now instead of
+KitQL Client package.
 
 Here is the list of things to update:
 
 1. Bump your `@kitlql/all-in` to the latest
 
-1. The file `.graphqlrc.yaml` doesn't hold any client info for generation [help link](#graphqlrcyaml-file)
+1. The file `.graphqlrc.yaml` doesn't hold any client info for generation
+   [help link](#graphqlrcyaml-file)
 
 1. Configure Houdini, follow this [guide](/docs/setup/01_houdini). _And comeback here!_
 
@@ -24,7 +27,8 @@ Here is the list of things to update:
 
 ### `.graphqlrc.yaml` file
 
-- If you were using `KitQL` only in a client context, you should probably strip down your `.graphqlrc.yaml` file down to
+- If you were using `KitQL` only in a client context, you should probably strip down your
+  `.graphqlrc.yaml` file down to
 
 ```yaml filename=".graphqlrc.yaml"
 projects:
@@ -40,9 +44,11 @@ projects:
       - ./$houdini/graphql/documents.gql
 ```
 
-Do not forget to remove the generate cmd of your `package.json`. (`graphql-codegen --config ./.graphqlrc.yaml`)
+Do not forget to remove the generate cmd of your `package.json`.
+(`graphql-codegen --config ./.graphqlrc.yaml`)
 
-- If you were already using the server side, follow the config [here](/docs/setup/02_server#code-generator).
+- If you were already using the server side, follow the config
+  [here](/docs/setup/02_server#code-generator).
 
 ### Usage update
 
@@ -91,4 +97,5 @@ export const load: Load = async event => {
 {$GQL_FirstQuery.data.hello}
 ```
 
-Then, the best is to directly check [Houdini's Doc](https://www.houdinigraphql.com/guides/working-with-graphql).
+Then, the best is to directly check
+[Houdini's Doc](https://www.houdinigraphql.com/guides/working-with-graphql).

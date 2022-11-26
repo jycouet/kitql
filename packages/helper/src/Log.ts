@@ -61,7 +61,7 @@ export class Log {
       levelsToShow?: null | number
       withDate?: 'dateTime' | 'time'
       prefixEmoji?: string
-    }
+    },
   ) {
     this.toolName = toolName
     this.levelsToShow = options?.levelsToShow ?? 2
@@ -73,7 +73,13 @@ export class Log {
     this.levelsToShow = logLevel
   }
 
-  private buildStr(msg: string, withError: boolean, withSuccess: boolean, indent: string, browser: boolean) {
+  private buildStr(
+    msg: string,
+    withError: boolean,
+    withSuccess: boolean,
+    indent: string,
+    browser: boolean,
+  ) {
     const table = []
     if (this.toolName) {
       table.push(`${logMagneta(`[${this.toolName}]`)}`)

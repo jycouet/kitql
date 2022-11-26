@@ -14,8 +14,8 @@ export function actionResolvers(moduleFolder: string, moduleOutputFolder: string
     dataResolvers.push(
       `import { resolvers as ${getFileWODots(resolver)} } from '${posix.join(
         relativeResolversFolder,
-        getFileWOTS(resolver)
-      )}';`
+        getFileWOTS(resolver),
+      )}';`,
     )
   })
   dataResolvers.push(``)

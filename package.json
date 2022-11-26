@@ -11,7 +11,7 @@
     "dev:w": "cd website && npm run dev",
     "test": "vitest --coverage",
     "lint": "eslint --ignore-path .prettierignore .",
-    "prettier": "prettier --write --list-different .",
+    "format": "prettier --write --list-different .",
     "prettier:check": "prettier --check .",
     "test:ci": "vitest run --coverage",
     "test:update-badge": "npm run update-badge",
