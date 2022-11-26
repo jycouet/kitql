@@ -1,7 +1,6 @@
+import { basename, extname, join } from 'node:path'
 import { Log, logGreen, logRed } from '@kitql/helper'
-import { basename, extname, join } from 'path'
 
-import type { KitQLVite } from './KitQLVite.js'
 import { actionContext } from './actionContexts.js'
 import { actionEnum } from './actionEnum.js'
 import { actionModuleContext } from './actionModuleContext.js'
@@ -10,6 +9,7 @@ import { actionResolvers } from './actionResolvers.js'
 import { actionTypeDefs } from './actionTypeDefs.js'
 import { getDirectories, getFiles, getFullPath } from './fileFolder.js'
 import { toPascalCase } from './formatString.js'
+import type { KitQLVite } from './KitQLVite.js'
 import { getPrismaEnum } from './prismaHelper.js'
 import { readLines } from './readWrite.js'
 import { updateModuleTypes } from './updateModuleTypes.js'
@@ -218,10 +218,10 @@ export function generate(log: Log, config?: KitQLVite) {
   // log.info(`${logGreen('✔')} finished ${logGreen('successfully')}`)
   log.info(
     `${logGreen('✔')} success ` +
-      `[${logGreen('' + meta.modules)} modules, ` +
-      `${logGreen('' + meta.enums)} enums, ` +
-      `${logGreen('' + meta.typedefs)} typedefs, ` +
-      `${logGreen('' + meta.resolvers)} resolvers, ` +
-      `${logGreen('' + meta.contexts)} contexts]`,
+      `[${logGreen(String(meta.modules))} modules, ` +
+      `${logGreen(String(meta.enums))} enums, ` +
+      `${logGreen(String(meta.typedefs))} typedefs, ` +
+      `${logGreen(String(meta.resolvers))} resolvers, ` +
+      `${logGreen(String(meta.contexts))} contexts]`,
   )
 }

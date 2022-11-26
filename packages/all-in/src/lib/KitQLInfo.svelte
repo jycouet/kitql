@@ -79,7 +79,13 @@
           on:mousedown={startDrag}
           on:mouseleave={stopDrag}
         >
-          <svg width="30" height="30" viewBox="0 0 217 217" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <svg
+            width="30"
+            height="30"
+            viewBox="0 0 217 217"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
             <path
               fill-rule="evenodd"
               clip-rule="evenodd"
@@ -93,6 +99,9 @@
           </svg>
         </td>
         <td
+          on:keyup={() => {
+            console.log('keyup!')
+          }}
           on:click={() => {
             expend = !expend
             lsSet()

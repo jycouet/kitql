@@ -1,7 +1,7 @@
-import { existsSync, mkdirSync, readdirSync } from 'fs'
+import { existsSync, mkdirSync, readdirSync } from 'node:fs'
+import { extname, join } from 'node:path'
 // @ts-ignore
 import glob from 'glob'
-import { extname, join } from 'path'
 
 const rootPath = process.cwd()
 

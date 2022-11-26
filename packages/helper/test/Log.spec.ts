@@ -8,7 +8,7 @@ describe('kitql - helper - Log', () => {
     vi.restoreAllMocks()
   })
 
-  it('Minimal config', async () => {
+  it('Minimal config', () => {
     const log = new Log('tool name')
     expect(log).to.have.property('toolName', 'tool name')
 
@@ -17,7 +17,7 @@ describe('kitql - helper - Log', () => {
     expect(spy).toHaveBeenCalledOnce()
   })
 
-  it('info with withSuccess', async () => {
+  it('info with withSuccess', () => {
     const log = new Log('tool name', { levelsToShow: 0 })
     expect(log).to.have.property('toolName', 'tool name')
 
@@ -26,7 +26,7 @@ describe('kitql - helper - Log', () => {
     expect(spy).toHaveBeenCalledOnce()
   })
 
-  it('info without withSuccess', async () => {
+  it('info without withSuccess', () => {
     const log = new Log('tool name', { levelsToShow: 0 })
     expect(log).to.have.property('toolName', 'tool name')
 
@@ -35,7 +35,7 @@ describe('kitql - helper - Log', () => {
     expect(spy).toHaveBeenCalledOnce()
   })
 
-  it('with an error', async () => {
+  it('with an error', () => {
     const log = new Log('tool name')
     expect(log).to.have.property('toolName', 'tool name')
 
@@ -44,7 +44,7 @@ describe('kitql - helper - Log', () => {
     expect(spy).toHaveBeenCalledOnce()
   })
 
-  it('with levels', async () => {
+  it('with levels', () => {
     const log = new Log('tool name')
     expect(log).to.have.property('toolName', 'tool name')
 
@@ -55,7 +55,7 @@ describe('kitql - helper - Log', () => {
     expect(spy).toHaveBeenCalledTimes(3)
   })
 
-  it('with levels and display all levels', async () => {
+  it('with levels and display all levels', () => {
     const log = new Log('tool name', { levelsToShow: 2 })
     expect(log).to.have.property('toolName', 'tool name')
 
@@ -66,7 +66,7 @@ describe('kitql - helper - Log', () => {
     expect(spy).toHaveBeenCalledTimes(3)
   })
 
-  it('with all colors', async () => {
+  it('with all colors', () => {
     const log = new Log('tool name')
     expect(log).to.have.property('toolName', 'tool name')
 
@@ -82,7 +82,7 @@ describe('kitql - helper - Log', () => {
     )
   })
 
-  it('with all colors browser', async () => {
+  it('with all colors browser', () => {
     const log = new Log('tool name')
 
     const msg = `with all colors: ${logGreen('green')}, ${logMagneta('magneta')}, ${logRed(
@@ -111,7 +111,7 @@ describe('kitql - helper - Log', () => {
     )
   })
 
-  it('with DateTime', async () => {
+  it('with DateTime', () => {
     const log = new Log('tool name', { levelsToShow: 2, withDate: 'dateTime' })
     expect(log).to.have.property('toolName', 'tool name')
 
@@ -120,7 +120,7 @@ describe('kitql - helper - Log', () => {
     expect(spy).toHaveBeenCalledOnce()
   })
 
-  it('with Time', async () => {
+  it('with Time', () => {
     const log = new Log('tool name', { levelsToShow: 2, withDate: 'time' })
     expect(log).to.have.property('toolName', 'tool name')
 
@@ -129,7 +129,7 @@ describe('kitql - helper - Log', () => {
     expect(spy).toHaveBeenCalledOnce()
   })
 
-  it('dynamic setLevel', async () => {
+  it('dynamic setLevel', () => {
     const log = new Log('tool name', { levelsToShow: 0 })
 
     const spy = vi.spyOn(console, 'info')
@@ -140,7 +140,7 @@ describe('kitql - helper - Log', () => {
     expect(spy).toHaveBeenCalledTimes(1)
   })
 
-  it('with no name', async () => {
+  it('with no name', () => {
     const log = new Log('')
 
     const spy = vi.spyOn(console, 'info')
@@ -155,7 +155,7 @@ describe('kitql - helper - Log', () => {
     `)
   })
 
-  it('with 2 red', async () => {
+  it('with 2 red', () => {
     const log = new Log('tool name')
     expect(log).to.have.property('toolName', 'tool name')
 
@@ -169,7 +169,7 @@ describe('kitql - helper - Log', () => {
     )
   })
 
-  it('with 2 red browser', async () => {
+  it('with 2 red browser', () => {
     const log = new Log('tool name')
 
     const msg = `with red: ${logRed('red')} and another ${logRed('red2')}`
@@ -188,13 +188,13 @@ describe('kitql - helper - Log', () => {
     `)
   })
 
-  it('are we NOT in the browser?', async () => {
+  it('are we NOT in the browser?', () => {
     const log = new Log('tool name')
 
     expect(log).to.have.property('isBrowser', false)
   })
 
-  it('are we in the browser?', async () => {
+  it('are we in the browser?', () => {
     const log = new Log('tool name')
 
     // @ts-ignore

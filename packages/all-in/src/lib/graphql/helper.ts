@@ -1,7 +1,7 @@
+import { type FieldNode,type GraphQLResolveInfo, Kind } from 'graphql'
 import { stry0 } from '@kitql/helper'
 import type { InlineFragmentNode } from 'graphql'
 import type { FragmentDefinitionNode } from 'graphql'
-import { Kind, type GraphQLResolveInfo, type FieldNode } from 'graphql'
 
 function extractSelectionSet(
   node: FieldNode | InlineFragmentNode | FragmentDefinitionNode,

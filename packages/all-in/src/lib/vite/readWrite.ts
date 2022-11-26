@@ -1,5 +1,5 @@
-import { existsSync, readFileSync, writeFileSync } from 'fs'
-import { dirname, join } from 'path'
+import { existsSync, readFileSync, writeFileSync } from 'node:fs'
+import { dirname, join } from 'node:path'
 
 import { createFolderIfNotExists } from './fileFolder.js'
 

@@ -1,4 +1,4 @@
-import { basename, extname, join } from 'path'
+import { basename, extname, join } from 'node:path'
 
 import { createFolderIfNotExists } from './fileFolder.js'
 import { toPascalCase } from './formatString.js'

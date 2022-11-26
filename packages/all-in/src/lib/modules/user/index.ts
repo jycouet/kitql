@@ -1,6 +1,6 @@
+import { dirname } from 'node:path'
+import { fileURLToPath } from 'node:url'
 import { createModule } from 'graphql-modules'
-import { dirname } from 'path'
-import { fileURLToPath } from 'url'
 
 import { resolvers } from './$kitql/resolvers'
 import { typeDefs } from './$kitql/typedefs'

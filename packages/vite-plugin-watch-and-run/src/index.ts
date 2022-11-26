@@ -1,5 +1,5 @@
+import { spawn } from 'node:child_process'
 import { Log, logCyan, logGreen, logMagneta, logRed } from '@kitql/helper'
-import { spawn } from 'child_process'
 import micromatch from 'micromatch'
 import type { Plugin } from 'vite'
 
@@ -68,7 +68,7 @@ export type StateDetail = {
   formatErrors?: (e: unknown, afterError?: (e: Error) => void) => void
 }
 
-async function checkConf(params: Options[]) {
+function checkConf(params: Options[]) {
   if (!Array.isArray(params)) {
     throw new Error('plugin watchAndRun, `params` needs to be an array.')
   }
@@ -82,7 +82,7 @@ async function checkConf(params: Options[]) {
       delay: paramRow.delay ?? 300,
       isRunning: false,
       name: paramRow.name,
-      quiet: !!paramRow.quiet,
+      quiet: Boolean(paramRow.quiet),
       watch: paramRow.watch,
       watchFile: paramRow.watchFile,
       formatErrors: paramRow.formatErrors,
@@ -218,13 +218,13 @@ const log = new Log('Watch-and-Run')
 
 export default function watchAndRun(
   params: Options[],
-): Plugin & { getCheckedConf: () => Promise<StateDetail[]> } {
+): Plugin & { getCheckedConf: () => StateDetail[] } {
   return {
     name: 'watch-and-run',
 
     // jsut for testing purposes
-    async getCheckedConf() {
-      return await checkConf(params)
+    getCheckedConf() {
+      return checkConf(params)
     },
 
     async configureServer(server) {

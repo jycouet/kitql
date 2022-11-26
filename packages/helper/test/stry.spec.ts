@@ -3,7 +3,7 @@ import { describe, expect, it } from 'vitest'
 import { stry } from '../src/stry'
 
 describe('kitql - helper - stry', () => {
-  it('space 2', async () => {
+  it('space 2', () => {
     const obj = { hello: 'world' }
     const result = stry(obj)
     expect(result).toMatchInlineSnapshot(`
@@ -13,13 +13,13 @@ describe('kitql - helper - stry', () => {
 		`)
   })
 
-  it('space 0', async () => {
+  it('space 0', () => {
     const obj = { hello: 'world' }
     const result = stry(obj, 0)
     expect(result).toMatchInlineSnapshot('"{\\"hello\\":\\"world\\"}"')
   })
 
-  it('order a b c', async () => {
+  it('order a b c', () => {
     const obj = { a: 1, c: 3, b: 2 }
     const result = stry(obj)
     expect(result).toMatchInlineSnapshot(`
@@ -31,7 +31,7 @@ describe('kitql - helper - stry', () => {
 		`)
   })
 
-  it('order A a', async () => {
+  it('order A a', () => {
     const obj = { A: 'ONE', a: 1 }
     const result = stry(obj)
     expect(result).toMatchInlineSnapshot(`
@@ -42,7 +42,7 @@ describe('kitql - helper - stry', () => {
 		`)
   })
 
-  it('order a A', async () => {
+  it('order a A', () => {
     const obj = { a: 1, A: 'ONE' }
     const result = stry(obj)
     expect(result).toMatchInlineSnapshot(`
@@ -53,7 +53,7 @@ describe('kitql - helper - stry', () => {
     `)
   })
 
-  it('order a b c with nested', async () => {
+  it('order a b c with nested', () => {
     const obj = { a: { bb: 22, aa: 11 }, c: 3, b: { aa: 11, bb: 22 } }
     const result = stry(obj)
     expect(result).toMatchInlineSnapshot(`
@@ -71,19 +71,19 @@ describe('kitql - helper - stry', () => {
 		`)
   })
 
-  it('obj null', async () => {
+  it('obj null', () => {
     const obj = null
     const result = stry(obj)
     expect(result).toMatchInlineSnapshot('null')
   })
 
-  it('obj undefined', async () => {
+  it('obj undefined', () => {
     const obj = undefined
     const result = stry(obj)
     expect(result).toMatchInlineSnapshot('undefined')
   })
 
-  it('obj will null', async () => {
+  it('obj will null', () => {
     const obj = { a: null }
     const result = stry(obj)
     expect(result).toMatchInlineSnapshot(`
@@ -93,7 +93,7 @@ describe('kitql - helper - stry', () => {
 		`)
   })
 
-  it('should handle dates', async () => {
+  it('should handle dates', () => {
     const obj = { myDate: new Date('1986-11-07T06:05:04.000Z') }
     const result = stry(obj)
     expect(result).toMatchInlineSnapshot(`

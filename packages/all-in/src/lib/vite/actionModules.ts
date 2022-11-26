@@ -1,4 +1,4 @@
-import { join, posix } from 'path'
+import { join, posix } from 'node:path'
 
 import { createFolderIfNotExists } from './fileFolder.js'
 import { write } from './readWrite.js'

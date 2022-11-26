@@ -82,14 +82,14 @@ export class Log {
   ) {
     const table = []
     if (this.toolName) {
-      table.push(`${logMagneta(`[${this.toolName}]`)}`)
+      table.push(String(logMagneta(`[${this.toolName}]`)))
     }
 
     // DateTime or Time or nothing
     if (this.withDate === 'dateTime') {
-      table.push(`${logMagneta(`[${new Date().toISOString()}]`)}`)
+      table.push(String(logMagneta(`[${new Date().toISOString()}]`)))
     } else if (this.withDate === 'time') {
-      table.push(`${logMagneta(`[${new Date().toISOString().split('T')[1]}]`)}`)
+      table.push(String(logMagneta(`[${new Date().toISOString().split('T')[1]}]`)))
     }
 
     // Status icon or prefixEmoji
@@ -98,7 +98,7 @@ export class Log {
     } else if (withSuccess) {
       table.push(`✅`)
     } else {
-      table.push(`${this.prefixEmoji}`)
+      table.push(String(this.prefixEmoji))
     }
 
     table.push(indent)
@@ -107,7 +107,7 @@ export class Log {
     if (table.join('').length > 0) {
       table.push(` `)
     }
-    table.push(`${msg}`)
+    table.push(String(msg))
 
     const str = table.join('')
 
