@@ -16,6 +16,7 @@ module.exports = {
     'import/extensions': 'off',
   },
   ignorePatterns: [
+    'packages/all-in/**',
     'examples',
     'website',
     'dist',
