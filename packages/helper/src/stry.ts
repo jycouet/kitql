@@ -17,7 +17,7 @@ export function stry0(obj: Object | null | undefined): string | null | undefined
 export function stry(
   obj: Object | null | undefined,
   space: string | number | undefined = 2,
-  replacer?: (string | number)[] | null | undefined
+  replacer?: (string | number)[] | null | undefined,
 ): string | null | undefined {
   if (obj === null) {
     return null

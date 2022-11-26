@@ -9,7 +9,10 @@
  * @param queryString an object with key value pairs, something like { focus: "Hello" }
  * @returns a sorted query string
  */
-export function queryStringApprend(searchParams: URLSearchParams, queryString: Record<string, string>) {
+export function queryStringApprend(
+  searchParams: URLSearchParams,
+  queryString: Record<string, string>,
+) {
   const query = {}
 
   // 1 Destructure searchParams

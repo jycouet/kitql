@@ -40,7 +40,8 @@ export const handle = sequence(
 
 _You could use only `graphiql` here for example!_
 
-> Side note: if you want **offline support** for _graphiql_, add `@graphql-yoga/render-graphiql` as dependency, KitQL will pick it up automatically if it's there
+> Side note: if you want **offline support** for _graphiql_, add `@graphql-yoga/render-graphiql` as
+> dependency, KitQL will pick it up automatically if it's there
 
 Now, let's build the `kitqlServer` const 👇
 
@@ -108,8 +109,8 @@ module.exports = config
 
 ### Vite plugins
 
-You should add the following plugins to your `vite.config.ts`. Like this, no need to generate manualy things,
-it will be generated on demand when you run your project.
+You should add the following plugins to your `vite.config.ts`. Like this, no need to generate
+manualy things, it will be generated on demand when you run your project.
 
 ```ts filename="vite.config.ts"
 import { kitql } from '@kitql/all-in'
@@ -133,8 +134,8 @@ export default config
 
 ## GraphiQL offline mode
 
-if you want to have it offline, you need to add `@graphql-yoga/render-graphiql` as dependency.
-and you should use `handleGraphiqlOffline` handle.
+if you want to have it offline, you need to add `@graphql-yoga/render-graphiql` as dependency. and
+you should use `handleGraphiqlOffline` handle.
 
 <hr />
 

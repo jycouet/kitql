@@ -1,9 +1,12 @@
 import { stry0 } from '@kitql/helper'
+import { type FieldNode, type GraphQLResolveInfo, Kind } from 'graphql'
 import type { InlineFragmentNode } from 'graphql'
 import type { FragmentDefinitionNode } from 'graphql'
-import { Kind, type GraphQLResolveInfo, type FieldNode } from 'graphql'
 
-function extractSelectionSet(node: FieldNode | InlineFragmentNode | FragmentDefinitionNode, info: GraphQLResolveInfo) {
+function extractSelectionSet(
+  node: FieldNode | InlineFragmentNode | FragmentDefinitionNode,
+  info: GraphQLResolveInfo,
+) {
   const a = []
 
   node.selectionSet.selections.map(c => {

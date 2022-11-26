@@ -1,6 +1,6 @@
 import { Log, logCyan, logGreen, logMagneta, logRed } from '@kitql/helper'
-import { spawn } from 'child_process'
 import micromatch from 'micromatch'
+import { spawn } from 'node:child_process'
 import type { Plugin } from 'vite'
 
 const nbOverlap = (a1: readonly any[], a2: readonly any[]) => {
@@ -68,7 +68,7 @@ export type StateDetail = {
   formatErrors?: (e: unknown, afterError?: (e: Error) => void) => void
 }
 
-async function checkConf(params: Options[]) {
+function checkConf(params: Options[]) {
   if (!Array.isArray(params)) {
     throw new Error('plugin watchAndRun, `params` needs to be an array.')
   }
@@ -82,7 +82,7 @@ async function checkConf(params: Options[]) {
       delay: paramRow.delay ?? 300,
       isRunning: false,
       name: paramRow.name,
-      quiet: !!paramRow.quiet,
+      quiet: Boolean(paramRow.quiet),
       watch: paramRow.watch,
       watchFile: paramRow.watchFile,
       formatErrors: paramRow.formatErrors,
@@ -90,7 +90,9 @@ async function checkConf(params: Options[]) {
 
     // @ts-ignore (because the config is in a js file, and people maybe didn't update their config.)
     if (['ADD', 'CHANGE', 'DELETE'].includes(param.kind || '')) {
-      throw new Error('BREAKING: ADD, CHANGE, DELETE were renamed add, change, unlink. Please update your config.')
+      throw new Error(
+        'BREAKING: ADD, CHANGE, DELETE were renamed add, change, unlink. Please update your config.',
+      )
     }
 
     // If you use a kind that needs a watch, we need to make you you have one watch or watchFile set
@@ -113,7 +115,7 @@ async function checkConf(params: Options[]) {
 async function shouldRun(
   absolutePath: string | null,
   watchKind: WatchKind,
-  watchAndRunConf: StateDetail[]
+  watchAndRunConf: StateDetail[],
 ): Promise<StateDetail | null> {
   for (const info of watchAndRunConf) {
     if (!absolutePath || (!info.watchFile && !info.watch)) {
@@ -141,7 +143,11 @@ function formatLog(str: string, name?: string) {
   return `${name ? logMagneta(`[${name}]`) : ''} ${str}`
 }
 
-async function watcher(absolutePath: string | null, watchKind: WatchKind, watchAndRunConf: StateDetail[]) {
+async function watcher(
+  absolutePath: string | null,
+  watchKind: WatchKind,
+  watchAndRunConf: StateDetail[],
+) {
   const info = await shouldRun(absolutePath, watchKind, watchAndRunConf)
   if (info) {
     info.isRunning = true
@@ -210,13 +216,15 @@ async function watcher(absolutePath: string | null, watchKind: WatchKind, watchA
 
 const log = new Log('Watch-and-Run')
 
-export default function watchAndRun(params: Options[]): Plugin & { getCheckedConf: () => Promise<StateDetail[]> } {
+export default function watchAndRun(
+  params: Options[],
+): Plugin & { getCheckedConf: () => StateDetail[] } {
   return {
     name: 'watch-and-run',
 
     // jsut for testing purposes
-    async getCheckedConf() {
-      return await checkConf(params)
+    getCheckedConf() {
+      return checkConf(params)
     },
 
     async configureServer(server) {
@@ -224,7 +232,8 @@ export default function watchAndRun(params: Options[]): Plugin & { getCheckedCon
       const watchAndRunConf = await checkConf(params)
 
       kindWithPath.forEach((kind: KindWithPath) => {
-        const _watcher = async (absolutePath: string) => watcher(absolutePath, kind, watchAndRunConf)
+        const _watcher = async (absolutePath: string) =>
+          watcher(absolutePath, kind, watchAndRunConf)
         server.watcher.on(kind, _watcher)
       })
 

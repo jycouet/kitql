@@ -1,6 +1,6 @@
 import { createContext, generate as codeGen_generate } from '@graphql-codegen/cli'
 import { Log } from '@kitql/helper'
-import { resolve } from 'path'
+import { resolve } from 'node:path'
 import type { Plugin } from 'vite'
 import watch_and_run from 'vite-plugin-watch-and-run'
 

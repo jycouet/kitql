@@ -4,7 +4,10 @@
 // import { toPascalCase } from './formatString.js'
 // import { write } from './readWrite.js'
 
-export function actionContext(ctxModules: { ctxName: string; moduleName: string }[], outputFolder: string) {
+export function actionContext(
+  ctxModules: { ctxName: string; moduleName: string }[],
+  outputFolder: string,
+) {
   // const dataCtxModules = []
   // ctxModules.forEach(ctx => {
   //   dataCtxModules.push(

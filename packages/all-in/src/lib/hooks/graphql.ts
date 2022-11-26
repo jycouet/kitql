@@ -1,7 +1,7 @@
 import { useEngine } from '@envelop/core'
 import type { Handle } from '@sveltejs/kit'
 import * as GraphQLJS from 'graphql'
-import { createSchema, createYoga, type Plugin, type YogaInitialContext } from 'graphql-yoga'
+import { type Plugin, type YogaInitialContext, createSchema, createYoga } from 'graphql-yoga'
 
 export type KitQLHandleGraphQL<TUserContext, TServerContext extends Record<string, any>> = {
   /**
@@ -33,7 +33,9 @@ export type KitQLHandleGraphQL<TUserContext, TServerContext extends Record<strin
    * THE context.
    */
   context?:
-    | ((initialContext: YogaInitialContext & TServerContext) => Promise<TUserContext> | TUserContext)
+    | ((
+        initialContext: YogaInitialContext & TServerContext,
+      ) => Promise<TUserContext> | TUserContext)
     | Promise<TUserContext>
     | TUserContext
 
@@ -44,7 +46,7 @@ export type KitQLHandleGraphQL<TUserContext, TServerContext extends Record<strin
 }
 
 export function handleGraphql<TUserContext, TServerContext>(
-  options?: KitQLHandleGraphQL<TUserContext, TServerContext>
+  options?: KitQLHandleGraphQL<TUserContext, TServerContext>,
 ): Handle {
   // set defaults
   const { graphiQLPath, endpoint, plugins, context, schema } = {

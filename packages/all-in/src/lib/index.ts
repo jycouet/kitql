@@ -4,39 +4,39 @@ import type * as gm from 'graphql-modules'
 // export { default as KitQLInfo } from './KitQLInfo.svelte'
 
 // graphql-modules
+export { useKitqlModules } from './graphql/useKitqlModules.js'
 export {
-  createModule as kitqlModules,
-  gql as gql,
   CONTEXT as CONTEXT,
+  gql as gql,
   Inject as Inject,
-  Injector as Injector,
   Injectable as Injectable,
-  Scope as Scope,
   InjectionToken as InjectionToken,
+  Injector as Injector,
+  createModule as kitqlModules,
+  Scope as Scope,
 } from 'graphql-modules'
 export type { Next as Next } from 'graphql-modules/shared/middleware'
-export { useKitqlModules } from './graphql/useKitqlModules.js'
 export { gm }
 
 // SvelteKit hooks
-export { type KitQLHandleGraphQL, handleGraphql } from './hooks/graphql.js'
 export { handleGraphiql } from './hooks/graphiql.js'
 export type { KitQLHandleGraphiQL } from './hooks/graphiqlCommon.js'
+export { type KitQLHandleGraphQL, handleGraphql } from './hooks/graphql.js'
 
 // Prisma
 // export { getKitQLPrisma } from './prisma/kitqlPrisma'
 
 // GraphQL Config
+export type { KitQLConfig, KitQLProjects, KitQLScalar } from './graphql/graphqlConfig.js'
 export type { CodegenConfig as KitQLCodegenConfig } from '@graphql-codegen/cli'
 export type { IGraphQLProject as KitQLProject } from 'graphql-config'
-export type { KitQLProjects, KitQLConfig, KitQLScalar } from './graphql/graphqlConfig.js'
 
 // GraphQL Helper
 export { rootFields } from './graphql/helper.js'
 
 // vite plugin
-export { kitql } from './vite/plugin.js'
 export type { KitQLVite } from './vite/KitQLVite.js'
+export { kitql } from './vite/plugin.js'
 
 // graphql-yoga
 export type { Plugin as YogaPlugin } from 'graphql-yoga'

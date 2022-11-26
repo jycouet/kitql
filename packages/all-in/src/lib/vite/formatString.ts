@@ -11,10 +11,12 @@ export function pad(num: number, size = 2): string {
  * @author kalicki2K
  */
 export function toPascalCase(input: string): string {
-  return `${input}`
+  return String(input)
     .replace(new RegExp(/[-_]+/, 'g'), ' ')
     .replace(new RegExp(/[^\w\s]/, 'g'), '')
-    .replace(new RegExp(/\s+(.)(\w+)/, 'g'), ($1, $2, $3) => `${$2.toUpperCase() + $3.toLowerCase()}`)
+    .replace(new RegExp(/\s+(.)(\w+)/, 'g'), ($1, $2, $3) =>
+      String($2.toUpperCase() + $3.toLowerCase()),
+    )
     .replace(new RegExp(/\s/, 'g'), '')
     .replace(new RegExp(/\w/), s => s.toUpperCase())
 }

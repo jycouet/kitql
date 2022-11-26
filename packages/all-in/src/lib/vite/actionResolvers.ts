@@ -1,4 +1,4 @@
-import { join, posix } from 'path'
+import { join, posix } from 'node:path'
 
 import { createFolderIfNotExists, getFiles, getFileWODots, getFileWOTS } from './fileFolder.js'
 import { write } from './readWrite.js'
@@ -14,8 +14,8 @@ export function actionResolvers(moduleFolder: string, moduleOutputFolder: string
     dataResolvers.push(
       `import { resolvers as ${getFileWODots(resolver)} } from '${posix.join(
         relativeResolversFolder,
-        getFileWOTS(resolver)
-      )}';`
+        getFileWOTS(resolver),
+      )}';`,
     )
   })
   dataResolvers.push(``)

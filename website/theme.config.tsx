@@ -2,7 +2,8 @@ import { KitQLLogo, defineConfig } from '@theguild/components'
 
 const SITE_NAME = 'KitQL'
 const SITE_DESCRIPTION = 'Bring data management layer to SvelteKit'
-const SOCIAL_IMAGE_URL = 'https://raw.githubusercontent.com/jycouet/kitql/main/website/public/assets/social-kitql.png'
+const SOCIAL_IMAGE_URL =
+  'https://raw.githubusercontent.com/jycouet/kitql/main/website/public/assets/social-kitql.png'
 
 export default defineConfig({
   siteName: SITE_NAME,

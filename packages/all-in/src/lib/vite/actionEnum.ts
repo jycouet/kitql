@@ -1,5 +1,5 @@
-import { existsSync } from 'fs'
-import { join } from 'path'
+import { existsSync } from 'node:fs'
+import { join } from 'node:path'
 
 import { createFolderIfNotExists } from './fileFolder.js'
 import { toPascalCase } from './formatString.js'
@@ -10,7 +10,7 @@ export function actionEnum(
   moduleOutputFolder: string,
   importBaseTypesFrom: string,
   enums: Record<string, string[]>,
-  localDev: boolean
+  localDev: boolean,
 ) {
   // Typedefs
   createFolderIfNotExists(join(enumsModuleFolder, '_enums'))
@@ -63,7 +63,7 @@ export function actionEnum(
   enumFileData.push(
     `import { ${localDev ? `createModule` : `kitqlModules`} } from ${
       localDev ? `'graphql-modules'` : `'@kitql/all-in'`
-    }`
+    }`,
   )
   enumFileData.push(``)
   enumFileData.push(`import { typeDefs } from './${moduleOutputFolder}/typedefs'`)

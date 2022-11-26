@@ -1,4 +1,4 @@
-import { join } from 'path'
+import { join } from 'node:path'
 
 import { createFolderIfNotExists, getFiles } from './fileFolder.js'
 import { read, write } from './readWrite.js'
@@ -7,7 +7,7 @@ export function actionTypeDefs(
   moduleFolder: string,
   moduleOutputFolder: string,
   localDev: boolean,
-  typeDefsStyle: 'string' | 'gql'
+  typeDefsStyle: 'string' | 'gql',
 ) {
   const typedefsFolder = 'typedefs'
 
