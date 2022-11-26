@@ -1,5 +1,5 @@
-import { type FieldNode,type GraphQLResolveInfo, Kind } from 'graphql'
 import { stry0 } from '@kitql/helper'
+import { type FieldNode, type GraphQLResolveInfo, Kind } from 'graphql'
 import type { InlineFragmentNode } from 'graphql'
 import type { FragmentDefinitionNode } from 'graphql'
 

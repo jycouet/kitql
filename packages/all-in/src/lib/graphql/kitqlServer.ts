@@ -1,6 +1,6 @@
+import type { KitQLHandleGraphQL } from '$lib/hooks/graphql'
 import type { RequestEvent } from '@sveltejs/kit'
 
-import type { KitQLHandleGraphQL } from '$lib/hooks/graphql'
 import { modules } from './$kitql/_appModules'
 import { useKitqlModules } from './useKitqlModules'
 

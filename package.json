@@ -12,7 +12,7 @@
     "test": "vitest --coverage",
     "lint": "eslint --ignore-path .prettierignore .",
     "format": "prettier --write --list-different .",
-    "prettier:check": "prettier --check .",
+    "format:check": "prettier --check .",
     "test:ci": "vitest run --coverage",
     "test:update-badge": "npm run update-badge",
     "prebuild": "rimraf packages/*/dist",

@@ -29,4 +29,4 @@ jobs:
         run: pnpm run test
 
       - name: 🧹 Prettier Check
-        run: pnpm run prettier:check
+        run: pnpm run format:check

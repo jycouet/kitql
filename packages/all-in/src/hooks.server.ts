@@ -1,9 +1,8 @@
-import { sequence } from '@sveltejs/kit/hooks'
-
 import { dev } from '$app/environment'
-import { type IKitQLContext,kitqlServer } from '$lib/graphql/kitqlServer'
+import { type IKitQLContext, kitqlServer } from '$lib/graphql/kitqlServer'
 import { handleGraphiql } from '$lib/hooks/graphiql'
 import { handleGraphql } from '$lib/hooks/graphql'
+import { sequence } from '@sveltejs/kit/hooks'
 
 /**
  * 1/ With all default options
