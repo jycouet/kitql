@@ -22,9 +22,5 @@ export function stry(
   if (obj === null) {
     return null
   }
-  if (obj === undefined) {
-    return undefined
-  }
-  stringify.configure({ deterministic: true })
   return stringify(obj, replacer, space)
 }
