@@ -32,7 +32,7 @@
 
 Demo Init 👇
 <p><a target="_blank"
-    href="https://stackblitz.com/fork/github/jycouet/kitql/tree/main/examples/demo-init?title=KitQL%20Demo%202"
+    href="https://stackblitz.com/fork/github/jycouet/kitql/tree/main/examples/demo-init?title=KitQL%20Demo%20Init"
   >
     <img src="https://developer.stackblitz.com/img/open_in_stackblitz.svg" alt="Open in StackBlitz" />
   </a>
