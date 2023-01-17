@@ -1,62 +1,96 @@
 # @kitql/helper
 
+## 0.6.1
+
+### Patch Changes
+
+- [`0fde173`](https://github.com/jycouet/kitql/commit/0fde1736404df0836b1d59eedea5982a4bf18292)
+  Thanks [@jycouet](https://github.com/jycouet)! - bump graphql ecosystem version
+
 ## 0.6.0
 
 ### Minor Changes
 
-- [#215](https://github.com/jycouet/kitql/pull/215) [`6261921`](https://github.com/jycouet/kitql/commit/6261921157c3581258fa12c1a57fd450f5b26547) Thanks [@jycouet](https://github.com/jycouet)! - update with sveltekit next.483 & import form @kitql/all-in
+- [#215](https://github.com/jycouet/kitql/pull/215)
+  [`6261921`](https://github.com/jycouet/kitql/commit/6261921157c3581258fa12c1a57fd450f5b26547)
+  Thanks [@jycouet](https://github.com/jycouet)! - update with sveltekit next.483 & import form
+  @kitql/all-in
 
-- [#235](https://github.com/jycouet/kitql/pull/235) [`9794890`](https://github.com/jycouet/kitql/commit/9794890736297fcf9d9a25c93bf71a1cbf889efa) Thanks [@jycouet](https://github.com/jycouet)! - import with ext
+- [#235](https://github.com/jycouet/kitql/pull/235)
+  [`9794890`](https://github.com/jycouet/kitql/commit/9794890736297fcf9d9a25c93bf71a1cbf889efa)
+  Thanks [@jycouet](https://github.com/jycouet)! - import with ext
 
-- [#220](https://github.com/jycouet/kitql/pull/220) [`a07b0e8`](https://github.com/jycouet/kitql/commit/a07b0e854d47540fb2169c69a08f39367609653e) Thanks [@github-actions](https://github.com/apps/github-actions)! - update to use safe-stable-stringify
+- [#220](https://github.com/jycouet/kitql/pull/220)
+  [`a07b0e8`](https://github.com/jycouet/kitql/commit/a07b0e854d47540fb2169c69a08f39367609653e)
+  Thanks [@github-actions](https://github.com/apps/github-actions)! - update to use
+  safe-stable-stringify
 
-- [#253](https://github.com/jycouet/kitql/pull/253) [`e575c28`](https://github.com/jycouet/kitql/commit/e575c28a6af90beef015368e5da7205da63987ac) Thanks [@jycouet](https://github.com/jycouet)! - check str0
+- [#253](https://github.com/jycouet/kitql/pull/253)
+  [`e575c28`](https://github.com/jycouet/kitql/commit/e575c28a6af90beef015368e5da7205da63987ac)
+  Thanks [@jycouet](https://github.com/jycouet)! - check str0
 
 ## 0.6.0-next.3
 
 ### Patch Changes
 
-- [#253](https://github.com/jycouet/kitql/pull/253) [`e575c28`](https://github.com/jycouet/kitql/commit/e575c28a6af90beef015368e5da7205da63987ac) Thanks [@jycouet](https://github.com/jycouet)! - check str0
+- [#253](https://github.com/jycouet/kitql/pull/253)
+  [`e575c28`](https://github.com/jycouet/kitql/commit/e575c28a6af90beef015368e5da7205da63987ac)
+  Thanks [@jycouet](https://github.com/jycouet)! - check str0
 
 ## 0.6.0-next.2
 
 ### Patch Changes
 
-- [#235](https://github.com/jycouet/kitql/pull/235) [`9794890`](https://github.com/jycouet/kitql/commit/9794890736297fcf9d9a25c93bf71a1cbf889efa) Thanks [@jycouet](https://github.com/jycouet)! - import with ext
+- [#235](https://github.com/jycouet/kitql/pull/235)
+  [`9794890`](https://github.com/jycouet/kitql/commit/9794890736297fcf9d9a25c93bf71a1cbf889efa)
+  Thanks [@jycouet](https://github.com/jycouet)! - import with ext
 
 ## 0.6.0-next.1
 
 ### Patch Changes
 
-- [#220](https://github.com/jycouet/kitql/pull/220) [`a07b0e8`](https://github.com/jycouet/kitql/commit/a07b0e854d47540fb2169c69a08f39367609653e) Thanks [@github-actions](https://github.com/apps/github-actions)! - update to use safe-stable-stringify
+- [#220](https://github.com/jycouet/kitql/pull/220)
+  [`a07b0e8`](https://github.com/jycouet/kitql/commit/a07b0e854d47540fb2169c69a08f39367609653e)
+  Thanks [@github-actions](https://github.com/apps/github-actions)! - update to use
+  safe-stable-stringify
 
 ## 0.6.0-next.0
 
 ### Minor Changes
 
-- [#215](https://github.com/jycouet/kitql/pull/215) [`6261921`](https://github.com/jycouet/kitql/commit/6261921157c3581258fa12c1a57fd450f5b26547) Thanks [@jycouet](https://github.com/jycouet)! - update with sveltekit next.483 & import form @kitql/all-in
+- [#215](https://github.com/jycouet/kitql/pull/215)
+  [`6261921`](https://github.com/jycouet/kitql/commit/6261921157c3581258fa12c1a57fd450f5b26547)
+  Thanks [@jycouet](https://github.com/jycouet)! - update with sveltekit next.483 & import form
+  @kitql/all-in
 
 ## 0.5.0
 
 ### Minor Changes
 
-- [#211](https://github.com/jycouet/kitql/pull/211) [`62e6a61`](https://github.com/jycouet/kitql/commit/62e6a6120f4e08ff9fc1e1a473021ee98831b86f) Thanks [@jycouet](https://github.com/jycouet)! - stylish logs in node or in browser
+- [#211](https://github.com/jycouet/kitql/pull/211)
+  [`62e6a61`](https://github.com/jycouet/kitql/commit/62e6a6120f4e08ff9fc1e1a473021ee98831b86f)
+  Thanks [@jycouet](https://github.com/jycouet)! - stylish logs in node or in browser
 
 ### Patch Changes
 
-- [#211](https://github.com/jycouet/kitql/pull/211) [`62e6a61`](https://github.com/jycouet/kitql/commit/62e6a6120f4e08ff9fc1e1a473021ee98831b86f) Thanks [@jycouet](https://github.com/jycouet)! - magneta => #ff00ff
+- [#211](https://github.com/jycouet/kitql/pull/211)
+  [`62e6a61`](https://github.com/jycouet/kitql/commit/62e6a6120f4e08ff9fc1e1a473021ee98831b86f)
+  Thanks [@jycouet](https://github.com/jycouet)! - magneta => #ff00ff
 
 ## 0.4.0
 
 ### Minor Changes
 
-- [#209](https://github.com/jycouet/kitql/pull/209) [`1abe98d`](https://github.com/jycouet/kitql/commit/1abe98d53d07e0ea55f600526bc68a87764a546c) Thanks [@jycouet](https://github.com/jycouet)! - stylish logs in node or in browser
+- [#209](https://github.com/jycouet/kitql/pull/209)
+  [`1abe98d`](https://github.com/jycouet/kitql/commit/1abe98d53d07e0ea55f600526bc68a87764a546c)
+  Thanks [@jycouet](https://github.com/jycouet)! - stylish logs in node or in browser
 
 ## 0.3.5
 
 ### Patch Changes
 
-- [`cef5c74`](https://github.com/jycouet/kitql/commit/cef5c741d70d403bbb840e61afedf958586a2307) Thanks [@jycouet](https://github.com/jycouet)! - bump codegen tools
+- [`cef5c74`](https://github.com/jycouet/kitql/commit/cef5c741d70d403bbb840e61afedf958586a2307)
+  Thanks [@jycouet](https://github.com/jycouet)! - bump codegen tools
 
 ## 0.3.4
 

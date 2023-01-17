@@ -1,22 +1,36 @@
 # @kitql/template
 
+## 0.4.1
+
+### Patch Changes
+
+- [`0fde173`](https://github.com/jycouet/kitql/commit/0fde1736404df0836b1d59eedea5982a4bf18292)
+  Thanks [@jycouet](https://github.com/jycouet)! - bump graphql ecosystem version
+
 ## 0.4.0
 
 ### Minor Changes
 
-- [#215](https://github.com/jycouet/kitql/pull/215) [`6261921`](https://github.com/jycouet/kitql/commit/6261921157c3581258fa12c1a57fd450f5b26547) Thanks [@jycouet](https://github.com/jycouet)! - update with sveltekit next.483 & import form @kitql/all-in
+- [#215](https://github.com/jycouet/kitql/pull/215)
+  [`6261921`](https://github.com/jycouet/kitql/commit/6261921157c3581258fa12c1a57fd450f5b26547)
+  Thanks [@jycouet](https://github.com/jycouet)! - update with sveltekit next.483 & import form
+  @kitql/all-in
 
 ## 0.4.0-next.0
 
 ### Minor Changes
 
-- [#215](https://github.com/jycouet/kitql/pull/215) [`6261921`](https://github.com/jycouet/kitql/commit/6261921157c3581258fa12c1a57fd450f5b26547) Thanks [@jycouet](https://github.com/jycouet)! - update with sveltekit next.483 & import form @kitql/all-in
+- [#215](https://github.com/jycouet/kitql/pull/215)
+  [`6261921`](https://github.com/jycouet/kitql/commit/6261921157c3581258fa12c1a57fd450f5b26547)
+  Thanks [@jycouet](https://github.com/jycouet)! - update with sveltekit next.483 & import form
+  @kitql/all-in
 
 ## 0.3.2
 
 ### Patch Changes
 
-- [`cef5c74`](https://github.com/jycouet/kitql/commit/cef5c741d70d403bbb840e61afedf958586a2307) Thanks [@jycouet](https://github.com/jycouet)! - bump codegen tools
+- [`cef5c74`](https://github.com/jycouet/kitql/commit/cef5c741d70d403bbb840e61afedf958586a2307)
+  Thanks [@jycouet](https://github.com/jycouet)! - bump codegen tools
 
 ## 0.3.1
 
