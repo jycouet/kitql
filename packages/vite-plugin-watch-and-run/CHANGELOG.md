@@ -1,122 +1,174 @@
 # @kitql/vite-plugin-watch-and-run
 
+## 1.1.1
+
+### Patch Changes
+
+- [`0fde173`](https://github.com/jycouet/kitql/commit/0fde1736404df0836b1d59eedea5982a4bf18292)
+  Thanks [@jycouet](https://github.com/jycouet)! - bump graphql ecosystem version
+
+- Updated dependencies
+  [[`0fde173`](https://github.com/jycouet/kitql/commit/0fde1736404df0836b1d59eedea5982a4bf18292)]:
+  - @kitql/helper@0.6.1
+
 ## 1.1.0
 
 ### Minor Changes
 
-- [#215](https://github.com/jycouet/kitql/pull/215) [`6261921`](https://github.com/jycouet/kitql/commit/6261921157c3581258fa12c1a57fd450f5b26547) Thanks [@jycouet](https://github.com/jycouet)! - update with sveltekit next.483 & import form @kitql/all-in
+- [#215](https://github.com/jycouet/kitql/pull/215)
+  [`6261921`](https://github.com/jycouet/kitql/commit/6261921157c3581258fa12c1a57fd450f5b26547)
+  Thanks [@jycouet](https://github.com/jycouet)! - update with sveltekit next.483 & import form
+  @kitql/all-in
 
-- [#226](https://github.com/jycouet/kitql/pull/226) [`e326e66`](https://github.com/jycouet/kitql/commit/e326e669b006a4a4dad5223e129dac4cbf9be232) Thanks [@jycouet](https://github.com/jycouet)! - bump vite version
+- [#226](https://github.com/jycouet/kitql/pull/226)
+  [`e326e66`](https://github.com/jycouet/kitql/commit/e326e669b006a4a4dad5223e129dac4cbf9be232)
+  Thanks [@jycouet](https://github.com/jycouet)! - bump vite version
 
-- [#263](https://github.com/jycouet/kitql/pull/263) [`2e8385d`](https://github.com/jycouet/kitql/commit/2e8385de17ee0644adf2a078b19dab191115e1d2) Thanks [@jycouet](https://github.com/jycouet)! - format message update with correct space
+- [#263](https://github.com/jycouet/kitql/pull/263)
+  [`2e8385d`](https://github.com/jycouet/kitql/commit/2e8385de17ee0644adf2a078b19dab191115e1d2)
+  Thanks [@jycouet](https://github.com/jycouet)! - format message update with correct space
 
-- Updated dependencies [[`9794890`](https://github.com/jycouet/kitql/commit/9794890736297fcf9d9a25c93bf71a1cbf889efa), [`a07b0e8`](https://github.com/jycouet/kitql/commit/a07b0e854d47540fb2169c69a08f39367609653e), [`6261921`](https://github.com/jycouet/kitql/commit/6261921157c3581258fa12c1a57fd450f5b26547), [`e575c28`](https://github.com/jycouet/kitql/commit/e575c28a6af90beef015368e5da7205da63987ac)]:
+- Updated dependencies
+  [[`9794890`](https://github.com/jycouet/kitql/commit/9794890736297fcf9d9a25c93bf71a1cbf889efa),
+  [`a07b0e8`](https://github.com/jycouet/kitql/commit/a07b0e854d47540fb2169c69a08f39367609653e),
+  [`6261921`](https://github.com/jycouet/kitql/commit/6261921157c3581258fa12c1a57fd450f5b26547),
+  [`e575c28`](https://github.com/jycouet/kitql/commit/e575c28a6af90beef015368e5da7205da63987ac)]:
   - @kitql/helper@0.6.0
 
 ## 1.1.0-next.5
 
 ### Patch Changes
 
-- [#263](https://github.com/jycouet/kitql/pull/263) [`2e8385d`](https://github.com/jycouet/kitql/commit/2e8385de17ee0644adf2a078b19dab191115e1d2) Thanks [@jycouet](https://github.com/jycouet)! - format message update with correct space
+- [#263](https://github.com/jycouet/kitql/pull/263)
+  [`2e8385d`](https://github.com/jycouet/kitql/commit/2e8385de17ee0644adf2a078b19dab191115e1d2)
+  Thanks [@jycouet](https://github.com/jycouet)! - format message update with correct space
 
 ## 1.1.0-next.4
 
 ### Patch Changes
 
-- Updated dependencies [[`e575c28`](https://github.com/jycouet/kitql/commit/e575c28a6af90beef015368e5da7205da63987ac)]:
+- Updated dependencies
+  [[`e575c28`](https://github.com/jycouet/kitql/commit/e575c28a6af90beef015368e5da7205da63987ac)]:
   - @kitql/helper@0.6.0-next.3
 
 ## 1.1.0-next.3
 
 ### Patch Changes
 
-- Updated dependencies [[`9794890`](https://github.com/jycouet/kitql/commit/9794890736297fcf9d9a25c93bf71a1cbf889efa)]:
+- Updated dependencies
+  [[`9794890`](https://github.com/jycouet/kitql/commit/9794890736297fcf9d9a25c93bf71a1cbf889efa)]:
   - @kitql/helper@0.6.0-next.2
 
 ## 1.1.0-next.2
 
 ### Patch Changes
 
-- [#226](https://github.com/jycouet/kitql/pull/226) [`e326e66`](https://github.com/jycouet/kitql/commit/e326e669b006a4a4dad5223e129dac4cbf9be232) Thanks [@jycouet](https://github.com/jycouet)! - bump vite version
+- [#226](https://github.com/jycouet/kitql/pull/226)
+  [`e326e66`](https://github.com/jycouet/kitql/commit/e326e669b006a4a4dad5223e129dac4cbf9be232)
+  Thanks [@jycouet](https://github.com/jycouet)! - bump vite version
 
 ## 1.1.0-next.1
 
 ### Patch Changes
 
-- Updated dependencies [[`a07b0e8`](https://github.com/jycouet/kitql/commit/a07b0e854d47540fb2169c69a08f39367609653e)]:
+- Updated dependencies
+  [[`a07b0e8`](https://github.com/jycouet/kitql/commit/a07b0e854d47540fb2169c69a08f39367609653e)]:
   - @kitql/helper@0.6.0-next.1
 
 ## 1.1.0-next.0
 
 ### Minor Changes
 
-- [#215](https://github.com/jycouet/kitql/pull/215) [`6261921`](https://github.com/jycouet/kitql/commit/6261921157c3581258fa12c1a57fd450f5b26547) Thanks [@jycouet](https://github.com/jycouet)! - update with sveltekit next.483 & import form @kitql/all-in
+- [#215](https://github.com/jycouet/kitql/pull/215)
+  [`6261921`](https://github.com/jycouet/kitql/commit/6261921157c3581258fa12c1a57fd450f5b26547)
+  Thanks [@jycouet](https://github.com/jycouet)! - update with sveltekit next.483 & import form
+  @kitql/all-in
 
 ### Patch Changes
 
-- Updated dependencies [[`6261921`](https://github.com/jycouet/kitql/commit/6261921157c3581258fa12c1a57fd450f5b26547)]:
+- Updated dependencies
+  [[`6261921`](https://github.com/jycouet/kitql/commit/6261921157c3581258fa12c1a57fd450f5b26547)]:
   - @kitql/helper@0.6.0-next.0
 
 ## 1.0.3
 
 ### Patch Changes
 
-- Updated dependencies [[`62e6a61`](https://github.com/jycouet/kitql/commit/62e6a6120f4e08ff9fc1e1a473021ee98831b86f), [`62e6a61`](https://github.com/jycouet/kitql/commit/62e6a6120f4e08ff9fc1e1a473021ee98831b86f)]:
+- Updated dependencies
+  [[`62e6a61`](https://github.com/jycouet/kitql/commit/62e6a6120f4e08ff9fc1e1a473021ee98831b86f),
+  [`62e6a61`](https://github.com/jycouet/kitql/commit/62e6a6120f4e08ff9fc1e1a473021ee98831b86f)]:
   - @kitql/helper@0.5.0
 
 ## 1.0.2
 
 ### Patch Changes
 
-- Updated dependencies [[`1abe98d`](https://github.com/jycouet/kitql/commit/1abe98d53d07e0ea55f600526bc68a87764a546c)]:
+- Updated dependencies
+  [[`1abe98d`](https://github.com/jycouet/kitql/commit/1abe98d53d07e0ea55f600526bc68a87764a546c)]:
   - @kitql/helper@0.4.0
 
 ## 1.0.1
 
 ### Patch Changes
 
-- [#207](https://github.com/jycouet/kitql/pull/207) [`411e9dd`](https://github.com/jycouet/kitql/commit/411e9dd158ac6aea6c61c1ed8366827868a635c4) Thanks [@jycouet](https://github.com/jycouet)! - add formatError option
+- [#207](https://github.com/jycouet/kitql/pull/207)
+  [`411e9dd`](https://github.com/jycouet/kitql/commit/411e9dd158ac6aea6c61c1ed8366827868a635c4)
+  Thanks [@jycouet](https://github.com/jycouet)! - add formatError option
 
 ## 1.0.0
 
 ### Major Changes
 
-- [#203](https://github.com/jycouet/kitql/pull/203) [`c92b5ed`](https://github.com/jycouet/kitql/commit/c92b5edd42d31e789209db2c2f839249b432f37f) Thanks [@jycouet](https://github.com/jycouet)! - rename package to be independent
+- [#203](https://github.com/jycouet/kitql/pull/203)
+  [`c92b5ed`](https://github.com/jycouet/kitql/commit/c92b5edd42d31e789209db2c2f839249b432f37f)
+  Thanks [@jycouet](https://github.com/jycouet)! - rename package to be independent
 
 ## 0.4.2
 
 ### Patch Changes
 
-- [#186](https://github.com/jycouet/kitql/pull/186) [`3bb1347`](https://github.com/jycouet/kitql/commit/3bb13476f1951cf9b101fa4f6ad28d80bfc4f917) Thanks [@jycouet](https://github.com/jycouet)! - fix: typing - watch is an optional parameter
+- [#186](https://github.com/jycouet/kitql/pull/186)
+  [`3bb1347`](https://github.com/jycouet/kitql/commit/3bb13476f1951cf9b101fa4f6ad28d80bfc4f917)
+  Thanks [@jycouet](https://github.com/jycouet)! - fix: typing - watch is an optional parameter
 
-* [#186](https://github.com/jycouet/kitql/pull/186) [`3bb1347`](https://github.com/jycouet/kitql/commit/3bb13476f1951cf9b101fa4f6ad28d80bfc4f917) Thanks [@jycouet](https://github.com/jycouet)! - fix: delete event doesn't exist, it's unlink
+* [#186](https://github.com/jycouet/kitql/pull/186)
+  [`3bb1347`](https://github.com/jycouet/kitql/commit/3bb13476f1951cf9b101fa4f6ad28d80bfc4f917)
+  Thanks [@jycouet](https://github.com/jycouet)! - fix: delete event doesn't exist, it's unlink
 
 ## 0.4.1
 
 ### Patch Changes
 
-- [#184](https://github.com/jycouet/kitql/pull/184) [`64fdc09`](https://github.com/jycouet/kitql/commit/64fdc09a052a9b9ea38d081910f13267522b71a1) Thanks [@jycouet](https://github.com/jycouet)! - fix: typing - watch is an optional parameter
+- [#184](https://github.com/jycouet/kitql/pull/184)
+  [`64fdc09`](https://github.com/jycouet/kitql/commit/64fdc09a052a9b9ea38d081910f13267522b71a1)
+  Thanks [@jycouet](https://github.com/jycouet)! - fix: typing - watch is an optional parameter
 
 ## 0.4.0
 
 ### Minor Changes
 
-- [#171](https://github.com/jycouet/kitql/pull/171) [`e5b19b1`](https://github.com/jycouet/kitql/commit/e5b19b11af441b3efbc2f71cb91aad99658ef0b1) Thanks [@Giovannini](https://github.com/Giovannini)! - BREAKING: ADD, CHANGE, DELETE were renamed add, change, delete
+- [#171](https://github.com/jycouet/kitql/pull/171)
+  [`e5b19b1`](https://github.com/jycouet/kitql/commit/e5b19b11af441b3efbc2f71cb91aad99658ef0b1)
+  Thanks [@Giovannini](https://github.com/Giovannini)! - BREAKING: ADD, CHANGE, DELETE were renamed
+  add, change, delete
 
 ## 0.3.7
 
 ### Patch Changes
 
-- [`cef5c74`](https://github.com/jycouet/kitql/commit/cef5c741d70d403bbb840e61afedf958586a2307) Thanks [@jycouet](https://github.com/jycouet)! - bump codegen tools
+- [`cef5c74`](https://github.com/jycouet/kitql/commit/cef5c741d70d403bbb840e61afedf958586a2307)
+  Thanks [@jycouet](https://github.com/jycouet)! - bump codegen tools
 
-- Updated dependencies [[`cef5c74`](https://github.com/jycouet/kitql/commit/cef5c741d70d403bbb840e61afedf958586a2307)]:
+- Updated dependencies
+  [[`cef5c74`](https://github.com/jycouet/kitql/commit/cef5c741d70d403bbb840e61afedf958586a2307)]:
   - @kitql/helper@0.3.5
 
 ## 0.3.6
 
 ### Patch Changes
 
-- [`f2057f7`](https://github.com/jycouet/kitql/commit/f2057f76bb6a9caa90b28af83f4e99b83617d638) Thanks [@jycouet](https://github.com/jycouet)! - color update
+- [`f2057f7`](https://github.com/jycouet/kitql/commit/f2057f76bb6a9caa90b28af83f4e99b83617d638)
+  Thanks [@jycouet](https://github.com/jycouet)! - color update
 
 ## 0.3.5
 
