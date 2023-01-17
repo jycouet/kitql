@@ -13,8 +13,8 @@
 ## ⚡ How to (manual)
 
 ```
-yarn
-yarn dev
+npm i
+npm run dev
 
 🥳 check: http://localhost:3777/
 ```

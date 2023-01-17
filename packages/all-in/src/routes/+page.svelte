@@ -11,7 +11,7 @@
 <hr />
 
 <div style="text-align: center">
-  <a href="/">Home</a> | <a href="/graphiql">graphiql</a>
+  <a href="/">Home</a> | <a href="/api/graphiql">graphiql</a>
 </div>
 
 <style>
