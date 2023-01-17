@@ -51,9 +51,9 @@ export type Options = {
 }
 
 export const kindWithPath = ['add', 'addDir', 'change', 'unlink', 'unlinkDir'] as const
-export type KindWithPath = typeof kindWithPath[number]
+export type KindWithPath = (typeof kindWithPath)[number]
 export const kindWithoutPath = ['all', 'error', 'raw', 'ready'] as const
-export type KindWithoutPath = typeof kindWithoutPath[number]
+export type KindWithoutPath = (typeof kindWithoutPath)[number]
 export type WatchKind = KindWithPath | KindWithoutPath
 
 export type StateDetail = {
