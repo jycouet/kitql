@@ -1,5 +1,17 @@
 # @kitql/all-in
 
+## 0.8.4
+
+### Patch Changes
+
+- [`0fde173`](https://github.com/jycouet/kitql/commit/0fde1736404df0836b1d59eedea5982a4bf18292)
+  Thanks [@jycouet](https://github.com/jycouet)! - bump graphql ecosystem version
+
+- Updated dependencies
+  [[`0fde173`](https://github.com/jycouet/kitql/commit/0fde1736404df0836b1d59eedea5982a4bf18292)]:
+  - @kitql/helper@0.6.1
+  - vite-plugin-watch-and-run@1.1.1
+
 ## 0.8.3
 
 ### Patch Changes
