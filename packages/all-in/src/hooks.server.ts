@@ -2,6 +2,7 @@ import { dev } from '$app/environment'
 import { type IKitQLContext, kitqlServer } from '$lib/graphql/kitqlServer'
 import { handleGraphiql } from '$lib/hooks/graphiql'
 import { handleGraphql } from '$lib/hooks/graphql'
+import type { RequestEvent } from '@sveltejs/kit'
 import { sequence } from '@sveltejs/kit/hooks'
 
 /**
@@ -9,7 +10,7 @@ import { sequence } from '@sveltejs/kit/hooks'
  */
 export const handle = sequence(
   // create the graphql endpoint
-  handleGraphql<IKitQLContext>(kitqlServer),
+  handleGraphql<IKitQLContext, RequestEvent>(kitqlServer),
 
   // enable graphiql in dev mode
   handleGraphiql({
@@ -25,7 +26,7 @@ export const handle = sequence(
 
 // export const handle = sequence(
 //   // create the graphql endpoint
-//   handleGraphql<IKitQLContext>({
+//   handleGraphql<IKitQLContext, RequestEvent>({
 //     endpoint,
 //     graphiQLPath,
 //     ...kitqlServer,

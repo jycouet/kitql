@@ -21,6 +21,8 @@ export function IndexPage() {
         image={{
           src: houdini_kitql,
           alt: 'Illustration',
+          width: 300,
+          height: 300,
         }}
       />
       <FeatureList
