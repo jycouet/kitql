@@ -91,11 +91,12 @@ export function handleGraphql<TUserContext, TServerContext>(
     plugins: kitqlPlugins.concat(plugins || []),
     graphqlEndpoint: endpoint,
     fetchAPI: globalThis,
+    graphiql: false,
   })
 
   return async ({ event, resolve }) => {
     if (event.url && event.url.pathname === endpoint) {
-      if (event.request.method === 'GET') {
+      if (event.request.method === 'GET' && event.url.searchParams.toString() === '') {
         // If we know graphiQLPath, let's go there
         if (graphiQLPath) {
           return new Response('Redirect', { status: 303, headers: { Location: graphiQLPath } })
@@ -104,9 +105,7 @@ export function handleGraphql<TUserContext, TServerContext>(
         return new Response(`${endpoint} Not found`, { status: 404 })
       }
 
-      if (event.request.method === 'POST') {
-        return kitqlServer.handleRequest(event.request, null)
-      }
+      return kitqlServer.handleRequest(event.request, null)
     }
     // Fallback to normal request
     return resolve(event)

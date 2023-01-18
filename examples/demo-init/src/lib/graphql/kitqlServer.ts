@@ -19,7 +19,7 @@ function getContext({ request }: RequestEvent) {
 	};
 }
 
-export const kitqlServer: KitQLHandleGraphQL<IKitQLContext> = {
+export const kitqlServer: KitQLHandleGraphQL<IKitQLContext, RequestEvent> = {
 	plugins,
 	context: getContext
 };
