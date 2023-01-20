@@ -1,5 +1,15 @@
 # @kitql/all-in
 
+## 0.8.5
+
+### Patch Changes
+
+- [`bd48fc7`](https://github.com/jycouet/kitql/commit/bd48fc77b7ffe59a7e5ca7897c564614e30f0af0)
+  Thanks [@jycouet](https://github.com/jycouet)! - add support for sse
+
+- [`7541721`](https://github.com/jycouet/kitql/commit/7541721ba64815342174f1dd0451f6f408d75dca)
+  Thanks [@jycouet](https://github.com/jycouet)! - add subscription via sse
+
 ## 0.8.4
 
 ### Patch Changes
