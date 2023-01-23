@@ -17,7 +17,7 @@ importers:
       check-code-coverage: 1.10.4
       eslint: 8.32.0
       husky: 8.0.3
-      jsdom: 21.0.0
+      jsdom: 21.1.0
       prettier: 2.8.3
       prettier-plugin-svelte: 2.9.0
       rimraf: 4.1.0
@@ -31,7 +31,7 @@ importers:
       '@theguild/eslint-config': 0.6.0_7uibuqfxkfaozanbtbziikiqje
       '@theguild/prettier-config': 1.0.0_prettier@2.8.3
       '@trivago/prettier-plugin-sort-imports': 4.0.0_7yjediqwct5rofa5licti4izue
-      '@vitest/coverage-c8': 0.27.2_khtlybukmttptjnbpoxmgb2vzq
+      '@vitest/coverage-c8': 0.27.2_bnxam7elicemminqt27c7qlike
       '@vitest/ui': 0.27.2
       '@vue/compiler-sfc': 3.2.45
       bob-the-bundler: 5.0.0_typescript@4.9.4
@@ -39,14 +39,14 @@ importers:
       check-code-coverage: 1.10.4
       eslint: 8.32.0
       husky: 8.0.3
-      jsdom: 21.0.0
+      jsdom: 21.1.0
       prettier: 2.8.3
       prettier-plugin-svelte: 2.9.0_kdmmghgdi3ngrsq6otxkjilbry
       rimraf: 4.1.0
       svelte: 3.55.1
       svelte2tsx: 0.6.0_atrrhq7vg4ekua4nnyrpuardle
       typescript: 4.9.4
-      vitest: 0.27.2_khtlybukmttptjnbpoxmgb2vzq
+      vitest: 0.27.2_bnxam7elicemminqt27c7qlike
 
   packages/all-in:
     specifiers:
@@ -3596,11 +3596,11 @@ packages:
     hasBin: true
     dev: true
 
-  /@vitest/coverage-c8/0.27.2_khtlybukmttptjnbpoxmgb2vzq:
+  /@vitest/coverage-c8/0.27.2_bnxam7elicemminqt27c7qlike:
     resolution: {integrity: sha512-1MFwlwfwIfPFLfu6aN+dZ5jo2aOah5nAwoq/SrqUkt9rXzUmohLOgI1GTT0PpXbJKqaZicIlWuBjiC+BjVgRwQ==}
     dependencies:
       c8: 7.12.0
-      vitest: 0.27.2_khtlybukmttptjnbpoxmgb2vzq
+      vitest: 0.27.2_bnxam7elicemminqt27c7qlike
     transitivePeerDependencies:
       - '@edge-runtime/vm'
       - '@vitest/browser'
@@ -7711,8 +7711,8 @@ packages:
     dependencies:
       argparse: 2.0.1
 
-  /jsdom/21.0.0:
-    resolution: {integrity: sha512-AIw+3ZakSUtDYvhwPwWHiZsUi3zHugpMEKlNPaurviseYoBqo0zBd3zqoUi3LPCNtPFlEP8FiW9MqCZdjb2IYA==}
+  /jsdom/21.1.0:
+    resolution: {integrity: sha512-m0lzlP7qOtthD918nenK3hdItSd2I+V3W9IrBcB36sqDwG+KnUs66IF5GY7laGWUnlM9vTsD0W1QwSEBYWWcJg==}
     engines: {node: '>=14'}
     peerDependencies:
       canvas: ^2.5.0
@@ -11970,7 +11970,7 @@ packages:
       vite: 4.0.4_@types+node@18.11.18
     dev: true
 
-  /vitest/0.27.2_khtlybukmttptjnbpoxmgb2vzq:
+  /vitest/0.27.2_bnxam7elicemminqt27c7qlike:
     resolution: {integrity: sha512-y7tdsL2uaQy+KF18AlmNHZe29ukyFytlxrpSTwwmgLE2XHR/aPucJP9FLjWoqjgqFlXzRAjHlFJLU+HDyI/OsA==}
     engines: {node: '>=v14.16.0'}
     hasBin: true
@@ -12001,7 +12001,7 @@ packages:
       cac: 6.7.14
       chai: 4.3.7
       debug: 4.3.4
-      jsdom: 21.0.0
+      jsdom: 21.1.0
       local-pkg: 0.4.2
       picocolors: 1.0.0
       source-map: 0.6.1
