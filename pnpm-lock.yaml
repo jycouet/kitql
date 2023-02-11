@@ -7,7 +7,7 @@ importers:
       '@changesets/changelog-github': 0.4.8
       '@changesets/cli': 2.26.0
       '@theguild/eslint-config': 0.6.0
-      '@theguild/prettier-config': 1.0.0
+      '@theguild/prettier-config': 1.1.2
       '@trivago/prettier-plugin-sort-imports': ^4.0.0
       '@vitest/coverage-c8': 0.27.2
       '@vitest/ui': 0.27.2
@@ -29,7 +29,7 @@ importers:
       '@changesets/changelog-github': 0.4.8
       '@changesets/cli': 2.26.0
       '@theguild/eslint-config': 0.6.0_7uibuqfxkfaozanbtbziikiqje
-      '@theguild/prettier-config': 1.0.0_prettier@2.8.3
+      '@theguild/prettier-config': 1.1.2_7yjediqwct5rofa5licti4izue
       '@trivago/prettier-plugin-sort-imports': 4.0.0_7yjediqwct5rofa5licti4izue
       '@vitest/coverage-c8': 0.27.2_khtlybukmttptjnbpoxmgb2vzq
       '@vitest/ui': 0.27.2
@@ -3204,14 +3204,18 @@ packages:
       - typescript
     dev: true
 
-  /@theguild/prettier-config/1.0.0_prettier@2.8.3:
-    resolution: {integrity: sha512-EdPbtrXN1Z0QqmFJZXGj4n/xLZTCJtDxb+jeNGmOccrv0cJTB46d+lsvCO8j7SmuUhyt/gv9B6nnVKt66D2X1w==}
+  /@theguild/prettier-config/1.1.2_7yjediqwct5rofa5licti4izue:
+    resolution: {integrity: sha512-G4zChCRSSv6B9usDnJNkJOL6as/TmfP6LMLbmpnbATVARzArY4nGTRFD5NQBH64SbVLrmfvtbOGJJIBUtDOU+w==}
     peerDependencies:
       prettier: ^2
     dependencies:
+      '@trivago/prettier-plugin-sort-imports': 4.0.0_7yjediqwct5rofa5licti4izue
       prettier: 2.8.3
       prettier-plugin-pkg: 0.17.1_prettier@2.8.3
       prettier-plugin-sh: 0.12.8_prettier@2.8.3
+    transitivePeerDependencies:
+      - '@vue/compiler-sfc'
+      - supports-color
     dev: true
 
   /@theguild/tailwind-config/0.2.1:
