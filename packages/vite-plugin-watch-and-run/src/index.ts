@@ -159,7 +159,7 @@ async function watcher(
         message += logGreen(' ' + absolutePath.replaceAll(process.cwd(), ''))
       }
       if (typeof info.run === 'string') {
-        message + ` and run ${logGreen(info.run)} `
+        message += ` and run ${logGreen(info.run)} `
       }
       message += ` ${logCyan(info.delay + 'ms')}`
 

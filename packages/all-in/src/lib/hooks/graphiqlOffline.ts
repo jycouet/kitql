@@ -1,7 +1,7 @@
 import type { Handle } from '@sveltejs/kit'
 import type { GraphiQLRendererOptions as GraphiQLYogaOptions } from 'graphql-yoga/typings/plugins/useGraphiQL'
 
-import { type KitQLHandleGraphiQL, defaultQuery } from './graphiqlCommon.js'
+import { defaultQuery, type KitQLHandleGraphiQL } from './graphiqlCommon.js'
 
 async function getGraphiQLBody(graphiqlOptions: GraphiQLYogaOptions) {
   try {

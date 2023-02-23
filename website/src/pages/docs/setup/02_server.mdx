@@ -50,7 +50,7 @@ Now, let's build the `kitqlServer` const 👇
 This is the file where you will create your KitQL Server. To start, it should look like:
 
 ```ts filename="src/lib/graphql/kitqlServer.ts"
-import { useKitqlModules, type KitQLHandleGraphQL } from '@kitql/all-in'
+import { type KitQLHandleGraphQL, useKitqlModules } from '@kitql/all-in'
 import type { RequestEvent } from '@sveltejs/kit'
 
 import { modules } from './$kitql/_appModules'

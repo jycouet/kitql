@@ -1,9 +1,11 @@
+import { browser } from '$app/environment';
 import type { RequestHandlerArgs } from '$houdini';
 import { HoudiniClient } from '$houdini';
+import { createClient } from 'graphql-sse';
 
-async function fetchQuery({ fetch, text = '', variables = {} }: RequestHandlerArgs) {
-	const url = '/api/graphql';
+const url = '/api/graphql';
 
+async function requestHandler({ fetch, text = '', variables = {} }: RequestHandlerArgs) {
 	const result = await fetch(url, {
 		method: 'POST',
 		headers: {
@@ -18,4 +20,10 @@ async function fetchQuery({ fetch, text = '', variables = {} }: RequestHandlerAr
 	return await result.json();
 }
 
-export default new HoudiniClient(fetchQuery);
+let subscriptionHandler = browser
+	? createClient({
+			url: 'http://localhost:3777/api/graphql'
+	  })
+	: null;
+
+export default new HoudiniClient(requestHandler, subscriptionHandler);

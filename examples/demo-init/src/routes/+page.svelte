@@ -1,9 +1,18 @@
 <script lang="ts">
+	import { graphql } from '$houdini';
 	import type { PageData } from './$houdini';
 
 	export let data: PageData;
 
 	$: ({ Version } = data);
+
+	const updates = graphql(`
+		subscription Countdown($from: Int!) {
+			countdown(from: $from)
+		}
+	`);
+
+	$: updates.listen({ from: 360 });
 </script>
 
 <div>✅ #GraphQL is working 👌</div>
@@ -24,7 +33,10 @@
 			$Version.data?.version.releaseCreatedAtUtc.toLocaleTimeString()}</pre>
 </div>
 
-<br />
+<div>
+	✅ Your first subscription 👇
+	<pre>{JSON.stringify($updates, null, 2)}</pre>
+</div>
 
 <style>
 	div {

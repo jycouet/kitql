@@ -1,7 +1,7 @@
 import { useEngine } from '@envelop/core'
 import type { Handle } from '@sveltejs/kit'
 import * as GraphQLJS from 'graphql'
-import { type Plugin, type YogaInitialContext, createSchema, createYoga } from 'graphql-yoga'
+import { createSchema, createYoga, type Plugin, type YogaInitialContext } from 'graphql-yoga'
 
 export type KitQLHandleGraphQL<TUserContext, TServerContext extends Record<string, any>> = {
   /**
