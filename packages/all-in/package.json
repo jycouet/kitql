@@ -11,7 +11,7 @@
   "bob": false,
   "scripts": {
     "dev": "vite dev",
-    "build": "svelte-kit sync && vite build && svelte-package",
+    "build": "svelte-kit sync && vite build && svelte-package --types",
     "preview": "vite preview",
     "check": "svelte-check --tsconfig ./tsconfig.json --threshold warning",
     "check:watch": "svelte-check --tsconfig ./tsconfig.json --watch",
@@ -73,5 +73,12 @@
   },
   "volta": {
     "node": "18.14.2"
+  },
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js",
+      "svelte": "./dist/KitQLInfo.svelte"
+    }
   }
 }
