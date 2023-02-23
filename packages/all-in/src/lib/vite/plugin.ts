@@ -1,11 +1,11 @@
-import { createContext, generate as codeGen_generate } from '@graphql-codegen/cli'
+import { generate as codeGen_generate, createContext } from '@graphql-codegen/cli'
 import { Log } from '@kitql/helper'
 import { resolve } from 'node:path'
 import type { Plugin } from 'vite'
 import watch_and_run from 'vite-plugin-watch-and-run'
 
-import type { KitQLVite } from './KitQLVite.js'
 import { generate as kitql_generate } from './generate.js'
+import type { KitQLVite } from './KitQLVite.js'
 
 const log = new Log('KitQL')
 
