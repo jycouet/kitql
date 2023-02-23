@@ -1,5 +1,12 @@
 # @kitql/all-in
 
+## 0.8.7
+
+### Patch Changes
+
+- [`ad2c9f9`](https://github.com/jycouet/kitql/commit/ad2c9f922178ade3c815277882971ea68f7f12d1)
+  Thanks [@jycouet](https://github.com/jycouet)! - fix wrong export
+
 ## 0.8.6
 
 ### Patch Changes
