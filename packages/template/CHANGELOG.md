@@ -1,5 +1,12 @@
 # @kitql/template
 
+## 0.4.2
+
+### Patch Changes
+
+- [`8ce86e2`](https://github.com/jycouet/kitql/commit/8ce86e2b60e5702c80e0aa8c7d263f33bf914baa)
+  Thanks [@jycouet](https://github.com/jycouet)! - bump dep
+
 ## 0.4.1
 
 ### Patch Changes
