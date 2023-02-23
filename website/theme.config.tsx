@@ -1,4 +1,5 @@
-import { KitQLLogo, defineConfig } from '@theguild/components'
+import {  defineConfig, PRODUCTS } from '@theguild/components'
+
 
 const SITE_NAME = 'KitQL'
 const SITE_DESCRIPTION = 'Bring data management layer to SvelteKit'
@@ -29,7 +30,7 @@ export default defineConfig({
   ),
   logo: (
     <>
-      <KitQLLogo className="mr-1.5 h-9 w-9" />
+      { PRODUCTS.KITQL.logo({className:"mr-1.5 h-9 w-9"}) }
       <h1 className="md:text-md text-sm font-medium">{SITE_NAME}</h1>
     </>
   ),
