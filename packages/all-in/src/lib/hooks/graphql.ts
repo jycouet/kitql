@@ -104,8 +104,8 @@ export function handleGraphql<TUserContext, TServerContext>(
         // if not, let's bring the 404!
         return new Response(`${endpoint} Not found`, { status: 404 })
       }
-
-      return kitqlServer.handleRequest(event.request, null)
+      const h = await kitqlServer.handle(event)
+      return new Response(h.body, { ...h })
     }
     // Fallback to normal request
     return resolve(event)
