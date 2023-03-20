@@ -87,7 +87,7 @@ Now, we just need to generate everything... to have typings & modules.
 Create a config file `graphql.config.cjs` with the following content:
 
 ```js filename="graphql.config.cjs"
-const kitqlConfig = require('./packages/all-in/src/lib/cjs.cjs')
+const kitqlConfig = require('@kitql/all-in/cjs.cjs')
 
 const scalars = {
   Date: '../helpers/scalarTypes#CodegenDate',
