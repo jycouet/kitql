@@ -14,7 +14,6 @@ const config = {
       $graphql: './src/lib/graphql',
     },
   },
-
 }
 
 export default config

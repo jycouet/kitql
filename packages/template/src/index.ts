@@ -37,8 +37,6 @@ const configFile = YAML.parse(content)
 // Files get folders...
 // Create Folders if they don't exsist .fft, modulename, ... ui, ...
 
-
-
 for (const up of configFile.up) {
   for (const file of up.files) {
     const sarObj = getSarObj(configFile.replacesList, up.replacesList)

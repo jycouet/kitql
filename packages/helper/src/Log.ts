@@ -126,10 +126,9 @@ export class Log {
         replacedStr = replacedStr.replaceAll(config[key].node, '%c')
       }
       const colors: string[] = []
-      for (const c of posToReplace
-        .sort((a, b) => a.index - b.index)) {
-          colors.push(config[c.key].browser)
-        }
+      for (const c of posToReplace.sort((a, b) => a.index - b.index)) {
+        colors.push(config[c.key].browser)
+      }
 
       return [replacedStr, ...colors]
     }
