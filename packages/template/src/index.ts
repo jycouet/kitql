@@ -11,13 +11,13 @@ function sar(str: string, sarObj: Record<string, string>) {
 
 function getSarObj(confReplacesList: any[], upReplacesList: string[]) {
   let sarObj = {}
-  confReplacesList.forEach(item => {
+  for (const item of confReplacesList) {
     for (const key in item) {
       if (upReplacesList.includes(key)) {
         sarObj = { ...sarObj, ...item[key][0] }
       }
     }
-  })
+  }
   return sarObj
 }
 
@@ -37,8 +37,10 @@ const configFile = YAML.parse(content)
 // Files get folders...
 // Create Folders if they don't exsist .fft, modulename, ... ui, ...
 
-configFile.up.forEach((up: any) => {
-  up.files.forEach((file: string) => {
+
+
+for (const up of configFile.up) {
+  for (const file of up.files) {
     const sarObj = getSarObj(configFile.replacesList, up.replacesList)
     const fileName = path.basename(file)
     const folders = file.split('/').slice(0, -1)
@@ -92,7 +94,7 @@ configFile.up.forEach((up: any) => {
     }
 
     fs.writeFileSync(fileTo, sar(fileContentNew.join('\n'), sarObj), { encoding: 'utf8' })
-  })
-})
+  }
+}
 
 console.info(`DONE`)
