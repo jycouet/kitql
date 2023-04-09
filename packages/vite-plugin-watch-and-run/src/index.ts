@@ -229,7 +229,7 @@ export default function watchAndRun(
 
     async configureServer(server) {
       // check params, throw Errors if not valid and return a new object representing the state of the plugin
-      const watchAndRunConf = await checkConf(params)
+      const watchAndRunConf = checkConf(params)
 
       kindWithPath.forEach((kind: KindWithPath) => {
         const _watcher = async (absolutePath: string) =>
