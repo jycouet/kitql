@@ -13,7 +13,7 @@ export function queryStringApprend(
   searchParams: URLSearchParams,
   queryString: Record<string, string>,
 ) {
-  const query = {}
+  const query: Record<string, string> = {}
 
   // 1 Destructure searchParams
   searchParams.forEach((v, k) => {

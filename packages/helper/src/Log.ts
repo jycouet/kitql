@@ -23,7 +23,7 @@ const config = {
     node: `\x1b[33m`,
     browser: 'color: yellow',
   },
-}
+} as { [key: string]: { node: string; browser: string } }
 
 export function logGreen(str: string) {
   return `${config.green.node}${str}${config.reset.node}`
