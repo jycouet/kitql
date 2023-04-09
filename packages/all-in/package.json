@@ -1,6 +1,6 @@
 {
   "name": "@kitql/all-in",
-  "version": "0.8.7",
+  "version": "0.9.0",
   "license": "MIT",
   "repository": {
     "type": "git",
@@ -71,25 +71,23 @@
     "access": "public"
   },
   "exports": {
-    "./package.json": "./dist/package.json",
-    "./cjs.cjs": "./dist/cjs.cjs",
     ".": {
-      "types": "./dist/index.d.ts",
-      "svelte": "./dist/KitQLInfo.svelte",
-      "default": "./dist/index.js"
+      "types": "./index.d.ts",
+      "default": "./index.js"
     },
+    "./cjs.cjs": "./cjs.cjs",
     "./offline": {
-      "types": "./dist/offline.d.ts",
-      "default": "./dist/offline.js"
+      "types": "./offline.d.ts",
+      "default": "./offline.js"
     }
   },
   "typesVersions": {
     ">4.0": {
       "index": [
-        "./dist/index.d.ts"
+        "./index.d.ts"
       ],
       "offline": [
-        "./dist/offline.d.ts"
+        "./offline.d.ts"
       ]
     }
   }
