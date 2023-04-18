@@ -1,5 +1,12 @@
 # @kitql/all-in
 
+## 0.9.3
+
+### Patch Changes
+
+- [`299272c`](https://github.com/jycouet/kitql/commit/299272c0c8062408f81bcb10fca7f3b69a95c0a6)
+  Thanks [@jycouet](https://github.com/jycouet)! - bring back devDep to published version
+
 ## 0.9.2
 
 ### Patch Changes
