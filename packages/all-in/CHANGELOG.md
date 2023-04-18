@@ -1,5 +1,13 @@
 # @kitql/all-in
 
+## 0.9.1
+
+### Patch Changes
+
+- [#334](https://github.com/jycouet/kitql/pull/334)
+  [`1b3b7e3`](https://github.com/jycouet/kitql/commit/1b3b7e3b21d1af124e3047be2c6ea2eee5ab7287)
+  Thanks [@jycouet](https://github.com/jycouet)! - new way to package all-in & update deps
+
 ## 0.8.7
 
 ### Patch Changes
