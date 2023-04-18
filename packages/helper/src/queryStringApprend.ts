@@ -13,12 +13,12 @@ export function queryStringApprend(
   searchParams: URLSearchParams,
   queryString: Record<string, string>,
 ) {
-  const query = {}
+  const query: Record<string, string> = {}
 
   // 1 Destructure searchParams
-  searchParams.forEach((v, k) => {
+  for (const [k, v] of searchParams.entries()) {
     query[k] = v
-  })
+  }
 
   // 2 Upset with our queryString
   for (const key in queryString) {

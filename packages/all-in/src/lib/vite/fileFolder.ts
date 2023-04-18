@@ -1,5 +1,4 @@
-// @ts-ignore
-import glob from 'glob'
+import * as glob from 'glob'
 import { existsSync, mkdirSync, readdirSync } from 'node:fs'
 import { extname, join } from 'node:path'
 

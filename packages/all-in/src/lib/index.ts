@@ -1,8 +1,5 @@
 import type * as gm from 'graphql-modules'
 
-// Svelte Component
-// export { default as KitQLInfo } from './KitQLInfo.svelte'
-
 // graphql-modules
 export { useKitqlModules } from './graphql/useKitqlModules.js'
 export {
@@ -19,9 +16,10 @@ export type { Next as Next } from 'graphql-modules/shared/middleware'
 export { gm }
 
 // SvelteKit hooks
-export { handleGraphiql } from './hooks/graphiql.js'
 export type { KitQLHandleGraphiQL } from './hooks/graphiqlCommon.js'
-export { type KitQLHandleGraphQL, handleGraphql } from './hooks/graphql.js'
+export { handleGraphiql as handleGraphiql } from './hooks/graphiql.js'
+export type { KitQLHandleGraphQL } from './hooks/graphql.js'
+export { handleGraphql as handleGraphql } from './hooks/graphql.js'
 
 // Prisma
 // export { getKitQLPrisma } from './prisma/kitqlPrisma'

@@ -12,7 +12,7 @@
     "build": "bob runify --single"
   },
   "dependencies": {
-    "safe-stable-stringify": "^2.4.2"
+    "safe-stable-stringify": "^2.4.3"
   },
   "main": "dist/cjs/index.js",
   "module": "dist/esm/index.js",
@@ -40,9 +40,5 @@
   "publishConfig": {
     "directory": "dist",
     "access": "public"
-  },
-  "volta": {
-    "node": "18.14.2",
-    "pnpm": "7.13.5"
   }
 }

@@ -23,7 +23,7 @@ const config = {
     node: `\x1b[33m`,
     browser: 'color: yellow',
   },
-}
+} as { [key: string]: { node: string; browser: string } }
 
 export function logGreen(str: string) {
   return `${config.green.node}${str}${config.reset.node}`
@@ -118,19 +118,17 @@ export class Log {
       for (const key in config) {
         // check indexes
         const indexes = this.getAllIndexOf(str, config[key].node)
-        indexes.forEach(index => {
+        for (const index of indexes) {
           posToReplace.push({ index, key })
-        })
+        }
 
         // replace with %c in another str to make sure we don't change the order of indexes
         replacedStr = replacedStr.replaceAll(config[key].node, '%c')
       }
       const colors: string[] = []
-      posToReplace
-        .sort((a, b) => a.index - b.index)
-        .forEach(c => {
-          colors.push(config[c.key].browser)
-        })
+      for (const c of posToReplace.sort((a, b) => a.index - b.index)) {
+        colors.push(config[c.key].browser)
+      }
 
       return [replacedStr, ...colors]
     }

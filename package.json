@@ -19,32 +19,30 @@
     "build": "bob build && pnpm --filter @kitql/all-in build",
     "release:version": "npm run changeset version",
     "release": "npm run build && changeset publish",
-    "reset": "git clean -xdf"
+    "reset": "git clean -xdf",
+    "up-dep": "pnpm -r up --latest"
   },
   "devDependencies": {
     "@changesets/changelog-github": "0.4.8",
-    "@changesets/cli": "2.26.0",
-    "@theguild/eslint-config": "0.8.0",
-    "@theguild/prettier-config": "1.1.2",
-    "@trivago/prettier-plugin-sort-imports": "^4.0.0",
-    "@vitest/coverage-c8": "0.28.5",
-    "@vitest/ui": "0.28.5",
+    "@changesets/cli": "2.26.1",
+    "@theguild/eslint-config": "0.9.0",
+    "@theguild/prettier-config": "1.1.3",
+    "@trivago/prettier-plugin-sort-imports": "^4.1.1",
+    "@vitest/coverage-c8": "0.30.1",
+    "@vitest/ui": "0.30.1",
     "@vue/compiler-sfc": "^3.2.47",
-    "bob-the-bundler": "5.0.1",
+    "bob-the-bundler": "6.0.0",
     "c8": "7.13.0",
     "check-code-coverage": "1.10.4",
-    "eslint": "8.34.0",
+    "eslint": "8.38.0",
     "husky": "8.0.3",
-    "jsdom": "21.1.0",
-    "prettier": "2.8.4",
-    "prettier-plugin-svelte": "2.9.0",
-    "rimraf": "4.1.2",
-    "svelte": "3.55.1",
-    "svelte2tsx": "0.6.1",
-    "typescript": "4.9.5",
-    "vitest": "0.28.5"
-  },
-  "volta": {
-    "node": "18.14.2"
+    "jsdom": "21.1.1",
+    "prettier": "2.8.7",
+    "prettier-plugin-svelte": "2.10.0",
+    "rimraf": "5.0.0",
+    "svelte": "3.58.0",
+    "svelte2tsx": "0.6.11",
+    "typescript": "5.0.4",
+    "vitest": "0.30.1"
   }
 }
