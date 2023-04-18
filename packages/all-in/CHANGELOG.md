@@ -1,5 +1,12 @@
 # @kitql/all-in
 
+## 0.9.2
+
+### Patch Changes
+
+- [`6c3ceee`](https://github.com/jycouet/kitql/commit/6c3ceeed84036da489da1807edde8e5139b26b33)
+  Thanks [@jycouet](https://github.com/jycouet)! - fix deploy dist folder only
+
 ## 0.9.1
 
 ### Patch Changes
