@@ -4,8 +4,8 @@ import path from 'path'
 // read file into JSON
 const pkg = JSON.parse(fs.readFileSync('./package.json', 'utf-8'))
 
-// adjust pkg json however you like ..
-delete pkg.devDependencies
+// adjust pkg json however you like ...
+delete pkg.publishConfig
 delete pkg.bob
 delete pkg.scripts
 
