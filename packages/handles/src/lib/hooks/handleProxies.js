@@ -7,6 +7,8 @@
 // 	handleProxies({ proxies: [{ from: "/proxy", to: "http://my.super.website/graphql" }] }),
 // );
 
+import { error } from '@sveltejs/kit';
+
 /**
  * @param {import('./handleProxies.d.ts').handleProxiesOptions} options
  */
