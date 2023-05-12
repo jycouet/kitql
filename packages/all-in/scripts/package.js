@@ -28,6 +28,7 @@ fs.writeFileSync(
   './dist/package.json', // path to your output directory may vary
   JSON.stringify(pkg, null, 2),
 )
+fs.writeFileSync('./dist/README.md', fs.readFileSync('./README.md', 'utf-8'))
 
 /**
  * HELPER FUNCTIONS
