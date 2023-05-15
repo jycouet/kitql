@@ -1,5 +1,12 @@
 # @kitql/all-in
 
+## 0.9.5
+
+### Patch Changes
+
+- [`50742f6`](https://github.com/jycouet/kitql/commit/50742f665886959d693111125e49944cc51be565)
+  Thanks [@jycouet](https://github.com/jycouet)! - align node version
+
 ## 0.9.4
 
 ### Patch Changes
