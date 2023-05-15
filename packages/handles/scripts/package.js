@@ -8,7 +8,10 @@ delete pkg.publishConfig;
 delete pkg.bob;
 delete pkg.scripts;
 
-pkg.scripts = {};
+// It's not allowed to have an emtpy scripts object
+pkg.scripts = {
+	"test": "echo hello!"
+};
 
 // write it to your output directory
 fs.writeFileSync(
