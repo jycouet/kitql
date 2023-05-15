@@ -8,6 +8,8 @@ delete pkg.publishConfig;
 delete pkg.bob;
 delete pkg.scripts;
 
+pkg.scripts = {};
+
 // write it to your output directory
 fs.writeFileSync(
 	'./dist/package.json', // path to your output directory may vary
