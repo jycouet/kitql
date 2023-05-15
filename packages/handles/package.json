@@ -2,11 +2,18 @@
 	"name": "@kitql/handles",
 	"version": "0.0.3",
 	"bob": false,
+	"license": "MIT",
+	"repository": {
+    "type": "git",
+    "url": "https://github.com/jycouet/kitql",
+    "directory": "packages/handles"
+  },
 	"type": "module",
 	"scripts": {
 		"dev": "vite dev",
 		"build": "svelte-kit sync && vite build && svelte-package && node ./scripts/package.js",
 		"preview": "vite preview",
+		"package": "svelte-kit sync && svelte-package && publint",
 		"prepublishOnly": "npm run package",
 		"check": "svelte-kit sync && svelte-check --tsconfig ./jsconfig.json",
 		"check:watch": "svelte-kit sync && svelte-check --tsconfig ./jsconfig.json --watch",
@@ -34,6 +41,7 @@
 		"@sveltejs/adapter-auto": "^2.0.1",
 		"@sveltejs/kit": "^1.16.3",
 		"@sveltejs/package": "^2.0.2",
+		"publint": "^0.1.9",
 		"eslint": "^8.40.0",
 		"eslint-config-prettier": "^8.8.0",
 		"eslint-plugin-svelte3": "^4.0.0",
