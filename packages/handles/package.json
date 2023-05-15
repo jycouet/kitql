@@ -13,7 +13,7 @@
 		"dev": "vite dev",
 		"build": "svelte-kit sync && vite build && svelte-package && node ./scripts/package.js",
 		"preview": "vite preview",
-		"package": "svelte-kit sync && svelte-package && publint",
+		"package": "npm run build && publint",
 		"prepublishOnly": "npm run package",
 		"check": "svelte-kit sync && svelte-check --tsconfig ./jsconfig.json",
 		"check:watch": "svelte-kit sync && svelte-check --tsconfig ./jsconfig.json --watch",

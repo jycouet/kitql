@@ -1,16 +1,16 @@
-// Usage...
-// import { sequence } from '@sveltejs/kit/hooks';
-// import { handleProxies } from './hooks/handleProxies';
-
-// export const handle = sequence(
-// 	// Proxy requests through kit
-// 	handleProxies({ proxies: [{ from: "/proxy", to: "http://my.super.website/graphql" }] }),
-// );
-
 import { error } from '@sveltejs/kit';
 
 /**
- * @param {import('./handleProxies.d.ts').handleProxiesOptions} options
+ * usage:
+ *	import { sequence } from '@sveltejs/kit/hooks';
+ *	import { handleProxies } from './hooks/handleProxies';
+ *
+ *	export const handle = sequence(
+ *		// Proxy requests through kit
+ *		handleProxies({ proxies: [{ from: "/proxy", to: "http://my.super.website/graphql" }] }),
+ *	);
+ *
+ * @param {import('./handleProxies.manual.d.ts').handleProxiesOptions} options
  */
 export const handleProxies = (options) => {
 	/** @type {import('@sveltejs/kit').Handle} */
