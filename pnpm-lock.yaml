@@ -71,11 +71,11 @@ importers:
   packages/all-in:
     dependencies:
       '@envelop/core':
-        specifier: ^3.0.6
-        version: 3.0.6
+        specifier: ^4.0.0
+        version: 4.0.0
       '@envelop/graphql-modules':
-        specifier: ^4.0.6
-        version: 4.0.6(@envelop/core@3.0.6)(graphql-modules@2.1.2)(graphql@16.6.0)
+        specifier: ^5.0.0
+        version: 5.0.0(@envelop/core@4.0.0)(graphql-modules@2.1.2)(graphql@16.6.0)
       '@graphql-codegen/cli':
         specifier: ^3.3.1
         version: 3.3.1(@babel/core@7.21.8)(@types/node@18.16.8)(cosmiconfig-toml-loader@1.0.0)(graphql@16.6.0)
@@ -1348,14 +1348,23 @@ packages:
       tslib: 2.5.0
     dev: false
 
-  /@envelop/graphql-modules@4.0.6(@envelop/core@3.0.6)(graphql-modules@2.1.2)(graphql@16.6.0):
-    resolution: {integrity: sha512-w7gAdtUptwUmmqWxEaaq4ut0yp+S7RSK0eVaXmXWtvSX+DoADMHv8dewk6svMdENJY4HL4Z7+Jy9KUv5u8k1Wg==}
+  /@envelop/core@4.0.0:
+    resolution: {integrity: sha512-6usEZO86hWT0ZajAbhOX0QXlV++lrlEmu8br6KQVvyXOxttiHADIibgfzb3GtSI7RnnJDnrcRb7Jynv6Lca3iQ==}
+    engines: {node: '>=16.0.0'}
+    dependencies:
+      '@envelop/types': 4.0.0
+      tslib: 2.5.0
+    dev: false
+
+  /@envelop/graphql-modules@5.0.0(@envelop/core@4.0.0)(graphql-modules@2.1.2)(graphql@16.6.0):
+    resolution: {integrity: sha512-wNtiL231xA5B9klEAQscrLhgzR4r/z4SzHQXDWBIBDvCsGEPo6YtMVxtEL8K+CubCLHYL8AfAnWaqL+xzw+iHA==}
+    engines: {node: '>=16.0.0'}
     peerDependencies:
-      '@envelop/core': ^3.0.6
+      '@envelop/core': ^4.0.0
       graphql: ^14.0.0 || ^15.0.0 || ^16.0.0
       graphql-modules: ^1 || ^2.0.0
     dependencies:
-      '@envelop/core': 3.0.6
+      '@envelop/core': 4.0.0
       graphql: 16.6.0
       graphql-modules: 2.1.2(graphql@16.6.0)
       tslib: 2.5.0
@@ -1363,6 +1372,13 @@ packages:
 
   /@envelop/types@3.0.2:
     resolution: {integrity: sha512-pOFea9ha0EkURWxJ/35axoH9fDGP5S2cUu/5Mmo9pb8zUf+TaEot8vB670XXihFEn/92759BMjLJNWBKmNhyng==}
+    dependencies:
+      tslib: 2.5.0
+    dev: false
+
+  /@envelop/types@4.0.0:
+    resolution: {integrity: sha512-dmBK16VVfKCkqYYemvE+gt1cPBP0d9CbYO4yjNhSSYy9K+w6+Lw48wOLK238mSR339PNAvwj/JW/qzNy2llggA==}
+    engines: {node: '>=16.0.0'}
     dependencies:
       tslib: 2.5.0
     dev: false
