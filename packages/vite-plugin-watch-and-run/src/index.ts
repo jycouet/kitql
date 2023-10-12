@@ -1,4 +1,4 @@
-import { cyan, green, Log, magneta, red } from '@kitql/helper'
+import { cyan, green, Log, magenta, red } from '@kitql/helper'
 import micromatch from 'micromatch'
 import { spawn } from 'node:child_process'
 import type { Plugin } from 'vite'
@@ -147,7 +147,7 @@ async function shouldRun(
 }
 
 function formatLog(str: string, name?: string) {
-  return `${name ? magneta(`[${name}]`) : ''} ${str}`
+  return `${name ? magenta(`[${name}]`) : ''} ${str}`
 }
 
 async function watcher(

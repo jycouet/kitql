@@ -1,19 +1,49 @@
+export { Log } from './Log.js'
+export { sleep } from './sleep.js'
+export { stry, stry0, stryEq } from './stry.js'
+
 export {
-  Log,
+  bgBlack,
+  bgBlackBright,
+  bgBlue,
+  bgBlueBright,
+  bgCyan,
+  bgCyanBright,
+  bgGreen,
+  bgGreenBright,
+  bgMagenta,
+  bgMagentaBright,
+  bgRed,
+  bgRedBright,
+  bgWhite,
+  bgWhiteBright,
+  bgYellow,
+  bgYellowBright,
   black,
+  blackBright,
   blue,
+  blueBright,
   bold,
   cyan,
+  cyanBright,
+  dim,
   gray,
   green,
+  greenBright,
+  hidden,
+  inverse,
   italic,
-  magneta,
+  magenta,
+  magentaBright,
   red,
+  redBright,
+  reset,
   strikethrough,
+  underline,
   white,
+  whiteBright,
   yellow,
-} from './Log.js'
-export { sleep } from './sleep.js'
-export { stry, stry0 } from './stry.js'
+  yellowBright,
+} from './colors/index.js'
 
-export type { Prettify } from './Prettify.d.ts'
+export type { Prettify } from './Prettify.js'
