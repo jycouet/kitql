@@ -17,7 +17,6 @@ module.exports = {
     'simple-import-sort/imports': 'off',
   },
   ignorePatterns: [
-    'packages/all-in/**',
     'examples',
     'website',
     'dist',
@@ -31,10 +30,6 @@ module.exports = {
   plugins: ['svelte3'],
   overrides: [
     { files: ['*.svelte'], processor: 'svelte3/svelte3' },
-    // {
-    //   files: ['packages/all-in/*.ts'],
-    //   parserOptions: { project: ['packages/all-in/tsconfig.json'] },
-    // },
     // {
     //   files: ['packages/helper/*.ts'],
     //   parserOptions: { project: ['packages/helper/tsconfig.json'] },

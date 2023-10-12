@@ -7,7 +7,6 @@
   "type": "module",
   "scripts": {
     "prepare": "husky install",
-    "dev:all": "pnpm --filter @kitql/all-in dev",
     "dev:w": "cd website && npm run dev",
     "test": "vitest --coverage",
     "lint": "eslint --ignore-path .prettierignore .",
@@ -16,7 +15,7 @@
     "test:ci": "vitest run --coverage",
     "test:update-badge": "npm run update-badge",
     "prebuild": "rimraf packages/*/dist",
-    "build": "bob build && pnpm --filter @kitql/all-in build && pnpm --filter @kitql/handles build",
+    "build": "bob build && pnpm --filter @kitql/handles build",
     "release:version": "npm run changeset version",
     "release": "npm run build && changeset publish",
     "reset": "git clean -xdf",

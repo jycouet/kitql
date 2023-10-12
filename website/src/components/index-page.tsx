@@ -16,14 +16,14 @@ export function IndexPage() {
           children: 'Get Started',
           title: 'Learn more about KitQL',
         }}
-        version={<NPMBadge name="@kitql/all-in" />}
+        version={<NPMBadge name="@kitql/helper" />}
         colors={['#000000', '#ff3e00']}
-        image={{
-          src: houdini_kitql,
-          alt: 'Illustration',
-          width: 300,
-          height: 300,
-        }}
+        // image={{
+        //   src: houdini_kitql,
+        //   alt: 'Illustration',
+        //   width: 300,
+        //   height: 300,
+        // }}
       />
       <FeatureList
         title="What Is KitQL?"
