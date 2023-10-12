@@ -1,4 +1,4 @@
-import { Log, logGreen, logRed } from '@kitql/helper'
+import { green, Log, red } from '@kitql/helper'
 import { basename, extname, join } from 'node:path'
 
 import { actionContext } from './actionContexts.js'
@@ -65,9 +65,9 @@ export function generate(log: Log, config?: KitQLVite) {
         localDev,
       )
       meta.enums = enumsKeys.length
-      // log.info(`${logGreen('✔')} ${logGreen('Enums')} created [${enumsKeys.map(c => logGreen(c)).join(',')}]`)
+      // log.info(`${green('✔')} ${green('Enums')} created [${enumsKeys.map(c => green(c)).join(',')}]`)
     } else {
-      log.error(`file ${logRed(prismaFilePath)} not found!`)
+      log.error(`file ${red(prismaFilePath)} not found!`)
       // throw new Error(`file ${prismaFilePath} not found!`)
     }
   }
@@ -84,7 +84,7 @@ export function generate(log: Log, config?: KitQLVite) {
     mergeModuleAction.push('Contexts')
   }
   if (mergeModuleAction.length > 0) {
-    // log.info(`${logGreen('⏳')} merging ${mergeModuleAction.map(c => logGreen(c)).join(' and ')} in modules`)
+    // log.info(`${green('⏳')} merging ${mergeModuleAction.map(c => green(c)).join(' and ')} in modules`)
   }
 
   const contexts: { moduleName: string; ctxName: string }[] = []
@@ -129,7 +129,7 @@ export function generate(log: Log, config?: KitQLVite) {
           withDbProvider,
         )
 
-        // log.info(`${logGreen('⏳')} merging ${logGreen('Contexts')}`)
+        // log.info(`${green('⏳')} merging ${green('Contexts')}`)
         providersFiles.forEach(providerFile => {
           if (providerFile.startsWith('_ctx')) {
             const ctxName = providerFile.replace('_ctx', '').replace('.ts', '')
@@ -146,9 +146,9 @@ export function generate(log: Log, config?: KitQLVite) {
         meta.resolvers += resolversFilesLength
         meta.contexts += contextsFilesLength
         // log.info(
-        //   `${logGreen('✔')} merged - ${logGreen(pad(typedefsFilesLength, 2))} Typedefs | ${logGreen(
+        //   `${green('✔')} merged - ${green(pad(typedefsFilesLength, 2))} Typedefs | ${green(
         //     pad(resolversFilesLength, 2)
-        //   )} Resolvers | ${logGreen(pad(contextsFilesLength, 2))} Contexts for [${logGreen(name)}]`
+        //   )} Resolvers | ${green(pad(contextsFilesLength, 2))} Contexts for [${green(name)}]`
         // )
       }
 
@@ -158,12 +158,12 @@ export function generate(log: Log, config?: KitQLVite) {
 
   // mergeContexts
   if (mergeContexts) {
-    // log.info(`${logGreen('⏳')} merging ${logGreen('Contexts')}`)
+    // log.info(`${green('⏳')} merging ${green('Contexts')}`)
     actionContext(contexts, outputFolder)
 
     // log.info(
-    //   `${logGreen('✔')} merged ${logGreen(pad(contexts.length, 2))} contexts [${contexts
-    //     .map(c => logGreen(c.moduleName + '#' + c.ctxName))
+    //   `${green('✔')} merged ${green(pad(contexts.length, 2))} contexts [${contexts
+    //     .map(c => green(c.moduleName + '#' + c.ctxName))
     //     .join(',')}]`
     // )
   }
@@ -172,7 +172,7 @@ export function generate(log: Log, config?: KitQLVite) {
   // if (true) {
   // mergeModuleContexts
   // if (config.actions.mergeContexts) {
-  // 	log.info(`${logGreen('⏳')} merging modules ${logGreen('Contexts')}`);
+  // 	log.info(`${green('⏳')} merging modules ${green('Contexts')}`);
   // 	const providersFolder = 'providers';
   // 	moduleNames.forEach(moduleName => {
   // 		let dataloadersModule = [];
@@ -191,10 +191,10 @@ export function generate(log: Log, config?: KitQLVite) {
   // 			config.config.moduleOutputFolder
   // 		);
   // 		log.info(
-  // 			`${logGreen('✔')} merged ${logGreen(
+  // 			`${green('✔')} merged ${green(
   // 				pad(dataloadersModule.length, 2)
   // 			)} contexts [${dataloadersModule
-  // 				.map(c => logGreen(c.moduleName + '#' + c.ctxName))
+  // 				.map(c => green(c.moduleName + '#' + c.ctxName))
   // 				.join(',')}]`
   // 		);
   // 	});
@@ -204,24 +204,24 @@ export function generate(log: Log, config?: KitQLVite) {
 
   // mergeModules
   if (mergeModules) {
-    // log.info(`${logGreen('⏳')} merging ${logGreen('Modules')}`)
+    // log.info(`${green('⏳')} merging ${green('Modules')}`)
     actionModules(modulesObj, outputFolder)
     meta.modules = modulesObj.length
     // log.info(
-    //   `${logGreen('✔')} merged ${logGreen(pad(modules.length, 2))} modules [${modules
-    //     .map(c => logGreen(c))
+    //   `${green('✔')} merged ${green(pad(modules.length, 2))} modules [${modules
+    //     .map(c => green(c))
     //     .join(',')}]`
     // )
   }
 
   // Done
-  // log.info(`${logGreen('✔')} finished ${logGreen('successfully')}`)
+  // log.info(`${green('✔')} finished ${green('successfully')}`)
   log.info(
-    `${logGreen('✔')} success ` +
-      `[${logGreen(String(meta.modules))} modules, ` +
-      `${logGreen(String(meta.enums))} enums, ` +
-      `${logGreen(String(meta.typedefs))} typedefs, ` +
-      `${logGreen(String(meta.resolvers))} resolvers, ` +
-      `${logGreen(String(meta.contexts))} contexts]`,
+    `${green('✔')} success ` +
+      `[${green(String(meta.modules))} modules, ` +
+      `${green(String(meta.enums))} enums, ` +
+      `${green(String(meta.typedefs))} typedefs, ` +
+      `${green(String(meta.resolvers))} resolvers, ` +
+      `${green(String(meta.contexts))} contexts]`,
   )
 }
