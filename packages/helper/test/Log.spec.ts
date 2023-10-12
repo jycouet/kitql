@@ -9,7 +9,7 @@ import {
   green,
   italic,
   Log,
-  magneta,
+  magenta,
   red,
   strikethrough,
   stry,
@@ -17,9 +17,15 @@ import {
   yellow,
 } from '../src'
 
+// helper
+function fakeIsBrowser() {
+  vi.stubGlobal('window', { document: 'coucou' })
+}
+
 describe('kitql - helper - Log', () => {
   beforeEach(() => {
-    vi.restoreAllMocks()
+    vi.stubGlobal('window', undefined)
+    vi.clearAllMocks()
   })
 
   it('Minimal config', () => {
@@ -80,13 +86,19 @@ describe('kitql - helper - Log', () => {
     expect(spy).toHaveBeenCalledTimes(3)
   })
 
-  const msg = `with all colors: 
+  it('with all colors node', () => {
+    const log = new Log('tool name')
+    expect(log).to.have.property('toolName', 'tool name')
+
+    const spy = vi.spyOn(console, 'info')
+
+    const msg = `with all colors: 
     ${black('black')},   
     ${red('red')}, 
     ${green('green')}, 
     ${yellow('yellow')}
     ${blue('blue')}
-    ${magneta('magneta')}, 
+    ${magenta('magenta')}, 
     ${cyan('cyan')} 
     ${white('white')} 
     ${gray('gray')} 
@@ -95,22 +107,33 @@ describe('kitql - helper - Log', () => {
     ${strikethrough('strikethrough')} 
   `
 
-  it('with all colors node', () => {
-    const log = new Log('tool name')
-    expect(log).to.have.property('toolName', 'tool name')
-
-    const spy = vi.spyOn(console, 'info')
-
     const result = log.info(msg)
     expect(spy).toHaveBeenCalledOnce()
 
     expect(stry(result, 0)).toMatchInlineSnapshot(
-      '"[\\"\\\\u001b[35m[tool name]\\\\u001b[0m with all colors: \\\\n    \\\\u001b[30mblack\\\\u001b[0m,   \\\\n    \\\\u001b[31mred\\\\u001b[0m, \\\\n    \\\\u001b[32mgreen\\\\u001b[0m, \\\\n    \\\\u001b[33myellow\\\\u001b[0m\\\\n    \\\\u001b[34mblue\\\\u001b[0m\\\\n    \\\\u001b[35mmagneta\\\\u001b[0m, \\\\n    \\\\u001b[36mcyan\\\\u001b[0m \\\\n    \\\\u001b[37mwhite\\\\u001b[0m \\\\n    \\\\u001b[90mgray\\\\u001b[0m \\\\n    \\\\u001b[1mbold\\\\u001b[0m \\\\n    \\\\u001b[3mitalic\\\\u001b[0m \\\\n    \\\\u001b[9mstrikethrough\\\\u001b[0m \\\\n  \\"]"',
+      '"[\\"\\\\u001b[35m[tool name]\\\\u001b[39m with all colors: \\\\n    \\\\u001b[30mblack\\\\u001b[39m,   \\\\n    \\\\u001b[31mred\\\\u001b[39m, \\\\n    \\\\u001b[32mgreen\\\\u001b[39m, \\\\n    \\\\u001b[33myellow\\\\u001b[39m\\\\n    \\\\u001b[34mblue\\\\u001b[39m\\\\n    \\\\u001b[35mmagenta\\\\u001b[39m, \\\\n    \\\\u001b[36mcyan\\\\u001b[39m \\\\n    \\\\u001b[37mwhite\\\\u001b[39m \\\\n    \\\\u001b[90mgray\\\\u001b[39m \\\\n    \\\\u001b[1mbold\\\\u001b[22m \\\\n    \\\\u001b[3mitalic\\\\u001b[23m \\\\n    \\\\u001b[9mstrikethrough\\\\u001b[29m \\\\n  \\"]"',
     )
   })
 
   it('with all colors browser', () => {
+    fakeIsBrowser()
+
     const log = new Log('tool name')
+
+    const msg = `with all colors: 
+    ${black('black')},   
+    ${red('red')}, 
+    ${green('green')}, 
+    ${yellow('yellow')}
+    ${blue('blue')}
+    ${magenta('magenta')}, 
+    ${cyan('cyan')} 
+    ${white('white')} 
+    ${gray('gray')} 
+    ${bold('bold')} 
+    ${italic('italic')} 
+    ${strikethrough('strikethrough')} 
+  `
 
     const result = log.info(msg, { browser: true })
 
@@ -123,7 +146,7 @@ describe('kitql - helper - Log', () => {
           %cgreen%c, 
           %cyellow%c
           %cblue%c
-          %cmagneta%c, 
+          %cmagenta%c, 
           %ccyan%c 
           %cwhite%c 
           %cgray%c 
@@ -216,14 +239,17 @@ describe('kitql - helper - Log', () => {
     expect(spy).toHaveBeenCalledOnce()
 
     expect(stry(result, 0)).toMatchInlineSnapshot(
-      '"[\\"\\\\u001b[35m[tool name]\\\\u001b[0m with red: \\\\u001b[31mred\\\\u001b[0m and another \\\\u001b[31mred2\\\\u001b[0m\\"]"',
+      '"[\\"\\\\u001b[35m[tool name]\\\\u001b[39m with red: \\\\u001b[31mred\\\\u001b[39m and another \\\\u001b[31mred2\\\\u001b[39m\\"]"',
     )
   })
 
   it('with 2 red browser', () => {
+    fakeIsBrowser()
+
     const log = new Log('tool name')
 
     const msg = `with red: ${red('red')} and another ${red('red2')}`
+
     const result = log.info(msg, { browser: true })
 
     expect(result).toMatchInlineSnapshot(`
@@ -246,10 +272,9 @@ describe('kitql - helper - Log', () => {
   })
 
   it('are we in the browser?', () => {
-    const log = new Log('tool name')
+    fakeIsBrowser()
 
-    // @ts-ignore
-    this.window = { document: 'coucou' }
+    const log = new Log('tool name')
 
     expect(log).to.have.property('isBrowser', true)
 

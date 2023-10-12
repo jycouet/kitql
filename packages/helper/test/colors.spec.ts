@@ -1,52 +1,52 @@
-import { expect, it } from 'vitest'
+import { expect, it, vi } from 'vitest'
 
-import { color, colorBrowserProcess } from '../src/colors'
+import { color, colorBrowserProcess, red } from '../src/colors'
 
-const msg = (isBrowser: boolean) => `with all options: 
-    ${color('reset', 'reset', isBrowser)}
-    ${color('bold', 'bold', isBrowser)}
-    ${color('dim', 'dim', isBrowser)}
-    ${color('italic', 'italic', isBrowser)}
-    ${color('underline', 'underline', isBrowser)}
-    ${color('inverse', 'inverse', isBrowser)}
-    ${color('hidden', 'hidden', isBrowser)}
-    ${color('strikethrough', 'strikethrough', isBrowser)}
-    ${color('black', 'black', isBrowser)}
-    ${color('red', 'red', isBrowser)}
-    ${color('green', 'green', isBrowser)}
-    ${color('yellow', 'yellow', isBrowser)}
-    ${color('blue', 'blue', isBrowser)}
-    ${color('magenta', 'magenta', isBrowser)}
-    ${color('cyan', 'cyan', isBrowser)}
-    ${color('white', 'white', isBrowser)}
-    ${color('gray', 'gray', isBrowser)}
-    ${color('bgBlack', 'bgBlack', isBrowser)}
-    ${color('bgRed', 'bgRed', isBrowser)}
-    ${color('bgGreen', 'bgGreen', isBrowser)}
-    ${color('bgYellow', 'bgYellow', isBrowser)}
-    ${color('bgBlue', 'bgBlue', isBrowser)}
-    ${color('bgMagenta', 'bgMagenta', isBrowser)}
-    ${color('bgCyan', 'bgCyan', isBrowser)}
-    ${color('bgWhite', 'bgWhite', isBrowser)}
-    ${color('blackBright', 'blackBright', isBrowser)}
-    ${color('redBright', 'redBright', isBrowser)}
-    ${color('greenBright', 'greenBright', isBrowser)}
-    ${color('yellowBright', 'yellowBright', isBrowser)}
-    ${color('blueBright', 'blueBright', isBrowser)}
-    ${color('magentaBright', 'magentaBright', isBrowser)}
-    ${color('cyanBright', 'cyanBright', isBrowser)}
-    ${color('whiteBright', 'whiteBright', isBrowser)}
-    ${color('bgBlackBright', 'bgBlackBright', isBrowser)}
-    ${color('bgRedBright', 'bgRedBright', isBrowser)}
-    ${color('bgGreenBright', 'bgGreenBright', isBrowser)}
-    ${color('bgYellowBright', 'bgYellowBright', isBrowser)}
-    ${color('bgBlueBright', 'bgBlueBright', isBrowser)}
-    ${color('bgMagentaBright', 'bgMagentaBright', isBrowser)}
-    ${color('bgCyanBright', 'bgCyanBright', isBrowser)}
-    ${color('bgWhiteBright', 'bgWhiteBright', isBrowser)}
+const msg = () => `with all options: 
+    ${color('reset', 'reset')}
+    ${color('bold', 'bold')}
+    ${color('dim', 'dim')}
+    ${color('italic', 'italic')}
+    ${color('underline', 'underline')}
+    ${color('inverse', 'inverse')}
+    ${color('hidden', 'hidden')}
+    ${color('strikethrough', 'strikethrough')}
+    ${color('black', 'black')}
+    ${color('red', 'red')}
+    ${color('green', 'green')}
+    ${color('yellow', 'yellow')}
+    ${color('blue', 'blue')}
+    ${color('magenta', 'magenta')}
+    ${color('cyan', 'cyan')}
+    ${color('white', 'white')}
+    ${color('gray', 'gray')}
+    ${color('bgBlack', 'bgBlack')}
+    ${color('bgRed', 'bgRed')}
+    ${color('bgGreen', 'bgGreen')}
+    ${color('bgYellow', 'bgYellow')}
+    ${color('bgBlue', 'bgBlue')}
+    ${color('bgMagenta', 'bgMagenta')}
+    ${color('bgCyan', 'bgCyan')}
+    ${color('bgWhite', 'bgWhite')}
+    ${color('blackBright', 'blackBright')}
+    ${color('redBright', 'redBright')}
+    ${color('greenBright', 'greenBright')}
+    ${color('yellowBright', 'yellowBright')}
+    ${color('blueBright', 'blueBright')}
+    ${color('magentaBright', 'magentaBright')}
+    ${color('cyanBright', 'cyanBright')}
+    ${color('whiteBright', 'whiteBright')}
+    ${color('bgBlackBright', 'bgBlackBright')}
+    ${color('bgRedBright', 'bgRedBright')}
+    ${color('bgGreenBright', 'bgGreenBright')}
+    ${color('bgYellowBright', 'bgYellowBright')}
+    ${color('bgBlueBright', 'bgBlueBright')}
+    ${color('bgMagentaBright', 'bgMagentaBright')}
+    ${color('bgCyanBright', 'bgCyanBright')}
+    ${color('bgWhiteBright', 'bgWhiteBright')}
 `
-it('yop', () => {
-  const message = msg(false)
+it('color NOT in browser', () => {
+  const message = msg()
   console.log(`msg`, message)
   expect(message).toMatchInlineSnapshot(`
     "with all options: 
@@ -95,8 +95,9 @@ it('yop', () => {
   `)
 })
 
-it('yop', () => {
-  const message = msg(true)
+it('color in browser', () => {
+  vi.stubGlobal('window', { document: 'coucou' })
+  const message = msg()
   console.log(`msg`, message)
   expect(message).toMatchInlineSnapshot(`
     "with all options: 
@@ -270,6 +271,26 @@ it('yop', () => {
       "background-color: #00ffff",
       "",
       "background-color: #ffffff",
+      "",
+    ]
+  `)
+})
+
+it('2 color red browser', () => {
+  vi.stubGlobal('window', { document: 'coucou' })
+
+  const msg = `with red: ${red('red')} and another ${red('red2')}`
+
+  expect(msg).toMatchInlineSnapshot(
+    '"with red: $$KitQL_red_KitQL$$red$$KitQLEND$$ and another $$KitQL_red_KitQL$$red2$$KitQLEND$$"',
+  )
+
+  expect(colorBrowserProcess(msg)).toMatchInlineSnapshot(`
+    [
+      "with red: %cred%c and another %cred2%c",
+      "color: red",
+      "",
+      "color: red",
       "",
     ]
   `)
