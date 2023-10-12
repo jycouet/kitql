@@ -12,9 +12,13 @@ const getStyleNode = (styleKey: string) => {
   return stylesNode[styleKey] ?? undefined
 }
 
-export const color = (style: Style, str: string) => {
-  const isBrowser = typeof window !== 'undefined' && typeof window.document !== 'undefined'
-  return isBrowser ? colorBrowserPrepare(style, str) : colorNode(style, str)
+export const color = (style: Style, str: string, isBrowser?: boolean) => {
+  const isBrowserToUse =
+    // if undefined... Then we try to be smart ;)
+    isBrowser === undefined
+      ? typeof window !== 'undefined' && typeof window.document !== 'undefined'
+      : isBrowser
+  return isBrowserToUse ? colorBrowserPrepare(style, str) : colorNode(style, str)
 }
 
 const colorNode = (style: Style, str: string) => {

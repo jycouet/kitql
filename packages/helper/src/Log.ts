@@ -1,4 +1,4 @@
-import { colorBrowserProcess, magenta } from './colors'
+import { colorBrowserProcess, greenBright, magenta, redBright } from './colors/index.js'
 
 export class Log {
   private toolName: string
@@ -19,13 +19,9 @@ export class Log {
     },
   ) {
     this.toolName = toolName
-    this.levelsToShow = options?.levelsToShow ?? 2
+    this.levelsToShow = options?.levelsToShow ?? 3
     this.withDate = options?.withDate ?? null
     this.prefixEmoji = options?.prefixEmoji ?? ''
-  }
-
-  public setLevel(logLevel: number) {
-    this.levelsToShow = logLevel
   }
 
   private buildStr(
@@ -49,9 +45,9 @@ export class Log {
 
     // Status icon or prefixEmoji
     if (withError) {
-      table.push(`❌`)
+      table.push(`${redBright('✘')}`)
     } else if (withSuccess) {
-      table.push(`✅`)
+      table.push(`${greenBright('✔')}`)
     } else {
       table.push(String(this.prefixEmoji))
     }
@@ -97,6 +93,7 @@ export class Log {
   error(msg: string, conf?: { browser?: boolean }) {
     const browser = conf?.browser ?? this.isBrowser
     const built = this.buildStr(msg, true, false, '', browser)
+    // Keep error to have the stacktrace in the browser
     console.error(...built)
     return built
   }
