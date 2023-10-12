@@ -47,7 +47,7 @@ const msg = () => `with all options:
 `
 it('color NOT in browser', () => {
   const message = msg()
-  console.log(`msg`, message)
+  // console.log(`msg`, message)
   expect(message).toMatchInlineSnapshot(`
     "with all options: 
         [0mreset[0m
@@ -98,7 +98,7 @@ it('color NOT in browser', () => {
 it('color in browser', () => {
   vi.stubGlobal('window', { document: 'coucou' })
   const message = msg()
-  console.log(`msg`, message)
+  // console.log(`msg`, message)
   expect(message).toMatchInlineSnapshot(`
     "with all options: 
         $$KitQL_reset_KitQL$$reset$$KitQLEND$$
