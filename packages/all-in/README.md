@@ -6,4 +6,4 @@
   <img src="../../logo.svg" width="100" />
 </p>
 
-## Check the [⚡Doc⚡](https://kitql.dev/docs/all-in)
+# `@kitql/all-in` is DEPRECATED
