@@ -102,7 +102,7 @@ export const colorNode = (style: Style, str: string) => {
 }
 
 const START = `$$KitQL_`
-const END = `$$KitQL_END$$`
+const END = `$$KitQLEND$$`
 
 export const colorBrowserPrepare = (style: Style, str: string) => {
   return `${START}${style}${START}${str}${END}`
