@@ -1,5 +1,16 @@
 # @kitql/all-in
 
+## 0.9.6
+
+### Patch Changes
+
+- Updated dependencies
+  [[`53c60d0`](https://github.com/jycouet/kitql/commit/53c60d01026730c573339896093a5e5a056cafe8),
+  [`53c60d0`](https://github.com/jycouet/kitql/commit/53c60d01026730c573339896093a5e5a056cafe8),
+  [`53c60d0`](https://github.com/jycouet/kitql/commit/53c60d01026730c573339896093a5e5a056cafe8)]:
+  - vite-plugin-watch-and-run@1.2.0
+  - @kitql/helper@0.7.0
+
 ## 0.9.5
 
 ### Patch Changes
