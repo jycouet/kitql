@@ -44,50 +44,6 @@ const dataNode = {
   bgWhiteBright: { start: '\x1b[107m', end: '\x1b[49m' },
 }
 
-const dataBrowser = {
-  reset: '',
-  bold: 'font-weight: bold',
-  dim: 'opacity: 0.5',
-  italic: 'font-style: italic',
-  underline: 'text-decoration: underline',
-  inverse: 'filter: invert(1)',
-  hidden: 'visibility: hidden',
-  strikethrough: 'text-decoration: line-through',
-  black: 'color: black',
-  red: 'color: red',
-  green: 'color: green',
-  yellow: 'color: yellow',
-  blue: 'color: blue',
-  magenta: 'color: #ff00ff',
-  cyan: 'color: cyan',
-  white: 'color: white',
-  gray: 'color: gray',
-  bgBlack: 'background-color: black',
-  bgRed: 'background-color: red',
-  bgGreen: 'background-color: green',
-  bgYellow: 'background-color: yellow',
-  bgBlue: 'background-color: blue',
-  bgMagenta: 'background-color: #ff00ff',
-  bgCyan: 'background-color: cyan',
-  bgWhite: 'background-color: white',
-  blackBright: 'color: #a9a9a9',
-  redBright: 'color: #ff4500',
-  greenBright: 'color: #7fff00',
-  yellowBright: 'color: #ffd700',
-  blueBright: 'color: #1e90ff',
-  magentaBright: 'color: #ff69b4',
-  cyanBright: 'color: #00ffff',
-  whiteBright: 'color: #ffffff',
-  bgBlackBright: 'background-color: #a9a9a9',
-  bgRedBright: 'background-color: #ff4500',
-  bgGreenBright: 'background-color: #7fff00',
-  bgYellowBright: 'background-color: #ffd700',
-  bgBlueBright: 'background-color: #1e90ff',
-  bgMagentaBright: 'background-color: #ff69b4',
-  bgCyanBright: 'background-color: #00ffff',
-  bgWhiteBright: 'background-color: #ffffff',
-}
-
 export const getStyle = (styleKey: string) => {
   // @ts-ignore
   return styles[styleKey] ?? undefined
@@ -125,18 +81,12 @@ export const colorBrowserProcess = (str: string) => {
   const originalStr = str
   const posToReplace: { index: number; browser: string }[] = []
 
-  // const ttt = extractKitQLTags(originalStr)
-  // console.log(
-  //   `ttt`,
-  //   ttt,
-  //   ttt.map(c => getStyle(c)),
-  // )
-
-  for (const key in dataBrowser) {
+  const tagsUsed = extractKitQLTags(originalStr)
+  for (const key of tagsUsed) {
     // check indexes
     const indexesStarts = getAllIndexOf(originalStr, `${START1}${key}${START2}`)
     for (const index of indexesStarts) {
-      posToReplace.push({ index, browser: dataBrowser[key as Style] })
+      posToReplace.push({ index, browser: getStyle(key) })
     }
 
     // replace with %c in another str to make sure we don't change the order of indexes
@@ -145,7 +95,7 @@ export const colorBrowserProcess = (str: string) => {
 
   const indexesEnd = getAllIndexOf(originalStr, END)
   for (const index of indexesEnd) {
-    posToReplace.push({ index, browser: dataBrowser.reset })
+    posToReplace.push({ index, browser: '' })
   }
   str = str.replaceAll(END, '%c')
 
