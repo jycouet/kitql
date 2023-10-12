@@ -1,4 +1,4 @@
-import { colorBrowserProcess, greenBright, magenta, redBright } from './colors/index.js'
+import { bold, colorBrowserProcess, greenBright, magenta, redBright } from './colors/index.js'
 
 export class Log {
   private toolName: string
@@ -45,9 +45,9 @@ export class Log {
 
     // Status icon or prefixEmoji
     if (withError) {
-      table.push(`${redBright('✘')}`)
+      table.push(bold(redBright('✘')))
     } else if (withSuccess) {
-      table.push(`${greenBright('✔')}`)
+      table.push(bold(greenBright('✔')))
     } else {
       table.push(String(this.prefixEmoji))
     }
