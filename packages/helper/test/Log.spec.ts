@@ -1,7 +1,21 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 
-import { Log, logCyan, logGreen, logMagneta, logRed, logYellow } from '../src/Log'
-import { stry } from '../src/stry'
+import {
+  black,
+  blue,
+  bold,
+  cyan,
+  gray,
+  green,
+  italic,
+  Log,
+  magneta,
+  red,
+  strikethrough,
+  stry,
+  white,
+  yellow,
+} from '../src'
 
 describe('kitql - helper - Log', () => {
   beforeEach(() => {
@@ -66,45 +80,82 @@ describe('kitql - helper - Log', () => {
     expect(spy).toHaveBeenCalledTimes(3)
   })
 
-  it('with all colors', () => {
+  const msg = `with all colors: 
+    ${black('black')},   
+    ${red('red')}, 
+    ${green('green')}, 
+    ${yellow('yellow')}
+    ${blue('blue')}
+    ${magneta('magneta')}, 
+    ${cyan('cyan')} 
+    ${white('white')} 
+    ${gray('gray')} 
+    ${bold('bold')} 
+    ${italic('italic')} 
+    ${strikethrough('strikethrough')} 
+  `
+
+  it('with all colors node', () => {
     const log = new Log('tool name')
     expect(log).to.have.property('toolName', 'tool name')
 
     const spy = vi.spyOn(console, 'info')
-    const msg = `with all colors: ${logGreen('green')}, ${logMagneta('magneta')}, ${logRed(
-      'red',
-    )}, ${logCyan('cyan')}, ${logYellow('yellow')}`
+
     const result = log.info(msg)
     expect(spy).toHaveBeenCalledOnce()
 
     expect(stry(result, 0)).toMatchInlineSnapshot(
-      '"[\\"\\\\u001b[35m[tool name]\\\\u001b[37m\\\\u001b[0m with all colors: \\\\u001b[32mgreen\\\\u001b[37m\\\\u001b[0m, \\\\u001b[35mmagneta\\\\u001b[37m\\\\u001b[0m, \\\\u001b[31mred\\\\u001b[37m\\\\u001b[0m, \\\\u001b[36mcyan\\\\u001b[37m\\\\u001b[0m, \\\\u001b[33myellow\\\\u001b[37m\\\\u001b[0m\\"]"',
+      '"[\\"\\\\u001b[35m[tool name]\\\\u001b[0m with all colors: \\\\n    \\\\u001b[30mblack\\\\u001b[0m,   \\\\n    \\\\u001b[31mred\\\\u001b[0m, \\\\n    \\\\u001b[32mgreen\\\\u001b[0m, \\\\n    \\\\u001b[33myellow\\\\u001b[0m\\\\n    \\\\u001b[34mblue\\\\u001b[0m\\\\n    \\\\u001b[35mmagneta\\\\u001b[0m, \\\\n    \\\\u001b[36mcyan\\\\u001b[0m \\\\n    \\\\u001b[37mwhite\\\\u001b[0m \\\\n    \\\\u001b[90mgray\\\\u001b[0m \\\\n    \\\\u001b[1mbold\\\\u001b[0m \\\\n    \\\\u001b[3mitalic\\\\u001b[0m \\\\n    \\\\u001b[9mstrikethrough\\\\u001b[0m \\\\n  \\"]"',
     )
   })
 
   it('with all colors browser', () => {
     const log = new Log('tool name')
 
-    const msg = `with all colors: ${logGreen('green')}, ${logMagneta('magneta')}, ${logRed(
-      'red',
-    )}, ${logCyan('cyan')}, ${logYellow('yellow')}`
     const result = log.info(msg, { browser: true })
 
     expect(result).toMatchInlineSnapshot(
       `
       [
-        "%c[tool name]%c with all colors: %cgreen%c, %cmagneta%c, %cred%c, %ccyan%c, %cyellow%c",
+        "%c[tool name]%c with all colors: 
+          %cblack%c,   
+          %cred%c, 
+          %cgreen%c, 
+          %cyellow%c
+          %cblue%c
+          %cmagneta%c, 
+          %ccyan%c 
+          %cwhite%c 
+          %cgray%c 
+          %cbold%c 
+          %citalic%c 
+          %cstrikethrough%c 
+        ",
         "color: #ff00ff",
         "",
-        "color: green",
-        "",
-        "color: #ff00ff",
+        "color: black",
         "",
         "color: red",
         "",
-        "color: cyan",
+        "color: green",
         "",
         "color: yellow",
+        "",
+        "color: blue",
+        "",
+        "color: #ff00ff",
+        "",
+        "color: cyan",
+        "",
+        "color: white",
+        "",
+        "color: gray",
+        "",
+        "font-weight: bold",
+        "",
+        "font-style: italic",
+        "",
+        "text-decoration: line-through",
         "",
       ]
     `,
@@ -160,19 +211,19 @@ describe('kitql - helper - Log', () => {
     expect(log).to.have.property('toolName', 'tool name')
 
     const spy = vi.spyOn(console, 'info')
-    const msg = `with red: ${logRed('red')} and another ${logRed('red2')}`
+    const msg = `with red: ${red('red')} and another ${red('red2')}`
     const result = log.info(msg)
     expect(spy).toHaveBeenCalledOnce()
 
     expect(stry(result, 0)).toMatchInlineSnapshot(
-      '"[\\"\\\\u001b[35m[tool name]\\\\u001b[37m\\\\u001b[0m with red: \\\\u001b[31mred\\\\u001b[37m\\\\u001b[0m and another \\\\u001b[31mred2\\\\u001b[37m\\\\u001b[0m\\"]"',
+      '"[\\"\\\\u001b[35m[tool name]\\\\u001b[0m with red: \\\\u001b[31mred\\\\u001b[0m and another \\\\u001b[31mred2\\\\u001b[0m\\"]"',
     )
   })
 
   it('with 2 red browser', () => {
     const log = new Log('tool name')
 
-    const msg = `with red: ${logRed('red')} and another ${logRed('red2')}`
+    const msg = `with red: ${red('red')} and another ${red('red2')}`
     const result = log.info(msg, { browser: true })
 
     expect(result).toMatchInlineSnapshot(`
@@ -202,7 +253,7 @@ describe('kitql - helper - Log', () => {
 
     expect(log).to.have.property('isBrowser', true)
 
-    const msg = `with red: ${logRed('red')} and another ${logRed('red2')}`
+    const msg = `with red: ${red('red')} and another ${red('red2')}`
     // no need to put browser: true! it's detected with this.windows
     const result = log.info(msg)
 

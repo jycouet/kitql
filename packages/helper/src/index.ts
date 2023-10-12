@@ -1,4 +1,19 @@
-export { Log, logCyan, logGreen, logMagneta, logRed, logYellow } from './Log.js'
-export { queryStringApprend } from './queryStringApprend.js'
+export {
+  Log,
+  black,
+  blue,
+  bold,
+  cyan,
+  gray,
+  green,
+  italic,
+  magneta,
+  red,
+  strikethrough,
+  white,
+  yellow,
+} from './Log.js'
 export { sleep } from './sleep.js'
 export { stry, stry0 } from './stry.js'
+
+export type { Prettify } from './Prettify.d.ts'

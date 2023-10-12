@@ -1,48 +1,108 @@
 const config = {
   reset: {
-    node: `\u001b[37m\u001b[0m`,
+    node: `\x1b[0m`,
     browser: '',
+  },
+
+  // Base
+  black: {
+    node: `\x1b[30m`,
+    browser: 'color: black',
+  },
+  red: {
+    node: `\x1b[31m`,
+    browser: 'color: red',
   },
   green: {
     node: `\x1b[32m`,
     browser: 'color: green',
   },
+  yellow: {
+    node: `\x1b[33m`,
+    browser: 'color: yellow',
+  },
+  blue: {
+    node: `\x1b[34m`,
+    browser: 'color: blue',
+  },
   magneta: {
     node: `\x1b[35m`,
     browser: 'color: #ff00ff',
-  },
-  red: {
-    node: `\u001B[31m`,
-    browser: 'color: red',
   },
   cyan: {
     node: `\x1b[36m`,
     browser: 'color: cyan',
   },
-  yellow: {
-    node: `\x1b[33m`,
-    browser: 'color: yellow',
+  white: {
+    node: `\x1b[37m`,
+    browser: 'color: white',
+  },
+  gray: {
+    node: `\x1b[90m`,
+    browser: 'color: gray',
+  },
+
+  // Modif
+  bold: {
+    node: `\x1b[1m`,
+    browser: 'font-weight: bold',
+  },
+  italic: {
+    node: `\x1b[3m`,
+    browser: 'font-style: italic',
+  },
+  strikethrough: {
+    node: `\x1b[9m`,
+    browser: 'text-decoration: line-through',
   },
 } as { [key: string]: { node: string; browser: string } }
 
-export function logGreen(str: string) {
-  return `${config.green.node}${str}${config.reset.node}`
+export function black(str: string) {
+  return `${config.black.node}${str}${config.reset.node}`
 }
 
-export function logMagneta(str: string) {
-  return `${config.magneta.node}${str}${config.reset.node}`
-}
-
-export function logRed(str: string) {
+export function red(str: string) {
   return `${config.red.node}${str}${config.reset.node}`
 }
 
-export function logCyan(str: string) {
+export function green(str: string) {
+  return `${config.green.node}${str}${config.reset.node}`
+}
+
+export function yellow(str: string) {
+  return `${config.yellow.node}${str}${config.reset.node}`
+}
+
+export function blue(str: string) {
+  return `${config.blue.node}${str}${config.reset.node}`
+}
+
+export function magneta(str: string) {
+  return `${config.magneta.node}${str}${config.reset.node}`
+}
+
+export function cyan(str: string) {
   return `${config.cyan.node}${str}${config.reset.node}`
 }
 
-export function logYellow(str: string) {
-  return `${config.yellow.node}${str}${config.reset.node}`
+export function white(str: string) {
+  return `${config.white.node}${str}${config.reset.node}`
+}
+
+export function gray(str: string) {
+  return `${config.gray.node}${str}${config.reset.node}`
+}
+
+export function bold(str: string) {
+  return `${config.bold.node}${str}${config.reset.node}`
+}
+
+export function italic(str: string) {
+  return `${config.italic.node}${str}${config.reset.node}`
+}
+
+export function strikethrough(str: string) {
+  return `${config.strikethrough.node}${str}${config.reset.node}`
 }
 
 export class Log {
@@ -82,14 +142,14 @@ export class Log {
   ) {
     const table = []
     if (this.toolName) {
-      table.push(String(logMagneta(`[${this.toolName}]`)))
+      table.push(String(magneta(`[${this.toolName}]`)))
     }
 
     // DateTime or Time or nothing
     if (this.withDate === 'dateTime') {
-      table.push(String(logMagneta(`[${new Date().toISOString()}]`)))
+      table.push(String(magneta(`[${new Date().toISOString()}]`)))
     } else if (this.withDate === 'time') {
-      table.push(String(logMagneta(`[${new Date().toISOString().split('T')[1]}]`)))
+      table.push(String(magneta(`[${new Date().toISOString().split('T')[1]}]`)))
     }
 
     // Status icon or prefixEmoji

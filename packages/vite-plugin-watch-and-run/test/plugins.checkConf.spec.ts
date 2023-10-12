@@ -47,6 +47,7 @@ describe('vite-plugin-watch-and-run', () => {
           "name": undefined,
           "quiet": false,
           "run": "npm run gen",
+          "shell": true,
           "watch": "**/*.(gql|graphql)",
           "watchFile": undefined,
         },
