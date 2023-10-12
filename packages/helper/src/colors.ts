@@ -1,3 +1,5 @@
+import * as styles from './styles'
+
 const dataNode = {
   reset: { start: '\x1b[0m', end: '\x1b[0m' },
   bold: { start: '\x1b[1m', end: '\x1b[22m' },
@@ -86,11 +88,10 @@ const dataBrowser = {
   bgWhiteBright: 'background-color: #ffffff',
 }
 
-// import * as styles from './styles'
-// export const getStyle = (styleKey: string) => {
-//   // @ts-ignore
-//   return styles[styleKey] ?? undefined
-// }
+export const getStyle = (styleKey: string) => {
+  // @ts-ignore
+  return styles[styleKey] ?? undefined
+}
 
 type Style = keyof typeof dataNode
 export const color = (style: Style, str: string, isBrowser = false) => {
@@ -101,26 +102,45 @@ export const colorNode = (style: Style, str: string) => {
   return `${dataNode[style].start}${str}${dataNode[style].end}`
 }
 
-const START = `$$KitQL_`
+const START1 = `$$KitQL_`
+const START2 = `_KitQL$$`
 const END = `$$KitQLEND$$`
-
 export const colorBrowserPrepare = (style: Style, str: string) => {
-  return `${START}${style}${START}${str}${END}`
+  return `${START1}${style}${START2}${str}${END}`
+}
+
+function extractKitQLTags(str: string) {
+  const regex = /\$\$KitQL_(.*?)_KitQL\$\$/g
+  let match
+  const results = []
+
+  while ((match = regex.exec(str)) !== null) {
+    results.push(match[1])
+  }
+
+  return results
 }
 
 export const colorBrowserProcess = (str: string) => {
   const originalStr = str
   const posToReplace: { index: number; browser: string }[] = []
 
+  // const ttt = extractKitQLTags(originalStr)
+  // console.log(
+  //   `ttt`,
+  //   ttt,
+  //   ttt.map(c => getStyle(c)),
+  // )
+
   for (const key in dataBrowser) {
     // check indexes
-    const indexesStarts = getAllIndexOf(originalStr, `${START}${key}${START}`)
+    const indexesStarts = getAllIndexOf(originalStr, `${START1}${key}${START2}`)
     for (const index of indexesStarts) {
       posToReplace.push({ index, browser: dataBrowser[key as Style] })
     }
 
     // replace with %c in another str to make sure we don't change the order of indexes
-    str = str.replaceAll(`${START}${key}${START}`, '%c')
+    str = str.replaceAll(`${START1}${key}${START2}`, '%c')
   }
 
   const indexesEnd = getAllIndexOf(originalStr, END)
