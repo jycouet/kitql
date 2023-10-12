@@ -10,7 +10,7 @@ import { error } from '@sveltejs/kit';
  *		handleProxies({ proxies: [{ from: "/proxy", to: "http://my.super.website/graphql" }] }),
  *	);
  *
- * @param {import('./handleProxies.manual.d.ts').handleProxiesOptions} options
+ * @param {import('./Types.handleProxies.js').handleProxiesOptions} options
  */
 export const handleProxies = (options) => {
 	/** @type {import('@sveltejs/kit').Handle} */

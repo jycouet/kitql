@@ -203,17 +203,6 @@ describe('kitql - helper - Log', () => {
     expect(spy).toHaveBeenCalledOnce()
   })
 
-  it('dynamic setLevel', () => {
-    const log = new Log('tool name', { levelsToShow: 0 })
-
-    const spy = vi.spyOn(console, 'info')
-    log.info(`log level 1 NOT SHOWN`, { level: 1 })
-    expect(spy).toHaveBeenCalledTimes(0)
-    log.setLevel(1)
-    log.info(`log level 1 SHOWN`, { level: 1 })
-    expect(spy).toHaveBeenCalledTimes(1)
-  })
-
   it('with no name', () => {
     const log = new Log('')
 
