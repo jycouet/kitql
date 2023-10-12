@@ -1,4 +1,4 @@
-import { Log, logCyan, logGreen, logMagneta, logRed } from '@kitql/helper'
+import { cyan, green, Log, magneta, red } from '@kitql/helper'
 import micromatch from 'micromatch'
 import { spawn } from 'node:child_process'
 import type { Plugin } from 'vite'
@@ -45,6 +45,11 @@ export type Options = {
   name?: string | null
 
   /**
+   * Add shell option to spawn, set "powershell.exe" for example to use it there.
+   */
+  shell?: string | null
+
+  /**
    * formatErrors instead of throwing an error
    */
   formatErrors?: (e: unknown, afterError?: (e: Error) => void) => void
@@ -65,6 +70,7 @@ export type StateDetail = {
   watchFile?: (filepath: string) => boolean | Promise<boolean>
   watch?: string
   name?: string | null
+  shell: string | boolean
   formatErrors?: (e: unknown, afterError?: (e: Error) => void) => void
 }
 
@@ -76,7 +82,7 @@ function checkConf(params: Options[]) {
   const paramsChecked: StateDetail[] = []
 
   for (const paramRow of params) {
-    const param = {
+    const param: StateDetail = {
       kind: paramRow.watchKind ?? ['add', 'change', 'unlink'],
       run: paramRow.run,
       delay: paramRow.delay ?? 300,
@@ -84,6 +90,7 @@ function checkConf(params: Options[]) {
       name: paramRow.name,
       quiet: Boolean(paramRow.quiet),
       watch: paramRow.watch,
+      shell: paramRow.shell ?? true,
       watchFile: paramRow.watchFile,
       formatErrors: paramRow.formatErrors,
     }
@@ -140,7 +147,7 @@ async function shouldRun(
 }
 
 function formatLog(str: string, name?: string) {
-  return `${name ? logMagneta(`[${name}]`) : ''} ${str}`
+  return `${name ? magneta(`[${name}]`) : ''} ${str}`
 }
 
 async function watcher(
@@ -154,14 +161,14 @@ async function watcher(
 
     // print the message
     if (!info.quiet) {
-      let message = `${logGreen('✔')} Watch ${logCyan(watchKind)}`
+      let message = `${green('✔')} Watch ${cyan(watchKind)}`
       if (info.watch && absolutePath) {
-        message += logGreen(' ' + absolutePath.replaceAll(process.cwd(), ''))
+        message += green(' ' + absolutePath.replaceAll(process.cwd(), ''))
       }
       if (typeof info.run === 'string') {
-        message += ` and run ${logGreen(info.run)} `
+        message += ` and run ${green(info.run)} `
       }
-      message += ` ${logCyan(info.delay + 'ms')}`
+      message += ` ${cyan(info.delay + 'ms')}`
 
       log.info(message)
     }
@@ -186,7 +193,7 @@ async function watcher(
         return
       }
 
-      const child = spawn(info.run, [], { shell: true })
+      const child = spawn(info.run, [], { shell: info.shell })
 
       //spit stdout to screen
       child.stdout.on('data', data => {
@@ -200,9 +207,9 @@ async function watcher(
 
       child.on('close', code => {
         if (code === 0) {
-          log.info(`${logGreen('✔')} finished ${logGreen('successfully')}`)
+          log.info(`${green('✔')} finished ${green('successfully')}`)
         } else {
-          log.error(`finished with some ${logRed('errors')}`)
+          log.error(`finished with some ${red('errors')}`)
         }
         info.isRunning = false
       })
