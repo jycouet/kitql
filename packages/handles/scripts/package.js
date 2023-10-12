@@ -8,9 +8,9 @@ delete pkg.publishConfig;
 delete pkg.bob;
 delete pkg.scripts;
 
-// It's not allowed to have an emtpy scripts object
+// It's not allowed to have an empty scripts object
 pkg.scripts = {
-	"test": "echo hello!"
+	test: 'echo hello!'
 };
 
 // write it to your output directory
