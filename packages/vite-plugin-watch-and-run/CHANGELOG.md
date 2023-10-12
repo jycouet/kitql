@@ -1,5 +1,20 @@
 # @kitql/vite-plugin-watch-and-run
 
+## 1.2.0
+
+### Minor Changes
+
+- [#363](https://github.com/jycouet/kitql/pull/363)
+  [`53c60d0`](https://github.com/jycouet/kitql/commit/53c60d01026730c573339896093a5e5a056cafe8)
+  Thanks [@jycouet](https://github.com/jycouet)! - add shell option
+
+### Patch Changes
+
+- Updated dependencies
+  [[`53c60d0`](https://github.com/jycouet/kitql/commit/53c60d01026730c573339896093a5e5a056cafe8),
+  [`53c60d0`](https://github.com/jycouet/kitql/commit/53c60d01026730c573339896093a5e5a056cafe8)]:
+  - @kitql/helper@0.7.0
+
 ## 1.1.3
 
 ### Patch Changes
