@@ -1,5 +1,13 @@
 # @kitql/helper
 
+## 0.7.1
+
+### Patch Changes
+
+- [#365](https://github.com/jycouet/kitql/pull/365)
+  [`e67c053`](https://github.com/jycouet/kitql/commit/e67c053b132a8b14169650de973b617bd2f517f9)
+  Thanks [@jycouet](https://github.com/jycouet)! - new options for colors
+
 ## 0.7.0
 
 ### Minor Changes
