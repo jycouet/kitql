@@ -29,7 +29,7 @@ module.exports = {
   ],
   plugins: ['svelte3'],
   overrides: [
-    { files: ['*.svelte'], processor: 'svelte3/svelte3' },
+    // { files: ['*.svelte'], processor: 'svelte3/svelte3' },
     // {
     //   files: ['packages/helper/*.ts'],
     //   parserOptions: { project: ['packages/helper/tsconfig.json'] },
