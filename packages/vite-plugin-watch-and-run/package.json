@@ -21,7 +21,8 @@
 		"check:watch": "svelte-check --tsconfig ./tsconfig.json --watch",
 		"lint": "prettier --plugin-search-dir . --check . && eslint .",
 		"format": "prettier --plugin-search-dir . --write .",
-		"test": "vitest"
+		"test": "vitest",
+		"test:ci": "vitest --coverage"
 	},
 	"peerDependencies": {
 		"svelte": "^4.0.0"

@@ -19,7 +19,8 @@
     "prepublishOnly": "npm run package",
     "check": "svelte-check --tsconfig ./tsconfig.json",
     "check:watch": "svelte-check --tsconfig ./tsconfig.json --watch",
-    "test": "vitest"
+    "test": "vitest",
+    "test:ci": "vitest --coverage"
   },
   "peerDependencies": {
     "svelte": "^4.0.0"
@@ -41,8 +42,7 @@
   "publishConfig": {
     "directory": "dist",
     "access": "public"
-  },
-  
+  },  
   "svelte": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "exports": {
