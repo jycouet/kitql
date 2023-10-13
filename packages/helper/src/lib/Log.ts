@@ -1,14 +1,10 @@
-import { bold, colorBrowserProcess, greenBright, magenta, redBright } from './colors/index.js'
+import { bold, colorProcess, greenBright, magenta, redBright } from './colors/index.js'
 
 export class Log {
   private toolName: string
   private levelsToShow: null | number
   private withDate: null | 'dateTime' | 'time'
   private prefixEmoji: string
-
-  get isBrowser() {
-    return typeof window !== 'undefined' && typeof window.document !== 'undefined'
-  }
 
   constructor(
     toolName: string,
@@ -24,13 +20,7 @@ export class Log {
     this.prefixEmoji = options?.prefixEmoji ?? ''
   }
 
-  private buildStr(
-    msg: string,
-    withError: boolean,
-    withSuccess: boolean,
-    indent: string,
-    browser: boolean,
-  ) {
+  private buildStr(msg: string, withError: boolean, withSuccess: boolean, indent: string) {
     const table = []
     if (this.toolName) {
       table.push(String(magenta(`[${this.toolName}]`)))
@@ -62,37 +52,32 @@ export class Log {
 
     const str = table.join('')
 
-    if (browser) {
-      return colorBrowserProcess(str)
-    }
+    return colorProcess(str)
 
     // wrap it because we always unwrap after ;)
     return [str]
   }
 
-  info(msg: string, conf?: { level?: number; withSuccess?: boolean; browser?: boolean }) {
+  info(msg: string, conf?: { level?: number; withSuccess?: boolean }) {
     const level = conf?.level ?? 0
     const withSuccess = conf?.withSuccess ?? false
-    const browser = conf?.browser ?? this.isBrowser
 
     if (this.levelsToShow !== null && level <= this.levelsToShow) {
       const indent = ' '.repeat(level)
-      const built = this.buildStr(msg, false, withSuccess, indent, browser)
+      const built = this.buildStr(msg, false, withSuccess, indent)
       console.info(...built)
       return built
     }
     return null
   }
 
-  success(msg: string, conf?: { level?: number; browser?: boolean }) {
+  success(msg: string, conf?: { level?: number }) {
     const level = conf?.level ?? 0
-    const browser = conf?.browser ?? this.isBrowser
-    return this.info(msg, { level, withSuccess: true, browser })
+    return this.info(msg, { level, withSuccess: true })
   }
 
-  error(msg: string, conf?: { browser?: boolean }) {
-    const browser = conf?.browser ?? this.isBrowser
-    const built = this.buildStr(msg, true, false, '', browser)
+  error(msg: string) {
+    const built = this.buildStr(msg, true, false, '')
     // Keep error to have the stacktrace in the browser
     console.error(...built)
     return built

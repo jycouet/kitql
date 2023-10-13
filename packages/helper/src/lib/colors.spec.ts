@@ -1,6 +1,6 @@
 import { expect, it, vi } from 'vitest'
 
-import { color, colorBrowserProcess, red } from './colors/index.js'
+import { color, colorProcess, red } from './colors/index.js'
 
 const msg = () => `with all options: 
     ${color('reset', 'reset')}
@@ -145,7 +145,7 @@ it('color in browser', () => {
     "
   `)
 
-  expect(colorBrowserProcess(message)).toMatchInlineSnapshot(`
+  expect(colorProcess(message)).toMatchInlineSnapshot(`
     [
       "with all options: 
         %creset%c
@@ -285,7 +285,7 @@ it('2 color red browser', () => {
     '"with red: $$KitQL_red_KitQL$$red$$KitQLEND$$ and another $$KitQL_red_KitQL$$red2$$KitQLEND$$"',
   )
 
-  expect(colorBrowserProcess(msg)).toMatchInlineSnapshot(`
+  expect(colorProcess(msg)).toMatchInlineSnapshot(`
     [
       "with red: %cred%c and another %cred2%c",
       "color: red",

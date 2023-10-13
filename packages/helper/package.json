@@ -1,14 +1,14 @@
 {
 	"name": "@kitql/helper",
-  "version": "0.7.1",
+	"version": "0.7.1",
 	"bob": false,
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/jycouet/kitql",
-    "directory": "packages/helper"
-  },
-  "type": "module",
-  "license": "MIT",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/jycouet/kitql",
+		"directory": "packages/helper"
+	},
+	"type": "module",
+	"license": "MIT",
 	"scripts": {
 		"dev": "vite dev",
 		"build": "vite build && npm run package",
@@ -37,7 +37,9 @@
 		"@sveltejs/adapter-auto": "2.0.0",
 		"@sveltejs/kit": "1.25.2",
 		"@sveltejs/package": "2.2.0",
+		"esm-env": "^1.0.0",
 		"publint": "0.1.9",
+		"rollup-plugin-visualizer": "^5.9.2",
 		"svelte": "4.0.5",
 		"svelte-check": "3.5.2",
 		"tslib": "2.4.1",

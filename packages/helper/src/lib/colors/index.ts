@@ -1,3 +1,5 @@
+import { BROWSER } from 'esm-env'
+
 import * as stylesBrowser from './stylesBrowser.js'
 import * as stylesNode from './stylesNode.js'
 import type { Style } from './types.js'
@@ -12,13 +14,8 @@ const getStyleNode = (styleKey: string) => {
   return stylesNode[styleKey] ?? undefined
 }
 
-export const color = (style: Style, str: string, isBrowser?: boolean) => {
-  const isBrowserToUse =
-    // if undefined... Then we try to be smart ;)
-    isBrowser === undefined
-      ? typeof window !== 'undefined' && typeof window.document !== 'undefined'
-      : isBrowser
-  return isBrowserToUse ? colorBrowserPrepare(style, str) : colorNode(style, str)
+export const color = (style: Style, str: string) => {
+  return BROWSER ? colorBrowser(style, str) : colorNode(style, str)
 }
 
 const colorNode = (style: Style, str: string) => {
@@ -28,7 +25,7 @@ const colorNode = (style: Style, str: string) => {
 const START1 = `$$KitQL_`
 const START2 = `_KitQL$$`
 const END = `$$KitQLEND$$`
-const colorBrowserPrepare = (style: Style, str: string) => {
+const colorBrowser = (style: Style, str: string) => {
   return `${START1}${style}${START2}${str}${END}`
 }
 
@@ -44,7 +41,23 @@ function extractKitQLTags(str: string) {
   return results
 }
 
-export const colorBrowserProcess = (str: string) => {
+const getAllIndexOf = (str: string, subStr: string) => {
+  let lastIndex = 0
+  const indexes = []
+  while (lastIndex !== -1) {
+    lastIndex = str.indexOf(subStr, lastIndex)
+    if (lastIndex !== -1) {
+      indexes.push(lastIndex)
+      lastIndex += subStr.length
+    }
+  }
+  return indexes
+}
+
+export const colorProcess = (str: string) => {
+  if (!BROWSER) {
+    return str
+  }
   const originalStr = str
   const posToReplace: { index: number; browser: string }[] = []
 
@@ -73,19 +86,6 @@ export const colorBrowserProcess = (str: string) => {
   }
 
   return [str, ...colors]
-}
-
-const getAllIndexOf = (str: string, subStr: string) => {
-  let lastIndex = 0
-  const indexes = []
-  while (lastIndex !== -1) {
-    lastIndex = str.indexOf(subStr, lastIndex)
-    if (lastIndex !== -1) {
-      indexes.push(lastIndex)
-      lastIndex += subStr.length
-    }
-  }
-  return indexes
 }
 
 //
