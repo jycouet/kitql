@@ -11,8 +11,8 @@ const stringify = configure()
 
 export { configure, stringify }
 
-// eslint-disable-next-line no-control-regex
 const strEscapeSequencesRegExp =
+  // eslint-disable-next-line no-control-regex
   /[\u0000-\u001f\u0022\u005c\ud800-\udfff]|[\ud800-\udbff](?![\udc00-\udfff])|(?:[^\ud800-\udbff]|^)[\udc00-\udfff]/
 
 // Escape C0 control characters, double quotes, the backslash and every code
@@ -180,7 +180,7 @@ function configure(options) {
         if (value === null) {
           return 'null'
         }
-        if (stack.indexOf(value) !== -1) {
+        if (stack.includes(value)) {
           return circularValue
         }
 
@@ -205,11 +205,11 @@ function configure(options) {
           let i = 0
           for (; i < maximumValuesToStringify - 1; i++) {
             const tmp = stringifyFnReplacer(String(i), value, stack, replacer, spacer, indentation)
-            res += tmp !== undefined ? tmp : 'null'
+            res += tmp === undefined ? 'null' : tmp
             res += join
           }
           const tmp = stringifyFnReplacer(String(i), value, stack, replacer, spacer, indentation)
-          res += tmp !== undefined ? tmp : 'null'
+          res += tmp === undefined ? 'null' : tmp
           if (value.length - 1 > maximumBreadth) {
             const removedKeys = value.length - maximumBreadth - 1
             res += `${join}"... ${getItemCount(removedKeys)} not stringified"`
@@ -288,7 +288,7 @@ function configure(options) {
         if (value === null) {
           return 'null'
         }
-        if (stack.indexOf(value) !== -1) {
+        if (stack.includes(value)) {
           return circularValue
         }
 
@@ -320,7 +320,7 @@ function configure(options) {
               spacer,
               indentation,
             )
-            res += tmp !== undefined ? tmp : 'null'
+            res += tmp === undefined ? 'null' : tmp
             res += join
           }
           const tmp = stringifyArrayReplacer(
@@ -331,7 +331,7 @@ function configure(options) {
             spacer,
             indentation,
           )
-          res += tmp !== undefined ? tmp : 'null'
+          res += tmp === undefined ? 'null' : tmp
           if (value.length - 1 > maximumBreadth) {
             const removedKeys = value.length - maximumBreadth - 1
             res += `${join}"... ${getItemCount(removedKeys)} not stringified"`
@@ -397,7 +397,7 @@ function configure(options) {
             return 'null'
           }
         }
-        if (stack.indexOf(value) !== -1) {
+        if (stack.includes(value)) {
           return circularValue
         }
         const originalIndentation = indentation
@@ -417,11 +417,11 @@ function configure(options) {
           let i = 0
           for (; i < maximumValuesToStringify - 1; i++) {
             const tmp = stringifyIndent(String(i), value[i], stack, spacer, indentation)
-            res += tmp !== undefined ? tmp : 'null'
+            res += tmp === undefined ? 'null' : tmp
             res += join
           }
           const tmp = stringifyIndent(String(i), value[i], stack, spacer, indentation)
-          res += tmp !== undefined ? tmp : 'null'
+          res += tmp === undefined ? 'null' : tmp
           if (value.length - 1 > maximumBreadth) {
             const removedKeys = value.length - maximumBreadth - 1
             res += `${join}"... ${getItemCount(removedKeys)} not stringified"`
@@ -507,7 +507,7 @@ function configure(options) {
             return 'null'
           }
         }
-        if (stack.indexOf(value) !== -1) {
+        if (stack.includes(value)) {
           return circularValue
         }
 
@@ -525,11 +525,11 @@ function configure(options) {
           let i = 0
           for (; i < maximumValuesToStringify - 1; i++) {
             const tmp = stringifySimple(String(i), value[i], stack)
-            res += tmp !== undefined ? tmp : 'null'
+            res += tmp === undefined ? 'null' : tmp
             res += ','
           }
           const tmp = stringifySimple(String(i), value[i], stack)
-          res += tmp !== undefined ? tmp : 'null'
+          res += tmp === undefined ? 'null' : tmp
           if (value.length - 1 > maximumBreadth) {
             const removedKeys = value.length - maximumBreadth - 1
             res += `,"... ${getItemCount(removedKeys)} not stringified"`

@@ -1,6 +1,6 @@
-import { beforeEach, describe, expect, it, vi } from 'vitest'
+import { describe, expect, it } from 'vitest'
 
-import { sleep } from '../src/sleep'
+import { sleep } from './sleep.js'
 
 describe('kitql - helper - sleep', () => {
   it('No time', async () => {

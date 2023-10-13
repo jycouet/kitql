@@ -8,14 +8,14 @@ import {
   gray,
   green,
   italic,
-  Log,
   magenta,
   red,
   strikethrough,
-  stry,
   white,
   yellow,
-} from '../src'
+} from './colors/index.js'
+import { Log } from './Log.js'
+import { stry0 } from './stry.js'
 
 // helper
 function fakeIsBrowser() {
@@ -110,7 +110,7 @@ describe('kitql - helper - Log', () => {
     const result = log.info(msg)
     expect(spy).toHaveBeenCalledOnce()
 
-    expect(stry(result, 0)).toMatchInlineSnapshot(
+    expect(stry0(result)).toMatchInlineSnapshot(
       '"[\\"\\\\u001b[35m[tool name]\\\\u001b[39m with all colors: \\\\n    \\\\u001b[30mblack\\\\u001b[39m,   \\\\n    \\\\u001b[31mred\\\\u001b[39m, \\\\n    \\\\u001b[32mgreen\\\\u001b[39m, \\\\n    \\\\u001b[33myellow\\\\u001b[39m\\\\n    \\\\u001b[34mblue\\\\u001b[39m\\\\n    \\\\u001b[35mmagenta\\\\u001b[39m, \\\\n    \\\\u001b[36mcyan\\\\u001b[39m \\\\n    \\\\u001b[37mwhite\\\\u001b[39m \\\\n    \\\\u001b[90mgray\\\\u001b[39m \\\\n    \\\\u001b[1mbold\\\\u001b[22m \\\\n    \\\\u001b[3mitalic\\\\u001b[23m \\\\n    \\\\u001b[9mstrikethrough\\\\u001b[29m \\\\n  \\"]"',
     )
   })
@@ -227,7 +227,7 @@ describe('kitql - helper - Log', () => {
     const result = log.info(msg)
     expect(spy).toHaveBeenCalledOnce()
 
-    expect(stry(result, 0)).toMatchInlineSnapshot(
+    expect(stry0(result)).toMatchInlineSnapshot(
       '"[\\"\\\\u001b[35m[tool name]\\\\u001b[39m with red: \\\\u001b[31mred\\\\u001b[39m and another \\\\u001b[31mred2\\\\u001b[39m\\"]"',
     )
   })

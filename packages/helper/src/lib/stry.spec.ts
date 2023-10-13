@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 
-import { stry } from '../src/stry'
+import { stry } from './stry.js'
 
 describe('kitql - helper - stry', () => {
   it('space 2', () => {

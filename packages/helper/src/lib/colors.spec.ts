@@ -1,6 +1,6 @@
 import { expect, it, vi } from 'vitest'
 
-import { color, colorBrowserProcess, red } from '../src/colors'
+import { color, colorBrowserProcess, red } from './colors/index.js'
 
 const msg = () => `with all options: 
     ${color('reset', 'reset')}
