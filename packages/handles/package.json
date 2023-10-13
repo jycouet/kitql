@@ -1,7 +1,6 @@
 {
 	"name": "@kitql/handles",
 	"version": "0.0.3",
-	"bob": false,
 	"license": "MIT",
 	"repository": {
 		"type": "git",
@@ -10,6 +9,7 @@
 	},
 	"type": "module",
 	"scripts": {
+		"prepare": "svelte-kit sync",
 		"dev": "vite dev",
 		"build": "svelte-kit sync && vite build && svelte-package && node ./scripts/package.js",
 		"preview": "vite preview",

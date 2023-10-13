@@ -4,7 +4,7 @@ import { defineConfig } from 'vitest/config'
 
 export default defineConfig({
   test: {
-    exclude: ['**/node_modules/**', '.bob', 'examples'],
+    exclude: ['**/node_modules/**', 'examples'],
     coverage: {
       reporter: ['json-summary', 'html'],
       exclude: ['**/node_modules/**', '**/vite.config.mjs', '**/dist/**', '**/test/**'],

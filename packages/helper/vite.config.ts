@@ -7,7 +7,7 @@ export default defineConfig({
     sveltekit(),
     visualizer({
       // template: 'sunburst',
-      open: true,
+      // open: true,
       gzipSize: true,
       projectRoot: 'home/jycouet/udev/gh/lib/kitql',
     }),
