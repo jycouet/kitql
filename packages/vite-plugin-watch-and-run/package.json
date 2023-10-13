@@ -1,5 +1,5 @@
 {
-  "name": "vite-plugin-watch-and-run",
+	"name": "vite-plugin-watch-and-run",
   "version": "1.2.1",
   "description": "vite-plugin that will watch some files and run a package.json script on change",
   "repository": {
@@ -10,46 +10,59 @@
   },
   "type": "module",
   "license": "MIT",
-  "scripts": {
-    "test": "vitest run"
-  },
-  "devDependencies": {
-    "@types/micromatch": "^4.0.2",
-    "tslib": "2.5.0",
-    "vite": "4.4.11"
-  },
-  "dependencies": {
+	"scripts": {
+		"prepare": "svelte-kit sync",
+		"dev": "vite dev",
+		"build": "vite build && npm run package",
+		"preview": "vite preview",
+		"package": "svelte-kit sync && svelte-package && publint",
+		"prepublishOnly": "npm run package",
+		"test": "npm run test:integration && npm run test:unit",
+		"check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
+		"check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
+		"lint": "prettier --plugin-search-dir . --check . && eslint .",
+		"format": "prettier --plugin-search-dir . --write .",
+		"test:integration": "playwright test",
+		"test:unit": "vitest"
+	},
+	"exports": {
+		".": {
+			"types": "./dist/index.d.ts",
+			"svelte": "./dist/index.js"
+		}
+	},
+	"files": [
+		"dist",
+		"!dist/**/*.test.*",
+		"!dist/**/*.spec.*"
+	],
+	"peerDependencies": {
+		"svelte": "^4.0.0"
+	},
+	"devDependencies": {
+		"@types/micromatch": "4.0.2",
+		"@sveltejs/adapter-auto": "2.0.0",
+		"@sveltejs/kit": "1.20.4",
+		"@sveltejs/package": "2.2.2",
+		"@typescript-eslint/eslint-plugin": "6.0.0",
+		"@typescript-eslint/parser": "6.0.0",
+		"eslint": "8.28.0",
+		"eslint-config-prettier": "8.5.0",
+		"eslint-plugin-svelte": "2.30.0",
+		"prettier": "2.8.0",
+		"prettier-plugin-svelte": "2.10.1",
+		"publint": "0.1.9",
+		"svelte": "4.0.5",
+		"svelte-check": "3.4.3",
+		"tslib": "2.4.1",
+		"typescript": "^5.0.0",
+		"vite": "4.4.2",
+		"vitest": "0.32.2"
+	},
+	"dependencies": {
     "@kitql/helper": "workspace:*",
     "micromatch": "4.0.5"
   },
-  "main": "dist/cjs/index.js",
-  "module": "dist/esm/index.js",
-  "exports": {
-    ".": {
-      "require": {
-        "types": "./dist/typings/index.d.cts",
-        "default": "./dist/cjs/index.js"
-      },
-      "import": {
-        "types": "./dist/typings/index.d.ts",
-        "default": "./dist/esm/index.js"
-      },
-      "default": {
-        "types": "./dist/typings/index.d.ts",
-        "default": "./dist/esm/index.js"
-      }
-    },
-    "./package.json": "./package.json"
-  },
-  "typings": "dist/typings/index.d.ts",
-  "typescript": {
-    "definition": "dist/typings/index.d.ts"
-  },
-  "buildOptions": {
-    "input": "./src/index.ts"
-  },
-  "publishConfig": {
-    "directory": "dist",
-    "access": "public"
-  }
+	"svelte": "./dist/index.js",
+	"types": "./dist/index.d.ts"
 }
