@@ -21,8 +21,6 @@ import { stry0 } from './stry.js'
 vi.mock('esm-env')
 
 describe('kitql - helper - Log', () => {
-  beforeEach(() => {})
-
   it('Minimal config', () => {
     const log = new Log('tool name')
     expect(log).to.have.property('toolName', 'tool name')
