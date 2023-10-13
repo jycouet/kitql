@@ -59,9 +59,6 @@ importers:
       typescript:
         specifier: 5.0.4
         version: 5.0.4
-      vitest:
-        specifier: 0.31.0
-        version: 0.31.0(@vitest/ui@0.31.0)(jsdom@22.0.0)
 
   packages/all-in: {}
 
@@ -152,12 +149,13 @@ importers:
       vitest:
         specifier: 0.34.0
         version: 0.34.0(@vitest/ui@0.31.0)(jsdom@22.0.0)
+    publishDirectory: dist
 
   packages/vite-plugin-watch-and-run:
     dependencies:
       '@kitql/helper':
         specifier: workspace:*
-        version: link:../helper
+        version: link:../helper/dist
       micromatch:
         specifier: 4.0.5
         version: 4.0.5
@@ -216,6 +214,7 @@ importers:
       vitest:
         specifier: 0.32.2
         version: 0.32.2(@vitest/ui@0.31.0)(jsdom@22.0.0)
+    publishDirectory: dist
 
   website:
     dependencies:
