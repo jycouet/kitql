@@ -1,7 +1,8 @@
-export { Log } from './Log.js'
+export type { Prettify } from './Prettify.js'
 export { sleep } from './sleep.js'
 export { stry, stry0, stryEq } from './stry.js'
 
+export { Log } from './Log.js'
 export {
   bgBlack,
   bgBlackBright,
@@ -45,5 +46,3 @@ export {
   yellow,
   yellowBright,
 } from './colors/index.js'
-
-export type { Prettify } from './Prettify.js'

@@ -15,6 +15,8 @@ const getStyleNode = (styleKey: string) => {
 }
 
 export const color = (style: Style, str: string) => {
+  console.log(`BROWSER`, BROWSER)
+
   return BROWSER ? colorBrowser(style, str) : colorNode(style, str)
 }
 
@@ -56,7 +58,7 @@ const getAllIndexOf = (str: string, subStr: string) => {
 
 export const colorProcess = (str: string) => {
   if (!BROWSER) {
-    return str
+    return [str]
   }
   const originalStr = str
   const posToReplace: { index: number; browser: string }[] = []

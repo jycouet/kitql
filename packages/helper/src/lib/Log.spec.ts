@@ -17,16 +17,8 @@ import {
 import { Log } from './Log.js'
 import { stry0 } from './stry.js'
 
-// helper
-function fakeIsBrowser() {
-  vi.stubGlobal('window', { document: 'coucou' })
-}
-
 describe('kitql - helper - Log', () => {
-  beforeEach(() => {
-    vi.stubGlobal('window', undefined)
-    vi.clearAllMocks()
-  })
+  beforeEach(() => {})
 
   it('Minimal config', () => {
     const log = new Log('tool name')
@@ -116,8 +108,6 @@ describe('kitql - helper - Log', () => {
   })
 
   it('with all colors browser', () => {
-    fakeIsBrowser()
-
     const log = new Log('tool name')
 
     const msg = `with all colors: 
@@ -135,7 +125,7 @@ describe('kitql - helper - Log', () => {
     ${strikethrough('strikethrough')} 
   `
 
-    const result = log.info(msg, { browser: true })
+    const result = log.info(msg)
 
     expect(result).toMatchInlineSnapshot(
       `
@@ -233,13 +223,11 @@ describe('kitql - helper - Log', () => {
   })
 
   it('with 2 red browser', () => {
-    fakeIsBrowser()
-
     const log = new Log('tool name')
 
     const msg = `with red: ${red('red')} and another ${red('red2')}`
 
-    const result = log.info(msg, { browser: true })
+    const result = log.info(msg)
 
     expect(result).toMatchInlineSnapshot(`
       [
@@ -254,18 +242,8 @@ describe('kitql - helper - Log', () => {
     `)
   })
 
-  it('are we NOT in the browser?', () => {
-    const log = new Log('tool name')
-
-    expect(log).to.have.property('isBrowser', false)
-  })
-
   it('are we in the browser?', () => {
-    fakeIsBrowser()
-
     const log = new Log('tool name')
-
-    expect(log).to.have.property('isBrowser', true)
 
     const msg = `with red: ${red('red')} and another ${red('red2')}`
     // no need to put browser: true! it's detected with this.windows
