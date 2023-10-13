@@ -1,61 +1,64 @@
 {
-	"name": "@kitql/handles",
-	"version": "0.0.3",
-	"license": "MIT",
-	"type": "module",
-	"repository": {
-		"type": "git",
-		"url": "https://github.com/jycouet/kitql",
-		"directory": "packages/handles"
-	},	
-	"scripts": {
-		"prepare": "svelte-kit sync",
-		"dev": "vite dev",
-		"build": "vite build && svelte-package && node ../../scripts/package.js",
-		"preview": "vite preview",
-		"package": "npm run build && publint",
-		"prepublishOnly": "npm run package",
-		"check": "svelte-check --tsconfig ./jsconfig.json",
-		"check:watch": "svelte-check --tsconfig ./jsconfig.json --watch",
-		"test": "vitest",
-		"lint": "prettier --plugin-search-dir . --check . && eslint .",
-		"format": "prettier --plugin-search-dir . --write ."
-	},
-	"peerDependencies": {
-		"svelte": "^4.0.0"
-	},
-	"devDependencies": {
-		"@sveltejs/adapter-node": "1.3.1",
-		"@sveltejs/kit": "1.25.2",
-		"@sveltejs/package": "2.2.2",
-		"publint": "0.1.9",
-		"eslint": "8.28.0",
-		"eslint-config-prettier": "8.5.0",
-		"eslint-plugin-svelte": "2.30.0",
-		"prettier": "2.8.0",
-		"prettier-plugin-svelte": "2.10.1",
-		"svelte": "4.0.5",
-		"svelte-check": "3.5.2",
-		"tslib": "2.5.0",
-		"typescript": "^5.0.4",
-		"vite": "4.3.5",
-		"vitest": "0.31.0"
-	},
-	"publishConfig": {
-		"directory": "dist",
-		"access": "public"
-	},
-	"files": [
-		"dist",
-		"!dist/**/*.test.*",
-		"!dist/**/*.spec.*"
-	],
-	"svelte": "./dist/index.js",
-	"types": "./dist/index.d.ts",
-	"exports": {
-		".": {
-			"types": "./dist/index.d.ts",
-			"svelte": "./dist/index.js"
-		}
-	}
+  "name": "@kitql/handles",
+  "description": "Some useful handles for SvelteKit",
+  "version": "0.0.3",
+  "license": "MIT",
+  "type": "module",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jycouet/kitql",
+    "directory": "packages/handles",
+    "homepage": "https://github.com/jycouet/kitql/tree/main/packages/handles"
+  },
+  "scripts": {
+    "prepare": "svelte-kit sync",
+    "dev": "vite dev",
+    "build": "vite build && svelte-package && node ../../scripts/package.js",
+    "preview": "vite preview",
+    "package": "npm run build && publint",
+    "prepublishOnly": "npm run package",
+    "check": "svelte-check --tsconfig ./jsconfig.json",
+    "check:watch": "svelte-check --tsconfig ./jsconfig.json --watch",
+    "test": "vitest",
+    "lint": "prettier --plugin-search-dir . --check . && eslint .",
+    "format": "prettier --plugin-search-dir . --write ."
+  },
+  "peerDependencies": {
+    "@sveltejs/kit": "^1.25.2",
+    "svelte": "^4.0.0"
+  },
+  "devDependencies": {
+    "@sveltejs/adapter-node": "1.3.1",
+    "@sveltejs/kit": "1.25.2",
+    "@sveltejs/package": "2.2.2",
+    "publint": "0.1.9",
+    "eslint": "8.28.0",
+    "eslint-config-prettier": "8.5.0",
+    "eslint-plugin-svelte": "2.30.0",
+    "prettier": "2.8.0",
+    "prettier-plugin-svelte": "2.10.1",
+    "svelte": "4.0.5",
+    "svelte-check": "3.5.2",
+    "tslib": "2.5.0",
+    "typescript": "^5.0.4",
+    "vite": "4.3.5",
+    "vitest": "0.31.0"
+  },
+  "publishConfig": {
+    "directory": "dist",
+    "access": "public"
+  },
+  "files": [
+    "dist",
+    "!dist/**/*.test.*",
+    "!dist/**/*.spec.*"
+  ],
+  "svelte": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "svelte": "./dist/index.js"
+    }
+  }
 }

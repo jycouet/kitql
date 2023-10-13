@@ -7,14 +7,13 @@
   "type": "module",
   "scripts": {
     "dev:w": "cd website && npm run dev",
-    "test": "vitest --coverage",
     "lint": "eslint --ignore-path .prettierignore .",
     "format": "prettier --write --list-different .",
     "format:check": "prettier --check .",
-    "test:ci": "vitest run --coverage",
-    "test:update-badge": "npm run update-badge",
+    "test": "pnpm -F !website test",
+    "test:ci": "pnpm -F !website test",
     "prebuild": "rimraf packages/*/dist",
-    "build": "pnpm -F @kitql/* build",
+    "build": "pnpm -F !website build",
     "release:version": "npm run changeset version",
     "release": "npm run build && changeset publish",
     "reset": "git clean -xdf",
@@ -37,7 +36,6 @@
     "prettier-plugin-svelte": "2.10.0",
     "rimraf": "5.0.0",
     "svelte": "3.59.1",
-    "typescript": "5.0.4",
-    "vitest": "0.31.0"
+    "typescript": "5.0.4"
   }
 }
