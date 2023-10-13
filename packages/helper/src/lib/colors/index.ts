@@ -15,8 +15,6 @@ const getStyleNode = (styleKey: string) => {
 }
 
 export const color = (style: Style, str: string) => {
-  console.log(`BROWSER`, BROWSER)
-
   return BROWSER ? colorBrowser(style, str) : colorNode(style, str)
 }
 

@@ -1,3 +1,4 @@
+import * as constants from 'esm-env'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 
 import {
@@ -16,6 +17,8 @@ import {
 } from './colors/index.js'
 import { Log } from './Log.js'
 import { stry0 } from './stry.js'
+
+vi.mock('esm-env')
 
 describe('kitql - helper - Log', () => {
   beforeEach(() => {})
@@ -108,6 +111,8 @@ describe('kitql - helper - Log', () => {
   })
 
   it('with all colors browser', () => {
+    // @ts-ignore
+    constants.BROWSER = true
     const log = new Log('tool name')
 
     const msg = `with all colors: 
@@ -209,6 +214,8 @@ describe('kitql - helper - Log', () => {
   })
 
   it('with 2 red', () => {
+    // @ts-ignore
+    constants.BROWSER = false
     const log = new Log('tool name')
     expect(log).to.have.property('toolName', 'tool name')
 
@@ -223,6 +230,8 @@ describe('kitql - helper - Log', () => {
   })
 
   it('with 2 red browser', () => {
+    // @ts-ignore
+    constants.BROWSER = true
     const log = new Log('tool name')
 
     const msg = `with red: ${red('red')} and another ${red('red2')}`
@@ -243,6 +252,8 @@ describe('kitql - helper - Log', () => {
   })
 
   it('are we in the browser?', () => {
+    // @ts-ignore
+    constants.BROWSER = true
     const log = new Log('tool name')
 
     const msg = `with red: ${red('red')} and another ${red('red2')}`
