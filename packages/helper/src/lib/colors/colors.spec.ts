@@ -1,6 +1,5 @@
 import * as constants from 'esm-env'
 import { expect, it, vi } from 'vitest'
-
 import { color, colorProcess, red } from './index.js'
 
 vi.mock('esm-env')
