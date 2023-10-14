@@ -37,6 +37,7 @@ fs.writeFileSync(
       exports: {
         '.': {
           types: pkg.types ?? './dist/index.d.ts',
+          default: pkg.default ?? './dist/index.js',
           svelte: pkg.svelte ?? './dist/index.js',
         },
       },
