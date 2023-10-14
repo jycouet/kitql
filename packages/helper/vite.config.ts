@@ -1,15 +1,15 @@
 import { sveltekit } from '@sveltejs/kit/vite'
 import { visualizer } from 'rollup-plugin-visualizer'
-import { defineConfig } from 'vitest/config'
+import { defineConfig } from 'vite'
 
 export default defineConfig({
   plugins: [
     sveltekit(),
     visualizer({
-      // template: 'sunburst',
+      // template: 'raw-data', 'sunburst',
+      emitFile: true,
       // open: true,
       gzipSize: true,
-      projectRoot: 'home/jycouet/udev/gh/lib/kitql',
     }),
   ],
   test: {
