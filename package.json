@@ -6,13 +6,11 @@
   "type": "module",
   "scripts": {
     "dev:w": "cd website && npm run dev",
-    "lint": "eslint --ignore-path .prettierignore .",
-    "format": "prettier --write --list-different .",
-    "format:check": "prettier --check .",
     "test": "pnpm -F !website test",
     "test:ci": "pnpm -F !website test",
-    "prebuild": "rimraf packages/*/dist",
-    "build": "pnpm -F !website build",
+    "build": "rimraf packages/*/dist && pnpm -F !website build",
+    "lint": "pnpm -r lint",
+    "format": "pnpm -r format",
     "release:version": "npm run changeset version",
     "release": "npm run build && changeset publish",
     "reset": "git clean -xdf",
@@ -21,21 +19,6 @@
   "devDependencies": {
     "@changesets/changelog-github": "0.4.8",
     "@changesets/cli": "2.26.1",
-    "@theguild/eslint-config": "0.9.0",
-    "@theguild/prettier-config": "1.1.3",
-    "@trivago/prettier-plugin-sort-imports": "^4.1.1",
-    "@vitest/coverage-c8": "0.31.0",
-    "@vitest/coverage-v8": "^0.34.6",
-    "@vitest/ui": "0.31.0",
-    "@vue/compiler-sfc": "^3.3.2",
-    "c8": "7.13.0",
-    "check-code-coverage": "1.10.4",
-    "eslint": "8.40.0",
-    "jsdom": "22.0.0",
-    "prettier": "2.8.8",
-    "prettier-plugin-svelte": "2.10.0",
-    "rimraf": "5.0.0",
-    "svelte": "3.59.1",
-    "typescript": "5.0.4"
+    "rimraf": "5.0.0"
   }
 }

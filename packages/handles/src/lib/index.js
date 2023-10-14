@@ -1,2 +1,2 @@
 // Reexport your entry components here
-export { handleProxies } from './hooks/handleProxies.js';
+export { handleProxies } from './hooks/handleProxies.js'

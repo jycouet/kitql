@@ -16,16 +16,18 @@
     "build": "vite build && svelte-package && node ../../scripts/package.js",
     "preview": "vite preview",
     "package": "svelte-package && publint",
-    "prepublishOnly2": "npm run package",
     "check": "svelte-check --tsconfig ./tsconfig.json",
     "check:watch": "svelte-check --tsconfig ./tsconfig.json --watch",
     "test": "vitest",
-    "test:ci": "vitest --coverage"
+    "test:ci": "vitest --coverage",
+    "lint": "kitql-lint",
+    "format": "kitql-lint --fix"
   },
   "peerDependencies": {
     "svelte": "^4.0.0"
   },
   "devDependencies": {
+    "eslint-config-kitql": "workspace:*",
     "@sveltejs/adapter-auto": "2.0.0",
     "@sveltejs/kit": "1.25.2",
     "@sveltejs/package": "2.2.2",
@@ -35,7 +37,7 @@
     "svelte": "4.0.5",
     "svelte-check": "3.5.2",
     "tslib": "2.4.1",
-    "typescript": "^5.0.0",
+    "typescript": "5.2.2",
     "vite": "4.4.2",
     "vitest": "0.34.0"
   },
