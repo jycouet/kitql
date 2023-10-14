@@ -1,15 +1,15 @@
 {
 	"name": "vite-plugin-watch-and-run",
-  "description": "vite-plugin that will watch some files and run a package.json script on change",
-  "version": "1.2.1",
-  "license": "MIT",
-  "type": "module",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/jycouet/kitql",
-    "directory": "packages/vite-plugin-watch-and-run",
-    "homepage": "https://github.com/jycouet/kitql/tree/main/packages/vite-plugin-watch-and-run#readme"
-  },
+	"description": "vite-plugin that will watch some files and run a package.json script on change",
+	"version": "1.3.0-exp.0",
+	"license": "MIT",
+	"type": "module",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/jycouet/kitql",
+		"directory": "packages/vite-plugin-watch-and-run",
+		"homepage": "https://github.com/jycouet/kitql/tree/main/packages/vite-plugin-watch-and-run#readme"
+	},
 	"scripts": {
 		"prepare": "svelte-kit sync",
 		"dev": "vite dev",
@@ -48,9 +48,9 @@
 		"vitest": "0.32.2"
 	},
 	"dependencies": {
-    "@kitql/helper": "workspace:*",
-    "micromatch": "4.0.5"
-  },
+		"@kitql/helper": "workspace:*",
+		"micromatch": "4.0.5"
+	},
 	"sideEffects": false,
 	"publishConfig": {
 		"directory": "dist",
