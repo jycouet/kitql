@@ -1,5 +1,13 @@
 # @kitql/vite-plugin-watch-and-run
 
+## 1.3.0-exp.1
+
+### Patch Changes
+
+- [#382](https://github.com/jycouet/kitql/pull/382)
+  [`55a08b1`](https://github.com/jycouet/kitql/commit/55a08b1d9010f425c44568ec06939e7a0db220fa)
+  Thanks [@jycouet](https://github.com/jycouet)! - add viteDevServer in run() args
+
 ## 1.3.0-exp.0
 
 ### Minor Changes
