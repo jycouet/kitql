@@ -29,12 +29,12 @@
 	"devDependencies": {
 		"eslint-config-kitql": "workspace:*",
 		"@types/micromatch": "4.0.2",
-		"@sveltejs/adapter-auto": "2.0.0",
-		"@sveltejs/kit": "1.20.4",
+		"@sveltejs/adapter-auto": "2.1.0",
+		"@sveltejs/kit": "1.25.2",
 		"@sveltejs/package": "2.2.2",
-		"publint": "0.1.9",
-		"svelte": "4.0.5",
-		"svelte-check": "3.4.3",
+		"publint": "0.2.4",
+		"svelte": "4.2.1",
+		"svelte-check": "3.5.2",		
 		"tslib": "2.4.1",
 		"typescript": "5.2.2",
 		"vite": "4.4.2",
@@ -59,7 +59,8 @@
 	"exports": {
 		".": {
 			"types": "./dist/index.d.ts",
-			"svelte": "./dist/index.js"
+      "default": "./dist/index.js",
+      "svelte": "./dist/index.js"
 		}
 	}
 }
