@@ -1,5 +1,13 @@
 # @kitql/handles
 
+## 0.1.0-exp.1
+
+### Patch Changes
+
+- [#384](https://github.com/jycouet/kitql/pull/384)
+  [`e6ae461`](https://github.com/jycouet/kitql/commit/e6ae4610268c403c0526ec73bd91961f8dd819ea)
+  Thanks [@jycouet](https://github.com/jycouet)! - export default
+
 ## 0.1.0-exp.0
 
 ### Minor Changes
