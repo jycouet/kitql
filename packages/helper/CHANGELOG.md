@@ -1,5 +1,13 @@
 # @kitql/helper
 
+## 0.8.0-exp.0
+
+### Minor Changes
+
+- [#374](https://github.com/jycouet/kitql/pull/374)
+  [`2bc230a`](https://github.com/jycouet/kitql/commit/2bc230ab57566ab480fd1d945197f4ca86f091b0)
+  Thanks [@jycouet](https://github.com/jycouet)! - new way to release & internal refacto
+
 ## 0.7.1
 
 ### Patch Changes

@@ -1,5 +1,19 @@
 # @kitql/vite-plugin-watch-and-run
 
+## 1.3.0-exp.0
+
+### Minor Changes
+
+- [#374](https://github.com/jycouet/kitql/pull/374)
+  [`2bc230a`](https://github.com/jycouet/kitql/commit/2bc230ab57566ab480fd1d945197f4ca86f091b0)
+  Thanks [@jycouet](https://github.com/jycouet)! - new way to release & internal refacto
+
+### Patch Changes
+
+- Updated dependencies
+  [[`2bc230a`](https://github.com/jycouet/kitql/commit/2bc230ab57566ab480fd1d945197f4ca86f091b0)]:
+  - @kitql/helper@0.8.0-exp.0
+
 ## 1.2.1
 
 ### Patch Changes
