@@ -16,7 +16,7 @@
     "build": "vite build && svelte-package && node ../../scripts/package.js",
     "preview": "vite preview",
     "package": "svelte-package && publint",
-    "prepublishOnly": "npm run package",
+    "prepublishOnly2": "npm run package",
     "check": "svelte-check --tsconfig ./tsconfig.json",
     "check:watch": "svelte-check --tsconfig ./tsconfig.json --watch",
     "test": "vitest",
