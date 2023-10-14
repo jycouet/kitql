@@ -1,4 +1,4 @@
-import { BROWSER } from 'esm-env'
+import { BROWSER, DEV } from 'esm-env'
 import * as stylesBrowser from './stylesBrowser.js'
 import * as stylesNode from './stylesNode.js'
 import type { Style } from './types.js'
@@ -25,6 +25,9 @@ const START1 = `$$KitQL_`
 const START2 = `_KitQL$$`
 const END = `$$KitQLEND$$`
 const colorBrowser = (style: Style, str: string) => {
+  if (BROWSER && !DEV) {
+    return str
+  }
   return `${START1}${style}${START2}${str}${END}`
 }
 
@@ -53,8 +56,11 @@ const getAllIndexOf = (str: string, subStr: string) => {
   return indexes
 }
 
-export const colorProcess = (str: string) => {
+export const colorProcess = (str: string): string[] => {
   if (!BROWSER) {
+    return [str]
+  }
+  if (BROWSER && !DEV) {
     return [str]
   }
   const originalStr = str
