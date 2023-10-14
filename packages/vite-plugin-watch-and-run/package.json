@@ -18,26 +18,20 @@
 		"package": "svelte-package && publint",
 		"check": "svelte-check --tsconfig ./tsconfig.json",
 		"check:watch": "svelte-check --tsconfig ./tsconfig.json --watch",
-		"lint": "prettier --plugin-search-dir . --check . && eslint .",
-		"format": "prettier --plugin-search-dir . --write .",
 		"test": "vitest",
-		"test:ci": "vitest --coverage"
+		"test:ci": "vitest --coverage",
+		"lint": "kitql-lint",
+    "format": "kitql-lint --fix"
 	},
 	"peerDependencies": {
 		"svelte": "^4.0.0"
 	},
 	"devDependencies": {
+		"eslint-config-kitql": "workspace:*",
 		"@types/micromatch": "4.0.2",
 		"@sveltejs/adapter-auto": "2.0.0",
 		"@sveltejs/kit": "1.20.4",
 		"@sveltejs/package": "2.2.2",
-		"@typescript-eslint/eslint-plugin": "6.0.0",
-		"@typescript-eslint/parser": "6.0.0",
-		"eslint": "8.28.0",
-		"eslint-config-prettier": "8.5.0",
-		"eslint-plugin-svelte": "2.30.0",
-		"prettier": "2.8.0",
-		"prettier-plugin-svelte": "2.10.1",
 		"publint": "0.1.9",
 		"svelte": "4.0.5",
 		"svelte-check": "3.4.3",
