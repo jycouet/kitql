@@ -1,5 +1,13 @@
 # @kitql/helper
 
+## 0.8.0-exp.2
+
+### Patch Changes
+
+- [#386](https://github.com/jycouet/kitql/pull/386)
+  [`2cd7b4d`](https://github.com/jycouet/kitql/commit/2cd7b4d97694035974cfdb838138339fccc1daf3)
+  Thanks [@jycouet](https://github.com/jycouet)! - Remove colors from browser in production
+
 ## 0.8.0-exp.1
 
 ### Patch Changes
