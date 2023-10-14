@@ -1,47 +1,55 @@
 {
   "name": "@kitql/helper",
+  "description": "Some useful helpers",
   "version": "0.7.1",
+  "license": "MIT",
+  "type": "module",
   "repository": {
     "type": "git",
     "url": "https://github.com/jycouet/kitql",
-    "directory": "packages/helper"
+    "directory": "packages/helper",
+    "homepage": "https://github.com/jycouet/kitql/tree/main/packages/helper"
   },
-  "type": "module",
-  "license": "MIT",
   "scripts": {
-    "build": "bob runify --single"
+    "prepare": "svelte-kit sync",
+    "dev": "vite dev",
+    "build": "vite build && svelte-package && node ../../scripts/package.js",
+    "preview": "vite preview",
+    "package": "svelte-package && publint",
+    "prepublishOnly": "npm run package",
+    "check": "svelte-check --tsconfig ./tsconfig.json",
+    "check:watch": "svelte-check --tsconfig ./tsconfig.json --watch",
+    "test": "vitest",
+    "test:ci": "vitest --coverage"
   },
-  "dependencies": {
-    "safe-stable-stringify": "^2.4.3"
+  "peerDependencies": {
+    "svelte": "^4.0.0"
   },
   "devDependencies": {
-    "tslib": "^2.5.0"
+    "@sveltejs/adapter-auto": "2.0.0",
+    "@sveltejs/kit": "1.25.2",
+    "@sveltejs/package": "2.2.2",
+    "esm-env": "^1.0.0",
+    "publint": "0.1.9",
+    "rollup-plugin-visualizer": "^5.9.2",
+    "svelte": "4.0.5",
+    "svelte-check": "3.5.2",
+    "tslib": "2.4.1",
+    "typescript": "^5.0.0",
+    "vite": "4.4.2",
+    "vitest": "0.34.0"
   },
-  "main": "dist/cjs/index.js",
-  "module": "dist/esm/index.js",
-  "exports": {
-    ".": {
-      "require": {
-        "types": "./dist/typings/index.d.cts",
-        "default": "./dist/cjs/index.js"
-      },
-      "import": {
-        "types": "./dist/typings/index.d.ts",
-        "default": "./dist/esm/index.js"
-      },
-      "default": {
-        "types": "./dist/typings/index.d.ts",
-        "default": "./dist/esm/index.js"
-      }
-    },
-    "./package.json": "./package.json"
-  },
-  "typings": "dist/typings/index.d.ts",
-  "typescript": {
-    "definition": "dist/typings/index.d.ts"
-  },
+  "sideEffects": false,
   "publishConfig": {
     "directory": "dist",
     "access": "public"
+  },
+  "svelte": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "svelte": "./dist/index.js"
+    }
   }
 }
