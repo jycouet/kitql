@@ -1,6 +1,6 @@
+import { spawn } from 'node:child_process'
 import { cyan, green, Log, magenta, red } from '@kitql/helper'
 import micromatch from 'micromatch'
-import { spawn } from 'node:child_process'
 import type { Plugin, ViteDevServer } from 'vite'
 
 const nbOverlap = (a1: readonly any[], a2: readonly any[]) => {
