@@ -8,8 +8,7 @@
     "dev:w": "cd website && npm run dev",
     "test": "pnpm -F !website test",
     "test:ci": "pnpm -F !website test",
-    "prebuild": "rimraf packages/*/dist",
-    "build": "pnpm -F !website build",
+    "build": "rimraf packages/*/dist && pnpm -F !website build",
     "lint": "pnpm -r lint",
     "format": "pnpm -r format",
     "release:version": "npm run changeset version",
@@ -20,7 +19,6 @@
   "devDependencies": {
     "@changesets/changelog-github": "0.4.8",
     "@changesets/cli": "2.26.1",
-    "check-code-coverage": "1.10.4",
     "rimraf": "5.0.0"
   }
 }
