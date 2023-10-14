@@ -12,7 +12,6 @@ export default defineConfig({
       projectRoot: 'home/jycouet/udev/gh/lib/kitql',
     }),
   ],
-
   test: {
     include: ['src/**/*.{test,spec}.{js,ts}'],
   },

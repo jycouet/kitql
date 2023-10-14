@@ -1,7 +1,7 @@
 /**
  * Using https://github.com/BridgeAR/safe-stable-stringify because it's simply more robust and more performant!
  */
-import { stringify } from './safe-stable-stringify/tmp.js'
+import { stringify } from './safe-stable-stringify.js'
 
 /**
  * nice utility to stringify objects without spaces

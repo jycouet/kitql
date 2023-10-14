@@ -16,7 +16,7 @@ import {
   yellow,
 } from './colors/index.js'
 import { Log } from './Log.js'
-import { stry0 } from './stry.js'
+import { stry0 } from './stry/stry.js'
 
 vi.mock('esm-env')
 
