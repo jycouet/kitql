@@ -1,7 +1,7 @@
-import { spawn } from 'node:child_process'
 import { cyan, green, Log, magenta, red } from '@kitql/helper'
 import micromatch from 'micromatch'
-import type { Plugin } from 'vite'
+import { spawn } from 'node:child_process'
+import type { Plugin, ViteDevServer } from 'vite'
 
 const nbOverlap = (a1: readonly any[], a2: readonly any[]) => {
   return a1.filter(value => a2?.includes(value)).length
@@ -31,7 +31,7 @@ export type Options = {
   /**
    * run command (npm run gen for example!)
    */
-  run: string | (() => void | Promise<void>)
+  run: string | ((server: ViteDevServer) => void | Promise<void>)
 
   /**
    * Delay before running the run command (in ms)
@@ -64,7 +64,7 @@ export type WatchKind = KindWithPath | KindWithoutPath
 export type StateDetail = {
   kind: WatchKind[]
   quiet: boolean
-  run: string | (() => void | Promise<void>)
+  run: string | ((server: ViteDevServer) => void | Promise<void>)
   delay: number
   isRunning: boolean
   watchFile?: (filepath: string) => boolean | Promise<boolean>
@@ -151,6 +151,7 @@ function formatLog(str: string, name?: string) {
 }
 
 async function watcher(
+  server: ViteDevServer,
   absolutePath: string | null,
   watchKind: WatchKind,
   watchAndRunConf: StateDetail[],
@@ -177,7 +178,7 @@ async function watcher(
     setTimeout(async () => {
       // if the run value is a function, we just have to call it and we're done
       if (typeof info.run === 'function') {
-        const promise = info.run()
+        const promise = info.run(server)
         try {
           if (promise) {
             await promise
@@ -240,12 +241,12 @@ export default function watchAndRun(
 
       for (const kind of kindWithPath) {
         const _watcher = async (absolutePath: string) =>
-          watcher(absolutePath, kind, watchAndRunConf)
+          watcher(server, absolutePath, kind, watchAndRunConf)
         server.watcher.on(kind, _watcher)
       }
 
       for (const kind of kindWithoutPath) {
-        const _watcher = () => watcher(null, kind, watchAndRunConf)
+        const _watcher = () => watcher(server, null, kind, watchAndRunConf)
         server.watcher.on(kind, _watcher)
       }
     },
