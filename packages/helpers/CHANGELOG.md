@@ -1,5 +1,23 @@
 # @kitql/helper
 
+## 0.8.0
+
+### Minor Changes
+
+- [#374](https://github.com/jycouet/kitql/pull/374)
+  [`2bc230a`](https://github.com/jycouet/kitql/commit/2bc230ab57566ab480fd1d945197f4ca86f091b0)
+  Thanks [@jycouet](https://github.com/jycouet)! - new way to release & internal refacto
+
+### Patch Changes
+
+- [#386](https://github.com/jycouet/kitql/pull/386)
+  [`2cd7b4d`](https://github.com/jycouet/kitql/commit/2cd7b4d97694035974cfdb838138339fccc1daf3)
+  Thanks [@jycouet](https://github.com/jycouet)! - Remove colors from browser in production
+
+- [#384](https://github.com/jycouet/kitql/pull/384)
+  [`e6ae461`](https://github.com/jycouet/kitql/commit/e6ae4610268c403c0526ec73bd91961f8dd819ea)
+  Thanks [@jycouet](https://github.com/jycouet)! - export default
+
 ## 0.8.0-exp.2
 
 ### Patch Changes
