@@ -19,7 +19,10 @@
     "noImplicitReturns": true,
     "noUnusedLocals": false,
     "resolveJsonModule": true,
-    "skipLibCheck": true
+    "skipLibCheck": true,
+    "paths": {
+      "@kitql/helper": ["packages/helper/src/index"]
+    }
   },
   "include": ["packages"],
   "exclude": ["**/dist", "**/temp"]

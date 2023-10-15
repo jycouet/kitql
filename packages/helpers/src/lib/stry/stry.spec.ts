@@ -116,6 +116,45 @@ describe('kitql - helper - stry', () => {
       }"
     `)
   })
+
+  it('should handle array', () => {
+    const obj = {
+      data: {
+        usersList: [
+          { name: 'Bruce Willis', id: 'pagination-query-offset-variables:1' },
+          { name: 'Samuel Jackson', id: 'pagination-query-offset-variables:2' },
+          { name: 'Morgan Freeman', id: 'pagination-query-offset-variables:3' },
+          { name: 'Tom Hanks', id: 'pagination-query-offset-variables:4' },
+        ],
+      },
+    }
+
+    const result = stry(obj)
+    expect(result).toMatchInlineSnapshot(`
+      "{
+        \\"data\\": {
+          \\"usersList\\": [
+            {
+              \\"id\\": \\"pagination-query-offset-variables:1\\",
+              \\"name\\": \\"Bruce Willis\\"
+            },
+            {
+              \\"id\\": \\"pagination-query-offset-variables:2\\",
+              \\"name\\": \\"Samuel Jackson\\"
+            },
+            {
+              \\"id\\": \\"pagination-query-offset-variables:3\\",
+              \\"name\\": \\"Morgan Freeman\\"
+            },
+            {
+              \\"id\\": \\"pagination-query-offset-variables:4\\",
+              \\"name\\": \\"Tom Hanks\\"
+            }
+          ]
+        }
+      }"
+    `)
+  })
 })
 
 describe('kitql - helper - stry0', () => {
