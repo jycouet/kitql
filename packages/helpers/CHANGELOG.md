@@ -1,5 +1,13 @@
 # @kitql/helper
 
+## 0.8.2
+
+### Patch Changes
+
+- [#397](https://github.com/jycouet/kitql/pull/397)
+  [`a4ee7d6`](https://github.com/jycouet/kitql/commit/a4ee7d60868bf90fe180495156a5bcaf55dd697e)
+  Thanks [@jycouet](https://github.com/jycouet)! - fix dep (esm-env)
+
 ## 0.8.1
 
 ### Patch Changes
