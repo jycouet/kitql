@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { stry } from './stry.js'
+import { stry, stry0, stryEq } from './stry.js'
 
 describe('kitql - helper - stry', () => {
   it('space 2', () => {
@@ -100,5 +100,59 @@ describe('kitql - helper - stry', () => {
         \\"myDate\\": \\"1986-11-07T06:05:04.000Z\\"
       }"
     `)
+  })
+
+  it('should handle array', () => {
+    const obj = { vals: [4, 2, 3, 10] }
+    const result = stry(obj)
+    expect(result).toMatchInlineSnapshot(`
+      "{
+        \\"vals\\": [
+          4,
+          2,
+          3,
+          10
+        ]
+      }"
+    `)
+  })
+})
+
+describe('kitql - helper - stry0', () => {
+  it('stry0', () => {
+    const obj = { b: 'coucou', a: 'hello' }
+    const result = stry0(obj)
+    expect(result).toMatchInlineSnapshot('"{\\"a\\":\\"hello\\",\\"b\\":\\"coucou\\"}"')
+  })
+})
+
+describe('kitql - helper - stryEq', () => {
+  it('stryEq easy', () => {
+    const obj1 = { b: 'coucou', a: 'hello' }
+    const obj2 = { b: 'coucou', a: 'hello' }
+    const result = stryEq(obj1, obj2)
+    expect(result).toBe(true)
+  })
+
+  it('stryEq different order', () => {
+    const obj1 = { b: 'coucou', a: 'hello' }
+    const obj2 = { a: 'hello', b: 'coucou' }
+    const result = stryEq(obj1, obj2)
+    expect(result).toBe(true)
+  })
+
+  it('stryEq different values', () => {
+    const obj1 = { b: 'yop', a: 'hello' }
+    const obj2 = { a: 'hello', b: 'coucou' }
+    const result = stryEq(obj1, obj2)
+    expect(result).toBe(false)
+  })
+
+  it('stryEq undefined & null', () => {
+    const obj1 = { b: undefined, a: 'hello' }
+    const obj2 = { a: 'hello', b: null }
+
+    const result = stryEq(obj1, obj2)
+    expect(result).toBe(false)
   })
 })

@@ -29,5 +29,5 @@ export function stry(
  * Check strict equality of 2 objects
  */
 export function stryEq(obj1: Object | null | undefined, obj2: Object | null | undefined): boolean {
-  return stry(obj1, 0) === stry(obj2, 0)
+  return stry0(obj1) === stry0(obj2)
 }
