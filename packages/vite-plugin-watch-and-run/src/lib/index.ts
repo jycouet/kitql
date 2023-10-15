@@ -24,9 +24,9 @@ export type Options = {
   watchKind?: WatchKind[]
 
   /**
-   * Don't print anything extra to the console when an event is trigger
+   * Tune what you want to print to the console. By default, everything.
    */
-  quiet?: boolean
+  logs?: LogType[]
 
   /**
    * run command (npm run gen for example!)
@@ -57,13 +57,14 @@ export type Options = {
 
 export const kindWithPath = ['add', 'addDir', 'change', 'unlink', 'unlinkDir'] as const
 export type KindWithPath = (typeof kindWithPath)[number]
+export type LogType = 'trigger' | 'streamData' | 'streamError' | 'end'
 export const kindWithoutPath = ['all', 'error', 'raw', 'ready'] as const
 export type KindWithoutPath = (typeof kindWithoutPath)[number]
 export type WatchKind = KindWithPath | KindWithoutPath
 
 export type StateDetail = {
   kind: WatchKind[]
-  quiet: boolean
+  logs: LogType[]
   run: string | ((server: ViteDevServer) => void | Promise<void>)
   delay: number
   isRunning: boolean
@@ -88,7 +89,7 @@ function checkConf(params: Options[]) {
       delay: paramRow.delay ?? 300,
       isRunning: false,
       name: paramRow.name,
-      quiet: Boolean(paramRow.quiet),
+      logs: paramRow.logs ?? (['trigger', 'streamData', 'streamError', 'end'] as LogType[]),
       watch: paramRow.watch,
       shell: paramRow.shell ?? true,
       watchFile: paramRow.watchFile,
@@ -161,17 +162,17 @@ async function watcher(
     info.isRunning = true
 
     // print the message
-    if (!info.quiet) {
-      let message = `${green('✔')} Watch ${cyan(watchKind)}`
+    if (info.logs.includes('trigger')) {
+      let message = [`Watch ${cyan(watchKind)}`]
       if (info.watch && absolutePath) {
-        message += green(' ' + absolutePath.replaceAll(process.cwd(), ''))
+        message.push(green(absolutePath.replaceAll(process.cwd(), '')))
       }
       if (typeof info.run === 'string') {
-        message += ` and run ${green(info.run)} `
+        message.push(`and run ${green(info.run)}`)
       }
-      message += ` ${cyan(info.delay + 'ms')}`
+      message.push(`${cyan(info.delay + 'ms')}`)
 
-      log.info(message)
+      log.success(message.join(' '))
     }
 
     // Run after a delay
@@ -197,20 +198,32 @@ async function watcher(
       const child = spawn(info.run, [], { shell: info.shell })
 
       //spit stdout to screen
-      child.stdout.on('data', data => {
-        process.stdout.write(formatLog(data.toString(), info.name ?? ''))
-      })
+      if (info.logs.includes('streamData')) {
+        child.stdout.on('data', data => {
+          process.stdout.write(formatLog(data.toString(), info.name ?? ''))
+        })
+      }
 
       //spit stderr to screen
-      child.stderr.on('data', data => {
-        process.stdout.write(formatLog(data.toString(), info.name ?? ''))
-      })
+      if (info.logs.includes('streamError')) {
+        child.stderr.on('data', data => {
+          process.stdout.write(formatLog(data.toString(), info.name ?? ''))
+        })
+      }
 
       child.on('close', code => {
-        if (code === 0) {
-          log.info(`${green('✔')} finished ${green('successfully')}`)
-        } else {
-          log.error(`finished with some ${red('errors')}`)
+        if (info.logs.includes('end')) {
+          const message = [`Finished`]
+          if (info.name) {
+            message.push(`${magenta(info.name)}`)
+          }
+          if (code === 0) {
+            message.push(green('successfully'))
+            log.success(message.join(' '))
+          } else {
+            message.push(`with some ${red('errors')}!`)
+            log.error(message.join(' '))
+          }
         }
         info.isRunning = false
       })
