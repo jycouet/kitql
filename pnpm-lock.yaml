@@ -108,7 +108,7 @@ importers:
         version: 0.34.6
     publishDirectory: dist
 
-  packages/helper:
+  packages/helpers:
     devDependencies:
       '@sveltejs/adapter-auto':
         specifier: 2.1.0
@@ -153,9 +153,9 @@ importers:
 
   packages/vite-plugin-watch-and-run:
     dependencies:
-      '@kitql/helper':
+      '@kitql/helpers':
         specifier: workspace:*
-        version: link:../helper/dist
+        version: link:../helpers/dist
       micromatch:
         specifier: 4.0.5
         version: 4.0.5
@@ -2920,7 +2920,7 @@ packages:
     dependencies:
       '@vitest/spy': 0.34.0
       '@vitest/utils': 0.34.0
-      chai: 4.3.7
+      chai: 4.3.10
     dev: true
 
   /@vitest/expect@0.34.6:
@@ -3849,19 +3849,6 @@ packages:
       type-detect: 4.0.8
     dev: true
 
-  /chai@4.3.7:
-    resolution: {integrity: sha512-HLnAzZ2iupm25PlN0xFreAlBA5zaBSv3og0DdeGA4Ar6h6rJ3A0rolRUKJhSF2V10GZKDgWF/VmAEsNWjCRB+A==}
-    engines: {node: '>=4'}
-    dependencies:
-      assertion-error: 1.1.0
-      check-error: 1.0.2
-      deep-eql: 4.1.3
-      get-func-name: 2.0.0
-      loupe: 2.3.6
-      pathval: 1.1.1
-      type-detect: 4.0.8
-    dev: true
-
   /chalk@2.3.0:
     resolution: {integrity: sha512-Az5zJR2CBujap2rqXGaJKaPHyJ0IrUimvYNX+ncCy8PJP4ltOGTrHUIo097ZaL2zMeKYpiCdqDvS6zdrTFok3Q==}
     engines: {node: '>=4'}
@@ -3904,10 +3891,6 @@ packages:
 
   /chardet@0.7.0:
     resolution: {integrity: sha512-mT8iDcrh03qDGRRmoA2hmBJnxpllMR+0/0qlzjqZES6NdiWDcZkCNAk4rPFZ9Q85r27unkiNNg8ZOiwZXBHwcA==}
-    dev: true
-
-  /check-error@1.0.2:
-    resolution: {integrity: sha512-BrgHpW9NURQgzoNyjfq0Wu6VFO6D7IZEmJNdtgNqpzGG8RuNFHt2jQxWlAs4HMe119chBnv+34syEZtc6IhLtA==}
     dev: true
 
   /check-error@1.0.3:
@@ -11748,7 +11731,7 @@ packages:
       acorn: 8.10.0
       acorn-walk: 8.2.0
       cac: 6.7.14
-      chai: 4.3.7
+      chai: 4.3.10
       debug: 4.3.4
       local-pkg: 0.4.3
       magic-string: 0.30.4

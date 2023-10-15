@@ -23,9 +23,6 @@
 		"lint": "kitql-lint",
 		"format": "kitql-lint --fix"
 	},
-	"peerDependencies": {
-		"svelte": "^4.0.0"
-	},
 	"devDependencies": {
 		"eslint-config-kitql": "workspace:*",
 		"@types/micromatch": "4.0.2",
@@ -41,7 +38,7 @@
 		"vitest": "0.34.6"
 	},
 	"dependencies": {
-		"@kitql/helper": "workspace:*",
+		"@kitql/helpers": "workspace:*",
 		"micromatch": "4.0.5"
 	},
 	"sideEffects": false,
