@@ -1,5 +1,13 @@
 # @kitql/handles
 
+## 0.1.1
+
+### Patch Changes
+
+- [#395](https://github.com/jycouet/kitql/pull/395)
+  [`6a9ee8f`](https://github.com/jycouet/kitql/commit/6a9ee8f272ae3c7bea955fed36765373c18c5856)
+  Thanks [@jycouet](https://github.com/jycouet)! - update doc link in npm
+
 ## 0.1.0
 
 ### Patch Changes

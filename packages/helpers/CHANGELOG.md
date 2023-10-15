@@ -1,12 +1,21 @@
 # @kitql/helper
 
+## 0.8.1
+
+### Patch Changes
+
+- [#395](https://github.com/jycouet/kitql/pull/395)
+  [`6a9ee8f`](https://github.com/jycouet/kitql/commit/6a9ee8f272ae3c7bea955fed36765373c18c5856)
+  Thanks [@jycouet](https://github.com/jycouet)! - update doc link in npm
+
 ## 0.8.0
 
 ### Patch Changes
 
 - [#365](https://github.com/jycouet/kitql/pull/365)
   [`e67c053`](https://github.com/jycouet/kitql/commit/e67c053b132a8b14169650de973b617bd2f517f9)
-  Thanks [@jycouet](https://github.com/jycouet)! - [BREAKING] `logGreen` has been renamed to `green`... & Big opti of size for browser.
+  Thanks [@jycouet](https://github.com/jycouet)! - [BREAKING] `logGreen` has been renamed to
+  `green`... & Big opti of size for browser.
 
 - [#374](https://github.com/jycouet/kitql/pull/374)
   [`2bc230a`](https://github.com/jycouet/kitql/commit/2bc230ab57566ab480fd1d945197f4ca86f091b0)
