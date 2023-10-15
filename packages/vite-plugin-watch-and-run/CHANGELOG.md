@@ -1,5 +1,20 @@
 # @kitql/vite-plugin-watch-and-run
 
+## 1.4.0
+
+### Minor Changes
+
+- [#399](https://github.com/jycouet/kitql/pull/399)
+  [`7b0edf3`](https://github.com/jycouet/kitql/commit/7b0edf3c378f8c1494b360197834f45cdfe60636)
+  Thanks [@jycouet](https://github.com/jycouet)! - remove quiet args in favor of logs to have a more
+  granular control.
+
+### Patch Changes
+
+- Updated dependencies
+  [[`7b0edf3`](https://github.com/jycouet/kitql/commit/7b0edf3c378f8c1494b360197834f45cdfe60636)]:
+  - @kitql/helpers@0.8.3
+
 ## 1.3.2
 
 ### Patch Changes
