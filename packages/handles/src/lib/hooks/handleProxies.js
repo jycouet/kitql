@@ -3,7 +3,7 @@ import { error } from '@sveltejs/kit'
 /**
  * usage:
  *	import { sequence } from '@sveltejs/kit/hooks';
- *	import { handleProxies } from './hooks/handleProxies';
+ *	import { handleProxies } from '@kitql/handles'
  *
  *	export const handle = sequence(
  *		// Proxy requests through kit

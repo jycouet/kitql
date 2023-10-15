@@ -1,4 +1,4 @@
 export default {
   index: 'Introduction',
-  setup: 'Setup',
+  tools: 'Tools',
 }

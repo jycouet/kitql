@@ -1,0 +1,57 @@
+# ⚡How to - `@kitql/helpers`
+
+A set of helpers that can help 🫵!
+
+## Installation
+
+```sh npm2yarn
+npm i -D @kitql/helpers
+```
+
+## 🎨 Nice & styled logs
+
+- In terminal & browser _(Don't think about SSR & CSR, just enjoy 🌈)_
+- Very fast & very lightweight _(browser)_
+- out-of-the-box simple 😅
+
+#### Example 1
+
+Organize logs with `SQL` as prefix. _(Imagine you have multiple modules)_
+
+```ts
+import { green, Log, yellow } from '@kitql/helpers'
+
+const logSQL = new Log('SQL')
+
+logSQL.info(`Check out the ${yellow(`yellow`)} information`)
+logSQL.info(`Or the ${green(`green`)} one!`)
+```
+
+## 💤 Sleep
+
+You want to wait a bit? Just sleep for `x` ms.
+
+```ts
+await sleep(5000)
+```
+
+## 👋 stringify
+
+```ts
+import { stry } from '@kitql/helpers'
+
+const obj = { value: 7 }
+
+stry(obj) // same as JSON.stringify(obj, null, 2)
+```
+
+Are 2 objects equal? _(deep compare)_
+
+```ts
+import { stryEq } from '@kitql/helpers'
+
+const obj1 = { value: 7 }
+const obj2 = { value: 6 }
+
+strEq(obj1, obj2) // false
+```

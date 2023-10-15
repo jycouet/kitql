@@ -1,0 +1,23 @@
+# ⚡How to - `@kitql/handles`
+
+A set of handles that can help 🫵!
+
+## Installation
+
+```sh npm2yarn
+npm i -D @kitql/handles
+```
+
+## Configuration
+
+```ts
+import { handleProxies } from '@kitql/handles'
+import { sequence } from '@sveltejs/kit/hooks'
+
+export const handle = sequence(
+  // Proxy requests through kit
+  handleProxies({ proxies: [{ from: '/proxy', to: 'http://my.super.website/graphql' }] })
+)
+```
+
+This this, customers will never see the url `http://my.super.website/graphql`.
