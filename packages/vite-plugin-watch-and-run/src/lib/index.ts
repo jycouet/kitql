@@ -1,5 +1,5 @@
 import { spawn } from 'node:child_process'
-import { cyan, green, Log, magenta, red } from '@kitql/helper'
+import { cyan, green, Log, magenta, red } from '@kitql/helpers'
 import micromatch from 'micromatch'
 import type { Plugin, ViteDevServer } from 'vite'
 

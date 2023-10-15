@@ -1,7 +1,7 @@
 ---
 'vite-plugin-watch-and-run': minor
 '@kitql/handles': minor
-'@kitql/helper': minor
+'@kitql/helpers': minor
 ---
 
 new way to release & internal refacto

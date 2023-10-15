@@ -1,5 +1,4 @@
 import { FeatureList, HeroGradient, NPMBadge } from '@theguild/components'
-
 import houdini_kitql from '../../public/assets/houdini-kitql.png'
 import graphql from '../../public/assets/logos/graphql.png'
 import houdini from '../../public/assets/logos/houdini.png'
@@ -16,7 +15,7 @@ export function IndexPage() {
           children: 'Get Started',
           title: 'Learn more about KitQL',
         }}
-        version={<NPMBadge name="@kitql/helper" />}
+        version={<NPMBadge name="@kitql/helpers" />}
         colors={['#000000', '#ff3e00']}
         // image={{
         //   src: houdini_kitql,
