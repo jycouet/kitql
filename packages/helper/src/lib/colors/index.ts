@@ -25,9 +25,6 @@ const START1 = `$$KitQL_`
 const START2 = `_KitQL$$`
 const END = `$$KitQLEND$$`
 const colorBrowser = (style: Style, str: string) => {
-  if (BROWSER) {
-    return str
-  }
   return `${START1}${style}${START2}${str}${END}`
 }
 
