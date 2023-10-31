@@ -1,4 +1,3 @@
-import path from 'path'
 import { sveltekit } from '@sveltejs/kit/vite'
 import { defineConfig } from 'vite'
 import { kit_routes } from './src/lib/index.js'
