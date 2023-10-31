@@ -4,10 +4,6 @@ import type { Plugin } from 'vite'
 import watch_and_run from 'vite-plugin-watch-and-run'
 import { write } from './fs.js'
 
-const nbOverlap = (a1: readonly any[], a2: readonly any[]) => {
-  return a1.filter(value => a2?.includes(value)).length
-}
-
 export type Options = {}
 
 const routes_path = 'src/lib/ROUTES.ts'
