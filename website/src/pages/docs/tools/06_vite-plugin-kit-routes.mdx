@@ -1,0 +1,36 @@
+import { Callout } from '@theguild/components'
+
+# ⚡How to - `vite-plugin-kit-routes`
+
+<Callout>Never be out of sync with your routes again 🥳</Callout>
+
+## Installation
+
+```sh npm2yarn
+npm i -D vite-plugin-kit-routes
+```
+
+## Configuration
+
+Add `kit-routes` plugin with the following configuration:
+
+```js filename="vite.config.js"
+import { kit_routes } from 'vite-plugin-kit-routes'
+
+/** @type {import('vite').UserConfig} */
+const config = {
+  plugins: [
+    // This is the plugin to add
+    kit_routes()
+  ]
+}
+
+export default config
+```
+
+It will create a file `./src/lib/ROUTES.ts` at the start of your dev server & any update of any of
+your `+page.svelte`.
+
+## Side Notes
+
+- It's very early, things might change! 😉
