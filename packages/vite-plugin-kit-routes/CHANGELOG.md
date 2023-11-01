@@ -1,5 +1,17 @@
 # vite-plugin-kit-routes
 
+## 0.0.4
+
+### Patch Changes
+
+- [#408](https://github.com/jycouet/kitql/pull/408)
+  [`3b3c4eb`](https://github.com/jycouet/kitql/commit/3b3c4ebe68b2d1103c58d456c43b4061aef317c6)
+  Thanks [@jycouet](https://github.com/jycouet)! - when we have only 1 method, let's not add the arg
+
+- [#408](https://github.com/jycouet/kitql/pull/408)
+  [`3b3c4eb`](https://github.com/jycouet/kitql/commit/3b3c4ebe68b2d1103c58d456c43b4061aef317c6)
+  Thanks [@jycouet](https://github.com/jycouet)! - using nicer keys by default
+
 ## 0.0.3
 
 ### Patch Changes
