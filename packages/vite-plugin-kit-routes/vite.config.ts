@@ -6,7 +6,11 @@ export default defineConfig({
   plugins: [
     sveltekit(),
     // demo
-    kit_routes({ post_update_run: 'npm exec prettier ./src/lib/ROUTES.ts -- -w' }),
+    kit_routes({
+      // for testing
+      // generated_file_path: 'src/lib/ROUTES2.ts',
+      post_update_run: 'npm exec prettier ./src/lib/ROUTES.ts -- -w',
+    }),
   ],
   test: {
     include: ['src/**/*.{test,spec}.{js,ts}'],

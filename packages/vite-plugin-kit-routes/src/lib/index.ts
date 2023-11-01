@@ -15,9 +15,18 @@ export type Options = {
    * ```
    */
   post_update_run?: string
+
+  /**
+   * @default 'src/lib/ROUTES.ts'
+   */
+  generated_file_path?: string
 }
 
-const routes_path = 'src/lib/ROUTES.ts'
+function generated_file_path(params?: Options) {
+  return params?.generated_file_path ?? 'src/lib/ROUTES.ts'
+}
+
+// const routes_path = 'src/lib/ROUTES.ts'
 const log = new Log('Kit Routes')
 
 const getFiles = (dirPath: string, lookFor: '+page.svelte' | '+page.server.ts' | '+server.ts') => {
@@ -46,7 +55,7 @@ const run = (params?: Options) => {
   const files_server_pages = getFiles(`${process.cwd()}/src/routes`, '+page.server.ts')
   const files_server = getFiles(`${process.cwd()}/src/routes`, '+server.ts')
 
-  const result = write(routes_path, [
+  const result = write(generated_file_path(params), [
     `export const PAGES = {
   ${files_pages
     .map(file_path => {
@@ -108,12 +117,12 @@ const appendSp = (sp?: Record<string, string>) => {
     })
     child.on('close', code => {
       if (result) {
-        log.success(`${yellow(routes_path)} updated`)
+        log.success(`${yellow(generated_file_path(params))} updated`)
       }
     })
   } else {
     if (result) {
-      log.success(`${yellow(routes_path)} updated`)
+      log.success(`${yellow(generated_file_path(params))} updated`)
     }
   }
 }
