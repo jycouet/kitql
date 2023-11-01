@@ -1,19 +1,30 @@
 import { readdirSync } from 'fs'
-import { Log, yellow } from '@kitql/helpers'
+import { spawn } from 'node:child_process'
+import { green, Log, yellow } from '@kitql/helpers'
 import type { Plugin } from 'vite'
 import watch_and_run from 'vite-plugin-watch-and-run'
 import { write } from './fs.js'
 
-export type Options = {}
+export type Options = {
+  /**
+   * run command after file updated
+   *
+   * @example
+   * ```ts
+   * 'npm exec prettier ./src/lib/ROUTES.ts -- -w'
+   * ```
+   */
+  post_update_run?: string
+}
 
 const routes_path = 'src/lib/ROUTES.ts'
 const log = new Log('Kit Routes')
 
-const getFiles = (dirPath: string) => {
+const getFiles = (dirPath: string, lookFor: '+page.svelte' | '+page.server.ts') => {
   const files = readdirSync(dirPath, { recursive: true }) as string[]
   return files
-    .filter(file => file.endsWith('+page.svelte'))
-    .map(file => `/` + file.replace('/+page.svelte', '').replace('+page.svelte', ''))
+    .filter(file => file.endsWith(lookFor))
+    .map(file => `/` + file.replace(`/${lookFor}`, '').replace(lookFor, ''))
 }
 
 export function extractParamsFromPath(path: string): string[] {
@@ -30,12 +41,26 @@ export function extractParamsFromPath(path: string): string[] {
   return params
 }
 
-const run = () => {
-  const files = getFiles(`${process.cwd()}/src/routes`)
+const run = (params?: Options) => {
+  const files_pages = getFiles(`${process.cwd()}/src/routes`, '+page.svelte')
+  const files_server_pages = getFiles(`${process.cwd()}/src/routes`, '+page.server.ts')
 
-  const res = write(routes_path, [
-    `export const ROUTES = {
-  ${files
+  const result = write(routes_path, [
+    `export const PAGES = {
+  ${files_pages
+    .map(file_path => {
+      const params = extractParamsFromPath(file_path).map(c => `${c}: string`)
+      params.push(`sp?: Record<string, string>`)
+      return (
+        `"${file_path}": (${params.join(', ')}) => ` +
+        `{ return \`${file_path.replaceAll('[', '${').replaceAll(']', '}')}\${appendSp(sp)}\` }`
+      )
+    })
+    .join(',\n  ')}
+}
+
+export const SERVER_PAGES = {
+  ${files_server_pages
     .map(file_path => {
       const params = extractParamsFromPath(file_path).map(c => `${c}: string`)
       params.push(`sp?: Record<string, string>`)
@@ -53,8 +78,28 @@ const appendSp = (sp?: Record<string, string>) => {
 }
 `,
   ])
-  if (res) {
-    log.success(`${yellow(routes_path)} updated`)
+
+  // TODO: optimize this later. We want to write the new file only if different after prettier?! (having a tmp file somewhere?)
+  if (params?.post_update_run) {
+    log.info(`${yellow(`post_update_run`)} "${green(params?.post_update_run)}" running...`)
+    const child = spawn(params.post_update_run, { shell: true })
+    child.stdout.on('data', data => {
+      if (data.toString()) {
+        log.info(data.toString())
+      }
+    })
+    child.stderr.on('data', data => {
+      log.error(data.toString())
+    })
+    child.on('close', code => {
+      if (result) {
+        log.success(`${yellow(routes_path)} updated`)
+      }
+    })
+  } else {
+    if (result) {
+      log.success(`${yellow(routes_path)} updated`)
+    }
   }
 }
 
@@ -64,16 +109,17 @@ export function kit_routes(params?: Options): Plugin[] {
     {
       name: 'kit-routes',
       configureServer() {
-        run()
+        run(params)
       },
     },
+
     // Run the thing when any change in a +page.svelte (add, remove, ...)
     watch_and_run([
       {
         name: 'kit-routes-watch',
         logs: [],
-        watch: '**/+page.svelte',
-        run,
+        watch: ['**/+page.svelte', '**/+page.server.ts'],
+        run: () => run(params),
       },
     ]),
   ]

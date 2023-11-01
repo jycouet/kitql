@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { ROUTES } from '$lib/ROUTES.js'
+  import { PAGES } from '$lib/ROUTES.js'
 </script>
 
 <svelte:head>
@@ -11,8 +11,8 @@
 <hr />
 
 <ul>
-  <a href={ROUTES['/']()}>Home</a>
-  <a href={ROUTES['/site/[param]/[yop]']('param', 'yop', { limit: '2' })}>Another route</a>
+  <a href={PAGES['/']()}>Home</a>
+  <a href={PAGES['/site/[param]/[yop]']('param', 'yop', { limit: '2' })}>Another route</a>
 </ul>
 
 <hr />
