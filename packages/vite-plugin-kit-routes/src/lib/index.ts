@@ -148,11 +148,10 @@ export const SERVERS = {
   ${files_server
     .map(file_path => {
       const params = []
-      params.push(
-        `method: ${getMethodsOfServerFiles(file_path)
-          .map(c => `'${c}'`)
-          .join(' | ')}`,
-      )
+      const methods = getMethodsOfServerFiles(file_path)
+      if (methods.length > 0) {
+        params.push(`method: ${methods.map(c => `'${c}'`).join(' | ')}`)
+      }
       const pFormPath = formatExtractParamsFromPath(file_path)
       if (pFormPath.length > 0) {
         params.push(`params: {${pFormPath}}`)
