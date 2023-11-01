@@ -78,10 +78,10 @@ importers:
     devDependencies:
       '@sveltejs/adapter-node':
         specifier: 1.3.1
-        version: 1.3.1(@sveltejs/kit@1.25.2)
+        version: 1.3.1(@sveltejs/kit@1.27.2)
       '@sveltejs/kit':
-        specifier: 1.25.2
-        version: 1.25.2(svelte@4.2.1)(vite@4.5.0)
+        specifier: 1.27.2
+        version: 1.27.2(svelte@4.2.1)(vite@4.5.0)
       '@sveltejs/package':
         specifier: 2.2.2
         version: 2.2.2(svelte@4.2.1)(typescript@5.2.2)
@@ -119,10 +119,10 @@ importers:
     devDependencies:
       '@sveltejs/adapter-auto':
         specifier: 2.1.0
-        version: 2.1.0(@sveltejs/kit@1.25.2)
+        version: 2.1.0(@sveltejs/kit@1.27.2)
       '@sveltejs/kit':
-        specifier: 1.25.2
-        version: 1.25.2(svelte@4.2.1)(vite@4.5.0)
+        specifier: 1.27.2
+        version: 1.27.2(svelte@4.2.1)(vite@4.5.0)
       '@sveltejs/package':
         specifier: 2.2.2
         version: 2.2.2(svelte@4.2.1)(typescript@5.2.2)
@@ -166,10 +166,10 @@ importers:
     devDependencies:
       '@sveltejs/adapter-auto':
         specifier: 2.1.0
-        version: 2.1.0(@sveltejs/kit@1.25.2)
+        version: 2.1.0(@sveltejs/kit@1.27.2)
       '@sveltejs/kit':
-        specifier: 1.25.2
-        version: 1.25.2(svelte@4.2.1)(vite@4.5.0)
+        specifier: 1.27.2
+        version: 1.27.2(svelte@4.2.1)(vite@4.5.0)
       '@sveltejs/package':
         specifier: 2.2.2
         version: 2.2.2(svelte@4.2.1)(typescript@5.2.2)
@@ -210,10 +210,10 @@ importers:
     devDependencies:
       '@sveltejs/adapter-auto':
         specifier: 2.1.0
-        version: 2.1.0(@sveltejs/kit@1.25.2)
+        version: 2.1.0(@sveltejs/kit@1.27.2)
       '@sveltejs/kit':
-        specifier: 1.25.2
-        version: 1.25.2(svelte@4.2.1)(vite@4.5.0)
+        specifier: 1.27.2
+        version: 1.27.2(svelte@4.2.1)(vite@4.5.0)
       '@sveltejs/package':
         specifier: 2.2.2
         version: 2.2.2(svelte@4.2.1)(typescript@5.2.2)
@@ -2271,16 +2271,16 @@ packages:
     resolution: {integrity: sha512-+Fj43pSMwJs4KRrH/938Uf+uAELIgVBmQzg/q1YG10djyfA3TnrU8N8XzqCh/okZdszqBQTZf96idMfE5lnwTA==}
     dev: true
 
-  /@sveltejs/adapter-auto@2.1.0(@sveltejs/kit@1.25.2):
+  /@sveltejs/adapter-auto@2.1.0(@sveltejs/kit@1.27.2):
     resolution: {integrity: sha512-o2pZCfATFtA/Gw/BB0Xm7k4EYaekXxaPGER3xGSY3FvzFJGTlJlZjBseaXwYSM94lZ0HniOjTokN3cWaLX6fow==}
     peerDependencies:
       '@sveltejs/kit': ^1.0.0
     dependencies:
-      '@sveltejs/kit': 1.25.2(svelte@4.2.1)(vite@4.5.0)
+      '@sveltejs/kit': 1.27.2(svelte@4.2.1)(vite@4.5.0)
       import-meta-resolve: 3.0.0
     dev: true
 
-  /@sveltejs/adapter-node@1.3.1(@sveltejs/kit@1.25.2):
+  /@sveltejs/adapter-node@1.3.1(@sveltejs/kit@1.27.2):
     resolution: {integrity: sha512-A0VgRQDCDPzdLNoiAbcOxGw4zT1Mc+n1LwT1OmO350R7WxrEqdMUChPPOd1iMfIDWlP4ie6E2d/WQf5es2d4Zw==}
     peerDependencies:
       '@sveltejs/kit': ^1.0.0
@@ -2288,12 +2288,12 @@ packages:
       '@rollup/plugin-commonjs': 25.0.5(rollup@3.29.4)
       '@rollup/plugin-json': 6.0.1(rollup@3.29.4)
       '@rollup/plugin-node-resolve': 15.2.3(rollup@3.29.4)
-      '@sveltejs/kit': 1.25.2(svelte@4.2.1)(vite@4.5.0)
+      '@sveltejs/kit': 1.27.2(svelte@4.2.1)(vite@4.5.0)
       rollup: 3.29.4
     dev: true
 
-  /@sveltejs/kit@1.25.2(svelte@4.2.1)(vite@4.5.0):
-    resolution: {integrity: sha512-USuuSpdAPFDiLi58N2Pwd/TG9bcUSPAlzE5iaAXaLyCTWa3l36HDKH6nV5NqBybwfeux1ZwgtIeITLZJDJ6HDg==}
+  /@sveltejs/kit@1.27.2(svelte@4.2.1)(vite@4.5.0):
+    resolution: {integrity: sha512-2w2VbPpK8DI3QCSVa2UNAv5sKNks1LT8GsEdpk41ffOyO2znGx2ZwcRWacsqlvh3d9lncZuDdANvCbTbuKvy3Q==}
     engines: {node: ^16.14 || >=18}
     hasBin: true
     requiresBuild: true
@@ -2308,13 +2308,13 @@ packages:
       esm-env: 1.0.0
       kleur: 4.1.5
       magic-string: 0.30.4
-      mime: 3.0.0
+      mrmime: 1.0.1
       sade: 1.8.1
       set-cookie-parser: 2.6.0
       sirv: 2.0.3
       svelte: 4.2.1
       tiny-glob: 0.2.9
-      undici: 5.25.4
+      undici: 5.26.5
       vite: 4.5.0(@types/node@20.8.4)
     transitivePeerDependencies:
       - supports-color
@@ -8106,12 +8106,6 @@ packages:
       brorand: 1.1.0
     dev: false
 
-  /mime@3.0.0:
-    resolution: {integrity: sha512-jSCU7/VB1loIWBZe14aEYHU/+1UMEHoaO7qxCOVJOw9GgH72VAWppxNcjU+x9a2k3GSIBXNKxXQFqRvvZ7vr3A==}
-    engines: {node: '>=10.0.0'}
-    hasBin: true
-    dev: true
-
   /mimic-fn@2.1.0:
     resolution: {integrity: sha512-OqbOk5oEQeAZ8WXWydlu9HJjz9WVdEIvamMCcXmuqUYjTknH/sqsWvhQ3vgwKFRR1HpjvNBKQ37nbJgYzGqGcg==}
     engines: {node: '>=6'}
@@ -11172,8 +11166,8 @@ packages:
   /undici-types@5.25.3:
     resolution: {integrity: sha512-Ga1jfYwRn7+cP9v8auvEXN1rX3sWqlayd4HP7OKk4mZWylEmu3KzXDUGrQUN6Ol7qo1gPvB2e5gX6udnyEPgdA==}
 
-  /undici@5.25.4:
-    resolution: {integrity: sha512-450yJxT29qKMf3aoudzFpIciqpx6Pji3hEWaXqXmanbXF58LTAGCKxcJjxMXWu3iG+Mudgo3ZUfDB6YDFd/dAw==}
+  /undici@5.26.5:
+    resolution: {integrity: sha512-cSb4bPFd5qgR7qr2jYAi0hlX9n5YKK2ONKkLFkxl+v/9BvC0sOpZjBHDBSXc5lWAf5ty9oZdRXytBIHzgUcerw==}
     engines: {node: '>=14.0'}
     dependencies:
       '@fastify/busboy': 2.0.0
