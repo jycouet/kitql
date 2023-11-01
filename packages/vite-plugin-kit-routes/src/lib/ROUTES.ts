@@ -2,25 +2,35 @@ export const PAGES = {
   '/': (sp?: Record<string, string>) => {
     return `/${appendSp(sp)}`
   },
-  '/site/[id]': (id: string, sp?: Record<string, string>) => {
-    return `/site/${id}${appendSp(sp)}`
+  '/site/[id]': (params: { id: string }, sp?: Record<string, string>) => {
+    return `/site/${params.id}${appendSp(sp)}`
   },
-  '/site/[param]/[yop]': (param: string, yop: string, sp?: Record<string, string>) => {
-    return `/site/${param}/${yop}${appendSp(sp)}`
+  '/site/[param]/[yop]': (params: { param: string; yop: string }, sp?: Record<string, string>) => {
+    return `/site/${params.param}/${params.yop}${appendSp(sp)}`
   },
 }
 
-// TODO: SERVERS methods?
 export const SERVERS = {
-  '/site/[id]/one': (id: string, sp?: Record<string, string>) => {
-    return `/site/${id}/one${appendSp(sp)}`
+  '/site/[id]/one': (
+    method: 'GET' | 'POST',
+    params: { id: string },
+    sp?: Record<string, string>,
+  ) => {
+    return `/site/${params.id}/one${appendSp(sp)}`
   },
 }
 
-// TODO: name actions
 export const ACTIONS = {
-  '/site/[id]/two/[hello]': (id: string, hello: string) => {
-    return `/site/${id}/two/${hello}`
+  '/site/[id]/two': (params: { id: string }) => {
+    return `/site/${params.id}/two`
+  },
+  '/site/[id]/two/[hello]': (
+    action: 'default' | 'login' | 'register',
+    params: { id: string; hello: string },
+  ) => {
+    return `/site/${params.id}/two/${params.hello}${
+      String(action) === 'default' ? '' : `?/${action}`
+    }`
   },
 }
 
