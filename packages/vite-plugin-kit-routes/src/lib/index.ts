@@ -24,10 +24,44 @@ export type Options = {
    * @default 'src/lib/ROUTES.ts'
    */
   generated_file_path?: string
+
+  /**
+   * when `false` _(default)_, object keys look like this: `site_id_two_hello`
+   *
+   * when `true`, object keys look like this: `/site/[id]/two/[hello]`
+   */
+  keep_path_param_format?: boolean
 }
 
-function generated_file_path(params?: Options) {
-  return params?.generated_file_path ?? 'src/lib/ROUTES.ts'
+function generated_file_path(options?: Options) {
+  return options?.generated_file_path ?? 'src/lib/ROUTES.ts'
+}
+
+export function formatKey(key: string, options?: Options) {
+  if (options?.keep_path_param_format) {
+    return key
+  }
+
+  const toReplace = ['/', '[', ']', '(', ')', '-']
+  let toRet = key
+    .split('')
+    .map(c => (toReplace.includes(c) ? '_' : c))
+    .join('')
+    .replaceAll('__', '_')
+    .replaceAll('__', '_')
+    .replaceAll('__', '_')
+  if (toRet.startsWith('_')) {
+    toRet = toRet.slice(1)
+  }
+  if (toRet.endsWith('_')) {
+    toRet = toRet.slice(0, -1)
+  }
+
+  if (toRet === '') {
+    toRet = '_ROOT'
+  }
+
+  return toRet
 }
 
 function routes_path() {
@@ -37,11 +71,21 @@ function routes_path() {
 // const routes_path = 'src/lib/ROUTES.ts'
 const log = new Log('Kit Routes')
 
-const getFiles = (lookFor: '+page.svelte' | '+page.server.ts' | '+server.ts') => {
+const getFileKeys = (
+  lookFor: '+page.svelte' | '+page.server.ts' | '+server.ts',
+  options?: Options,
+) => {
   const files = readdirSync(routes_path(), { recursive: true }) as string[]
-  return files
-    .filter(file => file.endsWith(lookFor))
-    .map(file => `/` + file.replace(`/${lookFor}`, '').replace(lookFor, ''))
+  return (
+    files
+      .filter(file => file.endsWith(lookFor))
+      .map(file => `/` + file.replace(`/${lookFor}`, '').replace(lookFor, ''))
+      // Keep the sorting at this level, it will make more sense
+      .sort()
+      .map(file => {
+        return { toUse: formatKey(file, options), original: file }
+      })
+  )
 }
 
 function formatExtractParamsFromPath(file_path: string) {
@@ -119,24 +163,24 @@ const getActionsOfServerPages = (path: string) => {
   return exportedNames
 }
 
-const run = (params?: Options) => {
-  const files_pages = getFiles('+page.svelte')
-  const files_server_pages = getFiles('+page.server.ts')
-  const files_server = getFiles('+server.ts')
+const run = (options?: Options) => {
+  const pages = getFileKeys('+page.svelte', options)
+  const server = getFileKeys('+page.server.ts', options)
+  const files_server = getFileKeys('+server.ts', options)
 
-  const result = write(generated_file_path(params), [
+  const result = write(generated_file_path(options), [
     `export const PAGES = {
-  ${files_pages
-    .map(file_path => {
+  ${pages
+    .map(key => {
       const params = []
-      const pFormPath = formatExtractParamsFromPath(file_path)
+      const pFormPath = formatExtractParamsFromPath(key.original)
       if (pFormPath.length > 0) {
         params.push(`params: {${pFormPath}}`)
       }
       params.push(`sp?: Record<string, string>`)
       return (
-        `"${file_path}": (${params.join(', ')}) => ` +
-        `{ return \`${file_path
+        `"${key.toUse}": (${params.join(', ')}) => ` +
+        `{ return \`${key.original
           .replaceAll('[', '${params.')
           .replaceAll(']', '}')}\${appendSp(sp)}\` }`
       )
@@ -146,21 +190,20 @@ const run = (params?: Options) => {
 
 export const SERVERS = {
   ${files_server
-    .map(file_path => {
+    .map(key => {
       const params = []
-      params.push(
-        `method: ${getMethodsOfServerFiles(file_path)
-          .map(c => `'${c}'`)
-          .join(' | ')}`,
-      )
-      const pFormPath = formatExtractParamsFromPath(file_path)
+      const methods = getMethodsOfServerFiles(key.original)
+      if (methods.length > 0) {
+        params.push(`method: ${methods.map(c => `'${c}'`).join(' | ')}`)
+      }
+      const pFormPath = formatExtractParamsFromPath(key.original)
       if (pFormPath.length > 0) {
         params.push(`params: {${pFormPath}}`)
       }
       params.push(`sp?: Record<string, string>`)
       return (
-        `"${file_path}": (${params.join(', ')}) => ` +
-        `{ return \`${file_path
+        `"${key.toUse}": (${params.join(', ')}) => ` +
+        `{ return \`${key.original
           .replaceAll('[', '${params.')
           .replaceAll(']', '}')}\${appendSp(sp)}\` }`
       )
@@ -169,27 +212,28 @@ export const SERVERS = {
 }
 
 export const ACTIONS = {
-  ${files_server_pages
-    .map(file_path => {
+  ${server
+    .map(key => {
       const params = []
-      const actions = getActionsOfServerPages(file_path)
-      let actionsSpecified = false
+      const actions = getActionsOfServerPages(key.original)
+      let actionsFormat = ''
       if (actions.length === 0) {
-        // Don't do anything...
       } else if (actions.length === 1 && actions[0] === 'default') {
-        // Don't do anything...
       } else {
         params.push(`action: ${actions.map(c => `'${c}'`).join(' | ')}`)
-        actionsSpecified = true
+        actionsFormat = `?/\${action}`
+        // actionsFormat = `coucou`
       }
-      const pFormPath = formatExtractParamsFromPath(file_path)
+      const pFormPath = formatExtractParamsFromPath(key.original)
       if (pFormPath.length > 0) {
         params.push(`params: {${pFormPath}}`)
       }
       return (
-        `"${file_path}": (${params.join(', ')}) => ` +
-        `{ return \`${file_path.replaceAll('[', '${params.').replaceAll(']', '}')}` +
-        `${actionsSpecified ? `\${String(action) === 'default' ? '' : \`?/\${action}\`}` : ``}\` }`
+        `"${key.toUse}": (${params.join(', ')}) => ` +
+        `{ return \`` +
+        `${key.original.replaceAll('[', '${params.').replaceAll(']', '}')}` +
+        `${actionsFormat}` +
+        `\`}`
       )
     })
     .join(',\n  ')}
@@ -203,9 +247,9 @@ const appendSp = (sp?: Record<string, string>) => {
   ])
 
   // TODO: optimize this later. We want to write the new file only if different after prettier?! (having a tmp file somewhere?)
-  if (params?.post_update_run) {
-    log.info(`${yellow(`post_update_run`)} "${green(params?.post_update_run)}" running...`)
-    const child = spawn(params.post_update_run, { shell: true })
+  if (options?.post_update_run) {
+    log.info(`${yellow(`post_update_run`)} "${green(options?.post_update_run)}" running...`)
+    const child = spawn(options.post_update_run, { shell: true })
     child.stdout.on('data', data => {
       if (data.toString()) {
         log.info(data.toString())
@@ -216,23 +260,23 @@ const appendSp = (sp?: Record<string, string>) => {
     })
     child.on('close', code => {
       if (result) {
-        log.success(`${yellow(generated_file_path(params))} updated`)
+        log.success(`${yellow(generated_file_path(options))} updated`)
       }
     })
   } else {
     if (result) {
-      log.success(`${yellow(generated_file_path(params))} updated`)
+      log.success(`${yellow(generated_file_path(options))} updated`)
     }
   }
 }
 
-export function kitRoutes(params?: Options): Plugin[] {
+export function kitRoutes(options?: Options): Plugin[] {
   return [
     // Run the thing at startup
     {
       name: 'kit-routes',
       configureServer() {
-        run(params)
+        run(options)
       },
     },
 
@@ -242,7 +286,7 @@ export function kitRoutes(params?: Options): Plugin[] {
         name: 'kit-routes-watch',
         logs: [],
         watch: ['**/+page.svelte', '**/+page.server.ts', '**/+server.ts'],
-        run: () => run(params),
+        run: () => run(options),
       },
     ]),
   ]

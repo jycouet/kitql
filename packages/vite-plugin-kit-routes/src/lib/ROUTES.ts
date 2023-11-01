@@ -1,36 +1,48 @@
 export const PAGES = {
-  '/': (sp?: Record<string, string>) => {
+  _ROOT: (sp?: Record<string, string>) => {
     return `/${appendSp(sp)}`
   },
-  '/site/[id]': (params: { id: string }, sp?: Record<string, string>) => {
+  contract: (sp?: Record<string, string>) => {
+    return `/contract${appendSp(sp)}`
+  },
+  contract_id: (params: { id: string }, sp?: Record<string, string>) => {
+    return `/contract/${params.id}${appendSp(sp)}`
+  },
+  site: (sp?: Record<string, string>) => {
+    return `/site${appendSp(sp)}`
+  },
+  site_id: (params: { id: string }, sp?: Record<string, string>) => {
     return `/site/${params.id}${appendSp(sp)}`
   },
-  '/site/[param]/[yop]': (params: { param: string; yop: string }, sp?: Record<string, string>) => {
-    return `/site/${params.param}/${params.yop}${appendSp(sp)}`
+  site_contract_siteId_contractId: (
+    params: { siteId: string; contractId: string },
+    sp?: Record<string, string>,
+  ) => {
+    return `/site_contract/${params.siteId}-${params.contractId}${appendSp(sp)}`
   },
 }
 
 export const SERVERS = {
-  '/site/[id]/one': (
-    method: 'GET' | 'POST',
-    params: { id: string },
-    sp?: Record<string, string>,
-  ) => {
-    return `/site/${params.id}/one${appendSp(sp)}`
+  contract: (method: 'GET' | 'POST', sp?: Record<string, string>) => {
+    return `/contract${appendSp(sp)}`
+  },
+  site: (method: 'GET', sp?: Record<string, string>) => {
+    return `/site${appendSp(sp)}`
   },
 }
 
 export const ACTIONS = {
-  '/site/[id]/two': (params: { id: string }) => {
-    return `/site/${params.id}/two`
+  contract_id: (params: { id: string }) => {
+    return `/contract/${params.id}`
   },
-  '/site/[id]/two/[hello]': (
-    action: 'default' | 'login' | 'register',
-    params: { id: string; hello: string },
+  site: (action: 'action1' | 'action2') => {
+    return `/site?/${action}`
+  },
+  site_contract_siteId_contractId: (
+    action: 'sendSomething',
+    params: { siteId: string; contractId: string },
   ) => {
-    return `/site/${params.id}/two/${params.hello}${
-      String(action) === 'default' ? '' : `?/${action}`
-    }`
+    return `/site_contract/${params.siteId}-${params.contractId}?/${action}`
   },
 }
 
