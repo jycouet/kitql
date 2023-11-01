@@ -11,7 +11,7 @@ export type Options = {
   /**
    * watch files to trigger the run action (glob format)
    */
-  watch?: string
+  watch?: string | string[]
 
   /**
    * watch files to trigger the run action (function format)
@@ -69,7 +69,7 @@ export type StateDetail = {
   delay: number
   isRunning: boolean
   watchFile?: (filepath: string) => boolean | Promise<boolean>
-  watch?: string
+  watch?: string | string[]
   name?: string | null
   shell: string | boolean
   formatErrors?: (e: unknown, afterError?: (e: Error) => void) => void
