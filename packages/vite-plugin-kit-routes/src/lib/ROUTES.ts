@@ -28,7 +28,9 @@ export const ACTIONS = {
     action: 'default' | 'login' | 'register',
     params: { id: string; hello: string },
   ) => {
-    return `/site/${params.id}/two/${params.hello}${action === 'default' ? '' : `?/${action}`}`
+    return `/site/${params.id}/two/${params.hello}${
+      String(action) === 'default' ? '' : `?/${action}`
+    }`
   },
 }
 

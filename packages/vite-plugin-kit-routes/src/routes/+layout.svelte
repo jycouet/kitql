@@ -1,5 +1,8 @@
 <script lang="ts">
-  import { PAGES } from '$lib/ROUTES.js'
+  import { ACTIONS, PAGES } from '$lib/ROUTES.js'
+
+  const val = ACTIONS['/site/[id]/two/[hello]']('login', { hello: 'you', id: '1' })
+  console.log(`val`, val)
 </script>
 
 <svelte:head>
@@ -12,7 +15,9 @@
 
 <ul>
   <a href={PAGES['/']()}>Home</a>
-  <a href={PAGES['/site/[param]/[yop]']('param', 'yop', { limit: '2' })}>Another route</a>
+  <a href={PAGES['/site/[param]/[yop]']({ param: 'param', yop: 'yop' }, { limit: '2' })}
+    >Another route</a
+  >
 </ul>
 
 <hr />

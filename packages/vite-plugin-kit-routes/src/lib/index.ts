@@ -189,7 +189,7 @@ export const ACTIONS = {
       return (
         `"${file_path}": (${params.join(', ')}) => ` +
         `{ return \`${file_path.replaceAll('[', '${params.').replaceAll(']', '}')}` +
-        `${actionsSpecified ? `\${action === 'default' ? '' : \`?/\${action}\`}` : ``}\` }`
+        `${actionsSpecified ? `\${String(action) === 'default' ? '' : \`?/\${action}\`}` : ``}\` }`
       )
     })
     .join(',\n  ')}
