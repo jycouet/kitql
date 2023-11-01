@@ -1,9 +1,5 @@
 <script lang="ts">
-  import { ACTIONS, PAGES } from '$lib/ROUTES.js'
-
-  const l = PAGES['/site/[id]']({ id: '1' })
-  const val = ACTIONS['/site/[id]/two/[hello]']('login', { id: '1', hello: 'you' })
-  console.log(`val`, val)
+  import { PAGES } from '$lib/ROUTES.js'
 </script>
 
 <svelte:head>
@@ -15,29 +11,16 @@
 <hr />
 
 <ul>
-  <a href={PAGES['/']()}>Home</a>
-  <a href={PAGES['/site/[param]/[yop]']({ param: 'param', yop: 'yop' }, { limit: '2' })}
-    >Another route</a
-  >
+  <li><a href={PAGES._ROOT()}>Home</a></li>
+  <li><a href={PAGES.site()}>Sites</a></li>
+  <li><a href={PAGES.site_id({ id: 'Paris' })}>Site Paris</a></li>
+  <li>
+    <a href={PAGES.site_contract_siteId_contractId({ siteId: 'Paris', contractId: 'First' })}>
+      Site Paris & Contract First
+    </a>
+  </li>
 </ul>
 
 <hr />
 
 <slot />
-
-<!-- Today... strings... Are you sure? -->
-<a href="/site/1">Site 1</a>
-<!-- The route is existing ? Right now yes... But in 6 months? With 100 routes? Are you sure?-->
-<form method="POST" action="/site/1/two/you?/login" />
-<!-- The action login is existing in this route ? -->
-
-<!-- With ✨ vite-plugin-kit-routes ✨, 
-  you have PAGES, SERVERS, ACTIONS 
-  generated from your actual routes 
-  If you rename a route / actions, "npm run check" will complain.
--->
-<a href={PAGES['/site/[id]']({ id: '1' })}>Site 1</a>
-<form
-  method="POST"
-  action={ACTIONS['/site/[id]/two/[hello]']('login', { id: '1', hello: 'you' })}
-/>
