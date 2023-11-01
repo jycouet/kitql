@@ -34,26 +34,26 @@ export function IndexPage() {
               src: svelte,
             },
             title: 'SvelteKit',
-            description: 'Enables composition of modules into Svelte apps.',
+            description: 'A set of tools for Svelte apps.',
           },
-          {
-            image: {
-              className: 'w-24 h-24',
-              alt: 'GraphQL',
-              src: graphql,
-            },
-            title: 'GraphQL',
-            description: 'Brings the powerful GraphQL endpoint ecosystem to SvelteKit.',
-          },
-          {
-            image: {
-              className: 'w-24 h-24',
-              alt: 'Houdini',
-              src: houdini,
-            },
-            title: 'Houdini',
-            description: 'Display your data in your browser in an easy manner.',
-          },
+          // {
+          //   image: {
+          //     className: 'w-24 h-24',
+          //     alt: 'GraphQL',
+          //     src: graphql,
+          //   },
+          //   title: 'GraphQL',
+          //   description: 'Brings the powerful GraphQL endpoint ecosystem to SvelteKit.',
+          // },
+          // {
+          //   image: {
+          //     className: 'w-24 h-24',
+          //     alt: 'Houdini',
+          //     src: houdini,
+          //   },
+          //   title: 'Houdini',
+          //   description: 'Display your data in your browser in an easy manner.',
+          // },
         ]}
       />
     </>
