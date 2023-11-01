@@ -20,7 +20,7 @@ export type Options = {
 const routes_path = 'src/lib/ROUTES.ts'
 const log = new Log('Kit Routes')
 
-const getFiles = (dirPath: string, lookFor: '+page.svelte' | '+page.server.ts') => {
+const getFiles = (dirPath: string, lookFor: '+page.svelte' | '+page.server.ts' | '+server.ts') => {
   const files = readdirSync(dirPath, { recursive: true }) as string[]
   return files
     .filter(file => file.endsWith(lookFor))
@@ -44,6 +44,7 @@ export function extractParamsFromPath(path: string): string[] {
 const run = (params?: Options) => {
   const files_pages = getFiles(`${process.cwd()}/src/routes`, '+page.svelte')
   const files_server_pages = getFiles(`${process.cwd()}/src/routes`, '+page.server.ts')
+  const files_server = getFiles(`${process.cwd()}/src/routes`, '+server.ts')
 
   const result = write(routes_path, [
     `export const PAGES = {
@@ -59,14 +60,28 @@ const run = (params?: Options) => {
     .join(',\n  ')}
 }
 
-export const SERVER_PAGES = {
-  ${files_server_pages
+// TODO: SERVERS methods?
+export const SERVERS = {
+  ${files_server
     .map(file_path => {
       const params = extractParamsFromPath(file_path).map(c => `${c}: string`)
       params.push(`sp?: Record<string, string>`)
       return (
         `"${file_path}": (${params.join(', ')}) => ` +
         `{ return \`${file_path.replaceAll('[', '${').replaceAll(']', '}')}\${appendSp(sp)}\` }`
+      )
+    })
+    .join(',\n  ')}
+}
+
+// TODO: name actions
+export const ACTIONS = {
+  ${files_server_pages
+    .map(file_path => {
+      const params = extractParamsFromPath(file_path).map(c => `${c}: string`)
+      return (
+        `"${file_path}": (${params.join(', ')}) => ` +
+        `{ return \`${file_path.replaceAll('[', '${').replaceAll(']', '}')}\` }`
       )
     })
     .join(',\n  ')}
@@ -118,7 +133,7 @@ export function kit_routes(params?: Options): Plugin[] {
       {
         name: 'kit-routes-watch',
         logs: [],
-        watch: ['**/+page.svelte', '**/+page.server.ts'],
+        watch: ['**/+page.svelte', '**/+page.server.ts', '**/+server.ts'],
         run: () => run(params),
       },
     ]),

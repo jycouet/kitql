@@ -10,9 +10,17 @@ export const PAGES = {
   },
 }
 
-export const SERVER_PAGES = {
+// TODO: SERVERS methods?
+export const SERVERS = {
   '/site/[id]/two/[hello]': (id: string, hello: string, sp?: Record<string, string>) => {
     return `/site/${id}/two/${hello}${appendSp(sp)}`
+  },
+}
+
+// TODO: name actions
+export const ACTIONS = {
+  '/site/[id]/two/[hello]': (id: string, hello: string) => {
+    return `/site/${id}/two/${hello}`
   },
 }
 
