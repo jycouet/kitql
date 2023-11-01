@@ -127,7 +127,7 @@ const appendSp = (sp?: Record<string, string>) => {
   }
 }
 
-export function kit_routes(params?: Options): Plugin[] {
+export function kitRoutes(params?: Options): Plugin[] {
   return [
     // Run the thing at startup
     {
