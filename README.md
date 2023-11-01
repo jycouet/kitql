@@ -25,28 +25,6 @@
   <img src="https://img.youtube.com/vi/Ggz5cvxDwFs/0.jpg" alt="Watch the video" width="100%" />
   </a>
 
-<br />
-
-# ⚡How to start ?
-
-Demo Init 👇
-<p><a target="_blank"
-    href="https://stackblitz.com/fork/github/jycouet/kitql/tree/main/examples/demo-init?title=KitQL%20Demo%20Init"
-  >
-    <img src="https://developer.stackblitz.com/img/open_in_stackblitz.svg" alt="Open in StackBlitz" />
-  </a>
-</p>
-
-<br /><br />
-
-# ⚒️ Tools involved
-
-- ✅ [SvelteKit](https://kit.svelte.dev/)
-- ✅ [GraphQL](https://graphql.org/)
-- ✅ [Houdini](https://www.houdinigraphql.com/)
-- ✅ [GraphQL - CodeGen](https://www.graphql-code-generator.com/)
-- ✅ [GraphQL - Yoga](https://www.graphql-yoga.com/)
-
 <br /><br />
 
 # 🆓 License
