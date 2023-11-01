@@ -12,8 +12,8 @@ export const PAGES = {
 
 // TODO: SERVERS methods?
 export const SERVERS = {
-  '/site/[id]/two/[hello]': (id: string, hello: string, sp?: Record<string, string>) => {
-    return `/site/${id}/two/${hello}${appendSp(sp)}`
+  '/site/[id]/one': (id: string, sp?: Record<string, string>) => {
+    return `/site/${id}/one${appendSp(sp)}`
   },
 }
 
