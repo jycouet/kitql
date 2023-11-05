@@ -74,6 +74,7 @@ const log = new Log('Kit Routes')
 const getFileKeys = (
   lookFor: '+page.svelte' | '+page.server.ts' | '+server.ts',
   options?: Options,
+  withAppendSp?: boolean,
 ) => {
   const files = readdirSync(routes_path(), { recursive: true }) as string[]
   return (
@@ -83,29 +84,39 @@ const getFileKeys = (
       // Keep the sorting at this level, it will make more sense
       .sort()
       .map(file => {
-        return { toUse: formatKey(file, options), original: file }
+        return {
+          toUse: formatKey(file, options),
+          original: file,
+          toReturn:
+            `${file
+              .replaceAll('[[', '${params?.')
+              .replaceAll(']]', " ?? ''}")
+              .replaceAll('[', '${params.')
+              .replaceAll(']', '}')}` + `${withAppendSp ? `\${appendSp(sp)}` : ``}`,
+        }
       })
   )
 }
 
-function formatExtractParamsFromPath(file_path: string) {
-  return extractParamsFromPath(file_path).map(c => `${c}: string`)
-}
-
-export function extractParamsFromPath(path: string): string[] {
-  // Use a regular expression to match parameter placeholders like '[param]'
-  const paramPattern = /\[([^\]]+)]/g
+export function extractParamsFromPath(path: string): {
+  params: { name: string; optional: boolean }[]
+  formatArgs: string[]
+  isAllOptional: boolean
+} {
+  const paramPattern = /\[+([^\]]+)]+/g
   const params = []
 
   let match
   while ((match = paramPattern.exec(path)) !== null) {
-    // The matched parameter name is in the first capturing group
-    params.push(match[1])
+    // Check if it's surrounded by double brackets indicating an optional parameter
+    const isOptional = match[0].startsWith('[[')
+    params.push({ name: match[1], optional: isOptional })
   }
 
-  return params
+  const format = params.map(c => `${c.name}${c.optional ? '?' : ''}: string`)
+  const isAllOptional = params.filter(c => !c.optional).length === 0
+  return { params, formatArgs: format, isAllOptional }
 }
-
 const getMethodsOfServerFiles = (path: string) => {
   const code = read(`${routes_path()}/${path}/${'+server.ts'}`)
 
@@ -164,55 +175,49 @@ const getActionsOfServerPages = (path: string) => {
 }
 
 const run = (options?: Options) => {
-  const pages = getFileKeys('+page.svelte', options)
-  const server = getFileKeys('+page.server.ts', options)
-  const files_server = getFileKeys('+server.ts', options)
+  const pages = getFileKeys('+page.svelte', options, true)
+  const servers = getFileKeys('+server.ts', options, true)
+  const pages_server = getFileKeys('+page.server.ts', options)
 
   const result = write(generated_file_path(options), [
     `export const PAGES = {
   ${pages
     .map(key => {
       const params = []
-      const pFormPath = formatExtractParamsFromPath(key.original)
-      if (pFormPath.length > 0) {
-        params.push(`params: {${pFormPath}}`)
+      const paramsFromPath = extractParamsFromPath(key.original)
+      if (paramsFromPath.params.length > 0) {
+        params.push(
+          `params${paramsFromPath.isAllOptional ? '?' : ''}: {${paramsFromPath.formatArgs}}`,
+        )
       }
       params.push(`sp?: Record<string, string>`)
-      return (
-        `"${key.toUse}": (${params.join(', ')}) => ` +
-        `{ return \`${key.original
-          .replaceAll('[', '${params.')
-          .replaceAll(']', '}')}\${appendSp(sp)}\` }`
-      )
+      return `"${key.toUse}": (${params.join(', ')}) =>  { return \`${key.toReturn}\` }`
     })
     .join(',\n  ')}
 }
 
 export const SERVERS = {
-  ${files_server
+  ${servers
     .map(key => {
       const params = []
       const methods = getMethodsOfServerFiles(key.original)
       if (methods.length > 0) {
         params.push(`method: ${methods.map(c => `'${c}'`).join(' | ')}`)
       }
-      const pFormPath = formatExtractParamsFromPath(key.original)
-      if (pFormPath.length > 0) {
-        params.push(`params: {${pFormPath}}`)
+      const paramsFromPath = extractParamsFromPath(key.original)
+      if (paramsFromPath.params.length > 0) {
+        params.push(
+          `params${paramsFromPath.isAllOptional ? '?' : ''}: {${paramsFromPath.formatArgs}}`,
+        )
       }
       params.push(`sp?: Record<string, string>`)
-      return (
-        `"${key.toUse}": (${params.join(', ')}) => ` +
-        `{ return \`${key.original
-          .replaceAll('[', '${params.')
-          .replaceAll(']', '}')}\${appendSp(sp)}\` }`
-      )
+      return `"${key.toUse}": (${params.join(', ')}) =>  { return \`${key.toReturn}\` }`
     })
     .join(',\n  ')}
 }
 
 export const ACTIONS = {
-  ${server
+  ${pages_server
     .map(key => {
       const params = []
       const actions = getActionsOfServerPages(key.original)
@@ -222,18 +227,16 @@ export const ACTIONS = {
       } else {
         params.push(`action: ${actions.map(c => `'${c}'`).join(' | ')}`)
         actionsFormat = `?/\${action}`
-        // actionsFormat = `coucou`
       }
-      const pFormPath = formatExtractParamsFromPath(key.original)
-      if (pFormPath.length > 0) {
-        params.push(`params: {${pFormPath}}`)
+      const paramsFromPath = extractParamsFromPath(key.original)
+      if (paramsFromPath.params.length > 0) {
+        params.push(
+          `params${paramsFromPath.isAllOptional ? '?' : ''}: {${paramsFromPath.formatArgs}}`,
+        )
       }
       return (
         `"${key.toUse}": (${params.join(', ')}) => ` +
-        `{ return \`` +
-        `${key.original.replaceAll('[', '${params.').replaceAll(']', '}')}` +
-        `${actionsFormat}` +
-        `\`}`
+        ` { return \`${key.toReturn}${actionsFormat}\` }`
       )
     })
     .join(',\n  ')}

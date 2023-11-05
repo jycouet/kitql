@@ -4,28 +4,84 @@ import { extractParamsFromPath, formatKey } from './index.js'
 describe('vite-plugin-kit-routes', () => {
   it('get id', async () => {
     expect(extractParamsFromPath('/site/[id]')).toMatchInlineSnapshot(`
-      [
-        "id",
-      ]
+      {
+        "formatArgs": [
+          "id: string",
+        ],
+        "isAllOptional": false,
+        "params": [
+          {
+            "name": "id",
+            "optional": false,
+          },
+        ],
+      }
     `)
   })
 
   it('get params & id', async () => {
     expect(extractParamsFromPath('/site/[param]/[id]')).toMatchInlineSnapshot(`
-      [
-        "param",
-        "id",
-      ]
+      {
+        "formatArgs": [
+          "param: string",
+          "id: string",
+        ],
+        "isAllOptional": false,
+        "params": [
+          {
+            "name": "param",
+            "optional": false,
+          },
+          {
+            "name": "id",
+            "optional": false,
+          },
+        ],
+      }
     `)
   })
 
   it('get params & id', async () => {
     expect(extractParamsFromPath('/[param]site/[yop](group)/[id]')).toMatchInlineSnapshot(`
-      [
-        "param",
-        "yop",
-        "id",
-      ]
+      {
+        "formatArgs": [
+          "param: string",
+          "yop: string",
+          "id: string",
+        ],
+        "isAllOptional": false,
+        "params": [
+          {
+            "name": "param",
+            "optional": false,
+          },
+          {
+            "name": "yop",
+            "optional": false,
+          },
+          {
+            "name": "id",
+            "optional": false,
+          },
+        ],
+      }
+    `)
+  })
+
+  it('get optional param', async () => {
+    expect(extractParamsFromPath('/lang/[[lang]]')).toMatchInlineSnapshot(`
+      {
+        "formatArgs": [
+          "lang?: string",
+        ],
+        "isAllOptional": true,
+        "params": [
+          {
+            "name": "lang",
+            "optional": true,
+          },
+        ],
+      }
     `)
   })
 

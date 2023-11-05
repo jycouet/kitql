@@ -19,6 +19,12 @@
       Site Paris & Contract First
     </a>
   </li>
+  <li>
+    <a href={PAGES.lang_lang()}>Lang ??</a>
+  </li>
+  <li>
+    <a href={PAGES.lang_lang({ lang: 'fr' })}>Lang fr</a>
+  </li>
 </ul>
 
 <hr />
