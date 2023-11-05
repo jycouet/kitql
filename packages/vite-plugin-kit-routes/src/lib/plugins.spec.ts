@@ -6,7 +6,7 @@ describe('vite-plugin-kit-routes', () => {
     expect(extractParamsFromPath('/site/[id]')).toMatchInlineSnapshot(`
       {
         "formatArgs": [
-          "id: string",
+          "id: string | number",
         ],
         "isAllOptional": false,
         "params": [
@@ -23,8 +23,8 @@ describe('vite-plugin-kit-routes', () => {
     expect(extractParamsFromPath('/site/[param]/[id]')).toMatchInlineSnapshot(`
       {
         "formatArgs": [
-          "param: string",
-          "id: string",
+          "param: string | number",
+          "id: string | number",
         ],
         "isAllOptional": false,
         "params": [
@@ -45,9 +45,9 @@ describe('vite-plugin-kit-routes', () => {
     expect(extractParamsFromPath('/[param]site/[yop](group)/[id]')).toMatchInlineSnapshot(`
       {
         "formatArgs": [
-          "param: string",
-          "yop: string",
-          "id: string",
+          "param: string | number",
+          "yop: string | number",
+          "id: string | number",
         ],
         "isAllOptional": false,
         "params": [
@@ -72,7 +72,7 @@ describe('vite-plugin-kit-routes', () => {
     expect(extractParamsFromPath('/lang/[[lang]]')).toMatchInlineSnapshot(`
       {
         "formatArgs": [
-          "lang?: string",
+          "lang?: string | number",
         ],
         "isAllOptional": true,
         "params": [

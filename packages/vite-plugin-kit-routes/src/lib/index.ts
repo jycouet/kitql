@@ -42,7 +42,7 @@ export function formatKey(key: string, options?: Options) {
     return key
   }
 
-  const toReplace = ['/', '[', ']', '(', ')', '-']
+  const toReplace = ['/', '[', ']', '(', ')', '-', '=']
   let toRet = key
     .split('')
     .map(c => (toReplace.includes(c) ? '_' : c))
@@ -84,22 +84,28 @@ const getFileKeys = (
       // Keep the sorting at this level, it will make more sense
       .sort()
       .map(file => {
+        const paramsFromPath = extractParamsFromPath(file)
+        let toRet = file
+        paramsFromPath.params.forEach(c => {
+          const sMatcher = `${c.matcher ? `=${c.matcher}` : ''}`
+          if (c.optional) {
+            toRet = toRet.replaceAll(`[[${c.name + sMatcher}]]`, `\${params?.${c.name} ?? ''}`)
+          } else {
+            toRet = toRet.replaceAll(`[${c.name + sMatcher}]`, `\${params.${c.name}}`)
+          }
+        })
         return {
           toUse: formatKey(file, options),
           original: file,
-          toReturn:
-            `${file
-              .replaceAll('[[', '${params?.')
-              .replaceAll(']]', " ?? ''}")
-              .replaceAll('[', '${params.')
-              .replaceAll(']', '}')}` + `${withAppendSp ? `\${appendSp(sp)}` : ``}`,
+          paramsFromPath,
+          toReturn: `${toRet}${withAppendSp ? `\${appendSp(sp)}` : ``}`,
         }
       })
   )
 }
 
 export function extractParamsFromPath(path: string): {
-  params: { name: string; optional: boolean }[]
+  params: { name: string; optional: boolean; matcher?: string }[]
   formatArgs: string[]
   isAllOptional: boolean
 } {
@@ -110,10 +116,20 @@ export function extractParamsFromPath(path: string): {
   while ((match = paramPattern.exec(path)) !== null) {
     // Check if it's surrounded by double brackets indicating an optional parameter
     const isOptional = match[0].startsWith('[[')
-    params.push({ name: match[1], optional: isOptional })
+    const matcher = match[1].split('=')
+    if (matcher.length === 2) {
+      params.push({
+        // name: `${matcher[0]}_${matcher[1]}`,
+        name: matcher[0],
+        optional: isOptional,
+        matcher: matcher[1],
+      })
+    } else {
+      params.push({ name: match[1], optional: isOptional })
+    }
   }
 
-  const format = params.map(c => `${c.name}${c.optional ? '?' : ''}: string`)
+  const format = params.map(c => `${c.name}${c.optional ? '?' : ''}: string | number`)
   const isAllOptional = params.filter(c => !c.optional).length === 0
   return { params, formatArgs: format, isAllOptional }
 }
@@ -184,13 +200,14 @@ const run = (options?: Options) => {
   ${pages
     .map(key => {
       const params = []
-      const paramsFromPath = extractParamsFromPath(key.original)
-      if (paramsFromPath.params.length > 0) {
+      if (key.paramsFromPath.params.length > 0) {
         params.push(
-          `params${paramsFromPath.isAllOptional ? '?' : ''}: {${paramsFromPath.formatArgs}}`,
+          `params${key.paramsFromPath.isAllOptional ? '?' : ''}: {${
+            key.paramsFromPath.formatArgs
+          }}`,
         )
       }
-      params.push(`sp?: Record<string, string>`)
+      params.push(`sp?: Record<string, string | number>`)
       return `"${key.toUse}": (${params.join(', ')}) =>  { return \`${key.toReturn}\` }`
     })
     .join(',\n  ')}
@@ -204,13 +221,14 @@ export const SERVERS = {
       if (methods.length > 0) {
         params.push(`method: ${methods.map(c => `'${c}'`).join(' | ')}`)
       }
-      const paramsFromPath = extractParamsFromPath(key.original)
-      if (paramsFromPath.params.length > 0) {
+      if (key.paramsFromPath.params.length > 0) {
         params.push(
-          `params${paramsFromPath.isAllOptional ? '?' : ''}: {${paramsFromPath.formatArgs}}`,
+          `params${key.paramsFromPath.isAllOptional ? '?' : ''}: {${
+            key.paramsFromPath.formatArgs
+          }}`,
         )
       }
-      params.push(`sp?: Record<string, string>`)
+      params.push(`sp?: Record<string, string | number>`)
       return `"${key.toUse}": (${params.join(', ')}) =>  { return \`${key.toReturn}\` }`
     })
     .join(',\n  ')}
@@ -228,10 +246,11 @@ export const ACTIONS = {
         params.push(`action: ${actions.map(c => `'${c}'`).join(' | ')}`)
         actionsFormat = `?/\${action}`
       }
-      const paramsFromPath = extractParamsFromPath(key.original)
-      if (paramsFromPath.params.length > 0) {
+      if (key.paramsFromPath.params.length > 0) {
         params.push(
-          `params${paramsFromPath.isAllOptional ? '?' : ''}: {${paramsFromPath.formatArgs}}`,
+          `params${key.paramsFromPath.isAllOptional ? '?' : ''}: {${
+            key.paramsFromPath.formatArgs
+          }}`,
         )
       }
       return (
@@ -242,9 +261,9 @@ export const ACTIONS = {
     .join(',\n  ')}
 }
 
-const appendSp = (sp?: Record<string, string>) => {
+const appendSp = (sp?: Record<string, string | number>) => {
   if (sp === undefined) return ''
-  return \`?\${new URLSearchParams(sp || {}).toString()}\`
+  return \`?\${new URLSearchParams(sp as Record<string, string> || {}).toString()}\`
 }
 `,
   ])
