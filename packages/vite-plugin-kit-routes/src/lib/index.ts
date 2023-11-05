@@ -31,6 +31,15 @@ export type Options = {
    * when `true`, object keys look like this: `/site/[id]/two/[hello]`
    */
   keep_path_param_format?: boolean
+
+  /**
+   * when `false` _(default)_, paths doesn't get a last argument to set extra search params
+   *
+   * when `true`, each paths get an extra arg for open search param
+   *
+   * Can be tuned at individual path level
+   */
+  allow_extra_search_params?: boolean
 }
 
 function generated_file_path(options?: Options) {
@@ -76,6 +85,8 @@ const getFileKeys = (
   options?: Options,
   withAppendSp?: boolean,
 ) => {
+  const useWithAppendSp = withAppendSp && options?.allow_extra_search_params
+  console.log(`withAppendSp`, lookFor, withAppendSp, useWithAppendSp)
   const files = readdirSync(routes_path(), { recursive: true }) as string[]
   return (
     files
@@ -83,10 +94,13 @@ const getFileKeys = (
       .map(file => `/` + file.replace(`/${lookFor}`, '').replace(lookFor, ''))
       // Keep the sorting at this level, it will make more sense
       .sort()
-      .map(file => {
-        const paramsFromPath = extractParamsFromPath(file)
-        const href = file.replace(/\([^)]*\)/g, '').replace(/\/+/g, '/')
+      .map(original => {
+        const href = original.replace(/\([^)]*\)/g, '').replace(/\/+/g, '/')
         let toRet = href
+
+        const toUse = formatKey(original, options)
+
+        const paramsFromPath = extractParamsFromPath(original)
         paramsFromPath.params.forEach(c => {
           const sMatcher = `${c.matcher ? `=${c.matcher}` : ''}`
           if (c.optional) {
@@ -95,12 +109,39 @@ const getFileKeys = (
             toRet = toRet.replaceAll(`[${c.name + sMatcher}]`, `\${params.${c.name}}`)
           }
         })
-        return {
-          toUse: formatKey(file, options),
-          original: file,
-          paramsFromPath,
-          toReturn: `${toRet}${withAppendSp ? `\${appendSp(sp)}` : ``}`,
+
+        const params = []
+
+        let actionsFormat = ''
+        if (lookFor === '+server.ts') {
+          const methods = getMethodsOfServerFiles(original)
+          if (methods.length > 0) {
+            params.push(`method: ${methods.map(c => `'${c}'`).join(' | ')}`)
+          }
+        } else if (lookFor === '+page.server.ts') {
+          const actions = getActionsOfServerPages(original)
+
+          if (actions.length === 0) {
+          } else if (actions.length === 1 && actions[0] === 'default') {
+          } else {
+            params.push(`action: ${actions.map(c => `'${c}'`).join(' | ')}`)
+            actionsFormat = `?/\${action}`
+          }
         }
+
+        if (paramsFromPath.params.length > 0) {
+          params.push(
+            `params${paramsFromPath.isAllOptional ? '?' : ''}: {${paramsFromPath.formatArgs}}`,
+          )
+        }
+        if (useWithAppendSp) {
+          params.push(`sp?: Record<string, string | number>`)
+        }
+        const prop =
+          `"${toUse}": (${params.join(', ')}) => ` +
+          ` { return \`${toRet}${actionsFormat}${useWithAppendSp ? `\${appendSp(sp)}` : ``}\` }`
+
+        return { prop }
       })
   )
 }
@@ -194,72 +235,19 @@ const getActionsOfServerPages = (path: string) => {
 const run = (options?: Options) => {
   const pages = getFileKeys('+page.svelte', options, true)
   const servers = getFileKeys('+server.ts', options, true)
-  const pages_server = getFileKeys('+page.server.ts', options)
+  const pages_server = getFileKeys('+page.server.ts', options, false)
 
   const result = write(generated_file_path(options), [
     `export const PAGES = {
-  ${pages
-    .map(key => {
-      const params = []
-      if (key.paramsFromPath.params.length > 0) {
-        params.push(
-          `params${key.paramsFromPath.isAllOptional ? '?' : ''}: {${
-            key.paramsFromPath.formatArgs
-          }}`,
-        )
-      }
-      params.push(`sp?: Record<string, string | number>`)
-      return `"${key.toUse}": (${params.join(', ')}) =>  { return \`${key.toReturn}\` }`
-    })
-    .join(',\n  ')}
+  ${pages.map(key => key.prop).join(',\n  ')}
 }
 
 export const SERVERS = {
-  ${servers
-    .map(key => {
-      const params = []
-      const methods = getMethodsOfServerFiles(key.original)
-      if (methods.length > 0) {
-        params.push(`method: ${methods.map(c => `'${c}'`).join(' | ')}`)
-      }
-      if (key.paramsFromPath.params.length > 0) {
-        params.push(
-          `params${key.paramsFromPath.isAllOptional ? '?' : ''}: {${
-            key.paramsFromPath.formatArgs
-          }}`,
-        )
-      }
-      params.push(`sp?: Record<string, string | number>`)
-      return `"${key.toUse}": (${params.join(', ')}) =>  { return \`${key.toReturn}\` }`
-    })
-    .join(',\n  ')}
+  ${servers.map(key => key.prop).join(',\n  ')}
 }
 
 export const ACTIONS = {
-  ${pages_server
-    .map(key => {
-      const params = []
-      const actions = getActionsOfServerPages(key.original)
-      let actionsFormat = ''
-      if (actions.length === 0) {
-      } else if (actions.length === 1 && actions[0] === 'default') {
-      } else {
-        params.push(`action: ${actions.map(c => `'${c}'`).join(' | ')}`)
-        actionsFormat = `?/\${action}`
-      }
-      if (key.paramsFromPath.params.length > 0) {
-        params.push(
-          `params${key.paramsFromPath.isAllOptional ? '?' : ''}: {${
-            key.paramsFromPath.formatArgs
-          }}`,
-        )
-      }
-      return (
-        `"${key.toUse}": (${params.join(', ')}) => ` +
-        ` { return \`${key.toReturn}${actionsFormat}\` }`
-      )
-    })
-    .join(',\n  ')}
+  ${pages_server.map(key => key.prop).join(',\n  ')}
 }
 
 const appendSp = (sp?: Record<string, string | number>) => {

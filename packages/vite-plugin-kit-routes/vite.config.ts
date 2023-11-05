@@ -10,6 +10,7 @@ export default defineConfig({
       // for testing
       // generated_file_path: 'src/lib/ROUTES2.ts',
       post_update_run: 'npm exec prettier ./src/lib/ROUTES.ts -- -w',
+      allow_extra_search_params: true,
     }),
   ],
   test: {
