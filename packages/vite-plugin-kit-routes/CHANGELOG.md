@@ -1,5 +1,21 @@
 # vite-plugin-kit-routes
 
+## 0.0.5
+
+### Patch Changes
+
+- [#412](https://github.com/jycouet/kitql/pull/412)
+  [`f568350`](https://github.com/jycouet/kitql/commit/f568350fe1262db6eec73dbf98beb3fa1c04f990)
+  Thanks [@jycouet](https://github.com/jycouet)! - fix group routes management
+
+- [#412](https://github.com/jycouet/kitql/pull/412)
+  [`f568350`](https://github.com/jycouet/kitql/commit/f568350fe1262db6eec73dbf98beb3fa1c04f990)
+  Thanks [@jycouet](https://github.com/jycouet)! - manage optional params
+
+- [#412](https://github.com/jycouet/kitql/pull/412)
+  [`f568350`](https://github.com/jycouet/kitql/commit/f568350fe1262db6eec73dbf98beb3fa1c04f990)
+  Thanks [@jycouet](https://github.com/jycouet)! - manage matchers
+
 ## 0.0.4
 
 ### Patch Changes
