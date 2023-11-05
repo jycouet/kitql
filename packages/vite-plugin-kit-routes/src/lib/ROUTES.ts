@@ -1,45 +1,45 @@
 export const PAGES = {
-  _ROOT: (sp?: Record<string, string | number>) => {
-    return `/${appendSp(sp)}`
+  _ROOT: () => {
+    return `/`
   },
-  contract: (sp?: Record<string, string | number>) => {
-    return `/contract${appendSp(sp)}`
+  contract: () => {
+    return `/contract`
   },
-  contract_id: (params: { id: string | number }, sp?: Record<string, string | number>) => {
-    return `/contract/${params.id}${appendSp(sp)}`
+  contract_id: (params: { id: string | number }) => {
+    return `/contract/${params.id}`
   },
-  gp_logged_one: (sp?: Record<string, string | number>) => {
-    return `/gp/one${appendSp(sp)}`
+  gp_logged_one: () => {
+    return `/gp/one`
   },
-  gp_public_two: (sp?: Record<string, string | number>) => {
-    return `/gp/two${appendSp(sp)}`
+  gp_public_two: () => {
+    return `/gp/two`
   },
-  lang_lang: (params?: { lang?: string | number }, sp?: Record<string, string | number>) => {
-    return `/lang/${params?.lang ?? ''}${appendSp(sp)}`
+  lang_lang: (params?: { lang?: string | number }) => {
+    return `/lang/${params?.lang ?? ''}`
   },
-  match_id_int: (params: { id: string | number }, sp?: Record<string, string | number>) => {
-    return `/match/${params.id}${appendSp(sp)}`
+  match_id_int: (params: { id: string | number }) => {
+    return `/match/${params.id}`
   },
-  site: (sp?: Record<string, string | number>) => {
-    return `/site${appendSp(sp)}`
+  site: () => {
+    return `/site`
   },
-  site_id: (params: { id: string | number }, sp?: Record<string, string | number>) => {
-    return `/site/${params.id}${appendSp(sp)}`
+  site_id: (params: { id: string | number }) => {
+    return `/site/${params.id}`
   },
-  site_contract_siteId_contractId: (
-    params: { siteId: string | number; contractId: string | number },
-    sp?: Record<string, string | number>,
-  ) => {
-    return `/site_contract/${params.siteId}-${params.contractId}${appendSp(sp)}`
+  site_contract_siteId_contractId: (params: {
+    siteId: string | number
+    contractId: string | number
+  }) => {
+    return `/site_contract/${params.siteId}-${params.contractId}`
   },
 }
 
 export const SERVERS = {
-  contract: (method: 'GET' | 'POST', sp?: Record<string, string | number>) => {
-    return `/contract${appendSp(sp)}`
+  contract: (method: 'GET' | 'POST') => {
+    return `/contract`
   },
-  site: (method: 'GET', sp?: Record<string, string | number>) => {
-    return `/site${appendSp(sp)}`
+  site: (method: 'GET') => {
+    return `/site`
   },
 }
 
