@@ -85,7 +85,8 @@ const getFileKeys = (
       .sort()
       .map(file => {
         const paramsFromPath = extractParamsFromPath(file)
-        let toRet = file
+        const href = file.replace(/\([^)]*\)/g, '').replace(/\/+/g, '/')
+        let toRet = href
         paramsFromPath.params.forEach(c => {
           const sMatcher = `${c.matcher ? `=${c.matcher}` : ''}`
           if (c.optional) {

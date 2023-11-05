@@ -32,6 +32,12 @@
   <li>
     <a href={PAGES.match_id_int({ id: 'a' })}>match int a (expect 404)</a>
   </li>
+  <li>
+    <a href={PAGES.gp_logged_one()}>gp One</a>
+  </li>
+  <li>
+    <a href="/gp/two">gp Two</a>
+  </li>
 </ul>
 
 <hr />

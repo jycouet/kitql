@@ -8,6 +8,12 @@ export const PAGES = {
   contract_id: (params: { id: string | number }, sp?: Record<string, string | number>) => {
     return `/contract/${params.id}${appendSp(sp)}`
   },
+  gp_logged_one: (sp?: Record<string, string | number>) => {
+    return `/gp/one${appendSp(sp)}`
+  },
+  gp_public_two: (sp?: Record<string, string | number>) => {
+    return `/gp/two${appendSp(sp)}`
+  },
   lang_lang: (params?: { lang?: string | number }, sp?: Record<string, string | number>) => {
     return `/lang/${params?.lang ?? ''}${appendSp(sp)}`
   },
