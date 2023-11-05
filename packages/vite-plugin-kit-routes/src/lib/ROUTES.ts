@@ -20,11 +20,11 @@ export const PAGES = {
   match_id_int: (params: { id: string | number }) => {
     return `/match/${params.id}`
   },
-  site: () => {
-    return `/site`
+  site: (params?: { limit?: number }) => {
+    return `/site${appendSp({ limit: params?.limit })}`
   },
-  site_id: (params: { id: string | number }) => {
-    return `/site/${params.id}`
+  site_id: (params: { id: string | number; limit?: number }) => {
+    return `/site/${params.id}${appendSp({ limit: params?.limit })}`
   },
   site_contract_siteId_contractId: (params: {
     siteId: string | number
@@ -58,7 +58,15 @@ export const ACTIONS = {
   },
 }
 
-const appendSp = (sp?: Record<string, string | number>) => {
+const appendSp = (sp?: Record<string, string | number | undefined>) => {
   if (sp === undefined) return ''
-  return `?${new URLSearchParams((sp as Record<string, string>) || {}).toString()}`
+  const mapping = Object.entries(sp)
+    .filter(c => c[1] !== undefined)
+    .map(c => [c[0], String(c[1])])
+
+  const formated = new URLSearchParams(mapping).toString()
+  if (formated) {
+    return `?${formated}`
+  }
+  return ''
 }

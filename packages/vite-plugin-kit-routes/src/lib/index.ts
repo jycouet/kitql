@@ -1,7 +1,7 @@
 import { readdirSync } from 'fs'
 import { spawn } from 'node:child_process'
 import { parse } from '@babel/parser'
-import { green, Log, yellow } from '@kitql/helpers'
+import { green, Log, red, yellow } from '@kitql/helpers'
 import * as recast from 'recast'
 import type { Plugin } from 'vite'
 import watch_and_run from 'vite-plugin-watch-and-run'
@@ -33,13 +33,34 @@ export type Options = {
   keep_path_param_format?: boolean
 
   /**
-   * when `false` _(default)_, paths doesn't get a last argument to set extra search params
+   * when `without` _(default)_, paths doesn't get a last argument to set extra search params
    *
-   * when `true`, each paths get an extra arg for open search param
+   * when `with`, each paths get an extra arg for open search param
    *
    * Can be tuned at individual path level
    */
-  allow_extra_search_params?: boolean
+  extra_search_params?: 'with' | 'without'
+
+  extend?: {
+    PAGES?: Record<string, CustomPath>
+    SERVERS?: Record<string, CustomPath>
+    ACTIONS?: Record<string, CustomPath>
+  }
+}
+
+export type CustomPath = {
+  explicit_search_params?: Record<string, ExplicitSearchParam>
+  params?: Record<string, ExtendParam>
+  extra_search_params?: 'default' | 'with' | 'without'
+}
+
+export type ExtendParam = {
+  type?: 'string' | 'number'
+  default?: string
+}
+
+export type ExplicitSearchParam = ExtendParam & {
+  required?: boolean
 }
 
 function generated_file_path(options?: Options) {
@@ -81,12 +102,14 @@ function routes_path() {
 const log = new Log('Kit Routes')
 
 const getFileKeys = (
-  lookFor: '+page.svelte' | '+page.server.ts' | '+server.ts',
+  type: 'PAGES' | 'SERVERS' | 'ACTIONS',
   options?: Options,
   withAppendSp?: boolean,
 ) => {
-  const useWithAppendSp = withAppendSp && options?.allow_extra_search_params
-  console.log(`withAppendSp`, lookFor, withAppendSp, useWithAppendSp)
+  const lookFor =
+    type === 'PAGES' ? '+page.svelte' : type === 'SERVERS' ? '+server.ts' : '+page.server.ts'
+  const useWithAppendSp = withAppendSp && options?.extra_search_params === 'with'
+
   const files = readdirSync(routes_path(), { recursive: true }) as string[]
   return (
     files
@@ -98,7 +121,16 @@ const getFileKeys = (
         const href = original.replace(/\([^)]*\)/g, '').replace(/\/+/g, '/')
         let toRet = href
 
-        const toUse = formatKey(original, options)
+        const keyToUse = formatKey(original, options)
+
+        // custom conf
+        const viteCustomPathConfig = options?.extend?.[type]
+        let customConf: CustomPath = {
+          extra_search_params: 'default',
+        }
+        if (viteCustomPathConfig && viteCustomPathConfig[keyToUse]) {
+          customConf = viteCustomPathConfig[keyToUse]
+        }
 
         const paramsFromPath = extractParamsFromPath(original)
         paramsFromPath.params.forEach(c => {
@@ -129,30 +161,56 @@ const getFileKeys = (
           }
         }
 
+        // custom thing?
+        let explicit_search_params_to_function = ''
+        if (customConf.explicit_search_params) {
+          Object.entries(customConf.explicit_search_params).forEach(sp => {
+            paramsFromPath.params.push({ name: sp[0], optional: !sp[1].required, type: sp[1].type })
+            explicit_search_params_to_function += `${sp[0]}: params?.${sp[0]}`
+          })
+        }
+
         if (paramsFromPath.params.length > 0) {
           params.push(
-            `params${paramsFromPath.isAllOptional ? '?' : ''}: {${paramsFromPath.formatArgs}}`,
+            `params${paramsFromPath.isAllOptional ? '?' : ''}: {${formatArgs(
+              paramsFromPath.params,
+            )}}`,
           )
         }
-        if (useWithAppendSp) {
-          params.push(`sp?: Record<string, string | number>`)
-        }
-        const prop =
-          `"${toUse}": (${params.join(', ')}) => ` +
-          ` { return \`${toRet}${actionsFormat}${useWithAppendSp ? `\${appendSp(sp)}` : ``}\` }`
 
-        return { prop }
+        let fullSP = ''
+        const wExtraSP =
+          (customConf.extra_search_params === 'default' && useWithAppendSp) ||
+          customConf.extra_search_params === 'with'
+
+        if (wExtraSP && !customConf.explicit_search_params) {
+          params.push(`sp?: Record<string, string | number>`)
+          fullSP = `\${appendSp(sp)}`
+        } else if (wExtraSP && customConf.explicit_search_params) {
+          params.push(`sp?: Record<string, string | number>`)
+          fullSP = `\${appendSp({...sp, ${explicit_search_params_to_function} })}`
+        } else if (!wExtraSP && customConf.explicit_search_params) {
+          fullSP = `\${appendSp({ ${explicit_search_params_to_function} })}`
+        }
+
+        const prop =
+          `"${keyToUse}": (${params.join(', ')}) => ` +
+          ` { return \`${toRet}${actionsFormat}` +
+          `${fullSP}` +
+          `\` }`
+
+        return { keyToUse, prop }
       })
   )
 }
 
+type Param = { name: string; optional: boolean; matcher?: string; type?: string }
 export function extractParamsFromPath(path: string): {
-  params: { name: string; optional: boolean; matcher?: string }[]
-  formatArgs: string[]
+  params: Param[]
   isAllOptional: boolean
 } {
   const paramPattern = /\[+([^\]]+)]+/g
-  const params = []
+  const params: Param[] = []
 
   let match
   while ((match = paramPattern.exec(path)) !== null) {
@@ -161,20 +219,26 @@ export function extractParamsFromPath(path: string): {
     const matcher = match[1].split('=')
     if (matcher.length === 2) {
       params.push({
-        // name: `${matcher[0]}_${matcher[1]}`,
         name: matcher[0],
         optional: isOptional,
         matcher: matcher[1],
       })
     } else {
-      params.push({ name: match[1], optional: isOptional })
+      params.push({
+        name: match[1],
+        optional: isOptional,
+      })
     }
   }
 
-  const format = params.map(c => `${c.name}${c.optional ? '?' : ''}: string | number`)
   const isAllOptional = params.filter(c => !c.optional).length === 0
-  return { params, formatArgs: format, isAllOptional }
+  return { params, isAllOptional }
 }
+
+const formatArgs = (params: Param[]) => {
+  return params.map(c => `${c.name}${c.optional ? '?' : ''}: ${c.type ?? 'string | number'}`)
+}
+
 const getMethodsOfServerFiles = (path: string) => {
   const code = read(`${routes_path()}/${path}/${'+server.ts'}`)
 
@@ -233,50 +297,71 @@ const getActionsOfServerPages = (path: string) => {
 }
 
 const run = (options?: Options) => {
-  const pages = getFileKeys('+page.svelte', options, true)
-  const servers = getFileKeys('+server.ts', options, true)
-  const pages_server = getFileKeys('+page.server.ts', options, false)
+  const objTypes = [
+    { type: 'PAGES', files: getFileKeys('PAGES', options, true) },
+    { type: 'SERVERS', files: getFileKeys('SERVERS', options, true) },
+    { type: 'ACTIONS', files: getFileKeys('ACTIONS', options, false) },
+  ] as const
 
-  const result = write(generated_file_path(options), [
-    `export const PAGES = {
-  ${pages.map(key => key.prop).join(',\n  ')}
-}
-
-export const SERVERS = {
-  ${servers.map(key => key.prop).join(',\n  ')}
-}
-
-export const ACTIONS = {
-  ${pages_server.map(key => key.prop).join(',\n  ')}
-}
-
-const appendSp = (sp?: Record<string, string | number>) => {
-  if (sp === undefined) return ''
-  return \`?\${new URLSearchParams(sp as Record<string, string> || {}).toString()}\`
-}
-`,
-  ])
-
-  // TODO: optimize this later. We want to write the new file only if different after prettier?! (having a tmp file somewhere?)
-  if (options?.post_update_run) {
-    log.info(`${yellow(`post_update_run`)} "${green(options?.post_update_run)}" running...`)
-    const child = spawn(options.post_update_run, { shell: true })
-    child.stdout.on('data', data => {
-      if (data.toString()) {
-        log.info(data.toString())
+  // Validate options
+  let allOk = true
+  objTypes.forEach(o => {
+    Object.entries(options?.extend?.[o.type] ?? {}).forEach(e => {
+      const [key, cPath] = e
+      const found = o.files.find(c => c.keyToUse === key)
+      if (!found) {
+        log.error(`Can't extend "${green(`${o.type}.`)}${red(key)}" as this path doesn't exist!`)
+        allOk = false
       }
     })
-    child.stderr.on('data', data => {
-      log.error(data.toString())
-    })
-    child.on('close', code => {
+  })
+
+  if (allOk) {
+    const result = write(generated_file_path(options), [
+      objTypes
+        .map(c => {
+          return `export const ${c.type} = {
+  ${c.files.map(key => key.prop).join(',\n  ')}
+          }`
+        })
+        .join(`\n\n`),
+      `
+const appendSp = (sp?: Record<string, string | number | undefined>) => {
+  if (sp === undefined) return ''
+  const mapping = Object.entries(sp)
+    .filter(c => c[1] !== undefined)
+    .map(c => [c[0], String(c[1])])
+
+  const formated = new URLSearchParams(mapping).toString()
+  if (formated) {
+    return \`?\${formated}\`
+  }
+  return ''
+}
+`,
+    ])
+
+    // TODO: optimize this later. We want to write the new file only if different after prettier?! (having a tmp file somewhere?)
+    if (options?.post_update_run) {
+      log.info(`${yellow(`post_update_run`)} "${green(options?.post_update_run)}" running...`)
+      const child = spawn(options.post_update_run, { shell: true })
+      child.stdout.on('data', data => {
+        if (data.toString()) {
+          log.info(data.toString())
+        }
+      })
+      child.stderr.on('data', data => {
+        log.error(data.toString())
+      })
+      child.on('close', code => {
+        if (result) {
+          log.success(`${yellow(generated_file_path(options))} updated`)
+        }
+      })
+    } else {
       if (result) {
         log.success(`${yellow(generated_file_path(options))} updated`)
       }
-    })
-  } else {
-    if (result) {
-      log.success(`${yellow(generated_file_path(options))} updated`)
     }
   }
 }
