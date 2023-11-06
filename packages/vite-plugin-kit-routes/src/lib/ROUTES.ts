@@ -15,7 +15,7 @@ export const PAGES = {
     return `/gp/two`
   },
   lang_lang: (params?: { lang?: string | number }) => {
-    return `/lang/${params?.lang ?? ''}`
+    return `/lang${params?.lang ? `/${params?.lang}` : ''}`
   },
   match_id_int: (params: { id: string | number }) => {
     return `/match/${params.id}`
@@ -30,7 +30,7 @@ export const PAGES = {
     siteId: string | number
     contractId: string | number
   }) => {
-    return `/site_contract/${params.siteId}-${params.contractId}`
+    return `/site_contract/${params.siteId}-[contractId]`
   },
 }
 
@@ -54,7 +54,7 @@ export const ACTIONS = {
     action: 'sendSomething',
     params: { siteId: string | number; contractId: string | number },
   ) => {
-    return `/site_contract/${params.siteId}-${params.contractId}?/${action}`
+    return `/site_contract/${params.siteId}-[contractId]?/${action}`
   },
 }
 
