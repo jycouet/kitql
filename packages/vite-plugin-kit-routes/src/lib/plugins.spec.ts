@@ -87,7 +87,10 @@ describe('vite-plugin-kit-routes', () => {
   })
 
   it('fileToMetadata', async () => {
-    expect(fileToMetadata('/[[lang]]/about', 'PAGES', undefined, undefined).prop)
-      .toMatchInlineSnapshot('"\\"lang_about\\": (params?: {lang?: string | number}) =>  { return `${params?.lang ? `/${params?.lang}`: \'\'}/about` }"')
+    expect(
+      fileToMetadata('/[[lang]]/about', 'PAGES', undefined, undefined).prop,
+    ).toMatchInlineSnapshot(
+      '"\\"lang_about\\": (params?: {lang?: string | number}) =>  { return `${params?.lang ? `/${params?.lang}`: \'\'}/about` }"',
+    )
   })
 })
