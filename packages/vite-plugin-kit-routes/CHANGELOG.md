@@ -1,5 +1,17 @@
 # vite-plugin-kit-routes
 
+## 0.0.6
+
+### Patch Changes
+
+- [#416](https://github.com/jycouet/kitql/pull/416)
+  [`dbb1ad9`](https://github.com/jycouet/kitql/commit/dbb1ad9f6298d7403ba6f67eabb9eecc19e8fca2)
+  Thanks [@jycouet](https://github.com/jycouet)! - fix windows paths
+
+- [#417](https://github.com/jycouet/kitql/pull/417)
+  [`9ef8103`](https://github.com/jycouet/kitql/commit/9ef8103516094b71fea1e9f0ea04cbc72f9182c2)
+  Thanks [@jycouet](https://github.com/jycouet)! - add searchParam config & type setting
+
 ## 0.0.5
 
 ### Patch Changes
