@@ -114,7 +114,9 @@ const getFileKeys = (
     type === 'PAGES' ? '+page.svelte' : type === 'SERVERS' ? '+server.ts' : '+page.server.ts'
   const useWithAppendSp = withAppendSp && options?.extra_search_params === 'with'
 
-  const files = readdirSync(routes_path(), { recursive: true }) as string[]
+  let files = readdirSync(routes_path(), { recursive: true }) as string[]
+  // For windows
+  files = files.map(c => c.replaceAll('\\', '/'))
   return (
     files
       .filter(file => file.endsWith(lookFor))
