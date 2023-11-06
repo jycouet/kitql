@@ -1,5 +1,13 @@
 # vite-plugin-kit-routes
 
+## 0.0.7
+
+### Patch Changes
+
+- [#419](https://github.com/jycouet/kitql/pull/419)
+  [`82ed37d`](https://github.com/jycouet/kitql/commit/82ed37d73eeef5495d8656036650f95e195c9a8c)
+  Thanks [@jycouet](https://github.com/jycouet)! - fix optional param not set
+
 ## 0.0.6
 
 ### Patch Changes
