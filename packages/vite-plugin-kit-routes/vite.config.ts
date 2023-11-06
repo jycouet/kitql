@@ -16,10 +16,13 @@ export default defineConfig({
           site: {
             // extra_search_params: 'with',
             explicit_search_params: { limit: { type: 'number' } },
+            params: {
+              // yop: { type: 'number' },
+            },
           },
           site_id: {
-            // extra_search_params: 'with',
             explicit_search_params: { limit: { type: 'number' } },
+            params: { id: { type: 'string' } },
           },
         },
         // SERVERS: {

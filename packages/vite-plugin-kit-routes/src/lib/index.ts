@@ -33,6 +33,11 @@ export type Options = {
   keep_path_param_format?: boolean
 
   /**
+   * default is: `string | number`
+   */
+  default_type?: string
+
+  /**
    * when `without` _(default)_, paths doesn't get a last argument to set extra search params
    *
    * when `with`, each paths get an extra arg for open search param
@@ -55,8 +60,7 @@ export type CustomPath = {
 }
 
 export type ExtendParam = {
-  type?: 'string' | 'number'
-  default?: string
+  type?: string
 }
 
 export type ExplicitSearchParam = ExtendParam & {
@@ -161,7 +165,7 @@ const getFileKeys = (
           }
         }
 
-        // custom thing?
+        // custom search Param?
         let explicit_search_params_to_function = ''
         if (customConf.explicit_search_params) {
           Object.entries(customConf.explicit_search_params).forEach(sp => {
@@ -170,11 +174,23 @@ const getFileKeys = (
           })
         }
 
+        // custom Param?
+        if (customConf.params) {
+          Object.entries(customConf.params).forEach(sp => {
+            for (let i = 0; i < paramsFromPath.params.length; i++) {
+              if (paramsFromPath.params[i].name === sp[0]) {
+                if (sp[1].type) {
+                  paramsFromPath.params[i].type = sp[1].type
+                }
+              }
+            }
+          })
+        }
+
         if (paramsFromPath.params.length > 0) {
           params.push(
-            `params${paramsFromPath.isAllOptional ? '?' : ''}: {${formatArgs(
-              paramsFromPath.params,
-            )}}`,
+            `params${paramsFromPath.isAllOptional ? '?' : ''}: ` +
+              `{${formatArgs(paramsFromPath.params, options)}}`,
           )
         }
 
@@ -199,7 +215,7 @@ const getFileKeys = (
           `${fullSP}` +
           `\` }`
 
-        return { keyToUse, prop }
+        return { keyToUse, prop, paramsFromPath }
       })
   )
 }
@@ -235,8 +251,11 @@ export function extractParamsFromPath(path: string): {
   return { params, isAllOptional }
 }
 
-const formatArgs = (params: Param[]) => {
-  return params.map(c => `${c.name}${c.optional ? '?' : ''}: ${c.type ?? 'string | number'}`)
+const formatArgs = (params: Param[], options?: Options) => {
+  return params.map(
+    c =>
+      `${c.name}${c.optional ? '?' : ''}: ${c.type ?? options?.default_type ?? 'string | number'}`,
+  )
 }
 
 const getMethodsOfServerFiles = (path: string) => {
@@ -312,6 +331,19 @@ const run = (options?: Options) => {
       if (!found) {
         log.error(`Can't extend "${green(`${o.type}.`)}${red(key)}" as this path doesn't exist!`)
         allOk = false
+      } else {
+        Object.entries(cPath.params ?? {}).forEach(p => {
+          const [pKey] = p
+          const paramsFromPathFound = found.paramsFromPath.params.find(c => c.name === pKey)
+          if (!paramsFromPathFound) {
+            log.error(
+              `Can't extend "${green(`${o.type}.${key}.params.`)}${red(
+                pKey,
+              )}" as this param doesn't exist!`,
+            )
+            allOk = false
+          }
+        })
       }
     })
   })

@@ -23,7 +23,7 @@ export const PAGES = {
   site: (params?: { limit?: number }) => {
     return `/site${appendSp({ limit: params?.limit })}`
   },
-  site_id: (params: { id: string | number; limit?: number }) => {
+  site_id: (params: { id: string; limit?: number }) => {
     return `/site/${params.id}${appendSp({ limit: params?.limit })}`
   },
   site_contract_siteId_contractId: (params: {
