@@ -123,106 +123,117 @@ const getFileKeys = (
       .map(file => `/` + file.replace(`/${lookFor}`, '').replace(lookFor, ''))
       // Keep the sorting at this level, it will make more sense
       .sort()
-      .map(original => {
-        const href = original.replace(/\([^)]*\)/g, '').replace(/\/+/g, '/')
-        let toRet = href
-
-        const keyToUse = formatKey(original, options)
-
-        // custom conf
-        const viteCustomPathConfig = options?.extend?.[type]
-        let customConf: CustomPath = {
-          extra_search_params: 'default',
-        }
-        if (viteCustomPathConfig && viteCustomPathConfig[keyToUse]) {
-          customConf = viteCustomPathConfig[keyToUse]
-        }
-
-        const paramsFromPath = extractParamsFromPath(original)
-        paramsFromPath.params.forEach(c => {
-          const sMatcher = `${c.matcher ? `=${c.matcher}` : ''}`
-          if (c.optional) {
-            toRet = toRet.replaceAll(`[[${c.name + sMatcher}]]`, `\${params?.${c.name} ?? ''}`)
-          } else {
-            toRet = toRet.replaceAll(`[${c.name + sMatcher}]`, `\${params.${c.name}}`)
-          }
-        })
-
-        const params = []
-
-        let actionsFormat = ''
-        if (lookFor === '+server.ts') {
-          const methods = getMethodsOfServerFiles(original)
-          if (methods.length > 0) {
-            params.push(`method: ${methods.map(c => `'${c}'`).join(' | ')}`)
-          }
-        } else if (lookFor === '+page.server.ts') {
-          const actions = getActionsOfServerPages(original)
-
-          if (actions.length === 0) {
-          } else if (actions.length === 1 && actions[0] === 'default') {
-          } else {
-            params.push(`action: ${actions.map(c => `'${c}'`).join(' | ')}`)
-            actionsFormat = `?/\${action}`
-          }
-        }
-
-        // custom search Param?
-        let explicit_search_params_to_function = ''
-        if (customConf.explicit_search_params) {
-          Object.entries(customConf.explicit_search_params).forEach(sp => {
-            paramsFromPath.params.push({ name: sp[0], optional: !sp[1].required, type: sp[1].type })
-            explicit_search_params_to_function += `${sp[0]}: params?.${sp[0]}`
-          })
-        }
-
-        // custom Param?
-        if (customConf.params) {
-          Object.entries(customConf.params).forEach(sp => {
-            for (let i = 0; i < paramsFromPath.params.length; i++) {
-              if (paramsFromPath.params[i].name === sp[0]) {
-                if (sp[1].type) {
-                  paramsFromPath.params[i].type = sp[1].type
-                }
-              }
-            }
-          })
-        }
-
-        if (paramsFromPath.params.length > 0) {
-          params.push(
-            `params${paramsFromPath.isAllOptional ? '?' : ''}: ` +
-              `{${formatArgs(paramsFromPath.params, options)}}`,
-          )
-        }
-
-        let fullSP = ''
-        const wExtraSP =
-          (customConf.extra_search_params === 'default' && useWithAppendSp) ||
-          customConf.extra_search_params === 'with'
-
-        if (wExtraSP && !customConf.explicit_search_params) {
-          params.push(`sp?: Record<string, string | number>`)
-          fullSP = `\${appendSp(sp)}`
-        } else if (wExtraSP && customConf.explicit_search_params) {
-          params.push(`sp?: Record<string, string | number>`)
-          fullSP = `\${appendSp({...sp, ${explicit_search_params_to_function} })}`
-        } else if (!wExtraSP && customConf.explicit_search_params) {
-          fullSP = `\${appendSp({ ${explicit_search_params_to_function} })}`
-        }
-
-        const prop =
-          `"${keyToUse}": (${params.join(', ')}) => ` +
-          ` { return \`${toRet}${actionsFormat}` +
-          `${fullSP}` +
-          `\` }`
-
-        return { keyToUse, prop, paramsFromPath }
-      })
+      .map(original => fileToMetadata(original, type, options, useWithAppendSp))
   )
 }
 
 type Param = { name: string; optional: boolean; matcher?: string; type?: string }
+
+export const fileToMetadata = (
+  original: string,
+  type: 'PAGES' | 'SERVERS' | 'ACTIONS',
+  options: Options | undefined,
+  useWithAppendSp: boolean | undefined,
+) => {
+  const href = original.replace(/\([^)]*\)/g, '').replace(/\/+/g, '/')
+  let toRet = href
+
+  const keyToUse = formatKey(original, options)
+
+  // custom conf
+  const viteCustomPathConfig = options?.extend?.[type]
+  let customConf: CustomPath = {
+    extra_search_params: 'default',
+  }
+  if (viteCustomPathConfig && viteCustomPathConfig[keyToUse]) {
+    customConf = viteCustomPathConfig[keyToUse]
+  }
+
+  const paramsFromPath = extractParamsFromPath(original)
+  paramsFromPath.params.forEach(c => {
+    const sMatcher = `${c.matcher ? `=${c.matcher}` : ''}`
+    if (c.optional) {
+      toRet = toRet.replaceAll(
+        `/[[${c.name + sMatcher}]]`,
+        `\${params?.${c.name} ? \`/\${params?.${c.name}}\`: ''}`,
+      )
+    } else {
+      toRet = toRet.replaceAll(`/[${c.name + sMatcher}]`, `/\${params.${c.name}}`)
+    }
+  })
+
+  const params = []
+
+  let actionsFormat = ''
+  if (type === 'SERVERS') {
+    const methods = getMethodsOfServerFiles(original)
+    if (methods.length > 0) {
+      params.push(`method: ${methods.map(c => `'${c}'`).join(' | ')}`)
+    }
+  } else if (type === 'ACTIONS') {
+    const actions = getActionsOfServerPages(original)
+
+    if (actions.length === 0) {
+    } else if (actions.length === 1 && actions[0] === 'default') {
+    } else {
+      params.push(`action: ${actions.map(c => `'${c}'`).join(' | ')}`)
+      actionsFormat = `?/\${action}`
+    }
+  }
+
+  // custom search Param?
+  let explicit_search_params_to_function = ''
+  if (customConf.explicit_search_params) {
+    Object.entries(customConf.explicit_search_params).forEach(sp => {
+      paramsFromPath.params.push({ name: sp[0], optional: !sp[1].required, type: sp[1].type })
+      explicit_search_params_to_function += `${sp[0]}: params?.${sp[0]}`
+    })
+  }
+
+  // custom Param?
+  if (customConf.params) {
+    Object.entries(customConf.params).forEach(sp => {
+      for (let i = 0; i < paramsFromPath.params.length; i++) {
+        if (paramsFromPath.params[i].name === sp[0]) {
+          if (sp[1].type) {
+            paramsFromPath.params[i].type = sp[1].type
+          }
+        }
+      }
+    })
+  }
+
+  if (paramsFromPath.params.length > 0) {
+    params.push(
+      `params${paramsFromPath.isAllOptional ? '?' : ''}: ` +
+        `{${formatArgs(paramsFromPath.params, options)}}`,
+    )
+  }
+
+  let fullSP = ''
+  const wExtraSP =
+    (customConf.extra_search_params === 'default' && useWithAppendSp) ||
+    customConf.extra_search_params === 'with'
+
+  if (wExtraSP && !customConf.explicit_search_params) {
+    params.push(`sp?: Record<string, string | number>`)
+    fullSP = `\${appendSp(sp)}`
+  } else if (wExtraSP && customConf.explicit_search_params) {
+    params.push(`sp?: Record<string, string | number>`)
+    fullSP = `\${appendSp({...sp, ${explicit_search_params_to_function} })}`
+  } else if (!wExtraSP && customConf.explicit_search_params) {
+    fullSP = `\${appendSp({ ${explicit_search_params_to_function} })}`
+  }
+
+  const prop =
+    `"${keyToUse}": (${params.join(', ')}) => ` +
+    ` { return \`${toRet}${actionsFormat}` +
+    `${fullSP}` +
+    `\` }`
+
+  return { keyToUse, prop, paramsFromPath }
+}
+
 export function extractParamsFromPath(path: string): {
   params: Param[]
   isAllOptional: boolean

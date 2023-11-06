@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { extractParamsFromPath, formatKey } from './index.js'
+import { extractParamsFromPath, fileToMetadata, formatKey } from './index.js'
 
 describe('vite-plugin-kit-routes', () => {
   it('get id', async () => {
@@ -84,5 +84,10 @@ describe('vite-plugin-kit-routes', () => {
 
   it('formatKey', async () => {
     expect(formatKey('/')).toMatchInlineSnapshot('"_ROOT"')
+  })
+
+  it('fileToMetadata', async () => {
+    expect(fileToMetadata('/[[lang]]/about', 'PAGES', undefined, undefined).prop)
+      .toMatchInlineSnapshot('"\\"lang_about\\": (params?: {lang?: string | number}) =>  { return `${params?.lang ? `/${params?.lang}`: \'\'}/about` }"')
   })
 })
