@@ -2,7 +2,12 @@ import { Callout } from '@theguild/components'
 
 # ⚡How to - `vite-plugin-kit-routes`
 
-<Callout>Never be out of sync with your routes again 🥳</Callout>
+Never be out of sync with your routes again 🥳
+
+<Callout>It's very early, things might change! 😉</Callout>
+
+By default, no Configuration is needed, it will just infer as much as it can from your project. Then
+you will be able to narrow down types & search params.
 
 ## Installation
 
@@ -29,8 +34,46 @@ export default config
 ```
 
 It will create a file `./src/lib/ROUTES.ts` at the start of your dev server & any update of any of
-your `+page.svelte`.
+your `+page.svelte` | `+server.ts` | `+page.server.ts`.
 
 ## Side Notes
 
-- It's very early, things might change! 😉
+- You can run prettier at the end of the process with something like:
+
+  ```ts
+  kitRoutes({
+    post_update_run: 'npm exec prettier ./src/lib/ROUTES.ts -- -w'
+  })
+  ```
+
+- You can specify a searchParam for some paths
+
+  ```ts
+  kitRoutes({
+    extend: {
+      PAGES: {
+        site: {
+          explicit_search_params: {
+            limit: { type: 'number' }
+          }
+        }
+      }
+    }
+  })
+  ```
+
+  - You can narrow down the type of params
+
+  ```ts
+  kitRoutes({
+    extend: {
+      PAGES: {
+        site_id: {
+          params: {
+            id: { type: 'string' }
+          }
+        }
+      }
+    }
+  })
+  ```
