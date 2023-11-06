@@ -76,7 +76,9 @@ const getFileKeys = (
   options?: Options,
   withAppendSp?: boolean,
 ) => {
-  const files = readdirSync(routes_path(), { recursive: true }) as string[]
+  let files = readdirSync(routes_path(), { recursive: true }) as string[]
+  // For windows
+  files = files.map(c => c.replaceAll('\\', '/'))
   return (
     files
       .filter(file => file.endsWith(lookFor))
@@ -264,7 +266,7 @@ export const ACTIONS = {
 
 const appendSp = (sp?: Record<string, string | number>) => {
   if (sp === undefined) return ''
-  return \`?\${new URLSearchParams(sp as Record<string, string> || {}).toString()}\`
+  return \`?\${new URLSearchParams((sp as Record<string, string>) || {}).toString()}\`
 }
 `,
   ])
