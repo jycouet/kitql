@@ -86,11 +86,19 @@ describe('vite-plugin-kit-routes', () => {
     expect(formatKey('/')).toMatchInlineSnapshot('"_ROOT"')
   })
 
-  it('fileToMetadata', async () => {
+  it('fileToMetadata optional', async () => {
     expect(
       fileToMetadata('/[[lang]]/about', 'PAGES', undefined, undefined).prop,
     ).toMatchInlineSnapshot(
       '"\\"lang_about\\": (params?: {lang?: string | number}) =>  { return `${params?.lang ? `/${params?.lang}`: \'\'}/about` }"',
+    )
+  })
+
+  it('fileToMetadata optional not at start', async () => {
+    expect(
+      fileToMetadata('/prefix-[[lang]]/about', 'PAGES', undefined, undefined).prop,
+    ).toMatchInlineSnapshot(
+      '"\\"prefix_lang_about\\": (params?: {lang?: string | number}) =>  { return `/prefix-${params?.lang ? `${params?.lang}`: \'\'}/about` }"',
     )
   })
 })

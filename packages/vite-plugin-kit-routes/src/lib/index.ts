@@ -157,8 +157,15 @@ export const fileToMetadata = (
         `/[[${c.name + sMatcher}]]`,
         `\${params?.${c.name} ? \`/\${params?.${c.name}}\`: ''}`,
       )
+      // We need to manage the 2 cases (with "/" prefix and without)
+      toRet = toRet.replaceAll(
+        `[[${c.name + sMatcher}]]`,
+        `\${params?.${c.name} ? \`\${params?.${c.name}}\`: ''}`,
+      )
     } else {
       toRet = toRet.replaceAll(`/[${c.name + sMatcher}]`, `/\${params.${c.name}}`)
+      // We need to manage the 2 cases (with "/" prefix and without)
+      toRet = toRet.replaceAll(`[${c.name + sMatcher}]`, `\${params.${c.name}}`)
     }
   })
 
