@@ -4,69 +4,57 @@ import { extractParamsFromPath, fileToMetadata, formatKey } from './index.js'
 describe('vite-plugin-kit-routes', () => {
   it('get id', async () => {
     expect(extractParamsFromPath('/site/[id]')).toMatchInlineSnapshot(`
-      {
-        "isAllOptional": false,
-        "params": [
-          {
-            "name": "id",
-            "optional": false,
-          },
-        ],
-      }
+      [
+        {
+          "name": "id",
+          "optional": false,
+        },
+      ]
     `)
   })
 
   it('get params & id', async () => {
     expect(extractParamsFromPath('/site/[param]/[id]')).toMatchInlineSnapshot(`
-      {
-        "isAllOptional": false,
-        "params": [
-          {
-            "name": "param",
-            "optional": false,
-          },
-          {
-            "name": "id",
-            "optional": false,
-          },
-        ],
-      }
+      [
+        {
+          "name": "param",
+          "optional": false,
+        },
+        {
+          "name": "id",
+          "optional": false,
+        },
+      ]
     `)
   })
 
   it('get params & id', async () => {
     expect(extractParamsFromPath('/[param]site/[yop](group)/[id]')).toMatchInlineSnapshot(`
-      {
-        "isAllOptional": false,
-        "params": [
-          {
-            "name": "param",
-            "optional": false,
-          },
-          {
-            "name": "yop",
-            "optional": false,
-          },
-          {
-            "name": "id",
-            "optional": false,
-          },
-        ],
-      }
+      [
+        {
+          "name": "param",
+          "optional": false,
+        },
+        {
+          "name": "yop",
+          "optional": false,
+        },
+        {
+          "name": "id",
+          "optional": false,
+        },
+      ]
     `)
   })
 
   it('get optional param', async () => {
     expect(extractParamsFromPath('/lang/[[lang]]')).toMatchInlineSnapshot(`
-      {
-        "isAllOptional": true,
-        "params": [
-          {
-            "name": "lang",
-            "optional": true,
-          },
-        ],
-      }
+      [
+        {
+          "name": "lang",
+          "optional": true,
+        },
+      ]
     `)
   })
 
@@ -99,6 +87,28 @@ describe('vite-plugin-kit-routes', () => {
       fileToMetadata('/prefix-[[lang]]/about', 'PAGES', undefined, undefined).prop,
     ).toMatchInlineSnapshot(
       '"\\"prefix_lang_about\\": (params?: {lang?: string | number}) =>  { return `/prefix-${params?.lang ? `${params?.lang}`: \'\'}/about` }"',
+    )
+  })
+
+  it('fileToMetadata default param', async () => {
+    expect(
+      fileToMetadata(
+        '/subscriptions/[snapshot]',
+        'PAGES',
+        {
+          extend: {
+            PAGES: {
+              subscriptions_snapshot: {
+                explicit_search_params: { limit: { type: 'number' } },
+                params: { snapshot: { type: 'string', default: 'coucou' } },
+              },
+            },
+          },
+        },
+        undefined,
+      ).prop,
+    ).toMatchInlineSnapshot(
+      '"\\"subscriptions_snapshot\\": (params: {snapshot: string, limit?: number}) =>  { return `/subscriptions/${params.snapshot}${appendSp({ limit: params?.limit })}` }"',
     )
   })
 })

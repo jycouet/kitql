@@ -30,7 +30,7 @@ export const PAGES = {
     siteId: string | number
     contractId: string | number
   }) => {
-    return `/site_contract/${params.siteId}-[contractId]`
+    return `/site_contract/${params.siteId}-${params.contractId}`
   },
 }
 
@@ -54,7 +54,7 @@ export const ACTIONS = {
     action: 'sendSomething',
     params: { siteId: string | number; contractId: string | number },
   ) => {
-    return `/site_contract/${params.siteId}-[contractId]?/${action}`
+    return `/site_contract/${params.siteId}-${params.contractId}?/${action}`
   },
 }
 
