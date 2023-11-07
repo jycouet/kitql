@@ -24,7 +24,6 @@ export default defineConfig({
               // yop: { type: 'number' },
             },
           },
-
           site_id: {
             explicit_search_params: { limit: { type: 'number' } },
             params: { id: { type: 'string', default: '' } },
@@ -32,10 +31,16 @@ export default defineConfig({
         },
         SERVERS: {
           // site: {
-          //   params: {
-          //   }
+          //   params: { }
           // }
           // yop: {},
+        },
+        ACTIONS: {
+          site_contract_siteId_contractId: {
+            explicit_search_params: {
+              extra: { type: "'A' | 'B'", default: 'A' },
+            },
+          },
         },
       },
     }),

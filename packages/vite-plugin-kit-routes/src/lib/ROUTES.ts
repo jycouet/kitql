@@ -6,7 +6,7 @@
 
 export const PAGES = {
   _ROOT: () => {
-    return `/`
+    return ensurePrefix(`/`)
   },
   contract: () => {
     return `/contract`
@@ -59,9 +59,11 @@ export const ACTIONS = {
   },
   site_contract_siteId_contractId: (
     action: 'sendSomething',
-    params: { siteId: string | number; contractId: string | number },
+    params: { siteId: string | number; contractId: string | number; extra?: 'A' | 'B' },
   ) => {
-    return `/site_contract/${params.siteId}-${params.contractId}?/${action}`
+    return `/site_contract/${params.siteId}-${params.contractId}?/${action}${appendSp({
+      extra: params.extra,
+    })}`
   },
 }
 
@@ -76,6 +78,13 @@ const appendSp = (sp?: Record<string, string | number | undefined>) => {
     return `?${formated}`
   }
   return ''
+}
+
+const ensurePrefix = (str: string) => {
+  if (str.startsWith('/')) {
+    return str
+  }
+  return `/${str}`
 }
 
 /**
@@ -112,6 +121,6 @@ export type ROUTES = {
   ACTIONS: {
     contract_id: 'id'
     site: never
-    site_contract_siteId_contractId: 'siteId' | 'contractId'
+    site_contract_siteId_contractId: 'siteId' | 'contractId' | 'extra'
   }
 }

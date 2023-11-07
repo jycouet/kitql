@@ -146,8 +146,7 @@ export const fileToMetadata = (
   options: Options | undefined,
   useWithAppendSp: boolean | undefined,
 ) => {
-  const href = original.replace(/\([^)]*\)/g, '').replace(/\/+/g, '/')
-  let toRet = href
+  let toRet = original.replace(/\([^)]*\)/g, '').replace(/\/+/g, '/')
 
   const keyToUse = formatKey(original, options)
 
@@ -260,7 +259,9 @@ export const fileToMetadata = (
     `"${keyToUse}": (${params.join(', ')}) => ` +
     ` { ` +
     `${paramsDefaults.join('')}` +
-    `return \`${toRet}${actionsFormat}${fullSP}\`` +
+    `return ${keyToUse === '_ROOT' ? `ensurePrefix(` : ``}` +
+    `\`${toRet}${actionsFormat}${fullSP}\`` +
+    `${keyToUse === '_ROOT' ? `)` : ``}` +
     ` }`
 
   return { keyToUse, prop, paramsFromPath }
@@ -423,6 +424,13 @@ const appendSp = (sp?: Record<string, string | number | undefined>) => {
     return \`?\${formated}\`
   }
   return ''
+}
+
+const ensurePrefix = (str: string) => {
+  if (str.startsWith('/')) {
+    return str
+  }
+  return \`/\${str}\`
 }
 `,
       // types
