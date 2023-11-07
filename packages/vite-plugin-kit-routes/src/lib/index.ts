@@ -10,10 +10,14 @@ import { read, write } from './fs.js'
 const { visit } = recast.types
 
 export type Options<
-  T extends { PAGES: string; SERVERS: string; ACTIONS: string } = {
-    PAGES: string
-    SERVERS: string
-    ACTIONS: string
+  T extends {
+    PAGES: Record<string, string>
+    SERVERS: Record<string, string>
+    ACTIONS: Record<string, string>
+  } = {
+    PAGES: Record<string, string>
+    SERVERS: Record<string, string>
+    ACTIONS: Record<string, string>
   },
 > = {
   /**
@@ -53,15 +57,15 @@ export type Options<
   extra_search_params?: 'with' | 'without'
 
   extend?: {
-    PAGES?: Partial<Record<T['PAGES'], CustomPath>>
-    SERVERS?: Partial<Record<T['SERVERS'], CustomPath>>
-    ACTIONS?: Partial<Record<T['ACTIONS'], CustomPath>>
+    PAGES?: Partial<{ [K in keyof T['PAGES']]: CustomPath<Extract<T['PAGES'][K], string>> }>
+    SERVERS?: Partial<{ [K in keyof T['SERVERS']]: CustomPath<Extract<T['SERVERS'][K], string>> }>
+    ACTIONS?: Partial<{ [K in keyof T['ACTIONS']]: CustomPath<Extract<T['ACTIONS'][K], string>> }>
   }
 }
 
-export type CustomPath = {
+export type CustomPath<Params extends string | never = string> = {
   explicit_search_params?: Record<string, ExplicitSearchParam>
-  params?: Record<string, ExtendParam>
+  params?: Partial<Record<Params, ExtendParam>>
   extra_search_params?: 'default' | 'with' | 'without'
 }
 
@@ -164,10 +168,10 @@ export const fileToMetadata = (
     Object.entries(customConf.params).forEach(sp => {
       for (let i = 0; i < paramsFromPath.length; i++) {
         if (paramsFromPath[i].name === sp[0]) {
-          if (sp[1].type) {
+          if (sp[1] && sp[1].type) {
             paramsFromPath[i].type = sp[1].type
           }
-          if (sp[1].default !== undefined) {
+          if (sp[1] && sp[1].default !== undefined) {
             paramsFromPath[i].default = sp[1].default
             // It's becoming optional because it has a default
             paramsFromPath[i].optional = true
@@ -443,11 +447,19 @@ const appendSp = (sp?: Record<string, string | number | undefined>) => {
 export type ROUTES = { 
 ${objTypes
   .map(c => {
-    return `  ${c.type}: ${c.files
+    return `  ${c.type}: { ${c.files
       .map(d => {
-        return `'${d.keyToUse}'`
+        return `'${d.keyToUse}': ${
+          d.paramsFromPath.length === 0
+            ? 'never'
+            : d.paramsFromPath
+                .map(e => {
+                  return `'${e.name}'`
+                })
+                .join(' | ')
+        }`
       })
-      .join(' | ')}`
+      .join(', ')} }`
   })
   .join('\n')}
 }
@@ -483,10 +495,14 @@ ${objTypes
 }
 
 export function kitRoutes<
-  T extends { PAGES: string; SERVERS: string; ACTIONS: string } = {
-    PAGES: string
-    SERVERS: string
-    ACTIONS: string
+  T extends {
+    PAGES: Record<string, string>
+    SERVERS: Record<string, string>
+    ACTIONS: Record<string, string>
+  } = {
+    PAGES: Record<string, string>
+    SERVERS: Record<string, string>
+    ACTIONS: Record<string, string>
   },
 >(options?: Options<T>): Plugin[] {
   return [
