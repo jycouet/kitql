@@ -6,7 +6,7 @@
 
 export const PAGES = {
   _ROOT: () => {
-    return `/`
+    return ensurePrefix(`/`)
   },
   contract: () => {
     return `/contract`
@@ -59,9 +59,11 @@ export const ACTIONS = {
   },
   site_contract_siteId_contractId: (
     action: 'sendSomething',
-    params: { siteId: string | number; contractId: string | number },
+    params: { siteId: string | number; contractId: string | number; extra?: 'A' | 'B' },
   ) => {
-    return `/site_contract/${params.siteId}-${params.contractId}?/${action}`
+    return `/site_contract/${params.siteId}-${params.contractId}?/${action}${appendSp({
+      extra: params.extra,
+    })}`
   },
 }
 
@@ -76,4 +78,49 @@ const appendSp = (sp?: Record<string, string | number | undefined>) => {
     return `?${formated}`
   }
   return ''
+}
+
+const ensurePrefix = (str: string) => {
+  if (str.startsWith('/')) {
+    return str
+  }
+  return `/${str}`
+}
+
+/**
+ * Add this type as a generic of the vite plugin `kitRoutes<ROUTES>`.
+ *
+ * Full example:
+ * ```ts
+ * import type { ROUTES } from '$lib/ROUTES'
+ * import { kitRoutes } from 'vite-plugin-kit-routes'
+ *
+ * kitRoutes<ROUTES>({
+ *  extend: {
+ *    PAGES: {
+ *      // here, "paths" it will be typed!
+ *    }
+ *  }
+ * })
+ * ```
+ */
+export type ROUTES = {
+  PAGES: {
+    _ROOT: never
+    contract: never
+    contract_id: 'id'
+    gp_logged_one: never
+    gp_public_two: never
+    lang_lang: 'lang'
+    match_id_int: 'id'
+    site: 'limit'
+    site_id: 'id' | 'limit'
+    site_contract_siteId_contractId: 'siteId' | 'contractId'
+  }
+  SERVERS: { contract: never; site: never }
+  ACTIONS: {
+    contract_id: 'id'
+    site: never
+    site_contract_siteId_contractId: 'siteId' | 'contractId' | 'extra'
+  }
 }

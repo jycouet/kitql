@@ -1,12 +1,16 @@
 import { sveltekit } from '@sveltejs/kit/vite'
+import type { ROUTES } from '$lib/ROUTES.js'
 import { defineConfig } from 'vite'
 import { kitRoutes } from './src/lib/index.js'
+
+type TT = 'A' | 'B'
+const u: Partial<Record<TT, string>> = {}
 
 export default defineConfig({
   plugins: [
     sveltekit(),
     // demo
-    kitRoutes({
+    kitRoutes<ROUTES>({
       // for testing
       // generated_file_path: 'src/lib/ROUTES2.ts',
       post_update_run: 'npm exec prettier ./src/lib/ROUTES.ts -- -w',
@@ -25,9 +29,19 @@ export default defineConfig({
             params: { id: { type: 'string', default: '' } },
           },
         },
-        // SERVERS: {
-        //   yop: {},
-        // },
+        SERVERS: {
+          // site: {
+          //   params: { }
+          // }
+          // yop: {},
+        },
+        ACTIONS: {
+          site_contract_siteId_contractId: {
+            explicit_search_params: {
+              extra: { type: "'A' | 'B'", default: 'A' },
+            },
+          },
+        },
       },
     }),
   ],
