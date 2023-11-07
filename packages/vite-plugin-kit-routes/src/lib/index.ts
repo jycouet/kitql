@@ -502,6 +502,26 @@ ${objTypes
   return false
 }
 
+/**
+ * First you can start with something simple:
+ * ```ts
+ * import { kitRoutes } from 'vite-plugin-kit-routes'
+ *
+ * kitRoutes({
+ *  // Conf
+ * })
+ * ```
+ * ---
+ * Then, you can add the `ROUTES` type... It will be crazy good!
+ * ```ts
+ * import type { ROUTES } from '$lib/ROUTES'
+ * import { kitRoutes } from 'vite-plugin-kit-routes'
+ *
+ * kitRoutes<ROUTES>({
+ *  // Conf
+ * })
+ * ```
+ */
 export function kitRoutes<
   T extends {
     PAGES: Record<string, string>
