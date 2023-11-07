@@ -93,14 +93,17 @@ describe('vite-plugin-kit-routes', () => {
   it('fileToMetadata default param', async () => {
     expect(
       fileToMetadata(
-        '/subscriptions/[snapshot]',
+        '/subscriptions/[snapshot]/[id]',
         'PAGES',
         {
           extend: {
             PAGES: {
-              subscriptions_snapshot: {
+              subscriptions_snapshot_id: {
                 explicit_search_params: { limit: { type: 'number' } },
-                params: { snapshot: { type: 'string', default: 'coucou' } },
+                params: {
+                  snapshot: { type: 'string', default: 'coucou' },
+                  id: { type: 'string', default: 'coucou' },
+                },
               },
             },
           },
@@ -108,7 +111,7 @@ describe('vite-plugin-kit-routes', () => {
         undefined,
       ).prop,
     ).toMatchInlineSnapshot(
-      '"\\"subscriptions_snapshot\\": (params: {snapshot?: string, limit?: number}= {}) =>  { params.snapshot = params.snapshot ?? \'coucou\'; return `/subscriptions/[snapshot]${appendSp({ limit: params.limit })}` }"',
+      '"\\"subscriptions_snapshot_id\\": (params: {snapshot?: string, id?: string, limit?: number}= {}) =>  { params.snapshot = params.snapshot ?? \'coucou\'; params.id = params.id ?? \'coucou\'; return `/subscriptions/[snapshot]/[id]${appendSp({ limit: params.limit })}` }"',
     )
   })
 })

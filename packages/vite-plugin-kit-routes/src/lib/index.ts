@@ -394,7 +394,7 @@ const run = (options?: Options) => {
         .map(c => {
           return `export const ${c.type} = {
   ${c.files.map(key => key.prop).join(',\n  ')}
-          }`
+}`
         })
         .join(`\n\n`),
       `
