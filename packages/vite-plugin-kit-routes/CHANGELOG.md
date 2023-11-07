@@ -1,5 +1,17 @@
 # vite-plugin-kit-routes
 
+## 0.0.9
+
+### Patch Changes
+
+- [#424](https://github.com/jycouet/kitql/pull/424)
+  [`cda7f9c`](https://github.com/jycouet/kitql/commit/cda7f9c4cd4fd90997716111016e1059afcafb1e)
+  Thanks [@jycouet](https://github.com/jycouet)! - fix ensurePrefix on ROOT
+
+- [#424](https://github.com/jycouet/kitql/pull/424)
+  [`cda7f9c`](https://github.com/jycouet/kitql/commit/cda7f9c4cd4fd90997716111016e1059afcafb1e)
+  Thanks [@jycouet](https://github.com/jycouet)! - add generic types to the plugin
+
 ## 0.0.8
 
 ### Patch Changes
