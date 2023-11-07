@@ -78,7 +78,7 @@ describe('vite-plugin-kit-routes', () => {
     expect(
       fileToMetadata('/[[lang]]/about', 'PAGES', undefined, undefined).prop,
     ).toMatchInlineSnapshot(
-      '"\\"lang_about\\": (params?: {lang?: string | number}) =>  { return `${params?.lang ? `/${params?.lang}`: \'\'}/about` }"',
+      '"\\"lang_about\\": (params: {lang?: string | number}= {}) =>  { return `${params?.lang ? `/${params?.lang}`: \'\'}/about` }"',
     )
   })
 
@@ -86,7 +86,7 @@ describe('vite-plugin-kit-routes', () => {
     expect(
       fileToMetadata('/prefix-[[lang]]/about', 'PAGES', undefined, undefined).prop,
     ).toMatchInlineSnapshot(
-      '"\\"prefix_lang_about\\": (params?: {lang?: string | number}) =>  { return `/prefix-${params?.lang ? `${params?.lang}`: \'\'}/about` }"',
+      '"\\"prefix_lang_about\\": (params: {lang?: string | number}= {}) =>  { return `/prefix-${params?.lang ? `${params?.lang}`: \'\'}/about` }"',
     )
   })
 
@@ -108,7 +108,7 @@ describe('vite-plugin-kit-routes', () => {
         undefined,
       ).prop,
     ).toMatchInlineSnapshot(
-      '"\\"subscriptions_snapshot\\": (params: {snapshot: string, limit?: number}) =>  { return `/subscriptions/${params.snapshot}${appendSp({ limit: params?.limit })}` }"',
+      '"\\"subscriptions_snapshot\\": (params: {snapshot?: string, limit?: number}= {}) =>  { params.snapshot = params.snapshot ?? \'coucou\'; return `/subscriptions/[snapshot]${appendSp({ limit: params.limit })}` }"',
     )
   })
 })
