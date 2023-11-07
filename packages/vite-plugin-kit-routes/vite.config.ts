@@ -22,7 +22,7 @@ export default defineConfig({
           },
           site_id: {
             explicit_search_params: { limit: { type: 'number' } },
-            params: { id: { type: 'string' } },
+            params: { id: { type: 'string', default: '' } },
           },
         },
         // SERVERS: {

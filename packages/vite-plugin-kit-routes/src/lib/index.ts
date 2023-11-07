@@ -61,6 +61,7 @@ export type CustomPath = {
 
 export type ExtendParam = {
   type?: string
+  default?: string
 }
 
 export type ExplicitSearchParam = ExtendParam & {
@@ -127,7 +128,7 @@ const getFileKeys = (
   )
 }
 
-type Param = { name: string; optional: boolean; matcher?: string; type?: string }
+type Param = { name: string; optional: boolean; matcher?: string; type?: string; default?: string }
 
 export const fileToMetadata = (
   original: string,
@@ -150,15 +151,41 @@ export const fileToMetadata = (
   }
 
   const paramsFromPath = extractParamsFromPath(original)
-  paramsFromPath.params.forEach(c => {
+
+  // custom Param?
+  if (customConf.params) {
+    Object.entries(customConf.params).forEach(sp => {
+      for (let i = 0; i < paramsFromPath.length; i++) {
+        if (paramsFromPath[i].name === sp[0]) {
+          if (sp[1].type) {
+            paramsFromPath[i].type = sp[1].type
+          }
+          if (sp[1].default !== undefined) {
+            paramsFromPath[i].default = sp[1].default
+            // It's becoming optional because it has a default
+            paramsFromPath[i].optional = true
+          }
+        }
+      }
+    })
+  }
+
+  paramsFromPath.forEach(c => {
     const sMatcher = `${c.matcher ? `=${c.matcher}` : ''}`
     if (c.optional) {
       toRet = toRet.replaceAll(
         `/[[${c.name + sMatcher}]]`,
         `\${params?.${c.name} ? \`/\${params?.${c.name}}\`: ''}`,
       )
+      // We need to manage the 2 cases (with "/" prefix and without)
+      toRet = toRet.replaceAll(
+        `[[${c.name + sMatcher}]]`,
+        `\${params?.${c.name} ? \`\${params?.${c.name}}\`: ''}`,
+      )
     } else {
       toRet = toRet.replaceAll(`/[${c.name + sMatcher}]`, `/\${params.${c.name}}`)
+      // We need to manage the 2 cases (with "/" prefix and without)
+      toRet = toRet.replaceAll(`[${c.name + sMatcher}]`, `\${params.${c.name}}`)
     }
   })
 
@@ -185,28 +212,15 @@ export const fileToMetadata = (
   let explicit_search_params_to_function = ''
   if (customConf.explicit_search_params) {
     Object.entries(customConf.explicit_search_params).forEach(sp => {
-      paramsFromPath.params.push({ name: sp[0], optional: !sp[1].required, type: sp[1].type })
-      explicit_search_params_to_function += `${sp[0]}: params?.${sp[0]}`
+      paramsFromPath.push({ name: sp[0], optional: !sp[1].required, type: sp[1].type })
+      explicit_search_params_to_function += `${sp[0]}: params.${sp[0]}`
     })
   }
 
-  // custom Param?
-  if (customConf.params) {
-    Object.entries(customConf.params).forEach(sp => {
-      for (let i = 0; i < paramsFromPath.params.length; i++) {
-        if (paramsFromPath.params[i].name === sp[0]) {
-          if (sp[1].type) {
-            paramsFromPath.params[i].type = sp[1].type
-          }
-        }
-      }
-    })
-  }
-
-  if (paramsFromPath.params.length > 0) {
+  if (paramsFromPath.length > 0) {
+    const isAllOptional = paramsFromPath.filter(c => !c.optional).length === 0
     params.push(
-      `params${paramsFromPath.isAllOptional ? '?' : ''}: ` +
-        `{${formatArgs(paramsFromPath.params, options)}}`,
+      `params: {${formatArgs(paramsFromPath, options)}}` + `${isAllOptional ? '= {}' : ''}`,
     )
   }
 
@@ -225,19 +239,23 @@ export const fileToMetadata = (
     fullSP = `\${appendSp({ ${explicit_search_params_to_function} })}`
   }
 
+  let paramsDefaults = paramsFromPath
+    .filter(c => c.default !== undefined)
+    .map(c => {
+      return `params.${c.name} = params.${c.name} ?? '${c.default}'; `
+    })
+
   const prop =
     `"${keyToUse}": (${params.join(', ')}) => ` +
-    ` { return \`${toRet}${actionsFormat}` +
-    `${fullSP}` +
-    `\` }`
+    ` { ` +
+    `${paramsDefaults.join('')}` +
+    `return \`${toRet}${actionsFormat}${fullSP}\`` +
+    ` }`
 
   return { keyToUse, prop, paramsFromPath }
 }
 
-export function extractParamsFromPath(path: string): {
-  params: Param[]
-  isAllOptional: boolean
-} {
+export function extractParamsFromPath(path: string): Param[] {
   const paramPattern = /\[+([^\]]+)]+/g
   const params: Param[] = []
 
@@ -260,15 +278,18 @@ export function extractParamsFromPath(path: string): {
     }
   }
 
-  const isAllOptional = params.filter(c => !c.optional).length === 0
-  return { params, isAllOptional }
+  return params
 }
 
 const formatArgs = (params: Param[], options?: Options) => {
-  return params.map(
-    c =>
-      `${c.name}${c.optional ? '?' : ''}: ${c.type ?? options?.default_type ?? 'string | number'}`,
-  )
+  return params
+    .map(
+      c =>
+        `${c.name}${c.optional ? '?' : ''}: ${
+          c.type ?? options?.default_type ?? 'string | number'
+        }`,
+    )
+    .join(', ')
 }
 
 const getMethodsOfServerFiles = (path: string) => {
@@ -347,7 +368,7 @@ const run = (options?: Options) => {
       } else {
         Object.entries(cPath.params ?? {}).forEach(p => {
           const [pKey] = p
-          const paramsFromPathFound = found.paramsFromPath.params.find(c => c.name === pKey)
+          const paramsFromPathFound = found.paramsFromPath.find(c => c.name === pKey)
           if (!paramsFromPathFound) {
             log.error(
               `Can't extend "${green(`${o.type}.${key}.params.`)}${red(
@@ -363,6 +384,12 @@ const run = (options?: Options) => {
 
   if (allOk) {
     const result = write(generated_file_path(options), [
+      `/** 
+ * This file was generated by 'vite-plugin-kit-routes'
+ * 
+ *      >> DO NOT EDIT THIS FILE MANUALLY <<
+ */
+`,
       objTypes
         .map(c => {
           return `export const ${c.type} = {
@@ -408,7 +435,10 @@ const appendSp = (sp?: Record<string, string | number | undefined>) => {
         log.success(`${yellow(generated_file_path(options))} updated`)
       }
     }
+    return true
   }
+
+  return false
 }
 
 export function kitRoutes(options?: Options): Plugin[] {
@@ -427,7 +457,9 @@ export function kitRoutes(options?: Options): Plugin[] {
         name: 'kit-routes-watch',
         logs: [],
         watch: ['**/+page.svelte', '**/+page.server.ts', '**/+server.ts'],
-        run: () => run(options),
+        run: () => {
+          run(options)
+        },
       },
     ]),
   ]
