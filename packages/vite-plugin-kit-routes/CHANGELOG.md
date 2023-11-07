@@ -1,5 +1,18 @@
 # vite-plugin-kit-routes
 
+## 0.0.8
+
+### Patch Changes
+
+- [#421](https://github.com/jycouet/kitql/pull/421)
+  [`3680a40`](https://github.com/jycouet/kitql/commit/3680a404652c16464a6e211d7f8cb42f9fe7ebef)
+  Thanks [@jycouet](https://github.com/jycouet)! - feat - Add defaults to params
+
+- [#421](https://github.com/jycouet/kitql/pull/421)
+  [`3680a40`](https://github.com/jycouet/kitql/commit/3680a404652c16464a6e211d7f8cb42f9fe7ebef)
+  Thanks [@jycouet](https://github.com/jycouet)! - fix optional param not at the start of the path
+  are working as well
+
 ## 0.0.7
 
 ### Patch Changes
