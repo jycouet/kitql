@@ -33,7 +33,7 @@ you will be able to narrow down types & search params.
   const contractId = $page.params.contractId
 
   // 🤞 before, random string
-  // const action =  `/site_contract/${siteId}-${contractId}?/sendSomething`
+  const action =  `/site_contract/${siteId}-${contractId}?/sendSomething`
 
   // ✅ after, all typed & make sure it exist. // 'vite-plugin-kit-routes',
   const action = ACTIONS.site_contract_siteId_contractId('sendSomething', { siteId, contractId })
@@ -75,40 +75,52 @@ your `+page.svelte` | `+server.ts` | `+page.server.ts`.
 
 - You can run prettier at the end of the process with something like:
 
-  ```ts
-  kitRoutes({
-    post_update_run: 'npm exec prettier ./src/lib/ROUTES.ts -- -w'
-  })
-  ```
+```ts filename="vite.config.ts"
+kitRoutes({
+  post_update_run: 'npm exec prettier ./src/lib/ROUTES.ts -- -w'
+})
+```
 
-- You can specify a searchParam for some paths
+- You can specify a searchParam for some paths _(you can also do it globally)_
 
-  ```ts
-  kitRoutes({
-    extend: {
-      PAGES: {
-        site: {
-          explicit_search_params: {
-            limit: { type: 'number' }
-          }
+```ts filename="vite.config.ts"
+kitRoutes({
+  extend: {
+    PAGES: {
+      site: {
+        explicit_search_params: {
+          limit: { type: 'number' }
         }
       }
     }
-  })
-  ```
+  }
+})
+```
 
-  - You can narrow down the type of params
+- You can narrow down the type of params _(You can also change `"string | number"` default
+  globally)_
 
-  ```ts
-  kitRoutes({
-    extend: {
-      PAGES: {
-        site_id: {
-          params: {
-            id: { type: 'string' }
-          }
+```ts filename="vite.config.ts"
+kitRoutes({
+  extend: {
+    PAGES: {
+      site_id: {
+        params: {
+          id: { type: 'string' }
         }
       }
     }
-  })
-  ```
+  }
+})
+```
+
+- Then, you can add the `ROUTES` type... It will be crazy good!
+
+```ts filename="vite.config.ts"
+import type { ROUTES } from '$lib/ROUTES'
+import { kitRoutes } from 'vite-plugin-kit-routes'
+
+kitRoutes<ROUTES>({
+  // Conf
+})
+```

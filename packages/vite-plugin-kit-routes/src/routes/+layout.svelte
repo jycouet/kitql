@@ -21,7 +21,7 @@
   <li>
     <!-- 🤞 before, random string -->
     <a href="/site_contract/{siteId}-{contractId}?limit={3}">Go to site</a>
-
+    |
     <!-- ✅ after, all typed & make sure it exist. // 'vite-plugin-kit-routes', -->
     <a href={PAGES.site_contract_siteId_contractId({ siteId, contractId, limit: 3 })}>Go to site</a>
   </li>
