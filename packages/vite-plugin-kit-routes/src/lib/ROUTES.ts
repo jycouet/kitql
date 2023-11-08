@@ -36,8 +36,11 @@ export const PAGES = {
   site_contract_siteId_contractId: (params: {
     siteId: string | number
     contractId: string | number
+    limit?: number
   }) => {
-    return `/site_contract/${params.siteId}-${params.contractId}`
+    return `/site_contract/${params.siteId}-${params.contractId}${appendSp({
+      limit: params.limit,
+    })}`
   },
 }
 
@@ -115,7 +118,7 @@ export type ROUTES = {
     match_id_int: 'id'
     site: 'limit'
     site_id: 'id' | 'limit'
-    site_contract_siteId_contractId: 'siteId' | 'contractId'
+    site_contract_siteId_contractId: 'siteId' | 'contractId' | 'limit'
   }
   SERVERS: { contract: never; site: never }
   ACTIONS: {

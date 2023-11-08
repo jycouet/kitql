@@ -9,6 +9,41 @@ Never be out of sync with your routes again 🥳
 By default, no Configuration is needed, it will just infer as much as it can from your project. Then
 you will be able to narrow down types & search params.
 
+## Examples
+
+```svelte filename="+page.svelte" {2, 9}
+<script lang="ts">
+  import { PAGES } from '$lib/ROUTES'
+</script>
+
+<!-- 🤞 before, random string -->
+<a href="/site_contract/{siteId}-{contractId}?limit={3}">Go to site</a>
+
+<!-- ✅ after, all typed & make sure it exist. // 'vite-plugin-kit-routes', -->
+<a href={PAGES.site_contract_siteId_contractId({ siteId, contractId, limit: 3 })}>Go to site</a>
+```
+
+```svelte filename="+page.svelte" {4, 13}
+<script lang="ts">
+  import { enhance } from '$app/forms'
+  import { page } from '$app/stores'
+  import { ACTIONS } from '$lib/ROUTES'
+
+  const siteId = $page.params.siteId
+  const contractId = $page.params.contractId
+
+  // 🤞 before, random string
+  // const action =  `/site_contract/${siteId}-${contractId}?/sendSomething`
+
+  // ✅ after, all typed & make sure it exist. // 'vite-plugin-kit-routes',
+  const action = ACTIONS.site_contract_siteId_contractId('sendSomething', { siteId, contractId })
+</script>
+
+<form method="POST" use:enhance {action}>
+  <button>Check</button>
+</form>
+```
+
 ## Installation
 
 ```sh npm2yarn

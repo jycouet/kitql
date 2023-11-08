@@ -28,6 +28,9 @@ export default defineConfig({
             explicit_search_params: { limit: { type: 'number' } },
             params: { id: { type: 'string', default: '' } },
           },
+          site_contract_siteId_contractId: {
+            explicit_search_params: { limit: { type: 'number' } },
+          },
         },
         SERVERS: {
           // site: {

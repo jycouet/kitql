@@ -1,5 +1,8 @@
 <script lang="ts">
   import { PAGES } from '$lib/ROUTES.js'
+
+  const siteId = 'Paris'
+  const contractId = 'abc'
 </script>
 
 <svelte:head>
@@ -16,9 +19,11 @@
   <li><a href={PAGES.site({ limit: 2 })}>Sites (with Search Param)</a></li>
   <li><a href={PAGES.site_id({ id: 'Paris' })}>Site Paris</a></li>
   <li>
-    <a href={PAGES.site_contract_siteId_contractId({ siteId: 'Paris', contractId: 'First' })}>
-      Site Paris & Contract First
-    </a>
+    <!-- 🤞 before, random string -->
+    <a href="/site_contract/{siteId}-{contractId}?limit={3}">Go to site</a>
+
+    <!-- ✅ after, all typed & make sure it exist. // 'vite-plugin-kit-routes', -->
+    <a href={PAGES.site_contract_siteId_contractId({ siteId, contractId, limit: 3 })}>Go to site</a>
   </li>
   <li>
     <a href={PAGES.lang_lang()}>Lang ??</a>
