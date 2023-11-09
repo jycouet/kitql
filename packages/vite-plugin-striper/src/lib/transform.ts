@@ -4,7 +4,7 @@ import { prettyPrint } from 'recast'
 
 const { visit } = recast.types
 
-export const transform = async (code: string, decorators: string[]) => {
+export const transform = async (code: string, decorators_to_strip: string[]) => {
   try {
     const codeParsed = parse(code ?? '', {
       plugins: ['typescript', 'importAssertions', 'decorators-legacy'],
@@ -23,7 +23,7 @@ export const transform = async (code: string, decorators: string[]) => {
         path.node.decorators = decorators.filter(decorator => {
           if (
             decorator.expression.callee &&
-            decorators.includes(decorator.expression.callee.name)
+            decorators_to_strip.includes(decorator.expression.callee.name)
           ) {
             foundDecorator = true
             // We actually need to keep the decorator

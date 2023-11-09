@@ -33,7 +33,7 @@ export class TasksController {
 }
 	`
 
-  const transformed = await transform(code, ["'BackendMethod"])
+  const transformed = await transform(code, ['BackendMethod'])
 
   expect(transformed).toMatchInlineSnapshot(`
     {
@@ -70,7 +70,7 @@ export class TasksController {
 }
 	`
 
-  const transformed = await transform(code, ["'BackendMethod"])
+  const transformed = await transform(code, ['BackendMethod'])
 
   expect(transformed).toMatchInlineSnapshot(`
     {
@@ -111,7 +111,7 @@ export class TasksController {
 }
 	`
 
-  const transformed = await transform(code, ["'BackendMethod"])
+  const transformed = await transform(code, ['BackendMethod'])
 
   expect(transformed).toMatchInlineSnapshot(`
     {
@@ -170,7 +170,7 @@ it('should strip also unused methods', async () => {
   }  
 	`
 
-  const transformed = await transform(code, ["'BackendMethod"])
+  const transformed = await transform(code, ['BackendMethod'])
 
   expect(transformed).toMatchInlineSnapshot(`
     {
