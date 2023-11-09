@@ -205,6 +205,53 @@ importers:
         version: 0.34.6
     publishDirectory: dist
 
+  packages/vite-plugin-striper:
+    dependencies:
+      '@babel/parser':
+        specifier: ^7.23.0
+        version: 7.23.0
+      '@kitql/helpers':
+        specifier: workspace:*
+        version: link:../helpers/dist
+      recast:
+        specifier: ^0.23.4
+        version: 0.23.4
+    devDependencies:
+      '@sveltejs/adapter-auto':
+        specifier: 2.1.0
+        version: 2.1.0(@sveltejs/kit@1.27.2)
+      '@sveltejs/kit':
+        specifier: 1.27.2
+        version: 1.27.2(svelte@4.2.1)(vite@4.5.0)
+      '@sveltejs/package':
+        specifier: 2.2.2
+        version: 2.2.2(svelte@4.2.1)(typescript@5.2.2)
+      eslint-config-kitql:
+        specifier: workspace:*
+        version: link:../eslint-config-kitql
+      publint:
+        specifier: 0.2.4
+        version: 0.2.4
+      svelte:
+        specifier: 4.2.1
+        version: 4.2.1
+      svelte-check:
+        specifier: 3.5.2
+        version: 3.5.2(svelte@4.2.1)
+      tslib:
+        specifier: 2.6.2
+        version: 2.6.2
+      typescript:
+        specifier: 5.2.2
+        version: 5.2.2
+      vite:
+        specifier: 4.5.0
+        version: 4.5.0(@types/node@20.8.4)
+      vitest:
+        specifier: 0.34.6
+        version: 0.34.6
+    publishDirectory: dist
+
   packages/vite-plugin-watch-and-run:
     dependencies:
       '@kitql/helpers':
@@ -5697,10 +5744,6 @@ packages:
     engines: {node: 6.* || 8.* || >= 10.*}
     dev: true
 
-  /get-func-name@2.0.0:
-    resolution: {integrity: sha512-Hm0ixYtaSZ/V7C8FJrtZIuBBI+iSgL+1Aq82zSu8VQNB4S3Gk8e7Qs3VwBDJAhmRZcFqkl3tQu36g/Foh5I5ig==}
-    dev: true
-
   /get-func-name@2.0.2:
     resolution: {integrity: sha512-8vXOvuE167CtIc3OyItco7N/dpRtBbYOsPsXCz7X/PMnlGjYjSGuZJgM1Y7mmew7BKf9BqvLX2tnOVy1BBUsxQ==}
     dev: true
@@ -7075,7 +7118,7 @@ packages:
   /loupe@2.3.6:
     resolution: {integrity: sha512-RaPMZKiMy8/JruncMU5Bt6na1eftNoo++R4Y+N2FrxkDVTrGvcyzFTsaGif4QTeKESheMGegbhw6iUAq+5A8zA==}
     dependencies:
-      get-func-name: 2.0.0
+      get-func-name: 2.0.2
     dev: true
 
   /lower-case@2.0.2:
