@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { extractParamsFromPath, fileToMetadata, formatKey } from './index.js'
+import { extractParamsFromPath, fileToMetadata, formatKey } from './plugin.js'
 
 describe('vite-plugin-kit-routes', () => {
   it('get id', async () => {
