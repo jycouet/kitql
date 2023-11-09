@@ -1,3 +1,4 @@
+import { green, Log, yellow } from '@kitql/helpers'
 import type { Plugin } from 'vite'
 import { transform } from './transform.js'
 
@@ -29,6 +30,8 @@ export type ViteStriperOptions = {
  * 
  */
 export function striper(options: ViteStriperOptions): Plugin {
+  const log = new Log('striper')
+
   return {
     name: 'vite-striper',
     enforce: 'pre',
@@ -46,10 +49,10 @@ export function striper(options: ViteStriperOptions): Plugin {
       const { transformed, ...rest } = await transform(code, options.decorators ?? [])
 
       if (options?.debug && transformed) {
-        console.log(`
------ after transform of ${filepath}
+        log.info(`
+${green('-----')} after transform of ${yellow(filepath)}
 ${rest.code}
------ 
+${green('-----')}
 `)
       }
 
