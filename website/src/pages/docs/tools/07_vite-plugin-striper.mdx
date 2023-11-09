@@ -1,0 +1,32 @@
+import { Callout } from '@theguild/components'
+
+# ⚡How to - `vite-plugin-striper`
+
+The first need was to remove `@BackendMethod` from your browser bundle for
+[remult](https://remult.dev/).
+
+## Examples
+
+```ts filename="vite.config.ts" {3, 7, 8}
+import { sveltekit } from '@sveltejs/kit/vite'
+import { defineConfig } from 'vite'
+import { striper } from 'vite-striper'
+
+export default defineConfig({
+  plugins: [
+    // To strip `@BackendMethod` from your browser bundle
+    striper({ decorators: ['BackendMethod'] }),
+    sveltekit()
+  ]
+})
+```
+
+## Installation
+
+```sh npm2yarn
+npm i -D vite-plugin-striper
+```
+
+## Configuration
+
+🚧🚧🚧

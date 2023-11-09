@@ -3,9 +3,6 @@ import type { ROUTES } from '$lib/ROUTES.js'
 import { defineConfig } from 'vite'
 import { kitRoutes } from './src/lib/index.js'
 
-type TT = 'A' | 'B'
-const u: Partial<Record<TT, string>> = {}
-
 export default defineConfig({
   plugins: [
     sveltekit(),
