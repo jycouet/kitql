@@ -6,53 +6,95 @@
 
 export const PAGES = {
   "lang": (params: {lang?: string | number}= {}) =>  {
-    return ensurePrefix(`${params?.lang ? `/${params?.lang}`: ''}`)
+    return { 
+      href: ensurePrefix(`${params?.lang ? `/${params?.lang}`: ''}`),
+      original: `/[[lang]]`
+    }
   },
   "lang_contract": (params: {lang?: string | number}= {}) =>  {
-    return ensurePrefix(`${params?.lang ? `/${params?.lang}`: ''}/contract`)
+    return { 
+      href: ensurePrefix(`${params?.lang ? `/${params?.lang}`: ''}/contract`),
+      original: `/[[lang]]/contract`
+    }
   },
   "lang_contract_id": (params: {lang?: string | number, id: string | number}) =>  {
-    return ensurePrefix(`${params?.lang ? `/${params?.lang}`: ''}/contract/${params.id}`)
+    return { 
+      href: ensurePrefix(`${params?.lang ? `/${params?.lang}`: ''}/contract/${params.id}`),
+      original: `/[[lang]]/contract/[id]`
+    }
   },
   "lang_gp_logged_one": (params: {lang?: string | number}= {}) =>  {
-    return ensurePrefix(`${params?.lang ? `/${params?.lang}`: ''}/gp/one`)
+    return { 
+      href: ensurePrefix(`${params?.lang ? `/${params?.lang}`: ''}/gp/one`),
+      original: `/[[lang]]/gp/(logged)/one`
+    }
   },
   "lang_gp_public_two": (params: {lang?: string | number}= {}) =>  {
-    return ensurePrefix(`${params?.lang ? `/${params?.lang}`: ''}/gp/two`)
+    return { 
+      href: ensurePrefix(`${params?.lang ? `/${params?.lang}`: ''}/gp/two`),
+      original: `/[[lang]]/gp/(public)/two`
+    }
   },
   "lang_match_id_int": (params: {lang?: string | number, id: string | number}) =>  {
-    return ensurePrefix(`${params?.lang ? `/${params?.lang}`: ''}/match/${params.id}`)
+    return { 
+      href: ensurePrefix(`${params?.lang ? `/${params?.lang}`: ''}/match/${params.id}`),
+      original: `/[[lang]]/match/[id=int]`
+    }
   },
   "lang_site": (params: {lang?: string | number, limit?: number}= {}) =>  {
-    return ensurePrefix(`${params?.lang ? `/${params?.lang}`: ''}/site${appendSp({ limit: params.limit })}`)
+    return { 
+      href: ensurePrefix(`${params?.lang ? `/${params?.lang}`: ''}/site${appendSp({ limit: params.limit })}`),
+      original: `/[[lang]]/site`
+    }
   },
   "lang_site_id": (params: {lang?: string | number, id?: string, limit?: number}= {}) =>  {
     params.id = params.id ?? '7'; 
-    return ensurePrefix(`${params?.lang ? `/${params?.lang}`: ''}/site/[id]${appendSp({ limit: params.limit })}`)
+    return { 
+      href: ensurePrefix(`${params?.lang ? `/${params?.lang}`: ''}/site/[id]${appendSp({ limit: params.limit })}`),
+      original: `/[[lang]]/site/[id]`
+    }
   },
   "lang_site_contract_siteId_contractId": (params: {lang?: string | number, siteId: string | number, contractId: string | number, limit?: number}) =>  {
-    return ensurePrefix(`${params?.lang ? `/${params?.lang}`: ''}/site_contract/${params.siteId}-${params.contractId}${appendSp({ limit: params.limit })}`)
+    return { 
+      href: ensurePrefix(`${params?.lang ? `/${params?.lang}`: ''}/site_contract/${params.siteId}-${params.contractId}${appendSp({ limit: params.limit })}`),
+      original: `/[[lang]]/site_contract/[siteId]-[contractId]`
+    }
   }
 }
 
 export const SERVERS = {
   "lang_contract": (method: 'GET' | 'POST', params: {lang?: string | number}= {}) =>  {
-    return ensurePrefix(`${params?.lang ? `/${params?.lang}`: ''}/contract`)
+    return { 
+      href: ensurePrefix(`${params?.lang ? `/${params?.lang}`: ''}/contract`),
+      original: `/[[lang]]/contract`
+    }
   },
   "lang_site": (method: 'GET', params: {lang?: string | number}= {}) =>  {
-    return ensurePrefix(`${params?.lang ? `/${params?.lang}`: ''}/site`)
+    return { 
+      href: ensurePrefix(`${params?.lang ? `/${params?.lang}`: ''}/site`),
+      original: `/[[lang]]/site`
+    }
   }
 }
 
 export const ACTIONS = {
   "lang_contract_id": (params: {lang?: string | number, id: string | number}) =>  {
-    return ensurePrefix(`${params?.lang ? `/${params?.lang}`: ''}/contract/${params.id}`)
+    return { 
+      href: ensurePrefix(`${params?.lang ? `/${params?.lang}`: ''}/contract/${params.id}`),
+      original: `/[[lang]]/contract/[id]`
+    }
   },
   "lang_site": (action: 'action1' | 'action2', params: {lang?: string | number}= {}) =>  {
-    return ensurePrefix(`${params?.lang ? `/${params?.lang}`: ''}/site?/${action}`)
+    return { 
+      href: ensurePrefix(`${params?.lang ? `/${params?.lang}`: ''}/site?/${action}`),
+      original: `/[[lang]]/site`
+    }
   },
   "lang_site_contract_siteId_contractId": (action: 'sendSomething', params: {lang?: string | number, siteId: string | number, contractId: string | number, extra?: 'A' | 'B'}) =>  {
-    return ensurePrefix(`${params?.lang ? `/${params?.lang}`: ''}/site_contract/${params.siteId}-${params.contractId}?/${action}${appendSp({ extra: params.extra })}`)
+    return { 
+      href: ensurePrefix(`${params?.lang ? `/${params?.lang}`: ''}/site_contract/${params.siteId}-${params.contractId}?/${action}${appendSp({ extra: params.extra })}`),
+      original: `/[[lang]]/site_contract/[siteId]-[contractId]`
+    }
   }
 }
 
@@ -77,25 +119,79 @@ const ensurePrefix = (str: string) => {
 }
 
 /**
- * Add this type as a generic of the vite plugin `kitRoutes<ROUTES>`.
- * 
- * Full example:
- * ```ts
- * import type { ROUTES } from '$lib/ROUTES'
- * import { kitRoutes } from 'vite-plugin-kit-routes'
- * 
- * kitRoutes<ROUTES>({
- *  extend: {
- *    PAGES: {
- *      // here, "paths" it will be typed!
- *    }
- *  }
- * })
- * ```
- */
+* Add this type as a generic of the vite plugin `kitRoutes<ROUTES>`.
+* 
+* Full example:
+* ```ts
+* import type { ROUTES } from '$lib/ROUTES'
+* import { kitRoutes } from 'vite-plugin-kit-routes'
+* 
+* kitRoutes<ROUTES>({
+*  extend: {
+*    PAGES: {
+*      // here, "paths" it will be typed!
+*    }
+*  }
+* })
+* ```
+*/
 export type ROUTES = { 
   PAGES: { 'lang': 'lang', 'lang_contract': 'lang', 'lang_contract_id': 'lang' | 'id', 'lang_gp_logged_one': 'lang', 'lang_gp_public_two': 'lang', 'lang_match_id_int': 'lang' | 'id', 'lang_site': 'lang' | 'limit', 'lang_site_id': 'lang' | 'id' | 'limit', 'lang_site_contract_siteId_contractId': 'lang' | 'siteId' | 'contractId' | 'limit' }
   SERVERS: { 'lang_contract': 'lang', 'lang_site': 'lang' }
   ACTIONS: { 'lang_contract_id': 'lang' | 'id', 'lang_site': 'lang', 'lang_site_contract_siteId_contractId': 'lang' | 'siteId' | 'contractId' | 'extra' }
 }
-  
+
+import { browser } from '$app/environment'
+import { writable } from 'svelte/store'
+
+const _kitRoutes = <T>(key: string, initValues: T) => {
+  const store = writable<T>(initValues, set => {
+    if (browser) {
+      const v = localStorage.getItem(key)
+      if (v) {
+        try {
+          const json = JSON.parse(v)
+          set(json)
+        } catch (error) {
+          set(initValues)
+        }
+      } else {
+        set(initValues)
+      }
+
+      //
+      const handleStorage = (event: StorageEvent) => {
+        if (event.key === key) set(event.newValue ? JSON.parse(event.newValue) : null)
+      }
+      window.addEventListener('storage', handleStorage)
+      return () => window.removeEventListener('storage', handleStorage)
+    }
+  })
+
+  return {
+    subscribe: store.subscribe,
+    update: (u: T) => {
+      if (browser) {
+        localStorage.setItem(key, JSON.stringify(u))
+        store.update(() => u)
+      } else {
+        console.error('You should not update kitRoutes from server side!')
+      }
+    },
+  }
+}
+
+/**
+ *
+ * Example of usage:
+ * ```ts
+ *  import { afterNavigate } from '$app/navigation'
+ *  import { kitRoutes } from '$lib/ROUTES.js'
+ *
+ *  afterNavigate(() => {
+ *	  kitRoutes.update({ lang: $page.params.lang })
+ *  })
+ * ```
+ *
+ */
+export let kitRoutes = _kitRoutes<{ lang: string }>('kitRoutes', { lang: 'fr' })

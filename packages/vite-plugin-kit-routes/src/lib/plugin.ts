@@ -258,7 +258,10 @@ export const fileToMetadata = (
   const prop =
     `"${keyToUse}": (${params.join(', ')}) => ` +
     ` {${paramsDefaults.length > 0 ? `\n    ${paramsDefaults.join('')}` : ''}
-    return ensurePrefix(\`${toRet}${actionsFormat}${fullSP}\`)
+    return { 
+      href: ensurePrefix(\`${toRet}${actionsFormat}${fullSP}\`),
+      original: \`${original}\`
+    }
   }`
 
   return { keyToUse, prop, paramsFromPath }
@@ -429,25 +432,24 @@ const ensurePrefix = (str: string) => {
   }
   return \`/\${str}\`
 }
-`,
-      // types
+`, // types
       `/**
- * Add this type as a generic of the vite plugin \`kitRoutes<ROUTES>\`.
- * 
- * Full example:
- * \`\`\`ts
- * import type { ROUTES } from '$lib/ROUTES'
- * import { kitRoutes } from 'vite-plugin-kit-routes'
- * 
- * kitRoutes<ROUTES>({
- *  extend: {
- *    PAGES: {
- *      // here, "paths" it will be typed!
- *    }
- *  }
- * })
- * \`\`\`
- */
+* Add this type as a generic of the vite plugin \`kitRoutes<ROUTES>\`.
+* 
+* Full example:
+* \`\`\`ts
+* import type { ROUTES } from '$lib/ROUTES'
+* import { kitRoutes } from 'vite-plugin-kit-routes'
+* 
+* kitRoutes<ROUTES>({
+*  extend: {
+*    PAGES: {
+*      // here, "paths" it will be typed!
+*    }
+*  }
+* })
+* \`\`\`
+*/
 export type ROUTES = { 
 ${objTypes
   .map(c => {
@@ -467,7 +469,62 @@ ${objTypes
   })
   .join('\n')}
 }
-  `,
+`,
+      `import { browser } from '$app/environment'
+import { writable } from 'svelte/store'
+
+const _kitRoutes = <T>(key: string, initValues: T) => {
+  const store = writable<T>(initValues, set => {
+    if (browser) {
+      const v = localStorage.getItem(key)
+      if (v) {
+        try {
+          const json = JSON.parse(v)
+          set(json)
+        } catch (error) {
+          set(initValues)
+        }
+      } else {
+        set(initValues)
+      }
+
+      //
+      const handleStorage = (event: StorageEvent) => {
+        if (event.key === key) set(event.newValue ? JSON.parse(event.newValue) : null)
+      }
+      window.addEventListener('storage', handleStorage)
+      return () => window.removeEventListener('storage', handleStorage)
+    }
+  })
+
+  return {
+    subscribe: store.subscribe,
+    update: (u: T) => {
+      if (browser) {
+        localStorage.setItem(key, JSON.stringify(u))
+        store.update(() => u)
+      } else {
+        console.error('You should not update kitRoutes from server side!')
+      }
+    },
+  }
+}
+
+/**
+ *
+ * Example of usage:
+ * \`\`\`ts
+ *  import { afterNavigate } from '$app/navigation'
+ *  import { kitRoutes } from '$lib/ROUTES.js'
+ *
+ *  afterNavigate(() => {
+ *	  kitRoutes.update({ lang: $page.params.lang })
+ *  })
+ * \`\`\`
+ *
+ */
+export let kitRoutes = _kitRoutes<{ lang: string }>('kitRoutes', { lang: 'fr' })
+`,
     ])
 
     // TODO: optimize this later. We want to write the new file only if different after prettier?! (having a tmp file somewhere?)

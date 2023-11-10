@@ -7,11 +7,11 @@
     { lang: 'en', caption: 'English' },
     { lang: 'at', caption: 'Deutsch' },
   ].map(c => {
-    return { href: PAGES.lang({ lang: c.lang }), ...c }
+    return { ...PAGES.lang({ lang: c.lang }), ...c }
   })
 </script>
 
-<h2>Home {$page.params.lang}</h2>
+<h2>Home <em>({$page.params.lang})</em></h2>
 
 <ul>
   {#each list as { href, caption }}

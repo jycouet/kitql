@@ -15,7 +15,7 @@
   const action = ACTIONS.lang_site_contract_siteId_contractId('sendSomething', {
     siteId,
     contractId,
-  })
+  }).href
 </script>
 
 <h2>Site & Contract [siteId] - [ContractId]</h2>
