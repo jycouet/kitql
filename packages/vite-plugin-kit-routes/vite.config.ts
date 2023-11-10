@@ -1,5 +1,5 @@
 import { sveltekit } from '@sveltejs/kit/vite'
-import type { ROUTES } from '$lib/ROUTES.js'
+import type { KIT_ROUTES } from '$lib/ROUTES.js'
 import { defineConfig } from 'vite'
 import { kitRoutes } from './src/lib/index.js'
 
@@ -7,10 +7,10 @@ export default defineConfig({
   plugins: [
     sveltekit(),
     // demo
-    kitRoutes<ROUTES>({
+    kitRoutes<KIT_ROUTES>({
       // for testing
       // generated_file_path: 'src/lib/ROUTES2.ts',
-      // post_update_run: 'npm exec prettier ./src/lib/ROUTES.ts -- -w',
+      post_update_run: 'npm exec prettier ./src/lib/ROUTES.ts -- -w',
       // extra_search_params: 'with',
       // keep_path_param_format: true,
       extend: {

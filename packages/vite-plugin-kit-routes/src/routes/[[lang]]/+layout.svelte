@@ -31,8 +31,7 @@
   <li><a href={PAGES.lang({ lang: $kitRoutes.lang })}>Home</a></li>
   <li><a href={PAGES.lang_site({ lang: $kitRoutes.lang })}>Sites</a></li>
   <li>
-    <a href={PAGES.lang_site({ lang: $kitRoutes.lang, limit: 2 })}>Sites (with Search Param)</a
-    >
+    <a href={PAGES.lang_site({ lang: $kitRoutes.lang, limit: 2 })}>Sites (with Search Param)</a>
   </li>
   <li><a href={PAGES.lang_site_id({ lang: $kitRoutes.lang, id: 'Paris' })}>Site Paris</a></li>
   <li>

@@ -14,10 +14,12 @@ export type Options<
     PAGES: Record<string, string>
     SERVERS: Record<string, string>
     ACTIONS: Record<string, string>
+    Storage_Params: Record<string, string>
   } = {
     PAGES: Record<string, string>
     SERVERS: Record<string, string>
     ACTIONS: Record<string, string>
+    Storage_Params: Record<string, string>
   },
 > = {
   /**
@@ -68,7 +70,7 @@ export type Options<
      */
     key?: string
 
-    params?: Partial<Record<string, StorageParam>>
+    params?: Partial<{ [K in keyof T['Storage_Params']]: StorageParam }>
   }
 }
 
@@ -455,14 +457,14 @@ const ensurePrefix = (str: string) => {
 }
 `, // types
       `/**
-* Add this type as a generic of the vite plugin \`kitRoutes<ROUTES>\`.
+* Add this type as a generic of the vite plugin \`kitRoutes<KIT_ROUTES>\`.
 * 
 * Full example:
 * \`\`\`ts
-* import type { ROUTES } from '$lib/ROUTES'
+* import type { KIT_ROUTES } from '$lib/ROUTES'
 * import { kitRoutes } from 'vite-plugin-kit-routes'
 * 
-* kitRoutes<ROUTES>({
+* kitRoutes<KIT_ROUTES>({
 *  extend: {
 *    PAGES: {
 *      // here, "paths" it will be typed!
@@ -471,7 +473,7 @@ const ensurePrefix = (str: string) => {
 * })
 * \`\`\`
 */
-export type ROUTES = { 
+export type KIT_ROUTES = { 
 ${objTypes
   .map(c => {
     return `  ${c.type}: { ${c.files
@@ -489,10 +491,15 @@ ${objTypes
       .join(', ')} }`
   })
   .join('\n')}
+  Storage_Params: { ${[
+    ...new Set(
+      objTypes.flatMap(c => c.files.flatMap(d => d.paramsFromPath.map(e => `${e.name}: never`))),
+    ),
+  ].join(', ')} }
 }
 `,
       `import { browser } from '$app/environment'
-import { get, writable } from 'svelte/store'
+import { writable } from 'svelte/store'
 
 const _kitRoutes = <T>(key: string, initValues?: T) => {
   const store = writable<T>(initValues, set => {
@@ -545,7 +552,7 @@ export type StorageParams = ${
                 return `{ ${c[0]}: ${c[1]?.type} }`
               })
               .join(', ')
-          : '{}'
+          : '{ }'
       }
 /**
  *
@@ -619,10 +626,12 @@ export function kitRoutes<
     PAGES: Record<string, string>
     SERVERS: Record<string, string>
     ACTIONS: Record<string, string>
+    Storage_Params: Record<string, string>
   } = {
     PAGES: Record<string, string>
     SERVERS: Record<string, string>
     ACTIONS: Record<string, string>
+    Storage_Params: Record<string, string>
   },
 >(options?: Options<T>): Plugin[] {
   return [
