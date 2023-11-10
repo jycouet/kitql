@@ -10,22 +10,22 @@ export default defineConfig({
     kitRoutes<ROUTES>({
       // for testing
       // generated_file_path: 'src/lib/ROUTES2.ts',
-      post_update_run: 'npm exec prettier ./src/lib/ROUTES.ts -- -w',
+      // post_update_run: 'npm exec prettier ./src/lib/ROUTES.ts -- -w',
       // extra_search_params: 'with',
       extend: {
         PAGES: {
-          site: {
+          lang_site: {
             // extra_search_params: 'with',
             explicit_search_params: { limit: { type: 'number' } },
             params: {
               // yop: { type: 'number' },
             },
           },
-          site_id: {
+          lang_site_id: {
             explicit_search_params: { limit: { type: 'number' } },
-            params: { id: { type: 'string', default: '' } },
+            params: { id: { type: 'string', default: '7' } },
           },
-          site_contract_siteId_contractId: {
+          lang_site_contract_siteId_contractId: {
             explicit_search_params: { limit: { type: 'number' } },
           },
         },
@@ -36,7 +36,7 @@ export default defineConfig({
           // yop: {},
         },
         ACTIONS: {
-          site_contract_siteId_contractId: {
+          lang_site_contract_siteId_contractId: {
             explicit_search_params: {
               extra: { type: "'A' | 'B'", default: 'A' },
             },

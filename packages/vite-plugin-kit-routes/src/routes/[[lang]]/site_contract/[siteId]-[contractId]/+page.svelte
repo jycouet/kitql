@@ -12,7 +12,10 @@
   // const action =  `/site_contract/${siteId}-${contractId}?/sendSomething`
 
   // ✅ after, all typed & make sure it exist. // 'vite-plugin-kit-routes',
-  const action = ACTIONS.site_contract_siteId_contractId('sendSomething', { siteId, contractId })
+  const action = ACTIONS.lang_site_contract_siteId_contractId('sendSomething', {
+    siteId,
+    contractId,
+  })
 </script>
 
 <h2>Site & Contract [siteId] - [ContractId]</h2>

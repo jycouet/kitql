@@ -257,12 +257,9 @@ export const fileToMetadata = (
 
   const prop =
     `"${keyToUse}": (${params.join(', ')}) => ` +
-    ` { ` +
-    `${paramsDefaults.join('')}` +
-    `return ${keyToUse === '_ROOT' ? `ensurePrefix(` : ``}` +
-    `\`${toRet}${actionsFormat}${fullSP}\`` +
-    `${keyToUse === '_ROOT' ? `)` : ``}` +
-    ` }`
+    ` {${paramsDefaults.length > 0 ? `\n    ${paramsDefaults.join('')}` : ''}
+    return ensurePrefix(\`${toRet}${actionsFormat}${fullSP}\`)
+  }`
 
   return { keyToUse, prop, paramsFromPath }
 }
@@ -434,8 +431,7 @@ const ensurePrefix = (str: string) => {
 }
 `,
       // types
-      `
-/**
+      `/**
  * Add this type as a generic of the vite plugin \`kitRoutes<ROUTES>\`.
  * 
  * Full example:
