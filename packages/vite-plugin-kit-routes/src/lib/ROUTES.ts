@@ -51,7 +51,7 @@ export const PAGES = {
     params.lang = params.lang ?? 'fr'; 
     params.id = params.id ?? '7'; 
     return {
-      href: ensurePrefix(`${params?.lang ? `/${params?.lang}`: ''}/site/[id]${appendSp({ limit: params.limit })}`),
+      href: ensurePrefix(`${params?.lang ? `/${params?.lang}`: ''}/site/${params.id}${appendSp({ limit: params.limit })}`),
       original: `/[[lang]]/site/[id]`
     }
   },
@@ -143,7 +143,7 @@ export type ROUTES = {
 }
 
 import { browser } from '$app/environment'
-import { writable } from 'svelte/store'
+import { get, writable } from 'svelte/store'
 
 const _kitRoutes = <T>(key: string, initValues?: T) => {
   const store = writable<T>(initValues, set => {

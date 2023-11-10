@@ -115,8 +115,8 @@ describe('vite-plugin-kit-routes', () => {
               subscriptions_snapshot_id: {
                 explicit_search_params: { limit: { type: 'number' } },
                 params: {
-                  snapshot: { type: 'string', default: 'coucou' },
-                  id: { type: 'string', default: 'coucou' },
+                  snapshot: { type: 'string', default: 'snapshot' },
+                  id: { type: 'string', default: 'id' },
                 },
               },
             },
@@ -127,10 +127,10 @@ describe('vite-plugin-kit-routes', () => {
     ).toMatchInlineSnapshot(
       `
       "\\"subscriptions_snapshot_id\\": (params: {snapshot?: string, id?: string, limit?: number}= {}) =>  {
-          params.snapshot = params.snapshot ?? 'coucou'; 
-          params.id = params.id ?? 'coucou'; 
+          params.snapshot = params.snapshot ?? 'snapshot'; 
+          params.id = params.id ?? 'id'; 
           return {
-            href: ensurePrefix(\`/subscriptions/[snapshot]/[id]\${appendSp({ limit: params.limit })}\`),
+            href: ensurePrefix(\`/subscriptions/\${params.snapshot}/\${params.id}\${appendSp({ limit: params.limit })}\`),
             original: \`/subscriptions/[snapshot]/[id]\`
           }
         }"

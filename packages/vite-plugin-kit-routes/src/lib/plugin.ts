@@ -196,21 +196,22 @@ export const fileToMetadata = (
 
   paramsFromPath.forEach(c => {
     const sMatcher = `${c.matcher ? `=${c.matcher}` : ''}`
-    if (c.optional) {
-      toRet = toRet.replaceAll(
-        `/[[${c.name + sMatcher}]]`,
-        `\${params?.${c.name} ? \`/\${params?.${c.name}}\`: ''}`,
-      )
-      // We need to manage the 2 cases (with "/" prefix and without)
-      toRet = toRet.replaceAll(
-        `[[${c.name + sMatcher}]]`,
-        `\${params?.${c.name} ? \`\${params?.${c.name}}\`: ''}`,
-      )
-    } else {
-      toRet = toRet.replaceAll(`/[${c.name + sMatcher}]`, `/\${params.${c.name}}`)
-      // We need to manage the 2 cases (with "/" prefix and without)
-      toRet = toRet.replaceAll(`[${c.name + sMatcher}]`, `\${params.${c.name}}`)
-    }
+
+    // First optionnals
+    toRet = toRet.replaceAll(
+      `/[[${c.name + sMatcher}]]`,
+      `\${params?.${c.name} ? \`/\${params?.${c.name}}\`: ''}`,
+    )
+    // We need to manage the 2 cases (with "/" prefix and without)
+    toRet = toRet.replaceAll(
+      `[[${c.name + sMatcher}]]`,
+      `\${params?.${c.name} ? \`\${params?.${c.name}}\`: ''}`,
+    )
+
+    // Second params
+    toRet = toRet.replaceAll(`/[${c.name + sMatcher}]`, `/\${params.${c.name}}`)
+    // We need to manage the 2 cases (with "/" prefix and without)
+    toRet = toRet.replaceAll(`[${c.name + sMatcher}]`, `\${params.${c.name}}`)
   })
 
   const params = []
@@ -263,10 +264,19 @@ export const fileToMetadata = (
     fullSP = `\${appendSp({ ${explicit_search_params_to_function} })}`
   }
 
+  const oParams = Object.entries(options?.storage?.params ?? [])
   let paramsDefaults = paramsFromPath
     .filter(c => c.default !== undefined)
     .map(c => {
-      return `params.${c.name} = params.${c.name} ?? '${c.default}'; `
+      const oParam = oParams.filter(p => p[0] === c.name)
+      let additional = ''
+      if (oParam.length > 0) {
+        for (const [key, value] of Object.entries(oParam)) {
+          // additional += `get(kitRoutes).${value[0]} ?? `
+        }
+      }
+
+      return `params.${c.name} = params.${c.name} ?? ${additional}'${c.default}'; `
     })
 
   const prop =
@@ -487,7 +497,7 @@ ${objTypes
 }
 `,
       `import { browser } from '$app/environment'
-import { writable } from 'svelte/store'
+import { get, writable } from 'svelte/store'
 
 const _kitRoutes = <T>(key: string, initValues?: T) => {
   const store = writable<T>(initValues, set => {
