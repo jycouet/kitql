@@ -61,12 +61,26 @@ export type Options<
     SERVERS?: Partial<{ [K in keyof T['SERVERS']]: CustomPath<Extract<T['SERVERS'][K], string>> }>
     ACTIONS?: Partial<{ [K in keyof T['ACTIONS']]: CustomPath<Extract<T['ACTIONS'][K], string>> }>
   }
+
+  storage?: {
+    /**
+     * @default 'kitRoutes' but you can change it to avoid conflict with other localStorage?
+     */
+    key?: string
+
+    params?: Partial<Record<string, StorageParam>>
+  }
 }
 
 export type CustomPath<Params extends string | never = string> = {
   explicit_search_params?: Record<string, ExplicitSearchParam>
   params?: Partial<Record<Params, ExtendParam>>
   extra_search_params?: 'default' | 'with' | 'without'
+}
+
+export type StorageParam = {
+  type: string
+  default?: string
 }
 
 export type ExtendParam = {
@@ -257,8 +271,8 @@ export const fileToMetadata = (
 
   const prop =
     `"${keyToUse}": (${params.join(', ')}) => ` +
-    ` {${paramsDefaults.length > 0 ? `\n    ${paramsDefaults.join('')}` : ''}
-    return { 
+    ` {${paramsDefaults.length > 0 ? `\n    ${paramsDefaults.join('\n    ')}` : ''}
+    return {
       href: ensurePrefix(\`${toRet}${actionsFormat}${fullSP}\`),
       original: \`${original}\`
     }
@@ -266,6 +280,8 @@ export const fileToMetadata = (
 
   return { keyToUse, prop, paramsFromPath }
 }
+
+function addIfNotEmpty() {}
 
 export function extractParamsFromPath(path: string): Param[] {
   const paramPattern = /\[+([^\]]+)]+/g
@@ -473,22 +489,23 @@ ${objTypes
       `import { browser } from '$app/environment'
 import { writable } from 'svelte/store'
 
-const _kitRoutes = <T>(key: string, initValues: T) => {
+const _kitRoutes = <T>(key: string, initValues?: T) => {
   const store = writable<T>(initValues, set => {
     if (browser) {
-      const v = localStorage.getItem(key)
-      if (v) {
-        try {
-          const json = JSON.parse(v)
-          set(json)
-        } catch (error) {
+      if(initValues){
+        const v = localStorage.getItem(key)
+        if (v) {
+          try {
+            const json = JSON.parse(v)
+            set(json)
+          } catch (error) {
+            set(initValues)
+          }
+        } else {
           set(initValues)
         }
-      } else {
-        set(initValues)
       }
 
-      //
       const handleStorage = (event: StorageEvent) => {
         if (event.key === key) set(event.newValue ? JSON.parse(event.newValue) : null)
       }
@@ -510,6 +527,15 @@ const _kitRoutes = <T>(key: string, initValues: T) => {
   }
 }
 
+export type StorageParams = ${
+        options?.storage?.params
+          ? Object.entries(options?.storage?.params)
+              .map(c => {
+                return `{ ${c[0]}: ${c[1]?.type} }`
+              })
+              .join(', ')
+          : '{}'
+      }
 /**
  *
  * Example of usage:
@@ -523,7 +549,7 @@ const _kitRoutes = <T>(key: string, initValues: T) => {
  * \`\`\`
  *
  */
-export let kitRoutes = _kitRoutes<{ lang: string }>('kitRoutes', { lang: 'fr' })
+export let kitRoutes = _kitRoutes<StorageParams>('${options?.storage?.key ?? 'kitRoutes'}')
 `,
     ])
 

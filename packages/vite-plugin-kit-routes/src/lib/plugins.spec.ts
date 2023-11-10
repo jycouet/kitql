@@ -78,7 +78,14 @@ describe('vite-plugin-kit-routes', () => {
     expect(
       fileToMetadata('/[[lang]]/about', 'PAGES', undefined, undefined).prop,
     ).toMatchInlineSnapshot(
-      '"\\"lang_about\\": (params: {lang?: string | number}= {}) =>  { return `${params?.lang ? `/${params?.lang}`: \'\'}/about` }"',
+      `
+      "\\"lang_about\\": (params: {lang?: string | number}= {}) =>  {
+          return {
+            href: ensurePrefix(\`\${params?.lang ? \`/\${params?.lang}\`: ''}/about\`),
+            original: \`/[[lang]]/about\`
+          }
+        }"
+    `,
     )
   })
 
@@ -86,7 +93,14 @@ describe('vite-plugin-kit-routes', () => {
     expect(
       fileToMetadata('/prefix-[[lang]]/about', 'PAGES', undefined, undefined).prop,
     ).toMatchInlineSnapshot(
-      '"\\"prefix_lang_about\\": (params: {lang?: string | number}= {}) =>  { return `/prefix-${params?.lang ? `${params?.lang}`: \'\'}/about` }"',
+      `
+      "\\"prefix_lang_about\\": (params: {lang?: string | number}= {}) =>  {
+          return {
+            href: ensurePrefix(\`/prefix-\${params?.lang ? \`\${params?.lang}\`: ''}/about\`),
+            original: \`/prefix-[[lang]]/about\`
+          }
+        }"
+    `,
     )
   })
 
@@ -111,7 +125,16 @@ describe('vite-plugin-kit-routes', () => {
         undefined,
       ).prop,
     ).toMatchInlineSnapshot(
-      '"\\"subscriptions_snapshot_id\\": (params: {snapshot?: string, id?: string, limit?: number}= {}) =>  { params.snapshot = params.snapshot ?? \'coucou\'; params.id = params.id ?? \'coucou\'; return `/subscriptions/[snapshot]/[id]${appendSp({ limit: params.limit })}` }"',
+      `
+      "\\"subscriptions_snapshot_id\\": (params: {snapshot?: string, id?: string, limit?: number}= {}) =>  {
+          params.snapshot = params.snapshot ?? 'coucou'; 
+          params.id = params.id ?? 'coucou'; 
+          return {
+            href: ensurePrefix(\`/subscriptions/[snapshot]/[id]\${appendSp({ limit: params.limit })}\`),
+            original: \`/subscriptions/[snapshot]/[id]\`
+          }
+        }"
+    `,
     )
   })
 })

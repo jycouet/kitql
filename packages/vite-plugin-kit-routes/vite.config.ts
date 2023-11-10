@@ -23,7 +23,10 @@ export default defineConfig({
           },
           lang_site_id: {
             explicit_search_params: { limit: { type: 'number' } },
-            params: { id: { type: 'string', default: '7' } },
+            params: {
+              id: { type: 'string', default: '7' },
+              lang: { type: 'string', default: 'fr' },
+            },
           },
           lang_site_contract_siteId_contractId: {
             explicit_search_params: { limit: { type: 'number' } },
@@ -40,6 +43,14 @@ export default defineConfig({
             explicit_search_params: {
               extra: { type: "'A' | 'B'", default: 'A' },
             },
+          },
+        },
+      },
+      storage: {
+        params: {
+          lang: {
+            type: "'en' | 'fr' | 'at'",
+            default: 'fr',
           },
         },
       },

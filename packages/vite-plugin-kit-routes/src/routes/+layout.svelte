@@ -1,15 +1,14 @@
 <script lang="ts">
   import { afterNavigate } from '$app/navigation'
   import { page } from '$app/stores'
-  import { PAGES } from '$lib/ROUTES.js'
-  import { kitRoutes } from '$lib/uu.js'
+  import { kitRoutes, PAGES, type StorageParams } from '$lib/ROUTES.js'
 
   const siteId = 'Paris'
   const contractId = 'abc'
 
   afterNavigate(() => {
-    kitRoutes.update({ lang: $page.params.lang })
-    console.log(`$kitRoutes`, $kitRoutes)
+    kitRoutes.update({ lang: $page.params.lang as StorageParams['lang'] })
+    // console.log(`$kitRoutes`, $kitRoutes)
   })
 </script>
 
