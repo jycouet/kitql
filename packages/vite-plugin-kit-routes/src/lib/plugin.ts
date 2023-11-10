@@ -14,10 +14,12 @@ export type Options<
     PAGES: Record<string, string>
     SERVERS: Record<string, string>
     ACTIONS: Record<string, string>
+    Storage_Params: Record<string, string>
   } = {
     PAGES: Record<string, string>
     SERVERS: Record<string, string>
     ACTIONS: Record<string, string>
+    Storage_Params: Record<string, string>
   },
 > = {
   /**
@@ -61,12 +63,26 @@ export type Options<
     SERVERS?: Partial<{ [K in keyof T['SERVERS']]: CustomPath<Extract<T['SERVERS'][K], string>> }>
     ACTIONS?: Partial<{ [K in keyof T['ACTIONS']]: CustomPath<Extract<T['ACTIONS'][K], string>> }>
   }
+
+  storage?: {
+    /**
+     * @default 'kitRoutes' but you can change it to avoid conflict with other localStorage?
+     */
+    key?: string
+
+    params?: Partial<{ [K in keyof T['Storage_Params']]: StorageParam }>
+  }
 }
 
 export type CustomPath<Params extends string | never = string> = {
   explicit_search_params?: Record<string, ExplicitSearchParam>
   params?: Partial<Record<Params, ExtendParam>>
   extra_search_params?: 'default' | 'with' | 'without'
+}
+
+export type StorageParam = {
+  type: string
+  default?: string
 }
 
 export type ExtendParam = {
@@ -182,21 +198,22 @@ export const fileToMetadata = (
 
   paramsFromPath.forEach(c => {
     const sMatcher = `${c.matcher ? `=${c.matcher}` : ''}`
-    if (c.optional) {
-      toRet = toRet.replaceAll(
-        `/[[${c.name + sMatcher}]]`,
-        `\${params?.${c.name} ? \`/\${params?.${c.name}}\`: ''}`,
-      )
-      // We need to manage the 2 cases (with "/" prefix and without)
-      toRet = toRet.replaceAll(
-        `[[${c.name + sMatcher}]]`,
-        `\${params?.${c.name} ? \`\${params?.${c.name}}\`: ''}`,
-      )
-    } else {
-      toRet = toRet.replaceAll(`/[${c.name + sMatcher}]`, `/\${params.${c.name}}`)
-      // We need to manage the 2 cases (with "/" prefix and without)
-      toRet = toRet.replaceAll(`[${c.name + sMatcher}]`, `\${params.${c.name}}`)
-    }
+
+    // First optionnals
+    toRet = toRet.replaceAll(
+      `/[[${c.name + sMatcher}]]`,
+      `\${params?.${c.name} ? \`/\${params?.${c.name}}\`: ''}`,
+    )
+    // We need to manage the 2 cases (with "/" prefix and without)
+    toRet = toRet.replaceAll(
+      `[[${c.name + sMatcher}]]`,
+      `\${params?.${c.name} ? \`\${params?.${c.name}}\`: ''}`,
+    )
+
+    // Second params
+    toRet = toRet.replaceAll(`/[${c.name + sMatcher}]`, `/\${params.${c.name}}`)
+    // We need to manage the 2 cases (with "/" prefix and without)
+    toRet = toRet.replaceAll(`[${c.name + sMatcher}]`, `\${params.${c.name}}`)
   })
 
   const params = []
@@ -249,20 +266,26 @@ export const fileToMetadata = (
     fullSP = `\${appendSp({ ${explicit_search_params_to_function} })}`
   }
 
+  const oParams = Object.entries(options?.storage?.params ?? [])
   let paramsDefaults = paramsFromPath
     .filter(c => c.default !== undefined)
     .map(c => {
-      return `params.${c.name} = params.${c.name} ?? '${c.default}'; `
+      const oParam = oParams.filter(p => p[0] === c.name)
+      let additionalByStore = ''
+      if (oParam.length > 0) {
+        for (const [key, value] of Object.entries(oParam)) {
+          additionalByStore += `/* waiting for ✨ Runes ✨ to have a perfect api! get(kitRoutes)?.${value[0]} ?? */ `
+        }
+      }
+
+      return `params.${c.name} = params.${c.name} ?? ${additionalByStore}'${c.default}'; `
     })
 
   const prop =
     `"${keyToUse}": (${params.join(', ')}) => ` +
-    ` { ` +
-    `${paramsDefaults.join('')}` +
-    `return ${keyToUse === '_ROOT' ? `ensurePrefix(` : ``}` +
-    `\`${toRet}${actionsFormat}${fullSP}\`` +
-    `${keyToUse === '_ROOT' ? `)` : ``}` +
-    ` }`
+    ` {${paramsDefaults.length > 0 ? `\n    ${paramsDefaults.join('\n    ')}` : ''}
+    return ensurePrefix(\`${toRet}${actionsFormat}${fullSP}\`)
+  }`
 
   return { keyToUse, prop, paramsFromPath }
 }
@@ -432,27 +455,25 @@ const ensurePrefix = (str: string) => {
   }
   return \`/\${str}\`
 }
-`,
-      // types
-      `
-/**
- * Add this type as a generic of the vite plugin \`kitRoutes<ROUTES>\`.
- * 
- * Full example:
- * \`\`\`ts
- * import type { ROUTES } from '$lib/ROUTES'
- * import { kitRoutes } from 'vite-plugin-kit-routes'
- * 
- * kitRoutes<ROUTES>({
- *  extend: {
- *    PAGES: {
- *      // here, "paths" it will be typed!
- *    }
- *  }
- * })
- * \`\`\`
- */
-export type ROUTES = { 
+`, // types
+      `/**
+* Add this type as a generic of the vite plugin \`kitRoutes<KIT_ROUTES>\`.
+* 
+* Full example:
+* \`\`\`ts
+* import type { KIT_ROUTES } from '$lib/ROUTES'
+* import { kitRoutes } from 'vite-plugin-kit-routes'
+* 
+* kitRoutes<KIT_ROUTES>({
+*  extend: {
+*    PAGES: {
+*      // here, "paths" it will be typed!
+*    }
+*  }
+* })
+* \`\`\`
+*/
+export type KIT_ROUTES = { 
 ${objTypes
   .map(c => {
     return `  ${c.type}: { ${c.files
@@ -470,8 +491,86 @@ ${objTypes
       .join(', ')} }`
   })
   .join('\n')}
+  Storage_Params: { ${[
+    ...new Set(
+      objTypes.flatMap(c => c.files.flatMap(d => d.paramsFromPath.map(e => `${e.name}: never`))),
+    ),
+  ].join(', ')} }
 }
-  `,
+`,
+      `import { browser } from '$app/environment'
+import { writable } from 'svelte/store'
+
+const _kitRoutes = <T>(key: string, initValues?: T) => {
+  const store = writable<T>(initValues, set => {
+    if (browser) {
+      if(initValues){
+        const v = localStorage.getItem(key)
+        if (v) {
+          try {
+            const json = JSON.parse(v)
+            set(json)
+          } catch (error) {
+            set(initValues)
+          }
+        } else {
+          set(initValues)
+        }
+      } else {
+        set({} as any)
+      }
+
+      const handleStorage = (event: StorageEvent) => {
+        if (event.key === key) set(event.newValue ? JSON.parse(event.newValue) : null)
+      }
+      window.addEventListener('storage', handleStorage)
+      return () => window.removeEventListener('storage', handleStorage)
+    } else {
+      if(initValues) {
+        set(initValues)
+      } else {
+        set({} as any)
+      }
+    }
+  })
+
+  return {
+    subscribe: store.subscribe,
+    update: (u: T) => {
+      if (browser) {
+        localStorage.setItem(key, JSON.stringify(u))
+      } 
+      store.update(() => u)
+    },
+  }
+}
+
+export type StorageParams = ${
+        options?.storage?.params
+          ? Object.entries(options?.storage?.params)
+              .map(c => {
+                return `{ ${c[0]}: ${c[1]?.type} }`
+              })
+              .join(', ')
+          : '{ }'
+      }
+/**
+ *
+ * Example of usage:
+ * \`\`\`ts
+ *  import { afterNavigate } from '$app/navigation'
+ *  import { kitRoutes } from '$lib/ROUTES.js'
+ *
+ *  afterNavigate(() => {
+ *	  kitRoutes.update({ lang: $page.params.lang })
+ *  })
+ * \`\`\`
+ *
+ */
+export let kitRoutes = _kitRoutes<StorageParams>('${options?.storage?.key ?? 'kitRoutes'}')
+
+
+`,
     ])
 
     // TODO: optimize this later. We want to write the new file only if different after prettier?! (having a tmp file somewhere?)
@@ -527,10 +626,12 @@ export function kitRoutes<
     PAGES: Record<string, string>
     SERVERS: Record<string, string>
     ACTIONS: Record<string, string>
+    Storage_Params: Record<string, string>
   } = {
     PAGES: Record<string, string>
     SERVERS: Record<string, string>
     ACTIONS: Record<string, string>
+    Storage_Params: Record<string, string>
   },
 >(options?: Options<T>): Plugin[] {
   return [
