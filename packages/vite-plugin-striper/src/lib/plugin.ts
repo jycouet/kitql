@@ -18,7 +18,7 @@ export type ViteStriperOptions = {
  * ```ts
   import { sveltekit } from "@sveltejs/kit/vite";
   import { defineConfig } from "vite";
-  import { striper } from "vite-striper";          // 👈
+  import { striper } from "vite-plugin-striper";   // 👈
   
   export default defineConfig({
     plugins: [
@@ -33,7 +33,7 @@ export function striper(options: ViteStriperOptions): Plugin {
   const log = new Log('striper')
 
   return {
-    name: 'vite-striper',
+    name: 'vite-plugin-striper',
     enforce: 'pre',
 
     transform: async (code, filepath, option) => {

@@ -10,7 +10,7 @@ The first need was to remove `@BackendMethod` from your browser bundle for
 ```ts filename="vite.config.ts" {3, 7, 8}
 import { sveltekit } from '@sveltejs/kit/vite'
 import { defineConfig } from 'vite'
-import { striper } from 'vite-striper'
+import { striper } from 'vite-plugin-striper'
 
 export default defineConfig({
   plugins: [
