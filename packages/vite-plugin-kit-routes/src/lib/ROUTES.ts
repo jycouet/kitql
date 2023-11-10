@@ -48,7 +48,7 @@ export const PAGES = {
     }
   },
   "lang_site_id": (params: {lang?: string, id?: string, limit?: number}= {}) =>  {
-    params.lang = params.lang ?? 'fr'; 
+    params.lang = params.lang ?? /* waiting for ✨ Runes ✨ to have a perfect api! get(kitRoutes)?.lang ?? */ 'fr'; 
     params.id = params.id ?? '7'; 
     return {
       href: ensurePrefix(`${params?.lang ? `/${params?.lang}`: ''}/site/${params.id}${appendSp({ limit: params.limit })}`),
@@ -160,6 +160,8 @@ const _kitRoutes = <T>(key: string, initValues?: T) => {
         } else {
           set(initValues)
         }
+      } else {
+        set({} as any)
       }
 
       const handleStorage = (event: StorageEvent) => {
@@ -167,6 +169,12 @@ const _kitRoutes = <T>(key: string, initValues?: T) => {
       }
       window.addEventListener('storage', handleStorage)
       return () => window.removeEventListener('storage', handleStorage)
+    } else {
+      if(initValues) {
+        set(initValues)
+      } else {
+        set({} as any)
+      }
     }
   })
 
@@ -175,10 +183,8 @@ const _kitRoutes = <T>(key: string, initValues?: T) => {
     update: (u: T) => {
       if (browser) {
         localStorage.setItem(key, JSON.stringify(u))
-        store.update(() => u)
-      } else {
-        console.error('You should not update kitRoutes from server side!')
-      }
+      } 
+      store.update(() => u)
     },
   }
 }
@@ -198,3 +204,5 @@ export type StorageParams = { lang: 'en' | 'fr' | 'at' }
  *
  */
 export let kitRoutes = _kitRoutes<StorageParams>('kitRoutes')
+
+

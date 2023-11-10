@@ -269,14 +269,14 @@ export const fileToMetadata = (
     .filter(c => c.default !== undefined)
     .map(c => {
       const oParam = oParams.filter(p => p[0] === c.name)
-      let additional = ''
+      let additionalByStore = ''
       if (oParam.length > 0) {
         for (const [key, value] of Object.entries(oParam)) {
-          // additional += `get(kitRoutes).${value[0]} ?? `
+          additionalByStore += `/* waiting for ✨ Runes ✨ to have a perfect api! get(kitRoutes)?.${value[0]} ?? */ `
         }
       }
 
-      return `params.${c.name} = params.${c.name} ?? ${additional}'${c.default}'; `
+      return `params.${c.name} = params.${c.name} ?? ${additionalByStore}'${c.default}'; `
     })
 
   const prop =
@@ -290,8 +290,6 @@ export const fileToMetadata = (
 
   return { keyToUse, prop, paramsFromPath }
 }
-
-function addIfNotEmpty() {}
 
 export function extractParamsFromPath(path: string): Param[] {
   const paramPattern = /\[+([^\]]+)]+/g
@@ -514,6 +512,8 @@ const _kitRoutes = <T>(key: string, initValues?: T) => {
         } else {
           set(initValues)
         }
+      } else {
+        set({} as any)
       }
 
       const handleStorage = (event: StorageEvent) => {
@@ -521,6 +521,12 @@ const _kitRoutes = <T>(key: string, initValues?: T) => {
       }
       window.addEventListener('storage', handleStorage)
       return () => window.removeEventListener('storage', handleStorage)
+    } else {
+      if(initValues) {
+        set(initValues)
+      } else {
+        set({} as any)
+      }
     }
   })
 
@@ -529,10 +535,8 @@ const _kitRoutes = <T>(key: string, initValues?: T) => {
     update: (u: T) => {
       if (browser) {
         localStorage.setItem(key, JSON.stringify(u))
-        store.update(() => u)
-      } else {
-        console.error('You should not update kitRoutes from server side!')
-      }
+      } 
+      store.update(() => u)
     },
   }
 }
@@ -560,6 +564,8 @@ export type StorageParams = ${
  *
  */
 export let kitRoutes = _kitRoutes<StorageParams>('${options?.storage?.key ?? 'kitRoutes'}')
+
+
 `,
     ])
 
