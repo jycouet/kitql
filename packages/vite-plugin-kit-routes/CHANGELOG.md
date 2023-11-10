@@ -1,5 +1,22 @@
 # vite-plugin-kit-routes
 
+## 0.0.10
+
+### Patch Changes
+
+- [#429](https://github.com/jycouet/kitql/pull/429)
+  [`fd9f8a7`](https://github.com/jycouet/kitql/commit/fd9f8a78c3b306beae03ce45030645e7946ad7c3)
+  Thanks [@jycouet](https://github.com/jycouet)! - fix returned path of multi param
+
+- [#429](https://github.com/jycouet/kitql/pull/429)
+  [`fd9f8a7`](https://github.com/jycouet/kitql/commit/fd9f8a78c3b306beae03ce45030645e7946ad7c3)
+  Thanks [@jycouet](https://github.com/jycouet)! - add kitRoute (store)
+
+- [#429](https://github.com/jycouet/kitql/pull/429)
+  [`fd9f8a7`](https://github.com/jycouet/kitql/commit/fd9f8a78c3b306beae03ce45030645e7946ad7c3)
+  Thanks [@jycouet](https://github.com/jycouet)! - add Storage option (beta, waiting for Runes to
+  have something even better!)
+
 ## 0.0.9
 
 ### Patch Changes
