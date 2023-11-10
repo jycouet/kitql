@@ -7,7 +7,7 @@
     { lang: 'en', caption: 'English' },
     { lang: 'at', caption: 'Deutsch' },
   ].map(c => {
-    return { ...PAGES.lang({ lang: c.lang }), ...c }
+    return { href: PAGES.lang({ lang: c.lang }), ...c }
   })
 </script>
 

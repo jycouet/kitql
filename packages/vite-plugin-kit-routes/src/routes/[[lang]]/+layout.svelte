@@ -28,13 +28,13 @@
 <hr />
 
 <ul>
-  <li><a href={PAGES.lang({ lang: $kitRoutes.lang }).href}>Home</a></li>
-  <li><a href={PAGES.lang_site({ lang: $kitRoutes.lang }).href}>Sites</a></li>
+  <li><a href={PAGES.lang({ lang: $kitRoutes.lang })}>Home</a></li>
+  <li><a href={PAGES.lang_site({ lang: $kitRoutes.lang })}>Sites</a></li>
   <li>
-    <a href={PAGES.lang_site({ lang: $kitRoutes.lang, limit: 2 }).href}>Sites (with Search Param)</a
+    <a href={PAGES.lang_site({ lang: $kitRoutes.lang, limit: 2 })}>Sites (with Search Param)</a
     >
   </li>
-  <li><a href={PAGES.lang_site_id({ lang: $kitRoutes.lang, id: 'Paris' }).href}>Site Paris</a></li>
+  <li><a href={PAGES.lang_site_id({ lang: $kitRoutes.lang, id: 'Paris' })}>Site Paris</a></li>
   <li>
     <!-- 🤞 before, random string -->
     <a
@@ -50,22 +50,22 @@
         siteId,
         contractId,
         limit: 3,
-      }).href}>Go to site</a
+      })}>Go to site</a
     >
   </li>
   <li>
-    <a href={PAGES.lang_match_id_int({ lang: $kitRoutes.lang, id: 1 }).href}>match int 1</a>
+    <a href={PAGES.lang_match_id_int({ lang: $kitRoutes.lang, id: 1 })}>match int 1</a>
   </li>
   <li>
-    <a href={PAGES.lang_match_id_int({ lang: $kitRoutes.lang, id: 'a' }).href}
+    <a href={PAGES.lang_match_id_int({ lang: $kitRoutes.lang, id: 'a' })}
       >match int a (expect 404)</a
     >
   </li>
   <li>
-    <a href={PAGES.lang_gp_logged_one({ lang: $kitRoutes.lang }).href}>gp One</a>
+    <a href={PAGES.lang_gp_logged_one({ lang: $kitRoutes.lang })}>gp One</a>
   </li>
   <li>
-    <a href={PAGES.lang_gp_public_two({ lang: $kitRoutes.lang }).href}>gp One</a>
+    <a href={PAGES.lang_gp_public_two({ lang: $kitRoutes.lang })}>gp One</a>
   </li>
 </ul>
 

@@ -282,10 +282,7 @@ export const fileToMetadata = (
   const prop =
     `"${keyToUse}": (${params.join(', ')}) => ` +
     ` {${paramsDefaults.length > 0 ? `\n    ${paramsDefaults.join('\n    ')}` : ''}
-    return {
-      href: ensurePrefix(\`${toRet}${actionsFormat}${fullSP}\`),
-      original: \`${original}\`
-    }
+    return ensurePrefix(\`${toRet}${actionsFormat}${fullSP}\`)
   }`
 
   return { keyToUse, prop, paramsFromPath }

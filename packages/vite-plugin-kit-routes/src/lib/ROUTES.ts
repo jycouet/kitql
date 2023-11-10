@@ -6,96 +6,54 @@
 
 export const PAGES = {
   "lang": (params: {lang?: string | number}= {}) =>  {
-    return {
-      href: ensurePrefix(`${params?.lang ? `/${params?.lang}`: ''}`),
-      original: `/[[lang]]`
-    }
+    return ensurePrefix(`${params?.lang ? `/${params?.lang}`: ''}`)
   },
   "lang_contract": (params: {lang?: string | number}= {}) =>  {
-    return {
-      href: ensurePrefix(`${params?.lang ? `/${params?.lang}`: ''}/contract`),
-      original: `/[[lang]]/contract`
-    }
+    return ensurePrefix(`${params?.lang ? `/${params?.lang}`: ''}/contract`)
   },
   "lang_contract_id": (params: {lang?: string | number, id: string | number}) =>  {
-    return {
-      href: ensurePrefix(`${params?.lang ? `/${params?.lang}`: ''}/contract/${params.id}`),
-      original: `/[[lang]]/contract/[id]`
-    }
+    return ensurePrefix(`${params?.lang ? `/${params?.lang}`: ''}/contract/${params.id}`)
   },
   "lang_gp_logged_one": (params: {lang?: string | number}= {}) =>  {
-    return {
-      href: ensurePrefix(`${params?.lang ? `/${params?.lang}`: ''}/gp/one`),
-      original: `/[[lang]]/gp/(logged)/one`
-    }
+    return ensurePrefix(`${params?.lang ? `/${params?.lang}`: ''}/gp/one`)
   },
   "lang_gp_public_two": (params: {lang?: string | number}= {}) =>  {
-    return {
-      href: ensurePrefix(`${params?.lang ? `/${params?.lang}`: ''}/gp/two`),
-      original: `/[[lang]]/gp/(public)/two`
-    }
+    return ensurePrefix(`${params?.lang ? `/${params?.lang}`: ''}/gp/two`)
   },
   "lang_match_id_int": (params: {lang?: string | number, id: string | number}) =>  {
-    return {
-      href: ensurePrefix(`${params?.lang ? `/${params?.lang}`: ''}/match/${params.id}`),
-      original: `/[[lang]]/match/[id=int]`
-    }
+    return ensurePrefix(`${params?.lang ? `/${params?.lang}`: ''}/match/${params.id}`)
   },
   "lang_site": (params: {lang?: string | number, limit?: number}= {}) =>  {
-    return {
-      href: ensurePrefix(`${params?.lang ? `/${params?.lang}`: ''}/site${appendSp({ limit: params.limit })}`),
-      original: `/[[lang]]/site`
-    }
+    return ensurePrefix(`${params?.lang ? `/${params?.lang}`: ''}/site${appendSp({ limit: params.limit })}`)
   },
   "lang_site_id": (params: {lang?: string, id?: string, limit?: number}= {}) =>  {
     params.lang = params.lang ?? /* waiting for ✨ Runes ✨ to have a perfect api! get(kitRoutes)?.lang ?? */ 'fr'; 
     params.id = params.id ?? '7'; 
-    return {
-      href: ensurePrefix(`${params?.lang ? `/${params?.lang}`: ''}/site/${params.id}${appendSp({ limit: params.limit })}`),
-      original: `/[[lang]]/site/[id]`
-    }
+    return ensurePrefix(`${params?.lang ? `/${params?.lang}`: ''}/site/${params.id}${appendSp({ limit: params.limit })}`)
   },
   "lang_site_contract_siteId_contractId": (params: {lang?: string | number, siteId: string | number, contractId: string | number, limit?: number}) =>  {
-    return {
-      href: ensurePrefix(`${params?.lang ? `/${params?.lang}`: ''}/site_contract/${params.siteId}-${params.contractId}${appendSp({ limit: params.limit })}`),
-      original: `/[[lang]]/site_contract/[siteId]-[contractId]`
-    }
+    return ensurePrefix(`${params?.lang ? `/${params?.lang}`: ''}/site_contract/${params.siteId}-${params.contractId}${appendSp({ limit: params.limit })}`)
   }
 }
 
 export const SERVERS = {
   "lang_contract": (method: 'GET' | 'POST', params: {lang?: string | number}= {}) =>  {
-    return {
-      href: ensurePrefix(`${params?.lang ? `/${params?.lang}`: ''}/contract`),
-      original: `/[[lang]]/contract`
-    }
+    return ensurePrefix(`${params?.lang ? `/${params?.lang}`: ''}/contract`)
   },
   "lang_site": (method: 'GET', params: {lang?: string | number}= {}) =>  {
-    return {
-      href: ensurePrefix(`${params?.lang ? `/${params?.lang}`: ''}/site`),
-      original: `/[[lang]]/site`
-    }
+    return ensurePrefix(`${params?.lang ? `/${params?.lang}`: ''}/site`)
   }
 }
 
 export const ACTIONS = {
   "lang_contract_id": (params: {lang?: string | number, id: string | number}) =>  {
-    return {
-      href: ensurePrefix(`${params?.lang ? `/${params?.lang}`: ''}/contract/${params.id}`),
-      original: `/[[lang]]/contract/[id]`
-    }
+    return ensurePrefix(`${params?.lang ? `/${params?.lang}`: ''}/contract/${params.id}`)
   },
   "lang_site": (action: 'action1' | 'action2', params: {lang?: string | number}= {}) =>  {
-    return {
-      href: ensurePrefix(`${params?.lang ? `/${params?.lang}`: ''}/site?/${action}`),
-      original: `/[[lang]]/site`
-    }
+    return ensurePrefix(`${params?.lang ? `/${params?.lang}`: ''}/site?/${action}`)
   },
   "lang_site_contract_siteId_contractId": (action: 'sendSomething', params: {lang?: string | number, siteId: string | number, contractId: string | number, extra?: 'A' | 'B'}) =>  {
-    return {
-      href: ensurePrefix(`${params?.lang ? `/${params?.lang}`: ''}/site_contract/${params.siteId}-${params.contractId}?/${action}${appendSp({ extra: params.extra })}`),
-      original: `/[[lang]]/site_contract/[siteId]-[contractId]`
-    }
+    return ensurePrefix(`${params?.lang ? `/${params?.lang}`: ''}/site_contract/${params.siteId}-${params.contractId}?/${action}${appendSp({ extra: params.extra })}`)
   }
 }
 

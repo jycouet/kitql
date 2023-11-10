@@ -28,7 +28,7 @@ describe('vite-plugin-kit-routes', () => {
     `)
   })
 
-  it('get params & id', async () => {
+  it('get params & id group', async () => {
     expect(extractParamsFromPath('/[param]site/[yop](group)/[id]')).toMatchInlineSnapshot(`
       [
         {
@@ -58,19 +58,19 @@ describe('vite-plugin-kit-routes', () => {
     `)
   })
 
-  it('formatKey', async () => {
+  it('formatKey new type', async () => {
     expect(formatKey('/[param]site/[yop](group)/[id]')).toMatchInlineSnapshot(
       '"param_site_yop_group_id"',
     )
   })
 
-  it('formatKey', async () => {
+  it('formatKey group original', async () => {
     expect(
       formatKey('/[param]site/[yop](group)/[id]', { keep_path_param_format: true }),
     ).toMatchInlineSnapshot('"/[param]site/[yop](group)/[id]"')
   })
 
-  it('formatKey', async () => {
+  it('formatKey ROOT', async () => {
     expect(formatKey('/')).toMatchInlineSnapshot('"_ROOT"')
   })
 
@@ -80,10 +80,7 @@ describe('vite-plugin-kit-routes', () => {
     ).toMatchInlineSnapshot(
       `
       "\\"lang_about\\": (params: {lang?: string | number}= {}) =>  {
-          return {
-            href: ensurePrefix(\`\${params?.lang ? \`/\${params?.lang}\`: ''}/about\`),
-            original: \`/[[lang]]/about\`
-          }
+          return ensurePrefix(\`\${params?.lang ? \`/\${params?.lang}\`: ''}/about\`)
         }"
     `,
     )
@@ -95,10 +92,7 @@ describe('vite-plugin-kit-routes', () => {
     ).toMatchInlineSnapshot(
       `
       "\\"prefix_lang_about\\": (params: {lang?: string | number}= {}) =>  {
-          return {
-            href: ensurePrefix(\`/prefix-\${params?.lang ? \`\${params?.lang}\`: ''}/about\`),
-            original: \`/prefix-[[lang]]/about\`
-          }
+          return ensurePrefix(\`/prefix-\${params?.lang ? \`\${params?.lang}\`: ''}/about\`)
         }"
     `,
     )
@@ -129,10 +123,7 @@ describe('vite-plugin-kit-routes', () => {
       "\\"subscriptions_snapshot_id\\": (params: {snapshot?: string, id?: string, limit?: number}= {}) =>  {
           params.snapshot = params.snapshot ?? 'snapshot'; 
           params.id = params.id ?? 'id'; 
-          return {
-            href: ensurePrefix(\`/subscriptions/\${params.snapshot}/\${params.id}\${appendSp({ limit: params.limit })}\`),
-            original: \`/subscriptions/[snapshot]/[id]\`
-          }
+          return ensurePrefix(\`/subscriptions/\${params.snapshot}/\${params.id}\${appendSp({ limit: params.limit })}\`)
         }"
     `,
     )
