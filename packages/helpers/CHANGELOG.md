@@ -1,5 +1,13 @@
 # @kitql/helper
 
+## 0.8.3-next.2
+
+### Patch Changes
+
+- [#436](https://github.com/jycouet/kitql/pull/436)
+  [`c056a39`](https://github.com/jycouet/kitql/commit/c056a395d118b0882fe8f3981b7f49532b0101b1)
+  Thanks [@jycouet](https://github.com/jycouet)! - perf improvements
+
 ## 0.8.3-next.1
 
 ### Patch Changes
