@@ -1,4 +1,4 @@
-import { BROWSER } from '$lib/constants.js'
+import { BROWSER } from '../constants.js'
 import * as stylesBrowser from './stylesBrowser.js'
 import * as stylesNode from './stylesNode.js'
 import type { Style } from './types.js'
@@ -18,7 +18,7 @@ export const color = (style: Style, str: string) => {
 }
 
 const colorNode = (style: Style, str: string) => {
-  return `${getStyleNode(style).start}${str}${getStyleNode(style).end}`
+  return `${getStyleNode(style)[0]}${str}${getStyleNode(style)[1]}`
 }
 
 const START1 = `$$KitQL_`
