@@ -4,6 +4,9 @@ import path from 'path'
 import { exit } from 'process'
 import { buildSync } from 'esbuild'
 
+// Will check the format of package.json
+execSync(`node ../../scripts/packageJsonFormat.js`)
+
 // Some constants
 const toCopy = ['README.md', 'LICENSE', 'CHANGELOG.md']
 const tmpFolder = 'dist-tmp'
