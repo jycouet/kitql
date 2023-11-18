@@ -32,10 +32,10 @@
     "format": "kitql-lint --fix"
   },
   "devDependencies": {
-    "eslint-config-kitql": "workspace:*",
     "@sveltejs/adapter-auto": "2.1.0",
     "@sveltejs/kit": "1.27.2",
     "@sveltejs/package": "2.2.2",
+    "eslint-config-kitql": "workspace:*",
     "publint": "0.2.4",
     "rollup-plugin-visualizer": "^5.9.2",
     "svelte": "4.2.1",
@@ -58,13 +58,14 @@
     "!dist/**/*.test.*",
     "!dist/**/*.spec.*"
   ],
-  "svelte": "./dist/index.js",
-  "types": "./dist/index.d.ts",
+  "svelte": "./esm/index.js",
+  "types": "./esm/index.d.ts",
   "exports": {
     ".": {
-      "types": "./dist/index.d.ts",
-      "default": "./dist/index.js",
-      "svelte": "./dist/index.js"
+      "require": "./cjs/index.js",
+      "types": "./esm/index.d.ts",
+      "default": "./esm/index.js",
+      "svelte": "./esm/index.js"
     }
   }
 }

@@ -2,6 +2,7 @@ import { execSync } from 'child_process'
 import fs from 'fs'
 import path from 'path'
 import { exit } from 'process'
+import { buildSync } from 'esbuild'
 
 // Some constants
 const toCopy = ['README.md', 'LICENSE', 'CHANGELOG.md']
@@ -48,7 +49,7 @@ pkg.scripts = {
 execSync(`rm -rf ${path.join(packageDirPath, tmpFolder)}`)
 fs.mkdirSync(path.join(packageDirPath, tmpFolder))
 fs.writeFileSync(path.join(packageDirPath, tmpFolder, 'package.json'), JSON.stringify(pkg, null, 2))
-copy(path.join(packageDirPath, 'dist'), path.join(packageDirPath, tmpFolder, 'dist'), {}, [])
+copy(path.join(packageDirPath, 'dist'), path.join(packageDirPath, tmpFolder, 'esm'), {}, [])
 // write it to your output directory
 for (const item of toCopy) {
   let from = path.join(packageDirPath, item)
@@ -66,6 +67,25 @@ for (const item of toCopy) {
 
 execSync(`rm -rf ${path.join(packageDirPath, 'dist')}`)
 fs.renameSync(path.join(packageDirPath, tmpFolder), path.join(packageDirPath, 'dist'))
+
+// now cjs
+try {
+  let entryPoints = listFiles(`${packageDirPath}/src/lib`).filter(c => !c.includes('.spec.'))
+
+  buildSync({
+    entryPoints,
+    format: 'cjs',
+    outdir: 'dist/cjs',
+  })
+} catch (error) {
+  console.log(`cjs error`, error)
+}
+fs.writeFileSync(
+  path.join(packageDirPath, 'dist/cjs/package.json'),
+  JSON.stringify({ type: 'commonjs' }, null, 2),
+)
+
+// cjs end
 
 console.log(`✅ @kitql scripts/package "${pkg.name}" done`)
 
@@ -112,4 +132,25 @@ function copy(
       }
     }
   }
+}
+
+function listFiles(dir) {
+  let files = []
+
+  try {
+    const items = fs.readdirSync(dir)
+
+    items.forEach(item => {
+      const fullPath = path.join(dir, item)
+      if (fs.statSync(fullPath).isDirectory()) {
+        files = files.concat(listFiles(fullPath))
+      } else {
+        files.push(fullPath)
+      }
+    })
+  } catch (err) {
+    console.error('Error reading directory:', err)
+  }
+
+  return files
 }
