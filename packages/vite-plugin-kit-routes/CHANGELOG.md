@@ -1,5 +1,18 @@
 # vite-plugin-kit-routes
 
+## 0.0.11-next.0
+
+### Patch Changes
+
+- [#432](https://github.com/jycouet/kitql/pull/432)
+  [`8e75e6d`](https://github.com/jycouet/kitql/commit/8e75e6d8f649e183d96577ed0280a9960ec13c0c)
+  Thanks [@jycouet](https://github.com/jycouet)! - add cjs option
+
+- Updated dependencies
+  [[`8e75e6d`](https://github.com/jycouet/kitql/commit/8e75e6d8f649e183d96577ed0280a9960ec13c0c)]:
+  - vite-plugin-watch-and-run@1.4.2-next.0
+  - @kitql/helpers@0.8.3-next.0
+
 ## 0.0.10
 
 ### Patch Changes

@@ -1,5 +1,17 @@
 # vite-plugin-striper
 
+## 0.0.3-next.0
+
+### Patch Changes
+
+- [#432](https://github.com/jycouet/kitql/pull/432)
+  [`8e75e6d`](https://github.com/jycouet/kitql/commit/8e75e6d8f649e183d96577ed0280a9960ec13c0c)
+  Thanks [@jycouet](https://github.com/jycouet)! - add cjs option
+
+- Updated dependencies
+  [[`8e75e6d`](https://github.com/jycouet/kitql/commit/8e75e6d8f649e183d96577ed0280a9960ec13c0c)]:
+  - @kitql/helpers@0.8.3-next.0
+
 ## 0.0.2
 
 ### Patch Changes
