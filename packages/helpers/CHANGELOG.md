@@ -1,5 +1,13 @@
 # @kitql/helper
 
+## 0.8.3-next.1
+
+### Patch Changes
+
+- [#434](https://github.com/jycouet/kitql/pull/434)
+  [`94dc048`](https://github.com/jycouet/kitql/commit/94dc0487f5777535292b462bda514900e4a02578)
+  Thanks [@jycouet](https://github.com/jycouet)! - rmv dep
+
 ## 0.8.3-next.0
 
 ### Patch Changes
