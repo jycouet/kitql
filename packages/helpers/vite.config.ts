@@ -8,7 +8,8 @@ export default defineConfig({
     visualizer({
       // template: 'raw-data', 'sunburst',
       emitFile: true,
-      // open: true,
+      open: true,
+      filename: 'stats.html',
       gzipSize: true,
     }),
   ],
