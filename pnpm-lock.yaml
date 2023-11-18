@@ -115,10 +115,6 @@ importers:
     publishDirectory: dist
 
   packages/helpers:
-    dependencies:
-      esm-env:
-        specifier: ^1.0.0
-        version: 1.0.0
     devDependencies:
       '@sveltejs/adapter-auto':
         specifier: 2.1.0
@@ -5448,6 +5444,7 @@ packages:
 
   /esm-env@1.0.0:
     resolution: {integrity: sha512-Cf6VksWPsTuW01vU9Mk/3vRue91Zevka5SjyNf3nEpokFRuqt/KjUQoGAwq9qMmhpLTHmXzSIrFRw8zxWzmFBA==}
+    dev: true
 
   /espree@9.5.2:
     resolution: {integrity: sha512-7OASN1Wma5fum5SrNhFMAMJxOUAbhyfQ8dQ//PJaJbNw0URTPWqIghHWt1MmAANKhHZIYOHruW4Kw4ruUWOdGw==}
