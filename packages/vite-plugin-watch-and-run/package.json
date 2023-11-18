@@ -1,66 +1,67 @@
 {
-	"name": "vite-plugin-watch-and-run",
-	"description": "vite-plugin that will watch some files and run a package.json script on change",
-	"keywords": [
-		"vite"
-	],
-	"version": "1.4.1",
-	"license": "MIT",
-	"type": "module",
-	"repository": {
-		"type": "git",
-		"url": "https://github.com/jycouet/kitql",
-		"directory": "packages/vite-plugin-watch-and-run",
-		"homepage": "https://github.com/jycouet/kitql/tree/main/packages/vite-plugin-watch-and-run#readme"
-	},
-	"scripts": {
-		"prepare": "svelte-kit sync",
-		"dev": "vite dev",
-		"build": "vite build && svelte-package && node ../../scripts/package.js",
-		"preview": "vite preview",
-		"package": "svelte-package && publint",
-		"check": "svelte-check --tsconfig ./tsconfig.json",
-		"check:watch": "svelte-check --tsconfig ./tsconfig.json --watch",
-		"test": "vitest",
-		"test:ci": "vitest --coverage",
-		"lint": "kitql-lint",
-		"format": "kitql-lint --fix"
-	},
-	"devDependencies": {
-		"eslint-config-kitql": "workspace:*",
-		"@types/micromatch": "4.0.2",
-		"@sveltejs/adapter-auto": "2.1.0",
-		"@sveltejs/kit": "1.27.2",
-		"@sveltejs/package": "2.2.2",
-		"publint": "0.2.4",
-		"svelte": "4.2.1",
-		"svelte-check": "3.5.2",
-		"tslib": "2.6.2",
-		"typescript": "5.2.2",
-		"vite": "4.5.0",
-		"vitest": "0.34.6"
-	},
-	"dependencies": {
-		"@kitql/helpers": "workspace:*",
-		"micromatch": "4.0.5"
-	},
-	"sideEffects": false,
-	"publishConfig": {
-		"directory": "dist",
-		"access": "public"
-	},
-	"files": [
-		"dist",
-		"!dist/**/*.test.*",
-		"!dist/**/*.spec.*"
-	],
-	"svelte": "./dist/index.js",
-	"types": "./dist/index.d.ts",
-	"exports": {
-		".": {
-			"types": "./dist/index.d.ts",
-			"default": "./dist/index.js",
-			"svelte": "./dist/index.js"
-		}
-	}
+  "name": "vite-plugin-watch-and-run",
+  "description": "vite-plugin that will watch some files and run a package.json script on change",
+  "keywords": [
+    "vite"
+  ],
+  "version": "1.4.1",
+  "license": "MIT",
+  "type": "module",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jycouet/kitql",
+    "directory": "packages/vite-plugin-watch-and-run",
+    "homepage": "https://github.com/jycouet/kitql/tree/main/packages/vite-plugin-watch-and-run#readme"
+  },
+  "scripts": {
+    "prepare": "svelte-kit sync",
+    "dev": "vite dev",
+    "build": "vite build && svelte-package && node ../../scripts/package.js",
+    "preview": "vite preview",
+    "package": "svelte-package && publint",
+    "check": "svelte-check --tsconfig ./tsconfig.json",
+    "check:watch": "svelte-check --tsconfig ./tsconfig.json --watch",
+    "test": "vitest",
+    "test:ci": "vitest --coverage",
+    "lint": "kitql-lint",
+    "format": "kitql-lint --fix"
+  },
+  "devDependencies": {
+    "eslint-config-kitql": "workspace:*",
+    "@types/micromatch": "4.0.2",
+    "@sveltejs/adapter-auto": "2.1.0",
+    "@sveltejs/kit": "1.27.2",
+    "@sveltejs/package": "2.2.2",
+    "publint": "0.2.4",
+    "svelte": "4.2.1",
+    "svelte-check": "3.5.2",
+    "tslib": "2.6.2",
+    "typescript": "5.2.2",
+    "vite": "4.5.0",
+    "vitest": "0.34.6"
+  },
+  "dependencies": {
+    "@kitql/helpers": "workspace:*",
+    "micromatch": "4.0.5"
+  },
+  "sideEffects": false,
+  "publishConfig": {
+    "directory": "dist",
+    "access": "public"
+  },
+  "files": [
+    "dist",
+    "!dist/**/*.test.*",
+    "!dist/**/*.spec.*"
+  ],
+  "svelte": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "require": "./cjs/index.js",
+      "types": "./esm/index.d.ts",
+      "default": "./esm/index.js",
+      "svelte": "./esm/index.js"
+    }
+  }
 }

@@ -1,3 +1,6 @@
+import fs from 'fs'
+import path from 'path'
+
 // Where are we?
 const packageDirPath = process.cwd()
 
@@ -12,6 +15,7 @@ fs.writeFileSync(
     {
       name: pkg.name,
       description: pkg.description ?? 'Missing!!!',
+      keywords: pkg.keywords ?? ['Missing!!!'],
       version: pkg.version,
       license: 'MIT',
       type: 'module',
@@ -32,13 +36,14 @@ fs.writeFileSync(
         access: pkg.publishConfig?.access ?? 'public',
       },
       files: pkg.files ?? ['dist', '!dist/**/*.test.*', '!dist/**/*.spec.*'],
-      svelte: pkg.svelte ?? './dist/index.js',
-      types: pkg.types ?? './dist/index.d.ts',
+      svelte: pkg.svelte ?? './esm/index.js',
+      types: pkg.types ?? './esm/index.d.ts',
       exports: {
         '.': {
-          types: pkg.types ?? './dist/index.d.ts',
-          default: pkg.default ?? './dist/index.js',
-          svelte: pkg.svelte ?? './dist/index.js',
+          require: pkg.exports.require ?? './cjs/index.js',
+          types: pkg.exports.types ?? './esm/index.d.ts',
+          default: pkg.exports.default ?? './esm/index.js',
+          svelte: pkg.exports.svelte ?? './esm/index.js',
         },
       },
     },
