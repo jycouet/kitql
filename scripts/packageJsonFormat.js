@@ -1,3 +1,6 @@
+import fs from 'fs'
+import path from 'path'
+
 // Where are we?
 const packageDirPath = process.cwd()
 
@@ -12,6 +15,7 @@ fs.writeFileSync(
     {
       name: pkg.name,
       description: pkg.description ?? 'Missing!!!',
+      keywords: pkg.keywords ?? ['Missing!!!'],
       version: pkg.version,
       license: 'MIT',
       type: 'module',
