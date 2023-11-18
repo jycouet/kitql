@@ -1,3 +1,3 @@
-const BROWSER = !import.meta.env.SSR
+const BROWSER = typeof window !== 'undefined'
 
 export { BROWSER }
