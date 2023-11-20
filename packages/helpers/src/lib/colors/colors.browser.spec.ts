@@ -1,4 +1,5 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest'
+
 import { color, colorProcess, red } from './index.js'
 
 describe('browser', () => {

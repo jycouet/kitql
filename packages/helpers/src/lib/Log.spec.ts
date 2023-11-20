@@ -1,4 +1,6 @@
 import { describe, expect, it, vi } from 'vitest'
+
+import { Log } from './Log.js'
 import {
   black,
   blue,
@@ -13,7 +15,6 @@ import {
   white,
   yellow,
 } from './colors/index.js'
-import { Log } from './Log.js'
 import { stry0 } from './stry/stry.js'
 
 describe('kitql - helper - Log', () => {

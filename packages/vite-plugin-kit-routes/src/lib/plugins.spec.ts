@@ -1,4 +1,5 @@
 import { describe, expect, it } from 'vitest'
+
 import { extractParamsFromPath, fileToMetadata, formatKey } from './plugin.js'
 
 describe('vite-plugin-kit-routes', () => {

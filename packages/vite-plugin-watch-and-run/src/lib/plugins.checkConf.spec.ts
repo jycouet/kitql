@@ -1,4 +1,5 @@
 import { describe, expect, it } from 'vitest'
+
 import watchAndRun from './index.js'
 
 describe('vite-plugin-watch-and-run', () => {
