@@ -55,8 +55,8 @@
     "!dist/**/*.test.*",
     "!dist/**/*.spec.*"
   ],
-  "svelte": "./dist/index.js",
-  "types": "./dist/index.d.ts",
+  "svelte": "./esm/index.js",
+  "types": "./esm/index.d.ts",
   "exports": {
     ".": {
       "require": "./cjs/index.js",
