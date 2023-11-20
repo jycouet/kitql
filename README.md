@@ -34,7 +34,7 @@
 ## ✨ Contributors
 
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
-[![All Contributors](https://img.shields.io/badge/all_contributors-22-orange.svg)](#contributors)
+[![All Contributors](https://img.shields.io/badge/all_contributors-23-orange.svg)](#contributors)
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 
 Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/docs/en/emoji-key)):
@@ -73,6 +73,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
     </tr>
     <tr>
       <td align="center" valign="top" width="14.28%"><a href="https://kesval.com"><img src="https://avatars.githubusercontent.com/u/47763141?v=4" width="100px;" alt=""/><br /><sub><b>KesvaL</b></sub></a></td>
+      <td align="center" valign="top" width="14.28%"><a href="http://kobleistvan.com"><img src="https://avatars.githubusercontent.com/u/6638917?v=4" width="100px;" alt=""/><br /><sub><b>Köble István</b></sub></a></td>
     </tr>
   </tbody>
 </table>
