@@ -1,5 +1,21 @@
 # @kitql/helper
 
+## 0.8.3
+
+### Patch Changes
+
+- [#434](https://github.com/jycouet/kitql/pull/434)
+  [`94dc048`](https://github.com/jycouet/kitql/commit/94dc0487f5777535292b462bda514900e4a02578)
+  Thanks [@jycouet](https://github.com/jycouet)! - rmv dep
+
+- [#436](https://github.com/jycouet/kitql/pull/436)
+  [`c056a39`](https://github.com/jycouet/kitql/commit/c056a395d118b0882fe8f3981b7f49532b0101b1)
+  Thanks [@jycouet](https://github.com/jycouet)! - perf improvements
+
+- [#432](https://github.com/jycouet/kitql/pull/432)
+  [`8e75e6d`](https://github.com/jycouet/kitql/commit/8e75e6d8f649e183d96577ed0280a9960ec13c0c)
+  Thanks [@jycouet](https://github.com/jycouet)! - add cjs option
+
 ## 0.8.3-next.2
 
 ### Patch Changes
