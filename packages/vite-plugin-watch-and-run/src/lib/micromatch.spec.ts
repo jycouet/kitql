@@ -1,5 +1,4 @@
 // micromatch.isMatch(absolutePath, info.watch)
-
 import micromatch from 'micromatch'
 import { describe, expect, it } from 'vitest'
 

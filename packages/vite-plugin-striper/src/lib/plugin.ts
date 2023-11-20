@@ -1,5 +1,6 @@
 import { green, Log, yellow } from '@kitql/helpers'
 import type { Plugin } from 'vite'
+
 import { transform } from './transform.js'
 
 export type ViteStriperOptions = {

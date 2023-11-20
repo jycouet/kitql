@@ -1,5 +1,6 @@
 import { sveltekit } from '@sveltejs/kit/vite'
 import { defineConfig } from 'vite'
+
 import { striper } from './src/lib/plugin.js'
 
 export default defineConfig({

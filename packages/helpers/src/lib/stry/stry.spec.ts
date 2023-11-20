@@ -1,4 +1,5 @@
 import { describe, expect, it } from 'vitest'
+
 import { stry, stry0, stryEq } from './stry.js'
 
 describe('kitql - helper - stry', () => {
