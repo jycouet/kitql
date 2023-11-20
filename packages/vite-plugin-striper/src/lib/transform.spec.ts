@@ -1,4 +1,5 @@
 import { expect, it } from 'vitest'
+
 import { transform } from './transform.js'
 
 it('should empty @BackendMethod and clean imports', async () => {

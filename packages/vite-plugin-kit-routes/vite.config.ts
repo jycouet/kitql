@@ -1,6 +1,7 @@
-import { sveltekit } from '@sveltejs/kit/vite'
 import type { KIT_ROUTES } from '$lib/ROUTES.js'
+import { sveltekit } from '@sveltejs/kit/vite'
 import { defineConfig } from 'vite'
+
 import { kitRoutes } from './src/lib/index.js'
 
 export default defineConfig({

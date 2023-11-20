@@ -1,4 +1,5 @@
 import { expect, it } from 'vitest'
+
 import { color } from './index.js'
 
 it('color NOT in browser', () => {

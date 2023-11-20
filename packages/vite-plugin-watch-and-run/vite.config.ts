@@ -1,6 +1,7 @@
-import path from 'path'
 import { sveltekit } from '@sveltejs/kit/vite'
+import path from 'path'
 import { defineConfig } from 'vite'
+
 import watchAndRun from './src/lib/index.js'
 
 export default defineConfig({

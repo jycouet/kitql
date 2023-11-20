@@ -1,4 +1,6 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest'
+
+import { Log } from './Log.js'
 import {
   black,
   blue,
@@ -13,7 +15,6 @@ import {
   white,
   yellow,
 } from './colors/index.js'
-import { Log } from './Log.js'
 
 describe('kitql - helper - Log', () => {
   beforeEach(() => {
