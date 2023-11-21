@@ -86,7 +86,7 @@ export type CustomPath<Params extends string | never = string> = {
 
 export type OverrideParam = {
   type: string
-  default?: string
+  // default?: string //TODO one day?
 }
 
 // export type StorageParam = {
@@ -328,12 +328,20 @@ export function extractParamsFromPath(path: string): Param[] {
 
 const formatArgs = (params: Param[], options?: Options) => {
   return params
-    .map(
-      c =>
-        `${c.name}${c.optional ? '?' : ''}: ${
-          c.type ?? options?.default_type ?? 'string | number'
-        }`,
-    )
+    .map(c => {
+      const override_params = Object.entries(options?.override_params ?? {}).filter(
+        d => d[0] === c.name,
+      )
+
+      let override_param = undefined
+      if (override_params.length > 0) {
+        override_param = override_params[0][1]?.type
+      }
+
+      return `${c.name}${c.optional ? '?' : ''}: ${
+        c.type ?? override_param ?? options?.default_type ?? 'string | number'
+      }`
+    })
     .join(', ')
 }
 

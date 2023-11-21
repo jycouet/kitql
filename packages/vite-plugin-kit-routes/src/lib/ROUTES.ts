@@ -5,25 +5,25 @@
  */
 
 export const PAGES = {
-  lang: (params: { lang?: string | number } = {}) => {
+  lang: (params: { lang?: 'fr' | 'en' | 'hu' | 'at' } = {}) => {
     return ensurePrefix(`${params?.lang ? `/${params?.lang}` : ''}`)
   },
-  lang_contract: (params: { lang?: string | number } = {}) => {
+  lang_contract: (params: { lang?: 'fr' | 'en' | 'hu' | 'at' } = {}) => {
     return ensurePrefix(`${params?.lang ? `/${params?.lang}` : ''}/contract`)
   },
-  lang_contract_id: (params: { lang?: string | number; id: string | number }) => {
+  lang_contract_id: (params: { lang?: 'fr' | 'en' | 'hu' | 'at'; id: string | number }) => {
     return ensurePrefix(`${params?.lang ? `/${params?.lang}` : ''}/contract/${params.id}`)
   },
-  lang_gp_logged_one: (params: { lang?: string | number } = {}) => {
+  lang_gp_logged_one: (params: { lang?: 'fr' | 'en' | 'hu' | 'at' } = {}) => {
     return ensurePrefix(`${params?.lang ? `/${params?.lang}` : ''}/gp/one`)
   },
-  lang_gp_public_two: (params: { lang?: string | number } = {}) => {
+  lang_gp_public_two: (params: { lang?: 'fr' | 'en' | 'hu' | 'at' } = {}) => {
     return ensurePrefix(`${params?.lang ? `/${params?.lang}` : ''}/gp/two`)
   },
-  lang_match_id_int: (params: { lang?: string | number; id: string | number }) => {
+  lang_match_id_int: (params: { lang?: 'fr' | 'en' | 'hu' | 'at'; id: string | number }) => {
     return ensurePrefix(`${params?.lang ? `/${params?.lang}` : ''}/match/${params.id}`)
   },
-  lang_site: (params: { lang?: string | number; limit?: number } = {}) => {
+  lang_site: (params: { lang?: 'fr' | 'en' | 'hu' | 'at'; limit?: number } = {}) => {
     return ensurePrefix(
       `${params?.lang ? `/${params?.lang}` : ''}/site${appendSp({ limit: params.limit })}`,
     )
@@ -41,7 +41,7 @@ export const PAGES = {
     )
   },
   lang_site_contract_siteId_contractId: (params: {
-    lang?: string | number
+    lang?: 'fr' | 'en' | 'hu' | 'at'
     siteId: string | number
     contractId: string | number
     limit?: number
@@ -55,25 +55,25 @@ export const PAGES = {
 }
 
 export const SERVERS = {
-  lang_contract: (method: 'GET' | 'POST', params: { lang?: string | number } = {}) => {
+  lang_contract: (method: 'GET' | 'POST', params: { lang?: 'fr' | 'en' | 'hu' | 'at' } = {}) => {
     return ensurePrefix(`${params?.lang ? `/${params?.lang}` : ''}/contract`)
   },
-  lang_site: (method: 'GET', params: { lang?: string | number } = {}) => {
+  lang_site: (method: 'GET', params: { lang?: 'fr' | 'en' | 'hu' | 'at' } = {}) => {
     return ensurePrefix(`${params?.lang ? `/${params?.lang}` : ''}/site`)
   },
 }
 
 export const ACTIONS = {
-  lang_contract_id: (params: { lang?: string | number; id: string | number }) => {
+  lang_contract_id: (params: { lang?: 'fr' | 'en' | 'hu' | 'at'; id: string | number }) => {
     return ensurePrefix(`${params?.lang ? `/${params?.lang}` : ''}/contract/${params.id}`)
   },
-  lang_site: (action: 'action1' | 'action2', params: { lang?: string | number } = {}) => {
+  lang_site: (action: 'action1' | 'action2', params: { lang?: 'fr' | 'en' | 'hu' | 'at' } = {}) => {
     return ensurePrefix(`${params?.lang ? `/${params?.lang}` : ''}/site?/${action}`)
   },
   lang_site_contract_siteId_contractId: (
     action: 'sendSomething',
     params: {
-      lang?: string | number
+      lang?: 'fr' | 'en' | 'hu' | 'at'
       siteId: string | number
       contractId: string | number
       extra?: 'A' | 'B'
