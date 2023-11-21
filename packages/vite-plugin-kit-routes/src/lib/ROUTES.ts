@@ -29,7 +29,7 @@ export const PAGES = {
     )
   },
   lang_site_id: (
-    params: { lang?: 'fr' | 'en'; id?: string; limit?: number; demo?: string } = {},
+    params: { lang?: 'fr' | 'hu' | undefined; id?: string; limit?: number; demo?: string } = {},
   ) => {
     params.lang = params.lang ?? 'fr'
     params.id = params.id ?? '7'

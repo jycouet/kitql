@@ -4,6 +4,13 @@
 
   const siteId = 'Paris'
   const contractId = 'abc'
+
+  const getLang = (lang?: string) => {
+    if (lang === 'fr' || lang === 'hu') {
+      return lang as 'fr' | 'hu'
+    }
+    return 'fr'
+  }
 </script>
 
 <svelte:head>
@@ -24,7 +31,9 @@
   <li>
     <a href={PAGES.lang_site({ lang: $page.params.lang, limit: 2 })}>Sites (with Search Param)</a>
   </li>
-  <li><a href={PAGES.lang_site_id({ lang: $page.params.lang, id: 'Paris' })}>Site Paris</a></li>
+  <li>
+    <a href={PAGES.lang_site_id({ lang: getLang($page.params.lang), id: 'Paris' })}>Site Paris</a>
+  </li>
   <li>
     <!-- 🤞 before, random string -->
     <a
