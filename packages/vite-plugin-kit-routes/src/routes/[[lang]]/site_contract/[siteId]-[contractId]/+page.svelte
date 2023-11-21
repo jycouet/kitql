@@ -1,7 +1,7 @@
 <script lang="ts">
   import { enhance } from '$app/forms'
   import { page } from '$app/stores'
-  import { ACTIONS, kitRoutes } from '$lib/ROUTES.js'
+  import { ACTIONS } from '$lib/ROUTES.js'
 
   export let form: FormData
 
@@ -13,7 +13,7 @@
 
   // ✅ after, all typed & make sure it exist. // 'vite-plugin-kit-routes',
   const action = ACTIONS.lang_site_contract_siteId_contractId('sendSomething', {
-    lang: $kitRoutes.lang,
+    lang: $page.params.lang,
     siteId,
     contractId,
   })

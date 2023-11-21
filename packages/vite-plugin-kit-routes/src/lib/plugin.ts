@@ -15,12 +15,12 @@ export type Options<
     PAGES: Record<string, string>
     SERVERS: Record<string, string>
     ACTIONS: Record<string, string>
-    Storage_Params: Record<string, string>
+    Params: Record<string, string>
   } = {
     PAGES: Record<string, string>
     SERVERS: Record<string, string>
     ACTIONS: Record<string, string>
-    Storage_Params: Record<string, string>
+    Params: Record<string, string>
   },
 > = {
   /**
@@ -65,14 +65,20 @@ export type Options<
     ACTIONS?: Partial<{ [K in keyof T['ACTIONS']]: CustomPath<Extract<T['ACTIONS'][K], string>> }>
   }
 
-  storage?: {
-    /**
-     * @default 'kitRoutes' but you can change it to avoid conflict with other localStorage?
-     */
-    key?: string
+  /**
+   * To override the type of a param globally.
+   */
+  override_params?: Partial<{ [K in keyof T['Params']]: OverrideParam }>
 
-    params?: Partial<{ [K in keyof T['Storage_Params']]: StorageParam }>
-  }
+  // TODO STORAGE?
+  // storage?: {
+  //   /**
+  //    * @default 'kitRoutes' but you can change it to avoid conflict with other localStorage?
+  //    */
+  //   key?: string
+
+  //   params?: Partial<{ [K in keyof T['Storage_Params']]: StorageParam }>
+  // }
 }
 
 export type CustomPath<Params extends string | never = string> = {
@@ -81,10 +87,15 @@ export type CustomPath<Params extends string | never = string> = {
   extra_search_params?: 'default' | 'with' | 'without'
 }
 
-export type StorageParam = {
+export type OverrideParam = {
   type: string
-  default?: string
+  // default?: string //TODO one day?
 }
+
+// export type StorageParam = {
+//   type: string
+//   default?: string
+// }
 
 export type ExtendParam = {
   type?: string
@@ -145,14 +156,18 @@ const getFileKeys = (
   let files = readdirSync(routes_path(), { recursive: true }) as string[]
   // For windows
   files = files.map(c => c.replaceAll('\\', '/'))
-  return (
-    files
-      .filter(file => file.endsWith(lookFor))
-      .map(file => `/` + file.replace(`/${lookFor}`, '').replace(lookFor, ''))
-      // Keep the sorting at this level, it will make more sense
-      .sort()
-      .map(original => fileToMetadata(original, type, options, useWithAppendSp))
-  )
+  const toRet = files
+    .filter(file => file.endsWith(lookFor))
+    .map(file => `/` + file.replace(`/${lookFor}`, '').replace(lookFor, ''))
+    // Keep the sorting at this level, it will make more sense
+    .sort()
+    .map(original => fileToMetadata(original, type, options, useWithAppendSp))
+
+  return toRet.filter(c => c !== null) as {
+    keyToUse: string
+    prop: string
+    paramsFromPath: Param[]
+  }[]
 }
 
 type Param = { name: string; optional: boolean; matcher?: string; type?: string; default?: string }
@@ -226,9 +241,10 @@ export const fileToMetadata = (
       params.push(`method: ${methods.map(c => `'${c}'`).join(' | ')}`)
     }
   } else if (type === 'ACTIONS') {
-    const actions = getActionsOfServerPages(original)
+    const { actions } = getActionsOfServerPages(original)
 
     if (actions.length === 0) {
+      return null
     } else if (actions.length === 1 && actions[0] === 'default') {
     } else {
       params.push(`action: ${actions.map(c => `'${c}'`).join(' | ')}`)
@@ -237,11 +253,11 @@ export const fileToMetadata = (
   }
 
   // custom search Param?
-  let explicit_search_params_to_function = ''
+  const explicit_search_params_to_function: string[] = []
   if (customConf.explicit_search_params) {
     Object.entries(customConf.explicit_search_params).forEach(sp => {
       paramsFromPath.push({ name: sp[0], optional: !sp[1].required, type: sp[1].type })
-      explicit_search_params_to_function += `${sp[0]}: params.${sp[0]}`
+      explicit_search_params_to_function.push(`${sp[0]}: params.${sp[0]}`)
     })
   }
 
@@ -262,22 +278,23 @@ export const fileToMetadata = (
     fullSP = `\${appendSp(sp)}`
   } else if (wExtraSP && customConf.explicit_search_params) {
     params.push(`sp?: Record<string, string | number>`)
-    fullSP = `\${appendSp({...sp, ${explicit_search_params_to_function} })}`
+    fullSP = `\${appendSp({...sp, ${explicit_search_params_to_function.join(', ')} })}`
   } else if (!wExtraSP && customConf.explicit_search_params) {
-    fullSP = `\${appendSp({ ${explicit_search_params_to_function} })}`
+    fullSP = `\${appendSp({ ${explicit_search_params_to_function.join(', ')} })}`
   }
 
-  const oParams = Object.entries(options?.storage?.params ?? [])
+  // TODO STORAGE?
+  // const oParams = Object.entries(options?.storage?.params ?? [])
   let paramsDefaults = paramsFromPath
     .filter(c => c.default !== undefined)
     .map(c => {
-      const oParam = oParams.filter(p => p[0] === c.name)
+      // const oParam = oParams.filter(p => p[0] === c.name)
       let additionalByStore = ''
-      if (oParam.length > 0) {
-        for (const [key, value] of Object.entries(oParam)) {
-          additionalByStore += `/* waiting for ✨ Runes ✨ to have a perfect api! get(kitRoutes)?.${value[0]} ?? */ `
-        }
-      }
+      // if (oParam.length > 0) {
+      //   for (const [key, value] of Object.entries(oParam)) {
+      //     additionalByStore += `/* waiting for ✨ Runes ✨ to have a perfect api! get(kitRoutes)?.${value[0]} ?? */ `
+      //   }
+      // }
 
       return `params.${c.name} = params.${c.name} ?? ${additionalByStore}'${c.default}'; `
     })
@@ -319,12 +336,20 @@ export function extractParamsFromPath(path: string): Param[] {
 
 const formatArgs = (params: Param[], options?: Options) => {
   return params
-    .map(
-      c =>
-        `${c.name}${c.optional ? '?' : ''}: ${
-          c.type ?? options?.default_type ?? 'string | number'
-        }`,
-    )
+    .map(c => {
+      const override_params = Object.entries(options?.override_params ?? {}).filter(
+        d => d[0] === c.name,
+      )
+
+      let override_param = undefined
+      if (override_params.length > 0) {
+        override_param = override_params[0][1]?.type
+      }
+
+      return `${c.name}${c.optional ? '?' : ''}: ${
+        c.type ?? override_param ?? options?.default_type ?? 'string | number'
+      }`
+    })
     .join(', ')
 }
 
@@ -348,6 +373,17 @@ const getMethodsOfServerFiles = (path: string) => {
           }
         })
       }
+
+      // Check for export specifiers (for aliased exports)
+      const specifiers = path.node.specifiers
+      if (specifiers) {
+        specifiers.forEach((specifier: any) => {
+          if (specifier.exported.name) {
+            exportedNames.push(specifier.exported.name)
+          }
+        })
+      }
+
       return false
     },
   })
@@ -355,15 +391,17 @@ const getMethodsOfServerFiles = (path: string) => {
   return exportedNames
 }
 
-const getActionsOfServerPages = (path: string) => {
-  const code = read(`${routes_path()}/${path}/${'+page.server.ts'}`)
+const getActionsOfServerPages = (pathFile: string) => {
+  const code = read(`${routes_path()}/${pathFile}/${'+page.server.ts'}`)
+
+  let withLoad = false
 
   const codeParsed = parse(code ?? '', {
     plugins: ['typescript', 'importAssertions', 'decorators-legacy'],
     sourceType: 'module',
   }).program as recast.types.namedTypes.Program
 
-  let exportedNames: string[] = []
+  let actions: string[] = []
   visit(codeParsed, {
     visitExportNamedDeclaration(path) {
       // @ts-ignore
@@ -372,9 +410,14 @@ const getActionsOfServerPages = (path: string) => {
         declarations.forEach((declaration: any) => {
           if (declaration.id.name === 'actions') {
             const properties = declaration.init.expression.properties
-            properties.forEach((property: any) => {
-              exportedNames.push(property.key.name)
-            })
+            if (properties) {
+              properties.forEach((property: any) => {
+                actions.push(property.key.name)
+              })
+            }
+          }
+          if (declaration.id.name === 'load') {
+            withLoad = true
           }
         })
       }
@@ -382,7 +425,8 @@ const getActionsOfServerPages = (path: string) => {
     },
   })
 
-  return exportedNames
+  // TODO: withLoad to be used one day? with PAGE_SERVER_LOAD? PAGE_LOAD?
+  return { actions, withLoad }
 }
 
 const run = (options?: Options) => {
@@ -492,86 +536,86 @@ ${objTypes
       .join(', ')} }`
   })
   .join('\n')}
-  Storage_Params: { ${[
+  Params: { ${[
     ...new Set(
       objTypes.flatMap(c => c.files.flatMap(d => d.paramsFromPath.map(e => `${e.name}: never`))),
     ),
   ].join(', ')} }
 }
 `,
-      `import { browser } from '$app/environment'
-import { writable } from 'svelte/store'
+      //       // TODO STORAGE?
+      //       `import { browser } from '$app/environment'
+      // import { writable } from 'svelte/store'
 
-const _kitRoutes = <T>(key: string, initValues?: T) => {
-  const store = writable<T>(initValues, set => {
-    if (browser) {
-      if(initValues){
-        const v = localStorage.getItem(key)
-        if (v) {
-          try {
-            const json = JSON.parse(v)
-            set(json)
-          } catch (error) {
-            set(initValues)
-          }
-        } else {
-          set(initValues)
-        }
-      } else {
-        set({} as any)
-      }
+      // const _kitRoutes = <T>(key: string, initValues?: T) => {
+      //   const store = writable<T>(initValues, set => {
+      //     if (browser) {
+      //       if(initValues){
+      //         const v = localStorage.getItem(key)
+      //         if (v) {
+      //           try {
+      //             const json = JSON.parse(v)
+      //             set(json)
+      //           } catch (error) {
+      //             set(initValues)
+      //           }
+      //         } else {
+      //           set(initValues)
+      //         }
+      //       } else {
+      //         set({} as any)
+      //       }
 
-      const handleStorage = (event: StorageEvent) => {
-        if (event.key === key) set(event.newValue ? JSON.parse(event.newValue) : null)
-      }
-      window.addEventListener('storage', handleStorage)
-      return () => window.removeEventListener('storage', handleStorage)
-    } else {
-      if(initValues) {
-        set(initValues)
-      } else {
-        set({} as any)
-      }
-    }
-  })
+      //       const handleStorage = (event: StorageEvent) => {
+      //         if (event.key === key) set(event.newValue ? JSON.parse(event.newValue) : null)
+      //       }
+      //       window.addEventListener('storage', handleStorage)
+      //       return () => window.removeEventListener('storage', handleStorage)
+      //     } else {
+      //       if(initValues) {
+      //         set(initValues)
+      //       } else {
+      //         set({} as any)
+      //       }
+      //     }
+      //   })
 
-  return {
-    subscribe: store.subscribe,
-    update: (u: T) => {
-      if (browser) {
-        localStorage.setItem(key, JSON.stringify(u))
-      } 
-      store.update(() => u)
-    },
-  }
-}
+      //   return {
+      //     subscribe: store.subscribe,
+      //     update: (u: T) => {
+      //       if (browser) {
+      //         localStorage.setItem(key, JSON.stringify(u))
+      //       }
+      //       store.update(() => u)
+      //     },
+      //   }
+      // }
 
-export type StorageParams = ${
-        options?.storage?.params
-          ? Object.entries(options?.storage?.params)
-              .map(c => {
-                return `{ ${c[0]}: ${c[1]?.type} }`
-              })
-              .join(', ')
-          : '{ }'
-      }
-/**
- *
- * Example of usage:
- * \`\`\`ts
- *  import { afterNavigate } from '$app/navigation'
- *  import { kitRoutes } from '$lib/ROUTES.js'
- *
- *  afterNavigate(() => {
- *	  kitRoutes.update({ lang: $page.params.lang })
- *  })
- * \`\`\`
- *
- */
-export let kitRoutes = _kitRoutes<StorageParams>('${options?.storage?.key ?? 'kitRoutes'}')
+      // export type StorageParams = ${
+      //         options?.storage?.params
+      //           ? Object.entries(options?.storage?.params)
+      //               .map(c => {
+      //                 return `{ ${c[0]}: ${c[1]?.type} }`
+      //               })
+      //               .join(', ')
+      //           : '{ }'
+      //       }
+      // /**
+      //  *
+      //  * Example of usage:
+      //  * \`\`\`ts
+      //  *  import { afterNavigate } from '$app/navigation'
+      //  *  import { kitRoutes } from '$lib/ROUTES.js'
+      //  *
+      //  *  afterNavigate(() => {
+      //  *	  kitRoutes.update({ lang: $page.params.lang })
+      //  *  })
+      //  * \`\`\`
+      //  *
+      //  */
+      // export let kitRoutes = _kitRoutes<StorageParams>('${options?.storage?.key ?? 'kitRoutes'}')
 
-
-`,
+      // `,
     ])
 
     // TODO: optimize this later. We want to write the new file only if different after prettier?! (having a tmp file somewhere?)
@@ -627,12 +671,12 @@ export function kitRoutes<
     PAGES: Record<string, string>
     SERVERS: Record<string, string>
     ACTIONS: Record<string, string>
-    Storage_Params: Record<string, string>
+    Params: Record<string, string>
   } = {
     PAGES: Record<string, string>
     SERVERS: Record<string, string>
     ACTIONS: Record<string, string>
-    Storage_Params: Record<string, string>
+    Params: Record<string, string>
   },
 >(options?: Options<T>): Plugin[] {
   return [

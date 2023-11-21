@@ -14,6 +14,7 @@ export default defineConfig({
       post_update_run: 'npm exec prettier ./src/lib/ROUTES.ts -- -w',
       // extra_search_params: 'with',
       // keep_path_param_format: true,
+
       extend: {
         PAGES: {
           lang_site: {
@@ -24,10 +25,10 @@ export default defineConfig({
             },
           },
           lang_site_id: {
-            explicit_search_params: { limit: { type: 'number' } },
+            explicit_search_params: { limit: { type: 'number' }, demo: { type: 'string' } },
             params: {
               id: { type: 'string', default: '7' },
-              lang: { type: 'string', default: 'fr' },
+              lang: { type: "'fr' | 'hu' | undefined", default: 'fr' },
             },
           },
           lang_site_contract_siteId_contractId: {
@@ -48,14 +49,20 @@ export default defineConfig({
           },
         },
       },
-      storage: {
-        params: {
-          lang: {
-            type: "'en' | 'fr' | 'at'",
-            default: 'fr',
-          },
-        },
+
+      override_params: {
+        lang: { type: "'fr' | 'en' | 'hu' | 'at'" },
       },
+
+      // TODO STORAGE?
+      // storage: {
+      //   params: {
+      //     lang: {
+      //       type: "'fr' | 'en' | 'hu' | 'at'",
+      //       default: 'fr',
+      //     },
+      //   },
+      // },
     }),
   ],
   test: {
