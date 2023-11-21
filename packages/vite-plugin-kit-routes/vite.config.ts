@@ -48,14 +48,15 @@ export default defineConfig({
           },
         },
       },
-      storage: {
-        params: {
-          lang: {
-            type: "'en' | 'fr' | 'at'",
-            default: 'fr',
-          },
-        },
-      },
+      // TODO STORAGE?
+      // storage: {
+      //   params: {
+      //     lang: {
+      //       type: "'en' | 'fr' | 'at'",
+      //       default: 'fr',
+      //     },
+      //   },
+      // },
     }),
   ],
   test: {

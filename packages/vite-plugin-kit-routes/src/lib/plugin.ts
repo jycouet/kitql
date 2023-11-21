@@ -65,14 +65,15 @@ export type Options<
     ACTIONS?: Partial<{ [K in keyof T['ACTIONS']]: CustomPath<Extract<T['ACTIONS'][K], string>> }>
   }
 
-  storage?: {
-    /**
-     * @default 'kitRoutes' but you can change it to avoid conflict with other localStorage?
-     */
-    key?: string
+  // TODO STORAGE?
+  // storage?: {
+  //   /**
+  //    * @default 'kitRoutes' but you can change it to avoid conflict with other localStorage?
+  //    */
+  //   key?: string
 
-    params?: Partial<{ [K in keyof T['Storage_Params']]: StorageParam }>
-  }
+  //   params?: Partial<{ [K in keyof T['Storage_Params']]: StorageParam }>
+  // }
 }
 
 export type CustomPath<Params extends string | never = string> = {
@@ -267,17 +268,18 @@ export const fileToMetadata = (
     fullSP = `\${appendSp({ ${explicit_search_params_to_function} })}`
   }
 
-  const oParams = Object.entries(options?.storage?.params ?? [])
+  // TODO STORAGE?
+  // const oParams = Object.entries(options?.storage?.params ?? [])
   let paramsDefaults = paramsFromPath
     .filter(c => c.default !== undefined)
     .map(c => {
-      const oParam = oParams.filter(p => p[0] === c.name)
+      // const oParam = oParams.filter(p => p[0] === c.name)
       let additionalByStore = ''
-      if (oParam.length > 0) {
-        for (const [key, value] of Object.entries(oParam)) {
-          additionalByStore += `/* waiting for ✨ Runes ✨ to have a perfect api! get(kitRoutes)?.${value[0]} ?? */ `
-        }
-      }
+      // if (oParam.length > 0) {
+      //   for (const [key, value] of Object.entries(oParam)) {
+      //     additionalByStore += `/* waiting for ✨ Runes ✨ to have a perfect api! get(kitRoutes)?.${value[0]} ?? */ `
+      //   }
+      // }
 
       return `params.${c.name} = params.${c.name} ?? ${additionalByStore}'${c.default}'; `
     })
@@ -355,6 +357,11 @@ const getMethodsOfServerFiles = (path: string) => {
   return exportedNames
 }
 
+// TODO: 2 search Params
+// TODO: Actions when no action? only load?
+// TODO: Actions graphQL GET / blabla?
+// TODO: Remove store for now! Demo with $page.param => Ask for opinions
+
 const getActionsOfServerPages = (path: string) => {
   const code = read(`${routes_path()}/${path}/${'+page.server.ts'}`)
 
@@ -372,6 +379,8 @@ const getActionsOfServerPages = (path: string) => {
         declarations.forEach((declaration: any) => {
           if (declaration.id.name === 'actions') {
             const properties = declaration.init.expression.properties
+            // FIX ME
+            // if(properties){
             properties.forEach((property: any) => {
               exportedNames.push(property.key.name)
             })
@@ -499,79 +508,79 @@ ${objTypes
   ].join(', ')} }
 }
 `,
-      `import { browser } from '$app/environment'
-import { writable } from 'svelte/store'
+      //       // TODO STORAGE?
+      //       `import { browser } from '$app/environment'
+      // import { writable } from 'svelte/store'
 
-const _kitRoutes = <T>(key: string, initValues?: T) => {
-  const store = writable<T>(initValues, set => {
-    if (browser) {
-      if(initValues){
-        const v = localStorage.getItem(key)
-        if (v) {
-          try {
-            const json = JSON.parse(v)
-            set(json)
-          } catch (error) {
-            set(initValues)
-          }
-        } else {
-          set(initValues)
-        }
-      } else {
-        set({} as any)
-      }
+      // const _kitRoutes = <T>(key: string, initValues?: T) => {
+      //   const store = writable<T>(initValues, set => {
+      //     if (browser) {
+      //       if(initValues){
+      //         const v = localStorage.getItem(key)
+      //         if (v) {
+      //           try {
+      //             const json = JSON.parse(v)
+      //             set(json)
+      //           } catch (error) {
+      //             set(initValues)
+      //           }
+      //         } else {
+      //           set(initValues)
+      //         }
+      //       } else {
+      //         set({} as any)
+      //       }
 
-      const handleStorage = (event: StorageEvent) => {
-        if (event.key === key) set(event.newValue ? JSON.parse(event.newValue) : null)
-      }
-      window.addEventListener('storage', handleStorage)
-      return () => window.removeEventListener('storage', handleStorage)
-    } else {
-      if(initValues) {
-        set(initValues)
-      } else {
-        set({} as any)
-      }
-    }
-  })
+      //       const handleStorage = (event: StorageEvent) => {
+      //         if (event.key === key) set(event.newValue ? JSON.parse(event.newValue) : null)
+      //       }
+      //       window.addEventListener('storage', handleStorage)
+      //       return () => window.removeEventListener('storage', handleStorage)
+      //     } else {
+      //       if(initValues) {
+      //         set(initValues)
+      //       } else {
+      //         set({} as any)
+      //       }
+      //     }
+      //   })
 
-  return {
-    subscribe: store.subscribe,
-    update: (u: T) => {
-      if (browser) {
-        localStorage.setItem(key, JSON.stringify(u))
-      } 
-      store.update(() => u)
-    },
-  }
-}
+      //   return {
+      //     subscribe: store.subscribe,
+      //     update: (u: T) => {
+      //       if (browser) {
+      //         localStorage.setItem(key, JSON.stringify(u))
+      //       }
+      //       store.update(() => u)
+      //     },
+      //   }
+      // }
 
-export type StorageParams = ${
-        options?.storage?.params
-          ? Object.entries(options?.storage?.params)
-              .map(c => {
-                return `{ ${c[0]}: ${c[1]?.type} }`
-              })
-              .join(', ')
-          : '{ }'
-      }
-/**
- *
- * Example of usage:
- * \`\`\`ts
- *  import { afterNavigate } from '$app/navigation'
- *  import { kitRoutes } from '$lib/ROUTES.js'
- *
- *  afterNavigate(() => {
- *	  kitRoutes.update({ lang: $page.params.lang })
- *  })
- * \`\`\`
- *
- */
-export let kitRoutes = _kitRoutes<StorageParams>('${options?.storage?.key ?? 'kitRoutes'}')
+      // export type StorageParams = ${
+      //         options?.storage?.params
+      //           ? Object.entries(options?.storage?.params)
+      //               .map(c => {
+      //                 return `{ ${c[0]}: ${c[1]?.type} }`
+      //               })
+      //               .join(', ')
+      //           : '{ }'
+      //       }
+      // /**
+      //  *
+      //  * Example of usage:
+      //  * \`\`\`ts
+      //  *  import { afterNavigate } from '$app/navigation'
+      //  *  import { kitRoutes } from '$lib/ROUTES.js'
+      //  *
+      //  *  afterNavigate(() => {
+      //  *	  kitRoutes.update({ lang: $page.params.lang })
+      //  *  })
+      //  * \`\`\`
+      //  *
+      //  */
+      // export let kitRoutes = _kitRoutes<StorageParams>('${options?.storage?.key ?? 'kitRoutes'}')
 
-
-`,
+      // `,
     ])
 
     // TODO: optimize this later. We want to write the new file only if different after prettier?! (having a tmp file somewhere?)
