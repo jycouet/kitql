@@ -1,5 +1,21 @@
 # vite-plugin-kit-routes
 
+## 0.0.13
+
+### Patch Changes
+
+- [#445](https://github.com/jycouet/kitql/pull/445)
+  [`d79866f`](https://github.com/jycouet/kitql/commit/d79866f178b016b2db0d9dcba63fe01d5d7ce1b2)
+  Thanks [@jycouet](https://github.com/jycouet)! - add override for types
+
+- [#445](https://github.com/jycouet/kitql/pull/445)
+  [`d79866f`](https://github.com/jycouet/kitql/commit/d79866f178b016b2db0d9dcba63fe01d5d7ce1b2)
+  Thanks [@jycouet](https://github.com/jycouet)! - add specifiers management
+
+- [#445](https://github.com/jycouet/kitql/pull/445)
+  [`d79866f`](https://github.com/jycouet/kitql/commit/d79866f178b016b2db0d9dcba63fe01d5d7ce1b2)
+  Thanks [@jycouet](https://github.com/jycouet)! - fix: double search params is now working well
+
 ## 0.0.12
 
 ### Patch Changes
