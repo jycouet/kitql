@@ -61,6 +61,9 @@ export const SERVERS = {
   lang_site: (method: 'GET', params: { lang?: 'fr' | 'en' | 'hu' | 'at' } = {}) => {
     return ensurePrefix(`${params?.lang ? `/${params?.lang}` : ''}/site`)
   },
+  api_graphql: (method: 'GET' | 'POST') => {
+    return ensurePrefix(`/api/graphql`)
+  },
 }
 
 export const ACTIONS = {
@@ -136,7 +139,7 @@ export type KIT_ROUTES = {
     lang_site_id: 'lang' | 'id' | 'limit' | 'demo'
     lang_site_contract_siteId_contractId: 'lang' | 'siteId' | 'contractId' | 'limit'
   }
-  SERVERS: { lang_contract: 'lang'; lang_site: 'lang' }
+  SERVERS: { lang_contract: 'lang'; lang_site: 'lang'; api_graphql: never }
   ACTIONS: {
     lang_contract_id: 'lang' | 'id'
     lang_site: 'lang'

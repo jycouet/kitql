@@ -65,6 +65,9 @@ export type Options<
     ACTIONS?: Partial<{ [K in keyof T['ACTIONS']]: CustomPath<Extract<T['ACTIONS'][K], string>> }>
   }
 
+  /**
+   * To override the type of a param globally.
+   */
   override_params?: Partial<{ [K in keyof T['Params']]: OverrideParam }>
 
   // TODO STORAGE?
@@ -370,15 +373,23 @@ const getMethodsOfServerFiles = (path: string) => {
           }
         })
       }
+
+      // Check for export specifiers (for aliased exports)
+      const specifiers = path.node.specifiers
+      if (specifiers) {
+        specifiers.forEach((specifier: any) => {
+          if (specifier.exported.name) {
+            exportedNames.push(specifier.exported.name)
+          }
+        })
+      }
+
       return false
     },
   })
 
   return exportedNames
 }
-
-// TODO: Actions when no action? only load?
-// TODO: Actions graphQL GET / blabla?
 
 const getActionsOfServerPages = (pathFile: string) => {
   const code = read(`${routes_path()}/${pathFile}/${'+page.server.ts'}`)
