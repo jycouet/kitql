@@ -1,5 +1,13 @@
 # vite-plugin-kit-routes
 
+## 0.0.14
+
+### Patch Changes
+
+- [`113eb68`](https://github.com/jycouet/kitql/commit/113eb68bb59650cd112106c6440482ec176ed9d2)
+  Thanks [@jycouet](https://github.com/jycouet)! - fix: some +page.server can have no action (a load
+  only), not it's managed.
+
 ## 0.0.13
 
 ### Patch Changes
