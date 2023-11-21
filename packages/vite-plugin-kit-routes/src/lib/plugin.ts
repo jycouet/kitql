@@ -15,12 +15,12 @@ export type Options<
     PAGES: Record<string, string>
     SERVERS: Record<string, string>
     ACTIONS: Record<string, string>
-    Storage_Params: Record<string, string>
+    Params: Record<string, string>
   } = {
     PAGES: Record<string, string>
     SERVERS: Record<string, string>
     ACTIONS: Record<string, string>
-    Storage_Params: Record<string, string>
+    Params: Record<string, string>
   },
 > = {
   /**
@@ -65,6 +65,8 @@ export type Options<
     ACTIONS?: Partial<{ [K in keyof T['ACTIONS']]: CustomPath<Extract<T['ACTIONS'][K], string>> }>
   }
 
+  override_params?: Partial<{ [K in keyof T['Params']]: OverrideParam }>
+
   // TODO STORAGE?
   // storage?: {
   //   /**
@@ -82,10 +84,15 @@ export type CustomPath<Params extends string | never = string> = {
   extra_search_params?: 'default' | 'with' | 'without'
 }
 
-export type StorageParam = {
+export type OverrideParam = {
   type: string
   default?: string
 }
+
+// export type StorageParam = {
+//   type: string
+//   default?: string
+// }
 
 export type ExtendParam = {
   type?: string
@@ -500,7 +507,7 @@ ${objTypes
       .join(', ')} }`
   })
   .join('\n')}
-  Storage_Params: { ${[
+  Params: { ${[
     ...new Set(
       objTypes.flatMap(c => c.files.flatMap(d => d.paramsFromPath.map(e => `${e.name}: never`))),
     ),
@@ -635,12 +642,12 @@ export function kitRoutes<
     PAGES: Record<string, string>
     SERVERS: Record<string, string>
     ACTIONS: Record<string, string>
-    Storage_Params: Record<string, string>
+    Params: Record<string, string>
   } = {
     PAGES: Record<string, string>
     SERVERS: Record<string, string>
     ACTIONS: Record<string, string>
-    Storage_Params: Record<string, string>
+    Params: Record<string, string>
   },
 >(options?: Options<T>): Plugin[] {
   return [

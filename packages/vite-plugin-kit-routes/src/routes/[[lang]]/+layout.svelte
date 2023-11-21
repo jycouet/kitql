@@ -12,6 +12,7 @@
 </svelte:head>
 
 <h1>
+  <img width={40} height={40} alt="logo" src="/favicon.png" />
   vite-plugin-kit-routes <em>({$page.params.lang ?? 'lang??'})</em>
 </h1>
 <pre>{JSON.stringify($page.route.id, null, 2)}</pre>
@@ -61,3 +62,17 @@
 <hr />
 
 <slot />
+
+<hr />
+
+<div class="text-right">
+  <a href="https://github.com/jycouet/kitql" target="_blank">
+    👉 ⭐️ https://github.com/jycouet/kitql 🙏
+  </a>
+</div>
+
+<style>
+  .text-right {
+    text-align: right;
+  }
+</style>

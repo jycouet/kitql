@@ -5,6 +5,7 @@
   const list = [
     { lang: 'fr', caption: 'Français' },
     { lang: 'en', caption: 'English' },
+    { lang: 'hu', caption: 'Magyar' },
     { lang: 'at', caption: 'Deutsch' },
   ].map(c => {
     return { href: PAGES.lang({ lang: c.lang }), ...c }

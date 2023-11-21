@@ -27,7 +27,7 @@ export default defineConfig({
             explicit_search_params: { limit: { type: 'number' }, demo: { type: 'string' } },
             params: {
               id: { type: 'string', default: '7' },
-              lang: { type: 'string', default: 'fr' },
+              lang: { type: "'fr' | 'en'", default: 'fr' },
             },
           },
           lang_site_contract_siteId_contractId: {
@@ -48,11 +48,16 @@ export default defineConfig({
           },
         },
       },
+
+      override_params: {
+        lang: { type: "'fr' | 'en' | 'hu' | 'at'" },
+      },
+
       // TODO STORAGE?
       // storage: {
       //   params: {
       //     lang: {
-      //       type: "'en' | 'fr' | 'at'",
+      //       type: "'fr' | 'en' | 'hu' | 'at'",
       //       default: 'fr',
       //     },
       //   },

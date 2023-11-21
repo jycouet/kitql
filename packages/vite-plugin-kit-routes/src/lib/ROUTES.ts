@@ -28,7 +28,9 @@ export const PAGES = {
       `${params?.lang ? `/${params?.lang}` : ''}/site${appendSp({ limit: params.limit })}`,
     )
   },
-  lang_site_id: (params: { lang?: string; id?: string; limit?: number; demo?: string } = {}) => {
+  lang_site_id: (
+    params: { lang?: 'fr' | 'en'; id?: string; limit?: number; demo?: string } = {},
+  ) => {
     params.lang = params.lang ?? 'fr'
     params.id = params.id ?? '7'
     return ensurePrefix(
@@ -140,7 +142,7 @@ export type KIT_ROUTES = {
     lang_site: 'lang'
     lang_site_contract_siteId_contractId: 'lang' | 'siteId' | 'contractId' | 'extra'
   }
-  Storage_Params: {
+  Params: {
     lang: never
     id: never
     limit: never
