@@ -238,11 +238,11 @@ export const fileToMetadata = (
   }
 
   // custom search Param?
-  let explicit_search_params_to_function = ''
+  const explicit_search_params_to_function: string[] = []
   if (customConf.explicit_search_params) {
     Object.entries(customConf.explicit_search_params).forEach(sp => {
       paramsFromPath.push({ name: sp[0], optional: !sp[1].required, type: sp[1].type })
-      explicit_search_params_to_function += `${sp[0]}: params.${sp[0]}`
+      explicit_search_params_to_function.push(`${sp[0]}: params.${sp[0]}`)
     })
   }
 
@@ -263,9 +263,9 @@ export const fileToMetadata = (
     fullSP = `\${appendSp(sp)}`
   } else if (wExtraSP && customConf.explicit_search_params) {
     params.push(`sp?: Record<string, string | number>`)
-    fullSP = `\${appendSp({...sp, ${explicit_search_params_to_function} })}`
+    fullSP = `\${appendSp({...sp, ${explicit_search_params_to_function.join(', ')} })}`
   } else if (!wExtraSP && customConf.explicit_search_params) {
-    fullSP = `\${appendSp({ ${explicit_search_params_to_function} })}`
+    fullSP = `\${appendSp({ ${explicit_search_params_to_function.join(', ')} })}`
   }
 
   // TODO STORAGE?
@@ -357,7 +357,6 @@ const getMethodsOfServerFiles = (path: string) => {
   return exportedNames
 }
 
-// TODO: 2 search Params
 // TODO: Actions when no action? only load?
 // TODO: Actions graphQL GET / blabla?
 // TODO: Remove store for now! Demo with $page.param => Ask for opinions

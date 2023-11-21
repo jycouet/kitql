@@ -28,12 +28,13 @@ export const PAGES = {
       `${params?.lang ? `/${params?.lang}` : ''}/site${appendSp({ limit: params.limit })}`,
     )
   },
-  lang_site_id: (params: { lang?: string; id?: string; limit?: number } = {}) => {
+  lang_site_id: (params: { lang?: string; id?: string; limit?: number; demo?: string } = {}) => {
     params.lang = params.lang ?? 'fr'
     params.id = params.id ?? '7'
     return ensurePrefix(
       `${params?.lang ? `/${params?.lang}` : ''}/site/${params.id}${appendSp({
         limit: params.limit,
+        demo: params.demo,
       })}`,
     )
   },
@@ -130,7 +131,7 @@ export type KIT_ROUTES = {
     lang_gp_public_two: 'lang'
     lang_match_id_int: 'lang' | 'id'
     lang_site: 'lang' | 'limit'
-    lang_site_id: 'lang' | 'id' | 'limit'
+    lang_site_id: 'lang' | 'id' | 'limit' | 'demo'
     lang_site_contract_siteId_contractId: 'lang' | 'siteId' | 'contractId' | 'limit'
   }
   SERVERS: { lang_contract: 'lang'; lang_site: 'lang' }
@@ -143,6 +144,7 @@ export type KIT_ROUTES = {
     lang: never
     id: never
     limit: never
+    demo: never
     siteId: never
     contractId: never
     extra: never

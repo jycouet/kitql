@@ -24,7 +24,7 @@ export default defineConfig({
             },
           },
           lang_site_id: {
-            explicit_search_params: { limit: { type: 'number' } },
+            explicit_search_params: { limit: { type: 'number' }, demo: { type: 'string' } },
             params: {
               id: { type: 'string', default: '7' },
               lang: { type: 'string', default: 'fr' },
