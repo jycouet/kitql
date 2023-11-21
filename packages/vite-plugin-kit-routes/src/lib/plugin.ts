@@ -153,14 +153,18 @@ const getFileKeys = (
   let files = readdirSync(routes_path(), { recursive: true }) as string[]
   // For windows
   files = files.map(c => c.replaceAll('\\', '/'))
-  return (
-    files
-      .filter(file => file.endsWith(lookFor))
-      .map(file => `/` + file.replace(`/${lookFor}`, '').replace(lookFor, ''))
-      // Keep the sorting at this level, it will make more sense
-      .sort()
-      .map(original => fileToMetadata(original, type, options, useWithAppendSp))
-  )
+  const toRet = files
+    .filter(file => file.endsWith(lookFor))
+    .map(file => `/` + file.replace(`/${lookFor}`, '').replace(lookFor, ''))
+    // Keep the sorting at this level, it will make more sense
+    .sort()
+    .map(original => fileToMetadata(original, type, options, useWithAppendSp))
+
+  return toRet.filter(c => c !== null) as {
+    keyToUse: string
+    prop: string
+    paramsFromPath: Param[]
+  }[]
 }
 
 type Param = { name: string; optional: boolean; matcher?: string; type?: string; default?: string }
@@ -234,9 +238,10 @@ export const fileToMetadata = (
       params.push(`method: ${methods.map(c => `'${c}'`).join(' | ')}`)
     }
   } else if (type === 'ACTIONS') {
-    const actions = getActionsOfServerPages(original)
+    const { actions } = getActionsOfServerPages(original)
 
     if (actions.length === 0) {
+      return null
     } else if (actions.length === 1 && actions[0] === 'default') {
     } else {
       params.push(`action: ${actions.map(c => `'${c}'`).join(' | ')}`)
@@ -374,17 +379,18 @@ const getMethodsOfServerFiles = (path: string) => {
 
 // TODO: Actions when no action? only load?
 // TODO: Actions graphQL GET / blabla?
-// TODO: Remove store for now! Demo with $page.param => Ask for opinions
 
-const getActionsOfServerPages = (path: string) => {
-  const code = read(`${routes_path()}/${path}/${'+page.server.ts'}`)
+const getActionsOfServerPages = (pathFile: string) => {
+  const code = read(`${routes_path()}/${pathFile}/${'+page.server.ts'}`)
+
+  let withLoad = false
 
   const codeParsed = parse(code ?? '', {
     plugins: ['typescript', 'importAssertions', 'decorators-legacy'],
     sourceType: 'module',
   }).program as recast.types.namedTypes.Program
 
-  let exportedNames: string[] = []
+  let actions: string[] = []
   visit(codeParsed, {
     visitExportNamedDeclaration(path) {
       // @ts-ignore
@@ -393,11 +399,14 @@ const getActionsOfServerPages = (path: string) => {
         declarations.forEach((declaration: any) => {
           if (declaration.id.name === 'actions') {
             const properties = declaration.init.expression.properties
-            // FIX ME
-            // if(properties){
-            properties.forEach((property: any) => {
-              exportedNames.push(property.key.name)
-            })
+            if (properties) {
+              properties.forEach((property: any) => {
+                actions.push(property.key.name)
+              })
+            }
+          }
+          if (declaration.id.name === 'load') {
+            withLoad = true
           }
         })
       }
@@ -405,7 +414,8 @@ const getActionsOfServerPages = (path: string) => {
     },
   })
 
-  return exportedNames
+  // TODO: withLoad to be used one day? with PAGE_SERVER_LOAD? PAGE_LOAD?
+  return { actions, withLoad }
 }
 
 const run = (options?: Options) => {
