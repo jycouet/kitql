@@ -61,10 +61,10 @@
     >
   </li>
   <li>
-    <a href={PAGES.lang_gp_logged_one({ lang: $page.params.lang })}>gp One</a>
+    <a href={PAGES.lang_gp_one({ lang: $page.params.lang })}>gp One</a>
   </li>
   <li>
-    <a href={PAGES.lang_gp_public_two({ lang: $page.params.lang })}>gp One</a>
+    <a href={PAGES.lang_gp_two({ lang: $page.params.lang })}>gp One</a>
   </li>
 </ul>
 

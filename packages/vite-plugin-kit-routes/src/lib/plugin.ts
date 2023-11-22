@@ -162,7 +162,16 @@ const getFileKeys = (
   files = files.map(c => c.replaceAll('\\', '/'))
   const toRet = files
     .filter(file => file.endsWith(lookFor))
-    .map(file => `/` + file.replace(`/${lookFor}`, '').replace(lookFor, ''))
+    .map(
+      file =>
+        `/` +
+        file
+          .replace(`/${lookFor}`, '')
+          .replace(lookFor, '')
+          // rmv groups
+          .replace(/\([^)]*\)/g, '')
+          .replace(/\/+/g, '/'),
+    )
     // Keep the sorting at this level, it will make more sense
     .sort()
     .map(original => fileToMetadata(original, type, options, useWithAppendSp))
@@ -182,7 +191,7 @@ export const fileToMetadata = (
   options: Options | undefined,
   useWithAppendSp: boolean | undefined,
 ) => {
-  let toRet = original.replace(/\([^)]*\)/g, '').replace(/\/+/g, '/')
+  let toRet = original
 
   const keyToUse = formatKey(original, options)
 

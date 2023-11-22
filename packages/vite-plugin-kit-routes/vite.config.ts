@@ -52,7 +52,7 @@ export default defineConfig({
       },
 
       override_params: {
-        lang: { type: "'fr' | 'en' | 'hu' | 'at'" },
+        lang: { type: "'fr' | 'en' | 'hu' | 'at' | string" },
       },
 
       // TODO STORAGE?
