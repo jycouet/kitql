@@ -35,14 +35,14 @@
     <a href={PAGES.lang_site_id({ lang: getLang($page.params.lang), id: 'Paris' })}>Site Paris</a>
   </li>
   <li>
-    <!-- 🤞 before, random string -->
+    <!-- 🤞 before, hardcoded string -->
     <a
       href="{$page.params.lang
         ? `/${$page.params.lang}`
         : ''}/site_contract/{siteId}-{contractId}?limit={3}">Go to site</a
     >
     |
-    <!-- ✅ after, all typed & make sure it exist. // 'vite-plugin-kit-routes', -->
+    <!-- ✅ after, typechecked route, error prone -->
     <a
       href={PAGES.lang_site_contract_siteId_contractId({
         lang: $page.params.lang,

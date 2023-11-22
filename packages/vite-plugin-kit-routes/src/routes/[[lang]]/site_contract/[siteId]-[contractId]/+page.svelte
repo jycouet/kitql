@@ -8,10 +8,10 @@
   const siteId = $page.params.siteId
   const contractId = $page.params.contractId
 
-  // 🤞 before, random string
+  // 🤞 before, hardcoded string
   // const action =  `/en/site_contract/${siteId}-${contractId}?/sendSomething`
 
-  // ✅ after, all typed & make sure it exist. // 'vite-plugin-kit-routes',
+  // ✅ after, typechecked route, error prone
   const action = ACTIONS.lang_site_contract_siteId_contractId('sendSomething', {
     lang: $page.params.lang,
     siteId,
