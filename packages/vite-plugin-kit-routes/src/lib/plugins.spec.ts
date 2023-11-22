@@ -190,7 +190,7 @@ describe('run()', () => {
   }
 
   it('style _', () => {
-    const generated_file_path = 'src/lib/test/ROUTES_test1.ts'
+    const generated_file_path = 'src/test/ROUTES_test1.ts'
     run({
       generated_file_path,
       object_keys_format: '_',
@@ -359,7 +359,7 @@ describe('run()', () => {
   })
 
   it('style /', () => {
-    const generated_file_path = 'src/lib/test/ROUTES_test2.ts'
+    const generated_file_path = 'src/test/ROUTES_test2.ts'
     run({
       generated_file_path,
       ...commonConfig,
@@ -480,7 +480,7 @@ describe('run()', () => {
   })
 
   it('post_update_run', () => {
-    const generated_file_path = 'src/lib/test/ROUTES_test3.ts'
+    const generated_file_path = 'src/test/ROUTES_test3.ts'
     run({
       generated_file_path,
       post_update_run: 'echo done',
