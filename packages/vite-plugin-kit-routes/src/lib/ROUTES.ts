@@ -6,7 +6,7 @@
 
 export const PAGES = {
   _ROOT: `/`,
-  subGroup: `//subGroup`,
+  subGroup: `/subGroup`,
   lang_contract: (params: { lang?: 'fr' | 'en' | 'hu' | 'at' | string } = {}) => {
     return `${params?.lang ? `/${params?.lang}` : ''}/contract`
   },

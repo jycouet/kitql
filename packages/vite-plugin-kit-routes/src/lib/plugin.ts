@@ -114,13 +114,23 @@ function generated_file_path(options?: Options) {
   return options?.generated_file_path ?? 'src/lib/ROUTES.ts'
 }
 
+export function rmvGroups(key: string) {
+  let toRet = key
+    // rmv (groups)
+    .replace(/\([^)]*\)/g, '')
+    .replace(/\/+/g, '/')
+  return toRet
+}
+
 export function formatKey(key: string, options?: Options) {
+  let toRet = rmvGroups(key)
+
   if (options?.object_keys_format === undefined || options?.object_keys_format === '/') {
-    return key
+    return toRet
   }
 
   const toReplace = ['/', '[', ']', '(', ')', '-', '=']
-  let toRet = key
+  toRet = toRet
     .split('')
     .map(c => (toReplace.includes(c) ? '_' : c))
     .join('')
@@ -162,16 +172,7 @@ const getFileKeys = (
   files = files.map(c => c.replaceAll('\\', '/'))
   const toRet = files
     .filter(file => file.endsWith(lookFor))
-    .map(
-      file =>
-        `/` +
-        file
-          .replace(`/${lookFor}`, '')
-          .replace(lookFor, '')
-          // rmv (groups)
-          .replace(/\([^)]*\)/g, '')
-          .replace(/\/+/g, '/'),
-    )
+    .map(file => `/` + file.replace(`/${lookFor}`, '').replace(lookFor, ''))
     // Keep the sorting at this level, it will make more sense
     .sort()
     .map(original => fileToMetadata(original, type, options, useWithAppendSp))
@@ -191,7 +192,7 @@ export const fileToMetadata = (
   options: Options | undefined,
   useWithAppendSp: boolean | undefined,
 ) => {
-  let toRet = original
+  let toRet = rmvGroups(original)
 
   const keyToUse = formatKey(original, options)
 
