@@ -75,58 +75,82 @@ describe('vite-plugin-kit-routes', () => {
     expect(formatKey('/')).toMatchInlineSnapshot('"_ROOT"')
   })
 
+  it('fileToMetadata optional only', async () => {
+    const meta = fileToMetadata('/[[lang]]', 'PAGES', undefined, undefined)
+    if (meta) {
+      expect(meta.prop).toMatchInlineSnapshot(
+        `
+        "\\"lang\\": (params: {lang?: string | number}= {}) =>  {
+            return \`\${params?.lang ? \`/\${params?.lang}\`: '/'}\`
+          }"
+      `,
+      )
+    } else {
+      expect('I should never be').toBe('here')
+    }
+  })
+
   it('fileToMetadata optional', async () => {
-    expect(
-      fileToMetadata('/[[lang]]/about', 'PAGES', undefined, undefined).prop,
-    ).toMatchInlineSnapshot(
-      `
-      "\\"lang_about\\": (params: {lang?: string | number}= {}) =>  {
-          return ensurePrefix(\`\${params?.lang ? \`/\${params?.lang}\`: ''}/about\`)
-        }"
-    `,
-    )
+    const meta = fileToMetadata('/[[lang]]/about', 'PAGES', undefined, undefined)
+    if (meta) {
+      expect(meta.prop).toMatchInlineSnapshot(
+        `
+        "\\"lang_about\\": (params: {lang?: string | number}= {}) =>  {
+            return \`\${params?.lang ? \`/\${params?.lang}\`: ''}/about\`
+          }"
+      `,
+      )
+    } else {
+      expect('I should never be').toBe('here')
+    }
   })
 
   it('fileToMetadata optional not at start', async () => {
-    expect(
-      fileToMetadata('/prefix-[[lang]]/about', 'PAGES', undefined, undefined).prop,
-    ).toMatchInlineSnapshot(
-      `
-      "\\"prefix_lang_about\\": (params: {lang?: string | number}= {}) =>  {
-          return ensurePrefix(\`/prefix-\${params?.lang ? \`\${params?.lang}\`: ''}/about\`)
-        }"
-    `,
-    )
+    const meta = fileToMetadata('/prefix-[[lang]]/about', 'PAGES', undefined, undefined)
+    if (meta) {
+      expect(meta.prop).toMatchInlineSnapshot(
+        `
+        "\\"prefix_lang_about\\": (params: {lang?: string | number}= {}) =>  {
+            return \`/prefix-\${params?.lang ? \`\${params?.lang}\`: ''}/about\`
+          }"
+      `,
+      )
+    } else {
+      expect('I should never be').toBe('here')
+    }
   })
 
   it('fileToMetadata default param', async () => {
-    expect(
-      fileToMetadata(
-        '/subscriptions/[snapshot]/[id]',
-        'PAGES',
-        {
-          extend: {
-            PAGES: {
-              subscriptions_snapshot_id: {
-                explicit_search_params: { limit: { type: 'number' } },
-                params: {
-                  snapshot: { type: 'string', default: 'snapshot' },
-                  id: { type: 'string', default: 'id' },
-                },
+    const meta = fileToMetadata(
+      '/subscriptions/[snapshot]/[id]',
+      'PAGES',
+      {
+        extend: {
+          PAGES: {
+            subscriptions_snapshot_id: {
+              explicit_search_params: { limit: { type: 'number' } },
+              params: {
+                snapshot: { type: 'string', default: 'snapshot' },
+                id: { type: 'string', default: 'id' },
               },
             },
           },
         },
-        undefined,
-      ).prop,
-    ).toMatchInlineSnapshot(
-      `
-      "\\"subscriptions_snapshot_id\\": (params: {snapshot?: string, id?: string, limit?: number}= {}) =>  {
-          params.snapshot = params.snapshot ?? 'snapshot'; 
-          params.id = params.id ?? 'id'; 
-          return ensurePrefix(\`/subscriptions/\${params.snapshot}/\${params.id}\${appendSp({ limit: params.limit })}\`)
-        }"
-    `,
+      },
+      undefined,
     )
+    if (meta) {
+      expect(meta.prop).toMatchInlineSnapshot(
+        `
+        "\\"subscriptions_snapshot_id\\": (params: {snapshot?: string, id?: string, limit?: number}= {}) =>  {
+            params.snapshot = params.snapshot ?? 'snapshot'; 
+            params.id = params.id ?? 'id'; 
+            return \`/subscriptions/\${params.snapshot}/\${params.id}\${appendSp({ limit: params.limit })}\`
+          }"
+      `,
+      )
+    } else {
+      expect('I should never be').toBe('here')
+    }
   })
 })

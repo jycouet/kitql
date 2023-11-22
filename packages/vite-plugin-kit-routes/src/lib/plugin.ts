@@ -212,24 +212,29 @@ export const fileToMetadata = (
     })
   }
 
-  paramsFromPath.forEach(c => {
+  paramsFromPath.forEach((c, i) => {
     const sMatcher = `${c.matcher ? `=${c.matcher}` : ''}`
 
-    // First optionnals
-    toRet = toRet.replaceAll(
-      `/[[${c.name + sMatcher}]]`,
-      `\${params?.${c.name} ? \`/\${params?.${c.name}}\`: ''}`,
-    )
-    // We need to manage the 2 cases (with "/" prefix and without)
-    toRet = toRet.replaceAll(
-      `[[${c.name + sMatcher}]]`,
-      `\${params?.${c.name} ? \`\${params?.${c.name}}\`: ''}`,
-    )
+    // Very special case
+    if (toRet === `/[[${c.name + sMatcher}]]`) {
+      toRet = `\${params?.${c.name} ? \`/\${params?.${c.name}}\`: '/'}`
+    } else {
+      // First optionnals
+      toRet = toRet.replaceAll(
+        `/[[${c.name + sMatcher}]]`,
+        `\${params?.${c.name} ? \`/\${params?.${c.name}}\`: ''}`,
+      )
+      // We need to manage the 2 cases (with "/" prefix and without)
+      toRet = toRet.replaceAll(
+        `[[${c.name + sMatcher}]]`,
+        `\${params?.${c.name} ? \`\${params?.${c.name}}\`: ''}`,
+      )
 
-    // Second params
-    toRet = toRet.replaceAll(`/[${c.name + sMatcher}]`, `/\${params.${c.name}}`)
-    // We need to manage the 2 cases (with "/" prefix and without)
-    toRet = toRet.replaceAll(`[${c.name + sMatcher}]`, `\${params.${c.name}}`)
+      // Second params
+      toRet = toRet.replaceAll(`/[${c.name + sMatcher}]`, `/\${params.${c.name}}`)
+      // We need to manage the 2 cases (with "/" prefix and without)
+      toRet = toRet.replaceAll(`[${c.name + sMatcher}]`, `\${params.${c.name}}`)
+    }
   })
 
   const params = []
@@ -302,8 +307,13 @@ export const fileToMetadata = (
   const prop =
     `"${keyToUse}": (${params.join(', ')}) => ` +
     ` {${paramsDefaults.length > 0 ? `\n    ${paramsDefaults.join('\n    ')}` : ''}
-    return ensurePrefix(\`${toRet}${actionsFormat}${fullSP}\`)
+    return \`${toRet}${actionsFormat}${fullSP}\`
   }`
+
+  // TODO
+  // lang optionnal
+  // default to []
+  // no ()
 
   return { keyToUse, prop, paramsFromPath }
 }
@@ -494,12 +504,6 @@ const appendSp = (sp?: Record<string, string | number | undefined>) => {
   return ''
 }
 
-const ensurePrefix = (str: string) => {
-  if (str.startsWith('/')) {
-    return str
-  }
-  return \`/\${str}\`
-}
 `, // types
       `/**
 * Add this type as a generic of the vite plugin \`kitRoutes<KIT_ROUTES>\`.
