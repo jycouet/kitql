@@ -9,7 +9,7 @@
   const contractId = $page.params.contractId
 
   // 🤞 before, random string
-  // const action =  `/site_contract/${siteId}-${contractId}?/sendSomething`
+  // const action =  `/en/site_contract/${siteId}-${contractId}?/sendSomething`
 
   // ✅ after, all typed & make sure it exist. // 'vite-plugin-kit-routes',
   const action = ACTIONS.lang_site_contract_siteId_contractId('sendSomething', {

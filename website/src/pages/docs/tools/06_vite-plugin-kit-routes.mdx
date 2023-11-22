@@ -2,41 +2,76 @@ import { Callout } from '@theguild/components'
 
 # ⚡How to - `vite-plugin-kit-routes`
 
-Never be out of sync with your routes again 🥳
+`vite-plugin-kit-routes` automatically updates route references in SvelteKit projects, crucial for
+large applications where manual tracking of route changes is error-prone. It simplifies development
+by ensuring all route links are consistent and up-to-date, saving time and preventing broken links.
 
-<Callout>It's very early, things might change! 😉</Callout>
+You will essentially have 3 objects at your disposal: `PAGES`, `SERVERS` and `ACTIONS` and instead
+of hardcode strings, you will use these objects that are always up to date with your routes.
 
-By default, no Configuration is needed, it will just infer as much as it can from your project. Then
-you will be able to narrow down types & search params.
+No more 🤞, now be confident ✅!
+
+By default, no Configuration is requiered. Just [Install](#installation) the plugin, and use objects
+available in your `$lib/ROUTES.ts` generated file _(always in sync)_.
 
 ## Examples
 
-```svelte filename="+page.svelte" {2, 9}
+```svelte filename="PAGES - First example" {2, 9}
 <script lang="ts">
   import { PAGES } from '$lib/ROUTES'
 </script>
 
 <!-- 🤞 before, random string -->
-<a href="/site_contract/{siteId}-{contractId}?limit={3}">Go to site</a>
+<a href="/terms-and-conditions">Terms</a>
 
-<!-- ✅ after, all typed & make sure it exist. // 'vite-plugin-kit-routes', -->
-<a href={PAGES.site_contract_siteId_contractId({ siteId, contractId, limit: 3 })}>Go to site</a>
+<!-- ✅ after, make sure it exist. // 'vite-plugin-kit-routes' -->
+<a href={PAGES['/terms-and-conditions']}>Terms</a>
+<!-- 
+   If you change location of `/terms-and-conditions/+page.svelte`: 
+     - the key '/terms-and-conditions' will not exist
+     - `PAGES` object will yield! 
+-->
 ```
 
-```svelte filename="+page.svelte" {4, 13}
+```svelte filename="PAGES - With 1 route param" {2, 9}
+<script lang="ts">
+  import { PAGES } from '$lib/ROUTES'
+</script>
+
+<!-- 🤞 before, random string -->
+<a href="/site_contract/{siteId}">Go to site</a>
+
+<!-- ✅ after, all typed & make sure it exist. // 'vite-plugin-kit-routes' -->
+<a href={PAGES['/site_contract/{siteId}']({ siteId })}>Go to site</a>
+```
+
+```svelte filename="PAGES - With 1 Search Param*" {2, 9}
+<script lang="ts">
+  import { PAGES } from '$lib/ROUTES'
+</script>
+
+<!-- 🤞 before, random string -->
+<a href="/site_contract/{siteId}?limit={3}">Go to site</a>
+
+<!-- ✅ after, all typed & make sure it exist. // 'vite-plugin-kit-routes' -->
+<a href={PAGES['/site_contract/{siteId}']({ siteId, limit: 3 })}>Go to site</a>
+```
+
+<em>* You can add a lot of configs to specify search params, types, ...</em>
+
+```svelte filename="ACTIONS - With a named action" {4, 12}
 <script lang="ts">
   import { enhance } from '$app/forms'
   import { page } from '$app/stores'
   import { ACTIONS } from '$lib/ROUTES'
 
   const siteId = $page.params.siteId
-  const contractId = $page.params.contractId
 
   // 🤞 before, random string
-  const action =  `/site_contract/${siteId}-${contractId}?/sendSomething`
+  const action =  `/site_contract/${siteId}?/sendSomething`
 
   // ✅ after, all typed & make sure it exist. // 'vite-plugin-kit-routes',
-  const action = ACTIONS.site_contract_siteId_contractId('sendSomething', { siteId, contractId })
+  const action = ACTIONS['/site_contract/${siteId}']('sendSomething', { siteId })
 </script>
 
 <form method="POST" use:enhance {action}>
@@ -54,13 +89,15 @@ npm i -D vite-plugin-kit-routes
 
 Add the plugin like this:
 
-```js filename="vite.config.js"
+```js filename="vite.config.js" {2, 9}
+import { sveltekit } from '@sveltejs/kit/vite'
 import { kitRoutes } from 'vite-plugin-kit-routes'
 
 /** @type {import('vite').UserConfig} */
 const config = {
   plugins: [
-    // This is the plugin to add
+    sveltekit(),
+    // ✅ Add the plugin
     kitRoutes()
   ]
 }
@@ -68,12 +105,25 @@ const config = {
 export default config
 ```
 
-It will create a file `./src/lib/ROUTES.ts` at the start of your dev server & any update of any of
+It will generate a file `./src/lib/ROUTES.ts` at the start of your dev server & any update of any of
 your `+page.svelte` | `+server.ts` | `+page.server.ts`.
 
 ## Side Notes
 
-- You can run prettier at the end of the process with something like:
+<Callout>You can make use of `ctrl + space` to discover config options. 🎉</Callout>
+
+- What kind of person are you: `PAGES['/terms']` or `PAGES.terms` ?
+
+_You can choose anyway 😜_
+
+```ts filename="vite.config.ts"
+kitRoutes({
+  // object_keys_format: '/' (default)
+  object_keys_format: '_'
+})
+```
+
+- You like nice and formated files? You can add **any** cmd after the generation
 
 ```ts filename="vite.config.ts"
 kitRoutes({
@@ -114,7 +164,7 @@ kitRoutes({
 })
 ```
 
-- Then, you can add the `KIT_ROUTES` type... It will be crazy good!
+- Then, you can add the `KIT_ROUTES` type... It will be crazy good! I'm not sure you are ready!
 
 ```ts filename="vite.config.ts"
 import type { KIT_ROUTES } from '$lib/ROUTES'
@@ -124,3 +174,8 @@ kitRoutes<KIT_ROUTES>({
   // Conf
 })
 ```
+
+---
+
+Let me know what I forgot to add on [TwiX](https://twitter.com/jycouet), or what you would like to
+see in the future. 🙏

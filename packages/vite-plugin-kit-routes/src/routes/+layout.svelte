@@ -26,7 +26,7 @@
 <hr />
 
 <ul>
-  <li><a href={PAGES.lang({ lang: $page.params.lang })}>Home</a></li>
+  <li><a href={PAGES._ROOT}>Home</a></li>
   <li><a href={PAGES.lang_site({ lang: $page.params.lang })}>Sites</a></li>
   <li>
     <a href={PAGES.lang_site({ lang: $page.params.lang, limit: 2 })}>Sites (with Search Param)</a>
@@ -64,7 +64,7 @@
     <a href={PAGES.lang_gp_one({ lang: $page.params.lang })}>gp One</a>
   </li>
   <li>
-    <a href={PAGES.lang_gp_two({ lang: $page.params.lang })}>gp One</a>
+    <a href={PAGES.lang_gp_two({ lang: $page.params.lang })}>gp Two</a>
   </li>
 </ul>
 
