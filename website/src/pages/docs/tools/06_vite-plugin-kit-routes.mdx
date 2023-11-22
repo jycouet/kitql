@@ -21,10 +21,10 @@ available in your `$lib/ROUTES.ts` generated file _(always in sync)_.
   import { PAGES } from '$lib/ROUTES'
 </script>
 
-<!-- 🤞 before, random string -->
+<!-- 🤞 before, hardcoded string -->
 <a href="/terms-and-conditions">Terms</a>
 
-<!-- ✅ after, make sure it exist. // 'vite-plugin-kit-routes' -->
+<!-- ✅ after, typechecked route, error prone -->
 <a href={PAGES['/terms-and-conditions']}>Terms</a>
 <!-- 
    If you change location of `/terms-and-conditions/+page.svelte`: 
@@ -38,10 +38,10 @@ available in your `$lib/ROUTES.ts` generated file _(always in sync)_.
   import { PAGES } from '$lib/ROUTES'
 </script>
 
-<!-- 🤞 before, random string -->
+<!-- 🤞 before, hardcoded string -->
 <a href="/site_contract/{siteId}">Go to site</a>
 
-<!-- ✅ after, all typed & make sure it exist. // 'vite-plugin-kit-routes' -->
+<!-- ✅ after, typechecked route, error prone -->
 <a href={PAGES['/site_contract/{siteId}']({ siteId })}>Go to site</a>
 ```
 
@@ -50,10 +50,10 @@ available in your `$lib/ROUTES.ts` generated file _(always in sync)_.
   import { PAGES } from '$lib/ROUTES'
 </script>
 
-<!-- 🤞 before, random string -->
+<!-- 🤞 before, hardcoded string -->
 <a href="/site_contract/{siteId}?limit={3}">Go to site</a>
 
-<!-- ✅ after, all typed & make sure it exist. // 'vite-plugin-kit-routes' -->
+<!-- ✅ after, typechecked route, error prone -->
 <a href={PAGES['/site_contract/{siteId}']({ siteId, limit: 3 })}>Go to site</a>
 ```
 
@@ -65,10 +65,10 @@ available in your `$lib/ROUTES.ts` generated file _(always in sync)_.
 
   const siteId = $page.params.siteId
 
-  // 🤞 before, random string
+  // 🤞 before, hardcoded string
   const action =  `/site_contract/${siteId}?/sendSomething`
 
-  // ✅ after, all typed & make sure it exist. // 'vite-plugin-kit-routes',
+  <!-- ✅ after, typechecked route, error prone -->
   const action = ACTIONS['/site_contract/${siteId}']('sendSomething', { siteId })
 </script>
 
@@ -82,10 +82,10 @@ available in your `$lib/ROUTES.ts` generated file _(always in sync)_.
   import { LINKS } from '$lib/ROUTES'
 </script>
 
-<!-- 🤞 before, random string -->
+<!-- 🤞 before, hardcoded string -->
 <a href="mailto:me@super-cool.dev">Send me a mail</a>
 
-<!-- ✅ after, all typed & make sure it exist. // 'vite-plugin-kit-routes' -->
+<!-- ✅ after, typechecked route, error prone -->
 <a href={LINKS.mailto}>Send me a mail</a>
 ```
 
@@ -94,12 +94,12 @@ available in your `$lib/ROUTES.ts` generated file _(always in sync)_.
   import { LINKS } from '$lib/ROUTES'
 </script>
 
-<!-- 🤞 before, random string -->
+<!-- 🤞 before, hardcoded string -->
 <a href="https://twitter.com/jycouet/status/1727089217707159569?limit=12">
   <span>Check out the post </span>
 </a>
 
-<!-- ✅ after, all typed & make sure it exist. // 'vite-plugin-kit-routes' -->
+<!-- ✅ after, typechecked route, error prone -->
 <a href={LINKS.twitter_post({ name: 'jycouet', id: '1727089217707159569', limit: 12 })}>
   <span>Check out the post </span>
 </a>
