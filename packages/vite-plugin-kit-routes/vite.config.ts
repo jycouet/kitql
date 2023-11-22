@@ -9,7 +9,7 @@ export default defineConfig({
     sveltekit(),
     // demo
     kitRoutes<KIT_ROUTES>({
-      object_keys_format: '_',
+      format: '_',
       // default_type: 'string',
       // extra_search_params: 'with',
       // generated_file_path: 'src/lib/another_path_for_the_file.ts',

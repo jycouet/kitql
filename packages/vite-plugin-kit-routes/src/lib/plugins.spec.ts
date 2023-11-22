@@ -67,29 +67,29 @@ describe('vite-plugin-kit-routes', () => {
   })
 
   it('formatKey /l', async () => {
-    expect(
-      formatKey('/[param]site/[yop](group)/[id]', { object_keys_format: '/' }),
-    ).toMatchInlineSnapshot('"/[param]site/[yop]/[id]"')
+    expect(formatKey('/[param]site/[yop](group)/[id]', { format: '/' })).toMatchInlineSnapshot(
+      '"/[param]site/[yop]/[id]"',
+    )
   })
 
   it('formatKey _', async () => {
-    expect(
-      formatKey('/[param]site/[yop](group)/[id]', { object_keys_format: '_' }),
-    ).toMatchInlineSnapshot('"param_site_yop_id"')
+    expect(formatKey('/[param]site/[yop](group)/[id]', { format: '_' })).toMatchInlineSnapshot(
+      '"param_site_yop_id"',
+    )
   })
 
   it('formatKey / starting with group', async () => {
-    expect(formatKey('/(group)/test', { object_keys_format: '/' })).toMatchInlineSnapshot('"/test"')
+    expect(formatKey('/(group)/test', { format: '/' })).toMatchInlineSnapshot('"/test"')
   })
 
   it('formatKey _ starting with group', async () => {
-    expect(formatKey('/(group)/test', { object_keys_format: '_' })).toMatchInlineSnapshot('"test"')
+    expect(formatKey('/(group)/test', { format: '_' })).toMatchInlineSnapshot('"test"')
   })
 
   it('formatKey group original', async () => {
-    expect(
-      formatKey('/[param]site/[yop](group)/[id]', { object_keys_format: '_' }),
-    ).toMatchInlineSnapshot('"param_site_yop_id"')
+    expect(formatKey('/[param]site/[yop](group)/[id]', { format: '_' })).toMatchInlineSnapshot(
+      '"param_site_yop_id"',
+    )
   })
 
   it('formatKey ROOT', async () => {
@@ -193,7 +193,7 @@ describe('run()', () => {
     const generated_file_path = 'src/test/ROUTES_test1.ts'
     run({
       generated_file_path,
-      object_keys_format: '_',
+      format: '_',
       PAGES: {
         subGroup2: {
           explicit_search_params: {

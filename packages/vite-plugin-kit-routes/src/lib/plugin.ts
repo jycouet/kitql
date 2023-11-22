@@ -42,7 +42,7 @@ export type Options<T extends ExtendTypes = ExtendTypes> = {
    * PAGES.site_id_two_hello
    * ```
    */
-  object_keys_format?: '/' | '_'
+  format?: '/' | '_'
 
   /**
    * default is: `string | number`
@@ -170,7 +170,7 @@ export function rmvGroups(key: string) {
 export function formatKey(key: string, options?: Options) {
   let toRet = rmvGroups(key)
 
-  if (options?.object_keys_format === undefined || options?.object_keys_format === '/') {
+  if (options?.format === undefined || options?.format === '/') {
     return toRet
   }
 
