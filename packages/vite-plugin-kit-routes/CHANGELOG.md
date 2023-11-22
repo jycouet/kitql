@@ -1,5 +1,13 @@
 # vite-plugin-kit-routes
 
+## 0.1.0-next.2
+
+### Minor Changes
+
+- [#453](https://github.com/jycouet/kitql/pull/453)
+  [`ac6e5aa`](https://github.com/jycouet/kitql/commit/ac6e5aa4a1cd27249ea504bff9fa1d72fa2c6ae9)
+  Thanks [@jycouet](https://github.com/jycouet)! - Add LINKS
+
 ## 0.0.15-next.1
 
 ### Patch Changes
