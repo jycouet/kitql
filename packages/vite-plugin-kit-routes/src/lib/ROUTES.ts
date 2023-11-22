@@ -6,6 +6,7 @@
 
 export const PAGES = {
   _ROOT: `/`,
+  subGroup: `//subGroup`,
   lang_contract: (params: { lang?: 'fr' | 'en' | 'hu' | 'at' | string } = {}) => {
     return `${params?.lang ? `/${params?.lang}` : ''}/contract`
   },
@@ -20,6 +21,9 @@ export const PAGES = {
   },
   lang_gp_two: (params: { lang?: 'fr' | 'en' | 'hu' | 'at' | string } = {}) => {
     return `${params?.lang ? `/${params?.lang}` : ''}/gp/two`
+  },
+  lang_main: (params: { lang?: 'fr' | 'en' | 'hu' | 'at' | string } = {}) => {
+    return `${params?.lang ? `/${params?.lang}` : ''}/main`
   },
   lang_match_id_int: (params: {
     lang?: 'fr' | 'en' | 'hu' | 'at' | string
@@ -128,10 +132,12 @@ const appendSp = (sp?: Record<string, string | number | undefined>) => {
 export type KIT_ROUTES = {
   PAGES: {
     _ROOT: never
+    subGroup: never
     lang_contract: 'lang'
     lang_contract_id: 'lang' | 'id'
     lang_gp_one: 'lang'
     lang_gp_two: 'lang'
+    lang_main: 'lang'
     lang_match_id_int: 'lang' | 'id'
     lang_site: 'lang' | 'limit'
     lang_site_id: 'lang' | 'id' | 'limit' | 'demo'
