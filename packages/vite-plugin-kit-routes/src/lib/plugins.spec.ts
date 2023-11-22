@@ -61,18 +61,24 @@ describe('vite-plugin-kit-routes', () => {
 
   it('formatKey new type', async () => {
     expect(formatKey('/[param]site/[yop](group)/[id]')).toMatchInlineSnapshot(
-      '"param_site_yop_group_id"',
+      '"/[param]site/[yop](group)/[id]"',
     )
   })
 
   it('formatKey group original', async () => {
     expect(
-      formatKey('/[param]site/[yop](group)/[id]', { keep_path_param_format: true }),
+      formatKey('/[param]site/[yop](group)/[id]', { object_keys_format: '/' }),
     ).toMatchInlineSnapshot('"/[param]site/[yop](group)/[id]"')
   })
 
+  it('formatKey group original', async () => {
+    expect(
+      formatKey('/[param]site/[yop](group)/[id]', { object_keys_format: '_' }),
+    ).toMatchInlineSnapshot('"param_site_yop_group_id"')
+  })
+
   it('formatKey ROOT', async () => {
-    expect(formatKey('/')).toMatchInlineSnapshot('"_ROOT"')
+    expect(formatKey('/')).toMatchInlineSnapshot('"/"')
   })
 
   it('fileToMetadata optional only', async () => {
@@ -80,7 +86,7 @@ describe('vite-plugin-kit-routes', () => {
     if (meta) {
       expect(meta.prop).toMatchInlineSnapshot(
         `
-        "\\"lang\\": (params: {lang?: string | number}= {}) =>  {
+        "\\"/[[lang]]\\": (params: {lang?: string | number}= {}) =>  {
             return \`\${params?.lang ? \`/\${params?.lang}\`: '/'}\`
           }"
       `,
@@ -95,7 +101,7 @@ describe('vite-plugin-kit-routes', () => {
     if (meta) {
       expect(meta.prop).toMatchInlineSnapshot(
         `
-        "\\"lang_about\\": (params: {lang?: string | number}= {}) =>  {
+        "\\"/[[lang]]/about\\": (params: {lang?: string | number}= {}) =>  {
             return \`\${params?.lang ? \`/\${params?.lang}\`: ''}/about\`
           }"
       `,
@@ -110,7 +116,7 @@ describe('vite-plugin-kit-routes', () => {
     if (meta) {
       expect(meta.prop).toMatchInlineSnapshot(
         `
-        "\\"prefix_lang_about\\": (params: {lang?: string | number}= {}) =>  {
+        "\\"/prefix-[[lang]]/about\\": (params: {lang?: string | number}= {}) =>  {
             return \`/prefix-\${params?.lang ? \`\${params?.lang}\`: ''}/about\`
           }"
       `,
@@ -142,10 +148,8 @@ describe('vite-plugin-kit-routes', () => {
     if (meta) {
       expect(meta.prop).toMatchInlineSnapshot(
         `
-        "\\"subscriptions_snapshot_id\\": (params: {snapshot?: string, id?: string, limit?: number}= {}) =>  {
-            params.snapshot = params.snapshot ?? 'snapshot'; 
-            params.id = params.id ?? 'id'; 
-            return \`/subscriptions/\${params.snapshot}/\${params.id}\${appendSp({ limit: params.limit })}\`
+        "\\"/subscriptions/[snapshot]/[id]\\": (params: {snapshot: string | number, id: string | number}) =>  {
+            return \`/subscriptions/\${params.snapshot}/\${params.id}\`
           }"
       `,
       )

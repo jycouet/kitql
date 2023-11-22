@@ -39,11 +39,15 @@ export type Options<
   generated_file_path?: string
 
   /**
-   * when `false` _(default)_, object keys look like this: `site_id_two_hello`
+   * ```ts
+   * // when `/` (default) you can use:
+   * PAGES["/site/[id]/two/[hello]"]
    *
-   * when `true`, object keys look like this: `/site/[id]/two/[hello]`
+   * // when `_` you can use:
+   * PAGES.site_id_two_hello
+   * ```
    */
-  keep_path_param_format?: boolean
+  object_keys_format?: '/' | '_'
 
   /**
    * default is: `string | number`
@@ -111,7 +115,7 @@ function generated_file_path(options?: Options) {
 }
 
 export function formatKey(key: string, options?: Options) {
-  if (options?.keep_path_param_format) {
+  if (options?.object_keys_format === undefined || options?.object_keys_format === '/') {
     return key
   }
 
@@ -311,7 +315,6 @@ export const fileToMetadata = (
   }`
 
   // TODO
-  // lang optionnal
   // default to []
   // no ()
 
