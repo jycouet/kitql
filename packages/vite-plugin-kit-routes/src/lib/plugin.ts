@@ -39,11 +39,15 @@ export type Options<
   generated_file_path?: string
 
   /**
-   * when `false` _(default)_, object keys look like this: `site_id_two_hello`
+   * ```ts
+   * // when `/` (default) you can use:
+   * PAGES["/site/[id]/two/[hello]"]
    *
-   * when `true`, object keys look like this: `/site/[id]/two/[hello]`
+   * // when `_` you can use:
+   * PAGES.site_id_two_hello
+   * ```
    */
-  keep_path_param_format?: boolean
+  object_keys_format?: '/' | '_'
 
   /**
    * default is: `string | number`
@@ -111,7 +115,7 @@ function generated_file_path(options?: Options) {
 }
 
 export function formatKey(key: string, options?: Options) {
-  if (options?.keep_path_param_format) {
+  if (options?.object_keys_format === undefined || options?.object_keys_format === '/') {
     return key
   }
 
@@ -158,7 +162,16 @@ const getFileKeys = (
   files = files.map(c => c.replaceAll('\\', '/'))
   const toRet = files
     .filter(file => file.endsWith(lookFor))
-    .map(file => `/` + file.replace(`/${lookFor}`, '').replace(lookFor, ''))
+    .map(
+      file =>
+        `/` +
+        file
+          .replace(`/${lookFor}`, '')
+          .replace(lookFor, '')
+          // rmv (groups)
+          .replace(/\([^)]*\)/g, '')
+          .replace(/\/+/g, '/'),
+    )
     // Keep the sorting at this level, it will make more sense
     .sort()
     .map(original => fileToMetadata(original, type, options, useWithAppendSp))
@@ -178,7 +191,7 @@ export const fileToMetadata = (
   options: Options | undefined,
   useWithAppendSp: boolean | undefined,
 ) => {
-  let toRet = original.replace(/\([^)]*\)/g, '').replace(/\/+/g, '/')
+  let toRet = original
 
   const keyToUse = formatKey(original, options)
 
@@ -212,24 +225,29 @@ export const fileToMetadata = (
     })
   }
 
-  paramsFromPath.forEach(c => {
+  paramsFromPath.forEach((c, i) => {
     const sMatcher = `${c.matcher ? `=${c.matcher}` : ''}`
 
-    // First optionnals
-    toRet = toRet.replaceAll(
-      `/[[${c.name + sMatcher}]]`,
-      `\${params?.${c.name} ? \`/\${params?.${c.name}}\`: ''}`,
-    )
-    // We need to manage the 2 cases (with "/" prefix and without)
-    toRet = toRet.replaceAll(
-      `[[${c.name + sMatcher}]]`,
-      `\${params?.${c.name} ? \`\${params?.${c.name}}\`: ''}`,
-    )
+    // Very special case
+    if (toRet === `/[[${c.name + sMatcher}]]`) {
+      toRet = `\${params?.${c.name} ? \`/\${params?.${c.name}}\`: '/'}`
+    } else {
+      // First optionnals
+      toRet = toRet.replaceAll(
+        `/[[${c.name + sMatcher}]]`,
+        `\${params?.${c.name} ? \`/\${params?.${c.name}}\`: ''}`,
+      )
+      // We need to manage the 2 cases (with "/" prefix and without)
+      toRet = toRet.replaceAll(
+        `[[${c.name + sMatcher}]]`,
+        `\${params?.${c.name} ? \`\${params?.${c.name}}\`: ''}`,
+      )
 
-    // Second params
-    toRet = toRet.replaceAll(`/[${c.name + sMatcher}]`, `/\${params.${c.name}}`)
-    // We need to manage the 2 cases (with "/" prefix and without)
-    toRet = toRet.replaceAll(`[${c.name + sMatcher}]`, `\${params.${c.name}}`)
+      // Second params
+      toRet = toRet.replaceAll(`/[${c.name + sMatcher}]`, `/\${params.${c.name}}`)
+      // We need to manage the 2 cases (with "/" prefix and without)
+      toRet = toRet.replaceAll(`[${c.name + sMatcher}]`, `\${params.${c.name}}`)
+    }
   })
 
   const params = []
@@ -299,11 +317,16 @@ export const fileToMetadata = (
       return `params.${c.name} = params.${c.name} ?? ${additionalByStore}'${c.default}'; `
     })
 
-  const prop =
-    `"${keyToUse}": (${params.join(', ')}) => ` +
-    ` {${paramsDefaults.length > 0 ? `\n    ${paramsDefaults.join('\n    ')}` : ''}
-    return ensurePrefix(\`${toRet}${actionsFormat}${fullSP}\`)
-  }`
+  let prop = ''
+  if (params.length > 0) {
+    prop =
+      `"${keyToUse}": (${params.join(', ')}) => ` +
+      ` {${paramsDefaults.length > 0 ? `\n    ${paramsDefaults.join('\n    ')}` : ''}
+        return \`${toRet}${actionsFormat}${fullSP}\`
+      }`
+  } else {
+    prop = `"${keyToUse}": \`${toRet}\``
+  }
 
   return { keyToUse, prop, paramsFromPath }
 }
@@ -494,12 +517,6 @@ const appendSp = (sp?: Record<string, string | number | undefined>) => {
   return ''
 }
 
-const ensurePrefix = (str: string) => {
-  if (str.startsWith('/')) {
-    return str
-  }
-  return \`/\${str}\`
-}
 `, // types
       `/**
 * Add this type as a generic of the vite plugin \`kitRoutes<KIT_ROUTES>\`.

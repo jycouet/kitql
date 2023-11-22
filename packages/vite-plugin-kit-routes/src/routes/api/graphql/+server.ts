@@ -1,6 +1,4 @@
-import type { RequestHandler } from './$types'
-
-const allMethod: RequestHandler = async () => {
+const allMethod = async () => {
   return new Response()
 }
 
