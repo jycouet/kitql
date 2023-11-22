@@ -1,5 +1,27 @@
 # vite-plugin-kit-routes
 
+## 0.0.15-next.0
+
+### Patch Changes
+
+- [#448](https://github.com/jycouet/kitql/pull/448)
+  [`9e087ba`](https://github.com/jycouet/kitql/commit/9e087ba1ad9060409ca8eafc58212f4ccb162bb1)
+  Thanks [@jycouet](https://github.com/jycouet)! - BREAKING: without a param, it's not a function
+  anymore
+
+- [#448](https://github.com/jycouet/kitql/pull/448)
+  [`9e087ba`](https://github.com/jycouet/kitql/commit/9e087ba1ad9060409ca8eafc58212f4ccb162bb1)
+  Thanks [@jycouet](https://github.com/jycouet)! - BREAKING: change default format to '/'
+
+- [#448](https://github.com/jycouet/kitql/pull/448)
+  [`9e087ba`](https://github.com/jycouet/kitql/commit/9e087ba1ad9060409ca8eafc58212f4ccb162bb1)
+  Thanks [@jycouet](https://github.com/jycouet)! - internal: remove ensurePrefix
+
+- [#448](https://github.com/jycouet/kitql/pull/448)
+  [`9e087ba`](https://github.com/jycouet/kitql/commit/9e087ba1ad9060409ca8eafc58212f4ccb162bb1)
+  Thanks [@jycouet](https://github.com/jycouet)! - rmv groups from key (as it's not possible to have
+  2 matching)
+
 ## 0.0.14
 
 ### Patch Changes
