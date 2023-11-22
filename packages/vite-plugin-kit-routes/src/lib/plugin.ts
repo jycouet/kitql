@@ -10,21 +10,16 @@ import { read, write } from './fs.js'
 
 const { visit } = recast.types
 
-export type Options<
-  T extends {
-    PAGES: Record<string, string>
-    SERVERS: Record<string, string>
-    ACTIONS: Record<string, string>
-    Params: Record<string, string>
-  } = {
-    PAGES: Record<string, string>
-    SERVERS: Record<string, string>
-    ACTIONS: Record<string, string>
-    Params: Record<string, string>
-  },
-> = {
+type ExtendTypes = {
+  PAGES: Record<string, string>
+  SERVERS: Record<string, string>
+  ACTIONS: Record<string, string>
+  Params: Record<string, string>
+}
+
+export type Options<T extends ExtendTypes = ExtendTypes> = {
   /**
-   * run command after file updated
+   * run any command after an update of some routes.
    *
    * @example
    * ```ts
@@ -59,39 +54,39 @@ export type Options<
    *
    * when `with`, each paths get an extra arg for open search param
    *
+   * ⚠️ **We don't recommend to use it, but it can be useful in some cases.**
+   *
    * Can be tuned at individual path level
    */
   extra_search_params?: 'with' | 'without'
 
-  extend?: {
-    PAGES?: Partial<{ [K in keyof T['PAGES']]: CustomPath<Extract<T['PAGES'][K], string>> }>
-    SERVERS?: Partial<{ [K in keyof T['SERVERS']]: CustomPath<Extract<T['SERVERS'][K], string>> }>
-    ACTIONS?: Partial<{ [K in keyof T['ACTIONS']]: CustomPath<Extract<T['ACTIONS'][K], string>> }>
-    /**
-     * ```ts
-     * {
-     *   // ... Example ...
-     *   LINKS: {
-     *    // reference to a hardcoded link
-     *    twitter: 'https://twitter.com/jycouet',
-     *    // ✅ <a href={LINKS.twitter}>Twitter</a>
-     *
-     *    // reference to link with params! (Like svelteKit routes add [ ] to specify params)
-     *    mailto: 'mailto:[email]',
-     *    // ✅ <a href={LINKS.mailto({ email: 'me@super.dev' })}>Mail</a>
-     *
-     *    // reference to link with params & search params!
-     *    twitter_post: {
-     *      href: 'https://twitter.com/[name]/status/[id]',
-     *      explicit_search_params: { limit: { type: 'number' } }
-     *    }
-     *    // ✅ <a href={LINKS.twitter_post({ name: 'jycouet', id: '1727089217707159569', limit: 12 })}>Twitter Post</a>
-     *  }
-     * }
-     * ```
-     */
-    LINKS?: Record<string, string | ({ href: string } & CustomPath<string>)>
-  }
+  PAGES?: Partial<{ [K in keyof T['PAGES']]: CustomPath<Extract<T['PAGES'][K], string>> }>
+  SERVERS?: Partial<{ [K in keyof T['SERVERS']]: CustomPath<Extract<T['SERVERS'][K], string>> }>
+  ACTIONS?: Partial<{ [K in keyof T['ACTIONS']]: CustomPath<Extract<T['ACTIONS'][K], string>> }>
+  /**
+   * ```ts
+   * {
+   *   // ... Example ...
+   *   LINKS: {
+   *    // reference to a hardcoded link
+   *    twitter: 'https://twitter.com/jycouet',
+   *    // ✅ <a href={LINKS.twitter}>Twitter</a>
+   *
+   *    // reference to link with params! (Like svelteKit routes add [ ] to specify params)
+   *    mailto: 'mailto:[email]',
+   *    // ✅ <a href={LINKS.mailto({ email: 'me@super.dev' })}>Mail</a>
+   *
+   *    // reference to link with params & search params!
+   *    twitter_post: {
+   *      href: 'https://twitter.com/[name]/status/[id]',
+   *      explicit_search_params: { limit: { type: 'number' } }
+   *    }
+   *    // ✅ <a href={LINKS.twitter_post({ name: 'jycouet', id: '1727089217707159569', limit: 12 })}>Twitter Post</a>
+   *  }
+   * }
+   * ```
+   */
+  LINKS?: Record<string, string | ({ href: string } & CustomPath<string>)>
 
   /**
    * To override the type of a param globally.
@@ -110,8 +105,34 @@ export type Options<
 }
 
 export type CustomPath<Params extends string | never = string> = {
+  /**
+   * Add to this route an explicit search params (with some options)
+   * @example
+   * explicit_search_params {
+   *   limit: {                   // name of the search param
+   *     required?: true | false, // default: false
+   *     type: 'number',          // default: 'string | number'
+   *     default: '12',           // default: undefined
+   *   }
+   * }
+   */
   explicit_search_params?: Record<string, ExplicitSearchParam>
+  /**
+   * Specify for this route the type & a default.
+   * @example
+   * params {
+   *   id: {                   // name of the param (if you set the plugin `kitRoutes<KIT_ROUTES>`, it will be typed!)
+   *     type: 'number',       // default: 'string | number'
+   *     default: '12',        // default: undefined
+   *   }
+   * }
+   */
   params?: Partial<Record<Params, ExtendParam>>
+  /**
+   * If `with`, you can add extra search params to this route (without any typecheck!)
+   *
+   * ⚠️ **We don't recommend to use it, but it can be useful in some cases.**
+   */
   extra_search_params?: 'default' | 'with' | 'without'
 }
 
@@ -190,7 +211,7 @@ const getFileKeys = (
   const useWithAppendSp = withAppendSp && options?.extra_search_params === 'with'
 
   if (type === 'LINKS') {
-    const toRet = Object.entries(options?.extend?.LINKS ?? {}).map(c => {
+    const toRet = Object.entries(options?.LINKS ?? {}).map(c => {
       const hrefToUse = typeof c[1] === 'string' ? c[1] : c[1].href
 
       return fileToMetadata(c[0], hrefToUse, type, options, useWithAppendSp)
@@ -235,7 +256,7 @@ export const fileToMetadata = (
   let toRet = rmvGroups(originalValue)
 
   // custom conf
-  const viteCustomPathConfig = options?.extend?.[type]
+  const viteCustomPathConfig = options?.[type]
   let customConf: CustomPath = {
     extra_search_params: 'default',
   }
@@ -504,7 +525,7 @@ const run = (options?: Options) => {
   objTypes
     .filter(c => c.type !== 'LINKS')
     .forEach(o => {
-      Object.entries(options?.extend?.[o.type] ?? {}).forEach(e => {
+      Object.entries(options?.[o.type] ?? {}).forEach(e => {
         const [key, cPath] = e
         const found = o.files.find(c => c.keyToUse === key)
         if (!found) {
@@ -569,10 +590,8 @@ const appendSp = (sp?: Record<string, string | number | undefined>) => {
 * import { kitRoutes } from 'vite-plugin-kit-routes'
 * 
 * kitRoutes<KIT_ROUTES>({
-*  extend: {
-*    PAGES: {
-*      // here, "paths" it will be typed!
-*    }
+*  PAGES: {
+*    // here, "paths" it will be typed!
 *  }
 * })
 * \`\`\`
@@ -725,19 +744,7 @@ ${objTypes
  * })
  * ```
  */
-export function kitRoutes<
-  T extends {
-    PAGES: Record<string, string>
-    SERVERS: Record<string, string>
-    ACTIONS: Record<string, string>
-    Params: Record<string, string>
-  } = {
-    PAGES: Record<string, string>
-    SERVERS: Record<string, string>
-    ACTIONS: Record<string, string>
-    Params: Record<string, string>
-  },
->(options?: Options<T>): Plugin[] {
+export function kitRoutes<T extends ExtendTypes = ExtendTypes>(options?: Options<T>): Plugin[] {
   return [
     // Run the thing at startup
     {

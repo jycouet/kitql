@@ -136,10 +136,8 @@ const appendSp = (sp?: Record<string, string | number | undefined>) => {
  * import { kitRoutes } from 'vite-plugin-kit-routes'
  *
  * kitRoutes<KIT_ROUTES>({
- *  extend: {
- *    PAGES: {
- *      // here, "paths" it will be typed!
- *    }
+ *  PAGES: {
+ *    // here, "paths" it will be typed!
  *  }
  * })
  * ```
