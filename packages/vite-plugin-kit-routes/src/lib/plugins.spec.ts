@@ -85,6 +85,12 @@ describe('vite-plugin-kit-routes', () => {
     expect(formatKey('/(group)/test', { object_keys_format: '_' })).toMatchInlineSnapshot('"test"')
   })
 
+  it('formatKey group original', async () => {
+    expect(
+      formatKey('/[param]site/[yop](group)/[id]', { object_keys_format: '_' }),
+    ).toMatchInlineSnapshot('"param_site_yop_group_id"')
+  })
+
   it('formatKey ROOT', async () => {
     expect(formatKey('/')).toMatchInlineSnapshot('"/"')
   })
