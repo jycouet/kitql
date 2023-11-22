@@ -6,10 +6,10 @@ import { Callout } from '@theguild/components'
 large applications where manual tracking of route changes is error-prone. It simplifies development
 by ensuring all route links are consistent and up-to-date, saving time and preventing broken links.
 
-You will essentially have 3 objects at your disposal: `PAGES`, `SERVERS` and `ACTIONS` and instead
-of hardcode strings, you will use these objects that are always up to date with your routes.
+You will essentially have 4 objects at your disposal: `PAGES`, `SERVERS`, `ACTIONS` and `LINKS` and
+instead of hardcode strings, you will use these objects that are always up to date with your routes.
 
-No more 🤞, now be confident ✅!
+No more 🤞, now be **confident** ✅!
 
 By default, no Configuration is requiered. Just [Install](#installation) the plugin, and use objects
 available in your `$lib/ROUTES.ts` generated file _(always in sync)_.
@@ -57,8 +57,6 @@ available in your `$lib/ROUTES.ts` generated file _(always in sync)_.
 <a href={PAGES['/site_contract/{siteId}']({ siteId, limit: 3 })}>Go to site</a>
 ```
 
-<em>* You can add a lot of configs to specify search params, types, ...</em>
-
 ```svelte filename="ACTIONS - With a named action" {4, 12}
 <script lang="ts">
   import { enhance } from '$app/forms'
@@ -79,6 +77,36 @@ available in your `$lib/ROUTES.ts` generated file _(always in sync)_.
 </form>
 ```
 
+```svelte filename="LINKS - 1 reference in config*" {2, 9}
+<script lang="ts">
+  import { LINKS } from '$lib/ROUTES'
+</script>
+
+<!-- 🤞 before, random string -->
+<a href="mailto:me@super-cool.dev">Send me a mail</a>
+
+<!-- ✅ after, all typed & make sure it exist. // 'vite-plugin-kit-routes' -->
+<a href={LINKS.mailto}>Send me a mail</a>
+```
+
+```svelte filename="LINKS - with params & search params*" {2, 11}
+<script lang="ts">
+  import { LINKS } from '$lib/ROUTES'
+</script>
+
+<!-- 🤞 before, random string -->
+<a href="https://twitter.com/jycouet/status/1727089217707159569?limit=12">
+  <span>Check out the post </span>
+</a>
+
+<!-- ✅ after, all typed & make sure it exist. // 'vite-plugin-kit-routes' -->
+<a href={LINKS.twitter_post({ name: 'jycouet', id: '1727089217707159569', limit: 12 })}>
+  <span>Check out the post </span>
+</a>
+```
+
+<br />
+<em>* You can add a lot of configs to specify search params, types, ...</em>
 ## Installation
 
 ```sh npm2yarn
@@ -164,7 +192,8 @@ kitRoutes({
 })
 ```
 
-- Then, you can add the `KIT_ROUTES` type... It will be crazy good! I'm not sure you are ready!
+- You want better typings? Add the `KIT_ROUTES` type... It will be crazy good! I'm not sure you are
+  ready! _Under `PAGES`, `SERVERS` and `ACTIONS`, you will get autocompletion for route config._ 🤯
 
 ```ts filename="vite.config.ts"
 import type { KIT_ROUTES } from '$lib/ROUTES'
@@ -172,6 +201,31 @@ import { kitRoutes } from 'vite-plugin-kit-routes'
 
 kitRoutes<KIT_ROUTES>({
   // Conf
+})
+```
+
+- You want to use some `LINKS` in different places in your app? Let's show you what we can do:
+
+```ts filename="vite.config.ts"
+kitRoutes({
+  extend: {
+    LINKS: {
+      // reference to a hardcoded link
+      twitter: { href: 'https://twitter.com/jycouet' },
+      // ✅ <a href={LINKS.twitter}>Twitter</a>
+
+      // reference to link with params! (Like svelteKit routes add [ ] to specify params)
+      mailto: { href: 'mailto:[email]' },
+      // ✅ <a href={LINKS.mailto({ email: 'me@super.dev' })}>Mail</a>
+
+      // reference to link with params & search params!
+      twitter_post: {
+        href: 'https://twitter.com/[name]/status/[id]',
+        explicit_search_params: { limit: { type: 'number' } }
+      }
+      // ✅ <a href={LINKS.twitter_post({ name: 'jycouet', id: '1727089217707159569', limit: 12 })}>Twitter Post</a>
+    }
+  }
 })
 ```
 

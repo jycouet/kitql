@@ -96,53 +96,52 @@ describe('vite-plugin-kit-routes', () => {
   })
 
   it('fileToMetadata optional only', async () => {
-    const meta = fileToMetadata('/[[lang]]', 'PAGES', undefined, undefined)
+    const key = '/[[lang]]'
+    const meta = fileToMetadata(key, key, 'PAGES', undefined, undefined)
     if (meta) {
-      expect(meta.prop).toMatchInlineSnapshot(
-        `
+      expect(meta.prop).toMatchInlineSnapshot(`
         "\\"/[[lang]]\\": (params: {lang?: string | number}= {}) =>  {
                 return \`\${params?.lang ? \`/\${params?.lang}\`: '/'}\`
               }"
-      `,
-      )
+      `)
     } else {
       expect('I should never be').toBe('here')
     }
   })
 
   it('fileToMetadata optional', async () => {
-    const meta = fileToMetadata('/[[lang]]/about', 'PAGES', undefined, undefined)
+    const key = '/[[lang]]/about'
+    const meta = fileToMetadata(key, key, 'PAGES', undefined, undefined)
     if (meta) {
-      expect(meta.prop).toMatchInlineSnapshot(
-        `
+      expect(meta.prop).toMatchInlineSnapshot(`
         "\\"/[[lang]]/about\\": (params: {lang?: string | number}= {}) =>  {
                 return \`\${params?.lang ? \`/\${params?.lang}\`: ''}/about\`
               }"
-      `,
-      )
+      `)
     } else {
       expect('I should never be').toBe('here')
     }
   })
 
   it('fileToMetadata optional not at start', async () => {
-    const meta = fileToMetadata('/prefix-[[lang]]/about', 'PAGES', undefined, undefined)
+    const key = '/prefix-[[lang]]/about'
+    const meta = fileToMetadata(key, key, 'PAGES', undefined, undefined)
     if (meta) {
-      expect(meta.prop).toMatchInlineSnapshot(
-        `
+      expect(meta.prop).toMatchInlineSnapshot(`
         "\\"/prefix-[[lang]]/about\\": (params: {lang?: string | number}= {}) =>  {
                 return \`/prefix-\${params?.lang ? \`\${params?.lang}\`: ''}/about\`
               }"
-      `,
-      )
+      `)
     } else {
       expect('I should never be').toBe('here')
     }
   })
 
   it('fileToMetadata default param', async () => {
+    const key = '/subscriptions/[snapshot]/[id]'
     const meta = fileToMetadata(
-      '/subscriptions/[snapshot]/[id]',
+      key,
+      key,
       'PAGES',
       {
         extend: {
@@ -160,13 +159,11 @@ describe('vite-plugin-kit-routes', () => {
       undefined,
     )
     if (meta) {
-      expect(meta.prop).toMatchInlineSnapshot(
-        `
+      expect(meta.prop).toMatchInlineSnapshot(`
         "\\"/subscriptions/[snapshot]/[id]\\": (params: {snapshot: string | number, id: string | number}) =>  {
                 return \`/subscriptions/\${params.snapshot}/\${params.id}\`
               }"
-      `,
-      )
+      `)
     } else {
       expect('I should never be').toBe('here')
     }

@@ -67,6 +67,7 @@ export type Options<
     PAGES?: Partial<{ [K in keyof T['PAGES']]: CustomPath<Extract<T['PAGES'][K], string>> }>
     SERVERS?: Partial<{ [K in keyof T['SERVERS']]: CustomPath<Extract<T['SERVERS'][K], string>> }>
     ACTIONS?: Partial<{ [K in keyof T['ACTIONS']]: CustomPath<Extract<T['ACTIONS'][K], string>> }>
+    LINKS?: Record<string, { href: string } & CustomPath<string>>
   }
 
   /**
@@ -159,32 +160,35 @@ function routes_path() {
 const log = new Log('Kit Routes')
 
 const getFileKeys = (
-  type: 'PAGES' | 'SERVERS' | 'ACTIONS',
+  type: 'PAGES' | 'SERVERS' | 'ACTIONS' | 'LINKS',
   options?: Options,
   withAppendSp?: boolean,
 ) => {
+  const useWithAppendSp = withAppendSp && options?.extra_search_params === 'with'
+
+  if (type === 'LINKS') {
+    const toRet = Object.entries(options?.extend?.LINKS ?? {}).map(c => {
+      return fileToMetadata(c[0], c[1].href, type, options, useWithAppendSp)
+    })
+    return toRet.filter(c => c !== null) as {
+      keyToUse: string
+      prop: string
+      paramsFromPath: Param[]
+    }[]
+  }
+
   const lookFor =
     type === 'PAGES' ? '+page.svelte' : type === 'SERVERS' ? '+server.ts' : '+page.server.ts'
-  const useWithAppendSp = withAppendSp && options?.extra_search_params === 'with'
 
   let files = readdirSync(routes_path(), { recursive: true }) as string[]
   // For windows
   files = files.map(c => c.replaceAll('\\', '/'))
   const toRet = files
     .filter(file => file.endsWith(lookFor))
-    .map(
-      file =>
-        `/` +
-        file
-          .replace(`/${lookFor}`, '')
-          .replace(lookFor, '')
-          // rmv (groups)
-          .replace(/\([^)]*\)/g, '')
-          .replace(/\/+/g, '/'),
-    )
+    .map(file => `/` + file.replace(`/${lookFor}`, '').replace(lookFor, ''))
     // Keep the sorting at this level, it will make more sense
     .sort()
-    .map(original => fileToMetadata(original, type, options, useWithAppendSp))
+    .map(original => fileToMetadata(original, original, type, options, useWithAppendSp))
 
   return toRet.filter(c => c !== null) as {
     keyToUse: string
@@ -197,13 +201,13 @@ type Param = { name: string; optional: boolean; matcher?: string; type?: string;
 
 export const fileToMetadata = (
   original: string,
-  type: 'PAGES' | 'SERVERS' | 'ACTIONS',
+  originalValue: string,
+  type: 'PAGES' | 'SERVERS' | 'ACTIONS' | 'LINKS',
   options: Options | undefined,
   useWithAppendSp: boolean | undefined,
 ) => {
-  let toRet = rmvGroups(original)
-
   const keyToUse = formatKey(original, options)
+  let toRet = rmvGroups(originalValue)
 
   // custom conf
   const viteCustomPathConfig = options?.extend?.[type]
@@ -215,7 +219,7 @@ export const fileToMetadata = (
     customConf = viteCustomPathConfig[keyToUse]
   }
 
-  const paramsFromPath = extractParamsFromPath(original)
+  const paramsFromPath = extractParamsFromPath(originalValue)
 
   // custom Param?
   if (customConf.params) {
@@ -264,12 +268,12 @@ export const fileToMetadata = (
 
   let actionsFormat = ''
   if (type === 'SERVERS') {
-    const methods = getMethodsOfServerFiles(original)
+    const methods = getMethodsOfServerFiles(originalValue)
     if (methods.length > 0) {
       params.push(`method: ${methods.map(c => `'${c}'`).join(' | ')}`)
     }
   } else if (type === 'ACTIONS') {
-    const { actions } = getActionsOfServerPages(original)
+    const { actions } = getActionsOfServerPages(originalValue)
 
     if (actions.length === 0) {
       return null
@@ -467,35 +471,38 @@ const run = (options?: Options) => {
     { type: 'PAGES', files: getFileKeys('PAGES', options, true) },
     { type: 'SERVERS', files: getFileKeys('SERVERS', options, true) },
     { type: 'ACTIONS', files: getFileKeys('ACTIONS', options, false) },
+    { type: 'LINKS', files: getFileKeys('LINKS', options, false) },
   ] as const
 
   // Validate options
   let allOk = true
-  objTypes.forEach(o => {
-    Object.entries(options?.extend?.[o.type] ?? {}).forEach(e => {
-      const [key, cPath] = e
-      const found = o.files.find(c => c.keyToUse === key)
-      if (!found) {
-        log.error(`Can't extend "${green(`${o.type}.`)}${red(key)}" as this path doesn't exist!`)
-        allOk = false
-      } else {
-        if (cPath) {
-          Object.entries(cPath.params ?? {}).forEach(p => {
-            const [pKey] = p
-            const paramsFromPathFound = found.paramsFromPath.find(c => c.name === pKey)
-            if (!paramsFromPathFound) {
-              log.error(
-                `Can't extend "${green(`${o.type}.${key}.params.`)}${red(
-                  pKey,
-                )}" as this param doesn't exist!`,
-              )
-              allOk = false
-            }
-          })
+  objTypes
+    .filter(c => c.type !== 'LINKS')
+    .forEach(o => {
+      Object.entries(options?.extend?.[o.type] ?? {}).forEach(e => {
+        const [key, cPath] = e
+        const found = o.files.find(c => c.keyToUse === key)
+        if (!found) {
+          log.error(`Can't extend "${green(`${o.type}.`)}${red(key)}" as this path doesn't exist!`)
+          allOk = false
+        } else {
+          if (cPath) {
+            Object.entries(cPath.params ?? {}).forEach(p => {
+              const [pKey] = p
+              const paramsFromPathFound = found.paramsFromPath.find(c => c.name === pKey)
+              if (!paramsFromPathFound) {
+                log.error(
+                  `Can't extend "${green(`${o.type}.${key}.params.`)}${red(
+                    pKey,
+                  )}" as this param doesn't exist!`,
+                )
+                allOk = false
+              }
+            })
+          }
         }
-      }
+      })
     })
-  })
 
   if (allOk) {
     const result = write(generated_file_path(options), [
