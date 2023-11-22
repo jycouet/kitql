@@ -7,6 +7,9 @@
 export const PAGES = {
   _ROOT: `/`,
   subGroup: `/subGroup`,
+  subGroup2: (params: { first: string | number }) => {
+    return `/subGroup2${appendSp({ first: params.first })}`
+  },
   lang_contract: (params: { lang?: 'fr' | 'en' | 'hu' | 'at' | string } = {}) => {
     return `${params?.lang ? `/${params?.lang}` : ''}/contract`
   },
@@ -133,6 +136,7 @@ export type KIT_ROUTES = {
   PAGES: {
     _ROOT: never
     subGroup: never
+    subGroup2: 'first'
     lang_contract: 'lang'
     lang_contract_id: 'lang' | 'id'
     lang_gp_one: 'lang'
@@ -150,6 +154,7 @@ export type KIT_ROUTES = {
     lang_site_contract_siteId_contractId: 'lang' | 'siteId' | 'contractId' | 'extra'
   }
   Params: {
+    first: never
     lang: never
     id: never
     limit: never

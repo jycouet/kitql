@@ -18,6 +18,13 @@ export default defineConfig({
 
       extend: {
         PAGES: {
+          subGroup2: {
+            explicit_search_params: {
+              first: {
+                required: true,
+              },
+            },
+          },
           lang_site: {
             // extra_search_params: 'with',
             explicit_search_params: { limit: { type: 'number' } },
