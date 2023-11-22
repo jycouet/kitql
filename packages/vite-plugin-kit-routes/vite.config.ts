@@ -14,6 +14,7 @@ export default defineConfig({
       post_update_run: 'npm exec prettier ./src/lib/ROUTES.ts -- -w',
       // extra_search_params: 'with',
       // keep_path_param_format: true,
+      object_keys_format: '_',
 
       extend: {
         PAGES: {
