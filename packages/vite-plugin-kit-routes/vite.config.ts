@@ -56,6 +56,9 @@ export default defineConfig({
             },
           },
         },
+        LINKS: {
+          'twitter:': 'https://twitter.com/jycouet',
+        },
       },
 
       override_params: {
