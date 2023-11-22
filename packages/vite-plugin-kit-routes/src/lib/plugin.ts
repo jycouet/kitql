@@ -168,7 +168,7 @@ const getFileKeys = (
         file
           .replace(`/${lookFor}`, '')
           .replace(lookFor, '')
-          // rmv groups
+          // rmv (groups)
           .replace(/\([^)]*\)/g, '')
           .replace(/\/+/g, '/'),
     )
@@ -317,15 +317,16 @@ export const fileToMetadata = (
       return `params.${c.name} = params.${c.name} ?? ${additionalByStore}'${c.default}'; `
     })
 
-  const prop =
-    `"${keyToUse}": (${params.join(', ')}) => ` +
-    ` {${paramsDefaults.length > 0 ? `\n    ${paramsDefaults.join('\n    ')}` : ''}
-    return \`${toRet}${actionsFormat}${fullSP}\`
-  }`
-
-  // TODO
-  // default to []
-  // no ()
+  let prop = ''
+  if (params.length > 0) {
+    prop =
+      `"${keyToUse}": (${params.join(', ')}) => ` +
+      ` {${paramsDefaults.length > 0 ? `\n    ${paramsDefaults.join('\n    ')}` : ''}
+        return \`${toRet}${actionsFormat}${fullSP}\`
+      }`
+  } else {
+    prop = `"${keyToUse}": \`${toRet}\``
+  }
 
   return { keyToUse, prop, paramsFromPath }
 }

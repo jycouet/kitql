@@ -87,8 +87,8 @@ describe('vite-plugin-kit-routes', () => {
       expect(meta.prop).toMatchInlineSnapshot(
         `
         "\\"/[[lang]]\\": (params: {lang?: string | number}= {}) =>  {
-            return \`\${params?.lang ? \`/\${params?.lang}\`: '/'}\`
-          }"
+                return \`\${params?.lang ? \`/\${params?.lang}\`: '/'}\`
+              }"
       `,
       )
     } else {
@@ -102,8 +102,8 @@ describe('vite-plugin-kit-routes', () => {
       expect(meta.prop).toMatchInlineSnapshot(
         `
         "\\"/[[lang]]/about\\": (params: {lang?: string | number}= {}) =>  {
-            return \`\${params?.lang ? \`/\${params?.lang}\`: ''}/about\`
-          }"
+                return \`\${params?.lang ? \`/\${params?.lang}\`: ''}/about\`
+              }"
       `,
       )
     } else {
@@ -117,8 +117,8 @@ describe('vite-plugin-kit-routes', () => {
       expect(meta.prop).toMatchInlineSnapshot(
         `
         "\\"/prefix-[[lang]]/about\\": (params: {lang?: string | number}= {}) =>  {
-            return \`/prefix-\${params?.lang ? \`\${params?.lang}\`: ''}/about\`
-          }"
+                return \`/prefix-\${params?.lang ? \`\${params?.lang}\`: ''}/about\`
+              }"
       `,
       )
     } else {
@@ -149,8 +149,8 @@ describe('vite-plugin-kit-routes', () => {
       expect(meta.prop).toMatchInlineSnapshot(
         `
         "\\"/subscriptions/[snapshot]/[id]\\": (params: {snapshot: string | number, id: string | number}) =>  {
-            return \`/subscriptions/\${params.snapshot}/\${params.id}\`
-          }"
+                return \`/subscriptions/\${params.snapshot}/\${params.id}\`
+              }"
       `,
       )
     } else {

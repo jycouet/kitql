@@ -5,9 +5,7 @@
  */
 
 export const PAGES = {
-  lang: (params: { lang?: 'fr' | 'en' | 'hu' | 'at' | string } = {}) => {
-    return `${params?.lang ? `/${params?.lang}` : '/'}`
-  },
+  _ROOT: `/`,
   lang_contract: (params: { lang?: 'fr' | 'en' | 'hu' | 'at' | string } = {}) => {
     return `${params?.lang ? `/${params?.lang}` : ''}/contract`
   },
@@ -129,7 +127,7 @@ const appendSp = (sp?: Record<string, string | number | undefined>) => {
  */
 export type KIT_ROUTES = {
   PAGES: {
-    lang: 'lang'
+    _ROOT: never
     lang_contract: 'lang'
     lang_contract_id: 'lang' | 'id'
     lang_gp_one: 'lang'
