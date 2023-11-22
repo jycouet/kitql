@@ -1,5 +1,18 @@
 # vite-plugin-kit-routes
 
+## 0.1.0-next.3
+
+### Patch Changes
+
+- [#455](https://github.com/jycouet/kitql/pull/455)
+  [`d20fed5`](https://github.com/jycouet/kitql/commit/d20fed5b428e5b0d964eb734773a230ac6e6dace)
+  Thanks [@jycouet](https://github.com/jycouet)! - rename object_keys_format to format
+
+- [#455](https://github.com/jycouet/kitql/pull/455)
+  [`d20fed5`](https://github.com/jycouet/kitql/commit/d20fed5b428e5b0d964eb734773a230ac6e6dace)
+  Thanks [@jycouet](https://github.com/jycouet)! - remove exdend in the config to reduce the file
+  nesting
+
 ## 0.1.0-next.2
 
 ### Minor Changes
