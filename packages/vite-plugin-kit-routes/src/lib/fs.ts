@@ -2,7 +2,10 @@ import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs'
 import { dirname, join } from 'node:path'
 
 export function read(pathFile: string) {
-  return readFileSync(pathFile, { encoding: 'utf8' })
+  try {
+    return readFileSync(pathFile, { encoding: 'utf8' })
+  } catch (error) {}
+  return null
 }
 
 export function write(pathFile: string, data: string[]) {

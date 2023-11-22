@@ -512,7 +512,7 @@ const getActionsOfServerPages = (pathFile: string) => {
   return { actions, withLoad }
 }
 
-const run = (options?: Options) => {
+export const run = (options?: Options) => {
   const objTypes = [
     { type: 'PAGES', files: getFileKeys('PAGES', options, true) },
     { type: 'SERVERS', files: getFileKeys('SERVERS', options, true) },
