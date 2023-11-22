@@ -58,13 +58,12 @@ export default defineConfig({
         },
         LINKS: {
           // reference to a hardcoded link
-          twitter: { href: 'https://twitter.com/jycouet' },
+          twitter: 'https://twitter.com/jycouet',
 
           // reference to link with params!
-          mailto: { href: 'mailto:[email]' },
+          mailto: 'mailto:[email]',
 
           // reference to link with params & search params!
-          // https://twitter.com/jycouet/status/1727089217707159569?limit=12
           twitter_post: {
             href: 'https://twitter.com/[name]/status/[id]',
             explicit_search_params: { limit: { type: 'number' } },

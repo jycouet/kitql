@@ -67,7 +67,30 @@ export type Options<
     PAGES?: Partial<{ [K in keyof T['PAGES']]: CustomPath<Extract<T['PAGES'][K], string>> }>
     SERVERS?: Partial<{ [K in keyof T['SERVERS']]: CustomPath<Extract<T['SERVERS'][K], string>> }>
     ACTIONS?: Partial<{ [K in keyof T['ACTIONS']]: CustomPath<Extract<T['ACTIONS'][K], string>> }>
-    LINKS?: Record<string, { href: string } & CustomPath<string>>
+    /**
+     * ```ts
+     * {
+     *   // ... Example ...
+     *   LINKS: {
+     *    // reference to a hardcoded link
+     *    twitter: 'https://twitter.com/jycouet',
+     *    // ✅ <a href={LINKS.twitter}>Twitter</a>
+     *
+     *    // reference to link with params! (Like svelteKit routes add [ ] to specify params)
+     *    mailto: 'mailto:[email]',
+     *    // ✅ <a href={LINKS.mailto({ email: 'me@super.dev' })}>Mail</a>
+     *
+     *    // reference to link with params & search params!
+     *    twitter_post: {
+     *      href: 'https://twitter.com/[name]/status/[id]',
+     *      explicit_search_params: { limit: { type: 'number' } }
+     *    }
+     *    // ✅ <a href={LINKS.twitter_post({ name: 'jycouet', id: '1727089217707159569', limit: 12 })}>Twitter Post</a>
+     *  }
+     * }
+     * ```
+     */
+    LINKS?: Record<string, string | ({ href: string } & CustomPath<string>)>
   }
 
   /**
@@ -168,7 +191,9 @@ const getFileKeys = (
 
   if (type === 'LINKS') {
     const toRet = Object.entries(options?.extend?.LINKS ?? {}).map(c => {
-      return fileToMetadata(c[0], c[1].href, type, options, useWithAppendSp)
+      const hrefToUse = typeof c[1] === 'string' ? c[1] : c[1].href
+
+      return fileToMetadata(c[0], hrefToUse, type, options, useWithAppendSp)
     })
     return toRet.filter(c => c !== null) as {
       keyToUse: string
