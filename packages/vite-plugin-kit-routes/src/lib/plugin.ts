@@ -78,13 +78,13 @@ export type Options<T extends ExtendTypes = ExtendTypes> = {
    *
    *    // reference to link with params & search params!
    *    gravatar: {
-   *      href: 'https://www.gravatar.com/avatar/[id]',
+   *      href: 'https://www.gravatar.com/avatar/[str]',
    *      explicit_search_params: {
    *        s: { type: 'number', default: 75 },
    *        d: { type: '"retro" | "identicon"', default: '"identicon"' },
    *      },
    *    },
-   *    // ✅ <img src={LINKS.gravatar({ id: 'jycouet', s: 20 })} alt="logo" />
+   *    // ✅ <img src={LINKS.gravatar({ str: 'jycouet', s: 20 })} alt="logo" />
    *  }
    * }
    * ```
