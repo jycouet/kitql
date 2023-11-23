@@ -41,9 +41,7 @@ importers:
       '@types/node':
         specifier: ^20.9.2
         version: 20.9.4
-      prettier:
-        specifier: ^3.1.0
-        version: 3.1.0
+    publishDirectory: dist
 
   packages/eslint-config-kitql:
     dependencies:
@@ -9743,6 +9741,7 @@ packages:
     resolution: {integrity: sha512-TQLvXjq5IAibjh8EpBIkNKxO749UEWABoiIZehEPiY4GNpVdhaFKqSTu+QrlU6D2dPAfubRmtJTi4K4YkQ5eXw==}
     engines: {node: '>=14'}
     hasBin: true
+    dev: false
 
   /pretty-format@29.7.0:
     resolution: {integrity: sha512-Pdlw/oPxN+aXdmM9R00JVC9WVFoCLTKJvDVLgmJ+qAffBMxsV85l/Lu7sNx4zSzPyoL2euImuEwHhOXdEgNFZQ==}

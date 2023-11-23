@@ -1,36 +1,42 @@
 {
   "name": "create-kitql",
-  "version": "0.0.1",
   "description": "A CLI for creating new projects... A lot of kind of projects!",
+  "keywords": [
+    "cli",
+    "svelte",
+    "sveltekit"
+  ],
+  "version": "0.0.1",
+  "license": "MIT",
+  "type": "module",
   "repository": {
     "type": "git",
     "url": "https://github.com/jycouet/kitql",
-    "directory": "packages/create-kitql"
+    "directory": "packages/create-kitql",
+    "homepage": "https://github.com/jycouet/kitql/tree/main/packages/create-kitql"
   },
-  "license": "MIT",
   "bin": "./bin.js",
   "scripts": {
     "dev": "node bin.js",
-    "build": "cd ../../ && ((pnpm run build && cd -) || (cd - && exit 1))",
-    "build:dev": "pnpm build && pnpm dev",
     "check": "tsc",
     "lint": "prettier --check . --config ../../.prettierrc --ignore-path ../../.gitignore --ignore-path .gitignore --plugin prettier-plugin-svelte --plugin-search-dir=.",
     "format": "pnpm lint --write"
+  },
+  "devDependencies": {
+    "@types/node": "^20.9.2"
   },
   "dependencies": {
     "@clack/prompts": "^0.7.0",
     "@kitql/helpers": "workspace:*",
     "commander": "^11.1.0"
   },
-  "devDependencies": {
-    "@types/node": "^20.9.2",
-    "prettier": "^3.1.0"
+  "sideEffects": false,
+  "publishConfig": {
+    "directory": "dist",
+    "access": "public"
   },
   "files": [
-    "fragments",
     "templates",
     "bin.js"
-  ],
-  "types": "types/index.d.ts",
-  "type": "module"
+  ]
 }
