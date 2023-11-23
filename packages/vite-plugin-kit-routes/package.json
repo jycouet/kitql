@@ -14,6 +14,7 @@
     "homepage": "https://github.com/jycouet/kitql/tree/main/packages/vite-plugin-kit-routes#readme"
   },
   "scripts": {
+    "preinstall": "node scripts/tweak-pck.js",
     "prepare": "svelte-kit sync",
     "dev": "vite dev",
     "build": "vite build && svelte-package && node ../../scripts/package.js",
