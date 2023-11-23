@@ -4,7 +4,7 @@ import { prettyPrint } from 'recast'
 
 const { visit } = recast.types
 
-export const transform = async (code: string, decorators_to_strip: string[]) => {
+export const transformDecorator = async (code: string, decorators_to_strip: string[]) => {
   try {
     const codeParsed = parse(code ?? '', {
       plugins: ['typescript', 'importAssertions', 'decorators-legacy'],

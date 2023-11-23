@@ -1,9 +1,10 @@
-import { expect, it } from 'vitest'
+import { describe, expect, it } from 'vitest'
 
-import { transform } from './transform.js'
+import { transformDecorator } from './transformDecorator.js'
 
-it('should empty @BackendMethod and clean imports', async () => {
-  const code = `import { Allow, BackendMethod, remult } from "remult";
+describe('decorator', () => {
+  it('should empty @BackendMethod and clean imports', async () => {
+    const code = `import { Allow, BackendMethod, remult } from "remult";
 import { Task } from "./task";
 import { AUTH_SECRET } from "$env/static/private";
 
@@ -34,9 +35,9 @@ export class TasksController {
 }
 	`
 
-  const transformed = await transform(code, ['BackendMethod'])
+    const transformed = await transformDecorator(code, ['BackendMethod'])
 
-  expect(transformed).toMatchInlineSnapshot(`
+    expect(transformed).toMatchInlineSnapshot(`
     {
       "code": "import { Allow, BackendMethod } from \\"remult\\";
 
@@ -56,10 +57,10 @@ export class TasksController {
       "transformed": true,
     }
   `)
-})
+  })
 
-it('should not crash if there is an error in the original file', async () => {
-  const code = `import { Allow, BackendMethod, remult } from "remult";
+  it('should not crash if there is an error in the original file', async () => {
+    const code = `import { Allow, BackendMethod, remult } from "remult";
 import { Task } from "./task";
 import { AUTH_SECRET } from "$env/static/private";
 
@@ -71,9 +72,9 @@ export class TasksController {
 }
 	`
 
-  const transformed = await transform(code, ['BackendMethod'])
+    const transformed = await transformDecorator(code, ['BackendMethod'])
 
-  expect(transformed).toMatchInlineSnapshot(`
+    expect(transformed).toMatchInlineSnapshot(`
     {
       "code": "import { Allow, BackendMethod, remult } from \\"remult\\";
     import { Task } from \\"./task\\";
@@ -89,10 +90,10 @@ export class TasksController {
       "transformed": false,
     }
   `)
-})
+  })
 
-it('should not do anything as there is no @BackendMethod', async () => {
-  const code = `import { Allow, BackendMethod, remult } from "remult";
+  it('should not do anything as there is no @BackendMethod', async () => {
+    const code = `import { Allow, BackendMethod, remult } from "remult";
 import { Task } from "./task";
 import { AUTH_SECRET } from "$env/static/private";
 
@@ -112,9 +113,9 @@ export class TasksController {
 }
 	`
 
-  const transformed = await transform(code, ['BackendMethod'])
+    const transformed = await transformDecorator(code, ['BackendMethod'])
 
-  expect(transformed).toMatchInlineSnapshot(`
+    expect(transformed).toMatchInlineSnapshot(`
     {
       "code": "import { Allow, BackendMethod, remult } from \\"remult\\";
     import { Task } from \\"./task\\";
@@ -140,10 +141,10 @@ export class TasksController {
       "transformed": false,
     }
   `)
-})
+  })
 
-it('should strip also unused methods', async () => {
-  const code = `import { TOP_SECRET, TOP_SECRET_NOT_USED } from '$env/static/private';
+  it('should strip also unused methods', async () => {
+    const code = `import { TOP_SECRET, TOP_SECRET_NOT_USED } from '$env/static/private';
   import { stry0 } from '@kitql/helper';
   import { BackendMethod, Entity, Fields, remult } from 'remult';
   
@@ -171,9 +172,9 @@ it('should strip also unused methods', async () => {
   }  
 	`
 
-  const transformed = await transform(code, ['BackendMethod'])
+    const transformed = await transformDecorator(code, ['BackendMethod'])
 
-  expect(transformed).toMatchInlineSnapshot(`
+    expect(transformed).toMatchInlineSnapshot(`
     {
       "code": "import { BackendMethod, Entity, Fields } from \\"remult\\";
 
@@ -192,4 +193,5 @@ it('should strip also unused methods', async () => {
       "transformed": true,
     }
   `)
+  })
 })
