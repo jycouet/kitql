@@ -234,6 +234,9 @@ importers:
       recast:
         specifier: ^0.23.4
         version: 0.23.4
+      vite-plugin-watch-and-run:
+        specifier: workspace:*
+        version: link:../vite-plugin-watch-and-run/dist
     devDependencies:
       '@sveltejs/adapter-auto':
         specifier: 2.1.0
