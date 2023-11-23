@@ -160,13 +160,13 @@ importers:
         specifier: ^7.23.0
         version: 7.23.0
       '@kitql/helpers':
-        specifier: workspace:*
+        specifier: '*'
         version: link:../helpers/dist
       recast:
         specifier: ^0.23.4
         version: 0.23.4
       vite-plugin-watch-and-run:
-        specifier: workspace:*
+        specifier: '*'
         version: link:../vite-plugin-watch-and-run/dist
     devDependencies:
       '@sveltejs/adapter-auto':
@@ -179,7 +179,7 @@ importers:
         specifier: 2.2.2
         version: 2.2.2(svelte@4.2.1)(typescript@5.3.2)
       eslint-config-kitql:
-        specifier: workspace:*
+        specifier: '*'
         version: link:../eslint-config-kitql
       publint:
         specifier: 0.2.4

@@ -27,7 +27,7 @@
     "format": "kitql-lint --fix"
   },
   "devDependencies": {
-    "eslint-config-kitql": "workspace:*",
+    "eslint-config-kitql": "*",
     "@sveltejs/adapter-auto": "2.1.0",
     "@sveltejs/kit": "1.27.6",
     "@sveltejs/package": "2.2.2",
@@ -41,9 +41,9 @@
   },
   "dependencies": {
     "@babel/parser": "^7.23.0",
-    "@kitql/helpers": "workspace:*",
+    "@kitql/helpers": "*",
     "recast": "^0.23.4",
-    "vite-plugin-watch-and-run": "workspace:*"
+    "vite-plugin-watch-and-run": "*"
   },
   "sideEffects": false,
   "publishConfig": {
