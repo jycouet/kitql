@@ -6,13 +6,15 @@ _Part of [KitQL](https://github.com/jycouet/kitql#kitql), a set of tools helping
 
 [![](https://img.shields.io/badge/Documentation%20of-vite%20plugin%20kit%20routes-FF3E00.svg?style=flat&logo=stackblitz&logoColor=FF3E00)](https://kitql.dev/docs/tools/06_vite-plugin-kit-routes)
 
-## 🧑‍💻 Try it locally
+## 🧑‍💻 Demo
+
+### 💻 Local
 
 ```bash
 npm create kitql@latest --template kit-routes
 ```
 
-## 🌐 Try it online
+### 🌐 Online
 
 [![](https://img.shields.io/badge/Open_in-SvelteLab-black?logo=svelte&color=%23FF3E00)](https://www.sveltelab.dev/?provider=github&owner=jycouet&repo=kitql&branch=main&path=%2Fpackages%2Fcreate-kitql%2Ftemplates%2Fkit-routes) 
 [![](https://img.shields.io/badge/Open_in-CodeSandbox-black?logo=codesandbox&color=%23151515)](https://codesandbox.io/p/sandbox/github/jycouet/kitql/tree/main/packages/create-kitql/templates/kit-routes)

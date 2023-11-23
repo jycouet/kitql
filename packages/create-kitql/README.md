@@ -4,7 +4,7 @@ _Part of [KitQL](https://github.com/jycouet/kitql#kitql), a set of tools helping
 
 ##  📖 Read the doc
 
-[![](https://img.shields.io/badge/Documentation%20of-create%20kitql-FF3E00.svg?style=flat&logo=stackblitz&logoColor=FF3E00)](https://kitql.dev/docs/tools/06_vite-plugin-kit-routes)
+[![](https://img.shields.io/badge/Documentation%20of-create%20kitql-FF3E00.svg?style=flat&logo=stackblitz&logoColor=FF3E00)](https://kitql.dev/docs/create)
 
 ## 🧑‍💻 Try it
 
