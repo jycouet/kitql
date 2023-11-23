@@ -104,13 +104,11 @@ export const ACTIONS = {
 
 export const LINKS = {
   twitter: `https:/twitter.com/jycouet`,
-  mailto: (params: { email: string | number }) => {
-    return `mailto:${params.email}`
+  twitter_post: (params: { name: string | number; id: string | number }) => {
+    return `https:/twitter.com/${params.name}/status/${params.id}`
   },
-  twitter_post: (params: { name: string | number; id: string | number; limit?: number }) => {
-    return `https:/twitter.com/${params.name}/status/${params.id}${appendSp({
-      limit: params.limit,
-    })}`
+  gravatar: (params: { id: string | number; s?: number; d?: string | number }) => {
+    return `https:/www.gravatar.com/avatar/${params.id}${appendSp({ s: params.s, d: params.d })}`
   },
 }
 
@@ -163,7 +161,7 @@ export type KIT_ROUTES = {
     lang_site: 'lang'
     lang_site_contract_siteId_contractId: 'lang' | 'siteId' | 'contractId' | 'extra'
   }
-  LINKS: { twitter: never; mailto: 'email'; twitter_post: 'name' | 'id' | 'limit' }
+  LINKS: { twitter: never; twitter_post: 'name' | 'id'; gravatar: 'id' | 's' | 'd' }
   Params: {
     first: never
     lang: never
@@ -173,7 +171,8 @@ export type KIT_ROUTES = {
     siteId: never
     contractId: never
     extra: never
-    email: never
     name: never
+    s: never
+    d: never
   }
 }

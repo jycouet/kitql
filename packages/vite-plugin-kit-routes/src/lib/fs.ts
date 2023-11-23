@@ -10,7 +10,10 @@ export function read(pathFile: string) {
 
 export function write(pathFile: string, data: string[]) {
   const fullDataToWrite = Array.isArray(data) ? data.join('\n') : data
-  createFolderIfNotExists(dirname(pathFile))
+
+  // createFolderIfNotExists
+  mkdirSync(dirname(pathFile), { recursive: true })
+
   // Don't write if nothing changed!
   if (existsSync(pathFile)) {
     const currentFileData = read(pathFile)
@@ -20,10 +23,4 @@ export function write(pathFile: string, data: string[]) {
   }
   writeFileSync(join(pathFile), fullDataToWrite)
   return true
-}
-
-function createFolderIfNotExists(dir: string) {
-  if (!existsSync(dir)) {
-    mkdirSync(dir, { recursive: true })
-  }
 }

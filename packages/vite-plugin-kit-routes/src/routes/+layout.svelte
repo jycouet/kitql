@@ -72,12 +72,11 @@
 
 <span> LINKS: </span>
 <a href={LINKS.twitter} target="_blank">TwiX</a> |
-<a href={LINKS.mailto({ email: 'jycouet@gmail.com' })}>Send a mail</a> |
-<a
-  href={LINKS.twitter_post({ name: 'jycouet', id: '1727089217707159569', limit: 12 })}
-  target="_blank">TwiX</a
->
-
+<a href={LINKS.twitter_post({ name: 'jycouet', id: '1727089217707159569' })} target="_blank">
+  TwiX Post
+</a>
+|
+<img alt="demo links" src={LINKS.gravatar({ id: 'jycouet', s: 20 })} />
 <hr />
 
 <slot />

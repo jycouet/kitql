@@ -1,5 +1,5 @@
 import { parse } from '@babel/parser'
-import { green, Log, red, yellow } from '@kitql/helpers'
+import { gray, green, Log, red, yellow } from '@kitql/helpers'
 import { readdirSync } from 'fs'
 import { spawn } from 'node:child_process'
 import * as recast from 'recast'
@@ -73,15 +73,18 @@ export type Options<T extends ExtendTypes = ExtendTypes> = {
    *    // ✅ <a href={LINKS.twitter}>Twitter</a>
    *
    *    // reference to link with params! (Like svelteKit routes add [ ] to specify params)
-   *    mailto: 'mailto:[email]',
-   *    // ✅ <a href={LINKS.mailto({ email: 'me@super.dev' })}>Mail</a>
+   *    twitter_post: 'https://twitter.com/[name]/status/[id]',
+   *    // ✅ <a href={LINKS.twitter_post({ name: 'jycouet', id: '1727089217707159569' })}>Twitter Post</a>
    *
    *    // reference to link with params & search params!
-   *    twitter_post: {
-   *      href: 'https://twitter.com/[name]/status/[id]',
-   *      explicit_search_params: { limit: { type: 'number' } }
-   *    }
-   *    // ✅ <a href={LINKS.twitter_post({ name: 'jycouet', id: '1727089217707159569', limit: 12 })}>Twitter Post</a>
+   *    gravatar: {
+   *      href: 'https://www.gravatar.com/avatar/[id]',
+   *      explicit_search_params: {
+   *        s: { type: 'number', default: '75' },
+   *        d: { type: '"retro" | "identicon"' default: 'identicon' },
+   *      },
+   *    },
+   *    // ✅ <img src={LINKS.gravatar({ id: 'jycouet', s: 20 })} alt="logo" />
    *  }
    * }
    * ```
@@ -711,6 +714,17 @@ ${objTypes
       child.on('close', code => {
         if (result) {
           log.success(`${yellow(generated_file_path(options))} updated`)
+          // TODO later
+          // log.info(
+          //   `⚠️ Warning ${yellow(`href="/about"`)} detected ` +
+          //     `in ${gray('/src/lib/component/menu.svelte')} is not safe. ` +
+          //     `You could use: ${green(`href={PAGES['/about']}`)}`,
+          // )
+          // log.info(
+          //   `⚠️ Warning ${yellow(`action="?/save"`)} detected ` +
+          //     `in ${gray('/routes/card/+page.svelte')} is not safe. ` +
+          //     `You could use: ${green(`href={ACTION['/card']('save')}`)}`,
+          // )
         }
       })
     } else {

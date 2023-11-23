@@ -59,12 +59,15 @@ export default defineConfig({
         twitter: 'https://twitter.com/jycouet',
 
         // reference to link with params!
-        mailto: 'mailto:[email]',
+        twitter_post: 'https://twitter.com/[name]/status/[id]',
 
         // reference to link with params & search params!
-        twitter_post: {
-          href: 'https://twitter.com/[name]/status/[id]',
-          explicit_search_params: { limit: { type: 'number' } },
+        gravatar: {
+          href: 'https://www.gravatar.com/avatar/[id]',
+          explicit_search_params: {
+            s: { type: 'number', default: '75' },
+            d: { default: 'identicon' },
+          },
         },
       },
 
