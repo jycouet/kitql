@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 import * as p from '@clack/prompts'
 import { bold, cyan, gray, green, italic } from '@kitql/helpers'
-import { program, Option, InvalidArgumentError } from 'commander'
+import { program, Option } from 'commander'
 import fs, { readFileSync } from 'node:fs'
 import path from 'node:path'
 import { exit } from 'node:process'
@@ -34,19 +34,20 @@ program.addOption(
     options.map(c => c.value),
   ),
 )
-program.addOption(
-  new Option('-s, --schema <schema>', '"local" or "http..."').argParser(value => {
-    if (value === 'local' || value.startsWith('http')) {
-      return value
-    }
-    throw new InvalidArgumentError('Should be "local" or "http..." or do not set it!')
-  }),
-)
+
+// program.addOption(
+//   new Option('-s, --schema <schema>', '"local" or "http..."').argParser(value => {
+//     if (value === 'local' || value.startsWith('http')) {
+//       return value
+//     }
+//     throw new InvalidArgumentError('Should be "local" or "http..." or do not set it!')
+//   }),
+// )
 
 program.parse(process.argv)
 const options_cli = program.opts()
 
-p.intro('🎨 Welcome to Svelte UX!')
+p.intro(`${green(`⚡️`)} Welcome to KitQL world!`)
 
 // if we weren't given a directory, then we should ask
 if (!projectDir) {
@@ -100,7 +101,7 @@ const template = options_cli.template
   ? options_cli.template
   : await p.select({
       message: 'Which template do you want to use?',
-      initialValue: 'starter',
+      initialValue: 'kit-routes',
       options,
     })
 if (p.isCancel(template)) {
@@ -117,8 +118,8 @@ copy(
   sourcePath(path.join(templatesDir, template)),
   projectDir,
   {
-    PROJECT_NAME: projectName,
-    SVELTE_UX_VERSION: version,
+    // replace the project name in the template, in the template it should follow this format be be replaced
+    [`create-kitql-${template}`]: projectName,
   },
   { '.meta.gitignore': '.gitignore' },
   ['.meta.json'],

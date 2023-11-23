@@ -76,10 +76,7 @@
   TwiX Post
 </a>
 |
-<img
-  alt="Not working on codesandbox as it's proxied"
-  src={LINKS.gravatar({ str: 'jycouet', s: 50 })}
-/>
+<img alt="CORS issue?" src={LINKS.gravatar({ str: 'jycouet', s: 50 })} />
 <hr />
 
 <slot />
