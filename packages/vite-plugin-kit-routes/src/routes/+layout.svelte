@@ -76,7 +76,7 @@
   TwiX Post
 </a>
 |
-<img alt="demo links" src={LINKS.gravatar({ id: 'jycouet', s: 50 })} />
+<img alt="demo links" src={LINKS.gravatar({ str: 'jycouet', s: 50 })} />
 <hr />
 
 <slot />

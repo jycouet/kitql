@@ -9,7 +9,7 @@ _Part of [KitQL](https://github.com/jycouet/kitql#kitql), a set of tools helping
 
 ## 🧑‍💻 Try it online
 
-[![](https://img.shields.io/badge/Open_in-SvelteLab-black?logo=svelte&color=%23FF3E00)](https://www.sveltelab.dev/?provider=github&owner=jycouet&repo=kitql&branch=main&path=%2Fpackages%2Fvite-plugin-kit-routes) [![](https://img.shields.io/badge/Open_in-CodeSandbox-black?logo=codesandbox&color=%23151515)](https://codesandbox.io/p/sandbox/github/jycouet/kitql/tree/main/packages/vite-plugin-kit-routes) [![](https://img.shields.io/badge/Open_in-StackBlitz-black?logo=stackblitz&color=%231269D3)](https://stackblitz.com/github.com/jycouet/kitql/tree/main/packages/vite-plugin-kit-routes)
+[![](https://img.shields.io/badge/Open_in-CodeSandbox-black?logo=codesandbox&color=%23151515)](https://codesandbox.io/p/sandbox/github/jycouet/kitql/tree/main/packages/vite-plugin-kit-routes) 
 
 ##  ⭐️ Join us
 
