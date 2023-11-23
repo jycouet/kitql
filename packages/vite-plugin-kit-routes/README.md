@@ -9,7 +9,7 @@ _Part of [KitQL](https://github.com/jycouet/kitql#kitql), a set of tools helping
 ## 🧑‍💻 Try it locally
 
 ```bash
-npm create kitql@latest --template kit-route
+npm create kitql@latest --template kit-routes
 ```
 
 ## 🌐 Try it online
