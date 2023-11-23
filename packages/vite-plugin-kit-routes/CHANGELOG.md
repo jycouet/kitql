@@ -1,5 +1,14 @@
 # vite-plugin-kit-routes
 
+## 0.1.0-next.4
+
+### Patch Changes
+
+- [#461](https://github.com/jycouet/kitql/pull/461)
+  [`a076ea5`](https://github.com/jycouet/kitql/commit/a076ea5dc6dc297f5560a6a1cd5956cd478b5ac5)
+  Thanks [@jycouet](https://github.com/jycouet)! - fix: default params in LINKS are now taken into
+  account
+
 ## 0.1.0-next.3
 
 ### Patch Changes
