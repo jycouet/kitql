@@ -41,6 +41,9 @@ importers:
       '@types/node':
         specifier: ^20.9.2
         version: 20.9.4
+      eslint-config-kitql:
+        specifier: workspace:*
+        version: link:../eslint-config-kitql
     publishDirectory: dist
 
   packages/eslint-config-kitql:

@@ -12,6 +12,7 @@ let projectDir = process.argv[2]
 let projectName = projectDir
 
 const { version } = JSON.parse(fs.readFileSync(new URL('package.json', import.meta.url), 'utf-8'))
+// eslint-disable-next-line no-console
 console.log(`${gray(`create-kitql version ${version}`)}\n`)
 
 // prepare options
@@ -130,6 +131,7 @@ p.outro(`🎉 Everything is ready!
 1️⃣  Install dependencies   :  ${green(`npm i`)}       | ${green(`pnpm i`)}
 2️⃣  Start your application :  ${green(`npm run dev`)} | ${green(`pnpm dev`)}`)
 
+// eslint-disable-next-line no-console
 console.log(
   gray(
     italic(
@@ -191,7 +193,7 @@ function sourcePath(/** @type {string} */ path) {
   return fileURLToPath(new URL(path, import.meta.url).href)
 }
 
-function pCancel(cancelText = 'Operation cancelled.') {
-  p.cancel(cancelText)
-  process.exit(1)
-}
+// function pCancel(cancelText = 'Operation cancelled.') {
+//   p.cancel(cancelText)
+//   process.exit(1)
+// }

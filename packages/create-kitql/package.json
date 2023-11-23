@@ -18,12 +18,12 @@
   "bin": "./bin.js",
   "scripts": {
     "dev": "node bin.js",
-    "check": "tsc",
-    "lint": "prettier --check . --config ../../.prettierrc --ignore-path ../../.gitignore --ignore-path .gitignore --plugin prettier-plugin-svelte --plugin-search-dir=.",
-    "format": "pnpm lint --write"
+    "lint": "kitql-lint",
+    "format": "kitql-lint --fix"
   },
   "devDependencies": {
-    "@types/node": "^20.9.2"
+    "@types/node": "^20.9.2",
+    "eslint-config-kitql": "workspace:*"
   },
   "dependencies": {
     "@clack/prompts": "^0.7.0",
