@@ -6,6 +6,7 @@ export default defineConfig({
 	plugins: [
 		sveltekit(),
 		kitRoutes({
+			post_update_run: 'npm exec prettier ./src/lib/ROUTES.ts -- -w',
 			LINKS: {
 				twitter: 'https://twitter.com/jycouet',
 				github: 'https://github.com/jycouet/kitql',

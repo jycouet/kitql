@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 import * as p from '@clack/prompts'
 import { bold, cyan, gray, green, italic } from '@kitql/helpers'
-import { program, Option, InvalidArgumentError } from 'commander'
+import { program, Option } from 'commander'
 import fs, { readFileSync } from 'node:fs'
 import path from 'node:path'
 import { exit } from 'node:process'
@@ -117,7 +117,10 @@ if (!templateMeta) {
 copy(
   sourcePath(path.join(templatesDir, template)),
   projectDir,
-  {},
+  {
+    // replace the project name in the template, in the template it should follow this format be be replaced
+    [`create-kitql-${template}`]: projectName,
+  },
   { '.meta.gitignore': '.gitignore' },
   ['.meta.json'],
 )
