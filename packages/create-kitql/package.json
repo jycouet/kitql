@@ -1,0 +1,42 @@
+{
+  "name": "create-kitql",
+  "description": "A CLI for creating new projects... A lot of kind of projects!",
+  "keywords": [
+    "cli",
+    "svelte",
+    "sveltekit"
+  ],
+  "version": "0.0.1",
+  "license": "MIT",
+  "type": "module",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jycouet/kitql",
+    "directory": "packages/create-kitql",
+    "homepage": "https://github.com/jycouet/kitql/tree/main/packages/create-kitql"
+  },
+  "bin": "./bin.js",
+  "scripts": {
+    "dev": "node bin.js",
+    "lint": "kitql-lint",
+    "format": "kitql-lint --fix"
+  },
+  "devDependencies": {
+    "@types/node": "^20.9.2",
+    "eslint-config-kitql": "workspace:*"
+  },
+  "dependencies": {
+    "@clack/prompts": "^0.7.0",
+    "@kitql/helpers": "workspace:*",
+    "commander": "^11.1.0"
+  },
+  "sideEffects": false,
+  "publishConfig": {
+    "directory": "dist",
+    "access": "public"
+  },
+  "files": [
+    "templates",
+    "bin.js"
+  ]
+}
