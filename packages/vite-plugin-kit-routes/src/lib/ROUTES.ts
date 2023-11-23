@@ -147,24 +147,24 @@ export type KIT_ROUTES = {
   PAGES: {
     _ROOT: never
     subGroup: never
-    subGroup2: 'first'
+    subGroup2: never
     lang_contract: 'lang'
     lang_contract_id: 'lang' | 'id'
     lang_gp_one: 'lang'
     lang_gp_two: 'lang'
     lang_main: 'lang'
     lang_match_id_int: 'lang' | 'id'
-    lang_site: 'lang' | 'limit'
-    lang_site_id: 'lang' | 'id' | 'limit' | 'demo'
-    lang_site_contract_siteId_contractId: 'lang' | 'siteId' | 'contractId' | 'limit'
+    lang_site: 'lang'
+    lang_site_id: 'lang' | 'id'
+    lang_site_contract_siteId_contractId: 'lang' | 'siteId' | 'contractId'
   }
   SERVERS: { lang_contract: 'lang'; lang_site: 'lang'; api_graphql: never }
   ACTIONS: {
     lang_contract_id: 'lang' | 'id'
     lang_site: 'lang'
-    lang_site_contract_siteId_contractId: 'lang' | 'siteId' | 'contractId' | 'extra'
+    lang_site_contract_siteId_contractId: 'lang' | 'siteId' | 'contractId'
   }
-  LINKS: { twitter: never; twitter_post: 'name' | 'id'; gravatar: 'id' | 's' | 'd' }
+  LINKS: { twitter: never; twitter_post: 'name' | 'id'; gravatar: 'id' }
   Params: {
     first: never
     lang: never

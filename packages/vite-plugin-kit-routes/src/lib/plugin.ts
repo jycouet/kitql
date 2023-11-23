@@ -80,8 +80,8 @@ export type Options<T extends ExtendTypes = ExtendTypes> = {
    *    gravatar: {
    *      href: 'https://www.gravatar.com/avatar/[id]',
    *      explicit_search_params: {
-   *        s: { type: 'number', default: '75' },
-   *        d: { type: '"retro" | "identicon"', default: 'identicon' },
+   *        s: { type: 'number', default: 75 },
+   *        d: { type: '"retro" | "identicon"', default: '"identicon"' },
    *      },
    *    },
    *    // ✅ <img src={LINKS.gravatar({ id: 'jycouet', s: 20 })} alt="logo" />
@@ -254,7 +254,14 @@ const getFileKeys = (
   }[]
 }
 
-type Param = { name: string; optional: boolean; matcher?: string; type?: string; default?: any }
+type Param = {
+  name: string
+  optional: boolean
+  matcher?: string
+  type?: string
+  default?: any
+  fromPath?: boolean
+}
 
 export const fileToMetadata = (
   original: string,
@@ -421,11 +428,13 @@ export function extractParamsFromPath(path: string): Param[] {
         name: matcher[0],
         optional: isOptional,
         matcher: matcher[1],
+        fromPath: true,
       })
     } else {
       params.push({
         name: match[1],
         optional: isOptional,
+        fromPath: true,
       })
     }
   }
@@ -618,9 +627,10 @@ ${objTypes
     return `  ${c.type}: { ${c.files
       .map(d => {
         return `'${d.keyToUse}': ${
-          d.paramsFromPath.length === 0
+          d.paramsFromPath.filter(e => e.fromPath === true).length === 0
             ? 'never'
             : d.paramsFromPath
+                .filter(e => e.fromPath === true)
                 .map(e => {
                   return `'${e.name}'`
                 })
