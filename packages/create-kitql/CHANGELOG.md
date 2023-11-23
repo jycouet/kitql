@@ -1,5 +1,20 @@
 # create-kitql
 
+## 0.0.2
+
+### Patch Changes
+
+- [`6f6b0d1`](https://github.com/jycouet/kitql/commit/6f6b0d1e172b8a696e1e35ced9d4db61a58c05f6)
+  Thanks [@jycouet](https://github.com/jycouet)! - update readme on npm (this needs a publish of a
+  new version)
+
+- [`e6b0cd9`](https://github.com/jycouet/kitql/commit/e6b0cd97d83f652171d6f512edf47df53e7b5f62)
+  Thanks [@jycouet](https://github.com/jycouet)! - update template kit routes
+
+- [#465](https://github.com/jycouet/kitql/pull/465)
+  [`fe26405`](https://github.com/jycouet/kitql/commit/fe26405110965f1d56aaeba1c078f48d1b6fa36f)
+  Thanks [@jycouet](https://github.com/jycouet)! - init create kitql
+
 ## 0.0.2-next.3
 
 ### Patch Changes

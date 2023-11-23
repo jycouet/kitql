@@ -1,5 +1,59 @@
 # vite-plugin-kit-routes
 
+## 0.1.0
+
+### Minor Changes
+
+- [#453](https://github.com/jycouet/kitql/pull/453)
+  [`ac6e5aa`](https://github.com/jycouet/kitql/commit/ac6e5aa4a1cd27249ea504bff9fa1d72fa2c6ae9)
+  Thanks [@jycouet](https://github.com/jycouet)! - Add LINKS
+
+### Patch Changes
+
+- [#451](https://github.com/jycouet/kitql/pull/451)
+  [`4312432`](https://github.com/jycouet/kitql/commit/4312432d915a9f50f78d87c67623a941bb86db8a)
+  Thanks [@jycouet](https://github.com/jycouet)! - fix when route is starting with group
+
+- [#448](https://github.com/jycouet/kitql/pull/448)
+  [`9e087ba`](https://github.com/jycouet/kitql/commit/9e087ba1ad9060409ca8eafc58212f4ccb162bb1)
+  Thanks [@jycouet](https://github.com/jycouet)! - BREAKING: without a param, it's not a function
+  anymore
+
+- [`6f6b0d1`](https://github.com/jycouet/kitql/commit/6f6b0d1e172b8a696e1e35ced9d4db61a58c05f6)
+  Thanks [@jycouet](https://github.com/jycouet)! - update readme on npm (this needs a publish of a
+  new version)
+
+- [#448](https://github.com/jycouet/kitql/pull/448)
+  [`9e087ba`](https://github.com/jycouet/kitql/commit/9e087ba1ad9060409ca8eafc58212f4ccb162bb1)
+  Thanks [@jycouet](https://github.com/jycouet)! - BREAKING: change default format to '/'
+
+- [#448](https://github.com/jycouet/kitql/pull/448)
+  [`9e087ba`](https://github.com/jycouet/kitql/commit/9e087ba1ad9060409ca8eafc58212f4ccb162bb1)
+  Thanks [@jycouet](https://github.com/jycouet)! - internal: remove ensurePrefix
+
+- [#455](https://github.com/jycouet/kitql/pull/455)
+  [`d20fed5`](https://github.com/jycouet/kitql/commit/d20fed5b428e5b0d964eb734773a230ac6e6dace)
+  Thanks [@jycouet](https://github.com/jycouet)! - rename object_keys_format to format
+
+- [#463](https://github.com/jycouet/kitql/pull/463)
+  [`9d0dfd9`](https://github.com/jycouet/kitql/commit/9d0dfd960df4841052d63d83cfd42a651f3abf25)
+  Thanks [@jycouet](https://github.com/jycouet)! - update readme
+
+- [#461](https://github.com/jycouet/kitql/pull/461)
+  [`a076ea5`](https://github.com/jycouet/kitql/commit/a076ea5dc6dc297f5560a6a1cd5956cd478b5ac5)
+  Thanks [@jycouet](https://github.com/jycouet)! - fix: default params in LINKS are now taken into
+  account
+
+- [#448](https://github.com/jycouet/kitql/pull/448)
+  [`9e087ba`](https://github.com/jycouet/kitql/commit/9e087ba1ad9060409ca8eafc58212f4ccb162bb1)
+  Thanks [@jycouet](https://github.com/jycouet)! - rmv groups from key (as it's not possible to have
+  2 matching)
+
+- [#455](https://github.com/jycouet/kitql/pull/455)
+  [`d20fed5`](https://github.com/jycouet/kitql/commit/d20fed5b428e5b0d964eb734773a230ac6e6dace)
+  Thanks [@jycouet](https://github.com/jycouet)! - remove exdend in the config to reduce the file
+  nesting
+
 ## 0.1.0-next.6
 
 ### Patch Changes
