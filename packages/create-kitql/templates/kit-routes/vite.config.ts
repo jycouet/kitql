@@ -7,7 +7,16 @@ export default defineConfig({
 		sveltekit(),
 		kitRoutes({
 			LINKS: {
-				twitter: 'https://twitter.com/jycouet'
+				twitter: 'https://twitter.com/jycouet',
+				github: 'https://github.com/jycouet/kitql',
+				github_avatar: { href: 'https://avatars.githubusercontent.com/[author]' },
+				gravatar: {
+					href: 'https://www.gravatar.com/avatar/[str]',
+					explicit_search_params: {
+						s: { type: 'number', default: 75 },
+						d: { type: '"retro" | "identicon"', default: '"identicon"' }
+					}
+				}
 			}
 		})
 	],

@@ -5,7 +5,9 @@
  */
 
 export const PAGES = {
-  "/": `/`
+  "/": `/`,
+  "/about": `/about`,
+  "/your-face": `/your-face`
 }
 
 export const SERVERS = {
@@ -17,7 +19,16 @@ export const ACTIONS = {
 }
 
 export const LINKS = {
-  "twitter": `https:/twitter.com/jycouet`
+  "twitter": `https:/twitter.com/jycouet`,
+  "github": `https:/github.com/jycouet/kitql`,
+  "github_avatar": (params: {author: string | number}) =>  {
+        return `https:/avatars.githubusercontent.com/${params.author}`
+      },
+  "gravatar": (params: {str: string | number, s?: number, d?: "retro" | "identicon"}) =>  {
+    params.s = params.s ?? 75; 
+    params.d = params.d ?? "identicon"; 
+        return `https:/www.gravatar.com/avatar/${params.str}${appendSp({ s: params.s, d: params.d })}`
+      }
 }
 
 const appendSp = (sp?: Record<string, string | number | undefined>) => {
@@ -50,9 +61,9 @@ const appendSp = (sp?: Record<string, string | number | undefined>) => {
 * ```
 */
 export type KIT_ROUTES = { 
-  PAGES: { '/': never }
+  PAGES: { '/': never, '/about': never, '/your-face': never }
   SERVERS: {  }
   ACTIONS: {  }
-  LINKS: { 'twitter': never }
-  Params: {  }
+  LINKS: { 'twitter': never, 'github': never, 'github_avatar': 'author', 'gravatar': 'str' }
+  Params: { author: never, str: never, s: never, d: never }
 }

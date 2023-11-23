@@ -34,19 +34,20 @@ program.addOption(
     options.map(c => c.value),
   ),
 )
-program.addOption(
-  new Option('-s, --schema <schema>', '"local" or "http..."').argParser(value => {
-    if (value === 'local' || value.startsWith('http')) {
-      return value
-    }
-    throw new InvalidArgumentError('Should be "local" or "http..." or do not set it!')
-  }),
-)
+
+// program.addOption(
+//   new Option('-s, --schema <schema>', '"local" or "http..."').argParser(value => {
+//     if (value === 'local' || value.startsWith('http')) {
+//       return value
+//     }
+//     throw new InvalidArgumentError('Should be "local" or "http..." or do not set it!')
+//   }),
+// )
 
 program.parse(process.argv)
 const options_cli = program.opts()
 
-p.intro('⚡️ Welcome to KitQL world!')
+p.intro(`${green(`⚡️`)} Welcome to KitQL world!`)
 
 // if we weren't given a directory, then we should ask
 if (!projectDir) {
@@ -100,7 +101,7 @@ const template = options_cli.template
   ? options_cli.template
   : await p.select({
       message: 'Which template do you want to use?',
-      initialValue: 'starter',
+      initialValue: 'kit-routes',
       options,
     })
 if (p.isCancel(template)) {
@@ -116,10 +117,7 @@ if (!templateMeta) {
 copy(
   sourcePath(path.join(templatesDir, template)),
   projectDir,
-  {
-    PROJECT_NAME: projectName,
-    SVELTE_UX_VERSION: version,
-  },
+  {},
   { '.meta.gitignore': '.gitignore' },
   ['.meta.json'],
 )
