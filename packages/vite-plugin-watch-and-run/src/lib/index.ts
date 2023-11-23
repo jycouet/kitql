@@ -31,7 +31,7 @@ export type Options = {
   /**
    * run command (npm run gen for example!)
    */
-  run: string | ((server: ViteDevServer) => void | Promise<void>)
+  run: string | ((server: ViteDevServer, absolutePath: string | null) => void | Promise<void>)
 
   /**
    * Delay before running the run command (in ms)
@@ -65,7 +65,7 @@ export type WatchKind = KindWithPath | KindWithoutPath
 export type StateDetail = {
   kind: WatchKind[]
   logs: LogType[]
-  run: string | ((server: ViteDevServer) => void | Promise<void>)
+  run: string | ((server: ViteDevServer, absolutePath: string | null) => void | Promise<void>)
   delay: number
   isRunning: boolean
   watchFile?: (filepath: string) => boolean | Promise<boolean>
@@ -179,7 +179,7 @@ async function watcher(
     setTimeout(async () => {
       // if the run value is a function, we just have to call it and we're done
       if (typeof info.run === 'function') {
-        const promise = info.run(server)
+        const promise = info.run(server, absolutePath)
         try {
           if (promise) {
             await promise
