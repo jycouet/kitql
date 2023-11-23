@@ -1,4 +1,4 @@
-# ⚡vite-plugin-watch-and-run
+# ⚡vite-plugin-striper
 
 _Part of [KitQL](https://github.com/jycouet/kitql#kitql), a set of tools helping **you** building efficient apps in a fast way._
 
