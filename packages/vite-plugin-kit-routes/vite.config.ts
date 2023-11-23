@@ -63,9 +63,9 @@ export default defineConfig({
 
         // reference to link with params & search params!
         gravatar: {
-          href: 'https://www.gravatar.com/avatar/[id]',
+          href: 'https://www.gravatar.com/avatar/[str]',
           params: {
-            id: { type: 'string' },
+            str: { type: 'string' },
           },
           explicit_search_params: {
             s: { type: 'number', default: 75 },

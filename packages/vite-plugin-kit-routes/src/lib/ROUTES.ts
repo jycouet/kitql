@@ -108,10 +108,10 @@ export const LINKS = {
   twitter_post: (params: { name: string | number; id: string | number }) => {
     return `https:/twitter.com/${params.name}/status/${params.id}`
   },
-  gravatar: (params: { id: string; s?: number; d?: 'retro' | 'identicon' }) => {
+  gravatar: (params: { str: string; s?: number; d?: 'retro' | 'identicon' }) => {
     params.s = params.s ?? 75
     params.d = params.d ?? 'identicon'
-    return `https:/www.gravatar.com/avatar/${params.id}${appendSp({ s: params.s, d: params.d })}`
+    return `https:/www.gravatar.com/avatar/${params.str}${appendSp({ s: params.s, d: params.d })}`
   },
 }
 
@@ -164,7 +164,7 @@ export type KIT_ROUTES = {
     lang_site: 'lang'
     lang_site_contract_siteId_contractId: 'lang' | 'siteId' | 'contractId'
   }
-  LINKS: { twitter: never; twitter_post: 'name' | 'id'; gravatar: 'id' }
+  LINKS: { twitter: never; twitter_post: 'name' | 'id'; gravatar: 'str' }
   Params: {
     first: never
     lang: never
@@ -175,6 +175,7 @@ export type KIT_ROUTES = {
     contractId: never
     extra: never
     name: never
+    str: never
     s: never
     d: never
   }

@@ -7,12 +7,10 @@
 </p>
 
 ![svelte](https://img.shields.io/badge/powered%20by-SvelteKit-FF3C02.svg?style=flat&logo=svelte)
-![graphql](https://img.shields.io/badge/powered%20by-GraphQL-E10098.svg?style=flat&logo=graphql&logoColor=E10098)
 ![ts](https://img.shields.io/badge/language-typescript-blue.svg?style=flat&logo=typescript)
 
 [![Release](https://github.com/jycouet/kitql/actions/workflows/release.yml/badge.svg)](https://github.com/jycouet/kitql/actions/workflows/release.yml)
 [![Tests](https://github.com/jycouet/kitql/actions/workflows/ci.yml/badge.svg)](https://github.com/jycouet/kitql/actions/workflows/ci.yml)
-![check-code-coverage](https://img.shields.io/badge/code--coverage-80.79%25-green)
 
 <br />
 

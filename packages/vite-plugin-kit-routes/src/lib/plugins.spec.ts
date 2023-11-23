@@ -187,7 +187,7 @@ describe('run()', () => {
 
       // reference to link with params & search params!
       gravatar: {
-        href: 'https://www.gravatar.com/avatar/[id]',
+        href: 'https://www.gravatar.com/avatar/[str]',
         explicit_search_params: {
           s: { type: 'number', default: 75 },
           d: { type: '"retro" | "identicon"', default: '"identicon"' },
@@ -324,10 +324,10 @@ describe('run()', () => {
         \\"twitter_post\\": (params: {name: string | number, id: string | number}) =>  {
               return \`https:/twitter.com/\${params.name}/status/\${params.id}\`
             },
-        \\"gravatar\\": (params: {id: string | number, s?: number, d?: \\"retro\\" | \\"identicon\\"}) =>  {
+        \\"gravatar\\": (params: {str: string | number, s?: number, d?: \\"retro\\" | \\"identicon\\"}) =>  {
           params.s = params.s ?? 75; 
           params.d = params.d ?? \\"identicon\\"; 
-              return \`https:/www.gravatar.com/avatar/\${params.id}\${appendSp({ s: params.s, d: params.d })}\`
+              return \`https:/www.gravatar.com/avatar/\${params.str}\${appendSp({ s: params.s, d: params.d })}\`
             }
       }
 
@@ -364,8 +364,8 @@ describe('run()', () => {
         PAGES: { '_ROOT': never, 'subGroup': never, 'subGroup2': never, 'lang_contract': 'lang', 'lang_contract_id': 'lang' | 'id', 'lang_gp_one': 'lang', 'lang_gp_two': 'lang', 'lang_main': 'lang', 'lang_match_id_int': 'lang' | 'id', 'lang_site': 'lang', 'lang_site_id': 'lang' | 'id', 'lang_site_contract_siteId_contractId': 'lang' | 'siteId' | 'contractId' }
         SERVERS: { 'lang_contract': 'lang', 'lang_site': 'lang', 'api_graphql': never }
         ACTIONS: { 'lang_contract_id': 'lang' | 'id', 'lang_site': 'lang', 'lang_site_contract_siteId_contractId': 'lang' | 'siteId' | 'contractId' }
-        LINKS: { 'twitter': never, 'twitter_post': 'name' | 'id', 'gravatar': 'id' }
-        Params: { first: never, lang: never, id: never, limit: never, demo: never, siteId: never, contractId: never, extra: never, name: never, s: never, d: never }
+        LINKS: { 'twitter': never, 'twitter_post': 'name' | 'id', 'gravatar': 'str' }
+        Params: { first: never, lang: never, id: never, limit: never, demo: never, siteId: never, contractId: never, extra: never, name: never, str: never, s: never, d: never }
       }
       "
     `)
@@ -447,10 +447,10 @@ describe('run()', () => {
         \\"twitter_post\\": (params: {name: string | number, id: string | number}) =>  {
               return \`https:/twitter.com/\${params.name}/status/\${params.id}\`
             },
-        \\"gravatar\\": (params: {id: string | number, s?: number, d?: \\"retro\\" | \\"identicon\\"}) =>  {
+        \\"gravatar\\": (params: {str: string | number, s?: number, d?: \\"retro\\" | \\"identicon\\"}) =>  {
           params.s = params.s ?? 75; 
           params.d = params.d ?? \\"identicon\\"; 
-              return \`https:/www.gravatar.com/avatar/\${params.id}\${appendSp({ s: params.s, d: params.d })}\`
+              return \`https:/www.gravatar.com/avatar/\${params.str}\${appendSp({ s: params.s, d: params.d })}\`
             }
       }
 
@@ -487,8 +487,8 @@ describe('run()', () => {
         PAGES: { '/': never, '/subGroup': never, '/subGroup2': never, '/[[lang]]/contract': 'lang', '/[[lang]]/contract/[id]': 'lang' | 'id', '/[[lang]]/gp/one': 'lang', '/[[lang]]/gp/two': 'lang', '/[[lang]]/main': 'lang', '/[[lang]]/match/[id=int]': 'lang' | 'id', '/[[lang]]/site': 'lang', '/[[lang]]/site/[id]': 'lang' | 'id', '/[[lang]]/site_contract/[siteId]-[contractId]': 'lang' | 'siteId' | 'contractId' }
         SERVERS: { '/[[lang]]/contract': 'lang', '/[[lang]]/site': 'lang', '/api/graphql': never }
         ACTIONS: { '/[[lang]]/contract/[id]': 'lang' | 'id', '/[[lang]]/site': 'lang', '/[[lang]]/site_contract/[siteId]-[contractId]': 'lang' | 'siteId' | 'contractId' }
-        LINKS: { 'twitter': never, 'twitter_post': 'name' | 'id', 'gravatar': 'id' }
-        Params: { lang: never, id: never, siteId: never, contractId: never, name: never, s: never, d: never }
+        LINKS: { 'twitter': never, 'twitter_post': 'name' | 'id', 'gravatar': 'str' }
+        Params: { lang: never, id: never, siteId: never, contractId: never, name: never, str: never, s: never, d: never }
       }
       "
     `)
