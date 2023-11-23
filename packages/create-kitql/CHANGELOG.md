@@ -1,5 +1,13 @@
 # create-kitql
 
+## 0.0.2-next.3
+
+### Patch Changes
+
+- [`6f6b0d1`](https://github.com/jycouet/kitql/commit/6f6b0d1e172b8a696e1e35ced9d4db61a58c05f6)
+  Thanks [@jycouet](https://github.com/jycouet)! - update readme on npm (this needs a publish of a
+  new version)
+
 ## 0.0.2-next.2
 
 ### Patch Changes
