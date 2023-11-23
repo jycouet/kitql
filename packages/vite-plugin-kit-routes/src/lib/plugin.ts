@@ -1,5 +1,5 @@
 import { parse } from '@babel/parser'
-import { green, Log, red, yellow } from '@kitql/helpers'
+import { gray, green, Log, red, yellow } from '@kitql/helpers'
 import { readdirSync } from 'fs'
 import { spawn } from 'node:child_process'
 import * as recast from 'recast'
@@ -73,15 +73,18 @@ export type Options<T extends ExtendTypes = ExtendTypes> = {
    *    // ✅ <a href={LINKS.twitter}>Twitter</a>
    *
    *    // reference to link with params! (Like svelteKit routes add [ ] to specify params)
-   *    mailto: 'mailto:[email]',
-   *    // ✅ <a href={LINKS.mailto({ email: 'me@super.dev' })}>Mail</a>
+   *    twitter_post: 'https://twitter.com/[name]/status/[id]',
+   *    // ✅ <a href={LINKS.twitter_post({ name: 'jycouet', id: '1727089217707159569' })}>Twitter Post</a>
    *
    *    // reference to link with params & search params!
-   *    twitter_post: {
-   *      href: 'https://twitter.com/[name]/status/[id]',
-   *      explicit_search_params: { limit: { type: 'number' } }
-   *    }
-   *    // ✅ <a href={LINKS.twitter_post({ name: 'jycouet', id: '1727089217707159569', limit: 12 })}>Twitter Post</a>
+   *    gravatar: {
+   *      href: 'https://www.gravatar.com/avatar/[id]',
+   *      explicit_search_params: {
+   *        s: { type: 'number', default: 75 },
+   *        d: { type: '"retro" | "identicon"', default: '"identicon"' },
+   *      },
+   *    },
+   *    // ✅ <img src={LINKS.gravatar({ id: 'jycouet', s: 20 })} alt="logo" />
    *  }
    * }
    * ```
@@ -112,7 +115,7 @@ export type CustomPath<Params extends string | never = string> = {
    *   limit: {                   // name of the search param
    *     required?: true | false, // default: false
    *     type: 'number',          // default: 'string | number'
-   *     default: '12',           // default: undefined
+   *     default: 12,             // default: undefined
    *   }
    * }
    */
@@ -123,7 +126,7 @@ export type CustomPath<Params extends string | never = string> = {
    * params {
    *   id: {                   // name of the param (if you set the plugin `kitRoutes<KIT_ROUTES>`, it will be typed!)
    *     type: 'number',       // default: 'string | number'
-   *     default: '12',        // default: undefined
+   *     default: 12,          // default: undefined
    *   }
    * }
    */
@@ -148,7 +151,15 @@ export type OverrideParam = {
 
 export type ExtendParam = {
   type?: string
-  default?: string
+  /**
+   * You have to double escape strings.
+   *
+   * @example
+   * { type: 'number', default: 75 }
+   * of
+   * { type: 'string', default: '"jycouet"' }
+   */
+  default?: any
 }
 
 export type ExplicitSearchParam = ExtendParam & {
@@ -243,7 +254,14 @@ const getFileKeys = (
   }[]
 }
 
-type Param = { name: string; optional: boolean; matcher?: string; type?: string; default?: string }
+type Param = {
+  name: string
+  optional: boolean
+  matcher?: string
+  type?: string
+  default?: any
+  fromPath?: boolean
+}
 
 export const fileToMetadata = (
   original: string,
@@ -334,7 +352,12 @@ export const fileToMetadata = (
   const explicit_search_params_to_function: string[] = []
   if (customConf.explicit_search_params) {
     Object.entries(customConf.explicit_search_params).forEach(sp => {
-      paramsFromPath.push({ name: sp[0], optional: !sp[1].required, type: sp[1].type })
+      paramsFromPath.push({
+        name: sp[0],
+        optional: !sp[1].required,
+        type: sp[1].type,
+        default: sp[1].default,
+      })
       explicit_search_params_to_function.push(`${sp[0]}: params.${sp[0]}`)
     })
   }
@@ -374,7 +397,7 @@ export const fileToMetadata = (
       //   }
       // }
 
-      return `params.${c.name} = params.${c.name} ?? ${additionalByStore}'${c.default}'; `
+      return `params.${c.name} = params.${c.name} ?? ${additionalByStore}${c.default}; `
     })
 
   let prop = ''
@@ -405,11 +428,13 @@ export function extractParamsFromPath(path: string): Param[] {
         name: matcher[0],
         optional: isOptional,
         matcher: matcher[1],
+        fromPath: true,
       })
     } else {
       params.push({
         name: match[1],
         optional: isOptional,
+        fromPath: true,
       })
     }
   }
@@ -602,9 +627,10 @@ ${objTypes
     return `  ${c.type}: { ${c.files
       .map(d => {
         return `'${d.keyToUse}': ${
-          d.paramsFromPath.length === 0
+          d.paramsFromPath.filter(e => e.fromPath === true).length === 0
             ? 'never'
             : d.paramsFromPath
+                .filter(e => e.fromPath === true)
                 .map(e => {
                   return `'${e.name}'`
                 })
@@ -711,6 +737,17 @@ ${objTypes
       child.on('close', code => {
         if (result) {
           log.success(`${yellow(generated_file_path(options))} updated`)
+          // TODO later
+          // log.info(
+          //   `⚠️ Warning ${yellow(`href="/about"`)} detected ` +
+          //     `in ${gray('/src/lib/component/menu.svelte')} is not safe. ` +
+          //     `You could use: ${green(`href={PAGES['/about']}`)}`,
+          // )
+          // log.info(
+          //   `⚠️ Warning ${yellow(`action="?/save"`)} detected ` +
+          //     `in ${gray('/routes/card/+page.svelte')} is not safe. ` +
+          //     `You could use: ${green(`href={ACTION['/card']('save')}`)}`,
+          // )
         }
       })
     } else {

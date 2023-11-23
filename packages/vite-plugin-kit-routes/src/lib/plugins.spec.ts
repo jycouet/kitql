@@ -8,6 +8,7 @@ describe('vite-plugin-kit-routes', () => {
     expect(extractParamsFromPath('/site/[id]')).toMatchInlineSnapshot(`
       [
         {
+          "fromPath": true,
           "name": "id",
           "optional": false,
         },
@@ -19,10 +20,12 @@ describe('vite-plugin-kit-routes', () => {
     expect(extractParamsFromPath('/site/[param]/[id]')).toMatchInlineSnapshot(`
       [
         {
+          "fromPath": true,
           "name": "param",
           "optional": false,
         },
         {
+          "fromPath": true,
           "name": "id",
           "optional": false,
         },
@@ -34,14 +37,17 @@ describe('vite-plugin-kit-routes', () => {
     expect(extractParamsFromPath('/[param]site/[yop](group)/[id]')).toMatchInlineSnapshot(`
       [
         {
+          "fromPath": true,
           "name": "param",
           "optional": false,
         },
         {
+          "fromPath": true,
           "name": "yop",
           "optional": false,
         },
         {
+          "fromPath": true,
           "name": "id",
           "optional": false,
         },
@@ -53,6 +59,7 @@ describe('vite-plugin-kit-routes', () => {
     expect(extractParamsFromPath('/lang/[[lang]]')).toMatchInlineSnapshot(`
       [
         {
+          "fromPath": true,
           "name": "lang",
           "optional": true,
         },
@@ -149,8 +156,8 @@ describe('vite-plugin-kit-routes', () => {
           subscriptions_snapshot_id: {
             explicit_search_params: { limit: { type: 'number' } },
             params: {
-              snapshot: { type: 'string', default: 'snapshot' },
-              id: { type: 'string', default: 'id' },
+              snapshot: { type: 'string', default: '"snapshot"' },
+              id: { type: 'string', default: '"id"' },
             },
           },
         },
@@ -176,12 +183,15 @@ describe('run()', () => {
       twitter: 'https://twitter.com/jycouet',
 
       // reference to link with params!
-      mailto: 'mailto:[email]',
+      twitter_post: 'https://twitter.com/[name]/status/[id]',
 
       // reference to link with params & search params!
-      twitter_post: {
-        href: 'https://twitter.com/[name]/status/[id]',
-        explicit_search_params: { limit: { type: 'number' } },
+      gravatar: {
+        href: 'https://www.gravatar.com/avatar/[id]',
+        explicit_search_params: {
+          s: { type: 'number', default: 75 },
+          d: { type: '"retro" | "identicon"', default: '"identicon"' },
+        },
       },
     },
     override_params: {
@@ -216,8 +226,8 @@ describe('run()', () => {
         lang_site_id: {
           explicit_search_params: { limit: { type: 'number' }, demo: { type: 'string' } },
           params: {
-            id: { type: 'string', default: '7' },
-            lang: { type: "'fr' | 'hu' | undefined", default: 'fr' },
+            id: { type: 'number', default: 7 },
+            lang: { type: "'fr' | 'hu' | undefined", default: '"fr"' },
           },
         },
         lang_site_contract_siteId_contractId: {
@@ -274,9 +284,9 @@ describe('run()', () => {
         \\"lang_site\\": (params: {lang?: 'fr' | 'en' | 'hu' | 'at' | string, limit?: number}= {}, sp?: Record<string, string | number>) =>  {
               return \`\${params?.lang ? \`/\${params?.lang}\`: ''}/site\${appendSp({...sp, limit: params.limit })}\`
             },
-        \\"lang_site_id\\": (params: {lang?: 'fr' | 'hu' | undefined, id?: string, limit?: number, demo?: string}= {}) =>  {
-          params.lang = params.lang ?? 'fr'; 
-          params.id = params.id ?? '7'; 
+        \\"lang_site_id\\": (params: {lang?: 'fr' | 'hu' | undefined, id?: number, limit?: number, demo?: string}= {}) =>  {
+          params.lang = params.lang ?? \\"fr\\"; 
+          params.id = params.id ?? 7; 
               return \`\${params?.lang ? \`/\${params?.lang}\`: ''}/site/\${params.id}\${appendSp({ limit: params.limit, demo: params.demo })}\`
             },
         \\"lang_site_contract_siteId_contractId\\": (params: {lang?: 'fr' | 'en' | 'hu' | 'at' | string, siteId: string | number, contractId: string | number, limit?: number}) =>  {
@@ -304,17 +314,20 @@ describe('run()', () => {
               return \`\${params?.lang ? \`/\${params?.lang}\`: ''}/site?/\${action}\`
             },
         \\"lang_site_contract_siteId_contractId\\": (action: 'sendSomething', params: {lang?: 'fr' | 'en' | 'hu' | 'at' | string, siteId: string | number, contractId: string | number, extra?: 'A' | 'B'}) =>  {
+          params.extra = params.extra ?? A; 
               return \`\${params?.lang ? \`/\${params?.lang}\`: ''}/site_contract/\${params.siteId}-\${params.contractId}?/\${action}\${appendSp({ extra: params.extra })}\`
             }
       }
 
       export const LINKS = {
         \\"twitter\\": \`https:/twitter.com/jycouet\`,
-        \\"mailto\\": (params: {email: string | number}) =>  {
-              return \`mailto:\${params.email}\`
+        \\"twitter_post\\": (params: {name: string | number, id: string | number}) =>  {
+              return \`https:/twitter.com/\${params.name}/status/\${params.id}\`
             },
-        \\"twitter_post\\": (params: {name: string | number, id: string | number, limit?: number}) =>  {
-              return \`https:/twitter.com/\${params.name}/status/\${params.id}\${appendSp({ limit: params.limit })}\`
+        \\"gravatar\\": (params: {id: string | number, s?: number, d?: \\"retro\\" | \\"identicon\\"}) =>  {
+          params.s = params.s ?? 75; 
+          params.d = params.d ?? \\"identicon\\"; 
+              return \`https:/www.gravatar.com/avatar/\${params.id}\${appendSp({ s: params.s, d: params.d })}\`
             }
       }
 
@@ -348,11 +361,11 @@ describe('run()', () => {
       * \`\`\`
       */
       export type KIT_ROUTES = { 
-        PAGES: { '_ROOT': never, 'subGroup': never, 'subGroup2': 'first', 'lang_contract': 'lang', 'lang_contract_id': 'lang' | 'id', 'lang_gp_one': 'lang', 'lang_gp_two': 'lang', 'lang_main': 'lang', 'lang_match_id_int': 'lang' | 'id', 'lang_site': 'lang' | 'limit', 'lang_site_id': 'lang' | 'id' | 'limit' | 'demo', 'lang_site_contract_siteId_contractId': 'lang' | 'siteId' | 'contractId' | 'limit' }
+        PAGES: { '_ROOT': never, 'subGroup': never, 'subGroup2': never, 'lang_contract': 'lang', 'lang_contract_id': 'lang' | 'id', 'lang_gp_one': 'lang', 'lang_gp_two': 'lang', 'lang_main': 'lang', 'lang_match_id_int': 'lang' | 'id', 'lang_site': 'lang', 'lang_site_id': 'lang' | 'id', 'lang_site_contract_siteId_contractId': 'lang' | 'siteId' | 'contractId' }
         SERVERS: { 'lang_contract': 'lang', 'lang_site': 'lang', 'api_graphql': never }
-        ACTIONS: { 'lang_contract_id': 'lang' | 'id', 'lang_site': 'lang', 'lang_site_contract_siteId_contractId': 'lang' | 'siteId' | 'contractId' | 'extra' }
-        LINKS: { 'twitter': never, 'mailto': 'email', 'twitter_post': 'name' | 'id' | 'limit' }
-        Params: { first: never, lang: never, id: never, limit: never, demo: never, siteId: never, contractId: never, extra: never, email: never, name: never }
+        ACTIONS: { 'lang_contract_id': 'lang' | 'id', 'lang_site': 'lang', 'lang_site_contract_siteId_contractId': 'lang' | 'siteId' | 'contractId' }
+        LINKS: { 'twitter': never, 'twitter_post': 'name' | 'id', 'gravatar': 'id' }
+        Params: { first: never, lang: never, id: never, limit: never, demo: never, siteId: never, contractId: never, extra: never, name: never, s: never, d: never }
       }
       "
     `)
@@ -431,11 +444,13 @@ describe('run()', () => {
 
       export const LINKS = {
         \\"twitter\\": \`https:/twitter.com/jycouet\`,
-        \\"mailto\\": (params: {email: string | number}) =>  {
-              return \`mailto:\${params.email}\`
+        \\"twitter_post\\": (params: {name: string | number, id: string | number}) =>  {
+              return \`https:/twitter.com/\${params.name}/status/\${params.id}\`
             },
-        \\"twitter_post\\": (params: {name: string | number, id: string | number, limit?: number}) =>  {
-              return \`https:/twitter.com/\${params.name}/status/\${params.id}\${appendSp({ limit: params.limit })}\`
+        \\"gravatar\\": (params: {id: string | number, s?: number, d?: \\"retro\\" | \\"identicon\\"}) =>  {
+          params.s = params.s ?? 75; 
+          params.d = params.d ?? \\"identicon\\"; 
+              return \`https:/www.gravatar.com/avatar/\${params.id}\${appendSp({ s: params.s, d: params.d })}\`
             }
       }
 
@@ -472,8 +487,8 @@ describe('run()', () => {
         PAGES: { '/': never, '/subGroup': never, '/subGroup2': never, '/[[lang]]/contract': 'lang', '/[[lang]]/contract/[id]': 'lang' | 'id', '/[[lang]]/gp/one': 'lang', '/[[lang]]/gp/two': 'lang', '/[[lang]]/main': 'lang', '/[[lang]]/match/[id=int]': 'lang' | 'id', '/[[lang]]/site': 'lang', '/[[lang]]/site/[id]': 'lang' | 'id', '/[[lang]]/site_contract/[siteId]-[contractId]': 'lang' | 'siteId' | 'contractId' }
         SERVERS: { '/[[lang]]/contract': 'lang', '/[[lang]]/site': 'lang', '/api/graphql': never }
         ACTIONS: { '/[[lang]]/contract/[id]': 'lang' | 'id', '/[[lang]]/site': 'lang', '/[[lang]]/site_contract/[siteId]-[contractId]': 'lang' | 'siteId' | 'contractId' }
-        LINKS: { 'twitter': never, 'mailto': 'email', 'twitter_post': 'name' | 'id' | 'limit' }
-        Params: { lang: never, id: never, siteId: never, contractId: never, email: never, name: never, limit: never }
+        LINKS: { 'twitter': never, 'twitter_post': 'name' | 'id', 'gravatar': 'id' }
+        Params: { lang: never, id: never, siteId: never, contractId: never, name: never, s: never, d: never }
       }
       "
     `)

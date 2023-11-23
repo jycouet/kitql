@@ -33,8 +33,8 @@ export default defineConfig({
         lang_site_id: {
           explicit_search_params: { limit: { type: 'number' }, demo: { type: 'string' } },
           params: {
-            id: { type: 'string', default: '7' },
-            lang: { type: "'fr' | 'hu' | undefined", default: 'fr' },
+            id: { type: 'number', default: 7 },
+            lang: { type: "'fr' | 'hu' | undefined", default: '"fr"' },
           },
         },
         lang_site_contract_siteId_contractId: {
@@ -50,7 +50,7 @@ export default defineConfig({
       ACTIONS: {
         lang_site_contract_siteId_contractId: {
           explicit_search_params: {
-            extra: { type: "'A' | 'B'", default: 'A' },
+            extra: { type: "'A' | 'B'", default: '"A"' },
           },
         },
       },
@@ -59,12 +59,18 @@ export default defineConfig({
         twitter: 'https://twitter.com/jycouet',
 
         // reference to link with params!
-        mailto: 'mailto:[email]',
+        twitter_post: 'https://twitter.com/[name]/status/[id]',
 
         // reference to link with params & search params!
-        twitter_post: {
-          href: 'https://twitter.com/[name]/status/[id]',
-          explicit_search_params: { limit: { type: 'number' } },
+        gravatar: {
+          href: 'https://www.gravatar.com/avatar/[id]',
+          params: {
+            id: { type: 'string' },
+          },
+          explicit_search_params: {
+            s: { type: 'number', default: 75 },
+            d: { type: '"retro" | "identicon"', default: '"identicon"' },
+          },
         },
       },
 

@@ -38,10 +38,10 @@ export const PAGES = {
     return `${params?.lang ? `/${params?.lang}` : ''}/site${appendSp({ limit: params.limit })}`
   },
   lang_site_id: (
-    params: { lang?: 'fr' | 'hu' | undefined; id?: string; limit?: number; demo?: string } = {},
+    params: { lang?: 'fr' | 'hu' | undefined; id?: number; limit?: number; demo?: string } = {},
   ) => {
     params.lang = params.lang ?? 'fr'
-    params.id = params.id ?? '7'
+    params.id = params.id ?? 7
     return `${params?.lang ? `/${params?.lang}` : ''}/site/${params.id}${appendSp({
       limit: params.limit,
       demo: params.demo,
@@ -96,6 +96,7 @@ export const ACTIONS = {
       extra?: 'A' | 'B'
     },
   ) => {
+    params.extra = params.extra ?? 'A'
     return `${params?.lang ? `/${params?.lang}` : ''}/site_contract/${params.siteId}-${
       params.contractId
     }?/${action}${appendSp({ extra: params.extra })}`
@@ -104,13 +105,13 @@ export const ACTIONS = {
 
 export const LINKS = {
   twitter: `https:/twitter.com/jycouet`,
-  mailto: (params: { email: string | number }) => {
-    return `mailto:${params.email}`
+  twitter_post: (params: { name: string | number; id: string | number }) => {
+    return `https:/twitter.com/${params.name}/status/${params.id}`
   },
-  twitter_post: (params: { name: string | number; id: string | number; limit?: number }) => {
-    return `https:/twitter.com/${params.name}/status/${params.id}${appendSp({
-      limit: params.limit,
-    })}`
+  gravatar: (params: { id: string; s?: number; d?: 'retro' | 'identicon' }) => {
+    params.s = params.s ?? 75
+    params.d = params.d ?? 'identicon'
+    return `https:/www.gravatar.com/avatar/${params.id}${appendSp({ s: params.s, d: params.d })}`
   },
 }
 
@@ -146,24 +147,24 @@ export type KIT_ROUTES = {
   PAGES: {
     _ROOT: never
     subGroup: never
-    subGroup2: 'first'
+    subGroup2: never
     lang_contract: 'lang'
     lang_contract_id: 'lang' | 'id'
     lang_gp_one: 'lang'
     lang_gp_two: 'lang'
     lang_main: 'lang'
     lang_match_id_int: 'lang' | 'id'
-    lang_site: 'lang' | 'limit'
-    lang_site_id: 'lang' | 'id' | 'limit' | 'demo'
-    lang_site_contract_siteId_contractId: 'lang' | 'siteId' | 'contractId' | 'limit'
+    lang_site: 'lang'
+    lang_site_id: 'lang' | 'id'
+    lang_site_contract_siteId_contractId: 'lang' | 'siteId' | 'contractId'
   }
   SERVERS: { lang_contract: 'lang'; lang_site: 'lang'; api_graphql: never }
   ACTIONS: {
     lang_contract_id: 'lang' | 'id'
     lang_site: 'lang'
-    lang_site_contract_siteId_contractId: 'lang' | 'siteId' | 'contractId' | 'extra'
+    lang_site_contract_siteId_contractId: 'lang' | 'siteId' | 'contractId'
   }
-  LINKS: { twitter: never; mailto: 'email'; twitter_post: 'name' | 'id' | 'limit' }
+  LINKS: { twitter: never; twitter_post: 'name' | 'id'; gravatar: 'id' }
   Params: {
     first: never
     lang: never
@@ -173,7 +174,8 @@ export type KIT_ROUTES = {
     siteId: never
     contractId: never
     extra: never
-    email: never
     name: never
+    s: never
+    d: never
   }
 }
