@@ -1,5 +1,17 @@
 # vite-plugin-striper
 
+## 0.0.5-next.0
+
+### Patch Changes
+
+- [#472](https://github.com/jycouet/kitql/pull/472)
+  [`d52c197`](https://github.com/jycouet/kitql/commit/d52c19735a4702398dab9dc5592ce0b4cf98a939)
+  Thanks [@jycouet](https://github.com/jycouet)! - add log_warning_on_throw_is_not_a_class option
+
+- Updated dependencies
+  [[`d52c197`](https://github.com/jycouet/kitql/commit/d52c19735a4702398dab9dc5592ce0b4cf98a939)]:
+  - vite-plugin-watch-and-run@1.4.4-next.0
+
 ## 0.0.4
 
 ### Patch Changes
