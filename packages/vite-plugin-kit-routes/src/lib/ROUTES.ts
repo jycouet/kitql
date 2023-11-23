@@ -107,7 +107,7 @@ export const LINKS = {
   twitter_post: (params: { name: string | number; id: string | number }) => {
     return `https:/twitter.com/${params.name}/status/${params.id}`
   },
-  gravatar: (params: { id: string | number; s?: number; d?: string | number }) => {
+  gravatar: (params: { id: string; s?: number; d?: 'retro' | 'identicon' }) => {
     return `https:/www.gravatar.com/avatar/${params.id}${appendSp({ s: params.s, d: params.d })}`
   },
 }

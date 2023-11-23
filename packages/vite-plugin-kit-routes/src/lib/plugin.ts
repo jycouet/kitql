@@ -81,7 +81,7 @@ export type Options<T extends ExtendTypes = ExtendTypes> = {
    *      href: 'https://www.gravatar.com/avatar/[id]',
    *      explicit_search_params: {
    *        s: { type: 'number', default: '75' },
-   *        d: { type: '"retro" | "identicon"' default: 'identicon' },
+   *        d: { type: '"retro" | "identicon"', default: 'identicon' },
    *      },
    *    },
    *    // ✅ <img src={LINKS.gravatar({ id: 'jycouet', s: 20 })} alt="logo" />
