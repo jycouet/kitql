@@ -76,7 +76,10 @@
   TwiX Post
 </a>
 |
-<img alt="demo links" src={LINKS.gravatar({ str: 'jycouet', s: 50 })} />
+<img
+  alt="Not working on codesandbox as it's proxied"
+  src={LINKS.gravatar({ str: 'jycouet', s: 50 })}
+/>
 <hr />
 
 <slot />
@@ -84,9 +87,7 @@
 <hr />
 
 <div class="text-right">
-  <a href="https://github.com/jycouet/kitql" target="_blank">
-    👉 ⭐️ https://github.com/jycouet/kitql 🙏
-  </a>
+  <a href="https://github.com/jycouet/kitql" target="_blank"> ⭐️ KitQL 🙏 </a>
 </div>
 
 <style>
