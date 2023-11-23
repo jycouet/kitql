@@ -1,4 +1,5 @@
 import { green, Log, yellow } from '@kitql/helpers'
+import { readFileSync } from 'node:fs'
 import type { Plugin } from 'vite'
 import watch_and_run from 'vite-plugin-watch-and-run'
 
@@ -45,6 +46,10 @@ export type ViteStriperOptions = {
 export function striper(options?: ViteStriperOptions): Plugin[] {
   const log = new Log('striper')
   let listOrThrow: WarningThrow[] = []
+  const logWarningThrow =
+    options?.log_warning_on_throw_is_not_a_class === undefined ||
+    options?.log_warning_on_throw_is_not_a_class === true
+
   return [
     {
       name: 'vite-plugin-striper-decorator',
@@ -55,10 +60,6 @@ export function striper(options?: ViteStriperOptions): Plugin[] {
       },
 
       transform: async (code, filepath, option) => {
-        const logWarningThrow =
-          options?.log_warning_on_throw_is_not_a_class === undefined ||
-          options?.log_warning_on_throw_is_not_a_class === true
-
         if (logWarningThrow) {
           const prjPath = process.cwd()
           // Only file in our project
@@ -113,7 +114,32 @@ export function striper(options?: ViteStriperOptions): Plugin[] {
         name: 'kit-routes-watch',
         logs: [],
         watch: ['**/*.ts'],
-        run: server => {},
+        run: async (server, absolutePath) => {
+          if (logWarningThrow) {
+            const prjPath = process.cwd()
+
+            // Only file in our project
+            if (absolutePath && absolutePath.startsWith(prjPath)) {
+              const code = readFileSync(absolutePath, { encoding: 'utf8' })
+
+              const { list } = await transformWarningThrow(
+                absolutePath + '?' + new Date().toISOString(),
+                code,
+                logWarningThrow,
+              )
+              listOrThrow.push(
+                ...list.map(item => ({ ...item, pathFile: absolutePath.replace(prjPath, '') })),
+              )
+              listOrThrow.forEach(item => {
+                log.error(
+                  `Throw is not a new class in ${yellow(item.pathFile)}:${yellow(
+                    String(item.line),
+                  )}`,
+                )
+              })
+            }
+          }
+        },
       },
     ]),
   ]
