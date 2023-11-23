@@ -1,0 +1,18 @@
+{
+  "$schema": "https://codesandbox.io/schemas/tasks.json",
+  "tasks": {
+    "prepare-package-json": {
+      "name": "Prepare package.json",
+      "command": "node .codesandbox/script.js"
+    },
+    "install-dependencies": {
+      "name": "Install Dependencies",
+      "command": "pnpm i"
+    },
+    "start-app": {
+      "name": "Run Dev Server",
+      "command": "pnpm dev",
+      "runAtStart": true
+    }
+  }
+}
