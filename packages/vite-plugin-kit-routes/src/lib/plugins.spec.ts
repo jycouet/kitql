@@ -149,8 +149,8 @@ describe('vite-plugin-kit-routes', () => {
           subscriptions_snapshot_id: {
             explicit_search_params: { limit: { type: 'number' } },
             params: {
-              snapshot: { type: 'string', default: 'snapshot' },
-              id: { type: 'string', default: 'id' },
+              snapshot: { type: 'string', default: '"snapshot"' },
+              id: { type: 'string', default: '"id"' },
             },
           },
         },
@@ -182,8 +182,8 @@ describe('run()', () => {
       gravatar: {
         href: 'https://www.gravatar.com/avatar/[id]',
         explicit_search_params: {
-          s: { type: 'number', default: '75' },
-          d: { default: 'identicon' },
+          s: { type: 'number', default: 75 },
+          d: { type: '"retro" | "identicon"', default: '"identicon"' },
         },
       },
     },
@@ -219,8 +219,8 @@ describe('run()', () => {
         lang_site_id: {
           explicit_search_params: { limit: { type: 'number' }, demo: { type: 'string' } },
           params: {
-            id: { type: 'string', default: '7' },
-            lang: { type: "'fr' | 'hu' | undefined", default: 'fr' },
+            id: { type: 'number', default: 7 },
+            lang: { type: "'fr' | 'hu' | undefined", default: '"fr"' },
           },
         },
         lang_site_contract_siteId_contractId: {
@@ -277,9 +277,9 @@ describe('run()', () => {
         \\"lang_site\\": (params: {lang?: 'fr' | 'en' | 'hu' | 'at' | string, limit?: number}= {}, sp?: Record<string, string | number>) =>  {
               return \`\${params?.lang ? \`/\${params?.lang}\`: ''}/site\${appendSp({...sp, limit: params.limit })}\`
             },
-        \\"lang_site_id\\": (params: {lang?: 'fr' | 'hu' | undefined, id?: string, limit?: number, demo?: string}= {}) =>  {
-          params.lang = params.lang ?? 'fr'; 
-          params.id = params.id ?? '7'; 
+        \\"lang_site_id\\": (params: {lang?: 'fr' | 'hu' | undefined, id?: number, limit?: number, demo?: string}= {}) =>  {
+          params.lang = params.lang ?? \\"fr\\"; 
+          params.id = params.id ?? 7; 
               return \`\${params?.lang ? \`/\${params?.lang}\`: ''}/site/\${params.id}\${appendSp({ limit: params.limit, demo: params.demo })}\`
             },
         \\"lang_site_contract_siteId_contractId\\": (params: {lang?: 'fr' | 'en' | 'hu' | 'at' | string, siteId: string | number, contractId: string | number, limit?: number}) =>  {
@@ -307,6 +307,7 @@ describe('run()', () => {
               return \`\${params?.lang ? \`/\${params?.lang}\`: ''}/site?/\${action}\`
             },
         \\"lang_site_contract_siteId_contractId\\": (action: 'sendSomething', params: {lang?: 'fr' | 'en' | 'hu' | 'at' | string, siteId: string | number, contractId: string | number, extra?: 'A' | 'B'}) =>  {
+          params.extra = params.extra ?? A; 
               return \`\${params?.lang ? \`/\${params?.lang}\`: ''}/site_contract/\${params.siteId}-\${params.contractId}?/\${action}\${appendSp({ extra: params.extra })}\`
             }
       }
@@ -316,7 +317,9 @@ describe('run()', () => {
         \\"twitter_post\\": (params: {name: string | number, id: string | number}) =>  {
               return \`https:/twitter.com/\${params.name}/status/\${params.id}\`
             },
-        \\"gravatar\\": (params: {id: string | number, s?: number, d?: string | number}) =>  {
+        \\"gravatar\\": (params: {id: string | number, s?: number, d?: \\"retro\\" | \\"identicon\\"}) =>  {
+          params.s = params.s ?? 75; 
+          params.d = params.d ?? \\"identicon\\"; 
               return \`https:/www.gravatar.com/avatar/\${params.id}\${appendSp({ s: params.s, d: params.d })}\`
             }
       }
@@ -437,7 +440,9 @@ describe('run()', () => {
         \\"twitter_post\\": (params: {name: string | number, id: string | number}) =>  {
               return \`https:/twitter.com/\${params.name}/status/\${params.id}\`
             },
-        \\"gravatar\\": (params: {id: string | number, s?: number, d?: string | number}) =>  {
+        \\"gravatar\\": (params: {id: string | number, s?: number, d?: \\"retro\\" | \\"identicon\\"}) =>  {
+          params.s = params.s ?? 75; 
+          params.d = params.d ?? \\"identicon\\"; 
               return \`https:/www.gravatar.com/avatar/\${params.id}\${appendSp({ s: params.s, d: params.d })}\`
             }
       }

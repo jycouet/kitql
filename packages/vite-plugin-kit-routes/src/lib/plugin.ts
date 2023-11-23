@@ -115,7 +115,7 @@ export type CustomPath<Params extends string | never = string> = {
    *   limit: {                   // name of the search param
    *     required?: true | false, // default: false
    *     type: 'number',          // default: 'string | number'
-   *     default: '12',           // default: undefined
+   *     default: 12,             // default: undefined
    *   }
    * }
    */
@@ -126,7 +126,7 @@ export type CustomPath<Params extends string | never = string> = {
    * params {
    *   id: {                   // name of the param (if you set the plugin `kitRoutes<KIT_ROUTES>`, it will be typed!)
    *     type: 'number',       // default: 'string | number'
-   *     default: '12',        // default: undefined
+   *     default: 12,          // default: undefined
    *   }
    * }
    */
@@ -151,7 +151,15 @@ export type OverrideParam = {
 
 export type ExtendParam = {
   type?: string
-  default?: string
+  /**
+   * You have to double escape strings.
+   *
+   * @example
+   * { type: 'number', default: 75 }
+   * of
+   * { type: 'string', default: '"jycouet"' }
+   */
+  default?: any
 }
 
 export type ExplicitSearchParam = ExtendParam & {
@@ -246,7 +254,7 @@ const getFileKeys = (
   }[]
 }
 
-type Param = { name: string; optional: boolean; matcher?: string; type?: string; default?: string }
+type Param = { name: string; optional: boolean; matcher?: string; type?: string; default?: any }
 
 export const fileToMetadata = (
   original: string,
@@ -337,7 +345,12 @@ export const fileToMetadata = (
   const explicit_search_params_to_function: string[] = []
   if (customConf.explicit_search_params) {
     Object.entries(customConf.explicit_search_params).forEach(sp => {
-      paramsFromPath.push({ name: sp[0], optional: !sp[1].required, type: sp[1].type })
+      paramsFromPath.push({
+        name: sp[0],
+        optional: !sp[1].required,
+        type: sp[1].type,
+        default: sp[1].default,
+      })
       explicit_search_params_to_function.push(`${sp[0]}: params.${sp[0]}`)
     })
   }
@@ -377,7 +390,7 @@ export const fileToMetadata = (
       //   }
       // }
 
-      return `params.${c.name} = params.${c.name} ?? ${additionalByStore}'${c.default}'; `
+      return `params.${c.name} = params.${c.name} ?? ${additionalByStore}${c.default}; `
     })
 
   let prop = ''

@@ -38,10 +38,10 @@ export const PAGES = {
     return `${params?.lang ? `/${params?.lang}` : ''}/site${appendSp({ limit: params.limit })}`
   },
   lang_site_id: (
-    params: { lang?: 'fr' | 'hu' | undefined; id?: string; limit?: number; demo?: string } = {},
+    params: { lang?: 'fr' | 'hu' | undefined; id?: number; limit?: number; demo?: string } = {},
   ) => {
     params.lang = params.lang ?? 'fr'
-    params.id = params.id ?? '7'
+    params.id = params.id ?? 7
     return `${params?.lang ? `/${params?.lang}` : ''}/site/${params.id}${appendSp({
       limit: params.limit,
       demo: params.demo,
@@ -96,6 +96,7 @@ export const ACTIONS = {
       extra?: 'A' | 'B'
     },
   ) => {
+    params.extra = params.extra ?? 'A'
     return `${params?.lang ? `/${params?.lang}` : ''}/site_contract/${params.siteId}-${
       params.contractId
     }?/${action}${appendSp({ extra: params.extra })}`
@@ -108,6 +109,8 @@ export const LINKS = {
     return `https:/twitter.com/${params.name}/status/${params.id}`
   },
   gravatar: (params: { id: string; s?: number; d?: 'retro' | 'identicon' }) => {
+    params.s = params.s ?? 75
+    params.d = params.d ?? 'identicon'
     return `https:/www.gravatar.com/avatar/${params.id}${appendSp({ s: params.s, d: params.d })}`
   },
 }
