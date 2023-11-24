@@ -190,6 +190,7 @@ export function formatKey(key: string, options?: Options) {
     .split('')
     .map(c => (toReplace.includes(c) ? '_' : c))
     .join('')
+    .replaceAll('...', '')
     .replaceAll('__', '_')
     .replaceAll('__', '_')
     .replaceAll('__', '_')
@@ -261,6 +262,7 @@ type Param = {
   type?: string
   default?: any
   fromPath?: boolean
+  isArray: boolean
 }
 
 export const fileToMetadata = (
@@ -310,7 +312,11 @@ export const fileToMetadata = (
     if (toRet === `/[[${c.name + sMatcher}]]`) {
       toRet = `\${params?.${c.name} ? \`/\${params?.${c.name}}\`: '/'}`
     } else {
-      // First optionnals
+      // Always 2 cases, with "/" prefix and without
+      const cases = ['/', '']
+      // First -> optionnals
+      cases.forEach(prefix => {})
+
       toRet = toRet.replaceAll(
         `/[[${c.name + sMatcher}]]`,
         `\${params?.${c.name} ? \`/\${params?.${c.name}}\`: ''}`,
@@ -321,7 +327,7 @@ export const fileToMetadata = (
         `\${params?.${c.name} ? \`\${params?.${c.name}}\`: ''}`,
       )
 
-      // Second params
+      // Second -> params
       toRet = toRet.replaceAll(`/[${c.name + sMatcher}]`, `/\${params.${c.name}}`)
       // We need to manage the 2 cases (with "/" prefix and without)
       toRet = toRet.replaceAll(`[${c.name + sMatcher}]`, `\${params.${c.name}}`)
@@ -357,6 +363,7 @@ export const fileToMetadata = (
         optional: !sp[1].required,
         type: sp[1].type,
         default: sp[1].default,
+        isArray: false,
       })
       explicit_search_params_to_function.push(`${sp[0]}: params.${sp[0]}`)
     })
@@ -422,19 +429,22 @@ export function extractParamsFromPath(path: string): Param[] {
   while ((match = paramPattern.exec(path)) !== null) {
     // Check if it's surrounded by double brackets indicating an optional parameter
     const isOptional = match[0].startsWith('[[')
+    const isArray = match[0].includes('...')
     const matcher = match[1].split('=')
     if (matcher.length === 2) {
       params.push({
-        name: matcher[0],
+        name: matcher[0].replace('...', ''),
         optional: isOptional,
         matcher: matcher[1],
         fromPath: true,
+        isArray,
       })
     } else {
       params.push({
-        name: match[1],
+        name: match[1].replace('...', ''),
         optional: isOptional,
         fromPath: true,
+        isArray,
       })
     }
   }
@@ -454,9 +464,11 @@ const formatArgs = (params: Param[], options?: Options) => {
         override_param = override_params[0][1]?.type
       }
 
-      return `${c.name}${c.optional ? '?' : ''}: ${
-        c.type ?? override_param ?? options?.default_type ?? 'string | number'
-      }`
+      return (
+        `${c.name}${c.optional ? '?' : ''}: ` +
+        `(${c.type ?? override_param ?? options?.default_type ?? 'string | number'})` +
+        `${c.isArray ? '[]' : ''}`
+      )
     })
     .join(', ')
 }
