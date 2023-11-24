@@ -1,5 +1,13 @@
 # @kitql/vite-plugin-watch-and-run
 
+## 1.4.4
+
+### Patch Changes
+
+- [#472](https://github.com/jycouet/kitql/pull/472)
+  [`d52c197`](https://github.com/jycouet/kitql/commit/d52c19735a4702398dab9dc5592ce0b4cf98a939)
+  Thanks [@jycouet](https://github.com/jycouet)! - add absolutePath in second param of run as info
+
 ## 1.4.4-next.0
 
 ### Patch Changes

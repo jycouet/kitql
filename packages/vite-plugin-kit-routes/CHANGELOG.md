@@ -1,5 +1,26 @@
 # vite-plugin-kit-routes
 
+## 0.1.1
+
+### Patch Changes
+
+- [#475](https://github.com/jycouet/kitql/pull/475)
+  [`ada65e2`](https://github.com/jycouet/kitql/commit/ada65e2ce1c3c6f1865768b1c6f6f64fe2ea51e7)
+  Thanks [@jycouet](https://github.com/jycouet)! - manage [...rest] routes
+
+- [#477](https://github.com/jycouet/kitql/pull/477)
+  [`0e2e67d`](https://github.com/jycouet/kitql/commit/0e2e67d69a31989c675be0cc8a9bd5a0982dde22)
+  Thanks [@jycouet](https://github.com/jycouet)! - add new format: variables
+
+- [#475](https://github.com/jycouet/kitql/pull/475)
+  [`ada65e2`](https://github.com/jycouet/kitql/commit/ada65e2ce1c3c6f1865768b1c6f6f64fe2ea51e7)
+  Thanks [@jycouet](https://github.com/jycouet)! - Add logs options to display more of less things
+  (by default you have everything)
+
+- Updated dependencies
+  [[`d52c197`](https://github.com/jycouet/kitql/commit/d52c19735a4702398dab9dc5592ce0b4cf98a939)]:
+  - vite-plugin-watch-and-run@1.4.4
+
 ## 0.1.1-next.2
 
 ### Patch Changes
