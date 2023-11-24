@@ -1,3 +1,1 @@
-import { kitRoutes } from './plugin.js'
-
-export { kitRoutes }
+export { kitRoutes } from './plugin.js'

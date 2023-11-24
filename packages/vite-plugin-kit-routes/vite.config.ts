@@ -78,16 +78,6 @@ export default defineConfig({
       override_params: {
         lang: { type: "'fr' | 'en' | 'hu' | 'at' | string" },
       },
-
-      // TODO STORAGE?
-      // storage: {
-      //   params: {
-      //     lang: {
-      //       type: "'fr' | 'en' | 'hu' | 'at'",
-      //       default: 'fr',
-      //     },
-      //   },
-      // },
     }),
   ],
   test: {

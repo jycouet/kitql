@@ -1,5 +1,5 @@
 import { parse } from '@babel/parser'
-import { gray, green, Log, red, yellow } from '@kitql/helpers'
+import { green, Log, red, yellow } from '@kitql/helpers'
 import { readdirSync } from 'fs'
 import { spawn } from 'node:child_process'
 import * as recast from 'recast'
@@ -103,16 +103,6 @@ export type Options<T extends ExtendTypes = ExtendTypes> = {
    * To override the type of a param globally.
    */
   override_params?: Partial<{ [K in keyof T['Params']]: OverrideParam }>
-
-  // TODO STORAGE?
-  // storage?: {
-  //   /**
-  //    * @default 'kitRoutes' but you can change it to avoid conflict with other localStorage?
-  //    */
-  //   key?: string
-
-  //   params?: Partial<{ [K in keyof T['Storage_Params']]: StorageParam }>
-  // }
 }
 
 export type CustomPath<Params extends string | never = string> = {
@@ -151,11 +141,6 @@ export type OverrideParam = {
   type: string
   // default?: string //TODO one day?
 }
-
-// export type StorageParam = {
-//   type: string
-//   default?: string
-// }
 
 export type ExtendParam = {
   type?: string
@@ -402,20 +387,10 @@ export const fileToMetadata = (
     fullSP = `\${appendSp({ ${explicit_search_params_to_function.join(', ')} })}`
   }
 
-  // TODO STORAGE?
-  // const oParams = Object.entries(options?.storage?.params ?? [])
   let paramsDefaults = paramsFromPath
     .filter(c => c.default !== undefined)
     .map(c => {
-      // const oParam = oParams.filter(p => p[0] === c.name)
-      let additionalByStore = ''
-      // if (oParam.length > 0) {
-      //   for (const [key, value] of Object.entries(oParam)) {
-      //     additionalByStore += `/* waiting for ✨ Runes ✨ to have a perfect api! get(kitRoutes)?.${value[0]} ?? */ `
-      //   }
-      // }
-
-      return `params.${c.name} = params.${c.name} ?? ${additionalByStore}${c.default}; `
+      return `params.${c.name} = params.${c.name} ?? ${c.default}; `
     })
 
   let prop = ''
@@ -696,79 +671,6 @@ ${objTypes
   ].join(', ')} }
 }
 `,
-      //       // TODO STORAGE?
-      //       `import { browser } from '$app/environment'
-      // import { writable } from 'svelte/store'
-
-      // const _kitRoutes = <T>(key: string, initValues?: T) => {
-      //   const store = writable<T>(initValues, set => {
-      //     if (browser) {
-      //       if(initValues){
-      //         const v = localStorage.getItem(key)
-      //         if (v) {
-      //           try {
-      //             const json = JSON.parse(v)
-      //             set(json)
-      //           } catch (error) {
-      //             set(initValues)
-      //           }
-      //         } else {
-      //           set(initValues)
-      //         }
-      //       } else {
-      //         set({} as any)
-      //       }
-
-      //       const handleStorage = (event: StorageEvent) => {
-      //         if (event.key === key) set(event.newValue ? JSON.parse(event.newValue) : null)
-      //       }
-      //       window.addEventListener('storage', handleStorage)
-      //       return () => window.removeEventListener('storage', handleStorage)
-      //     } else {
-      //       if(initValues) {
-      //         set(initValues)
-      //       } else {
-      //         set({} as any)
-      //       }
-      //     }
-      //   })
-
-      //   return {
-      //     subscribe: store.subscribe,
-      //     update: (u: T) => {
-      //       if (browser) {
-      //         localStorage.setItem(key, JSON.stringify(u))
-      //       }
-      //       store.update(() => u)
-      //     },
-      //   }
-      // }
-
-      // export type StorageParams = ${
-      //         options?.storage?.params
-      //           ? Object.entries(options?.storage?.params)
-      //               .map(c => {
-      //                 return `{ ${c[0]}: ${c[1]?.type} }`
-      //               })
-      //               .join(', ')
-      //           : '{ }'
-      //       }
-      // /**
-      //  *
-      //  * Example of usage:
-      //  * \`\`\`ts
-      //  *  import { afterNavigate } from '$app/navigation'
-      //  *  import { kitRoutes } from '$lib/ROUTES.js'
-      //  *
-      //  *  afterNavigate(() => {
-      //  *	  kitRoutes.update({ lang: $page.params.lang })
-      //  *  })
-      //  * \`\`\`
-      //  *
-      //  */
-      // export let kitRoutes = _kitRoutes<StorageParams>('${options?.storage?.key ?? 'kitRoutes'}')
-
-      // `,
     ])
 
     // TODO: optimize this later. We want to write the new file only if different after prettier?! (having a tmp file somewhere?)
