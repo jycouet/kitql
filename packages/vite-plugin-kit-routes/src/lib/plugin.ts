@@ -1,12 +1,11 @@
 import { parse } from '@babel/parser'
 import { green, Log, red, yellow } from '@kitql/helpers'
-import { readdirSync } from 'fs'
 import { spawn } from 'node:child_process'
 import * as recast from 'recast'
 import type { Plugin } from 'vite'
 import watch_and_run from 'vite-plugin-watch-and-run'
 
-import { read, write } from './fs.js'
+import { getFilesUnder, read, write } from './fs.js'
 
 const { visit } = recast.types
 
@@ -209,6 +208,7 @@ function routes_path() {
 const log = new Log('Kit Routes')
 
 const getFileKeys = (
+  files: string[],
   type: 'PAGES' | 'SERVERS' | 'ACTIONS' | 'LINKS',
   options?: Options,
   withAppendSp?: boolean,
@@ -231,9 +231,9 @@ const getFileKeys = (
   const lookFor =
     type === 'PAGES' ? '+page.svelte' : type === 'SERVERS' ? '+server.ts' : '+page.server.ts'
 
-  let files = readdirSync(routes_path(), { recursive: true }) as string[]
   // For windows
   files = files.map(c => c.replaceAll('\\', '/'))
+
   const toRet = files
     .filter(file => file.endsWith(lookFor))
     .map(file => `/` + file.replace(`/${lookFor}`, '').replace(lookFor, ''))
@@ -544,11 +544,18 @@ const shouldLog = (kind: LogKind, options?: Options) => {
 }
 
 export const run = (options?: Options) => {
+  let files = getFilesUnder(routes_path())
+
+  // TODO check if harcoded links are around?
+  // for (let i = 0; i < files.length; i++) {
+  // goto, href, action, src, throw redirect?
+  // }
+
   const objTypes = [
-    { type: 'PAGES', files: getFileKeys('PAGES', options, true) },
-    { type: 'SERVERS', files: getFileKeys('SERVERS', options, true) },
-    { type: 'ACTIONS', files: getFileKeys('ACTIONS', options, false) },
-    { type: 'LINKS', files: getFileKeys('LINKS', options, false) },
+    { type: 'PAGES', files: getFileKeys(files, 'PAGES', options, true) },
+    { type: 'SERVERS', files: getFileKeys(files, 'SERVERS', options, true) },
+    { type: 'ACTIONS', files: getFileKeys(files, 'ACTIONS', options, false) },
+    { type: 'LINKS', files: getFileKeys(files, 'LINKS', options, false) },
   ] as const
 
   // Validate options

@@ -1,4 +1,5 @@
-import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs'
+import { readdirSync } from 'fs'
+import { existsSync, mkdirSync, readFileSync, writeFileSync, lstatSync } from 'node:fs'
 import { dirname, join } from 'node:path'
 
 export function read(pathFile: string) {
@@ -23,4 +24,16 @@ export function write(pathFile: string, data: string[]) {
   }
   writeFileSync(join(pathFile), fullDataToWrite)
   return true
+}
+
+export function getFilesUnder(rootFolder: string) {
+  const files: string[] = []
+  let list = readdirSync(rootFolder, { recursive: true }) as string[]
+  for (let i = 0; i < list.length; i++) {
+    const absolutePath = rootFolder + '/' + list[i]
+    if (!lstatSync(absolutePath).isDirectory()) {
+      files.push(list[i])
+    }
+  }
+  return files
 }

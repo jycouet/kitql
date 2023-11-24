@@ -1,9 +1,9 @@
 import { green, Log, yellow } from '@kitql/helpers'
-import { readdirSync, lstatSync } from 'fs'
 import { readFileSync } from 'node:fs'
 import type { Plugin } from 'vite'
 import watch_and_run from 'vite-plugin-watch-and-run'
 
+import { getFilesUnder } from './fs.js'
 import { transformDecorator } from './transformDecorator.js'
 import { transformWarningThrow, type WarningThrow } from './transformWarningThrow.js'
 
@@ -68,20 +68,18 @@ export function striper(sCptions?: ViteStriperOptions): Plugin[] {
 
       config: async () => {
         if (sCptions?.log_on_throw_is_not_a_new_class) {
-          let files = readdirSync(getProjectPath(), { recursive: true }) as string[]
+          let files = getFilesUnder(getProjectPath())
           listOrThrow = []
           for (let i = 0; i < files.length; i++) {
             const absolutePath = getProjectPath() + '/' + files[i]
-            if (!lstatSync(absolutePath).isDirectory()) {
-              const code = readFileSync(absolutePath, { encoding: 'utf8' })
-              const { list } = await transformWarningThrow(
-                absolutePath,
-                getProjectPath(),
-                code,
-                sCptions?.log_on_throw_is_not_a_new_class,
-              )
-              listOrThrow.push(...list)
-            }
+            const code = readFileSync(absolutePath, { encoding: 'utf8' })
+            const { list } = await transformWarningThrow(
+              absolutePath,
+              getProjectPath(),
+              code,
+              sCptions?.log_on_throw_is_not_a_new_class,
+            )
+            listOrThrow.push(...list)
           }
           display()
         }
