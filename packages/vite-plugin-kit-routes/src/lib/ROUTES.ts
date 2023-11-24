@@ -58,7 +58,7 @@ export const PAGES = {
     }${appendSp({ limit: params.limit })}`
   },
   a_rest_z: (params: { rest: (string | number)[] }) => {
-    return `/a/[...rest]/z`
+    return `/a/${params.rest?.join('/')}/z`
   },
 }
 

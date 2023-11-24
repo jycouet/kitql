@@ -300,7 +300,7 @@ describe('run()', () => {
               return \`\${params?.lang ? \`/\${params?.lang}\`: ''}/site_contract/\${params.siteId}-\${params.contractId}\${appendSp({ limit: params.limit })}\`
             },
         \\"a_rest_z\\": (params: {rest: (string | number)[]}) =>  {
-              return \`/a/[...rest]/z\`
+              return \`/a/\${params.rest?.join('/')}/z\`
             }
       }
 
@@ -427,7 +427,7 @@ describe('run()', () => {
               return \`\${params?.lang ? \`/\${params?.lang}\`: ''}/site_contract/\${params.siteId}-\${params.contractId}\`
             },
         \\"/a/[...rest]/z\\": (params: {rest: (string | number)[]}) =>  {
-              return \`/a/[...rest]/z\`
+              return \`/a/\${params.rest?.join('/')}/z\`
             }
       }
 

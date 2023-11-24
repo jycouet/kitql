@@ -66,6 +66,9 @@
   <li>
     <a href={PAGES.lang_gp_two({ lang: $page.params.lang })}>gp Two</a>
   </li>
+  <li>
+    <a href={PAGES.a_rest_z({ rest: ['SWAGER', 'GRAPHIQL'] })}>Rest SWAGER GRAPHIQL</a>
+  </li>
 </ul>
 
 <hr />

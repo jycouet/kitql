@@ -315,22 +315,25 @@ export const fileToMetadata = (
       // Always 2 cases, with "/" prefix and without
       const cases = ['/', '']
       // First -> optionnals
-      cases.forEach(prefix => {})
-
-      toRet = toRet.replaceAll(
-        `/[[${c.name + sMatcher}]]`,
-        `\${params?.${c.name} ? \`/\${params?.${c.name}}\`: ''}`,
-      )
-      // We need to manage the 2 cases (with "/" prefix and without)
-      toRet = toRet.replaceAll(
-        `[[${c.name + sMatcher}]]`,
-        `\${params?.${c.name} ? \`\${params?.${c.name}}\`: ''}`,
-      )
+      cases.forEach(prefix => {
+        toRet = toRet.replaceAll(
+          `${prefix}[[${c.name + sMatcher}]]`,
+          `\${params?.${c.name} ? \`${prefix}\${params?.${c.name}}\`: ''}`,
+        )
+      })
 
       // Second -> params
-      toRet = toRet.replaceAll(`/[${c.name + sMatcher}]`, `/\${params.${c.name}}`)
-      // We need to manage the 2 cases (with "/" prefix and without)
-      toRet = toRet.replaceAll(`[${c.name + sMatcher}]`, `\${params.${c.name}}`)
+      cases.forEach(prefix => {
+        toRet = toRet.replaceAll(`${prefix}[${c.name + sMatcher}]`, `${prefix}\${params.${c.name}}`)
+      })
+
+      // Third -> [...rest]
+      cases.forEach(prefix => {
+        toRet = toRet.replaceAll(
+          `${prefix}[...${c.name + sMatcher}]`,
+          `${prefix}\${params.${c.name}?.join('/')}`,
+        )
+      })
     }
   })
 
