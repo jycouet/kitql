@@ -1,12 +1,11 @@
 import { parse } from '@babel/parser'
-import { gray, green, Log, red, yellow } from '@kitql/helpers'
-import { readdirSync } from 'fs'
+import { green, Log, red, yellow } from '@kitql/helpers'
 import { spawn } from 'node:child_process'
 import * as recast from 'recast'
 import type { Plugin } from 'vite'
 import watch_and_run from 'vite-plugin-watch-and-run'
 
-import { read, write } from './fs.js'
+import { getFilesUnder, read, write } from './fs.js'
 
 const { visit } = recast.types
 
@@ -103,16 +102,6 @@ export type Options<T extends ExtendTypes = ExtendTypes> = {
    * To override the type of a param globally.
    */
   override_params?: Partial<{ [K in keyof T['Params']]: OverrideParam }>
-
-  // TODO STORAGE?
-  // storage?: {
-  //   /**
-  //    * @default 'kitRoutes' but you can change it to avoid conflict with other localStorage?
-  //    */
-  //   key?: string
-
-  //   params?: Partial<{ [K in keyof T['Storage_Params']]: StorageParam }>
-  // }
 }
 
 export type CustomPath<Params extends string | never = string> = {
@@ -151,11 +140,6 @@ export type OverrideParam = {
   type: string
   // default?: string //TODO one day?
 }
-
-// export type StorageParam = {
-//   type: string
-//   default?: string
-// }
 
 export type ExtendParam = {
   type?: string
@@ -224,6 +208,7 @@ function routes_path() {
 const log = new Log('Kit Routes')
 
 const getFileKeys = (
+  files: string[],
   type: 'PAGES' | 'SERVERS' | 'ACTIONS' | 'LINKS',
   options?: Options,
   withAppendSp?: boolean,
@@ -246,9 +231,9 @@ const getFileKeys = (
   const lookFor =
     type === 'PAGES' ? '+page.svelte' : type === 'SERVERS' ? '+server.ts' : '+page.server.ts'
 
-  let files = readdirSync(routes_path(), { recursive: true }) as string[]
   // For windows
   files = files.map(c => c.replaceAll('\\', '/'))
+
   const toRet = files
     .filter(file => file.endsWith(lookFor))
     .map(file => `/` + file.replace(`/${lookFor}`, '').replace(lookFor, ''))
@@ -402,20 +387,10 @@ export const fileToMetadata = (
     fullSP = `\${appendSp({ ${explicit_search_params_to_function.join(', ')} })}`
   }
 
-  // TODO STORAGE?
-  // const oParams = Object.entries(options?.storage?.params ?? [])
   let paramsDefaults = paramsFromPath
     .filter(c => c.default !== undefined)
     .map(c => {
-      // const oParam = oParams.filter(p => p[0] === c.name)
-      let additionalByStore = ''
-      // if (oParam.length > 0) {
-      //   for (const [key, value] of Object.entries(oParam)) {
-      //     additionalByStore += `/* waiting for ✨ Runes ✨ to have a perfect api! get(kitRoutes)?.${value[0]} ?? */ `
-      //   }
-      // }
-
-      return `params.${c.name} = params.${c.name} ?? ${additionalByStore}${c.default}; `
+      return `params.${c.name} = params.${c.name} ?? ${c.default}; `
     })
 
   let prop = ''
@@ -569,11 +544,18 @@ const shouldLog = (kind: LogKind, options?: Options) => {
 }
 
 export const run = (options?: Options) => {
+  let files = getFilesUnder(routes_path())
+
+  // TODO check if harcoded links are around?
+  // for (let i = 0; i < files.length; i++) {
+  // goto, href, action, src, throw redirect?
+  // }
+
   const objTypes = [
-    { type: 'PAGES', files: getFileKeys('PAGES', options, true) },
-    { type: 'SERVERS', files: getFileKeys('SERVERS', options, true) },
-    { type: 'ACTIONS', files: getFileKeys('ACTIONS', options, false) },
-    { type: 'LINKS', files: getFileKeys('LINKS', options, false) },
+    { type: 'PAGES', files: getFileKeys(files, 'PAGES', options, true) },
+    { type: 'SERVERS', files: getFileKeys(files, 'SERVERS', options, true) },
+    { type: 'ACTIONS', files: getFileKeys(files, 'ACTIONS', options, false) },
+    { type: 'LINKS', files: getFileKeys(files, 'LINKS', options, false) },
   ] as const
 
   // Validate options
@@ -696,79 +678,6 @@ ${objTypes
   ].join(', ')} }
 }
 `,
-      //       // TODO STORAGE?
-      //       `import { browser } from '$app/environment'
-      // import { writable } from 'svelte/store'
-
-      // const _kitRoutes = <T>(key: string, initValues?: T) => {
-      //   const store = writable<T>(initValues, set => {
-      //     if (browser) {
-      //       if(initValues){
-      //         const v = localStorage.getItem(key)
-      //         if (v) {
-      //           try {
-      //             const json = JSON.parse(v)
-      //             set(json)
-      //           } catch (error) {
-      //             set(initValues)
-      //           }
-      //         } else {
-      //           set(initValues)
-      //         }
-      //       } else {
-      //         set({} as any)
-      //       }
-
-      //       const handleStorage = (event: StorageEvent) => {
-      //         if (event.key === key) set(event.newValue ? JSON.parse(event.newValue) : null)
-      //       }
-      //       window.addEventListener('storage', handleStorage)
-      //       return () => window.removeEventListener('storage', handleStorage)
-      //     } else {
-      //       if(initValues) {
-      //         set(initValues)
-      //       } else {
-      //         set({} as any)
-      //       }
-      //     }
-      //   })
-
-      //   return {
-      //     subscribe: store.subscribe,
-      //     update: (u: T) => {
-      //       if (browser) {
-      //         localStorage.setItem(key, JSON.stringify(u))
-      //       }
-      //       store.update(() => u)
-      //     },
-      //   }
-      // }
-
-      // export type StorageParams = ${
-      //         options?.storage?.params
-      //           ? Object.entries(options?.storage?.params)
-      //               .map(c => {
-      //                 return `{ ${c[0]}: ${c[1]?.type} }`
-      //               })
-      //               .join(', ')
-      //           : '{ }'
-      //       }
-      // /**
-      //  *
-      //  * Example of usage:
-      //  * \`\`\`ts
-      //  *  import { afterNavigate } from '$app/navigation'
-      //  *  import { kitRoutes } from '$lib/ROUTES.js'
-      //  *
-      //  *  afterNavigate(() => {
-      //  *	  kitRoutes.update({ lang: $page.params.lang })
-      //  *  })
-      //  * \`\`\`
-      //  *
-      //  */
-      // export let kitRoutes = _kitRoutes<StorageParams>('${options?.storage?.key ?? 'kitRoutes'}')
-
-      // `,
     ])
 
     // TODO: optimize this later. We want to write the new file only if different after prettier?! (having a tmp file somewhere?)

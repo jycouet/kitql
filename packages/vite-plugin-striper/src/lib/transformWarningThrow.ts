@@ -5,14 +5,16 @@ import { prettyPrint } from 'recast'
 const { visit } = recast.types
 
 export type WarningThrow = {
+  relativePathFile: string
   pathFile: string
   line: number
 }
 
 export const transformWarningThrow = async (
   pathFile: string,
+  prjPath: string,
   code: string,
-  log_warning_on_throw_is_not_a_class: boolean,
+  log_on_throw_is_not_a_new_class: boolean,
 ) => {
   try {
     const codeParsed = parse(code ?? '', {
@@ -28,11 +30,15 @@ export const transformWarningThrow = async (
         this.traverse(path)
       },
       visitThrowStatement(path) {
-        if (log_warning_on_throw_is_not_a_class) {
+        if (log_on_throw_is_not_a_new_class) {
           const thrownExpr = path.node.argument
           // Check if thrownExpr is not a class
           if (thrownExpr && thrownExpr.type !== 'NewExpression') {
-            list.push({ pathFile, line: path.node.loc?.start.line ?? 0 })
+            list.push({
+              relativePathFile: pathFile.replace(prjPath, ''),
+              pathFile,
+              line: path.node.loc?.start.line ?? 0,
+            })
           }
         }
         this.traverse(path)

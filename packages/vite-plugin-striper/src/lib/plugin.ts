@@ -3,6 +3,7 @@ import { readFileSync } from 'node:fs'
 import type { Plugin } from 'vite'
 import watch_and_run from 'vite-plugin-watch-and-run'
 
+import { getFilesUnder } from './fs.js'
 import { transformDecorator } from './transformDecorator.js'
 import { transformWarningThrow, type WarningThrow } from './transformWarningThrow.js'
 
@@ -15,9 +16,9 @@ export type ViteStriperOptions = {
   /**
    * If true, skip warnings if a throw is not a class.
    *
-   * Default: `true`
+   * @default false
    */
-  log_warning_on_throw_is_not_a_class?: boolean
+  log_on_throw_is_not_a_new_class?: boolean
 
   /**
    * internal usage ;-)
@@ -43,34 +44,48 @@ export type ViteStriperOptions = {
  * ```
  * 
  */
-export function striper(options?: ViteStriperOptions): Plugin[] {
+export function striper(sCptions?: ViteStriperOptions): Plugin[] {
   const log = new Log('striper')
   let listOrThrow: WarningThrow[] = []
-  const logWarningThrow =
-    options?.log_warning_on_throw_is_not_a_class === undefined ||
-    options?.log_warning_on_throw_is_not_a_class === true
+
+  const display = () => {
+    listOrThrow.forEach(item => {
+      log.error(
+        `Throw is not a new class in ${yellow(item.relativePathFile)}:${yellow(String(item.line))}`,
+      )
+    })
+    listOrThrow = []
+  }
+
+  const getProjectPath = () => {
+    return process.cwd() + '/src'
+  }
 
   return [
     {
       name: 'vite-plugin-striper-decorator',
       enforce: 'pre',
 
-      buildStart: () => {
-        listOrThrow = []
+      config: async () => {
+        if (sCptions?.log_on_throw_is_not_a_new_class) {
+          let files = getFilesUnder(getProjectPath())
+          listOrThrow = []
+          for (let i = 0; i < files.length; i++) {
+            const absolutePath = getProjectPath() + '/' + files[i]
+            const code = readFileSync(absolutePath, { encoding: 'utf8' })
+            const { list } = await transformWarningThrow(
+              absolutePath,
+              getProjectPath(),
+              code,
+              sCptions?.log_on_throw_is_not_a_new_class,
+            )
+            listOrThrow.push(...list)
+          }
+          display()
+        }
       },
 
       transform: async (code, filepath, option) => {
-        if (logWarningThrow) {
-          const prjPath = process.cwd()
-          // Only file in our project
-          if (filepath.startsWith(prjPath)) {
-            const { list } = await transformWarningThrow(filepath, code, logWarningThrow)
-            listOrThrow.push(
-              ...list.map(item => ({ ...item, pathFile: filepath.replace(prjPath, '') })),
-            )
-          }
-        }
-
         // Don't transform server-side code
         if (option?.ssr) {
           return
@@ -80,10 +95,10 @@ export function striper(options?: ViteStriperOptions): Plugin[] {
           return
         }
 
-        if (options && (options?.decorators ?? []).length > 0) {
-          const { transformed, ...rest } = await transformDecorator(code, options.decorators ?? [])
+        if (sCptions && (sCptions?.decorators ?? []).length > 0) {
+          const { transformed, ...rest } = await transformDecorator(code, sCptions.decorators ?? [])
 
-          if (options?.debug && transformed) {
+          if (sCptions?.debug && transformed) {
             log.info(
               `` +
                 `${green('-----')} after transform of ${yellow(filepath)}` +
@@ -98,14 +113,6 @@ export function striper(options?: ViteStriperOptions): Plugin[] {
 
         return
       },
-
-      buildEnd: async () => {
-        listOrThrow.forEach(item => {
-          log.error(
-            `Throw is not a new class in ${yellow(item.pathFile)}:${yellow(String(item.line))}`,
-          )
-        })
-      },
     },
 
     // Run the thing when any change in a +page.svelte (add, remove, ...)
@@ -113,30 +120,21 @@ export function striper(options?: ViteStriperOptions): Plugin[] {
       {
         name: 'kit-routes-watch',
         logs: [],
-        watch: ['**/*.ts'],
+        watch: ['**'],
         run: async (server, absolutePath) => {
-          if (logWarningThrow) {
-            const prjPath = process.cwd()
-
+          if (sCptions?.log_on_throw_is_not_a_new_class) {
             // Only file in our project
-            if (absolutePath && absolutePath.startsWith(prjPath)) {
+            if (absolutePath && absolutePath.startsWith(getProjectPath())) {
               const code = readFileSync(absolutePath, { encoding: 'utf8' })
 
               const { list } = await transformWarningThrow(
-                absolutePath + '?' + new Date().toISOString(),
+                absolutePath,
+                getProjectPath(),
                 code,
-                logWarningThrow,
+                sCptions?.log_on_throw_is_not_a_new_class,
               )
-              listOrThrow.push(
-                ...list.map(item => ({ ...item, pathFile: absolutePath.replace(prjPath, '') })),
-              )
-              listOrThrow.forEach(item => {
-                log.error(
-                  `Throw is not a new class in ${yellow(item.pathFile)}:${yellow(
-                    String(item.line),
-                  )}`,
-                )
-              })
+              listOrThrow.push(...list)
+              display()
             }
           }
         },
