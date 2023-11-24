@@ -9,10 +9,10 @@ _Part of [KitQL](https://github.com/jycouet/kitql#kitql), a set of tools helping
 ## 🧑‍💻 Try it
 
 ```bash
-npm create kitql@latest demo-kitql
+npm create kitql@latest
 
-# or with a template option
-npm create kitql@latest demo-kitql --template kit-routes
+# or with a name & template selected to go even faster
+npm create kitql@latest demo-kitql --template kitql-remult
 ```
 
 ##  ⭐️ Join us
