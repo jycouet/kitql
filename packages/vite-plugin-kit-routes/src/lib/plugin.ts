@@ -17,6 +17,8 @@ type ExtendTypes = {
   Params: Record<string, string>
 }
 
+type LogKind = 'update' | 'post_update_run' | 'errors'
+
 export type Options<T extends ExtendTypes = ExtendTypes> = {
   /**
    * run any command after an update of some routes.
@@ -27,6 +29,12 @@ export type Options<T extends ExtendTypes = ExtendTypes> = {
    * ```
    */
   post_update_run?: string
+
+  /**
+   * by default, everything is logged. If you want to remove them, send an empty array.
+   * If you want only `update` logs, give `['update']`
+   */
+  logs?: LogKind[]
 
   /**
    * @default 'src/lib/ROUTES.ts'
@@ -190,6 +198,7 @@ export function formatKey(key: string, options?: Options) {
     .split('')
     .map(c => (toReplace.includes(c) ? '_' : c))
     .join('')
+    .replaceAll('...', '')
     .replaceAll('__', '_')
     .replaceAll('__', '_')
     .replaceAll('__', '_')
@@ -261,6 +270,7 @@ type Param = {
   type?: string
   default?: any
   fromPath?: boolean
+  isArray: boolean
 }
 
 export const fileToMetadata = (
@@ -310,21 +320,28 @@ export const fileToMetadata = (
     if (toRet === `/[[${c.name + sMatcher}]]`) {
       toRet = `\${params?.${c.name} ? \`/\${params?.${c.name}}\`: '/'}`
     } else {
-      // First optionnals
-      toRet = toRet.replaceAll(
-        `/[[${c.name + sMatcher}]]`,
-        `\${params?.${c.name} ? \`/\${params?.${c.name}}\`: ''}`,
-      )
-      // We need to manage the 2 cases (with "/" prefix and without)
-      toRet = toRet.replaceAll(
-        `[[${c.name + sMatcher}]]`,
-        `\${params?.${c.name} ? \`\${params?.${c.name}}\`: ''}`,
-      )
+      // Always 2 cases, with "/" prefix and without
+      const cases = ['/', '']
+      // First -> optionnals
+      cases.forEach(prefix => {
+        toRet = toRet.replaceAll(
+          `${prefix}[[${c.name + sMatcher}]]`,
+          `\${params?.${c.name} ? \`${prefix}\${params?.${c.name}}\`: ''}`,
+        )
+      })
 
-      // Second params
-      toRet = toRet.replaceAll(`/[${c.name + sMatcher}]`, `/\${params.${c.name}}`)
-      // We need to manage the 2 cases (with "/" prefix and without)
-      toRet = toRet.replaceAll(`[${c.name + sMatcher}]`, `\${params.${c.name}}`)
+      // Second -> params
+      cases.forEach(prefix => {
+        toRet = toRet.replaceAll(`${prefix}[${c.name + sMatcher}]`, `${prefix}\${params.${c.name}}`)
+      })
+
+      // Third -> [...rest]
+      cases.forEach(prefix => {
+        toRet = toRet.replaceAll(
+          `${prefix}[...${c.name + sMatcher}]`,
+          `${prefix}\${params.${c.name}?.join('/')}`,
+        )
+      })
     }
   })
 
@@ -357,6 +374,7 @@ export const fileToMetadata = (
         optional: !sp[1].required,
         type: sp[1].type,
         default: sp[1].default,
+        isArray: false,
       })
       explicit_search_params_to_function.push(`${sp[0]}: params.${sp[0]}`)
     })
@@ -422,19 +440,22 @@ export function extractParamsFromPath(path: string): Param[] {
   while ((match = paramPattern.exec(path)) !== null) {
     // Check if it's surrounded by double brackets indicating an optional parameter
     const isOptional = match[0].startsWith('[[')
+    const isArray = match[0].includes('...')
     const matcher = match[1].split('=')
     if (matcher.length === 2) {
       params.push({
-        name: matcher[0],
+        name: matcher[0].replace('...', ''),
         optional: isOptional,
         matcher: matcher[1],
         fromPath: true,
+        isArray,
       })
     } else {
       params.push({
-        name: match[1],
+        name: match[1].replace('...', ''),
         optional: isOptional,
         fromPath: true,
+        isArray,
       })
     }
   }
@@ -454,9 +475,11 @@ const formatArgs = (params: Param[], options?: Options) => {
         override_param = override_params[0][1]?.type
       }
 
-      return `${c.name}${c.optional ? '?' : ''}: ${
-        c.type ?? override_param ?? options?.default_type ?? 'string | number'
-      }`
+      return (
+        `${c.name}${c.optional ? '?' : ''}: ` +
+        `(${c.type ?? override_param ?? options?.default_type ?? 'string | number'})` +
+        `${c.isArray ? '[]' : ''}`
+      )
     })
     .join(', ')
 }
@@ -537,6 +560,14 @@ const getActionsOfServerPages = (pathFile: string) => {
   return { actions, withLoad }
 }
 
+const shouldLog = (kind: LogKind, options?: Options) => {
+  if (options?.logs === undefined) {
+    // let's log everything by default
+    return true
+  }
+  return options.logs.includes(kind)
+}
+
 export const run = (options?: Options) => {
   const objTypes = [
     { type: 'PAGES', files: getFileKeys('PAGES', options, true) },
@@ -554,7 +585,11 @@ export const run = (options?: Options) => {
         const [key, cPath] = e
         const found = o.files.find(c => c.keyToUse === key)
         if (!found) {
-          log.error(`Can't extend "${green(`${o.type}.`)}${red(key)}" as this path doesn't exist!`)
+          if (shouldLog('errors', options)) {
+            log.error(
+              `Can't extend "${green(`${o.type}.`)}${red(key)}" as this path doesn't exist!`,
+            )
+          }
           allOk = false
         } else {
           if (cPath) {
@@ -562,11 +597,13 @@ export const run = (options?: Options) => {
               const [pKey] = p
               const paramsFromPathFound = found.paramsFromPath.find(c => c.name === pKey)
               if (!paramsFromPathFound) {
-                log.error(
-                  `Can't extend "${green(`${o.type}.${key}.params.`)}${red(
-                    pKey,
-                  )}" as this param doesn't exist!`,
-                )
+                if (shouldLog('errors', options)) {
+                  log.error(
+                    `Can't extend "${green(`${o.type}.${key}.params.`)}${red(
+                      pKey,
+                    )}" as this param doesn't exist!`,
+                  )
+                }
                 allOk = false
               }
             })
@@ -724,35 +761,52 @@ ${objTypes
 
     // TODO: optimize this later. We want to write the new file only if different after prettier?! (having a tmp file somewhere?)
     if (options?.post_update_run) {
-      log.info(`${yellow(`post_update_run`)} "${green(options?.post_update_run)}" running...`)
+      if (shouldLog('post_update_run', options)) {
+        log.info(`${yellow(`post_update_run`)} "${green(options?.post_update_run)}" running...`)
+      }
+
+      // do the stuff
       const child = spawn(options.post_update_run, { shell: true })
-      child.stdout.on('data', data => {
-        if (data.toString()) {
-          log.info(data.toString())
-        }
-      })
-      child.stderr.on('data', data => {
-        log.error(data.toString())
-      })
-      child.on('close', code => {
-        if (result) {
-          log.success(`${yellow(generated_file_path(options))} updated`)
-          // TODO later
-          // log.info(
-          //   `⚠️ Warning ${yellow(`href="/about"`)} detected ` +
-          //     `in ${gray('/src/lib/component/menu.svelte')} is not safe. ` +
-          //     `You could use: ${green(`href={PAGES['/about']}`)}`,
-          // )
-          // log.info(
-          //   `⚠️ Warning ${yellow(`action="?/save"`)} detected ` +
-          //     `in ${gray('/routes/card/+page.svelte')} is not safe. ` +
-          //     `You could use: ${green(`href={ACTION['/card']('save')}`)}`,
-          // )
-        }
-      })
+
+      // report things
+      if (shouldLog('post_update_run', options)) {
+        child.stdout.on('data', data => {
+          if (data.toString()) {
+            log.info(data.toString())
+          }
+        })
+      }
+
+      // report errors
+      if (shouldLog('errors', options)) {
+        child.stderr.on('data', data => {
+          log.error(data.toString())
+        })
+      }
+
+      if (shouldLog('update', options)) {
+        child.on('close', code => {
+          if (result) {
+            log.success(`${yellow(generated_file_path(options))} updated`)
+            // TODO later
+            // log.info(
+            //   `⚠️ Warning ${yellow(`href="/about"`)} detected ` +
+            //     `in ${gray('/src/lib/component/menu.svelte')} is not safe. ` +
+            //     `You could use: ${green(`href={PAGES['/about']}`)}`,
+            // )
+            // log.info(
+            //   `⚠️ Warning ${yellow(`action="?/save"`)} detected ` +
+            //     `in ${gray('/routes/card/+page.svelte')} is not safe. ` +
+            //     `You could use: ${green(`href={ACTION['/card']('save')}`)}`,
+            // )
+          }
+        })
+      }
     } else {
       if (result) {
-        log.success(`${yellow(generated_file_path(options))} updated`)
+        if (shouldLog('update', options)) {
+          log.success(`${yellow(generated_file_path(options))} updated`)
+        }
       }
     }
     return true

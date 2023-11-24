@@ -57,6 +57,9 @@ export const PAGES = {
       params.contractId
     }${appendSp({ limit: params.limit })}`
   },
+  a_rest_z: (params: { rest: (string | number)[] }) => {
+    return `/a/${params.rest?.join('/')}/z`
+  },
 }
 
 export const SERVERS = {
@@ -157,6 +160,7 @@ export type KIT_ROUTES = {
     lang_site: 'lang'
     lang_site_id: 'lang' | 'id'
     lang_site_contract_siteId_contractId: 'lang' | 'siteId' | 'contractId'
+    a_rest_z: 'rest'
   }
   SERVERS: { lang_contract: 'lang'; lang_site: 'lang'; api_graphql: never }
   ACTIONS: {
@@ -173,6 +177,7 @@ export type KIT_ROUTES = {
     demo: never
     siteId: never
     contractId: never
+    rest: never
     extra: never
     name: never
     str: never
