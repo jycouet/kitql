@@ -1,5 +1,13 @@
 # vite-plugin-kit-routes
 
+## 0.1.1-next.2
+
+### Patch Changes
+
+- [#477](https://github.com/jycouet/kitql/pull/477)
+  [`0e2e67d`](https://github.com/jycouet/kitql/commit/0e2e67d69a31989c675be0cc8a9bd5a0982dde22)
+  Thanks [@jycouet](https://github.com/jycouet)! - add new format: variables
+
 ## 0.1.1-next.1
 
 ### Patch Changes
