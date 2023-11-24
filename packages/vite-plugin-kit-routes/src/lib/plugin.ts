@@ -17,6 +17,8 @@ type ExtendTypes = {
   Params: Record<string, string>
 }
 
+type LogKind = 'update' | 'post_update_run' | 'errors'
+
 export type Options<T extends ExtendTypes = ExtendTypes> = {
   /**
    * run any command after an update of some routes.
@@ -27,6 +29,12 @@ export type Options<T extends ExtendTypes = ExtendTypes> = {
    * ```
    */
   post_update_run?: string
+
+  /**
+   * by default, everything is logged. If you want to remove them, send an empty array.
+   * If you want only `update` logs, give `['update']`
+   */
+  logs?: LogKind[]
 
   /**
    * @default 'src/lib/ROUTES.ts'
@@ -552,6 +560,14 @@ const getActionsOfServerPages = (pathFile: string) => {
   return { actions, withLoad }
 }
 
+const shouldLog = (kind: LogKind, options?: Options) => {
+  if (options?.logs === undefined) {
+    // let's log everything by default
+    return true
+  }
+  return options.logs.includes(kind)
+}
+
 export const run = (options?: Options) => {
   const objTypes = [
     { type: 'PAGES', files: getFileKeys('PAGES', options, true) },
@@ -569,7 +585,11 @@ export const run = (options?: Options) => {
         const [key, cPath] = e
         const found = o.files.find(c => c.keyToUse === key)
         if (!found) {
-          log.error(`Can't extend "${green(`${o.type}.`)}${red(key)}" as this path doesn't exist!`)
+          if (shouldLog('errors', options)) {
+            log.error(
+              `Can't extend "${green(`${o.type}.`)}${red(key)}" as this path doesn't exist!`,
+            )
+          }
           allOk = false
         } else {
           if (cPath) {
@@ -577,11 +597,13 @@ export const run = (options?: Options) => {
               const [pKey] = p
               const paramsFromPathFound = found.paramsFromPath.find(c => c.name === pKey)
               if (!paramsFromPathFound) {
-                log.error(
-                  `Can't extend "${green(`${o.type}.${key}.params.`)}${red(
-                    pKey,
-                  )}" as this param doesn't exist!`,
-                )
+                if (shouldLog('errors', options)) {
+                  log.error(
+                    `Can't extend "${green(`${o.type}.${key}.params.`)}${red(
+                      pKey,
+                    )}" as this param doesn't exist!`,
+                  )
+                }
                 allOk = false
               }
             })
@@ -739,35 +761,52 @@ ${objTypes
 
     // TODO: optimize this later. We want to write the new file only if different after prettier?! (having a tmp file somewhere?)
     if (options?.post_update_run) {
-      log.info(`${yellow(`post_update_run`)} "${green(options?.post_update_run)}" running...`)
+      if (shouldLog('post_update_run', options)) {
+        log.info(`${yellow(`post_update_run`)} "${green(options?.post_update_run)}" running...`)
+      }
+
+      // do the stuff
       const child = spawn(options.post_update_run, { shell: true })
-      child.stdout.on('data', data => {
-        if (data.toString()) {
-          log.info(data.toString())
-        }
-      })
-      child.stderr.on('data', data => {
-        log.error(data.toString())
-      })
-      child.on('close', code => {
-        if (result) {
-          log.success(`${yellow(generated_file_path(options))} updated`)
-          // TODO later
-          // log.info(
-          //   `⚠️ Warning ${yellow(`href="/about"`)} detected ` +
-          //     `in ${gray('/src/lib/component/menu.svelte')} is not safe. ` +
-          //     `You could use: ${green(`href={PAGES['/about']}`)}`,
-          // )
-          // log.info(
-          //   `⚠️ Warning ${yellow(`action="?/save"`)} detected ` +
-          //     `in ${gray('/routes/card/+page.svelte')} is not safe. ` +
-          //     `You could use: ${green(`href={ACTION['/card']('save')}`)}`,
-          // )
-        }
-      })
+
+      // report things
+      if (shouldLog('post_update_run', options)) {
+        child.stdout.on('data', data => {
+          if (data.toString()) {
+            log.info(data.toString())
+          }
+        })
+      }
+
+      // report errors
+      if (shouldLog('errors', options)) {
+        child.stderr.on('data', data => {
+          log.error(data.toString())
+        })
+      }
+
+      if (shouldLog('update', options)) {
+        child.on('close', code => {
+          if (result) {
+            log.success(`${yellow(generated_file_path(options))} updated`)
+            // TODO later
+            // log.info(
+            //   `⚠️ Warning ${yellow(`href="/about"`)} detected ` +
+            //     `in ${gray('/src/lib/component/menu.svelte')} is not safe. ` +
+            //     `You could use: ${green(`href={PAGES['/about']}`)}`,
+            // )
+            // log.info(
+            //   `⚠️ Warning ${yellow(`action="?/save"`)} detected ` +
+            //     `in ${gray('/routes/card/+page.svelte')} is not safe. ` +
+            //     `You could use: ${green(`href={ACTION['/card']('save')}`)}`,
+            // )
+          }
+        })
+      }
     } else {
       if (result) {
-        log.success(`${yellow(generated_file_path(options))} updated`)
+        if (shouldLog('update', options)) {
+          log.success(`${yellow(generated_file_path(options))} updated`)
+        }
       }
     }
     return true
