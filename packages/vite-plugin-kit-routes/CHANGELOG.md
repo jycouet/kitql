@@ -1,5 +1,18 @@
 # vite-plugin-kit-routes
 
+## 0.1.1-next.1
+
+### Patch Changes
+
+- [#475](https://github.com/jycouet/kitql/pull/475)
+  [`ada65e2`](https://github.com/jycouet/kitql/commit/ada65e2ce1c3c6f1865768b1c6f6f64fe2ea51e7)
+  Thanks [@jycouet](https://github.com/jycouet)! - manage [...rest] routes
+
+- [#475](https://github.com/jycouet/kitql/pull/475)
+  [`ada65e2`](https://github.com/jycouet/kitql/commit/ada65e2ce1c3c6f1865768b1c6f6f64fe2ea51e7)
+  Thanks [@jycouet](https://github.com/jycouet)! - Add logs options to display more of less things
+  (by default you have everything)
+
 ## 0.1.1-next.0
 
 ### Patch Changes
