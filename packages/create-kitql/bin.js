@@ -7,26 +7,25 @@ import path from 'node:path'
 import { exit } from 'node:process'
 import { fileURLToPath } from 'node:url'
 
-// the first argument is the name of the project
-let projectDir = process.argv[2]
-let projectName = projectDir
-
 const { version } = JSON.parse(fs.readFileSync(new URL('package.json', import.meta.url), 'utf-8'))
 // eslint-disable-next-line no-console
 console.log(`${gray(`create-kitql version ${version}`)}\n`)
 
 // prepare options
 const templatesDir = sourcePath(`./templates`)
-const options = fs.readdirSync(templatesDir).map(templateDir => {
-  // in .meta.json you can find:
-  /** @type {{label?: string, hint?: string, apiUrl?: string}} */
-  let data = {}
-  const metaPath = path.join(templatesDir, templateDir, '.meta.json')
-  if (fs.existsSync(metaPath)) {
-    data = JSON.parse(readFileSync(metaPath, 'utf-8'))
-  }
-  return { ...data, value: templateDir }
-})
+const options = fs
+  .readdirSync(templatesDir)
+  .map(templateDir => {
+    // in .meta.json you can find:
+    /** @type {{label?: string, hint?: string, order?: number}} */
+    let data = {}
+    const metaPath = path.join(templatesDir, templateDir, '.meta.json')
+    if (fs.existsSync(metaPath)) {
+      data = JSON.parse(readFileSync(metaPath, 'utf-8'))
+    }
+    return { ...data, value: templateDir }
+  })
+  .sort((a, b) => ((a.order ?? 0) > (b.order ?? 0) ? 1 : -1))
 
 program.argument('[project_name]', 'optional project name')
 program.addOption(
@@ -46,6 +45,9 @@ program.addOption(
 
 program.parse(process.argv)
 const options_cli = program.opts()
+
+let projectDir = program.args[0]
+let projectName = projectDir
 
 p.intro(`${green(`⚡️`)} Welcome to KitQL world!`)
 
@@ -101,7 +103,6 @@ const template = options_cli.template
   ? options_cli.template
   : await p.select({
       message: 'Which template do you want to use?',
-      initialValue: 'kitql-remult',
       options,
     })
 if (p.isCancel(template)) {
