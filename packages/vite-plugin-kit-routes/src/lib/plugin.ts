@@ -50,7 +50,7 @@ export type Options<T extends ExtendTypes = ExtendTypes> = {
    * PAGES.site_id_two_hello
    * ```
    */
-  format?: '/' | '_'
+  format?: '/' | '_' | 'variables'
 
   /**
    * default is: `string | number`
@@ -621,13 +621,25 @@ export const run = (options?: Options) => {
  */
 `,
       // consts
-      objTypes
-        .map(c => {
-          return `export const ${c.type} = {
+      options?.format === 'variables'
+        ? objTypes
+            .map(c => {
+              return c.files
+                .map(key => {
+                  const [first, ...rest] = key.prop.split(':')
+
+                  return `export const ${c.type}_${first.slice(1, -1)} = ${rest.join(':')}`
+                })
+                .join('\n')
+            })
+            .join(`\n\n`)
+        : objTypes
+            .map(c => {
+              return `export const ${c.type} = {
   ${c.files.map(key => key.prop).join(',\n  ')}
 }`
-        })
-        .join(`\n\n`),
+            })
+            .join(`\n\n`),
       `
 const appendSp = (sp?: Record<string, string | number | undefined>) => {
   if (sp === undefined) return ''

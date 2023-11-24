@@ -152,6 +152,8 @@ your `+page.svelte` | `+server.ts` | `+page.server.ts`.
 
 <Callout>You can make use of `ctrl + space` to discover config options. 🎉</Callout>
 
+---
+
 - What kind of person are you: `PAGES['/info/terms']` or `PAGES.info_terms` ?
 
 _You can choose anyway_ 😜
@@ -210,6 +212,27 @@ import { kitRoutes } from 'vite-plugin-kit-routes'
 kitRoutes<KIT_ROUTES>({
   // Conf
 })
+```
+
+- You are concerned about `code splitting` and/or `privacy` ? Let's generate variables instead of
+  objects!
+
+```ts filename="vite.config.ts"
+kitRoutes({
+  format: 'variables'
+})
+```
+
+```ts filename="src/lib/ROUTES.ts" {7-9}
+// With format: '_', it was like 👇
+// export const PAGES: {
+//  main: '/main',
+//  about '/about'
+// }
+
+// With format: 'variables' it's like 👇
+export const PAGES_main = '/main'
+export const PAGES_about '/about'
 ```
 
 - You want to use some `LINKS` in different places in your app? Let's show you what we can do:

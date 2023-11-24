@@ -38,10 +38,10 @@ export const PAGES = {
     return `${params?.lang ? `/${params?.lang}` : ''}/site${appendSp({ limit: params.limit })}`
   },
   lang_site_id: (
-    params: { lang?: 'fr' | 'hu' | undefined; id?: number; limit?: number; demo?: string } = {},
+    params: { lang?: 'fr' | 'hu' | undefined; id?: string; limit?: number; demo?: string } = {},
   ) => {
     params.lang = params.lang ?? 'fr'
-    params.id = params.id ?? 7
+    params.id = params.id ?? 'Vienna'
     return `${params?.lang ? `/${params?.lang}` : ''}/site/${params.id}${appendSp({
       limit: params.limit,
       demo: params.demo,

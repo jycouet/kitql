@@ -34,7 +34,7 @@ export default defineConfig({
         lang_site_id: {
           explicit_search_params: { limit: { type: 'number' }, demo: { type: 'string' } },
           params: {
-            id: { type: 'number', default: 7 },
+            id: { type: 'string', default: '"Vienna"' },
             lang: { type: "'fr' | 'hu' | undefined", default: '"fr"' },
           },
         },
