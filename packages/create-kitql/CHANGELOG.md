@@ -1,5 +1,13 @@
 # create-kitql
 
+## 0.0.3
+
+### Patch Changes
+
+- [#481](https://github.com/jycouet/kitql/pull/481)
+  [`3943581`](https://github.com/jycouet/kitql/commit/3943581044f3f659bd894c8ea07a15e52ca918f5)
+  Thanks [@jycouet](https://github.com/jycouet)! - add a second template: KitQL Remult
+
 ## 0.0.2
 
 ### Patch Changes
