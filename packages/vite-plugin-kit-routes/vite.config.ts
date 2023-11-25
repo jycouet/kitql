@@ -11,6 +11,7 @@ export default defineConfig({
     kitRoutes<KIT_ROUTES>({
       format: '_',
       logs: ['update', 'errors'],
+      // path_base: true,
       // default_type: 'string',
       // extra_search_params: 'with',
       // generated_file_path: 'src/lib/another_path_for_the_file.ts',
