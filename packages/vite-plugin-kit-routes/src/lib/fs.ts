@@ -26,14 +26,21 @@ export function write(pathFile: string, data: string[]) {
   return true
 }
 
-export function getFilesUnder(rootFolder: string) {
+export function getFilesUnder(rootFolder: string): string[] {
   const files: string[] = []
-  let list = readdirSync(rootFolder, { recursive: true }) as string[]
-  for (let i = 0; i < list.length; i++) {
-    const absolutePath = rootFolder + '/' + list[i]
-    if (!lstatSync(absolutePath).isDirectory()) {
-      files.push(list[i])
+
+  function readDirectory(directory: string) {
+    const list = readdirSync(directory)
+    for (const item of list) {
+      const absolutePath = join(directory, item)
+      if (lstatSync(absolutePath).isDirectory()) {
+        readDirectory(absolutePath)
+      } else {
+        files.push(absolutePath)
+      }
     }
   }
+
+  readDirectory(rootFolder)
   return files
 }
