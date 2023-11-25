@@ -1,5 +1,14 @@
 # vite-plugin-kit-routes
 
+## 0.1.3
+
+### Patch Changes
+
+- [#492](https://github.com/jycouet/kitql/pull/492)
+  [`63c74f4`](https://github.com/jycouet/kitql/commit/63c74f443706cdb04e9509b5e18de412a9e52e3c)
+  Thanks [@jycouet](https://github.com/jycouet)! - fix: actions with or without satisfies are now
+  detected well
+
 ## 0.1.2
 
 ### Patch Changes
