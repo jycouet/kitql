@@ -402,14 +402,17 @@ export const fileToMetadata = (
     (customConf.extra_search_params === 'default' && useWithAppendSp) ||
     customConf.extra_search_params === 'with'
 
+  const appendSpPrefix = actionsFormat ? `, '&'` : ''
   if (wExtraSP && !customConf.explicit_search_params) {
     params.push(`sp?: Record<string, string | number>`)
-    fullSP = `\${appendSp(sp)}`
+    fullSP = `\${appendSp(sp${appendSpPrefix})}`
   } else if (wExtraSP && customConf.explicit_search_params) {
     params.push(`sp?: Record<string, string | number>`)
-    fullSP = `\${appendSp({...sp, ${explicit_search_params_to_function.join(', ')} })}`
+    fullSP = `\${appendSp({...sp, ${explicit_search_params_to_function.join(
+      ', ',
+    )} }${appendSpPrefix})}`
   } else if (!wExtraSP && customConf.explicit_search_params) {
-    fullSP = `\${appendSp({ ${explicit_search_params_to_function.join(', ')} })}`
+    fullSP = `\${appendSp({ ${explicit_search_params_to_function.join(', ')} }${appendSpPrefix})}`
   }
 
   let paramsDefaults = paramsFromPath

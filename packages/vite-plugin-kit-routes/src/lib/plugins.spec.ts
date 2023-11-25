@@ -336,7 +336,7 @@ describe('run()', () => {
             },
         \\"lang_site_contract_siteId_contractId\\": (action: 'sendSomething', params: {lang?: ('fr' | 'en' | 'hu' | 'at' | string), siteId: (string | number), contractId: (string | number), extra?: ('A' | 'B')}) =>  {
           params.extra = params.extra ?? \\"A\\"; 
-              return \`\${params?.lang ? \`/\${params?.lang}\`: ''}/site_contract/\${params.siteId}-\${params.contractId}?/\${action}\${appendSp({ extra: params.extra })}\`
+              return \`\${params?.lang ? \`/\${params?.lang}\`: ''}/site_contract/\${params.siteId}-\${params.contractId}?/\${action}\${appendSp({ extra: params.extra }, '&')}\`
             }
       }
 
@@ -644,7 +644,7 @@ describe('run()', () => {
             }
       export const ACTIONS_lang_site_contract_siteId_contractId =  (action: 'sendSomething', params: {lang?: ('fr' | 'en' | 'hu' | 'at' | string), siteId: (string | number), contractId: (string | number), extra?: ('A' | 'B')}) =>  {
           params.extra = params.extra ?? \\"A\\"; 
-              return \`\${params?.lang ? \`/\${params?.lang}\`: ''}/site_contract/\${params.siteId}-\${params.contractId}?/\${action}\${appendSp({ extra: params.extra })}\`
+              return \`\${params?.lang ? \`/\${params?.lang}\`: ''}/site_contract/\${params.siteId}-\${params.contractId}?/\${action}\${appendSp({ extra: params.extra }, '&')}\`
             }
 
       export const LINKS_twitter =  \`https:/twitter.com/jycouet\`
@@ -832,7 +832,7 @@ describe('run()', () => {
             },
         \\"lang_site_contract_siteId_contractId\\": (action: 'sendSomething', params: {lang?: ('fr' | 'en' | 'hu' | 'at' | string), siteId: (string | number), contractId: (string | number), extra?: ('A' | 'B')}) =>  {
           params.extra = params.extra ?? \\"A\\"; 
-              return \`\${base}\${params?.lang ? \`/\${params?.lang}\`: ''}/site_contract/\${params.siteId}-\${params.contractId}?/\${action}\${appendSp({ extra: params.extra })}\`
+              return \`\${base}\${params?.lang ? \`/\${params?.lang}\`: ''}/site_contract/\${params.siteId}-\${params.contractId}?/\${action}\${appendSp({ extra: params.extra }, '&')}\`
             }
       }
 

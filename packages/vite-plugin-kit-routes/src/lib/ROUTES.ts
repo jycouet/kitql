@@ -114,7 +114,7 @@ export const ACTIONS = {
     params.extra = params.extra ?? 'A'
     return `${params?.lang ? `/${params?.lang}` : ''}/site_contract/${params.siteId}-${
       params.contractId
-    }?/${action}${appendSp({ extra: params.extra })}`
+    }?/${action}${appendSp({ extra: params.extra }, '&')}`
   },
 }
 
