@@ -84,8 +84,11 @@ export const ACTIONS = {
   lang_contract_id: (params: {
     lang?: 'fr' | 'en' | 'hu' | 'at' | string
     id: string | number
+    limit?: number
   }) => {
-    return `${params?.lang ? `/${params?.lang}` : ''}/contract/${params.id}`
+    return `${params?.lang ? `/${params?.lang}` : ''}/contract/${params.id}${appendSp({
+      limit: params.limit,
+    })}`
   },
   lang_site: (
     action: 'action1' | 'action2',
@@ -111,7 +114,7 @@ export const ACTIONS = {
     params.extra = params.extra ?? 'A'
     return `${params?.lang ? `/${params?.lang}` : ''}/site_contract/${params.siteId}-${
       params.contractId
-    }?/${action}${appendSp({ extra: params.extra })}`
+    }?/${action}${appendSp({ extra: params.extra }, '&')}`
   },
 }
 
@@ -127,7 +130,7 @@ export const LINKS = {
   },
 }
 
-const appendSp = (sp?: Record<string, string | number | undefined>) => {
+const appendSp = (sp?: Record<string, string | number | undefined>, prefix: '?' | '&' = '?') => {
   if (sp === undefined) return ''
   const mapping = Object.entries(sp)
     .filter(c => c[1] !== undefined)
@@ -135,7 +138,7 @@ const appendSp = (sp?: Record<string, string | number | undefined>) => {
 
   const formated = new URLSearchParams(mapping).toString()
   if (formated) {
-    return `?${formated}`
+    return `${prefix}${formated}`
   }
   return ''
 }

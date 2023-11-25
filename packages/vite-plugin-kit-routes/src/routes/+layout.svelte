@@ -40,7 +40,7 @@
     <a
       href="{$page.params.lang
         ? `/${$page.params.lang}`
-        : ''}/site_contract/{siteId}-{contractId}?limit={3}">Go to site</a
+        : ''}/site_contract/{siteId}-{contractId}?limit={3}">Go to site & Contrat</a
     >
     |
     <!-- ✅ after, typechecked route, no more errors -->
@@ -50,7 +50,7 @@
         siteId,
         contractId,
         limit: 3,
-      })}>Go to site</a
+      })}>Go to site & Contrat</a
     >
   </li>
   <li>

@@ -248,6 +248,11 @@ describe('run()', () => {
         // yop: {},
       },
       ACTIONS: {
+        lang_contract_id: {
+          explicit_search_params: {
+            limit: { type: 'number' },
+          },
+        },
         lang_site_contract_siteId_contractId: {
           explicit_search_params: {
             extra: { type: "'A' | 'B'", default: '"A"' },
@@ -320,8 +325,8 @@ describe('run()', () => {
       }
 
       export const ACTIONS = {
-        \\"lang_contract_id\\": (params: {lang?: ('fr' | 'en' | 'hu' | 'at' | string), id: (string | number)}) =>  {
-              return \`\${params?.lang ? \`/\${params?.lang}\`: ''}/contract/\${params.id}\`
+        \\"lang_contract_id\\": (params: {lang?: ('fr' | 'en' | 'hu' | 'at' | string), id: (string | number), limit?: (number)}) =>  {
+              return \`\${params?.lang ? \`/\${params?.lang}\`: ''}/contract/\${params.id}\${appendSp({ limit: params.limit })}\`
             },
         \\"lang_site\\": (action: 'action1' | 'action2', params: {lang?: ('fr' | 'en' | 'hu' | 'at' | string)}= {}) =>  {
               return \`\${params?.lang ? \`/\${params?.lang}\`: ''}/site?/\${action}\`
@@ -331,7 +336,7 @@ describe('run()', () => {
             },
         \\"lang_site_contract_siteId_contractId\\": (action: 'sendSomething', params: {lang?: ('fr' | 'en' | 'hu' | 'at' | string), siteId: (string | number), contractId: (string | number), extra?: ('A' | 'B')}) =>  {
           params.extra = params.extra ?? \\"A\\"; 
-              return \`\${params?.lang ? \`/\${params?.lang}\`: ''}/site_contract/\${params.siteId}-\${params.contractId}?/\${action}\${appendSp({ extra: params.extra })}\`
+              return \`\${params?.lang ? \`/\${params?.lang}\`: ''}/site_contract/\${params.siteId}-\${params.contractId}?/\${action}\${appendSp({ extra: params.extra }, '&')}\`
             }
       }
 
@@ -347,7 +352,7 @@ describe('run()', () => {
             }
       }
 
-      const appendSp = (sp?: Record<string, string | number | undefined>) => {
+      const appendSp = (sp?: Record<string, string | number | undefined>, prefix: '?' | '&' = '?') => {
         if (sp === undefined) return ''
         const mapping = Object.entries(sp)
           .filter(c => c[1] !== undefined)
@@ -355,7 +360,7 @@ describe('run()', () => {
 
         const formated = new URLSearchParams(mapping).toString()
         if (formated) {
-          return \`?\${formated}\`
+          return \`\${prefix}\${formated}\`
         }
         return ''
       }
@@ -479,7 +484,7 @@ describe('run()', () => {
             }
       }
 
-      const appendSp = (sp?: Record<string, string | number | undefined>) => {
+      const appendSp = (sp?: Record<string, string | number | undefined>, prefix: '?' | '&' = '?') => {
         if (sp === undefined) return ''
         const mapping = Object.entries(sp)
           .filter(c => c[1] !== undefined)
@@ -487,7 +492,7 @@ describe('run()', () => {
 
         const formated = new URLSearchParams(mapping).toString()
         if (formated) {
-          return \`?\${formated}\`
+          return \`\${prefix}\${formated}\`
         }
         return ''
       }
@@ -639,7 +644,7 @@ describe('run()', () => {
             }
       export const ACTIONS_lang_site_contract_siteId_contractId =  (action: 'sendSomething', params: {lang?: ('fr' | 'en' | 'hu' | 'at' | string), siteId: (string | number), contractId: (string | number), extra?: ('A' | 'B')}) =>  {
           params.extra = params.extra ?? \\"A\\"; 
-              return \`\${params?.lang ? \`/\${params?.lang}\`: ''}/site_contract/\${params.siteId}-\${params.contractId}?/\${action}\${appendSp({ extra: params.extra })}\`
+              return \`\${params?.lang ? \`/\${params?.lang}\`: ''}/site_contract/\${params.siteId}-\${params.contractId}?/\${action}\${appendSp({ extra: params.extra }, '&')}\`
             }
 
       export const LINKS_twitter =  \`https:/twitter.com/jycouet\`
@@ -652,7 +657,7 @@ describe('run()', () => {
               return \`https:/www.gravatar.com/avatar/\${params.str}\${appendSp({ s: params.s, d: params.d })}\`
             }
 
-      const appendSp = (sp?: Record<string, string | number | undefined>) => {
+      const appendSp = (sp?: Record<string, string | number | undefined>, prefix: '?' | '&' = '?') => {
         if (sp === undefined) return ''
         const mapping = Object.entries(sp)
           .filter(c => c[1] !== undefined)
@@ -660,7 +665,7 @@ describe('run()', () => {
 
         const formated = new URLSearchParams(mapping).toString()
         if (formated) {
-          return \`?\${formated}\`
+          return \`\${prefix}\${formated}\`
         }
         return ''
       }
@@ -827,7 +832,7 @@ describe('run()', () => {
             },
         \\"lang_site_contract_siteId_contractId\\": (action: 'sendSomething', params: {lang?: ('fr' | 'en' | 'hu' | 'at' | string), siteId: (string | number), contractId: (string | number), extra?: ('A' | 'B')}) =>  {
           params.extra = params.extra ?? \\"A\\"; 
-              return \`\${base}\${params?.lang ? \`/\${params?.lang}\`: ''}/site_contract/\${params.siteId}-\${params.contractId}?/\${action}\${appendSp({ extra: params.extra })}\`
+              return \`\${base}\${params?.lang ? \`/\${params?.lang}\`: ''}/site_contract/\${params.siteId}-\${params.contractId}?/\${action}\${appendSp({ extra: params.extra }, '&')}\`
             }
       }
 
@@ -843,7 +848,7 @@ describe('run()', () => {
             }
       }
 
-      const appendSp = (sp?: Record<string, string | number | undefined>) => {
+      const appendSp = (sp?: Record<string, string | number | undefined>, prefix: '?' | '&' = '?') => {
         if (sp === undefined) return ''
         const mapping = Object.entries(sp)
           .filter(c => c[1] !== undefined)
@@ -851,7 +856,7 @@ describe('run()', () => {
 
         const formated = new URLSearchParams(mapping).toString()
         if (formated) {
-          return \`?\${formated}\`
+          return \`\${prefix}\${formated}\`
         }
         return ''
       }

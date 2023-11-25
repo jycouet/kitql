@@ -16,6 +16,7 @@
     lang: $page.params.lang,
     siteId,
     contractId,
+    extra: 'A',
   })
 </script>
 

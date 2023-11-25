@@ -1,5 +1,5 @@
 import { parse } from '@babel/parser'
-import { green, Log, red, yellow } from '@kitql/helpers'
+import { cyan, green, Log, red, yellow } from '@kitql/helpers'
 import { spawn } from 'child_process'
 import * as recast from 'recast'
 import type { Plugin } from 'vite'
@@ -402,14 +402,17 @@ export const fileToMetadata = (
     (customConf.extra_search_params === 'default' && useWithAppendSp) ||
     customConf.extra_search_params === 'with'
 
+  const appendSpPrefix = actionsFormat ? `, '&'` : ''
   if (wExtraSP && !customConf.explicit_search_params) {
     params.push(`sp?: Record<string, string | number>`)
-    fullSP = `\${appendSp(sp)}`
+    fullSP = `\${appendSp(sp${appendSpPrefix})}`
   } else if (wExtraSP && customConf.explicit_search_params) {
     params.push(`sp?: Record<string, string | number>`)
-    fullSP = `\${appendSp({...sp, ${explicit_search_params_to_function.join(', ')} })}`
+    fullSP = `\${appendSp({...sp, ${explicit_search_params_to_function.join(
+      ', ',
+    )} }${appendSpPrefix})}`
   } else if (!wExtraSP && customConf.explicit_search_params) {
-    fullSP = `\${appendSp({ ${explicit_search_params_to_function.join(', ')} })}`
+    fullSP = `\${appendSp({ ${explicit_search_params_to_function.join(', ')} }${appendSpPrefix})}`
   }
 
   let paramsDefaults = paramsFromPath
@@ -525,6 +528,7 @@ const getMethodsOfServerFiles = (path: string) => {
 }
 
 const getActionsOfServerPages = (pathFile: string) => {
+  const pathToFile = `${pathFile}/+page.server.ts`
   const code = read(`${routes_path()}/${pathFile}/${'+page.server.ts'}`)
 
   let withLoad = false
@@ -562,6 +566,18 @@ const getActionsOfServerPages = (pathFile: string) => {
       return false
     },
   })
+
+  if (actions.length > 1 && actions.includes('default')) {
+    // Let's remove the default action form our list, and say something
+    actions = actions.filter(c => c !== 'default')
+    log.error(
+      `In file: ${yellow(pathToFile)}` +
+        `\n\t      When using named actions (${yellow(actions.join(', '))})` +
+        `, the ${red('default')} action cannot be used. ` +
+        `\n\t      See the docs for more info: ` +
+        `${cyan(`https://kit.svelte.dev/docs/form-actions#named-actions`)}`,
+    )
+  }
 
   // TODO: withLoad to be used one day? with PAGE_SERVER_LOAD? PAGE_LOAD?
   return { actions, withLoad }
@@ -655,7 +671,7 @@ export const run = (options?: Options) => {
             })
             .join(`\n\n`),
       `
-const appendSp = (sp?: Record<string, string | number | undefined>) => {
+const appendSp = (sp?: Record<string, string | number | undefined>, prefix: '?' | '&' = '?') => {
   if (sp === undefined) return ''
   const mapping = Object.entries(sp)
     .filter(c => c[1] !== undefined)
@@ -663,7 +679,7 @@ const appendSp = (sp?: Record<string, string | number | undefined>) => {
 
   const formated = new URLSearchParams(mapping).toString()
   if (formated) {
-    return \`?\${formated}\`
+    return \`\${prefix}\${formated}\`
   }
   return ''
 }
