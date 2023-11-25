@@ -34,8 +34,14 @@ export const PAGES = {
   }) => {
     return `${params?.lang ? `/${params?.lang}` : ''}/match/${params.id}`
   },
-  lang_site: (params: { lang?: 'fr' | 'en' | 'hu' | 'at' | string; limit?: number } = {}) => {
-    return `${params?.lang ? `/${params?.lang}` : ''}/site${appendSp({ limit: params.limit })}`
+  lang_site: (
+    params: { lang?: 'fr' | 'en' | 'hu' | 'at' | string; limit?: number } = {},
+    sp?: Record<string, string | number>,
+  ) => {
+    return `${params?.lang ? `/${params?.lang}` : ''}/site${appendSp({
+      ...sp,
+      limit: params.limit,
+    })}`
   },
   lang_site_id: (
     params: { lang?: 'fr' | 'hu' | undefined; id?: string; limit?: number; demo?: string } = {},

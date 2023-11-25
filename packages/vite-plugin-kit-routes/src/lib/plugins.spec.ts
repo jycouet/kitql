@@ -223,7 +223,6 @@ describe('run()', () => {
           extra_search_params: 'with',
         },
         lang_site: {
-          // extra_search_params: 'with',
           explicit_search_params: { limit: { type: 'number' } },
           params: {
             // yop: { type: 'number' },
@@ -541,7 +540,6 @@ describe('run()', () => {
           extra_search_params: 'with',
         },
         lang_site: {
-          // extra_search_params: 'with',
           explicit_search_params: { limit: { type: 'number' } },
           params: {
             // yop: { type: 'number' },
@@ -723,7 +721,6 @@ describe('run()', () => {
           extra_search_params: 'with',
         },
         lang_site: {
-          // extra_search_params: 'with',
           explicit_search_params: { limit: { type: 'number' } },
           params: {
             // yop: { type: 'number' },

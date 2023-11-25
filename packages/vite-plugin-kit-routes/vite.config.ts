@@ -26,7 +26,7 @@ export default defineConfig({
           },
         },
         lang_site: {
-          // extra_search_params: 'with',
+          extra_search_params: 'with',
           explicit_search_params: { limit: { type: 'number' } },
           params: {
             // yop: { type: 'number' },
