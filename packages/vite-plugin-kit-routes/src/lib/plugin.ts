@@ -1,5 +1,5 @@
 import { parse } from '@babel/parser'
-import { green, Log, red, yellow } from '@kitql/helpers'
+import { cyan, green, Log, red, yellow } from '@kitql/helpers'
 import { spawn } from 'child_process'
 import * as recast from 'recast'
 import type { Plugin } from 'vite'
@@ -525,6 +525,7 @@ const getMethodsOfServerFiles = (path: string) => {
 }
 
 const getActionsOfServerPages = (pathFile: string) => {
+  const pathToFile = `${pathFile}/+page.server.ts`
   const code = read(`${routes_path()}/${pathFile}/${'+page.server.ts'}`)
 
   let withLoad = false
@@ -562,6 +563,18 @@ const getActionsOfServerPages = (pathFile: string) => {
       return false
     },
   })
+
+  if (actions.length > 1 && actions.includes('default')) {
+    // Let's remove the default action form our list, and say something
+    actions = actions.filter(c => c !== 'default')
+    log.error(
+      `In file: ${yellow(pathToFile)}` +
+        `\n\t      When using named actions (${yellow(actions.join(', '))})` +
+        `, the ${red('default')} action cannot be used. ` +
+        `\n\t      See the docs for more info: ` +
+        `${cyan(`https://kit.svelte.dev/docs/form-actions#named-actions`)}`,
+    )
+  }
 
   // TODO: withLoad to be used one day? with PAGE_SERVER_LOAD? PAGE_LOAD?
   return { actions, withLoad }
