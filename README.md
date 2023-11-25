@@ -29,7 +29,7 @@
 # ✨ Contributors
 
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
-[![All Contributors](https://img.shields.io/badge/all_contributors-25-orange.svg)](#contributors)
+[![All Contributors](https://img.shields.io/badge/all_contributors-26-orange.svg)](#contributors)
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 
 Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/docs/en/emoji-key)):
@@ -71,6 +71,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
       <td align="center" valign="top" width="14.28%"><a href="http://kobleistvan.com"><img src="https://avatars.githubusercontent.com/u/6638917?v=4" width="100px;" alt=""/><br /><sub><b>Köble István</b></sub></a></td>
       <td align="center" valign="top" width="14.28%"><a href="http://celikovic.me"><img src="https://avatars.githubusercontent.com/u/4040457?v=4" width="100px;" alt=""/><br /><sub><b>Ermin Celikovic</b></sub></a></td>
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/noam-honig"><img src="https://avatars.githubusercontent.com/u/16635859?v=4" width="100px;" alt=""/><br /><sub><b>Noam Honig</b></sub></a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://icewolf.ca"><img src="https://avatars.githubusercontent.com/u/12853597?v=4" width="100px;" alt=""/><br /><sub><b>David</b></sub></a></td>
     </tr>
   </tbody>
 </table>
