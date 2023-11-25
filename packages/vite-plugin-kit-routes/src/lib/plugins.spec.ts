@@ -703,7 +703,7 @@ describe('run()', () => {
     })
   })
 
-  it('with_ase', () => {
+  it('with path base', () => {
     const generated_file_path = 'src/test/ROUTES_test5.ts'
     run({
       generated_file_path,

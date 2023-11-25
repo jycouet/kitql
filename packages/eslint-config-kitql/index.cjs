@@ -1,7 +1,12 @@
 module.exports = {
   root: true,
   parser: '@typescript-eslint/parser',
-  extends: ['eslint:recommended', 'plugin:@typescript-eslint/recommended', 'prettier'],
+  extends: [
+    'eslint:recommended',
+    'plugin:@typescript-eslint/recommended',
+    'prettier',
+    'plugin:svelte/recommended',
+  ],
   plugins: ['unused-imports', 'svelte', '@typescript-eslint'],
   rules: {
     'no-console': ['error', { allow: ['info', 'warn', 'error', 'time', 'timeEnd'] }],
@@ -10,6 +15,7 @@ module.exports = {
     '@typescript-eslint/ban-ts-comment': 'off',
     '@typescript-eslint/no-explicit-any': 'off',
     '@typescript-eslint/no-non-null-assertion': 'off',
+    '@typescript-eslint/ban-types': 'error',
   },
   overrides: [
     {
