@@ -542,7 +542,12 @@ const getActionsOfServerPages = (pathFile: string) => {
       if (declarations) {
         declarations.forEach((declaration: any) => {
           if (declaration.id.name === 'actions') {
-            const properties = declaration.init.expression?.properties
+            const properties =
+              // if } satisfies Actions
+              declaration.init.expression?.properties ??
+              // if no satisfies Actions
+              declaration.init.properties
+
             if (properties) {
               properties.forEach((property: any) => {
                 actions.push(property.key.name)
