@@ -223,7 +223,6 @@ describe('run()', () => {
           extra_search_params: 'with',
         },
         lang_site: {
-          // extra_search_params: 'with',
           explicit_search_params: { limit: { type: 'number' } },
           params: {
             // yop: { type: 'number' },
@@ -541,7 +540,6 @@ describe('run()', () => {
           extra_search_params: 'with',
         },
         lang_site: {
-          // extra_search_params: 'with',
           explicit_search_params: { limit: { type: 'number' } },
           params: {
             // yop: { type: 'number' },
@@ -705,7 +703,7 @@ describe('run()', () => {
     })
   })
 
-  it('with_ase', () => {
+  it('with path base', () => {
     const generated_file_path = 'src/test/ROUTES_test5.ts'
     run({
       generated_file_path,
@@ -723,7 +721,6 @@ describe('run()', () => {
           extra_search_params: 'with',
         },
         lang_site: {
-          // extra_search_params: 'with',
           explicit_search_params: { limit: { type: 'number' } },
           params: {
             // yop: { type: 'number' },

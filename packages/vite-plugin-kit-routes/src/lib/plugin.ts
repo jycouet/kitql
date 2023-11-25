@@ -591,6 +591,13 @@ const shouldLog = (kind: LogKind, options?: Options) => {
   return options.logs.includes(kind)
 }
 
+const arrayToRecord = (arr?: string[]) => {
+  if (arr && arr.length > 0) {
+    return `: { ${arr.join(', ')} }`
+  }
+  return `: Record<string, never>`
+}
+
 export const run = (options?: Options) => {
   let files = getFilesUnder(routes_path())
 
@@ -703,8 +710,8 @@ const appendSp = (sp?: Record<string, string | number | undefined>, prefix: '?' 
 export type KIT_ROUTES = { 
 ${objTypes
   .map(c => {
-    return `  ${c.type}: { ${c.files
-      .map(d => {
+    return `  ${c.type}${arrayToRecord(
+      c.files.map(d => {
         return `'${d.keyToUse}': ${
           d.paramsFromPath.filter(e => e.fromPath === true).length === 0
             ? 'never'
@@ -715,15 +722,15 @@ ${objTypes
                 })
                 .join(' | ')
         }`
-      })
-      .join(', ')} }`
+      }),
+    )}`
   })
   .join('\n')}
-  Params: { ${[
+  Params${arrayToRecord([
     ...new Set(
       objTypes.flatMap(c => c.files.flatMap(d => d.paramsFromPath.map(e => `${e.name}: never`))),
     ),
-  ].join(', ')} }
+  ])}
 }
 `,
     ])
