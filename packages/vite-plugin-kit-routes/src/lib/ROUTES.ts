@@ -93,12 +93,6 @@ export const ACTIONS = {
   ) => {
     return `${params?.lang ? `/${params?.lang}` : ''}/site?/${action}`
   },
-  lang_site_contract: (
-    action: 'noSatisfies',
-    params: { lang?: 'fr' | 'en' | 'hu' | 'at' | string } = {},
-  ) => {
-    return `${params?.lang ? `/${params?.lang}` : ''}/site_contract?/${action}`
-  },
   lang_site_contract_siteId_contractId: (
     action: 'sendSomething',
     params: {
@@ -178,7 +172,6 @@ export type KIT_ROUTES = {
   ACTIONS: {
     lang_contract_id: 'lang' | 'id'
     lang_site: 'lang'
-    lang_site_contract: 'lang'
     lang_site_contract_siteId_contractId: 'lang' | 'siteId' | 'contractId'
   }
   LINKS: { twitter: never; twitter_post: 'name' | 'id'; gravatar: 'str' }
