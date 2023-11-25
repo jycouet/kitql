@@ -36,14 +36,14 @@
     <a href={PAGES.lang_site_id({ lang: getLang($page.params.lang), id: 'Paris' })}>Site Paris</a>
   </li>
   <li>
-    <!-- 🤞 before, hardcoded string -->
+    <!-- 🤞 before, hardcoded string, error prone -->
     <a
       href="{$page.params.lang
         ? `/${$page.params.lang}`
         : ''}/site_contract/{siteId}-{contractId}?limit={3}">Go to site</a
     >
     |
-    <!-- ✅ after, typechecked route, error prone -->
+    <!-- ✅ after, typechecked route, no more errors -->
     <a
       href={PAGES.lang_site_contract_siteId_contractId({
         lang: $page.params.lang,

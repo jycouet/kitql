@@ -8,10 +8,10 @@
   const siteId = $page.params.siteId
   const contractId = $page.params.contractId
 
-  // 🤞 before, hardcoded string
+  // 🤞 before, hardcoded string, error prone
   // const action =  `/en/site_contract/${siteId}-${contractId}?/sendSomething`
 
-  // ✅ after, typechecked route, error prone
+  // ✅ after, typechecked route, no more errors
   const action = ACTIONS.lang_site_contract_siteId_contractId('sendSomething', {
     lang: $page.params.lang,
     siteId,

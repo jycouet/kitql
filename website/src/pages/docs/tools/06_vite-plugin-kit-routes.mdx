@@ -21,10 +21,10 @@ available in your `$lib/ROUTES.ts` generated file _(always in sync)_.
   import { PAGES } from '$lib/ROUTES'
 </script>
 
-<!-- 🤞 before, hardcoded string -->
+<!-- 🤞 before, hardcoded string, error prone -->
 <a href="/terms-and-conditions">Terms</a>
 
-<!-- ✅ after, typechecked route, error prone -->
+<!-- ✅ after, typechecked route, no more errors -->
 <a href={PAGES['/terms-and-conditions']}>Terms</a>
 <!-- 
    If you change location of `/terms-and-conditions/+page.svelte`: 
@@ -38,10 +38,10 @@ available in your `$lib/ROUTES.ts` generated file _(always in sync)_.
   import { PAGES } from '$lib/ROUTES'
 </script>
 
-<!-- 🤞 before, hardcoded string -->
+<!-- 🤞 before, hardcoded string, error prone -->
 <a href="/site_contract/{siteId}">Go to site</a>
 
-<!-- ✅ after, typechecked route, error prone -->
+<!-- ✅ after, typechecked route, no more errors -->
 <a href={PAGES['/site_contract/{siteId}']({ siteId })}>Go to site</a>
 ```
 
@@ -50,10 +50,10 @@ available in your `$lib/ROUTES.ts` generated file _(always in sync)_.
   import { PAGES } from '$lib/ROUTES'
 </script>
 
-<!-- 🤞 before, hardcoded string -->
+<!-- 🤞 before, hardcoded string, error prone -->
 <a href="/site_contract/{siteId}?limit={3}">Go to site</a>
 
-<!-- ✅ after, typechecked route, error prone -->
+<!-- ✅ after, typechecked route, no more errors -->
 <a href={PAGES['/site_contract/{siteId}']({ siteId, limit: 3 })}>Go to site</a>
 ```
 
@@ -65,10 +65,10 @@ available in your `$lib/ROUTES.ts` generated file _(always in sync)_.
 
   const siteId = $page.params.siteId
 
-  // 🤞 before, hardcoded string
+  // 🤞 before, hardcoded string, error prone
   const action =  `/site_contract/${siteId}?/sendSomething`
 
-  // ✅ after, typechecked route, error prone
+  // ✅ after, typechecked route, no more errors
   const action = ACTIONS['/site_contract/${siteId}']('sendSomething', { siteId })
 </script>
 
@@ -82,10 +82,10 @@ available in your `$lib/ROUTES.ts` generated file _(always in sync)_.
   import { LINKS } from '$lib/ROUTES'
 </script>
 
-<!-- 🤞 before, hardcoded string -->
+<!-- 🤞 before, hardcoded string, error prone -->
 <a href="https://twitter.com/jycouet">Twitter</a>
 
-<!-- ✅ after, typechecked route, error prone -->
+<!-- ✅ after, typechecked route, no more errors -->
 <a href={LINKS.twitter}>Twitter</a>
 ```
 
@@ -94,10 +94,10 @@ available in your `$lib/ROUTES.ts` generated file _(always in sync)_.
   import { LINKS } from '$lib/ROUTES'
 </script>
 
-<!-- 🤞 before, hardcoded string -->
+<!-- 🤞 before, hardcoded string, error prone -->
 <img src="https://www.gravatar.com/avatar/jycouet?s=20&d=identicon" alt="logo" />
 
-<!-- ✅ after, typechecked route, error prone -->
+<!-- ✅ after, typechecked route, no more errors -->
 <img src={LINKS.gravatar({ str: 'jycouet', s: 20 })} alt="logo" />
 ```
 
