@@ -60,6 +60,9 @@ export const PAGES = {
   a_rest_z: (params: { rest: (string | number)[] }) => {
     return `/a/${params.rest?.join('/')}/z`
   },
+  lay_normal: `/lay/normal`,
+  lay_root_layout: `/lay/root-layout`,
+  lay_skip: `/lay/skip`,
 }
 
 export const SERVERS = {
@@ -161,6 +164,9 @@ export type KIT_ROUTES = {
     lang_site_id: 'lang' | 'id'
     lang_site_contract_siteId_contractId: 'lang' | 'siteId' | 'contractId'
     a_rest_z: 'rest'
+    lay_normal: never
+    lay_root_layout: never
+    lay_skip: never
   }
   SERVERS: { lang_contract: 'lang'; lang_site: 'lang'; api_graphql: never }
   ACTIONS: {

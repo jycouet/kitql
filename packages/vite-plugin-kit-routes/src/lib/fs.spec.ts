@@ -27,6 +27,11 @@ describe('fs', () => {
         "[[lang]]/site_contract/[siteId]-[contractId]/+page.svelte",
         "a/[...rest]/z/+page.svelte",
         "api/graphql/+server.ts",
+        "lay/(layVerySpecial)/+layout.svelte",
+        "lay/(layVerySpecial)/normal/+page.svelte",
+        "lay/(layVerySpecial)/root-layout/+page@.svelte",
+        "lay/(layVerySpecial)/skip/+page@lay.svelte",
+        "lay/+layout.svelte",
         "page_server_woAction/+page.server.ts",
       ]
     `)
