@@ -326,6 +326,9 @@ describe('run()', () => {
         \\"lang_site\\": (action: 'action1' | 'action2', params: {lang?: ('fr' | 'en' | 'hu' | 'at' | string)}= {}) =>  {
               return \`\${params?.lang ? \`/\${params?.lang}\`: ''}/site?/\${action}\`
             },
+        \\"lang_site_contract\\": (action: 'noSatisfies', params: {lang?: ('fr' | 'en' | 'hu' | 'at' | string)}= {}) =>  {
+              return \`\${params?.lang ? \`/\${params?.lang}\`: ''}/site_contract?/\${action}\`
+            },
         \\"lang_site_contract_siteId_contractId\\": (action: 'sendSomething', params: {lang?: ('fr' | 'en' | 'hu' | 'at' | string), siteId: (string | number), contractId: (string | number), extra?: ('A' | 'B')}) =>  {
           params.extra = params.extra ?? \\"A\\"; 
               return \`\${params?.lang ? \`/\${params?.lang}\`: ''}/site_contract/\${params.siteId}-\${params.contractId}?/\${action}\${appendSp({ extra: params.extra })}\`
@@ -376,7 +379,7 @@ describe('run()', () => {
       export type KIT_ROUTES = { 
         PAGES: { '_ROOT': never, 'subGroup': never, 'subGroup2': never, 'lang_contract': 'lang', 'lang_contract_id': 'lang' | 'id', 'lang_gp_one': 'lang', 'lang_gp_two': 'lang', 'lang_main': 'lang', 'lang_match_id_int': 'lang' | 'id', 'lang_site': 'lang', 'lang_site_id': 'lang' | 'id', 'lang_site_contract_siteId_contractId': 'lang' | 'siteId' | 'contractId', 'a_rest_z': 'rest', 'lay_normal': never, 'lay_root_layout': never, 'lay_skip': never }
         SERVERS: { 'lang_contract': 'lang', 'lang_site': 'lang', 'api_graphql': never }
-        ACTIONS: { 'lang_contract_id': 'lang' | 'id', 'lang_site': 'lang', 'lang_site_contract_siteId_contractId': 'lang' | 'siteId' | 'contractId' }
+        ACTIONS: { 'lang_contract_id': 'lang' | 'id', 'lang_site': 'lang', 'lang_site_contract': 'lang', 'lang_site_contract_siteId_contractId': 'lang' | 'siteId' | 'contractId' }
         LINKS: { 'twitter': never, 'twitter_post': 'name' | 'id', 'gravatar': 'str' }
         Params: { first: never, lang: never, id: never, limit: never, demo: never, siteId: never, contractId: never, rest: never, extra: never, name: never, str: never, s: never, d: never }
       }
@@ -456,6 +459,9 @@ describe('run()', () => {
         \\"/[[lang]]/site\\": (action: 'action1' | 'action2', params: {lang?: ('fr' | 'en' | 'hu' | 'at' | string)}= {}) =>  {
               return \`\${params?.lang ? \`/\${params?.lang}\`: ''}/site?/\${action}\`
             },
+        \\"/[[lang]]/site_contract\\": (action: 'noSatisfies', params: {lang?: ('fr' | 'en' | 'hu' | 'at' | string)}= {}) =>  {
+              return \`\${params?.lang ? \`/\${params?.lang}\`: ''}/site_contract?/\${action}\`
+            },
         \\"/[[lang]]/site_contract/[siteId]-[contractId]\\": (action: 'sendSomething', params: {lang?: ('fr' | 'en' | 'hu' | 'at' | string), siteId: (string | number), contractId: (string | number)}) =>  {
               return \`\${params?.lang ? \`/\${params?.lang}\`: ''}/site_contract/\${params.siteId}-\${params.contractId}?/\${action}\`
             }
@@ -505,7 +511,7 @@ describe('run()', () => {
       export type KIT_ROUTES = { 
         PAGES: { '/': never, '/subGroup': never, '/subGroup2': never, '/[[lang]]/contract': 'lang', '/[[lang]]/contract/[id]': 'lang' | 'id', '/[[lang]]/gp/one': 'lang', '/[[lang]]/gp/two': 'lang', '/[[lang]]/main': 'lang', '/[[lang]]/match/[id=int]': 'lang' | 'id', '/[[lang]]/site': 'lang', '/[[lang]]/site/[id]': 'lang' | 'id', '/[[lang]]/site_contract/[siteId]-[contractId]': 'lang' | 'siteId' | 'contractId', '/a/[...rest]/z': 'rest', '/lay/normal': never, '/lay/root-layout': never, '/lay/skip': never }
         SERVERS: { '/[[lang]]/contract': 'lang', '/[[lang]]/site': 'lang', '/api/graphql': never }
-        ACTIONS: { '/[[lang]]/contract/[id]': 'lang' | 'id', '/[[lang]]/site': 'lang', '/[[lang]]/site_contract/[siteId]-[contractId]': 'lang' | 'siteId' | 'contractId' }
+        ACTIONS: { '/[[lang]]/contract/[id]': 'lang' | 'id', '/[[lang]]/site': 'lang', '/[[lang]]/site_contract': 'lang', '/[[lang]]/site_contract/[siteId]-[contractId]': 'lang' | 'siteId' | 'contractId' }
         LINKS: { 'twitter': never, 'twitter_post': 'name' | 'id', 'gravatar': 'str' }
         Params: { lang: never, id: never, siteId: never, contractId: never, rest: never, name: never, str: never, s: never, d: never }
       }
@@ -628,6 +634,9 @@ describe('run()', () => {
       export const ACTIONS_lang_site =  (action: 'action1' | 'action2', params: {lang?: ('fr' | 'en' | 'hu' | 'at' | string)}= {}) =>  {
               return \`\${params?.lang ? \`/\${params?.lang}\`: ''}/site?/\${action}\`
             }
+      export const ACTIONS_lang_site_contract =  (action: 'noSatisfies', params: {lang?: ('fr' | 'en' | 'hu' | 'at' | string)}= {}) =>  {
+              return \`\${params?.lang ? \`/\${params?.lang}\`: ''}/site_contract?/\${action}\`
+            }
       export const ACTIONS_lang_site_contract_siteId_contractId =  (action: 'sendSomething', params: {lang?: ('fr' | 'en' | 'hu' | 'at' | string), siteId: (string | number), contractId: (string | number), extra?: ('A' | 'B')}) =>  {
           params.extra = params.extra ?? \\"A\\"; 
               return \`\${params?.lang ? \`/\${params?.lang}\`: ''}/site_contract/\${params.siteId}-\${params.contractId}?/\${action}\${appendSp({ extra: params.extra })}\`
@@ -675,7 +684,7 @@ describe('run()', () => {
       export type KIT_ROUTES = { 
         PAGES: { '_ROOT': never, 'subGroup': never, 'subGroup2': never, 'lang_contract': 'lang', 'lang_contract_id': 'lang' | 'id', 'lang_gp_one': 'lang', 'lang_gp_two': 'lang', 'lang_main': 'lang', 'lang_match_id_int': 'lang' | 'id', 'lang_site': 'lang', 'lang_site_id': 'lang' | 'id', 'lang_site_contract_siteId_contractId': 'lang' | 'siteId' | 'contractId', 'a_rest_z': 'rest', 'lay_normal': never, 'lay_root_layout': never, 'lay_skip': never }
         SERVERS: { 'lang_contract': 'lang', 'lang_site': 'lang', 'api_graphql': never }
-        ACTIONS: { 'lang_contract_id': 'lang' | 'id', 'lang_site': 'lang', 'lang_site_contract_siteId_contractId': 'lang' | 'siteId' | 'contractId' }
+        ACTIONS: { 'lang_contract_id': 'lang' | 'id', 'lang_site': 'lang', 'lang_site_contract': 'lang', 'lang_site_contract_siteId_contractId': 'lang' | 'siteId' | 'contractId' }
         LINKS: { 'twitter': never, 'twitter_post': 'name' | 'id', 'gravatar': 'str' }
         Params: { first: never, lang: never, id: never, limit: never, demo: never, siteId: never, contractId: never, rest: never, extra: never, name: never, str: never, s: never, d: never }
       }
@@ -813,6 +822,9 @@ describe('run()', () => {
         \\"lang_site\\": (action: 'action1' | 'action2', params: {lang?: ('fr' | 'en' | 'hu' | 'at' | string)}= {}) =>  {
               return \`\${base}\${params?.lang ? \`/\${params?.lang}\`: ''}/site?/\${action}\`
             },
+        \\"lang_site_contract\\": (action: 'noSatisfies', params: {lang?: ('fr' | 'en' | 'hu' | 'at' | string)}= {}) =>  {
+              return \`\${base}\${params?.lang ? \`/\${params?.lang}\`: ''}/site_contract?/\${action}\`
+            },
         \\"lang_site_contract_siteId_contractId\\": (action: 'sendSomething', params: {lang?: ('fr' | 'en' | 'hu' | 'at' | string), siteId: (string | number), contractId: (string | number), extra?: ('A' | 'B')}) =>  {
           params.extra = params.extra ?? \\"A\\"; 
               return \`\${base}\${params?.lang ? \`/\${params?.lang}\`: ''}/site_contract/\${params.siteId}-\${params.contractId}?/\${action}\${appendSp({ extra: params.extra })}\`
@@ -863,7 +875,7 @@ describe('run()', () => {
       export type KIT_ROUTES = { 
         PAGES: { '_ROOT': never, 'subGroup': never, 'subGroup2': never, 'lang_contract': 'lang', 'lang_contract_id': 'lang' | 'id', 'lang_gp_one': 'lang', 'lang_gp_two': 'lang', 'lang_main': 'lang', 'lang_match_id_int': 'lang' | 'id', 'lang_site': 'lang', 'lang_site_id': 'lang' | 'id', 'lang_site_contract_siteId_contractId': 'lang' | 'siteId' | 'contractId', 'a_rest_z': 'rest', 'lay_normal': never, 'lay_root_layout': never, 'lay_skip': never }
         SERVERS: { 'lang_contract': 'lang', 'lang_site': 'lang', 'api_graphql': never }
-        ACTIONS: { 'lang_contract_id': 'lang' | 'id', 'lang_site': 'lang', 'lang_site_contract_siteId_contractId': 'lang' | 'siteId' | 'contractId' }
+        ACTIONS: { 'lang_contract_id': 'lang' | 'id', 'lang_site': 'lang', 'lang_site_contract': 'lang', 'lang_site_contract_siteId_contractId': 'lang' | 'siteId' | 'contractId' }
         LINKS: { 'twitter': never, 'twitter_post': 'name' | 'id', 'gravatar': 'str' }
         Params: { first: never, lang: never, id: never, limit: never, demo: never, siteId: never, contractId: never, rest: never, extra: never, name: never, str: never, s: never, d: never }
       }

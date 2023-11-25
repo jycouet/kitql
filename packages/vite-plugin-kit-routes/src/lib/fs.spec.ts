@@ -23,6 +23,7 @@ describe('fs', () => {
         "[[lang]]/site/+page.svelte",
         "[[lang]]/site/+server.ts",
         "[[lang]]/site/[id]/+page.svelte",
+        "[[lang]]/site_contract/+page.server.ts",
         "[[lang]]/site_contract/[siteId]-[contractId]/+page.server.ts",
         "[[lang]]/site_contract/[siteId]-[contractId]/+page.svelte",
         "a/[...rest]/z/+page.svelte",
