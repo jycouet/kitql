@@ -1,5 +1,13 @@
 # vite-plugin-striper
 
+## 0.0.6
+
+### Patch Changes
+
+- [#486](https://github.com/jycouet/kitql/pull/486)
+  [`418f989`](https://github.com/jycouet/kitql/commit/418f9898e8aed6f303745246386ab020264de050)
+  Thanks [@jycouet](https://github.com/jycouet)! - working with node >=18
+
 ## 0.0.5
 
 ### Patch Changes
