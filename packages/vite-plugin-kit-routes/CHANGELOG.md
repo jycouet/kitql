@@ -1,5 +1,19 @@
 # vite-plugin-kit-routes
 
+## 0.1.4
+
+### Patch Changes
+
+- [#497](https://github.com/jycouet/kitql/pull/497)
+  [`429f71b`](https://github.com/jycouet/kitql/commit/429f71b154d6d5aaa18bef36e01a6b05fa29fad0)
+  Thanks [@jycouet](https://github.com/jycouet)! - fix: append search params on named action is now
+  working
+
+- [#497](https://github.com/jycouet/kitql/pull/497)
+  [`429f71b`](https://github.com/jycouet/kitql/commit/429f71b154d6d5aaa18bef36e01a6b05fa29fad0)
+  Thanks [@jycouet](https://github.com/jycouet)! - add warning on using named actions & default
+  action at the same time.
+
 ## 0.1.3
 
 ### Patch Changes
