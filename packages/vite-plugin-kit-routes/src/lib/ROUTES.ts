@@ -84,8 +84,11 @@ export const ACTIONS = {
   lang_contract_id: (params: {
     lang?: 'fr' | 'en' | 'hu' | 'at' | string
     id: string | number
+    limit?: number
   }) => {
-    return `${params?.lang ? `/${params?.lang}` : ''}/contract/${params.id}`
+    return `${params?.lang ? `/${params?.lang}` : ''}/contract/${params.id}${appendSp({
+      limit: params.limit,
+    })}`
   },
   lang_site: (
     action: 'action1' | 'action2',

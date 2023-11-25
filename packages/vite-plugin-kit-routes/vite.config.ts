@@ -50,6 +50,11 @@ export default defineConfig({
         // yop: {},
       },
       ACTIONS: {
+        lang_contract_id: {
+          explicit_search_params: {
+            limit: { type: 'number' },
+          },
+        },
         lang_site_contract_siteId_contractId: {
           explicit_search_params: {
             extra: { type: "'A' | 'B'", default: '"A"' },

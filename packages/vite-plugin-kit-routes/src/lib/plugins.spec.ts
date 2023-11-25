@@ -248,6 +248,11 @@ describe('run()', () => {
         // yop: {},
       },
       ACTIONS: {
+        lang_contract_id: {
+          explicit_search_params: {
+            limit: { type: 'number' },
+          },
+        },
         lang_site_contract_siteId_contractId: {
           explicit_search_params: {
             extra: { type: "'A' | 'B'", default: '"A"' },
@@ -320,8 +325,8 @@ describe('run()', () => {
       }
 
       export const ACTIONS = {
-        \\"lang_contract_id\\": (params: {lang?: ('fr' | 'en' | 'hu' | 'at' | string), id: (string | number)}) =>  {
-              return \`\${params?.lang ? \`/\${params?.lang}\`: ''}/contract/\${params.id}\`
+        \\"lang_contract_id\\": (params: {lang?: ('fr' | 'en' | 'hu' | 'at' | string), id: (string | number), limit?: (number)}) =>  {
+              return \`\${params?.lang ? \`/\${params?.lang}\`: ''}/contract/\${params.id}\${appendSp({ limit: params.limit })}\`
             },
         \\"lang_site\\": (action: 'action1' | 'action2', params: {lang?: ('fr' | 'en' | 'hu' | 'at' | string)}= {}) =>  {
               return \`\${params?.lang ? \`/\${params?.lang}\`: ''}/site?/\${action}\`
