@@ -2,10 +2,10 @@
 import * as p from '@clack/prompts'
 import { bold, cyan, gray, green, italic } from '@kitql/helpers'
 import { program, Option } from 'commander'
-import fs, { readFileSync } from 'node:fs'
-import path from 'node:path'
-import { exit } from 'node:process'
-import { fileURLToPath } from 'node:url'
+import fs from 'fs'
+import path from 'path'
+import { exit } from 'process'
+import { fileURLToPath } from 'url'
 
 const { version } = JSON.parse(fs.readFileSync(new URL('package.json', import.meta.url), 'utf-8'))
 // eslint-disable-next-line no-console
@@ -21,7 +21,7 @@ const options = fs
     let data = {}
     const metaPath = path.join(templatesDir, templateDir, '.meta.json')
     if (fs.existsSync(metaPath)) {
-      data = JSON.parse(readFileSync(metaPath, 'utf-8'))
+      data = JSON.parse(fs.readFileSync(metaPath, 'utf-8'))
     }
     return { ...data, value: templateDir }
   })

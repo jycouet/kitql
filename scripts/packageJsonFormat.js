@@ -46,6 +46,9 @@ fs.writeFileSync(
           svelte: './esm/index.js',
         },
       },
+      engines: {
+        node: pkg?.engines?.node ?? '^16.14 || >=18', // let's have the same default as SvelteKit
+      },
     },
     null,
     2,

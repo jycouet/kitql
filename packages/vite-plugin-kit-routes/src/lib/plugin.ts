@@ -1,6 +1,6 @@
 import { parse } from '@babel/parser'
 import { green, Log, red, yellow } from '@kitql/helpers'
-import { spawn } from 'node:child_process'
+import { spawn } from 'child_process'
 import * as recast from 'recast'
 import type { Plugin } from 'vite'
 import watch_and_run from 'vite-plugin-watch-and-run'
