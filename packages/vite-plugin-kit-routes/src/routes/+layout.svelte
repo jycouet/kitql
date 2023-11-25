@@ -70,6 +70,11 @@
   <li>
     <a href={PAGES.a_rest_z({ rest: ['SWAGER', 'GRAPHIQL'] })}>Rest SWAGER GRAPHIQL</a>
   </li>
+  <li>
+    <a href={PAGES.lay_normal}>Layout Normal</a> |
+    <a href={PAGES.lay_root_layout}>Layout Root</a> |
+    <a href={PAGES.lay_skip}>Layout Skip</a>
+  </li>
 </ul>
 
 <hr />

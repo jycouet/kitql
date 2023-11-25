@@ -234,6 +234,9 @@ const getFileKeys = (
   // For windows
   files = files.map(c => c.replaceAll('\\', '/'))
 
+  // remove the layout info
+  files = files.map(c => c.replace(/@[^.]*\./, '.'))
+
   const toRet = files
     .filter(file => file.endsWith(lookFor))
     .map(file => `/` + file.replace(`/${lookFor}`, '').replace(lookFor, ''))
