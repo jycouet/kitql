@@ -1,5 +1,23 @@
 # vite-plugin-kit-routes
 
+## 0.1.2
+
+### Patch Changes
+
+- [#488](https://github.com/jycouet/kitql/pull/488)
+  [`80b4138`](https://github.com/jycouet/kitql/commit/80b4138724971e3768304df9b1f02dc557a3b2e6)
+  Thanks [@jycouet](https://github.com/jycouet)! - Handle special layout coded in
+  +page@LAYOUT.svelte
+
+- [#489](https://github.com/jycouet/kitql/pull/489)
+  [`205c592`](https://github.com/jycouet/kitql/commit/205c5929ea46f34aeb8e1fbe7518a2bd571e9baa)
+  Thanks [@jycouet](https://github.com/jycouet)! - add path_base management with a boolean to use
+  $app/paths as a prefix or not
+
+- [#486](https://github.com/jycouet/kitql/pull/486)
+  [`418f989`](https://github.com/jycouet/kitql/commit/418f9898e8aed6f303745246386ab020264de050)
+  Thanks [@jycouet](https://github.com/jycouet)! - working with node >=18
+
 ## 0.1.1
 
 ### Patch Changes
