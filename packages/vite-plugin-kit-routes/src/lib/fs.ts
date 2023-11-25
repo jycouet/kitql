@@ -1,6 +1,6 @@
 import { readdirSync } from 'fs'
-import { existsSync, mkdirSync, readFileSync, writeFileSync, lstatSync } from 'node:fs'
-import { dirname, join } from 'node:path'
+import { existsSync, mkdirSync, readFileSync, writeFileSync, lstatSync } from 'fs'
+import { dirname, join } from 'path'
 
 export function read(pathFile: string) {
   try {

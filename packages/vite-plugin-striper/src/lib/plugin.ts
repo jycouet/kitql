@@ -1,5 +1,5 @@
 import { green, Log, yellow } from '@kitql/helpers'
-import { readFileSync } from 'node:fs'
+import { readFileSync } from 'fs'
 import type { Plugin } from 'vite'
 import watch_and_run from 'vite-plugin-watch-and-run'
 

@@ -1,5 +1,5 @@
-import { lstatSync, readdirSync } from 'node:fs'
-import { join } from 'node:path'
+import { lstatSync, readdirSync } from 'fs'
+import { join } from 'path'
 
 export function getFilesUnder(rootFolder: string): string[] {
   const files: string[] = []
