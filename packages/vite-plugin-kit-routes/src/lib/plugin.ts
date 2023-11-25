@@ -668,7 +668,7 @@ export const run = (options?: Options) => {
             })
             .join(`\n\n`),
       `
-const appendSp = (sp?: Record<string, string | number | undefined>) => {
+const appendSp = (sp?: Record<string, string | number | undefined>, prefix: '?' | '&' = '?') => {
   if (sp === undefined) return ''
   const mapping = Object.entries(sp)
     .filter(c => c[1] !== undefined)
@@ -676,7 +676,7 @@ const appendSp = (sp?: Record<string, string | number | undefined>) => {
 
   const formated = new URLSearchParams(mapping).toString()
   if (formated) {
-    return \`?\${formated}\`
+    return \`\${prefix}\${formated}\`
   }
   return ''
 }

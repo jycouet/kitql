@@ -352,7 +352,7 @@ describe('run()', () => {
             }
       }
 
-      const appendSp = (sp?: Record<string, string | number | undefined>) => {
+      const appendSp = (sp?: Record<string, string | number | undefined>, prefix: '?' | '&' = '?') => {
         if (sp === undefined) return ''
         const mapping = Object.entries(sp)
           .filter(c => c[1] !== undefined)
@@ -360,7 +360,7 @@ describe('run()', () => {
 
         const formated = new URLSearchParams(mapping).toString()
         if (formated) {
-          return \`?\${formated}\`
+          return \`\${prefix}\${formated}\`
         }
         return ''
       }
@@ -484,7 +484,7 @@ describe('run()', () => {
             }
       }
 
-      const appendSp = (sp?: Record<string, string | number | undefined>) => {
+      const appendSp = (sp?: Record<string, string | number | undefined>, prefix: '?' | '&' = '?') => {
         if (sp === undefined) return ''
         const mapping = Object.entries(sp)
           .filter(c => c[1] !== undefined)
@@ -492,7 +492,7 @@ describe('run()', () => {
 
         const formated = new URLSearchParams(mapping).toString()
         if (formated) {
-          return \`?\${formated}\`
+          return \`\${prefix}\${formated}\`
         }
         return ''
       }
@@ -657,7 +657,7 @@ describe('run()', () => {
               return \`https:/www.gravatar.com/avatar/\${params.str}\${appendSp({ s: params.s, d: params.d })}\`
             }
 
-      const appendSp = (sp?: Record<string, string | number | undefined>) => {
+      const appendSp = (sp?: Record<string, string | number | undefined>, prefix: '?' | '&' = '?') => {
         if (sp === undefined) return ''
         const mapping = Object.entries(sp)
           .filter(c => c[1] !== undefined)
@@ -665,7 +665,7 @@ describe('run()', () => {
 
         const formated = new URLSearchParams(mapping).toString()
         if (formated) {
-          return \`?\${formated}\`
+          return \`\${prefix}\${formated}\`
         }
         return ''
       }
@@ -848,7 +848,7 @@ describe('run()', () => {
             }
       }
 
-      const appendSp = (sp?: Record<string, string | number | undefined>) => {
+      const appendSp = (sp?: Record<string, string | number | undefined>, prefix: '?' | '&' = '?') => {
         if (sp === undefined) return ''
         const mapping = Object.entries(sp)
           .filter(c => c[1] !== undefined)
@@ -856,7 +856,7 @@ describe('run()', () => {
 
         const formated = new URLSearchParams(mapping).toString()
         if (formated) {
-          return \`?\${formated}\`
+          return \`\${prefix}\${formated}\`
         }
         return ''
       }
