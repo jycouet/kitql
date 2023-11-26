@@ -42,14 +42,23 @@ export type Options<T extends ExtendTypes = ExtendTypes> = {
 
   /**
    * ```ts
-   * // when `/` (default) you can use:
-   * PAGES["/site/[id]/two/[hello]"]
+   * // with `/` (default)
+   * PAGES["/site/[id]"]({ id: 7})
    *
-   * // when `_` you can use:
-   * PAGES.site_id_two_hello
+   * // with `_`
+   * PAGES.site_id({ id: 7})
+   *
+   * // with `route('/')`
+   * route("/site/[id]", { id: 7})
+   *
+   * // with `route('_')`
+   * route("site_id", { id: 7})
+   *
+   * // with `variables` (best for code splitting)
+   * PAGES_site_id({ id: 7})
    * ```
    */
-  format?: '/' | '_' | 'variables'
+  format?: '/' | '_' | "route('/')" | "route('_')" | 'variables'
 
   /**
    * default is: `string | number`
@@ -195,7 +204,11 @@ export function rmvGroups(key: string) {
 export function formatKey(key: string, options?: Options) {
   let toRet = rmvGroups(key)
 
-  if (options?.format === undefined || options?.format === '/') {
+  if (
+    options?.format === undefined ||
+    // Nice trick to have format : "/" or "route('/')
+    options?.format.includes('/')
+  ) {
     return toRet
   }
 
