@@ -99,16 +99,25 @@ export const ACTIONS = {
       limit: params?.limit,
     })}`
   },
-  action1_lang_site: (params?: { lang?: 'fr' | 'en' | 'hu' | 'at' | string }) => {
-    return `${params?.lang ? `/${params?.lang}` : ''}/site?/action1`
+  create_lang_site: (params?: {
+    lang?: 'fr' | 'en' | 'hu' | 'at' | string
+    redirectTo?: 'list' | 'new' | 'detail'
+  }) => {
+    return `${params?.lang ? `/${params?.lang}` : ''}/site?/create${appendSp(
+      { redirectTo: params?.redirectTo },
+      '&',
+    )}`
   },
-  action2_lang_site: (params?: { lang?: 'fr' | 'en' | 'hu' | 'at' | string }) => {
-    return `${params?.lang ? `/${params?.lang}` : ''}/site?/action2`
+  update_lang_site: (params?: { lang?: 'fr' | 'en' | 'hu' | 'at' | string }) => {
+    return `${params?.lang ? `/${params?.lang}` : ''}/site?/update`
+  },
+  delete_lang_site: (params?: { lang?: 'fr' | 'en' | 'hu' | 'at' | string }) => {
+    return `${params?.lang ? `/${params?.lang}` : ''}/site?/delete`
   },
   noSatisfies_lang_site_contract: (params?: { lang?: 'fr' | 'en' | 'hu' | 'at' | string }) => {
     return `${params?.lang ? `/${params?.lang}` : ''}/site_contract?/noSatisfies`
   },
-  sendSomething_lang_site_contract_siteId_contractId: (params: {
+  send_lang_site_contract_siteId_contractId: (params: {
     siteId: string | number
     contractId: string | number
     lang?: 'fr' | 'en' | 'hu' | 'at' | string
@@ -117,7 +126,7 @@ export const ACTIONS = {
     params.extra = params.extra ?? 'A'
     return `${params?.lang ? `/${params?.lang}` : ''}/site_contract/${params.siteId}-${
       params.contractId
-    }?/sendSomething${appendSp({ extra: params?.extra }, '&')}`
+    }?/send${appendSp({ extra: params?.extra }, '&')}`
   },
 }
 
@@ -188,10 +197,11 @@ export type KIT_ROUTES = {
   }
   ACTIONS: {
     default_lang_contract_id: 'id' | 'lang'
-    action1_lang_site: 'lang'
-    action2_lang_site: 'lang'
+    create_lang_site: 'lang'
+    update_lang_site: 'lang'
+    delete_lang_site: 'lang'
     noSatisfies_lang_site_contract: 'lang'
-    sendSomething_lang_site_contract_siteId_contractId: 'siteId' | 'contractId' | 'lang'
+    send_lang_site_contract_siteId_contractId: 'siteId' | 'contractId' | 'lang'
   }
   LINKS: { twitter: never; twitter_post: 'name' | 'id'; gravatar: 'str' }
   Params: {
@@ -203,6 +213,7 @@ export type KIT_ROUTES = {
     siteId: never
     contractId: never
     rest: never
+    redirectTo: never
     extra: never
     name: never
     str: never

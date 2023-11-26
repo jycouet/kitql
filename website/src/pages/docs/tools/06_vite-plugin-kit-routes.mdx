@@ -66,10 +66,10 @@ available in your `$lib/ROUTES.ts` generated file _(always in sync)_.
   const siteId = $page.params.siteId
 
   // 🤞 before, hardcoded string, error prone
-  const action =  `/site_contract/${siteId}?/sendSomething`
+  const action =  `/site_contract/${siteId}?/send`
 
   // ✅ after, typechecked route, no more errors
-  const action = ACTIONS['/site_contract/${siteId}']('sendSomething', { siteId })
+  const action = ACTIONS['/site_contract/${siteId}']('send', { siteId })
 </script>
 
 <form method="POST" use:enhance {action}>

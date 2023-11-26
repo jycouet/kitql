@@ -60,9 +60,14 @@ export default defineConfig({
             limit: { type: 'number' },
           },
         },
-        sendSomething_lang_site_contract_siteId_contractId: {
+        send_lang_site_contract_siteId_contractId: {
           explicit_search_params: {
             extra: { type: "'A' | 'B'", default: '"A"' },
+          },
+        },
+        create_lang_site: {
+          explicit_search_params: {
+            redirectTo: { type: '"list" | "new" | "detail"' },
           },
         },
       },

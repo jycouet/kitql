@@ -9,10 +9,10 @@
   const contractId = $page.params.contractId
 
   // 🤞 before, hardcoded string, error prone
-  // const action =  `/en/site_contract/${siteId}-${contractId}?/sendSomething`
+  // const action =  `/en/site_contract/${siteId}-${contractId}?/send`
 
   // ✅ after, typechecked route, no more errors
-  const action = ACTIONS.sendSomething_lang_site_contract_siteId_contractId({
+  const action = ACTIONS.send_lang_site_contract_siteId_contractId({
     lang: $page.params.lang,
     siteId,
     contractId,

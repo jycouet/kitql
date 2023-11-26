@@ -1,12 +1,12 @@
 import type { Actions } from './$types.d.ts'
 
 export const actions = {
-  sendSomething: async data => {
-    console.log(`sendSomething`, data.params, data.url.searchParams.get('extra'))
+  send: async data => {
+    console.log(`send`, data.params, data.url.searchParams.get('extra'))
 
     return {
       body: {
-        message: `Yes, you sent me something (${data.params.siteId}, ${
+        message: `Yes, you sent (${data.params.siteId}, ${
           data.params.contractId
         }, ${data.url.searchParams.get('extra')})! ✨ Thank you!`,
       },

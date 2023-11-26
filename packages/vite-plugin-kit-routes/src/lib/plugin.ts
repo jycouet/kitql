@@ -625,7 +625,8 @@ export const run = (options?: Options) => {
               `Can't extend "${green(`${o.type}.`)}${red(key)}" as this path doesn't exist!`,
             )
           }
-          allOk = false
+          // Even with warning, we should wite the file
+          // allOk = false
         } else {
           if (cPath) {
             Object.entries(cPath.params ?? {}).forEach(p => {
@@ -639,7 +640,8 @@ export const run = (options?: Options) => {
                     )}" as this param doesn't exist!`,
                   )
                 }
-                allOk = false
+                // Even with warning, we should wite the file
+                // allOk = false
               }
             })
           }
