@@ -108,11 +108,17 @@ export const ACTIONS = {
       '&',
     )}`
   },
-  update_lang_site: (params?: { lang?: 'fr' | 'en' | 'hu' | 'at' | string }) => {
-    return `${params?.lang ? `/${params?.lang}` : ''}/site?/update`
+  update_lang_site_id: (params: {
+    id: string | number
+    lang?: 'fr' | 'en' | 'hu' | 'at' | string
+  }) => {
+    return `${params?.lang ? `/${params?.lang}` : ''}/site/${params.id}?/update`
   },
-  delete_lang_site: (params?: { lang?: 'fr' | 'en' | 'hu' | 'at' | string }) => {
-    return `${params?.lang ? `/${params?.lang}` : ''}/site?/delete`
+  delete_lang_site_id: (params: {
+    id: string | number
+    lang?: 'fr' | 'en' | 'hu' | 'at' | string
+  }) => {
+    return `${params?.lang ? `/${params?.lang}` : ''}/site/${params.id}?/delete`
   },
   noSatisfies_lang_site_contract: (params?: { lang?: 'fr' | 'en' | 'hu' | 'at' | string }) => {
     return `${params?.lang ? `/${params?.lang}` : ''}/site_contract?/noSatisfies`
@@ -198,8 +204,8 @@ export type KIT_ROUTES = {
   ACTIONS: {
     default_lang_contract_id: 'id' | 'lang'
     create_lang_site: 'lang'
-    update_lang_site: 'lang'
-    delete_lang_site: 'lang'
+    update_lang_site_id: 'id' | 'lang'
+    delete_lang_site_id: 'id' | 'lang'
     noSatisfies_lang_site_contract: 'lang'
     send_lang_site_contract_siteId_contractId: 'siteId' | 'contractId' | 'lang'
   }
