@@ -29,11 +29,11 @@
 <ul>
   <li><a href={PAGES._ROOT}>Home</a></li>
   <li>
-    <a href={PAGES.lang_site({ lang: $page.params.lang })}>Sites</a> |
-    <a href={PAGES.lang_site({ lang: $page.params.lang, limit: 2 })}>Sites (with Search Param)</a>
+    <a href={PAGES.site({ lang: $page.params.lang })}>Sites</a> |
+    <a href={PAGES.site({ lang: $page.params.lang, limit: 2 })}>Sites (with Search Param)</a>
   </li>
   <li>
-    <a href={PAGES.lang_site_id({ lang: getLang($page.params.lang), id: 'Paris' })}>Site Paris</a>
+    <a href={PAGES.site_id({ lang: getLang($page.params.lang), id: 'Paris' })}>Site Paris</a>
   </li>
   <li>
     <!-- 🤞 before, hardcoded string, error prone -->
@@ -45,7 +45,7 @@
     |
     <!-- ✅ after, typechecked route, no more errors -->
     <a
-      href={PAGES.lang_site_contract_siteId_contractId({
+      href={PAGES.site_contract_siteId_contractId({
         lang: $page.params.lang,
         siteId,
         contractId,
@@ -54,18 +54,16 @@
     >
   </li>
   <li>
-    <a href={PAGES.lang_match_id_int({ lang: $page.params.lang, id: 1 })}>match int 1</a>
+    <a href={PAGES.match_id_int({ lang: $page.params.lang, id: 1 })}>match int 1</a>
   </li>
   <li>
-    <a href={PAGES.lang_match_id_int({ lang: $page.params.lang, id: 'a' })}
-      >match int a (expect 404)</a
-    >
+    <a href={PAGES.match_id_int({ lang: $page.params.lang, id: 'a' })}>match int a (expect 404)</a>
   </li>
   <li>
-    <a href={PAGES.lang_gp_one({ lang: $page.params.lang })}>gp One</a>
+    <a href={PAGES.gp_one({ lang: $page.params.lang })}>gp One</a>
   </li>
   <li>
-    <a href={PAGES.lang_gp_two({ lang: $page.params.lang })}>gp Two</a>
+    <a href={PAGES.gp_two({ lang: $page.params.lang })}>gp Two</a>
   </li>
   <li>
     <a href={PAGES.a_rest_z({ rest: ['SWAGER', 'GRAPHIQL'] })}>Rest SWAGER GRAPHIQL</a>
