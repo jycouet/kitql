@@ -14,13 +14,13 @@ export default defineConfig({
     // demo
     kitRoutes<KIT_ROUTES>({
       format: '_',
-      //format: "route('_')",
+      // format: "route('_')",
       logs: ['update', 'errors'],
       // path_base: true,
       // default_type: 'string',
       // extra_search_params: 'with',
       // generated_file_path: 'src/lib/another_path_for_the_file.ts',
-      post_update_run: 'npm exec prettier ./src/lib/ROUTES.ts -- -w',
+      // post_update_run: 'npm exec prettier ./src/lib/ROUTES.ts -- -w',
 
       PAGES: {
         subGroup2: {
@@ -55,16 +55,16 @@ export default defineConfig({
         // yop: {},
       },
       ACTIONS: {
-        lang_contract_id: {
-          explicit_search_params: {
-            limit: { type: 'number' },
-          },
-        },
-        lang_site_contract_siteId_contractId: {
-          explicit_search_params: {
-            extra: { type: "'A' | 'B'", default: '"A"' },
-          },
-        },
+        // lang_contract_id: {
+        //   explicit_search_params: {
+        //     limit: { type: 'number' },
+        //   },
+        // },
+        // lang_site_contract_siteId_contractId: {
+        //   explicit_search_params: {
+        //     extra: { type: "'A' | 'B'", default: '"A"' },
+        //   },
+        // },
       },
       LINKS: {
         // reference to a hardcoded link

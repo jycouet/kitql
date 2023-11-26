@@ -1,14 +1,11 @@
-import { parse } from '@babel/parser'
-import { cyan, green, Log, red, yellow } from '@kitql/helpers'
+import { green, Log, red, yellow } from '@kitql/helpers'
 import { spawn } from 'child_process'
-import * as recast from 'recast'
 import type { Plugin } from 'vite'
 import watch_and_run from 'vite-plugin-watch-and-run'
 
+import { getActionsOfServerPages, getMethodsOfServerFiles } from './ast.js'
 import { appendSp, format } from './format.js'
-import { getFilesUnder, read, write } from './fs.js'
-
-const { visit } = recast.types
+import { getFilesUnder, write } from './fs.js'
 
 type ExtendTypes = {
   PAGES: Record<string, string>
@@ -190,6 +187,12 @@ export type ExplicitSearchParam = ExtendParam & {
   required?: boolean
 }
 
+export const log = new Log('Kit Routes')
+
+export function routes_path() {
+  return `${process.cwd()}/src/routes`
+}
+
 function generated_file_path(options?: Options) {
   return options?.generated_file_path ?? 'src/lib/ROUTES.ts'
 }
@@ -236,23 +239,17 @@ export function formatKey(key: string, options?: Options) {
   return toRet
 }
 
-function routes_path() {
-  return `${process.cwd()}/src/routes`
-}
-
-// const routes_path = 'src/lib/ROUTES.ts'
-const log = new Log('Kit Routes')
-
-type InfoToWrite = {
+type MetadataToWrite = {
   keyToUse: string
-  prop: string
+  key_wo_prefix: string
+  // prop: string
   paramsFromPath: Param[]
   strDefault: string
   strReturn: string
   strParams: string
 }
 
-const getFileKeys = (
+const getMetadata = (
   files: string[],
   type: 'PAGES' | 'SERVERS' | 'ACTIONS' | 'LINKS',
   options?: Options,
@@ -261,12 +258,11 @@ const getFileKeys = (
   const useWithAppendSp = withAppendSp && options?.extra_search_params === 'with'
 
   if (type === 'LINKS') {
-    const toRet = Object.entries(options?.LINKS ?? {}).map(c => {
+    const toRet = Object.entries(options?.LINKS ?? {}).flatMap(c => {
       const hrefToUse = typeof c[1] === 'string' ? c[1] : c[1].href
-
-      return fileToMetadata(c[0], hrefToUse, type, options, useWithAppendSp)
+      return transformToMetadata(c[0], hrefToUse, type, options, useWithAppendSp)
     })
-    return toRet.filter(c => c !== null) as InfoToWrite[]
+    return toRet.filter(c => c !== null) as MetadataToWrite[]
   }
 
   const lookFor =
@@ -283,9 +279,9 @@ const getFileKeys = (
     .map(file => `/` + file.replace(`/${lookFor}`, '').replace(lookFor, ''))
     // Keep the sorting at this level, it will make more sense
     .sort()
-    .map(original => fileToMetadata(original, original, type, options, useWithAppendSp))
+    .flatMap(original => transformToMetadata(original, original, type, options, useWithAppendSp))
 
-  return toRet.filter(c => c !== null) as InfoToWrite[]
+  return toRet.filter(c => c !== null) as MetadataToWrite[]
 }
 
 type Param = {
@@ -298,13 +294,13 @@ type Param = {
   isArray: boolean
 }
 
-export const fileToMetadata = (
+export const transformToMetadata = (
   original: string,
   originalValue: string,
   type: 'PAGES' | 'SERVERS' | 'ACTIONS' | 'LINKS',
   options: Options | undefined,
   useWithAppendSp: boolean | undefined,
-) => {
+): MetadataToWrite[] => {
   const keyToUse = formatKey(original, options)
   let toRet = rmvGroups(originalValue)
 
@@ -370,27 +366,89 @@ export const fileToMetadata = (
     }
   })
 
-  const params = []
+  const list: MetadataToWrite[] = []
 
-  let actionsFormat = ''
-  if (type === 'SERVERS') {
-    const methods = getMethodsOfServerFiles(originalValue)
-    if (methods.length > 0) {
-      params.push(`method: ${methods.map(c => `'${c}'`).join(' | ')}`)
-    }
-  } else if (type === 'ACTIONS') {
+  if (type === 'ACTIONS') {
     const { actions } = getActionsOfServerPages(originalValue)
-
     if (actions.length === 0) {
-      return null
     } else if (actions.length === 1 && actions[0] === 'default') {
-      // Let's add the default action named 'default'. We want to be explicite.
-      params.push(`action: ${actions.map(c => `'${c}'`).join(' | ')}`)
+      list.push(
+        buildMetadata(
+          keyToUse,
+          'default_' + keyToUse,
+          customConf,
+          paramsFromPath,
+          useWithAppendSp,
+          '',
+          toRet,
+          options,
+        ),
+      )
     } else {
-      params.push(`action: ${actions.map(c => `'${c}'`).join(' | ')}`)
-      actionsFormat = `?/\${action}`
+      actions.map(action => {
+        list.push(
+          buildMetadata(
+            action + '_' + keyToUse,
+            keyToUse,
+            customConf,
+            paramsFromPath,
+            useWithAppendSp,
+            `?/${action}`,
+            toRet,
+            options,
+          ),
+        )
+      })
     }
+  } else if (type === 'SERVERS') {
+    const methods = getMethodsOfServerFiles(originalValue)
+    if (methods.length === 0) {
+      return []
+    } else {
+      methods.map(method => {
+        list.push(
+          buildMetadata(
+            method + '_' + keyToUse,
+            keyToUse,
+            customConf,
+            paramsFromPath,
+            useWithAppendSp,
+            ``,
+            toRet,
+            options,
+          ),
+        )
+      })
+    }
+  } else {
+    list.push(
+      buildMetadata(
+        keyToUse,
+        keyToUse,
+        customConf,
+        paramsFromPath,
+        useWithAppendSp,
+        '',
+        toRet,
+        options,
+      ),
+    )
   }
+
+  return list
+}
+
+export function buildMetadata(
+  keyToUse: string,
+  key_wo_prefix: string,
+  customConf: CustomPath,
+  paramsFromPath: Param[],
+  useWithAppendSp: boolean | undefined,
+  actionsFormat: string,
+  toRet: string,
+  options?: Options,
+) {
+  const params = []
 
   // custom search Param?
   const explicit_search_params_to_function: string[] = []
@@ -409,11 +467,7 @@ export const fileToMetadata = (
 
   const isAllOptional = paramsFromPath.filter(c => !c.optional).length === 0
   if (paramsFromPath.length > 0) {
-    params.push(
-      // TODO OPTIONNAL
-      // `params: { ${formatArgs(paramsFromPath, options)} }` + `${isAllOptional ? ' = {}' : ''}`,
-      `params${isAllOptional ? '?' : ''}: { ${formatArgs(paramsFromPath, options)} }`,
-    )
+    params.push(`params${isAllOptional ? '?' : ''}: { ${formatArgs(paramsFromPath, options)} }`)
   }
 
   let fullSP = ''
@@ -449,18 +503,17 @@ export const fileToMetadata = (
   const strReturn = `\`${pathBaesStr}${toRet}${actionsFormat}${fullSP}\``
   const strParams = params.join(', ')
 
-  let prop = ''
-  if (params.length > 0) {
-    prop =
-      `"${keyToUse}": (${params.join(', ')}) => ` +
-      ` {${paramsDefaults.length > 0 ? `\n    ${paramsDefaults.join('\n    ')}` : ''}
-        return \`${pathBaesStr}${toRet}${actionsFormat}${fullSP}\`
-      }`
-  } else {
-    prop = `"${keyToUse}": \`${pathBaesStr}${toRet}\``
+  const baseToReturn: MetadataToWrite = {
+    keyToUse,
+    key_wo_prefix,
+    // prop,
+    paramsFromPath,
+    strDefault,
+    strReturn,
+    strParams,
   }
 
-  return { keyToUse, prop, paramsFromPath, strDefault, strReturn, strParams }
+  return baseToReturn
 }
 
 export function extractParamsFromPath(path: string): Param[] {
@@ -496,6 +549,15 @@ export function extractParamsFromPath(path: string): Param[] {
 
 const formatArgs = (params: Param[], options?: Options) => {
   return params
+    .sort((a, b) => {
+      // if (a.optional === b.optional) {
+      //   // When 'optional' is the same, sort by 'name'
+      //   return a.name < b.name ? -1 : a.name > b.name ? 1 : 0
+      // }
+      // Otherwise, sort by 'optional'
+      // Let's sort only by 'optional' at the end.
+      return a.optional < b.optional ? -1 : 1
+    })
     .map(c => {
       const override_params = Object.entries(options?.override_params ?? {}).filter(
         d => d[0] === c.name,
@@ -513,100 +575,6 @@ const formatArgs = (params: Param[], options?: Options) => {
       )
     })
     .join(', ')
-}
-
-const getMethodsOfServerFiles = (path: string) => {
-  const code = read(`${routes_path()}/${path}/${'+server.ts'}`)
-
-  const codeParsed = parse(code ?? '', {
-    plugins: ['typescript', 'importAssertions', 'decorators-legacy'],
-    sourceType: 'module',
-  }).program as recast.types.namedTypes.Program
-
-  let exportedNames: string[] = []
-  visit(codeParsed, {
-    visitExportNamedDeclaration(path) {
-      // @ts-ignore
-      const declarations = path.node.declaration?.declarations
-      if (declarations) {
-        declarations.forEach((declaration: any) => {
-          if (declaration.id.name) {
-            exportedNames.push(declaration.id.name)
-          }
-        })
-      }
-
-      // Check for export specifiers (for aliased exports)
-      const specifiers = path.node.specifiers
-      if (specifiers) {
-        specifiers.forEach((specifier: any) => {
-          if (specifier.exported.name) {
-            exportedNames.push(specifier.exported.name)
-          }
-        })
-      }
-
-      return false
-    },
-  })
-
-  return exportedNames
-}
-
-const getActionsOfServerPages = (pathFile: string) => {
-  const pathToFile = `${pathFile}/+page.server.ts`
-  const code = read(`${routes_path()}/${pathFile}/${'+page.server.ts'}`)
-
-  let withLoad = false
-
-  const codeParsed = parse(code ?? '', {
-    plugins: ['typescript', 'importAssertions', 'decorators-legacy'],
-    sourceType: 'module',
-  }).program as recast.types.namedTypes.Program
-
-  let actions: string[] = []
-  visit(codeParsed, {
-    visitExportNamedDeclaration(path) {
-      // @ts-ignore
-      const declarations = path.node.declaration?.declarations
-      if (declarations) {
-        declarations.forEach((declaration: any) => {
-          if (declaration.id.name === 'actions') {
-            const properties =
-              // if } satisfies Actions
-              declaration.init.expression?.properties ??
-              // if no satisfies Actions
-              declaration.init.properties
-
-            if (properties) {
-              properties.forEach((property: any) => {
-                actions.push(property.key.name)
-              })
-            }
-          }
-          if (declaration.id.name === 'load') {
-            withLoad = true
-          }
-        })
-      }
-      return false
-    },
-  })
-
-  if (actions.length > 1 && actions.includes('default')) {
-    // Let's remove the default action form our list, and say something
-    actions = actions.filter(c => c !== 'default')
-    log.error(
-      `In file: ${yellow(pathToFile)}` +
-        `\n\t      When using named actions (${yellow(actions.join(', '))})` +
-        `, the ${red('default')} action cannot be used. ` +
-        `\n\t      See the docs for more info: ` +
-        `${cyan(`https://kit.svelte.dev/docs/form-actions#named-actions`)}`,
-    )
-  }
-
-  // TODO: withLoad to be used one day? with PAGE_SERVER_LOAD? PAGE_LOAD?
-  return { actions, withLoad }
 }
 
 const shouldLog = (kind: LogKind, options?: Options) => {
@@ -633,10 +601,10 @@ export const run = (options?: Options) => {
   // }
 
   const objTypes = [
-    { type: 'PAGES', files: getFileKeys(files, 'PAGES', options, true) },
-    { type: 'SERVERS', files: getFileKeys(files, 'SERVERS', options, true) },
-    { type: 'ACTIONS', files: getFileKeys(files, 'ACTIONS', options, false) },
-    { type: 'LINKS', files: getFileKeys(files, 'LINKS', options, false) },
+    { type: 'PAGES', files: getMetadata(files, 'PAGES', options, true) },
+    { type: 'SERVERS', files: getMetadata(files, 'SERVERS', options, true) },
+    { type: 'ACTIONS', files: getMetadata(files, 'ACTIONS', options, false) },
+    { type: 'LINKS', files: getMetadata(files, 'LINKS', options, false) },
   ] as const
 
   // Validate options
@@ -646,7 +614,7 @@ export const run = (options?: Options) => {
     .forEach(o => {
       Object.entries(options?.[o.type] ?? {}).forEach(e => {
         const [key, cPath] = e
-        const found = o.files.find(c => c.keyToUse === key)
+        const found = o.files.find(c => c.key_wo_prefix === key)
         if (!found) {
           if (shouldLog('errors', options)) {
             log.error(
@@ -690,8 +658,10 @@ export const run = (options?: Options) => {
             .map(c => {
               return c.files
                 .map(key => {
-                  const [first, ...rest] = key.prop.split(':')
-                  return `export const ${c.type}_${first.slice(1, -1)} = ${rest.join(':')}`
+                  // TODO
+                  return `export const ${c.type}_${key.keyToUse} = {}`
+                  // const [first, ...rest] = key.prop.split(':')
+                  // return `export const ${c.type}_${first.slice(1, -1)} = ${rest.join(':')}`
                 })
                 .join('\n')
             })
@@ -701,7 +671,7 @@ export const run = (options?: Options) => {
           ? `${objTypes
               .map(c => {
                 return (
-                  `// ${c.type}\n` +
+                  // `\n//\n// ${c.type}\n//\n` +
                   c.files
                     .map(key => {
                       return (
@@ -719,7 +689,7 @@ ${format({ bottom: 0 }, `const params = args[0] ?? {}`)}
 ${format({ bottom: 0 }, `const action = args[1] ?? ''`)}
 ${format({ bottom: 0 }, `const method = args[1] ?? '' // Not used yet`)}
 ${format({}, `const sp = args[2] ?? ''`)}
-${format({ bottom: 0 }, `switch(key){`)}
+${format({ bottom: 0 }, `switch(key) {`)}
 ${format(
   { bottom: 0 },
   objTypes
@@ -743,11 +713,24 @@ ${format(
   return '/'
 }
 `
-          : // Format / or _
+          : // Format '/' or '_'
             objTypes
               .map(c => {
                 return `export const ${c.type} = {
-  ${c.files.map(key => key.prop).join(',\n  ')}
+  ${c.files
+    .map(key => {
+      if (key.strParams) {
+        return (
+          `"${key.keyToUse}": (${key.strParams}) => {` +
+          `${format({ bottom: 0, top: 1, left: 4 }, key.strDefault)}
+    return ${key.strReturn}
+  }`
+        )
+      } else {
+        return `"${key.keyToUse}": ${key.strReturn}`
+      }
+    })
+    .join(',\n  ')}
 }`
               })
               .join(`\n\n`),

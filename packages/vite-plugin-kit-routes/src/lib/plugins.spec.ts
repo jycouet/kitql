@@ -1,7 +1,13 @@
 import { describe, expect, it } from 'vitest'
 
 import { read } from './fs.js'
-import { extractParamsFromPath, fileToMetadata, formatKey, run, type Options } from './plugin.js'
+import {
+  extractParamsFromPath,
+  transformToMetadata,
+  formatKey,
+  run,
+  type Options,
+} from './plugin.js'
 
 describe('vite-plugin-kit-routes', () => {
   it('get id', async () => {
@@ -112,7 +118,7 @@ describe('vite-plugin-kit-routes', () => {
 
   it('fileToMetadata optional only', async () => {
     const key = '/[[lang]]'
-    const meta = fileToMetadata(key, key, 'PAGES', undefined, undefined)
+    const meta = transformToMetadata(key, key, 'PAGES', undefined, undefined)
     if (meta) {
       expect(meta.prop).toMatchInlineSnapshot(`
         "\\"/[[lang]]\\": (params?: { lang?: (string | number) }) =>  {
@@ -126,7 +132,7 @@ describe('vite-plugin-kit-routes', () => {
 
   it('fileToMetadata optional', async () => {
     const key = '/[[lang]]/about'
-    const meta = fileToMetadata(key, key, 'PAGES', undefined, undefined)
+    const meta = transformToMetadata(key, key, 'PAGES', undefined, undefined)
     if (meta) {
       expect(meta.prop).toMatchInlineSnapshot(`
         "\\"/[[lang]]/about\\": (params?: { lang?: (string | number) }) =>  {
@@ -140,7 +146,7 @@ describe('vite-plugin-kit-routes', () => {
 
   it('fileToMetadata optional not at start', async () => {
     const key = '/prefix-[[lang]]/about'
-    const meta = fileToMetadata(key, key, 'PAGES', undefined, undefined)
+    const meta = transformToMetadata(key, key, 'PAGES', undefined, undefined)
     if (meta) {
       expect(meta.prop).toMatchInlineSnapshot(`
         "\\"/prefix-[[lang]]/about\\": (params?: { lang?: (string | number) }) =>  {
@@ -154,7 +160,7 @@ describe('vite-plugin-kit-routes', () => {
 
   it('fileToMetadata default param', async () => {
     const key = '/subscriptions/[snapshot]/[id]'
-    const meta = fileToMetadata(
+    const meta = transformToMetadata(
       key,
       key,
       'PAGES',
