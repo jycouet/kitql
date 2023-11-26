@@ -41,6 +41,11 @@
     "vite": "4.5.0",
     "vitest": "0.34.0"
   },
+  "dependencies": {
+    "@babel/parser": "^7.23.0",
+    "@kitql/helpers": "workspace:*",
+    "recast": "^0.23.4"
+  },
   "sideEffects": false,
   "publishConfig": {
     "directory": "dist",
@@ -63,9 +68,5 @@
   },
   "engines": {
     "node": "^16.14 || >=18"
-  },
-  "dependencies": {
-    "@rollup/plugin-typescript": "^11.1.5",
-    "rollup-plugin-dts": "^6.1.0"
   }
 }
