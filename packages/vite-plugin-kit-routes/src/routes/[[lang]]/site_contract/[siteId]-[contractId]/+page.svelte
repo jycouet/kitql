@@ -12,7 +12,7 @@
   // const action =  `/en/site_contract/${siteId}-${contractId}?/sendSomething`
 
   // ✅ after, typechecked route, no more errors
-  const action = ACTIONS.lang_site_contract_siteId_contractId('sendSomething', {
+  const action = ACTIONS.sendSomething_lang_site_contract_siteId_contractId({
     lang: $page.params.lang,
     siteId,
     contractId,

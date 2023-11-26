@@ -28,8 +28,8 @@
 
 <ul>
   <li><a href={PAGES._ROOT}>Home</a></li>
-  <li><a href={PAGES.lang_site({ lang: $page.params.lang })}>Sites</a></li>
   <li>
+    <a href={PAGES.lang_site({ lang: $page.params.lang })}>Sites</a> |
     <a href={PAGES.lang_site({ lang: $page.params.lang, limit: 2 })}>Sites (with Search Param)</a>
   </li>
   <li>

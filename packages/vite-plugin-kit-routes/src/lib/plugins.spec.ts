@@ -120,10 +120,24 @@ describe('vite-plugin-kit-routes', () => {
     const key = '/[[lang]]'
     const meta = transformToMetadata(key, key, 'PAGES', undefined, undefined)
     if (meta) {
-      expect(meta.prop).toMatchInlineSnapshot(`
-        "\\"/[[lang]]\\": (params?: { lang?: (string | number) }) =>  {
-                return \`\${params?.lang ? \`/\${params?.lang}\`: '/'}\`
-              }"
+      expect(meta).toMatchInlineSnapshot(`
+        [
+          {
+            "keyToUse": "/[[lang]]",
+            "key_wo_prefix": "/[[lang]]",
+            "paramsFromPath": [
+              {
+                "fromPath": true,
+                "isArray": false,
+                "name": "lang",
+                "optional": true,
+              },
+            ],
+            "strDefault": "",
+            "strParams": "params?: { lang?: (string | number) }",
+            "strReturn": "\`\${params?.lang ? \`/\${params?.lang}\`: '/'}\`",
+          },
+        ]
       `)
     } else {
       expect('I should never be').toBe('here')
@@ -134,10 +148,24 @@ describe('vite-plugin-kit-routes', () => {
     const key = '/[[lang]]/about'
     const meta = transformToMetadata(key, key, 'PAGES', undefined, undefined)
     if (meta) {
-      expect(meta.prop).toMatchInlineSnapshot(`
-        "\\"/[[lang]]/about\\": (params?: { lang?: (string | number) }) =>  {
-                return \`\${params?.lang ? \`/\${params?.lang}\`: ''}/about\`
-              }"
+      expect(meta).toMatchInlineSnapshot(`
+        [
+          {
+            "keyToUse": "/[[lang]]/about",
+            "key_wo_prefix": "/[[lang]]/about",
+            "paramsFromPath": [
+              {
+                "fromPath": true,
+                "isArray": false,
+                "name": "lang",
+                "optional": true,
+              },
+            ],
+            "strDefault": "",
+            "strParams": "params?: { lang?: (string | number) }",
+            "strReturn": "\`\${params?.lang ? \`/\${params?.lang}\`: ''}/about\`",
+          },
+        ]
       `)
     } else {
       expect('I should never be').toBe('here')
@@ -148,10 +176,24 @@ describe('vite-plugin-kit-routes', () => {
     const key = '/prefix-[[lang]]/about'
     const meta = transformToMetadata(key, key, 'PAGES', undefined, undefined)
     if (meta) {
-      expect(meta.prop).toMatchInlineSnapshot(`
-        "\\"/prefix-[[lang]]/about\\": (params?: { lang?: (string | number) }) =>  {
-                return \`/prefix-\${params?.lang ? \`\${params?.lang}\`: ''}/about\`
-              }"
+      expect(meta).toMatchInlineSnapshot(`
+        [
+          {
+            "keyToUse": "/prefix-[[lang]]/about",
+            "key_wo_prefix": "/prefix-[[lang]]/about",
+            "paramsFromPath": [
+              {
+                "fromPath": true,
+                "isArray": false,
+                "name": "lang",
+                "optional": true,
+              },
+            ],
+            "strDefault": "",
+            "strParams": "params?: { lang?: (string | number) }",
+            "strReturn": "\`/prefix-\${params?.lang ? \`\${params?.lang}\`: ''}/about\`",
+          },
+        ]
       `)
     } else {
       expect('I should never be').toBe('here')
@@ -178,10 +220,30 @@ describe('vite-plugin-kit-routes', () => {
       undefined,
     )
     if (meta) {
-      expect(meta.prop).toMatchInlineSnapshot(`
-        "\\"/subscriptions/[snapshot]/[id]\\": (params: { snapshot: (string | number), id: (string | number) }) =>  {
-                return \`/subscriptions/\${params.snapshot}/\${params.id}\`
-              }"
+      expect(meta).toMatchInlineSnapshot(`
+        [
+          {
+            "keyToUse": "/subscriptions/[snapshot]/[id]",
+            "key_wo_prefix": "/subscriptions/[snapshot]/[id]",
+            "paramsFromPath": [
+              {
+                "fromPath": true,
+                "isArray": false,
+                "name": "snapshot",
+                "optional": false,
+              },
+              {
+                "fromPath": true,
+                "isArray": false,
+                "name": "id",
+                "optional": false,
+              },
+            ],
+            "strDefault": "",
+            "strParams": "params: { snapshot: (string | number), id: (string | number) }",
+            "strReturn": "\`/subscriptions/\${params.snapshot}/\${params.id}\`",
+          },
+        ]
       `)
     } else {
       expect('I should never be').toBe('here')
@@ -280,79 +342,85 @@ describe('run()', () => {
         \\"/\\": \`/\`,
         \\"/subGroup\\": \`/subGroup\`,
         \\"/subGroup2\\": \`/subGroup2\`,
-        \\"/[[lang]]/contract\\": (params?: { lang?: ('fr' | 'en' | 'hu' | 'at' | string) }) =>  {
-              return \`\${params?.lang ? \`/\${params?.lang}\`: ''}/contract\`
-            },
-        \\"/[[lang]]/contract/[id]\\": (params: { lang?: ('fr' | 'en' | 'hu' | 'at' | string), id: (string | number) }) =>  {
-              return \`\${params?.lang ? \`/\${params?.lang}\`: ''}/contract/\${params.id}\`
-            },
-        \\"/[[lang]]/gp/one\\": (params?: { lang?: ('fr' | 'en' | 'hu' | 'at' | string) }) =>  {
-              return \`\${params?.lang ? \`/\${params?.lang}\`: ''}/gp/one\`
-            },
-        \\"/[[lang]]/gp/two\\": (params?: { lang?: ('fr' | 'en' | 'hu' | 'at' | string) }) =>  {
-              return \`\${params?.lang ? \`/\${params?.lang}\`: ''}/gp/two\`
-            },
-        \\"/[[lang]]/main\\": (params?: { lang?: ('fr' | 'en' | 'hu' | 'at' | string) }) =>  {
-              return \`\${params?.lang ? \`/\${params?.lang}\`: ''}/main\`
-            },
-        \\"/[[lang]]/match/[id=int]\\": (params: { lang?: ('fr' | 'en' | 'hu' | 'at' | string), id: (string | number) }) =>  {
-              return \`\${params?.lang ? \`/\${params?.lang}\`: ''}/match/\${params.id}\`
-            },
-        \\"/[[lang]]/site\\": (params?: { lang?: ('fr' | 'en' | 'hu' | 'at' | string) }) =>  {
-              return \`\${params?.lang ? \`/\${params?.lang}\`: ''}/site\`
-            },
-        \\"/[[lang]]/site/[id]\\": (params: { lang?: ('fr' | 'en' | 'hu' | 'at' | string), id: (string | number) }) =>  {
-              return \`\${params?.lang ? \`/\${params?.lang}\`: ''}/site/\${params.id}\`
-            },
-        \\"/[[lang]]/site_contract/[siteId]-[contractId]\\": (params: { lang?: ('fr' | 'en' | 'hu' | 'at' | string), siteId: (string | number), contractId: (string | number) }) =>  {
-              return \`\${params?.lang ? \`/\${params?.lang}\`: ''}/site_contract/\${params.siteId}-\${params.contractId}\`
-            },
-        \\"/a/[...rest]/z\\": (params: { rest: (string | number)[] }) =>  {
-              return \`/a/\${params.rest?.join('/')}/z\`
-            },
+        \\"/[[lang]]/contract\\": (params?: { lang?: ('fr' | 'en' | 'hu' | 'at' | string) }) => {
+          return \`\${params?.lang ? \`/\${params?.lang}\`: ''}/contract\`
+        },
+        \\"/[[lang]]/contract/[id]\\": (params: { id: (string | number), lang?: ('fr' | 'en' | 'hu' | 'at' | string) }) => {
+          return \`\${params?.lang ? \`/\${params?.lang}\`: ''}/contract/\${params.id}\`
+        },
+        \\"/[[lang]]/gp/one\\": (params?: { lang?: ('fr' | 'en' | 'hu' | 'at' | string) }) => {
+          return \`\${params?.lang ? \`/\${params?.lang}\`: ''}/gp/one\`
+        },
+        \\"/[[lang]]/gp/two\\": (params?: { lang?: ('fr' | 'en' | 'hu' | 'at' | string) }) => {
+          return \`\${params?.lang ? \`/\${params?.lang}\`: ''}/gp/two\`
+        },
+        \\"/[[lang]]/main\\": (params?: { lang?: ('fr' | 'en' | 'hu' | 'at' | string) }) => {
+          return \`\${params?.lang ? \`/\${params?.lang}\`: ''}/main\`
+        },
+        \\"/[[lang]]/match/[id=int]\\": (params: { id: (string | number), lang?: ('fr' | 'en' | 'hu' | 'at' | string) }) => {
+          return \`\${params?.lang ? \`/\${params?.lang}\`: ''}/match/\${params.id}\`
+        },
+        \\"/[[lang]]/site\\": (params?: { lang?: ('fr' | 'en' | 'hu' | 'at' | string) }) => {
+          return \`\${params?.lang ? \`/\${params?.lang}\`: ''}/site\`
+        },
+        \\"/[[lang]]/site/[id]\\": (params: { id: (string | number), lang?: ('fr' | 'en' | 'hu' | 'at' | string) }) => {
+          return \`\${params?.lang ? \`/\${params?.lang}\`: ''}/site/\${params.id}\`
+        },
+        \\"/[[lang]]/site_contract/[siteId]-[contractId]\\": (params: { siteId: (string | number), contractId: (string | number), lang?: ('fr' | 'en' | 'hu' | 'at' | string) }) => {
+          return \`\${params?.lang ? \`/\${params?.lang}\`: ''}/site_contract/\${params.siteId}-\${params.contractId}\`
+        },
+        \\"/a/[...rest]/z\\": (params: { rest: (string | number)[] }) => {
+          return \`/a/\${params.rest?.join('/')}/z\`
+        },
         \\"/lay/normal\\": \`/lay/normal\`,
         \\"/lay/root-layout\\": \`/lay/root-layout\`,
         \\"/lay/skip\\": \`/lay/skip\`
       }
 
       export const SERVERS = {
-        \\"/[[lang]]/contract\\": (method: 'GET' | 'POST', params?: { lang?: ('fr' | 'en' | 'hu' | 'at' | string) }) =>  {
-              return \`\${params?.lang ? \`/\${params?.lang}\`: ''}/contract\`
-            },
-        \\"/[[lang]]/site\\": (method: 'GET', params?: { lang?: ('fr' | 'en' | 'hu' | 'at' | string) }) =>  {
-              return \`\${params?.lang ? \`/\${params?.lang}\`: ''}/site\`
-            },
-        \\"/api/graphql\\": (method: 'GET' | 'POST') =>  {
-              return \`/api/graphql\`
-            }
+        \\"GET_/[[lang]]/contract\\": (params?: { lang?: ('fr' | 'en' | 'hu' | 'at' | string) }) => {
+          return \`\${params?.lang ? \`/\${params?.lang}\`: ''}/contract\`
+        },
+        \\"POST_/[[lang]]/contract\\": (params?: { lang?: ('fr' | 'en' | 'hu' | 'at' | string) }) => {
+          return \`\${params?.lang ? \`/\${params?.lang}\`: ''}/contract\`
+        },
+        \\"GET_/[[lang]]/site\\": (params?: { lang?: ('fr' | 'en' | 'hu' | 'at' | string) }) => {
+          return \`\${params?.lang ? \`/\${params?.lang}\`: ''}/site\`
+        },
+        \\"GET_/api/graphql\\": \`/api/graphql\`,
+        \\"POST_/api/graphql\\": \`/api/graphql\`
       }
 
       export const ACTIONS = {
-        \\"/[[lang]]/contract/[id]\\": (action: 'default', params: { lang?: ('fr' | 'en' | 'hu' | 'at' | string), id: (string | number) }) =>  {
-              return \`\${params?.lang ? \`/\${params?.lang}\`: ''}/contract/\${params.id}\`
-            },
-        \\"/[[lang]]/site\\": (action: 'action1' | 'action2', params?: { lang?: ('fr' | 'en' | 'hu' | 'at' | string) }) =>  {
-              return \`\${params?.lang ? \`/\${params?.lang}\`: ''}/site?/\${action}\`
-            },
-        \\"/[[lang]]/site_contract\\": (action: 'noSatisfies', params?: { lang?: ('fr' | 'en' | 'hu' | 'at' | string) }) =>  {
-              return \`\${params?.lang ? \`/\${params?.lang}\`: ''}/site_contract?/\${action}\`
-            },
-        \\"/[[lang]]/site_contract/[siteId]-[contractId]\\": (action: 'sendSomething', params: { lang?: ('fr' | 'en' | 'hu' | 'at' | string), siteId: (string | number), contractId: (string | number) }) =>  {
-              return \`\${params?.lang ? \`/\${params?.lang}\`: ''}/site_contract/\${params.siteId}-\${params.contractId}?/\${action}\`
-            }
+        \\"default_/[[lang]]/contract/[id]\\": (params: { id: (string | number), lang?: ('fr' | 'en' | 'hu' | 'at' | string) }) => {
+          return \`\${params?.lang ? \`/\${params?.lang}\`: ''}/contract/\${params.id}\`
+        },
+        \\"action1_/[[lang]]/site\\": (params?: { lang?: ('fr' | 'en' | 'hu' | 'at' | string) }) => {
+          return \`\${params?.lang ? \`/\${params?.lang}\`: ''}/site?/action1\`
+        },
+        \\"action2_/[[lang]]/site\\": (params?: { lang?: ('fr' | 'en' | 'hu' | 'at' | string) }) => {
+          return \`\${params?.lang ? \`/\${params?.lang}\`: ''}/site?/action2\`
+        },
+        \\"noSatisfies_/[[lang]]/site_contract\\": (params?: { lang?: ('fr' | 'en' | 'hu' | 'at' | string) }) => {
+          return \`\${params?.lang ? \`/\${params?.lang}\`: ''}/site_contract?/noSatisfies\`
+        },
+        \\"sendSomething_/[[lang]]/site_contract/[siteId]-[contractId]\\": (params: { siteId: (string | number), contractId: (string | number), lang?: ('fr' | 'en' | 'hu' | 'at' | string) }) => {
+          return \`\${params?.lang ? \`/\${params?.lang}\`: ''}/site_contract/\${params.siteId}-\${params.contractId}?/sendSomething\`
+        }
       }
 
       export const LINKS = {
         \\"twitter\\": \`https:/twitter.com/jycouet\`,
-        \\"twitter_post\\": (params: { name: (string | number), id: (string | number) }) =>  {
-              return \`https:/twitter.com/\${params.name}/status/\${params.id}\`
-            },
-        \\"gravatar\\": (params: { str: (string | number), s?: (number), d?: (\\"retro\\" | \\"identicon\\") }) =>  {
+        \\"twitter_post\\": (params: { name: (string | number), id: (string | number) }) => {
+          return \`https:/twitter.com/\${params.name}/status/\${params.id}\`
+        },
+        \\"gravatar\\": (params: { str: (string | number), s?: (number), d?: (\\"retro\\" | \\"identicon\\") }) => {
           params.s = params.s ?? 75; 
           params.d = params.d ?? \\"identicon\\"; 
-              return \`https:/www.gravatar.com/avatar/\${params.str}\${appendSp({ s: params?.s, d: params?.d })}\`
-            }
+          return \`https:/www.gravatar.com/avatar/\${params.str}\${appendSp({ s: params?.s, d: params?.d })}\`
+        }
       }
+
       const appendSp = (sp?: Record<string, string | number | undefined>, prefix: '?' | '&' = '?') => {
         if (sp === undefined) return ''
         const mapping = Object.entries(sp)
@@ -381,9 +449,9 @@ describe('run()', () => {
       * \`\`\`
       */
       export type KIT_ROUTES = { 
-        PAGES: { '/': never, '/subGroup': never, '/subGroup2': never, '/[[lang]]/contract': 'lang', '/[[lang]]/contract/[id]': 'lang' | 'id', '/[[lang]]/gp/one': 'lang', '/[[lang]]/gp/two': 'lang', '/[[lang]]/main': 'lang', '/[[lang]]/match/[id=int]': 'lang' | 'id', '/[[lang]]/site': 'lang', '/[[lang]]/site/[id]': 'lang' | 'id', '/[[lang]]/site_contract/[siteId]-[contractId]': 'lang' | 'siteId' | 'contractId', '/a/[...rest]/z': 'rest', '/lay/normal': never, '/lay/root-layout': never, '/lay/skip': never }
-        SERVERS: { '/[[lang]]/contract': 'lang', '/[[lang]]/site': 'lang', '/api/graphql': never }
-        ACTIONS: { '/[[lang]]/contract/[id]': 'lang' | 'id', '/[[lang]]/site': 'lang', '/[[lang]]/site_contract': 'lang', '/[[lang]]/site_contract/[siteId]-[contractId]': 'lang' | 'siteId' | 'contractId' }
+        PAGES: { '/': never, '/subGroup': never, '/subGroup2': never, '/[[lang]]/contract': 'lang', '/[[lang]]/contract/[id]': 'id' | 'lang', '/[[lang]]/gp/one': 'lang', '/[[lang]]/gp/two': 'lang', '/[[lang]]/main': 'lang', '/[[lang]]/match/[id=int]': 'id' | 'lang', '/[[lang]]/site': 'lang', '/[[lang]]/site/[id]': 'id' | 'lang', '/[[lang]]/site_contract/[siteId]-[contractId]': 'siteId' | 'contractId' | 'lang', '/a/[...rest]/z': 'rest', '/lay/normal': never, '/lay/root-layout': never, '/lay/skip': never }
+        SERVERS: { 'GET_/[[lang]]/contract': 'lang', 'POST_/[[lang]]/contract': 'lang', 'GET_/[[lang]]/site': 'lang', 'GET_/api/graphql': never, 'POST_/api/graphql': never }
+        ACTIONS: { 'default_/[[lang]]/contract/[id]': 'id' | 'lang', 'action1_/[[lang]]/site': 'lang', 'action2_/[[lang]]/site': 'lang', 'noSatisfies_/[[lang]]/site_contract': 'lang', 'sendSomething_/[[lang]]/site_contract/[siteId]-[contractId]': 'siteId' | 'contractId' | 'lang' }
         LINKS: { 'twitter': never, 'twitter_post': 'name' | 'id', 'gravatar': 'str' }
         Params: { lang: never, id: never, siteId: never, contractId: never, rest: never, name: never, str: never, s: never, d: never }
       }
@@ -543,33 +611,32 @@ describe('run()', () => {
        *      >> DO NOT EDIT THIS FILE MANUALLY <<
        */
 
-      // PAGES
       export function route(key: '/'): string
       export function route(key: '/subGroup'): string
       export function route(key: '/subGroup2'): string
       export function route(key: '/[[lang]]/contract', params?: { lang?: ('fr' | 'en' | 'hu' | 'at' | string) }): string
-      export function route(key: '/[[lang]]/contract/[id]', params: { lang?: ('fr' | 'en' | 'hu' | 'at' | string), id: (string | number) }): string
+      export function route(key: '/[[lang]]/contract/[id]', params: { id: (string | number), lang?: ('fr' | 'en' | 'hu' | 'at' | string) }): string
       export function route(key: '/[[lang]]/gp/one', params?: { lang?: ('fr' | 'en' | 'hu' | 'at' | string) }): string
       export function route(key: '/[[lang]]/gp/two', params?: { lang?: ('fr' | 'en' | 'hu' | 'at' | string) }): string
       export function route(key: '/[[lang]]/main', params?: { lang?: ('fr' | 'en' | 'hu' | 'at' | string) }): string
-      export function route(key: '/[[lang]]/match/[id=int]', params: { lang?: ('fr' | 'en' | 'hu' | 'at' | string), id: (string | number) }): string
+      export function route(key: '/[[lang]]/match/[id=int]', params: { id: (string | number), lang?: ('fr' | 'en' | 'hu' | 'at' | string) }): string
       export function route(key: '/[[lang]]/site', params?: { lang?: ('fr' | 'en' | 'hu' | 'at' | string) }): string
-      export function route(key: '/[[lang]]/site/[id]', params: { lang?: ('fr' | 'en' | 'hu' | 'at' | string), id: (string | number) }): string
-      export function route(key: '/[[lang]]/site_contract/[siteId]-[contractId]', params: { lang?: ('fr' | 'en' | 'hu' | 'at' | string), siteId: (string | number), contractId: (string | number) }): string
+      export function route(key: '/[[lang]]/site/[id]', params: { id: (string | number), lang?: ('fr' | 'en' | 'hu' | 'at' | string) }): string
+      export function route(key: '/[[lang]]/site_contract/[siteId]-[contractId]', params: { siteId: (string | number), contractId: (string | number), lang?: ('fr' | 'en' | 'hu' | 'at' | string) }): string
       export function route(key: '/a/[...rest]/z', params: { rest: (string | number)[] }): string
       export function route(key: '/lay/normal'): string
       export function route(key: '/lay/root-layout'): string
       export function route(key: '/lay/skip'): string
-      // SERVERS
-      export function route(key: '/[[lang]]/contract', method: 'GET' | 'POST', params?: { lang?: ('fr' | 'en' | 'hu' | 'at' | string) }): string
-      export function route(key: '/[[lang]]/site', method: 'GET', params?: { lang?: ('fr' | 'en' | 'hu' | 'at' | string) }): string
-      export function route(key: '/api/graphql', method: 'GET' | 'POST'): string
-      // ACTIONS
-      export function route(key: '/[[lang]]/contract/[id]', action: 'default', params: { lang?: ('fr' | 'en' | 'hu' | 'at' | string), id: (string | number) }): string
-      export function route(key: '/[[lang]]/site', action: 'action1' | 'action2', params?: { lang?: ('fr' | 'en' | 'hu' | 'at' | string) }): string
-      export function route(key: '/[[lang]]/site_contract', action: 'noSatisfies', params?: { lang?: ('fr' | 'en' | 'hu' | 'at' | string) }): string
-      export function route(key: '/[[lang]]/site_contract/[siteId]-[contractId]', action: 'sendSomething', params: { lang?: ('fr' | 'en' | 'hu' | 'at' | string), siteId: (string | number), contractId: (string | number) }): string
-      // LINKS
+      export function route(key: 'GET_/[[lang]]/contract', params?: { lang?: ('fr' | 'en' | 'hu' | 'at' | string) }): string
+      export function route(key: 'POST_/[[lang]]/contract', params?: { lang?: ('fr' | 'en' | 'hu' | 'at' | string) }): string
+      export function route(key: 'GET_/[[lang]]/site', params?: { lang?: ('fr' | 'en' | 'hu' | 'at' | string) }): string
+      export function route(key: 'GET_/api/graphql'): string
+      export function route(key: 'POST_/api/graphql'): string
+      export function route(key: 'default_/[[lang]]/contract/[id]', params: { id: (string | number), lang?: ('fr' | 'en' | 'hu' | 'at' | string) }): string
+      export function route(key: 'action1_/[[lang]]/site', params?: { lang?: ('fr' | 'en' | 'hu' | 'at' | string) }): string
+      export function route(key: 'action2_/[[lang]]/site', params?: { lang?: ('fr' | 'en' | 'hu' | 'at' | string) }): string
+      export function route(key: 'noSatisfies_/[[lang]]/site_contract', params?: { lang?: ('fr' | 'en' | 'hu' | 'at' | string) }): string
+      export function route(key: 'sendSomething_/[[lang]]/site_contract/[siteId]-[contractId]', params: { siteId: (string | number), contractId: (string | number), lang?: ('fr' | 'en' | 'hu' | 'at' | string) }): string
       export function route(key: 'twitter'): string
       export function route(key: 'twitter_post', params: { name: (string | number), id: (string | number) }): string
       export function route(key: 'gravatar', params: { str: (string | number), s?: (number), d?: (\\"retro\\" | \\"identicon\\") }): string
@@ -592,7 +659,7 @@ describe('run()', () => {
         const method = args[1] ?? '' // Not used yet
         const sp = args[2] ?? ''
 
-        switch(key){
+        switch(key) {
           case '/':
             return \`/\`
           case '/subGroup':
@@ -625,20 +692,26 @@ describe('run()', () => {
             return \`/lay/root-layout\`
           case '/lay/skip':
             return \`/lay/skip\`
-          case '/[[lang]]/contract':
+          case 'GET_/[[lang]]/contract':
             return \`\${params?.lang ? \`/\${params?.lang}\`: ''}/contract\`
-          case '/[[lang]]/site':
+          case 'POST_/[[lang]]/contract':
+            return \`\${params?.lang ? \`/\${params?.lang}\`: ''}/contract\`
+          case 'GET_/[[lang]]/site':
             return \`\${params?.lang ? \`/\${params?.lang}\`: ''}/site\`
-          case '/api/graphql':
+          case 'GET_/api/graphql':
             return \`/api/graphql\`
-          case '/[[lang]]/contract/[id]':
+          case 'POST_/api/graphql':
+            return \`/api/graphql\`
+          case 'default_/[[lang]]/contract/[id]':
             return \`\${params?.lang ? \`/\${params?.lang}\`: ''}/contract/\${params.id}\`
-          case '/[[lang]]/site':
-            return \`\${params?.lang ? \`/\${params?.lang}\`: ''}/site?/\${action}\`
-          case '/[[lang]]/site_contract':
-            return \`\${params?.lang ? \`/\${params?.lang}\`: ''}/site_contract?/\${action}\`
-          case '/[[lang]]/site_contract/[siteId]-[contractId]':
-            return \`\${params?.lang ? \`/\${params?.lang}\`: ''}/site_contract/\${params.siteId}-\${params.contractId}?/\${action}\`
+          case 'action1_/[[lang]]/site':
+            return \`\${params?.lang ? \`/\${params?.lang}\`: ''}/site?/action1\`
+          case 'action2_/[[lang]]/site':
+            return \`\${params?.lang ? \`/\${params?.lang}\`: ''}/site?/action2\`
+          case 'noSatisfies_/[[lang]]/site_contract':
+            return \`\${params?.lang ? \`/\${params?.lang}\`: ''}/site_contract?/noSatisfies\`
+          case 'sendSomething_/[[lang]]/site_contract/[siteId]-[contractId]':
+            return \`\${params?.lang ? \`/\${params?.lang}\`: ''}/site_contract/\${params.siteId}-\${params.contractId}?/sendSomething\`
           case 'twitter':
             return \`https:/twitter.com/jycouet\`
           case 'twitter_post':
@@ -669,9 +742,9 @@ describe('run()', () => {
       * \`\`\`
       */
       export type KIT_ROUTES = { 
-        PAGES: { '/': never, '/subGroup': never, '/subGroup2': never, '/[[lang]]/contract': 'lang', '/[[lang]]/contract/[id]': 'lang' | 'id', '/[[lang]]/gp/one': 'lang', '/[[lang]]/gp/two': 'lang', '/[[lang]]/main': 'lang', '/[[lang]]/match/[id=int]': 'lang' | 'id', '/[[lang]]/site': 'lang', '/[[lang]]/site/[id]': 'lang' | 'id', '/[[lang]]/site_contract/[siteId]-[contractId]': 'lang' | 'siteId' | 'contractId', '/a/[...rest]/z': 'rest', '/lay/normal': never, '/lay/root-layout': never, '/lay/skip': never }
-        SERVERS: { '/[[lang]]/contract': 'lang', '/[[lang]]/site': 'lang', '/api/graphql': never }
-        ACTIONS: { '/[[lang]]/contract/[id]': 'lang' | 'id', '/[[lang]]/site': 'lang', '/[[lang]]/site_contract': 'lang', '/[[lang]]/site_contract/[siteId]-[contractId]': 'lang' | 'siteId' | 'contractId' }
+        PAGES: { '/': never, '/subGroup': never, '/subGroup2': never, '/[[lang]]/contract': 'lang', '/[[lang]]/contract/[id]': 'id' | 'lang', '/[[lang]]/gp/one': 'lang', '/[[lang]]/gp/two': 'lang', '/[[lang]]/main': 'lang', '/[[lang]]/match/[id=int]': 'id' | 'lang', '/[[lang]]/site': 'lang', '/[[lang]]/site/[id]': 'id' | 'lang', '/[[lang]]/site_contract/[siteId]-[contractId]': 'siteId' | 'contractId' | 'lang', '/a/[...rest]/z': 'rest', '/lay/normal': never, '/lay/root-layout': never, '/lay/skip': never }
+        SERVERS: { 'GET_/[[lang]]/contract': 'lang', 'POST_/[[lang]]/contract': 'lang', 'GET_/[[lang]]/site': 'lang', 'GET_/api/graphql': never, 'POST_/api/graphql': never }
+        ACTIONS: { 'default_/[[lang]]/contract/[id]': 'id' | 'lang', 'action1_/[[lang]]/site': 'lang', 'action2_/[[lang]]/site': 'lang', 'noSatisfies_/[[lang]]/site_contract': 'lang', 'sendSomething_/[[lang]]/site_contract/[siteId]-[contractId]': 'siteId' | 'contractId' | 'lang' }
         LINKS: { 'twitter': never, 'twitter_post': 'name' | 'id', 'gravatar': 'str' }
         Params: { lang: never, id: never, siteId: never, contractId: never, rest: never, name: never, str: never, s: never, d: never }
       }

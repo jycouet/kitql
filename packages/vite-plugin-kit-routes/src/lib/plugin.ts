@@ -304,6 +304,92 @@ export const transformToMetadata = (
   const keyToUse = formatKey(original, options)
   let toRet = rmvGroups(originalValue)
 
+  const list: MetadataToWrite[] = []
+
+  if (type === 'ACTIONS') {
+    const { actions } = getActionsOfServerPages(originalValue)
+    if (actions.length === 0) {
+    } else if (actions.length === 1 && actions[0] === 'default') {
+      list.push(
+        buildMetadata(
+          type,
+          originalValue,
+          'default_' + keyToUse,
+          keyToUse,
+
+          useWithAppendSp,
+          '',
+          toRet,
+          options,
+        ),
+      )
+    } else {
+      actions.map(action => {
+        list.push(
+          buildMetadata(
+            type,
+            originalValue,
+            action + '_' + keyToUse,
+            keyToUse,
+
+            useWithAppendSp,
+            `?/${action}`,
+            toRet,
+            options,
+          ),
+        )
+      })
+    }
+  } else if (type === 'SERVERS') {
+    const methods = getMethodsOfServerFiles(originalValue)
+    if (methods.length === 0) {
+      return []
+    } else {
+      methods.map(method => {
+        list.push(
+          buildMetadata(
+            type,
+            originalValue,
+            method + '_' + keyToUse,
+            keyToUse,
+
+            useWithAppendSp,
+            ``,
+            toRet,
+            options,
+          ),
+        )
+      })
+    }
+  } else {
+    list.push(
+      buildMetadata(
+        type,
+        originalValue,
+        keyToUse,
+        keyToUse,
+
+        useWithAppendSp,
+        '',
+        toRet,
+        options,
+      ),
+    )
+  }
+
+  return list
+}
+
+export function buildMetadata(
+  type: 'PAGES' | 'SERVERS' | 'ACTIONS' | 'LINKS',
+  originalValue: string,
+  keyToUse: string,
+  key_wo_prefix: string,
+  useWithAppendSp: boolean | undefined,
+  actionsFormat: string,
+  toRet: string,
+  options?: Options,
+) {
   // custom conf
   const viteCustomPathConfig = options?.[type]
   let customConf: CustomPath = {
@@ -366,88 +452,6 @@ export const transformToMetadata = (
     }
   })
 
-  const list: MetadataToWrite[] = []
-
-  if (type === 'ACTIONS') {
-    const { actions } = getActionsOfServerPages(originalValue)
-    if (actions.length === 0) {
-    } else if (actions.length === 1 && actions[0] === 'default') {
-      list.push(
-        buildMetadata(
-          keyToUse,
-          'default_' + keyToUse,
-          customConf,
-          paramsFromPath,
-          useWithAppendSp,
-          '',
-          toRet,
-          options,
-        ),
-      )
-    } else {
-      actions.map(action => {
-        list.push(
-          buildMetadata(
-            action + '_' + keyToUse,
-            keyToUse,
-            customConf,
-            paramsFromPath,
-            useWithAppendSp,
-            `?/${action}`,
-            toRet,
-            options,
-          ),
-        )
-      })
-    }
-  } else if (type === 'SERVERS') {
-    const methods = getMethodsOfServerFiles(originalValue)
-    if (methods.length === 0) {
-      return []
-    } else {
-      methods.map(method => {
-        list.push(
-          buildMetadata(
-            method + '_' + keyToUse,
-            keyToUse,
-            customConf,
-            paramsFromPath,
-            useWithAppendSp,
-            ``,
-            toRet,
-            options,
-          ),
-        )
-      })
-    }
-  } else {
-    list.push(
-      buildMetadata(
-        keyToUse,
-        keyToUse,
-        customConf,
-        paramsFromPath,
-        useWithAppendSp,
-        '',
-        toRet,
-        options,
-      ),
-    )
-  }
-
-  return list
-}
-
-export function buildMetadata(
-  keyToUse: string,
-  key_wo_prefix: string,
-  customConf: CustomPath,
-  paramsFromPath: Param[],
-  useWithAppendSp: boolean | undefined,
-  actionsFormat: string,
-  toRet: string,
-  options?: Options,
-) {
   const params = []
 
   // custom search Param?
@@ -614,7 +618,7 @@ export const run = (options?: Options) => {
     .forEach(o => {
       Object.entries(options?.[o.type] ?? {}).forEach(e => {
         const [key, cPath] = e
-        const found = o.files.find(c => c.key_wo_prefix === key)
+        const found = o.files.find(c => c.keyToUse === key)
         if (!found) {
           if (shouldLog('errors', options)) {
             log.error(
@@ -656,14 +660,23 @@ export const run = (options?: Options) => {
         ? // variables
           objTypes
             .map(c => {
-              return c.files
-                .map(key => {
-                  // TODO
-                  return `export const ${c.type}_${key.keyToUse} = {}`
-                  // const [first, ...rest] = key.prop.split(':')
-                  // return `export const ${c.type}_${first.slice(1, -1)} = ${rest.join(':')}`
-                })
-                .join('\n')
+              return `//\n// ${c.type}\n//
+${c.files
+  .map(key => {
+    if (key.strParams) {
+      return (
+        `export const ${c.type}_${key.keyToUse} = (${key.strParams}) => {` +
+        `${format({ bottom: 0, top: 1, left: 2 }, key.strDefault)}
+  return ${key.strReturn} 
+}`
+      )
+    } else {
+      return `export const ${c.type}_${key.keyToUse} = ${key.strReturn}`
+    }
+    // const [first, ...rest] = key.prop.split(':')
+    // return `export const ${c.type}_${first.slice(1, -1)} = ${rest.join(':')}`
+  })
+  .join('\n')}`
             })
             .join(`\n\n`)
         : // route function
@@ -736,7 +749,10 @@ ${format(
               .join(`\n\n`),
 
       // add appendSp
-      ...(options?.format?.includes('route') ? [] : [appendSp]),
+      ...(options?.format?.includes('route')
+        ? []
+        : // Let's bing a new line on top
+          ['', appendSp]),
 
       // types
       `/**
