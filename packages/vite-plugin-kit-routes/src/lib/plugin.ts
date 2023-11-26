@@ -42,17 +42,17 @@ export type Options<T extends ExtendTypes = ExtendTypes> = {
 
   /**
    * ```ts
-   * // with `/` (default)
    * PAGES["/site/[id]"]({ id: 7})
-   *
-   * // with `_`
-   * PAGES.site_id({ id: 7})
-   *
-   * // with `route('/')`
+   *        // vs
    * route("/site/[id]", { id: 7})
    *
-   * // with `route('_')`
+   * PAGES.site_id({ id: 7})
+   *        // vs
    * route("site_id", { id: 7})
+   *
+   * // with `route('/')`
+   *
+   * // with `route('_')`
    *
    * // with `variables` (best for code splitting)
    * PAGES_site_id({ id: 7})
@@ -382,6 +382,8 @@ export const fileToMetadata = (
     if (actions.length === 0) {
       return null
     } else if (actions.length === 1 && actions[0] === 'default') {
+      // Let's add the default action named 'default'. We want to be explicite.
+      params.push(`action: ${actions.map(c => `'${c}'`).join(' | ')}`)
     } else {
       params.push(`action: ${actions.map(c => `'${c}'`).join(' | ')}`)
       actionsFormat = `?/\${action}`
@@ -421,9 +423,9 @@ export const fileToMetadata = (
     fullSP = `\${appendSp(sp${appendSpPrefix})}`
   } else if (wExtraSP && customConf.explicit_search_params) {
     params.push(`sp?: Record<string, string | number>`)
-    fullSP = `\${appendSp({...sp, ${explicit_search_params_to_function.join(
-      ', ',
-    )} }${appendSpPrefix})}`
+    fullSP =
+      `\${appendSp({ ${explicit_search_params_to_function.join(', ')}` +
+      `, ...sp }${appendSpPrefix})}`
   } else if (!wExtraSP && customConf.explicit_search_params) {
     fullSP = `\${appendSp({ ${explicit_search_params_to_function.join(', ')} }${appendSpPrefix})}`
   }

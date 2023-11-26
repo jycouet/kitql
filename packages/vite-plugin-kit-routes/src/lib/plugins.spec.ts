@@ -322,7 +322,7 @@ describe('run()', () => {
       }
 
       export const ACTIONS = {
-        \\"/[[lang]]/contract/[id]\\": (params: {lang?: ('fr' | 'en' | 'hu' | 'at' | string), id: (string | number)}) =>  {
+        \\"/[[lang]]/contract/[id]\\": (action: 'default', params: {lang?: ('fr' | 'en' | 'hu' | 'at' | string), id: (string | number)}) =>  {
               return \`\${params?.lang ? \`/\${params?.lang}\`: ''}/contract/\${params.id}\`
             },
         \\"/[[lang]]/site\\": (action: 'action1' | 'action2', params: {lang?: ('fr' | 'en' | 'hu' | 'at' | string)}= {}) =>  {
@@ -429,7 +429,7 @@ describe('run()', () => {
               return \`\${params?.lang ? \`/\${params?.lang}\`: ''}/match/\${params.id}\`
             },
         \\"lang_site\\": (params: {lang?: ('fr' | 'en' | 'hu' | 'at' | string), limit?: (number)}= {}, sp?: Record<string, string | number>) =>  {
-              return \`\${params?.lang ? \`/\${params?.lang}\`: ''}/site\${appendSp({...sp, limit: params.limit })}\`
+              return \`\${params?.lang ? \`/\${params?.lang}\`: ''}/site\${appendSp({ limit: params.limit, ...sp })}\`
             },
         \\"lang_site_id\\": (params: {lang?: ('fr' | 'hu' | undefined), id?: (string), limit?: (number), demo?: (string)}= {}) =>  {
           params.lang = params.lang ?? \\"fr\\"; 
@@ -460,7 +460,7 @@ describe('run()', () => {
       }
 
       export const ACTIONS = {
-        \\"lang_contract_id\\": (params: {lang?: ('fr' | 'en' | 'hu' | 'at' | string), id: (string | number), limit?: (number)}) =>  {
+        \\"lang_contract_id\\": (action: 'default', params: {lang?: ('fr' | 'en' | 'hu' | 'at' | string), id: (string | number), limit?: (number)}) =>  {
               return \`\${params?.lang ? \`/\${params?.lang}\`: ''}/contract/\${params.id}\${appendSp({ limit: params.limit })}\`
             },
         \\"lang_site\\": (action: 'action1' | 'action2', params: {lang?: ('fr' | 'en' | 'hu' | 'at' | string)}= {}) =>  {
@@ -594,7 +594,7 @@ describe('run()', () => {
       }
 
       export const ACTIONS = {
-        \\"/[[lang]]/contract/[id]\\": (params: {lang?: ('fr' | 'en' | 'hu' | 'at' | string), id: (string | number)}) =>  {
+        \\"/[[lang]]/contract/[id]\\": (action: 'default', params: {lang?: ('fr' | 'en' | 'hu' | 'at' | string), id: (string | number)}) =>  {
               return \`\${params?.lang ? \`/\${params?.lang}\`: ''}/contract/\${params.id}\`
             },
         \\"/[[lang]]/site\\": (action: 'action1' | 'action2', params: {lang?: ('fr' | 'en' | 'hu' | 'at' | string)}= {}) =>  {
@@ -700,7 +700,7 @@ describe('run()', () => {
               return \`\${params?.lang ? \`/\${params?.lang}\`: ''}/match/\${params.id}\`
             }
       export const PAGES_lang_site =  (params: {lang?: ('fr' | 'en' | 'hu' | 'at' | string), limit?: (number)}= {}, sp?: Record<string, string | number>) =>  {
-              return \`\${params?.lang ? \`/\${params?.lang}\`: ''}/site\${appendSp({...sp, limit: params.limit })}\`
+              return \`\${params?.lang ? \`/\${params?.lang}\`: ''}/site\${appendSp({ limit: params.limit, ...sp })}\`
             }
       export const PAGES_lang_site_id =  (params: {lang?: ('fr' | 'hu' | undefined), id?: (string), limit?: (number), demo?: (string)}= {}) =>  {
           params.lang = params.lang ?? \\"fr\\"; 
@@ -727,7 +727,7 @@ describe('run()', () => {
               return \`/api/graphql\`
             }
 
-      export const ACTIONS_lang_contract_id =  (params: {lang?: ('fr' | 'en' | 'hu' | 'at' | string), id: (string | number), limit?: (number)}) =>  {
+      export const ACTIONS_lang_contract_id =  (action: 'default', params: {lang?: ('fr' | 'en' | 'hu' | 'at' | string), id: (string | number), limit?: (number)}) =>  {
               return \`\${params?.lang ? \`/\${params?.lang}\`: ''}/contract/\${params.id}\${appendSp({ limit: params.limit })}\`
             }
       export const ACTIONS_lang_site =  (action: 'action1' | 'action2', params: {lang?: ('fr' | 'en' | 'hu' | 'at' | string)}= {}) =>  {
@@ -842,7 +842,7 @@ describe('run()', () => {
               return \`\${base}\${params?.lang ? \`/\${params?.lang}\`: ''}/match/\${params.id}\`
             },
         \\"lang_site\\": (params: {lang?: ('fr' | 'en' | 'hu' | 'at' | string), limit?: (number)}= {}, sp?: Record<string, string | number>) =>  {
-              return \`\${base}\${params?.lang ? \`/\${params?.lang}\`: ''}/site\${appendSp({...sp, limit: params.limit })}\`
+              return \`\${base}\${params?.lang ? \`/\${params?.lang}\`: ''}/site\${appendSp({ limit: params.limit, ...sp })}\`
             },
         \\"lang_site_id\\": (params: {lang?: ('fr' | 'hu' | undefined), id?: (string), limit?: (number), demo?: (string)}= {}) =>  {
           params.lang = params.lang ?? \\"fr\\"; 
@@ -873,7 +873,7 @@ describe('run()', () => {
       }
 
       export const ACTIONS = {
-        \\"lang_contract_id\\": (params: {lang?: ('fr' | 'en' | 'hu' | 'at' | string), id: (string | number), limit?: (number)}) =>  {
+        \\"lang_contract_id\\": (action: 'default', params: {lang?: ('fr' | 'en' | 'hu' | 'at' | string), id: (string | number), limit?: (number)}) =>  {
               return \`\${base}\${params?.lang ? \`/\${params?.lang}\`: ''}/contract/\${params.id}\${appendSp({ limit: params.limit })}\`
             },
         \\"lang_site\\": (action: 'action1' | 'action2', params: {lang?: ('fr' | 'en' | 'hu' | 'at' | string)}= {}) =>  {
