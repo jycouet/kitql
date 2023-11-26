@@ -205,8 +205,15 @@ export function rmvGroups(key: string) {
   return toRet
 }
 
+export function rmvOptional(key: string) {
+  let toRet = key
+    // rmv (Optional)
+    .replace(/\[{2}.*?\]{2}/g, '')
+  return toRet
+}
+
 export function formatKey(key: string, options?: Options) {
-  let toRet = rmvGroups(key)
+  let toRet = rmvGroups(rmvOptional(key))
 
   if (
     options?.format === undefined ||
