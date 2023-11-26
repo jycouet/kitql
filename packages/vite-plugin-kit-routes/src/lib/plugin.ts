@@ -5,6 +5,7 @@ import * as recast from 'recast'
 import type { Plugin } from 'vite'
 import watch_and_run from 'vite-plugin-watch-and-run'
 
+import { appendSp, format } from './format.js'
 import { getFilesUnder, read, write } from './fs.js'
 
 const { visit } = recast.types
@@ -242,6 +243,15 @@ function routes_path() {
 // const routes_path = 'src/lib/ROUTES.ts'
 const log = new Log('Kit Routes')
 
+type InfoToWrite = {
+  keyToUse: string
+  prop: string
+  paramsFromPath: Param[]
+  strDefault: string
+  strReturn: string
+  strParams: string
+}
+
 const getFileKeys = (
   files: string[],
   type: 'PAGES' | 'SERVERS' | 'ACTIONS' | 'LINKS',
@@ -256,11 +266,7 @@ const getFileKeys = (
 
       return fileToMetadata(c[0], hrefToUse, type, options, useWithAppendSp)
     })
-    return toRet.filter(c => c !== null) as {
-      keyToUse: string
-      prop: string
-      paramsFromPath: Param[]
-    }[]
+    return toRet.filter(c => c !== null) as InfoToWrite[]
   }
 
   const lookFor =
@@ -279,11 +285,7 @@ const getFileKeys = (
     .sort()
     .map(original => fileToMetadata(original, original, type, options, useWithAppendSp))
 
-  return toRet.filter(c => c !== null) as {
-    keyToUse: string
-    prop: string
-    paramsFromPath: Param[]
-  }[]
+  return toRet.filter(c => c !== null) as InfoToWrite[]
 }
 
 type Param = {
@@ -401,14 +403,16 @@ export const fileToMetadata = (
         default: sp[1].default,
         isArray: false,
       })
-      explicit_search_params_to_function.push(`${sp[0]}: params.${sp[0]}`)
+      explicit_search_params_to_function.push(`${sp[0]}: params?.${sp[0]}`)
     })
   }
 
+  const isAllOptional = paramsFromPath.filter(c => !c.optional).length === 0
   if (paramsFromPath.length > 0) {
-    const isAllOptional = paramsFromPath.filter(c => !c.optional).length === 0
     params.push(
-      `params: {${formatArgs(paramsFromPath, options)}}` + `${isAllOptional ? '= {}' : ''}`,
+      // TODO OPTIONNAL
+      // `params: { ${formatArgs(paramsFromPath, options)} }` + `${isAllOptional ? ' = {}' : ''}`,
+      `params${isAllOptional ? '?' : ''}: { ${formatArgs(paramsFromPath, options)} }`,
     )
   }
 
@@ -436,7 +440,14 @@ export const fileToMetadata = (
       return `params.${c.name} = params.${c.name} ?? ${c.default}; `
     })
 
+  if (paramsDefaults.length > 0 && isAllOptional && !options?.format?.includes('route')) {
+    paramsDefaults = ['params = params ?? {}', ...paramsDefaults]
+  }
+
   const pathBaesStr = options?.path_base ? '${base}' : ''
+  const strDefault = paramsDefaults.length > 0 ? `${paramsDefaults.join('\n')}` : ''
+  const strReturn = `\`${pathBaesStr}${toRet}${actionsFormat}${fullSP}\``
+  const strParams = params.join(', ')
 
   let prop = ''
   if (params.length > 0) {
@@ -449,7 +460,7 @@ export const fileToMetadata = (
     prop = `"${keyToUse}": \`${pathBaesStr}${toRet}\``
   }
 
-  return { keyToUse, prop, paramsFromPath }
+  return { keyToUse, prop, paramsFromPath, strDefault, strReturn, strParams }
 }
 
 export function extractParamsFromPath(path: string): Param[] {
@@ -674,39 +685,77 @@ export const run = (options?: Options) => {
 `,
       // consts
       options?.format === 'variables'
-        ? objTypes
+        ? // variables
+          objTypes
             .map(c => {
               return c.files
                 .map(key => {
                   const [first, ...rest] = key.prop.split(':')
-
                   return `export const ${c.type}_${first.slice(1, -1)} = ${rest.join(':')}`
                 })
                 .join('\n')
             })
             .join(`\n\n`)
-        : objTypes
-            .map(c => {
-              return `export const ${c.type} = {
+        : // route function
+          options?.format?.includes('route')
+          ? `${objTypes
+              .map(c => {
+                return (
+                  `// ${c.type}\n` +
+                  c.files
+                    .map(key => {
+                      return (
+                        `export function route(key: '${key.keyToUse}'` +
+                        `${key.strParams ? `, ${key.strParams}` : ``}): string`
+                      )
+                    })
+                    .join(`\n`)
+                )
+              })
+              .join('\n')}
+export function route(key: any, ...args: any): string { 
+${format({}, appendSp)}
+${format({ bottom: 0 }, `const params = args[0] ?? {}`)}
+${format({ bottom: 0 }, `const action = args[1] ?? ''`)}
+${format({ bottom: 0 }, `const method = args[1] ?? '' // Not used yet`)}
+${format({}, `const sp = args[2] ?? ''`)}
+${format({ bottom: 0 }, `switch(key){`)}
+${format(
+  { bottom: 0 },
+  objTypes
+    .map(c => {
+      return c.files
+        .map(key => {
+          return format(
+            { left: 2, bottom: 0 },
+            `case '${key.keyToUse}':` +
+              `${format({ bottom: 0, top: 1 }, key.strDefault)}
+  return ${key.strReturn}`,
+          )
+        })
+        .join(`\n`)
+    })
+    .join('\n'),
+)}
+  }
+  
+  // We should never arrive here
+  return '/'
+}
+`
+          : // Format / or _
+            objTypes
+              .map(c => {
+                return `export const ${c.type} = {
   ${c.files.map(key => key.prop).join(',\n  ')}
 }`
-            })
-            .join(`\n\n`),
-      `
-const appendSp = (sp?: Record<string, string | number | undefined>, prefix: '?' | '&' = '?') => {
-  if (sp === undefined) return ''
-  const mapping = Object.entries(sp)
-    .filter(c => c[1] !== undefined)
-    .map(c => [c[0], String(c[1])])
+              })
+              .join(`\n\n`),
 
-  const formated = new URLSearchParams(mapping).toString()
-  if (formated) {
-    return \`\${prefix}\${formated}\`
-  }
-  return ''
-}
+      // add appendSp
+      ...(options?.format?.includes('route') ? [] : [appendSp]),
 
-`, // types
+      // types
       `/**
 * Add this type as a generic of the vite plugin \`kitRoutes<KIT_ROUTES>\`.
 * 
@@ -717,7 +766,7 @@ const appendSp = (sp?: Record<string, string | number | undefined>, prefix: '?' 
 * 
 * kitRoutes<KIT_ROUTES>({
 *  PAGES: {
-*    // here, "paths" it will be typed!
+*    // here, key of object will be typed!
 *  }
 * })
 * \`\`\`
