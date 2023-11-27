@@ -1,5 +1,12 @@
 # create-kitql
 
+## 0.0.4-next.0
+
+### Patch Changes
+
+- [`592a2fe`](https://github.com/jycouet/kitql/commit/592a2fe2e620a6f1a93a02de7213dc7b88267f43)
+  Thanks [@jycouet](https://github.com/jycouet)! - update create for kit-routes
+
 ## 0.0.3
 
 ### Patch Changes

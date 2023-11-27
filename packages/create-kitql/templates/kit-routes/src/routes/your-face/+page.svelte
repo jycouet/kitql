@@ -12,7 +12,11 @@
 	<p>Name</p>
 	<input type="text" placeholder="Your name" bind:value={name} />
 	<p>
-		<img width={size} src={route('gravatar', { str: name, s: size })} alt="Can't be displayed in Cloud IDE." />
+		<img
+			width={size}
+			src={route('gravatar', { str: name, s: size })}
+			alt="Can't be displayed in Cloud IDE."
+		/>
 		<img width={size} src={route('github_avatar', { author: name })} alt="Clone the repo 😉" />
 	</p>
 </label>
