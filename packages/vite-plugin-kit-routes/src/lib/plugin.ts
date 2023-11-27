@@ -66,20 +66,20 @@ export type Options<T extends ExtendTypes = ExtendTypes> = {
    */
   format?: FormatKind
 
-  // /**
-  //  * default is: `false`
-  //  *
-  //  * If you have only 1 required param, it will be the seond param.
-  //  *
-  //  * ```ts
-  //  * route("/site/[id]", 7)
-  //  * route("site_id", 7)
-  //  * PAGE_site_id(7)
-  //  * PAGES["/site/[id]"](7)
-  //  * PAGES.site_id(7)
-  //  * ```
-  //  */
-  // params_always_as_object?: boolean
+  /**
+   * default is: `false`
+   *
+   * If you have only 1 required param, it will be a direct arg (not part of an object).
+   *
+   * ```ts
+   * route("/site/[id]", 7)
+   * route("site_id", 7)
+   * PAGE_site_id(7)
+   * PAGES["/site/[id]"](7)
+   * PAGES.site_id(7)
+   * ```
+   */
+  shorten_args_if_one_required?: boolean
 
   /**
    * default is: `string | number`
@@ -481,7 +481,7 @@ export function buildMetadata(
   const params = []
 
   // custom search Param?
-  const explicit_search_params_to_function: string[] = []
+  let explicit_search_params_to_function: string[] = []
   if (customConf.explicit_search_params) {
     Object.entries(customConf.explicit_search_params).forEach(sp => {
       paramsFromPath.push({
@@ -491,12 +491,30 @@ export function buildMetadata(
         default: sp[1].default,
         isArray: false,
       })
-      explicit_search_params_to_function.push(`${sp[0]}: params?.${sp[0]}`)
+      explicit_search_params_to_function.push(
+        `${sp[0]}: params${sp[1].required ? '' : '?'}.${sp[0]}`,
+      )
     })
   }
 
   const isAllOptional = paramsFromPath.filter(c => !c.optional).length === 0
   if (paramsFromPath.length > 0) {
+    const paramsReq = paramsFromPath.filter(c => !c.optional)
+    if (options.shorten_args_if_one_required && paramsReq.length === 1) {
+      params.push(formatArg(paramsReq[0], options))
+
+      // If it's in the explicite and it's THIS one, let's change the array...
+      if (
+        explicit_search_params_to_function.length === 1 &&
+        explicit_search_params_to_function[0] ===
+          `${paramsReq[0].name}: params${!paramsReq[0].optional ? '' : '?'}.${paramsReq[0].name}`
+      ) {
+        explicit_search_params_to_function = [paramsReq[0].name]
+      } else {
+        // in params
+        toRet = toRet.replaceAll(`params.${paramsReq[0].name}`, paramsReq[0].name)
+      }
+    }
     params.push(`params${isAllOptional ? '?' : ''}: { ${formatArgs(paramsFromPath, options)} }`)
   }
 
@@ -579,7 +597,12 @@ export function extractParamsFromPath(path: string): Param[] {
 
 const formatArgs = (params: Param[], o: Options) => {
   const options = getDefaultOption(o)
-  return params
+  const paramsReq = params.filter(c => !c.optional)
+  if (options.shorten_args_if_one_required && paramsReq.length === 1) {
+    params = params.filter(c => c.optional)
+  }
+
+  const str = params
     .sort((a, b) => {
       // if (a.optional === b.optional) {
       //   // When 'optional' is the same, sort by 'name'
@@ -590,28 +613,36 @@ const formatArgs = (params: Param[], o: Options) => {
       return a.optional < b.optional ? -1 : 1
     })
     .map(c => {
-      const override_params = Object.entries(options?.override_params ?? {}).filter(
-        d => d[0] === c.name,
-      )
-
-      let override_param = undefined
-      if (override_params.length > 0) {
-        override_param = override_params[0][1]?.type
-      }
-
-      return (
-        `${c.name}${c.optional ? '?' : ''}: ` +
-        `(${c.type ?? override_param ?? options?.default_type ?? 'string | number'})` +
-        `${c.isArray ? '[]' : ''}`
-      )
+      return formatArg(c, o)
     })
     .join(', ')
+
+  return str
+}
+
+const formatArg = (c: Param, o: Options) => {
+  const options = getDefaultOption(o)
+
+  const override_params = Object.entries(options?.override_params ?? {}).filter(
+    d => d[0] === c.name,
+  )
+
+  let override_param = undefined
+  if (override_params.length > 0) {
+    override_param = override_params[0][1]?.type
+  }
+
+  return (
+    `${c.name}${c.optional ? '?' : ''}: ` +
+    `(${c.type ?? override_param ?? options?.default_type ?? 'string | number'})` +
+    `${c.isArray ? '[]' : ''}`
+  )
 }
 
 const shouldLog = (kind: LogKind, o: Options) => {
   const options = getDefaultOption(o)
 
-  if (o.exclude_logs?.includes(kind)) {
+  if (options.exclude_logs?.includes(kind)) {
     return false
   }
   return true

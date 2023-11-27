@@ -10,7 +10,7 @@
 export const PAGE__ROOT = `/`
 export const PAGE_subGroup = `/subGroup`
 export const PAGE_subGroup2 = (params: { first: (string | number) }) => {
-  return `/subGroup2${appendSp({ first: params?.first })}` 
+  return `/subGroup2${appendSp({ first: params.first })}` 
 }
 export const PAGE_contract = (params?: { lang?: ('fr' | 'en' | 'hu' | 'at' | string) }, sp?: Record<string, string | number>) => {
   return `${params?.lang ? `/${params?.lang}`: ''}/contract${appendSp(sp)}` 
@@ -27,7 +27,7 @@ export const PAGE_gp_two = (params?: { lang?: ('fr' | 'en' | 'hu' | 'at' | strin
 export const PAGE_main = (params?: { lang?: ('fr' | 'en' | 'hu' | 'at' | string) }) => {
   return `${params?.lang ? `/${params?.lang}`: ''}/main` 
 }
-export const PAGE_match_id_int = (params: { id: (string | number), lang?: ('fr' | 'en' | 'hu' | 'at' | string) }) => {
+export const PAGE_match_id_int = (params: { id: (number), lang?: ('fr' | 'en' | 'hu' | 'at' | string) }) => {
   return `${params?.lang ? `/${params?.lang}`: ''}/match/${params.id}` 
 }
 export const PAGE_site = (params?: { lang?: ('fr' | 'en' | 'hu' | 'at' | string), limit?: (number) }, sp?: Record<string, string | number>) => {

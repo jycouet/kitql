@@ -305,6 +305,11 @@ describe('run()', async () => {
           lang: { type: "'fr' | 'hu' | undefined", default: '"fr"' },
         },
       },
+      match_id_int: {
+        params: {
+          id: { type: 'number' },
+        },
+      },
       site_contract_siteId_contractId: {
         explicit_search_params: { limit: { type: 'number' } },
       },
@@ -330,6 +335,7 @@ describe('run()', async () => {
       '/contract': commonConfig_symbol.PAGES?.contract,
       '/site': commonConfig_symbol.PAGES?.site,
       '/site/[id]': commonConfig_symbol.PAGES?.site_id,
+      '/match/[id=int]': commonConfig_symbol.PAGES?.match_id_int,
       '/site_contract/[siteId]-[contractId]':
         commonConfig_symbol.PAGES?.site_contract_siteId_contractId,
     },
@@ -347,6 +353,7 @@ describe('run()', async () => {
       contract: commonConfig_symbol.PAGES?.contract,
       site: commonConfig_symbol.PAGES?.site,
       site_id: commonConfig_symbol.PAGES?.site_id,
+      match_id_int: commonConfig_symbol.PAGES?.match_id_int,
       site_contract_siteId_contractId: commonConfig_symbol.PAGES?.site_contract_siteId_contractId,
     },
     SERVERS: {},

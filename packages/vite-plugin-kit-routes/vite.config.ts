@@ -44,6 +44,11 @@ export default defineConfig({
             lang: { type: "'fr' | 'hu' | undefined", default: '"fr"' },
           },
         },
+        match_id_int: {
+          params: {
+            id: { type: 'number' },
+          },
+        },
         site_contract_siteId_contractId: {
           explicit_search_params: { limit: { type: 'number' } },
         },
