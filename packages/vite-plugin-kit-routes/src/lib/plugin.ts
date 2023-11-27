@@ -60,6 +60,21 @@ export type Options<T extends ExtendTypes = ExtendTypes> = {
   format?: FormatKind
 
   /**
+   * default is: `false`
+   *
+   * If you have only 1 required param, it will be the seond param.
+   *
+   * ```ts
+   * route("/site/[id]", 7)
+   * route("site_id", 7)
+   * PAGE_site_id(7)
+   * PAGES["/site/[id]"](7)
+   * PAGES.site_id(7)
+   * ```
+   */
+  params_always_as_object?: boolean
+
+  /**
    * default is: `string | number`
    */
   default_type?: string
