@@ -1,7 +1,6 @@
 <script lang="ts">
-  import { goto } from '$app/navigation'
   import { page } from '$app/stores'
-  import { ACTIONS, LINKS, PAGES, route, SERVERS } from '$lib/ROUTES.js'
+  import { LINKS, PAGES } from '$lib/ROUTES.js'
 
   const siteId = 'Paris'
   const contractId = 'abc'
