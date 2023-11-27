@@ -15,7 +15,7 @@ export default defineConfig({
     kitRoutes<KIT_ROUTES>({
       // format: '_',
       format: 'object[symbol]',
-      // logs: ['update', 'errors'],
+      // exclude_logs: ['update', 'errors', 'stats', 'post_update_run'],
       // path_base: true,
       // default_type: 'string',
       // extra_search_params: 'with',

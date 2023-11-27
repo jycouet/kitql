@@ -29,10 +29,17 @@ export type Options<T extends ExtendTypes = ExtendTypes> = {
   post_update_run?: string
 
   /**
-   * by default, everything is logged. If you want to remove them, send an empty array.
-   * If you want only `update` logs, give `['update']`
+   * by default, everything is logged. If you want to remove some, add them in the array.
+   *
+   * `update` when the file is updated
+   *
+   * `post_update_run` to log the command you run
+   *
+   * `errors` in case you have some!
+   *
+   * `stats` to have some stats about your routes & co 🥳
    */
-  logs?: LogKind[]
+  exclude_logs?: LogKind[]
 
   /**
    * @default 'src/lib/ROUTES.ts'
@@ -59,20 +66,20 @@ export type Options<T extends ExtendTypes = ExtendTypes> = {
    */
   format?: FormatKind
 
-  /**
-   * default is: `false`
-   *
-   * If you have only 1 required param, it will be the seond param.
-   *
-   * ```ts
-   * route("/site/[id]", 7)
-   * route("site_id", 7)
-   * PAGE_site_id(7)
-   * PAGES["/site/[id]"](7)
-   * PAGES.site_id(7)
-   * ```
-   */
-  params_always_as_object?: boolean
+  // /**
+  //  * default is: `false`
+  //  *
+  //  * If you have only 1 required param, it will be the seond param.
+  //  *
+  //  * ```ts
+  //  * route("/site/[id]", 7)
+  //  * route("site_id", 7)
+  //  * PAGE_site_id(7)
+  //  * PAGES["/site/[id]"](7)
+  //  * PAGES.site_id(7)
+  //  * ```
+  //  */
+  // params_always_as_object?: boolean
 
   /**
    * default is: `string | number`
@@ -603,11 +610,11 @@ const formatArgs = (params: Param[], o: Options) => {
 
 const shouldLog = (kind: LogKind, o: Options) => {
   const options = getDefaultOption(o)
-  if (options?.logs === undefined) {
-    // let's log everything by default
-    return true
+
+  if (o.exclude_logs?.includes(kind)) {
+    return false
   }
-  return options.logs.includes(kind)
+  return true
 }
 
 export const getDefaultOption = (o?: Options) => {
