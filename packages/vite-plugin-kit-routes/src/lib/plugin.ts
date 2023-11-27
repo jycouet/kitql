@@ -681,7 +681,7 @@ export const run = (o?: Options) => {
 `,
       // consts
       options?.format === 'variables'
-        ? // variables
+        ? // Format variables
           objTypes
             .map(c => {
               return `/**\n * ${c.type}\n */
@@ -689,19 +689,19 @@ ${c.files
   .map(key => {
     if (key.strParams) {
       return (
-        `export const ${c.type}_${key.keyToUse} = (${key.strParams}) => {` +
+        `export const ROUTE_${key.keyToUse} = (${key.strParams}) => {` +
         `${format({ bottom: 0, top: 1, left: 2 }, key.strDefault)}
   return ${key.strReturn} 
 }`
       )
     } else {
-      return `export const ${c.type}_${key.keyToUse} = ${key.strReturn}`
+      return `export const ROUTE_${key.keyToUse} = ${key.strReturn}`
     }
   })
   .join('\n')}`
             })
             .join(`\n\n`)
-        : // Format '/' or '_'
+        : // Format Others
           objTypes
             .map(c => {
               return (
