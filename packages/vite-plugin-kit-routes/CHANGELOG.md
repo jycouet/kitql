@@ -1,5 +1,24 @@
 # vite-plugin-kit-routes
 
+## 0.2.0-next.0
+
+### Minor Changes
+
+- [#502](https://github.com/jycouet/kitql/pull/502)
+  [`b161ae8`](https://github.com/jycouet/kitql/commit/b161ae850841341e7bdfce86de3db40a7ebf678a)
+  Thanks [@jycouet](https://github.com/jycouet)! - BREAKING: remove optional params in the key
+
+- [#502](https://github.com/jycouet/kitql/pull/502)
+  [`b161ae8`](https://github.com/jycouet/kitql/commit/b161ae850841341e7bdfce86de3db40a7ebf678a)
+  Thanks [@jycouet](https://github.com/jycouet)! - action "default" needs to be specified, we want
+  to be explicite (will help the route() function & avoid collision)
+
+### Patch Changes
+
+- [#500](https://github.com/jycouet/kitql/pull/500)
+  [`e43bb98`](https://github.com/jycouet/kitql/commit/e43bb98c3763f413edb1c571c690da6ccd802f61)
+  Thanks [@jycouet](https://github.com/jycouet)! - fix: type when there is no element in the Record
+
 ## 0.1.4
 
 ### Patch Changes
