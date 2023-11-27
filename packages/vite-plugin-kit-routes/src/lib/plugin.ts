@@ -856,12 +856,12 @@ function theEnd(
       log.info(
         `${gray(' Share on TwiX:')} ${cyan(
           `https://twitter.com/intent/tweet?text=` +
-            `${encodeURI(
-              `🚀 Check out my "kit-routes" stats 🚀\n\n` +
+            `${encodeURI(`🚀 Check out my `)}%23${encodeURI(
+              `KitRoutes stats 🚀\n\n` +
                 `- Routes: ${nbRoutes} (${objTypes.map(c => c.files.length).join(', ')})\n` +
                 `- Points: ${confgPoints}\n` +
                 `- Score: ${score}\n` +
-                `- Format: ${options?.format}\n\n` +
+                `- Format: "${options?.format}"\n\n` +
                 `👀 @jycouet`,
             )}`,
         )}`,
