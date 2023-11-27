@@ -843,7 +843,7 @@ describe('run()', () => {
     const generated_file_path = 'src/test/ROUTES_format-route-underscore.ts'
     run({
       generated_file_path,
-      format: 'route(symbol, {})',
+      format: 'route(symbol)',
       ...commonConfigFormat_underscore_space,
       ...commonConfig,
     })
