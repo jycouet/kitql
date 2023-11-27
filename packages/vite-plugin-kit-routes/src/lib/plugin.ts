@@ -15,12 +15,7 @@ type ExtendTypes = {
 }
 
 type LogKind = 'update' | 'post_update_run' | 'errors' | 'stats'
-type FormatKind =
-  | 'route(path, {})'
-  | 'route(symbol, {})'
-  | 'variables'
-  | 'object[path, {}]'
-  | 'object[symbol, {}]'
+type FormatKind = 'route(path)' | 'route(symbol)' | 'variables' | 'object[path]' | 'object[symbol]'
 
 export type Options<T extends ExtendTypes = ExtendTypes> = {
   /**
@@ -46,19 +41,19 @@ export type Options<T extends ExtendTypes = ExtendTypes> = {
 
   /**
    * ```ts
-   * // format: route(path, {})    -> default <-
+   * // format: route(path)        -> default <-
    * route("/site/[id]", { id: 7, tab: 'info' })
    *
-   * // format: route(symbol, {})
+   * // format: route(symbol)
    * route("site_id", { id: 7, tab: 'info' })
    *
-   * // format: `variables` (best for code splitting)
+   * // format: `variables` (best for code splitting & privacy)
    * PAGE_site_id({ id: 7, tab: 'info' })
    *
-   * // format: object[path, {}]
+   * // format: object[path]
    * PAGES["/site/[id]"]({ id: 7, tab: 'info' })
    *
-   * // format: object[symbol, {}]
+   * // format: object[symbol]
    * PAGES.site_id({ id: 7, tab: 'info' })
    * ```
    */
@@ -603,7 +598,7 @@ const shouldLog = (kind: LogKind, o: Options) => {
 export const getDefaultOption = (o?: Options) => {
   const options = {
     ...o,
-    format: o?.format ?? 'route(path, {})',
+    format: o?.format ?? 'route(path)',
     generated_file_path: o?.generated_file_path ?? 'src/lib/ROUTES.ts',
   }
   return options

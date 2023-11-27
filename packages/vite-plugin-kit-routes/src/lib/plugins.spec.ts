@@ -88,36 +88,32 @@ describe('vite-plugin-kit-routes', () => {
 
   it('formatKey /l', async () => {
     expect(
-      formatKey('/[param]site/[yop](group)/[id]', { format: 'object[path, {}]' }),
+      formatKey('/[param]site/[yop](group)/[id]', { format: 'object[path]' }),
     ).toMatchInlineSnapshot('"/[param]site/[yop]/[id]"')
   })
 
   it('formatKey _', async () => {
     expect(
-      formatKey('/[param]site/[yop](group)/[id]', { format: 'object[symbol, {}]' }),
+      formatKey('/[param]site/[yop](group)/[id]', { format: 'object[symbol]' }),
     ).toMatchInlineSnapshot('"param_site_yop_id"')
   })
 
   it('formatKey / starting with group', async () => {
-    expect(formatKey('/(group)/test', { format: 'object[path, {}]' })).toMatchInlineSnapshot(
-      '"/test"',
-    )
+    expect(formatKey('/(group)/test', { format: 'object[path]' })).toMatchInlineSnapshot('"/test"')
   })
 
   it('formatKey _ starting with group', async () => {
-    expect(formatKey('/(group)/test', { format: 'object[symbol, {}]' })).toMatchInlineSnapshot(
-      '"test"',
-    )
+    expect(formatKey('/(group)/test', { format: 'object[symbol]' })).toMatchInlineSnapshot('"test"')
   })
 
   it('formatKey group original', async () => {
     expect(
-      formatKey('/[param]site/[yop](group)/[id]', { format: 'object[symbol, {}]' }),
+      formatKey('/[param]site/[yop](group)/[id]', { format: 'object[symbol]' }),
     ).toMatchInlineSnapshot('"param_site_yop_id"')
   })
 
   it('formatKey ROOT', async () => {
-    expect(formatKey('/', { format: 'object[path, {}]' })).toMatchInlineSnapshot('"/"')
+    expect(formatKey('/', { format: 'object[path]' })).toMatchInlineSnapshot('"/"')
   })
 
   it('fileToMetadata optional only', async () => {
@@ -347,7 +343,7 @@ describe('run()', () => {
   it('format /', () => {
     const generated_file_path = 'src/test/ROUTES_format-slash.ts'
     run({
-      format: 'object[path, {}]',
+      format: 'object[path]',
       generated_file_path,
       ...commonConfig,
     })
@@ -503,7 +499,7 @@ describe('run()', () => {
     const generated_file_path = 'src/test/ROUTES_format-underscore.ts'
     run({
       generated_file_path,
-      format: 'object[symbol, {}]',
+      format: 'object[symbol]',
       ...commonConfigFormat_underscore,
       ...commonConfig,
     })
@@ -665,7 +661,7 @@ describe('run()', () => {
     const generated_file_path = 'src/test/ROUTES_format-route-slash.ts'
     run({
       generated_file_path,
-      format: 'route(path, {})',
+      format: 'route(path)',
       ...commonConfig,
     })
 
@@ -1198,7 +1194,7 @@ describe('run()', () => {
     const generated_file_path = 'src/test/ROUTES_base.ts'
     run({
       generated_file_path,
-      format: 'object[symbol, {}]',
+      format: 'object[symbol]',
       path_base: true,
       ...commonConfigFormat_underscore,
       ...commonConfig,
