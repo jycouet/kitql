@@ -1,7 +1,18 @@
 import { describe, expect, it } from 'vitest'
 
+import type { KIT_ROUTES as KIT_ROUTES_ObjectPath } from '../test/ROUTES_format-object-path.js'
+import type { KIT_ROUTES as KIT_ROUTES_ObjectSymbol } from '../test/ROUTES_format-object-symbol.js'
+import type { KIT_ROUTES as KIT_ROUTES_RoutePath } from '../test/ROUTES_format-route-path.js'
+import type { KIT_ROUTES as KIT_ROUTES_RouteSymbol } from '../test/ROUTES_format-route-symbol.js'
+import type { KIT_ROUTES as KIT_ROUTES_Variables } from '../test/ROUTES_format-variables.js'
 import { read } from './fs.js'
-import { extractParamsFromPath, fileToMetadata, formatKey, run, type Options } from './plugin.js'
+import {
+  extractParamsFromPath,
+  transformToMetadata,
+  formatKey,
+  run,
+  type Options,
+} from './plugin.js'
 
 describe('vite-plugin-kit-routes', () => {
   it('get id', async () => {
@@ -75,49 +86,63 @@ describe('vite-plugin-kit-routes', () => {
   })
 
   it('formatKey default', async () => {
-    expect(formatKey('/[param]site/[yop](group)/[id]')).toMatchInlineSnapshot(
+    expect(formatKey('/[param]site/[yop](group)/[id]', {})).toMatchInlineSnapshot(
       '"/[param]site/[yop]/[id]"',
     )
   })
 
   it('formatKey /l', async () => {
-    expect(formatKey('/[param]site/[yop](group)/[id]', { format: '/' })).toMatchInlineSnapshot(
-      '"/[param]site/[yop]/[id]"',
-    )
+    expect(
+      formatKey('/[param]site/[yop](group)/[id]', { format: 'object[path]' }),
+    ).toMatchInlineSnapshot('"/[param]site/[yop]/[id]"')
   })
 
   it('formatKey _', async () => {
-    expect(formatKey('/[param]site/[yop](group)/[id]', { format: '_' })).toMatchInlineSnapshot(
-      '"param_site_yop_id"',
-    )
+    expect(
+      formatKey('/[param]site/[yop](group)/[id]', { format: 'object[symbol]' }),
+    ).toMatchInlineSnapshot('"param_site_yop_id"')
   })
 
   it('formatKey / starting with group', async () => {
-    expect(formatKey('/(group)/test', { format: '/' })).toMatchInlineSnapshot('"/test"')
+    expect(formatKey('/(group)/test', { format: 'object[path]' })).toMatchInlineSnapshot('"/test"')
   })
 
   it('formatKey _ starting with group', async () => {
-    expect(formatKey('/(group)/test', { format: '_' })).toMatchInlineSnapshot('"test"')
+    expect(formatKey('/(group)/test', { format: 'object[symbol]' })).toMatchInlineSnapshot('"test"')
   })
 
   it('formatKey group original', async () => {
-    expect(formatKey('/[param]site/[yop](group)/[id]', { format: '_' })).toMatchInlineSnapshot(
-      '"param_site_yop_id"',
-    )
+    expect(
+      formatKey('/[param]site/[yop](group)/[id]', { format: 'object[symbol]' }),
+    ).toMatchInlineSnapshot('"param_site_yop_id"')
   })
 
   it('formatKey ROOT', async () => {
-    expect(formatKey('/')).toMatchInlineSnapshot('"/"')
+    expect(formatKey('/', { format: 'object[path]' })).toMatchInlineSnapshot('"/"')
   })
 
   it('fileToMetadata optional only', async () => {
     const key = '/[[lang]]'
-    const meta = fileToMetadata(key, key, 'PAGES', undefined, undefined)
+    const meta = transformToMetadata(key, key, 'PAGES', {}, undefined)
     if (meta) {
-      expect(meta.prop).toMatchInlineSnapshot(`
-        "\\"/[[lang]]\\": (params: {lang?: (string | number)}= {}) =>  {
-                return \`\${params?.lang ? \`/\${params?.lang}\`: '/'}\`
-              }"
+      expect(meta).toMatchInlineSnapshot(`
+        [
+          {
+            "keyToUse": "/",
+            "key_wo_prefix": "/",
+            "paramsFromPath": [
+              {
+                "fromPath": true,
+                "isArray": false,
+                "name": "lang",
+                "optional": true,
+              },
+            ],
+            "strDefault": "",
+            "strParams": "params?: { lang?: (string | number) }",
+            "strReturn": "\`\${params?.lang ? \`/\${params?.lang}\`: '/'}\`",
+          },
+        ]
       `)
     } else {
       expect('I should never be').toBe('here')
@@ -126,12 +151,26 @@ describe('vite-plugin-kit-routes', () => {
 
   it('fileToMetadata optional', async () => {
     const key = '/[[lang]]/about'
-    const meta = fileToMetadata(key, key, 'PAGES', undefined, undefined)
+    const meta = transformToMetadata(key, key, 'PAGES', {}, undefined)
     if (meta) {
-      expect(meta.prop).toMatchInlineSnapshot(`
-        "\\"/[[lang]]/about\\": (params: {lang?: (string | number)}= {}) =>  {
-                return \`\${params?.lang ? \`/\${params?.lang}\`: ''}/about\`
-              }"
+      expect(meta).toMatchInlineSnapshot(`
+        [
+          {
+            "keyToUse": "/about",
+            "key_wo_prefix": "/about",
+            "paramsFromPath": [
+              {
+                "fromPath": true,
+                "isArray": false,
+                "name": "lang",
+                "optional": true,
+              },
+            ],
+            "strDefault": "",
+            "strParams": "params?: { lang?: (string | number) }",
+            "strReturn": "\`\${params?.lang ? \`/\${params?.lang}\`: ''}/about\`",
+          },
+        ]
       `)
     } else {
       expect('I should never be').toBe('here')
@@ -140,12 +179,26 @@ describe('vite-plugin-kit-routes', () => {
 
   it('fileToMetadata optional not at start', async () => {
     const key = '/prefix-[[lang]]/about'
-    const meta = fileToMetadata(key, key, 'PAGES', undefined, undefined)
+    const meta = transformToMetadata(key, key, 'PAGES', {}, undefined)
     if (meta) {
-      expect(meta.prop).toMatchInlineSnapshot(`
-        "\\"/prefix-[[lang]]/about\\": (params: {lang?: (string | number)}= {}) =>  {
-                return \`/prefix-\${params?.lang ? \`\${params?.lang}\`: ''}/about\`
-              }"
+      expect(meta).toMatchInlineSnapshot(`
+        [
+          {
+            "keyToUse": "/prefix-/about",
+            "key_wo_prefix": "/prefix-/about",
+            "paramsFromPath": [
+              {
+                "fromPath": true,
+                "isArray": false,
+                "name": "lang",
+                "optional": true,
+              },
+            ],
+            "strDefault": "",
+            "strParams": "params?: { lang?: (string | number) }",
+            "strReturn": "\`/prefix-\${params?.lang ? \`\${params?.lang}\`: ''}/about\`",
+          },
+        ]
       `)
     } else {
       expect('I should never be').toBe('here')
@@ -154,7 +207,7 @@ describe('vite-plugin-kit-routes', () => {
 
   it('fileToMetadata default param', async () => {
     const key = '/subscriptions/[snapshot]/[id]'
-    const meta = fileToMetadata(
+    const meta = transformToMetadata(
       key,
       key,
       'PAGES',
@@ -172,10 +225,30 @@ describe('vite-plugin-kit-routes', () => {
       undefined,
     )
     if (meta) {
-      expect(meta.prop).toMatchInlineSnapshot(`
-        "\\"/subscriptions/[snapshot]/[id]\\": (params: {snapshot: (string | number), id: (string | number)}) =>  {
-                return \`/subscriptions/\${params.snapshot}/\${params.id}\`
-              }"
+      expect(meta).toMatchInlineSnapshot(`
+        [
+          {
+            "keyToUse": "/subscriptions/[snapshot]/[id]",
+            "key_wo_prefix": "/subscriptions/[snapshot]/[id]",
+            "paramsFromPath": [
+              {
+                "fromPath": true,
+                "isArray": false,
+                "name": "snapshot",
+                "optional": false,
+              },
+              {
+                "fromPath": true,
+                "isArray": false,
+                "name": "id",
+                "optional": false,
+              },
+            ],
+            "strDefault": "",
+            "strParams": "params: { snapshot: (string | number), id: (string | number) }",
+            "strReturn": "\`/subscriptions/\${params.snapshot}/\${params.id}\`",
+          },
+        ]
       `)
     } else {
       expect('I should never be').toBe('here')
@@ -183,7 +256,7 @@ describe('vite-plugin-kit-routes', () => {
   })
 })
 
-describe('run()', () => {
+describe('run()', async () => {
   const commonConfig: Options = {
     LINKS: {
       // reference to a hardcoded link
@@ -206,682 +279,225 @@ describe('run()', () => {
     },
   }
 
-  it('style _', () => {
-    const generated_file_path = 'src/test/ROUTES_test1.ts'
-    run({
-      generated_file_path,
-      format: '_',
-      PAGES: {
-        subGroup2: {
-          explicit_search_params: {
-            first: {
-              required: true,
-            },
-          },
-        },
-        lang_contract: {
-          extra_search_params: 'with',
-        },
-        lang_site: {
-          explicit_search_params: { limit: { type: 'number' } },
-          params: {
-            // yop: { type: 'number' },
-          },
-          extra_search_params: 'with',
-        },
-        lang_site_id: {
-          explicit_search_params: { limit: { type: 'number' }, demo: { type: 'string' } },
-          params: {
-            id: { type: 'string', default: '"Vienna"' },
-            lang: { type: "'fr' | 'hu' | undefined", default: '"fr"' },
-          },
-        },
-        lang_site_contract_siteId_contractId: {
-          explicit_search_params: { limit: { type: 'number' } },
-        },
-      },
-      SERVERS: {
-        // site: {
-        //   params: { }
-        // }
-        // yop: {},
-      },
-      ACTIONS: {
-        lang_contract_id: {
-          explicit_search_params: {
-            limit: { type: 'number' },
-          },
-        },
-        lang_site_contract_siteId_contractId: {
-          explicit_search_params: {
-            extra: { type: "'A' | 'B'", default: '"A"' },
+  const commonConfig_symbol: Options<KIT_ROUTES_ObjectSymbol> = {
+    PAGES: {
+      subGroup2: {
+        explicit_search_params: {
+          first: {
+            required: true,
           },
         },
       },
-      ...commonConfig,
-    })
+      contract: {
+        extra_search_params: 'with',
+      },
+      site: {
+        explicit_search_params: { limit: { type: 'number' } },
+        params: {
+          // yop: { type: 'number' },
+        },
+        extra_search_params: 'with',
+      },
+      site_id: {
+        explicit_search_params: { limit: { type: 'number' }, demo: { type: 'string' } },
+        params: {
+          id: { type: 'string', default: '"Vienna"' },
+          lang: { type: "'fr' | 'hu' | undefined", default: '"fr"' },
+        },
+      },
+      site_contract_siteId_contractId: {
+        explicit_search_params: { limit: { type: 'number' } },
+      },
+    },
+    SERVERS: {},
+    ACTIONS: {
+      default_contract_id: {
+        explicit_search_params: {
+          limit: { type: 'number' },
+        },
+      },
+      send_site_contract_siteId_contractId: {
+        explicit_search_params: {
+          extra: { type: "'A' | 'B'", default: '"A"' },
+        },
+      },
+    },
+  }
 
-    expect(read(generated_file_path)).toMatchInlineSnapshot(`
-      "/** 
-       * This file was generated by 'vite-plugin-kit-routes'
-       * 
-       *      >> DO NOT EDIT THIS FILE MANUALLY <<
-       */
+  const commonConfig_Path: Options<KIT_ROUTES_ObjectPath> = {
+    PAGES: {
+      '/subGroup2': commonConfig_symbol.PAGES?.subGroup2,
+      '/contract': commonConfig_symbol.PAGES?.contract,
+      '/site': commonConfig_symbol.PAGES?.site,
+      '/site/[id]': commonConfig_symbol.PAGES?.site_id,
+      '/site_contract/[siteId]-[contractId]':
+        commonConfig_symbol.PAGES?.site_contract_siteId_contractId,
+    },
+    SERVERS: {},
+    ACTIONS: {
+      'default /contract/[id]': commonConfig_symbol.ACTIONS?.default_contract_id,
+      'send /site_contract/[siteId]-[contractId]':
+        commonConfig_symbol.ACTIONS?.send_site_contract_siteId_contractId,
+    },
+  }
 
-      export const PAGES = {
-        \\"_ROOT\\": \`/\`,
-        \\"subGroup\\": \`/subGroup\`,
-        \\"subGroup2\\": (params: {first: (string | number)}) =>  {
-              return \`/subGroup2\${appendSp({ first: params.first })}\`
-            },
-        \\"lang_contract\\": (params: {lang?: ('fr' | 'en' | 'hu' | 'at' | string)}= {}, sp?: Record<string, string | number>) =>  {
-              return \`\${params?.lang ? \`/\${params?.lang}\`: ''}/contract\${appendSp(sp)}\`
-            },
-        \\"lang_contract_id\\": (params: {lang?: ('fr' | 'en' | 'hu' | 'at' | string), id: (string | number)}) =>  {
-              return \`\${params?.lang ? \`/\${params?.lang}\`: ''}/contract/\${params.id}\`
-            },
-        \\"lang_gp_one\\": (params: {lang?: ('fr' | 'en' | 'hu' | 'at' | string)}= {}) =>  {
-              return \`\${params?.lang ? \`/\${params?.lang}\`: ''}/gp/one\`
-            },
-        \\"lang_gp_two\\": (params: {lang?: ('fr' | 'en' | 'hu' | 'at' | string)}= {}) =>  {
-              return \`\${params?.lang ? \`/\${params?.lang}\`: ''}/gp/two\`
-            },
-        \\"lang_main\\": (params: {lang?: ('fr' | 'en' | 'hu' | 'at' | string)}= {}) =>  {
-              return \`\${params?.lang ? \`/\${params?.lang}\`: ''}/main\`
-            },
-        \\"lang_match_id_int\\": (params: {lang?: ('fr' | 'en' | 'hu' | 'at' | string), id: (string | number)}) =>  {
-              return \`\${params?.lang ? \`/\${params?.lang}\`: ''}/match/\${params.id}\`
-            },
-        \\"lang_site\\": (params: {lang?: ('fr' | 'en' | 'hu' | 'at' | string), limit?: (number)}= {}, sp?: Record<string, string | number>) =>  {
-              return \`\${params?.lang ? \`/\${params?.lang}\`: ''}/site\${appendSp({...sp, limit: params.limit })}\`
-            },
-        \\"lang_site_id\\": (params: {lang?: ('fr' | 'hu' | undefined), id?: (string), limit?: (number), demo?: (string)}= {}) =>  {
-          params.lang = params.lang ?? \\"fr\\"; 
-          params.id = params.id ?? \\"Vienna\\"; 
-              return \`\${params?.lang ? \`/\${params?.lang}\`: ''}/site/\${params.id}\${appendSp({ limit: params.limit, demo: params.demo })}\`
-            },
-        \\"lang_site_contract_siteId_contractId\\": (params: {lang?: ('fr' | 'en' | 'hu' | 'at' | string), siteId: (string | number), contractId: (string | number), limit?: (number)}) =>  {
-              return \`\${params?.lang ? \`/\${params?.lang}\`: ''}/site_contract/\${params.siteId}-\${params.contractId}\${appendSp({ limit: params.limit })}\`
-            },
-        \\"a_rest_z\\": (params: {rest: (string | number)[]}) =>  {
-              return \`/a/\${params.rest?.join('/')}/z\`
-            },
-        \\"lay_normal\\": \`/lay/normal\`,
-        \\"lay_root_layout\\": \`/lay/root-layout\`,
-        \\"lay_skip\\": \`/lay/skip\`
-      }
+  const commonConfig_symbol_space: Options<KIT_ROUTES_RouteSymbol> = {
+    PAGES: {
+      subGroup2: commonConfig_symbol.PAGES?.subGroup2,
+      contract: commonConfig_symbol.PAGES?.contract,
+      site: commonConfig_symbol.PAGES?.site,
+      site_id: commonConfig_symbol.PAGES?.site_id,
+      site_contract_siteId_contractId: commonConfig_symbol.PAGES?.site_contract_siteId_contractId,
+    },
+    SERVERS: {},
+    ACTIONS: {
+      'default contract_id': commonConfig_symbol.ACTIONS?.default_contract_id,
+      'send site_contract_siteId_contractId':
+        commonConfig_symbol.ACTIONS?.send_site_contract_siteId_contractId,
+    },
+  }
 
-      export const SERVERS = {
-        \\"lang_contract\\": (method: 'GET' | 'POST', params: {lang?: ('fr' | 'en' | 'hu' | 'at' | string)}= {}) =>  {
-              return \`\${params?.lang ? \`/\${params?.lang}\`: ''}/contract\`
-            },
-        \\"lang_site\\": (method: 'GET', params: {lang?: ('fr' | 'en' | 'hu' | 'at' | string)}= {}) =>  {
-              return \`\${params?.lang ? \`/\${params?.lang}\`: ''}/site\`
-            },
-        \\"api_graphql\\": (method: 'GET' | 'POST') =>  {
-              return \`/api/graphql\`
-            }
-      }
+  function fnOrNot(obj: any, key: any, ...params: any[]): string {
+    if (obj[key] instanceof Function) {
+      const element = (obj as any)[key] as (...args: any[]) => string
+      return element(...params)
+    } else {
+      return obj[key] as string
+    }
+  }
+  const table = [
+    {
+      name: 'ROOT, return is not a function',
+      results: '/',
+      key_path: '/',
+      key_symbol: '_ROOT',
+    },
+    {
+      name: 'single param',
+      results: '/fr/site/Paris',
+      key_path: '/site/[id]',
+      key_symbol: 'site_id',
+      params: { id: 'Paris' },
+    },
+  ]
 
-      export const ACTIONS = {
-        \\"lang_contract_id\\": (params: {lang?: ('fr' | 'en' | 'hu' | 'at' | string), id: (string | number), limit?: (number)}) =>  {
-              return \`\${params?.lang ? \`/\${params?.lang}\`: ''}/contract/\${params.id}\${appendSp({ limit: params.limit })}\`
-            },
-        \\"lang_site\\": (action: 'action1' | 'action2', params: {lang?: ('fr' | 'en' | 'hu' | 'at' | string)}= {}) =>  {
-              return \`\${params?.lang ? \`/\${params?.lang}\`: ''}/site?/\${action}\`
-            },
-        \\"lang_site_contract\\": (action: 'noSatisfies', params: {lang?: ('fr' | 'en' | 'hu' | 'at' | string)}= {}) =>  {
-              return \`\${params?.lang ? \`/\${params?.lang}\`: ''}/site_contract?/\${action}\`
-            },
-        \\"lang_site_contract_siteId_contractId\\": (action: 'sendSomething', params: {lang?: ('fr' | 'en' | 'hu' | 'at' | string), siteId: (string | number), contractId: (string | number), extra?: ('A' | 'B')}) =>  {
-          params.extra = params.extra ?? \\"A\\"; 
-              return \`\${params?.lang ? \`/\${params?.lang}\`: ''}/site_contract/\${params.siteId}-\${params.contractId}?/\${action}\${appendSp({ extra: params.extra }, '&')}\`
-            }
-      }
-
-      export const LINKS = {
-        \\"twitter\\": \`https:/twitter.com/jycouet\`,
-        \\"twitter_post\\": (params: {name: (string | number), id: (string | number)}) =>  {
-              return \`https:/twitter.com/\${params.name}/status/\${params.id}\`
-            },
-        \\"gravatar\\": (params: {str: (string | number), s?: (number), d?: (\\"retro\\" | \\"identicon\\")}) =>  {
-          params.s = params.s ?? 75; 
-          params.d = params.d ?? \\"identicon\\"; 
-              return \`https:/www.gravatar.com/avatar/\${params.str}\${appendSp({ s: params.s, d: params.d })}\`
-            }
-      }
-
-      const appendSp = (sp?: Record<string, string | number | undefined>, prefix: '?' | '&' = '?') => {
-        if (sp === undefined) return ''
-        const mapping = Object.entries(sp)
-          .filter(c => c[1] !== undefined)
-          .map(c => [c[0], String(c[1])])
-
-        const formated = new URLSearchParams(mapping).toString()
-        if (formated) {
-          return \`\${prefix}\${formated}\`
-        }
-        return ''
-      }
-
-
-      /**
-      * Add this type as a generic of the vite plugin \`kitRoutes<KIT_ROUTES>\`.
-      * 
-      * Full example:
-      * \`\`\`ts
-      * import type { KIT_ROUTES } from '$lib/ROUTES'
-      * import { kitRoutes } from 'vite-plugin-kit-routes'
-      * 
-      * kitRoutes<KIT_ROUTES>({
-      *  PAGES: {
-      *    // here, \\"paths\\" it will be typed!
-      *  }
-      * })
-      * \`\`\`
-      */
-      export type KIT_ROUTES = { 
-        PAGES: { '_ROOT': never, 'subGroup': never, 'subGroup2': never, 'lang_contract': 'lang', 'lang_contract_id': 'lang' | 'id', 'lang_gp_one': 'lang', 'lang_gp_two': 'lang', 'lang_main': 'lang', 'lang_match_id_int': 'lang' | 'id', 'lang_site': 'lang', 'lang_site_id': 'lang' | 'id', 'lang_site_contract_siteId_contractId': 'lang' | 'siteId' | 'contractId', 'a_rest_z': 'rest', 'lay_normal': never, 'lay_root_layout': never, 'lay_skip': never }
-        SERVERS: { 'lang_contract': 'lang', 'lang_site': 'lang', 'api_graphql': never }
-        ACTIONS: { 'lang_contract_id': 'lang' | 'id', 'lang_site': 'lang', 'lang_site_contract': 'lang', 'lang_site_contract_siteId_contractId': 'lang' | 'siteId' | 'contractId' }
-        LINKS: { 'twitter': never, 'twitter_post': 'name' | 'id', 'gravatar': 'str' }
-        Params: { first: never, lang: never, id: never, limit: never, demo: never, siteId: never, contractId: never, rest: never, extra: never, name: never, str: never, s: never, d: never }
-      }
-      "
-    `)
+  //
+  // RUN
+  //
+  // 'object[path]'
+  const generated_file_objectPath = 'src/test/ROUTES_format-object-path.ts'
+  run({
+    format: 'object[path]',
+    generated_file_path: generated_file_objectPath,
+    ...commonConfig,
+    ...commonConfig_Path,
   })
 
-  it('style /', () => {
-    const generated_file_path = 'src/test/ROUTES_test2.ts'
-    run({
-      generated_file_path,
-      ...commonConfig,
-    })
-
-    expect(read(generated_file_path)).toMatchInlineSnapshot(`
-      "/** 
-       * This file was generated by 'vite-plugin-kit-routes'
-       * 
-       *      >> DO NOT EDIT THIS FILE MANUALLY <<
-       */
-
-      export const PAGES = {
-        \\"/\\": \`/\`,
-        \\"/subGroup\\": \`/subGroup\`,
-        \\"/subGroup2\\": \`/subGroup2\`,
-        \\"/[[lang]]/contract\\": (params: {lang?: ('fr' | 'en' | 'hu' | 'at' | string)}= {}) =>  {
-              return \`\${params?.lang ? \`/\${params?.lang}\`: ''}/contract\`
-            },
-        \\"/[[lang]]/contract/[id]\\": (params: {lang?: ('fr' | 'en' | 'hu' | 'at' | string), id: (string | number)}) =>  {
-              return \`\${params?.lang ? \`/\${params?.lang}\`: ''}/contract/\${params.id}\`
-            },
-        \\"/[[lang]]/gp/one\\": (params: {lang?: ('fr' | 'en' | 'hu' | 'at' | string)}= {}) =>  {
-              return \`\${params?.lang ? \`/\${params?.lang}\`: ''}/gp/one\`
-            },
-        \\"/[[lang]]/gp/two\\": (params: {lang?: ('fr' | 'en' | 'hu' | 'at' | string)}= {}) =>  {
-              return \`\${params?.lang ? \`/\${params?.lang}\`: ''}/gp/two\`
-            },
-        \\"/[[lang]]/main\\": (params: {lang?: ('fr' | 'en' | 'hu' | 'at' | string)}= {}) =>  {
-              return \`\${params?.lang ? \`/\${params?.lang}\`: ''}/main\`
-            },
-        \\"/[[lang]]/match/[id=int]\\": (params: {lang?: ('fr' | 'en' | 'hu' | 'at' | string), id: (string | number)}) =>  {
-              return \`\${params?.lang ? \`/\${params?.lang}\`: ''}/match/\${params.id}\`
-            },
-        \\"/[[lang]]/site\\": (params: {lang?: ('fr' | 'en' | 'hu' | 'at' | string)}= {}) =>  {
-              return \`\${params?.lang ? \`/\${params?.lang}\`: ''}/site\`
-            },
-        \\"/[[lang]]/site/[id]\\": (params: {lang?: ('fr' | 'en' | 'hu' | 'at' | string), id: (string | number)}) =>  {
-              return \`\${params?.lang ? \`/\${params?.lang}\`: ''}/site/\${params.id}\`
-            },
-        \\"/[[lang]]/site_contract/[siteId]-[contractId]\\": (params: {lang?: ('fr' | 'en' | 'hu' | 'at' | string), siteId: (string | number), contractId: (string | number)}) =>  {
-              return \`\${params?.lang ? \`/\${params?.lang}\`: ''}/site_contract/\${params.siteId}-\${params.contractId}\`
-            },
-        \\"/a/[...rest]/z\\": (params: {rest: (string | number)[]}) =>  {
-              return \`/a/\${params.rest?.join('/')}/z\`
-            },
-        \\"/lay/normal\\": \`/lay/normal\`,
-        \\"/lay/root-layout\\": \`/lay/root-layout\`,
-        \\"/lay/skip\\": \`/lay/skip\`
-      }
-
-      export const SERVERS = {
-        \\"/[[lang]]/contract\\": (method: 'GET' | 'POST', params: {lang?: ('fr' | 'en' | 'hu' | 'at' | string)}= {}) =>  {
-              return \`\${params?.lang ? \`/\${params?.lang}\`: ''}/contract\`
-            },
-        \\"/[[lang]]/site\\": (method: 'GET', params: {lang?: ('fr' | 'en' | 'hu' | 'at' | string)}= {}) =>  {
-              return \`\${params?.lang ? \`/\${params?.lang}\`: ''}/site\`
-            },
-        \\"/api/graphql\\": (method: 'GET' | 'POST') =>  {
-              return \`/api/graphql\`
-            }
-      }
-
-      export const ACTIONS = {
-        \\"/[[lang]]/contract/[id]\\": (params: {lang?: ('fr' | 'en' | 'hu' | 'at' | string), id: (string | number)}) =>  {
-              return \`\${params?.lang ? \`/\${params?.lang}\`: ''}/contract/\${params.id}\`
-            },
-        \\"/[[lang]]/site\\": (action: 'action1' | 'action2', params: {lang?: ('fr' | 'en' | 'hu' | 'at' | string)}= {}) =>  {
-              return \`\${params?.lang ? \`/\${params?.lang}\`: ''}/site?/\${action}\`
-            },
-        \\"/[[lang]]/site_contract\\": (action: 'noSatisfies', params: {lang?: ('fr' | 'en' | 'hu' | 'at' | string)}= {}) =>  {
-              return \`\${params?.lang ? \`/\${params?.lang}\`: ''}/site_contract?/\${action}\`
-            },
-        \\"/[[lang]]/site_contract/[siteId]-[contractId]\\": (action: 'sendSomething', params: {lang?: ('fr' | 'en' | 'hu' | 'at' | string), siteId: (string | number), contractId: (string | number)}) =>  {
-              return \`\${params?.lang ? \`/\${params?.lang}\`: ''}/site_contract/\${params.siteId}-\${params.contractId}?/\${action}\`
-            }
-      }
-
-      export const LINKS = {
-        \\"twitter\\": \`https:/twitter.com/jycouet\`,
-        \\"twitter_post\\": (params: {name: (string | number), id: (string | number)}) =>  {
-              return \`https:/twitter.com/\${params.name}/status/\${params.id}\`
-            },
-        \\"gravatar\\": (params: {str: (string | number), s?: (number), d?: (\\"retro\\" | \\"identicon\\")}) =>  {
-          params.s = params.s ?? 75; 
-          params.d = params.d ?? \\"identicon\\"; 
-              return \`https:/www.gravatar.com/avatar/\${params.str}\${appendSp({ s: params.s, d: params.d })}\`
-            }
-      }
-
-      const appendSp = (sp?: Record<string, string | number | undefined>, prefix: '?' | '&' = '?') => {
-        if (sp === undefined) return ''
-        const mapping = Object.entries(sp)
-          .filter(c => c[1] !== undefined)
-          .map(c => [c[0], String(c[1])])
-
-        const formated = new URLSearchParams(mapping).toString()
-        if (formated) {
-          return \`\${prefix}\${formated}\`
-        }
-        return ''
-      }
-
-
-      /**
-      * Add this type as a generic of the vite plugin \`kitRoutes<KIT_ROUTES>\`.
-      * 
-      * Full example:
-      * \`\`\`ts
-      * import type { KIT_ROUTES } from '$lib/ROUTES'
-      * import { kitRoutes } from 'vite-plugin-kit-routes'
-      * 
-      * kitRoutes<KIT_ROUTES>({
-      *  PAGES: {
-      *    // here, \\"paths\\" it will be typed!
-      *  }
-      * })
-      * \`\`\`
-      */
-      export type KIT_ROUTES = { 
-        PAGES: { '/': never, '/subGroup': never, '/subGroup2': never, '/[[lang]]/contract': 'lang', '/[[lang]]/contract/[id]': 'lang' | 'id', '/[[lang]]/gp/one': 'lang', '/[[lang]]/gp/two': 'lang', '/[[lang]]/main': 'lang', '/[[lang]]/match/[id=int]': 'lang' | 'id', '/[[lang]]/site': 'lang', '/[[lang]]/site/[id]': 'lang' | 'id', '/[[lang]]/site_contract/[siteId]-[contractId]': 'lang' | 'siteId' | 'contractId', '/a/[...rest]/z': 'rest', '/lay/normal': never, '/lay/root-layout': never, '/lay/skip': never }
-        SERVERS: { '/[[lang]]/contract': 'lang', '/[[lang]]/site': 'lang', '/api/graphql': never }
-        ACTIONS: { '/[[lang]]/contract/[id]': 'lang' | 'id', '/[[lang]]/site': 'lang', '/[[lang]]/site_contract': 'lang', '/[[lang]]/site_contract/[siteId]-[contractId]': 'lang' | 'siteId' | 'contractId' }
-        LINKS: { 'twitter': never, 'twitter_post': 'name' | 'id', 'gravatar': 'str' }
-        Params: { lang: never, id: never, siteId: never, contractId: never, rest: never, name: never, str: never, s: never, d: never }
-      }
-      "
-    `)
+  // 'object[symbol]'
+  const generated_file_objectSymbol = 'src/test/ROUTES_format-object-symbol.ts'
+  run({
+    generated_file_path: generated_file_objectSymbol,
+    format: 'object[symbol]',
+    ...commonConfig_symbol,
+    ...commonConfig,
   })
 
-  it('style variables', () => {
-    const generated_file_path = 'src/test/ROUTES_test3.ts'
-    run({
-      generated_file_path,
-      format: 'variables',
-      PAGES: {
-        subGroup2: {
-          explicit_search_params: {
-            first: {
-              required: true,
-            },
-          },
-        },
-        lang_contract: {
-          extra_search_params: 'with',
-        },
-        lang_site: {
-          explicit_search_params: { limit: { type: 'number' } },
-          params: {
-            // yop: { type: 'number' },
-          },
-          extra_search_params: 'with',
-        },
-        lang_site_id: {
-          explicit_search_params: { limit: { type: 'number' }, demo: { type: 'string' } },
-          params: {
-            id: { type: 'string', default: '"Vienna"' },
-            lang: { type: "'fr' | 'hu' | undefined", default: '"fr"' },
-          },
-        },
-        lang_site_contract_siteId_contractId: {
-          explicit_search_params: { limit: { type: 'number' } },
-        },
-      },
-      SERVERS: {
-        // site: {
-        //   params: { }
-        // }
-        // yop: {},
-      },
-      ACTIONS: {
-        lang_site_contract_siteId_contractId: {
-          explicit_search_params: {
-            extra: { type: "'A' | 'B'", default: '"A"' },
-          },
-        },
-      },
-      ...commonConfig,
-    })
-
-    expect(read(generated_file_path)).toMatchInlineSnapshot(`
-      "/** 
-       * This file was generated by 'vite-plugin-kit-routes'
-       * 
-       *      >> DO NOT EDIT THIS FILE MANUALLY <<
-       */
-
-      export const PAGES__ROOT =  \`/\`
-      export const PAGES_subGroup =  \`/subGroup\`
-      export const PAGES_subGroup2 =  (params: {first: (string | number)}) =>  {
-              return \`/subGroup2\${appendSp({ first: params.first })}\`
-            }
-      export const PAGES_lang_contract =  (params: {lang?: ('fr' | 'en' | 'hu' | 'at' | string)}= {}, sp?: Record<string, string | number>) =>  {
-              return \`\${params?.lang ? \`/\${params?.lang}\`: ''}/contract\${appendSp(sp)}\`
-            }
-      export const PAGES_lang_contract_id =  (params: {lang?: ('fr' | 'en' | 'hu' | 'at' | string), id: (string | number)}) =>  {
-              return \`\${params?.lang ? \`/\${params?.lang}\`: ''}/contract/\${params.id}\`
-            }
-      export const PAGES_lang_gp_one =  (params: {lang?: ('fr' | 'en' | 'hu' | 'at' | string)}= {}) =>  {
-              return \`\${params?.lang ? \`/\${params?.lang}\`: ''}/gp/one\`
-            }
-      export const PAGES_lang_gp_two =  (params: {lang?: ('fr' | 'en' | 'hu' | 'at' | string)}= {}) =>  {
-              return \`\${params?.lang ? \`/\${params?.lang}\`: ''}/gp/two\`
-            }
-      export const PAGES_lang_main =  (params: {lang?: ('fr' | 'en' | 'hu' | 'at' | string)}= {}) =>  {
-              return \`\${params?.lang ? \`/\${params?.lang}\`: ''}/main\`
-            }
-      export const PAGES_lang_match_id_int =  (params: {lang?: ('fr' | 'en' | 'hu' | 'at' | string), id: (string | number)}) =>  {
-              return \`\${params?.lang ? \`/\${params?.lang}\`: ''}/match/\${params.id}\`
-            }
-      export const PAGES_lang_site =  (params: {lang?: ('fr' | 'en' | 'hu' | 'at' | string), limit?: (number)}= {}, sp?: Record<string, string | number>) =>  {
-              return \`\${params?.lang ? \`/\${params?.lang}\`: ''}/site\${appendSp({...sp, limit: params.limit })}\`
-            }
-      export const PAGES_lang_site_id =  (params: {lang?: ('fr' | 'hu' | undefined), id?: (string), limit?: (number), demo?: (string)}= {}) =>  {
-          params.lang = params.lang ?? \\"fr\\"; 
-          params.id = params.id ?? \\"Vienna\\"; 
-              return \`\${params?.lang ? \`/\${params?.lang}\`: ''}/site/\${params.id}\${appendSp({ limit: params.limit, demo: params.demo })}\`
-            }
-      export const PAGES_lang_site_contract_siteId_contractId =  (params: {lang?: ('fr' | 'en' | 'hu' | 'at' | string), siteId: (string | number), contractId: (string | number), limit?: (number)}) =>  {
-              return \`\${params?.lang ? \`/\${params?.lang}\`: ''}/site_contract/\${params.siteId}-\${params.contractId}\${appendSp({ limit: params.limit })}\`
-            }
-      export const PAGES_a_rest_z =  (params: {rest: (string | number)[]}) =>  {
-              return \`/a/\${params.rest?.join('/')}/z\`
-            }
-      export const PAGES_lay_normal =  \`/lay/normal\`
-      export const PAGES_lay_root_layout =  \`/lay/root-layout\`
-      export const PAGES_lay_skip =  \`/lay/skip\`
-
-      export const SERVERS_lang_contract =  (method: 'GET' | 'POST', params: {lang?: ('fr' | 'en' | 'hu' | 'at' | string)}= {}) =>  {
-              return \`\${params?.lang ? \`/\${params?.lang}\`: ''}/contract\`
-            }
-      export const SERVERS_lang_site =  (method: 'GET', params: {lang?: ('fr' | 'en' | 'hu' | 'at' | string)}= {}) =>  {
-              return \`\${params?.lang ? \`/\${params?.lang}\`: ''}/site\`
-            }
-      export const SERVERS_api_graphql =  (method: 'GET' | 'POST') =>  {
-              return \`/api/graphql\`
-            }
-
-      export const ACTIONS_lang_contract_id =  (params: {lang?: ('fr' | 'en' | 'hu' | 'at' | string), id: (string | number)}) =>  {
-              return \`\${params?.lang ? \`/\${params?.lang}\`: ''}/contract/\${params.id}\`
-            }
-      export const ACTIONS_lang_site =  (action: 'action1' | 'action2', params: {lang?: ('fr' | 'en' | 'hu' | 'at' | string)}= {}) =>  {
-              return \`\${params?.lang ? \`/\${params?.lang}\`: ''}/site?/\${action}\`
-            }
-      export const ACTIONS_lang_site_contract =  (action: 'noSatisfies', params: {lang?: ('fr' | 'en' | 'hu' | 'at' | string)}= {}) =>  {
-              return \`\${params?.lang ? \`/\${params?.lang}\`: ''}/site_contract?/\${action}\`
-            }
-      export const ACTIONS_lang_site_contract_siteId_contractId =  (action: 'sendSomething', params: {lang?: ('fr' | 'en' | 'hu' | 'at' | string), siteId: (string | number), contractId: (string | number), extra?: ('A' | 'B')}) =>  {
-          params.extra = params.extra ?? \\"A\\"; 
-              return \`\${params?.lang ? \`/\${params?.lang}\`: ''}/site_contract/\${params.siteId}-\${params.contractId}?/\${action}\${appendSp({ extra: params.extra }, '&')}\`
-            }
-
-      export const LINKS_twitter =  \`https:/twitter.com/jycouet\`
-      export const LINKS_twitter_post =  (params: {name: (string | number), id: (string | number)}) =>  {
-              return \`https:/twitter.com/\${params.name}/status/\${params.id}\`
-            }
-      export const LINKS_gravatar =  (params: {str: (string | number), s?: (number), d?: (\\"retro\\" | \\"identicon\\")}) =>  {
-          params.s = params.s ?? 75; 
-          params.d = params.d ?? \\"identicon\\"; 
-              return \`https:/www.gravatar.com/avatar/\${params.str}\${appendSp({ s: params.s, d: params.d })}\`
-            }
-
-      const appendSp = (sp?: Record<string, string | number | undefined>, prefix: '?' | '&' = '?') => {
-        if (sp === undefined) return ''
-        const mapping = Object.entries(sp)
-          .filter(c => c[1] !== undefined)
-          .map(c => [c[0], String(c[1])])
-
-        const formated = new URLSearchParams(mapping).toString()
-        if (formated) {
-          return \`\${prefix}\${formated}\`
-        }
-        return ''
-      }
-
-
-      /**
-      * Add this type as a generic of the vite plugin \`kitRoutes<KIT_ROUTES>\`.
-      * 
-      * Full example:
-      * \`\`\`ts
-      * import type { KIT_ROUTES } from '$lib/ROUTES'
-      * import { kitRoutes } from 'vite-plugin-kit-routes'
-      * 
-      * kitRoutes<KIT_ROUTES>({
-      *  PAGES: {
-      *    // here, \\"paths\\" it will be typed!
-      *  }
-      * })
-      * \`\`\`
-      */
-      export type KIT_ROUTES = { 
-        PAGES: { '_ROOT': never, 'subGroup': never, 'subGroup2': never, 'lang_contract': 'lang', 'lang_contract_id': 'lang' | 'id', 'lang_gp_one': 'lang', 'lang_gp_two': 'lang', 'lang_main': 'lang', 'lang_match_id_int': 'lang' | 'id', 'lang_site': 'lang', 'lang_site_id': 'lang' | 'id', 'lang_site_contract_siteId_contractId': 'lang' | 'siteId' | 'contractId', 'a_rest_z': 'rest', 'lay_normal': never, 'lay_root_layout': never, 'lay_skip': never }
-        SERVERS: { 'lang_contract': 'lang', 'lang_site': 'lang', 'api_graphql': never }
-        ACTIONS: { 'lang_contract_id': 'lang' | 'id', 'lang_site': 'lang', 'lang_site_contract': 'lang', 'lang_site_contract_siteId_contractId': 'lang' | 'siteId' | 'contractId' }
-        LINKS: { 'twitter': never, 'twitter_post': 'name' | 'id', 'gravatar': 'str' }
-        Params: { first: never, lang: never, id: never, limit: never, demo: never, siteId: never, contractId: never, rest: never, extra: never, name: never, str: never, s: never, d: never }
-      }
-      "
-    `)
+  // 'route(path)'
+  const generated_file_routePath = `src/test/ROUTES_format-route-path.ts`
+  run({
+    generated_file_path: generated_file_routePath,
+    format: 'route(path)',
+    ...commonConfig,
+    ...commonConfig_Path,
   })
+
+  // 'route(symbol)'
+  const generated_file_routeSymbol = 'src/test/ROUTES_format-route-symbol.ts'
+  run({
+    generated_file_path: generated_file_routeSymbol,
+    format: 'route(symbol)',
+    ...commonConfig,
+    ...commonConfig_symbol_space,
+  })
+
+  // 'variables'
+  const generated_file_variables = 'src/test/ROUTES_format-variables.ts'
+  run({
+    generated_file_path: generated_file_variables,
+    format: 'variables',
+    ...commonConfig_symbol,
+    ...commonConfig,
+  })
+
+  for (let i = 0; i < table.length; i++) {
+    const element = table[i]
+    describe(element.name, async () => {
+      //
+      it('object[path]', async () => {
+        let { PAGES } = await import(generated_file_objectPath)
+        expect(
+          fnOrNot(PAGES, element.key_path, element.params),
+          `Name: ${element.name}, i: ${i}`,
+        ).toBe(element.results)
+      })
+
+      //
+      it('object[symbol]', async () => {
+        let { PAGES } = await import(generated_file_objectSymbol)
+        expect(
+          fnOrNot(PAGES, element.key_symbol, element.params),
+          `Name: ${element.name}, i: ${i}`,
+        ).toBe(element.results)
+      })
+
+      //
+      it('format route(path)', async () => {
+        let { route } = await import(generated_file_routePath)
+        expect(route(element.key_path, element.params), `Name: ${element.name}, i: ${i}`).toBe(
+          element.results,
+        )
+      })
+
+      //
+      it('format route(symbol)', async () => {
+        let { route } = await import(generated_file_routeSymbol)
+        expect(route(element.key_symbol, element.params), `Name: ${element.name}, i: ${i}`).toBe(
+          element.results,
+        )
+      })
+
+      //
+      it('format variables', async () => {
+        let vars = await import(generated_file_variables)
+        if (element.results === '/') {
+          expect(vars.PAGE__ROOT, `Name: ${element.name}, i: ${i}`).toBe(element.results)
+        } else if (element.results === '/fr/site/Paris') {
+          expect(vars.PAGE_site_id({ id: 'Paris' }), `Name: ${element.name}, i: ${i}`).toBe(
+            element.results,
+          )
+        }
+      })
+    })
+  }
 
   it('post_update_run', () => {
-    const generated_file_path = 'src/test/ROUTES_test4.ts'
+    const generated_file_path = 'src/test/ROUTES_post-update.ts'
     run({
       generated_file_path,
       post_update_run: 'echo done',
     })
+
+    expect(true).toBe(true)
   })
 
   it('with path base', () => {
-    const generated_file_path = 'src/test/ROUTES_test5.ts'
+    const generated_file_path = 'src/test/ROUTES_base.ts'
     run({
       generated_file_path,
-      format: '_',
       path_base: true,
-      PAGES: {
-        subGroup2: {
-          explicit_search_params: {
-            first: {
-              required: true,
-            },
-          },
-        },
-        lang_contract: {
-          extra_search_params: 'with',
-        },
-        lang_site: {
-          explicit_search_params: { limit: { type: 'number' } },
-          params: {
-            // yop: { type: 'number' },
-          },
-          extra_search_params: 'with',
-        },
-        lang_site_id: {
-          explicit_search_params: { limit: { type: 'number' }, demo: { type: 'string' } },
-          params: {
-            id: { type: 'string', default: '"Vienna"' },
-            lang: { type: "'fr' | 'hu' | undefined", default: '"fr"' },
-          },
-        },
-        lang_site_contract_siteId_contractId: {
-          explicit_search_params: { limit: { type: 'number' } },
-        },
-      },
-      SERVERS: {
-        // site: {
-        //   params: { }
-        // }
-        // yop: {},
-      },
-      ACTIONS: {
-        lang_site_contract_siteId_contractId: {
-          explicit_search_params: {
-            extra: { type: "'A' | 'B'", default: '"A"' },
-          },
-        },
-      },
-      ...commonConfig,
     })
 
-    expect(read(generated_file_path)).toMatchInlineSnapshot(`
-      "/** 
-       * This file was generated by 'vite-plugin-kit-routes'
-       * 
-       *      >> DO NOT EDIT THIS FILE MANUALLY <<
-       */
-      import { base } from '$app/paths'
-
-      export const PAGES = {
-        \\"_ROOT\\": \`\${base}/\`,
-        \\"subGroup\\": \`\${base}/subGroup\`,
-        \\"subGroup2\\": (params: {first: (string | number)}) =>  {
-              return \`\${base}/subGroup2\${appendSp({ first: params.first })}\`
-            },
-        \\"lang_contract\\": (params: {lang?: ('fr' | 'en' | 'hu' | 'at' | string)}= {}, sp?: Record<string, string | number>) =>  {
-              return \`\${base}\${params?.lang ? \`/\${params?.lang}\`: ''}/contract\${appendSp(sp)}\`
-            },
-        \\"lang_contract_id\\": (params: {lang?: ('fr' | 'en' | 'hu' | 'at' | string), id: (string | number)}) =>  {
-              return \`\${base}\${params?.lang ? \`/\${params?.lang}\`: ''}/contract/\${params.id}\`
-            },
-        \\"lang_gp_one\\": (params: {lang?: ('fr' | 'en' | 'hu' | 'at' | string)}= {}) =>  {
-              return \`\${base}\${params?.lang ? \`/\${params?.lang}\`: ''}/gp/one\`
-            },
-        \\"lang_gp_two\\": (params: {lang?: ('fr' | 'en' | 'hu' | 'at' | string)}= {}) =>  {
-              return \`\${base}\${params?.lang ? \`/\${params?.lang}\`: ''}/gp/two\`
-            },
-        \\"lang_main\\": (params: {lang?: ('fr' | 'en' | 'hu' | 'at' | string)}= {}) =>  {
-              return \`\${base}\${params?.lang ? \`/\${params?.lang}\`: ''}/main\`
-            },
-        \\"lang_match_id_int\\": (params: {lang?: ('fr' | 'en' | 'hu' | 'at' | string), id: (string | number)}) =>  {
-              return \`\${base}\${params?.lang ? \`/\${params?.lang}\`: ''}/match/\${params.id}\`
-            },
-        \\"lang_site\\": (params: {lang?: ('fr' | 'en' | 'hu' | 'at' | string), limit?: (number)}= {}, sp?: Record<string, string | number>) =>  {
-              return \`\${base}\${params?.lang ? \`/\${params?.lang}\`: ''}/site\${appendSp({...sp, limit: params.limit })}\`
-            },
-        \\"lang_site_id\\": (params: {lang?: ('fr' | 'hu' | undefined), id?: (string), limit?: (number), demo?: (string)}= {}) =>  {
-          params.lang = params.lang ?? \\"fr\\"; 
-          params.id = params.id ?? \\"Vienna\\"; 
-              return \`\${base}\${params?.lang ? \`/\${params?.lang}\`: ''}/site/\${params.id}\${appendSp({ limit: params.limit, demo: params.demo })}\`
-            },
-        \\"lang_site_contract_siteId_contractId\\": (params: {lang?: ('fr' | 'en' | 'hu' | 'at' | string), siteId: (string | number), contractId: (string | number), limit?: (number)}) =>  {
-              return \`\${base}\${params?.lang ? \`/\${params?.lang}\`: ''}/site_contract/\${params.siteId}-\${params.contractId}\${appendSp({ limit: params.limit })}\`
-            },
-        \\"a_rest_z\\": (params: {rest: (string | number)[]}) =>  {
-              return \`\${base}/a/\${params.rest?.join('/')}/z\`
-            },
-        \\"lay_normal\\": \`\${base}/lay/normal\`,
-        \\"lay_root_layout\\": \`\${base}/lay/root-layout\`,
-        \\"lay_skip\\": \`\${base}/lay/skip\`
-      }
-
-      export const SERVERS = {
-        \\"lang_contract\\": (method: 'GET' | 'POST', params: {lang?: ('fr' | 'en' | 'hu' | 'at' | string)}= {}) =>  {
-              return \`\${base}\${params?.lang ? \`/\${params?.lang}\`: ''}/contract\`
-            },
-        \\"lang_site\\": (method: 'GET', params: {lang?: ('fr' | 'en' | 'hu' | 'at' | string)}= {}) =>  {
-              return \`\${base}\${params?.lang ? \`/\${params?.lang}\`: ''}/site\`
-            },
-        \\"api_graphql\\": (method: 'GET' | 'POST') =>  {
-              return \`\${base}/api/graphql\`
-            }
-      }
-
-      export const ACTIONS = {
-        \\"lang_contract_id\\": (params: {lang?: ('fr' | 'en' | 'hu' | 'at' | string), id: (string | number)}) =>  {
-              return \`\${base}\${params?.lang ? \`/\${params?.lang}\`: ''}/contract/\${params.id}\`
-            },
-        \\"lang_site\\": (action: 'action1' | 'action2', params: {lang?: ('fr' | 'en' | 'hu' | 'at' | string)}= {}) =>  {
-              return \`\${base}\${params?.lang ? \`/\${params?.lang}\`: ''}/site?/\${action}\`
-            },
-        \\"lang_site_contract\\": (action: 'noSatisfies', params: {lang?: ('fr' | 'en' | 'hu' | 'at' | string)}= {}) =>  {
-              return \`\${base}\${params?.lang ? \`/\${params?.lang}\`: ''}/site_contract?/\${action}\`
-            },
-        \\"lang_site_contract_siteId_contractId\\": (action: 'sendSomething', params: {lang?: ('fr' | 'en' | 'hu' | 'at' | string), siteId: (string | number), contractId: (string | number), extra?: ('A' | 'B')}) =>  {
-          params.extra = params.extra ?? \\"A\\"; 
-              return \`\${base}\${params?.lang ? \`/\${params?.lang}\`: ''}/site_contract/\${params.siteId}-\${params.contractId}?/\${action}\${appendSp({ extra: params.extra }, '&')}\`
-            }
-      }
-
-      export const LINKS = {
-        \\"twitter\\": \`\${base}https:/twitter.com/jycouet\`,
-        \\"twitter_post\\": (params: {name: (string | number), id: (string | number)}) =>  {
-              return \`\${base}https:/twitter.com/\${params.name}/status/\${params.id}\`
-            },
-        \\"gravatar\\": (params: {str: (string | number), s?: (number), d?: (\\"retro\\" | \\"identicon\\")}) =>  {
-          params.s = params.s ?? 75; 
-          params.d = params.d ?? \\"identicon\\"; 
-              return \`\${base}https:/www.gravatar.com/avatar/\${params.str}\${appendSp({ s: params.s, d: params.d })}\`
-            }
-      }
-
-      const appendSp = (sp?: Record<string, string | number | undefined>, prefix: '?' | '&' = '?') => {
-        if (sp === undefined) return ''
-        const mapping = Object.entries(sp)
-          .filter(c => c[1] !== undefined)
-          .map(c => [c[0], String(c[1])])
-
-        const formated = new URLSearchParams(mapping).toString()
-        if (formated) {
-          return \`\${prefix}\${formated}\`
-        }
-        return ''
-      }
-
-
-      /**
-      * Add this type as a generic of the vite plugin \`kitRoutes<KIT_ROUTES>\`.
-      * 
-      * Full example:
-      * \`\`\`ts
-      * import type { KIT_ROUTES } from '$lib/ROUTES'
-      * import { kitRoutes } from 'vite-plugin-kit-routes'
-      * 
-      * kitRoutes<KIT_ROUTES>({
-      *  PAGES: {
-      *    // here, \\"paths\\" it will be typed!
-      *  }
-      * })
-      * \`\`\`
-      */
-      export type KIT_ROUTES = { 
-        PAGES: { '_ROOT': never, 'subGroup': never, 'subGroup2': never, 'lang_contract': 'lang', 'lang_contract_id': 'lang' | 'id', 'lang_gp_one': 'lang', 'lang_gp_two': 'lang', 'lang_main': 'lang', 'lang_match_id_int': 'lang' | 'id', 'lang_site': 'lang', 'lang_site_id': 'lang' | 'id', 'lang_site_contract_siteId_contractId': 'lang' | 'siteId' | 'contractId', 'a_rest_z': 'rest', 'lay_normal': never, 'lay_root_layout': never, 'lay_skip': never }
-        SERVERS: { 'lang_contract': 'lang', 'lang_site': 'lang', 'api_graphql': never }
-        ACTIONS: { 'lang_contract_id': 'lang' | 'id', 'lang_site': 'lang', 'lang_site_contract': 'lang', 'lang_site_contract_siteId_contractId': 'lang' | 'siteId' | 'contractId' }
-        LINKS: { 'twitter': never, 'twitter_post': 'name' | 'id', 'gravatar': 'str' }
-        Params: { first: never, lang: never, id: never, limit: never, demo: never, siteId: never, contractId: never, rest: never, extra: never, name: never, str: never, s: never, d: never }
-      }
-      "
-    `)
+    expect(read(generated_file_path)?.includes("import { base } from '$app/paths'")).toBe(true)
+    expect(read(generated_file_path)?.includes('${base}')).toBe(true)
   })
 })

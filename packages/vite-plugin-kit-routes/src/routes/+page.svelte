@@ -7,7 +7,7 @@
     { lang: 'hu', caption: 'Magyar' },
     { lang: 'at', caption: 'Deutsch' },
   ].map(c => {
-    return { href: PAGES.lang_main({ lang: c.lang }), ...c }
+    return { href: PAGES.main({ lang: c.lang }), ...c }
   })
 </script>
 

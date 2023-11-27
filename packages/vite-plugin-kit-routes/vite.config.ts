@@ -4,13 +4,18 @@ import { defineConfig } from 'vite'
 
 import { kitRoutes } from './src/lib/index.js'
 
+// export function route(key: 'subGroup2', params: { first: string | number }): string
+// export function route(key: '_ROOT'): string
+// export function route(key: any, ...params: any): string {
+
 export default defineConfig({
   plugins: [
     sveltekit(),
     // demo
     kitRoutes<KIT_ROUTES>({
-      format: '_',
-      logs: ['update', 'errors'],
+      // format: '_',
+      format: 'object[symbol]',
+      // exclude_logs: ['update', 'errors', 'stats', 'post_update_run'],
       // path_base: true,
       // default_type: 'string',
       // extra_search_params: 'with',
@@ -25,21 +30,21 @@ export default defineConfig({
             },
           },
         },
-        lang_site: {
+        site: {
           extra_search_params: 'with',
           explicit_search_params: { limit: { type: 'number' } },
           params: {
             // yop: { type: 'number' },
           },
         },
-        lang_site_id: {
+        site_id: {
           explicit_search_params: { limit: { type: 'number' }, demo: { type: 'string' } },
           params: {
             id: { type: 'string', default: '"Vienna"' },
             lang: { type: "'fr' | 'hu' | undefined", default: '"fr"' },
           },
         },
-        lang_site_contract_siteId_contractId: {
+        site_contract_siteId_contractId: {
           explicit_search_params: { limit: { type: 'number' } },
         },
       },
@@ -50,14 +55,19 @@ export default defineConfig({
         // yop: {},
       },
       ACTIONS: {
-        lang_contract_id: {
+        default_contract_id: {
           explicit_search_params: {
             limit: { type: 'number' },
           },
         },
-        lang_site_contract_siteId_contractId: {
+        send_site_contract_siteId_contractId: {
           explicit_search_params: {
             extra: { type: "'A' | 'B'", default: '"A"' },
+          },
+        },
+        create_site: {
+          explicit_search_params: {
+            redirectTo: { type: '"list" | "new" | "detail"' },
           },
         },
       },

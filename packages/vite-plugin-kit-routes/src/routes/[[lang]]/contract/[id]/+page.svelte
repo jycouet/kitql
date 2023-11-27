@@ -7,7 +7,7 @@
 
   const id = $page.params.id
 
-  const action = ACTIONS.lang_contract_id({
+  const action = ACTIONS.default_contract_id({
     lang: $page.params.lang,
     id,
   })

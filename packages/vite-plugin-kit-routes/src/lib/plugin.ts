@@ -1,13 +1,11 @@
-import { parse } from '@babel/parser'
-import { cyan, green, Log, red, yellow } from '@kitql/helpers'
+import { cyan, gray, green, italic, Log, red, stry0, yellow } from '@kitql/helpers'
 import { spawn } from 'child_process'
-import * as recast from 'recast'
 import type { Plugin } from 'vite'
 import watch_and_run from 'vite-plugin-watch-and-run'
 
-import { getFilesUnder, read, write } from './fs.js'
-
-const { visit } = recast.types
+import { getActionsOfServerPages, getMethodsOfServerFiles } from './ast.js'
+import { appendSp, format, routeFn } from './format.js'
+import { getFilesUnder, write } from './fs.js'
 
 type ExtendTypes = {
   PAGES: Record<string, string>
@@ -16,7 +14,8 @@ type ExtendTypes = {
   Params: Record<string, string>
 }
 
-type LogKind = 'update' | 'post_update_run' | 'errors'
+type LogKind = 'update' | 'post_update_run' | 'errors' | 'stats'
+type FormatKind = 'route(path)' | 'route(symbol)' | 'variables' | 'object[path]' | 'object[symbol]'
 
 export type Options<T extends ExtendTypes = ExtendTypes> = {
   /**
@@ -30,10 +29,17 @@ export type Options<T extends ExtendTypes = ExtendTypes> = {
   post_update_run?: string
 
   /**
-   * by default, everything is logged. If you want to remove them, send an empty array.
-   * If you want only `update` logs, give `['update']`
+   * by default, everything is logged. If you want to remove some, add them in the array.
+   *
+   * `update` when the file is updated
+   *
+   * `post_update_run` to log the command you run
+   *
+   * `errors` in case you have some!
+   *
+   * `stats` to have some stats about your routes & co 🥳
    */
-  logs?: LogKind[]
+  exclude_logs?: LogKind[]
 
   /**
    * @default 'src/lib/ROUTES.ts'
@@ -42,14 +48,38 @@ export type Options<T extends ExtendTypes = ExtendTypes> = {
 
   /**
    * ```ts
-   * // when `/` (default) you can use:
-   * PAGES["/site/[id]/two/[hello]"]
+   * // format: route(path)        -> default <-
+   * route("/site/[id]", { id: 7, tab: 'info' })
    *
-   * // when `_` you can use:
-   * PAGES.site_id_two_hello
+   * // format: route(symbol)
+   * route("site_id", { id: 7, tab: 'info' })
+   *
+   * // format: `variables` (best for code splitting & privacy)
+   * PAGE_site_id({ id: 7, tab: 'info' })
+   *
+   * // format: object[path]
+   * PAGES["/site/[id]"]({ id: 7, tab: 'info' })
+   *
+   * // format: object[symbol]
+   * PAGES.site_id({ id: 7, tab: 'info' })
    * ```
    */
-  format?: '/' | '_' | 'variables'
+  format?: FormatKind
+
+  // /**
+  //  * default is: `false`
+  //  *
+  //  * If you have only 1 required param, it will be the seond param.
+  //  *
+  //  * ```ts
+  //  * route("/site/[id]", 7)
+  //  * route("site_id", 7)
+  //  * PAGE_site_id(7)
+  //  * PAGES["/site/[id]"](7)
+  //  * PAGES.site_id(7)
+  //  * ```
+  //  */
+  // params_always_as_object?: boolean
 
   /**
    * default is: `string | number`
@@ -180,8 +210,10 @@ export type ExplicitSearchParam = ExtendParam & {
   required?: boolean
 }
 
-function generated_file_path(options?: Options) {
-  return options?.generated_file_path ?? 'src/lib/ROUTES.ts'
+export const log = new Log('Kit Routes')
+
+export function routes_path() {
+  return `${process.cwd()}/src/routes`
 }
 
 export function rmvGroups(key: string) {
@@ -192,10 +224,18 @@ export function rmvGroups(key: string) {
   return toRet
 }
 
-export function formatKey(key: string, options?: Options) {
-  let toRet = rmvGroups(key)
+export function rmvOptional(key: string) {
+  let toRet = key
+    // rmv (Optional)
+    .replace(/\[{2}.*?\]{2}/g, '')
+  return toRet
+}
 
-  if (options?.format === undefined || options?.format === '/') {
+export function formatKey(key: string, o: Options) {
+  const options = getDefaultOption(o)
+  let toRet = rmvGroups(rmvOptional(key))
+
+  if (options.format!.includes('path')) {
     return toRet
   }
 
@@ -222,32 +262,28 @@ export function formatKey(key: string, options?: Options) {
   return toRet
 }
 
-function routes_path() {
-  return `${process.cwd()}/src/routes`
+type MetadataToWrite = {
+  keyToUse: string
+  key_wo_prefix: string
+  // prop: string
+  paramsFromPath: Param[]
+  strDefault: string
+  strReturn: string
+  strParams: string
 }
 
-// const routes_path = 'src/lib/ROUTES.ts'
-const log = new Log('Kit Routes')
+type KindOfObject = 'PAGES' | 'SERVERS' | 'ACTIONS' | 'LINKS'
 
-const getFileKeys = (
-  files: string[],
-  type: 'PAGES' | 'SERVERS' | 'ACTIONS' | 'LINKS',
-  options?: Options,
-  withAppendSp?: boolean,
-) => {
+const getMetadata = (files: string[], type: KindOfObject, o: Options, withAppendSp?: boolean) => {
+  const options = getDefaultOption(o)
   const useWithAppendSp = withAppendSp && options?.extra_search_params === 'with'
 
   if (type === 'LINKS') {
-    const toRet = Object.entries(options?.LINKS ?? {}).map(c => {
+    const toRet = Object.entries(options?.LINKS ?? {}).flatMap(c => {
       const hrefToUse = typeof c[1] === 'string' ? c[1] : c[1].href
-
-      return fileToMetadata(c[0], hrefToUse, type, options, useWithAppendSp)
+      return transformToMetadata(c[0], hrefToUse, type, options, useWithAppendSp)
     })
-    return toRet.filter(c => c !== null) as {
-      keyToUse: string
-      prop: string
-      paramsFromPath: Param[]
-    }[]
+    return toRet.filter(c => c !== null) as MetadataToWrite[]
   }
 
   const lookFor =
@@ -264,13 +300,9 @@ const getFileKeys = (
     .map(file => `/` + file.replace(`/${lookFor}`, '').replace(lookFor, ''))
     // Keep the sorting at this level, it will make more sense
     .sort()
-    .map(original => fileToMetadata(original, original, type, options, useWithAppendSp))
+    .flatMap(original => transformToMetadata(original, original, type, options, useWithAppendSp))
 
-  return toRet.filter(c => c !== null) as {
-    keyToUse: string
-    prop: string
-    paramsFromPath: Param[]
-  }[]
+  return toRet.filter(c => c !== null) as MetadataToWrite[]
 }
 
 type Param = {
@@ -283,16 +315,107 @@ type Param = {
   isArray: boolean
 }
 
-export const fileToMetadata = (
+export const transformToMetadata = (
   original: string,
   originalValue: string,
-  type: 'PAGES' | 'SERVERS' | 'ACTIONS' | 'LINKS',
-  options: Options | undefined,
+  type: KindOfObject,
+  options: Options,
   useWithAppendSp: boolean | undefined,
-) => {
+): MetadataToWrite[] => {
   const keyToUse = formatKey(original, options)
   let toRet = rmvGroups(originalValue)
 
+  const list: MetadataToWrite[] = []
+
+  const getSep = () => {
+    return options?.format?.includes('route') || options?.format?.includes('path') ? ` ` : `_`
+  }
+
+  if (type === 'ACTIONS') {
+    const { actions } = getActionsOfServerPages(originalValue)
+    if (actions.length === 0) {
+    } else if (actions.length === 1 && actions[0] === 'default') {
+      list.push(
+        buildMetadata(
+          type,
+          originalValue,
+          'default' + getSep() + keyToUse,
+          keyToUse,
+
+          useWithAppendSp,
+          '',
+          toRet,
+          options,
+        ),
+      )
+    } else {
+      actions.map(action => {
+        list.push(
+          buildMetadata(
+            type,
+            originalValue,
+            action + getSep() + keyToUse,
+            keyToUse,
+
+            useWithAppendSp,
+            `?/${action}`,
+            toRet,
+            options,
+          ),
+        )
+      })
+    }
+  } else if (type === 'SERVERS') {
+    const methods = getMethodsOfServerFiles(originalValue)
+    if (methods.length === 0) {
+      return []
+    } else {
+      methods.map(method => {
+        list.push(
+          buildMetadata(
+            type,
+            originalValue,
+            method + getSep() + keyToUse,
+            keyToUse,
+
+            useWithAppendSp,
+            ``,
+            toRet,
+            options,
+          ),
+        )
+      })
+    }
+  } else {
+    list.push(
+      buildMetadata(
+        type,
+        originalValue,
+        keyToUse,
+        keyToUse,
+
+        useWithAppendSp,
+        '',
+        toRet,
+        options,
+      ),
+    )
+  }
+
+  return list
+}
+
+export function buildMetadata(
+  type: KindOfObject,
+  originalValue: string,
+  keyToUse: string,
+  key_wo_prefix: string,
+  useWithAppendSp: boolean | undefined,
+  actionsFormat: string,
+  toRet: string,
+  o: Options,
+) {
+  const options = getDefaultOption(o)
   // custom conf
   const viteCustomPathConfig = options?.[type]
   let customConf: CustomPath = {
@@ -357,24 +480,6 @@ export const fileToMetadata = (
 
   const params = []
 
-  let actionsFormat = ''
-  if (type === 'SERVERS') {
-    const methods = getMethodsOfServerFiles(originalValue)
-    if (methods.length > 0) {
-      params.push(`method: ${methods.map(c => `'${c}'`).join(' | ')}`)
-    }
-  } else if (type === 'ACTIONS') {
-    const { actions } = getActionsOfServerPages(originalValue)
-
-    if (actions.length === 0) {
-      return null
-    } else if (actions.length === 1 && actions[0] === 'default') {
-    } else {
-      params.push(`action: ${actions.map(c => `'${c}'`).join(' | ')}`)
-      actionsFormat = `?/\${action}`
-    }
-  }
-
   // custom search Param?
   const explicit_search_params_to_function: string[] = []
   if (customConf.explicit_search_params) {
@@ -386,15 +491,13 @@ export const fileToMetadata = (
         default: sp[1].default,
         isArray: false,
       })
-      explicit_search_params_to_function.push(`${sp[0]}: params.${sp[0]}`)
+      explicit_search_params_to_function.push(`${sp[0]}: params?.${sp[0]}`)
     })
   }
 
+  const isAllOptional = paramsFromPath.filter(c => !c.optional).length === 0
   if (paramsFromPath.length > 0) {
-    const isAllOptional = paramsFromPath.filter(c => !c.optional).length === 0
-    params.push(
-      `params: {${formatArgs(paramsFromPath, options)}}` + `${isAllOptional ? '= {}' : ''}`,
-    )
+    params.push(`params${isAllOptional ? '?' : ''}: { ${formatArgs(paramsFromPath, options)} }`)
   }
 
   let fullSP = ''
@@ -408,9 +511,9 @@ export const fileToMetadata = (
     fullSP = `\${appendSp(sp${appendSpPrefix})}`
   } else if (wExtraSP && customConf.explicit_search_params) {
     params.push(`sp?: Record<string, string | number>`)
-    fullSP = `\${appendSp({...sp, ${explicit_search_params_to_function.join(
-      ', ',
-    )} }${appendSpPrefix})}`
+    fullSP =
+      `\${appendSp({ ${explicit_search_params_to_function.join(', ')}` +
+      `, ...sp }${appendSpPrefix})}`
   } else if (!wExtraSP && customConf.explicit_search_params) {
     fullSP = `\${appendSp({ ${explicit_search_params_to_function.join(', ')} }${appendSpPrefix})}`
   }
@@ -421,20 +524,26 @@ export const fileToMetadata = (
       return `params.${c.name} = params.${c.name} ?? ${c.default}; `
     })
 
-  const pathBaesStr = options?.path_base ? '${base}' : ''
-
-  let prop = ''
-  if (params.length > 0) {
-    prop =
-      `"${keyToUse}": (${params.join(', ')}) => ` +
-      ` {${paramsDefaults.length > 0 ? `\n    ${paramsDefaults.join('\n    ')}` : ''}
-        return \`${pathBaesStr}${toRet}${actionsFormat}${fullSP}\`
-      }`
-  } else {
-    prop = `"${keyToUse}": \`${pathBaesStr}${toRet}\``
+  if (paramsDefaults.length > 0 && isAllOptional) {
+    paramsDefaults = ['params = params ?? {}', ...paramsDefaults]
   }
 
-  return { keyToUse, prop, paramsFromPath }
+  const pathBaesStr = options?.path_base ? '${base}' : ''
+  const strDefault = paramsDefaults.length > 0 ? `${paramsDefaults.join('\n')}` : ''
+  const strReturn = `\`${pathBaesStr}${toRet}${actionsFormat}${fullSP}\``
+  const strParams = params.join(', ')
+
+  const baseToReturn: MetadataToWrite = {
+    keyToUse,
+    key_wo_prefix,
+    // prop,
+    paramsFromPath,
+    strDefault,
+    strReturn,
+    strParams,
+  }
+
+  return baseToReturn
 }
 
 export function extractParamsFromPath(path: string): Param[] {
@@ -468,8 +577,18 @@ export function extractParamsFromPath(path: string): Param[] {
   return params
 }
 
-const formatArgs = (params: Param[], options?: Options) => {
+const formatArgs = (params: Param[], o: Options) => {
+  const options = getDefaultOption(o)
   return params
+    .sort((a, b) => {
+      // if (a.optional === b.optional) {
+      //   // When 'optional' is the same, sort by 'name'
+      //   return a.name < b.name ? -1 : a.name > b.name ? 1 : 0
+      // }
+      // Otherwise, sort by 'optional'
+      // Let's sort only by 'optional' at the end.
+      return a.optional < b.optional ? -1 : 1
+    })
     .map(c => {
       const override_params = Object.entries(options?.override_params ?? {}).filter(
         d => d[0] === c.name,
@@ -489,106 +608,22 @@ const formatArgs = (params: Param[], options?: Options) => {
     .join(', ')
 }
 
-const getMethodsOfServerFiles = (path: string) => {
-  const code = read(`${routes_path()}/${path}/${'+server.ts'}`)
+const shouldLog = (kind: LogKind, o: Options) => {
+  const options = getDefaultOption(o)
 
-  const codeParsed = parse(code ?? '', {
-    plugins: ['typescript', 'importAssertions', 'decorators-legacy'],
-    sourceType: 'module',
-  }).program as recast.types.namedTypes.Program
-
-  let exportedNames: string[] = []
-  visit(codeParsed, {
-    visitExportNamedDeclaration(path) {
-      // @ts-ignore
-      const declarations = path.node.declaration?.declarations
-      if (declarations) {
-        declarations.forEach((declaration: any) => {
-          if (declaration.id.name) {
-            exportedNames.push(declaration.id.name)
-          }
-        })
-      }
-
-      // Check for export specifiers (for aliased exports)
-      const specifiers = path.node.specifiers
-      if (specifiers) {
-        specifiers.forEach((specifier: any) => {
-          if (specifier.exported.name) {
-            exportedNames.push(specifier.exported.name)
-          }
-        })
-      }
-
-      return false
-    },
-  })
-
-  return exportedNames
+  if (o.exclude_logs?.includes(kind)) {
+    return false
+  }
+  return true
 }
 
-const getActionsOfServerPages = (pathFile: string) => {
-  const pathToFile = `${pathFile}/+page.server.ts`
-  const code = read(`${routes_path()}/${pathFile}/${'+page.server.ts'}`)
-
-  let withLoad = false
-
-  const codeParsed = parse(code ?? '', {
-    plugins: ['typescript', 'importAssertions', 'decorators-legacy'],
-    sourceType: 'module',
-  }).program as recast.types.namedTypes.Program
-
-  let actions: string[] = []
-  visit(codeParsed, {
-    visitExportNamedDeclaration(path) {
-      // @ts-ignore
-      const declarations = path.node.declaration?.declarations
-      if (declarations) {
-        declarations.forEach((declaration: any) => {
-          if (declaration.id.name === 'actions') {
-            const properties =
-              // if } satisfies Actions
-              declaration.init.expression?.properties ??
-              // if no satisfies Actions
-              declaration.init.properties
-
-            if (properties) {
-              properties.forEach((property: any) => {
-                actions.push(property.key.name)
-              })
-            }
-          }
-          if (declaration.id.name === 'load') {
-            withLoad = true
-          }
-        })
-      }
-      return false
-    },
-  })
-
-  if (actions.length > 1 && actions.includes('default')) {
-    // Let's remove the default action form our list, and say something
-    actions = actions.filter(c => c !== 'default')
-    log.error(
-      `In file: ${yellow(pathToFile)}` +
-        `\n\t      When using named actions (${yellow(actions.join(', '))})` +
-        `, the ${red('default')} action cannot be used. ` +
-        `\n\t      See the docs for more info: ` +
-        `${cyan(`https://kit.svelte.dev/docs/form-actions#named-actions`)}`,
-    )
+export const getDefaultOption = (o?: Options) => {
+  const options = {
+    ...o,
+    format: o?.format ?? 'route(path)',
+    generated_file_path: o?.generated_file_path ?? 'src/lib/ROUTES.ts',
   }
-
-  // TODO: withLoad to be used one day? with PAGE_SERVER_LOAD? PAGE_LOAD?
-  return { actions, withLoad }
-}
-
-const shouldLog = (kind: LogKind, options?: Options) => {
-  if (options?.logs === undefined) {
-    // let's log everything by default
-    return true
-  }
-  return options.logs.includes(kind)
+  return options
 }
 
 const arrayToRecord = (arr?: string[]) => {
@@ -598,7 +633,9 @@ const arrayToRecord = (arr?: string[]) => {
   return `: Record<string, never>`
 }
 
-export const run = (options?: Options) => {
+export const run = (o?: Options) => {
+  const options = getDefaultOption(o)
+
   let files = getFilesUnder(routes_path())
 
   // TODO check if harcoded links are around?
@@ -606,12 +643,12 @@ export const run = (options?: Options) => {
   // goto, href, action, src, throw redirect?
   // }
 
-  const objTypes = [
-    { type: 'PAGES', files: getFileKeys(files, 'PAGES', options, true) },
-    { type: 'SERVERS', files: getFileKeys(files, 'SERVERS', options, true) },
-    { type: 'ACTIONS', files: getFileKeys(files, 'ACTIONS', options, false) },
-    { type: 'LINKS', files: getFileKeys(files, 'LINKS', options, false) },
-  ] as const
+  const objTypes: { type: KindOfObject; files: MetadataToWrite[] }[] = [
+    { type: 'PAGES', files: getMetadata(files, 'PAGES', options, true) },
+    { type: 'SERVERS', files: getMetadata(files, 'SERVERS', options, true) },
+    { type: 'ACTIONS', files: getMetadata(files, 'ACTIONS', options, false) },
+    { type: 'LINKS', files: getMetadata(files, 'LINKS', options, false) },
+  ]
 
   // Validate options
   let allOk = true
@@ -627,7 +664,8 @@ export const run = (options?: Options) => {
               `Can't extend "${green(`${o.type}.`)}${red(key)}" as this path doesn't exist!`,
             )
           }
-          allOk = false
+          // Even with warning, we should wite the file
+          // allOk = false
         } else {
           if (cPath) {
             Object.entries(cPath.params ?? {}).forEach(p => {
@@ -641,7 +679,8 @@ export const run = (options?: Options) => {
                     )}" as this param doesn't exist!`,
                   )
                 }
-                allOk = false
+                // Even with warning, we should wite the file
+                // allOk = false
               }
             })
           }
@@ -650,7 +689,7 @@ export const run = (options?: Options) => {
     })
 
   if (allOk) {
-    const result = write(generated_file_path(options), [
+    const result = write(options.generated_file_path, [
       `/** 
  * This file was generated by 'vite-plugin-kit-routes'
  * 
@@ -659,39 +698,58 @@ export const run = (options?: Options) => {
 `,
       // consts
       options?.format === 'variables'
-        ? objTypes
+        ? // Format variables
+          objTypes
             .map(c => {
-              return c.files
-                .map(key => {
-                  const [first, ...rest] = key.prop.split(':')
-
-                  return `export const ${c.type}_${first.slice(1, -1)} = ${rest.join(':')}`
-                })
-                .join('\n')
+              return `/**\n * ${c.type}\n */
+${c.files
+  .map(key => {
+    if (key.strParams) {
+      return (
+        `export const ${c.type.slice(0, -1)}_${key.keyToUse} = (${key.strParams}) => {` +
+        `${format({ bottom: 0, top: 1, left: 2 }, key.strDefault)}
+  return ${key.strReturn} 
+}`
+      )
+    } else {
+      return `export const ${c.type.slice(0, -1)}_${key.keyToUse} = ${key.strReturn}`
+    }
+  })
+  .join('\n')}`
             })
             .join(`\n\n`)
-        : objTypes
+        : // Format Others
+          objTypes
             .map(c => {
-              return `export const ${c.type} = {
-  ${c.files.map(key => key.prop).join(',\n  ')}
+              return (
+                `/**\n * ${c.type}\n */
+${options?.format?.includes('route') ? `` : `export `}` +
+                `const ${c.type} = {
+  ${c.files
+    .map(key => {
+      if (key.strParams) {
+        return (
+          `"${key.keyToUse}": (${key.strParams}) => {` +
+          `${format({ bottom: 0, top: 1, left: 4 }, key.strDefault)}
+    return ${key.strReturn}
+  }`
+        )
+      } else {
+        return `"${key.keyToUse}": ${key.strReturn}`
+      }
+    })
+    .join(',\n  ')}
 }`
+              )
             })
             .join(`\n\n`),
-      `
-const appendSp = (sp?: Record<string, string | number | undefined>, prefix: '?' | '&' = '?') => {
-  if (sp === undefined) return ''
-  const mapping = Object.entries(sp)
-    .filter(c => c[1] !== undefined)
-    .map(c => [c[0], String(c[1])])
 
-  const formated = new URLSearchParams(mapping).toString()
-  if (formated) {
-    return \`\${prefix}\${formated}\`
-  }
-  return ''
-}
+      format({ top: 1, left: 0 }, appendSp),
 
-`, // types
+      // add appendSp
+      ...(options?.format?.includes('route') ? [format({ left: 0 }, routeFn)] : []),
+
+      // types
       `/**
 * Add this type as a generic of the vite plugin \`kitRoutes<KIT_ROUTES>\`.
 * 
@@ -702,7 +760,7 @@ const appendSp = (sp?: Record<string, string | number | undefined>, prefix: '?' 
 * 
 * kitRoutes<KIT_ROUTES>({
 *  PAGES: {
-*    // here, "paths" it will be typed!
+*    // here, key of object will be typed!
 *  }
 * })
 * \`\`\`
@@ -762,33 +820,73 @@ ${objTypes
 
       if (shouldLog('update', options)) {
         child.on('close', code => {
-          if (result) {
-            log.success(`${yellow(generated_file_path(options))} updated`)
-            // TODO later
-            // log.info(
-            //   `⚠️ Warning ${yellow(`href="/about"`)} detected ` +
-            //     `in ${gray('/src/lib/component/menu.svelte')} is not safe. ` +
-            //     `You could use: ${green(`href={PAGES['/about']}`)}`,
-            // )
-            // log.info(
-            //   `⚠️ Warning ${yellow(`action="?/save"`)} detected ` +
-            //     `in ${gray('/routes/card/+page.svelte')} is not safe. ` +
-            //     `You could use: ${green(`href={ACTION['/card']('save')}`)}`,
-            // )
-          }
+          theEnd(result, objTypes, options)
         })
       }
     } else {
-      if (result) {
-        if (shouldLog('update', options)) {
-          log.success(`${yellow(generated_file_path(options))} updated`)
-        }
-      }
+      theEnd(result, objTypes, options)
     }
     return true
   }
 
   return false
+}
+
+function theEnd(
+  result: boolean,
+  objTypes: { type: KindOfObject; files: MetadataToWrite[] }[],
+  o: Options,
+) {
+  const options = getDefaultOption(o)
+  if (result) {
+    if (shouldLog('update', options)) {
+      log.success(`${yellow(options.generated_file_path)} updated`)
+    }
+
+    if (shouldLog('stats', options)) {
+      const stats = []
+      let nbRoutes = objTypes.flatMap(c => c.files).length
+      stats.push(
+        `Routes: ${yellow('' + nbRoutes)} ` +
+          `${italic(
+            `(${objTypes.map(c => `${c.type}: ${yellow('' + c.files.length)}`).join(', ')})`,
+          )}`,
+      )
+      let confgPoints = stry0(Object.entries(options ?? {}))!.length
+
+      stats.push(`Points: ${yellow('' + confgPoints)}`)
+      const score = (confgPoints / nbRoutes).toFixed(2)
+      stats.push(`Score: ${yellow(score)}`)
+      stats.push(`Format: "${yellow('' + options?.format)}"`)
+
+      log.success(`${green('Stats:')} ${stats.join(' | ')}`)
+      log.info(
+        `${gray(' Share on TwiX:')} ${cyan(
+          `https://twitter.com/intent/tweet?text=` +
+            `${encodeURI(`🚀 Check out my `)}%23${encodeURI(
+              `KitRoutes stats 🚀\n\n` +
+                `- Routes: ${nbRoutes} (${objTypes.map(c => c.files.length).join(', ')})\n` +
+                `- Points: ${confgPoints}\n` +
+                `- Score: ${score}\n` +
+                `- Format: "${options?.format}"\n\n` +
+                `👀 @jycouet`,
+            )}`,
+        )}`,
+      )
+    }
+
+    // TODO later
+    // log.info(
+    //   `⚠️ Warning ${yellow(`href="/about"`)} detected ` +
+    //     `in ${gray('/src/lib/component/menu.svelte')} is not safe. ` +
+    //     `You could use: ${green(`href={PAGES['/about']}`)}`,
+    // )
+    // log.info(
+    //   `⚠️ Warning ${yellow(`action="?/save"`)} detected ` +
+    //     `in ${gray('/routes/card/+page.svelte')} is not safe. ` +
+    //     `You could use: ${green(`href={ACTION['/card']('save')}`)}`,
+    // )
+  }
 }
 
 /**

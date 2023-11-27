@@ -6,70 +6,67 @@ import { Callout } from '@theguild/components'
 large applications where manual tracking of route changes is error-prone. It simplifies development
 by ensuring all route links are consistent and up-to-date, saving time and preventing broken links.
 
-You will essentially have 4 objects at your disposal: `PAGES`, `SERVERS`, `ACTIONS` and `LINKS` and
-instead of hardcode strings, you will use these objects that are always up to date with your routes.
-
 No more 🤞, now be **confident** ✅!
 
-By default, no Configuration is requiered. Just [Install](#installation) the plugin, and use objects
-available in your `$lib/ROUTES.ts` generated file _(always in sync)_.
+By default, no Configuration is requiered. Just [Install](#installation) the plugin, and use
+objects/functions available in your `$lib/ROUTES.ts` generated file _(always in sync)_.
 
 ## Examples
 
-```svelte filename="PAGES - First example" {2, 9}
+```svelte filename="First example" {2, 9}
 <script lang="ts">
-  import { PAGES } from '$lib/ROUTES'
+  import { route } from '$lib/ROUTES'
 </script>
 
 <!-- 🤞 before, hardcoded string, error prone -->
 <a href="/terms-and-conditions">Terms</a>
 
 <!-- ✅ after, typechecked route, no more errors -->
-<a href={PAGES['/terms-and-conditions']}>Terms</a>
+<a href={route('/terms-and-conditions')}>Terms</a>
 <!-- 
    If you change location of `/terms-and-conditions/+page.svelte`: 
      - the key '/terms-and-conditions' will not exist
-     - `PAGES` object will yell! 
+     - `route` function will yell! 
 -->
 ```
 
-```svelte filename="PAGES - With 1 route param" {2, 9}
+```svelte filename="With 1 route param" {2, 9}
 <script lang="ts">
-  import { PAGES } from '$lib/ROUTES'
+  import { route } from '$lib/ROUTES'
 </script>
 
 <!-- 🤞 before, hardcoded string, error prone -->
 <a href="/site_contract/{siteId}">Go to site</a>
 
 <!-- ✅ after, typechecked route, no more errors -->
-<a href={PAGES['/site_contract/{siteId}']({ siteId })}>Go to site</a>
+<a href={route('/site_contract/{siteId}', { siteId })}>Go to site</a>
 ```
 
-```svelte filename="PAGES - With 1 Search Param*" {2, 9}
+```svelte filename="With 1 Search Param*" {2, 9}
 <script lang="ts">
-  import { PAGES } from '$lib/ROUTES'
+  import { route } from '$lib/ROUTES'
 </script>
 
 <!-- 🤞 before, hardcoded string, error prone -->
 <a href="/site_contract/{siteId}?limit={3}">Go to site</a>
 
 <!-- ✅ after, typechecked route, no more errors -->
-<a href={PAGES['/site_contract/{siteId}']({ siteId, limit: 3 })}>Go to site</a>
+<a href={route('/site_contract/{siteId}', { siteId, limit: 3 })}>Go to site</a>
 ```
 
-```svelte filename="ACTIONS - With a named action" {4, 12}
+```svelte filename="With a named action" {4, 12}
 <script lang="ts">
   import { enhance } from '$app/forms'
   import { page } from '$app/stores'
-  import { ACTIONS } from '$lib/ROUTES'
+  import { route } from '$lib/ROUTES'
 
   const siteId = $page.params.siteId
 
   // 🤞 before, hardcoded string, error prone
-  const action =  `/site_contract/${siteId}?/sendSomething`
+  const action =  `/site_contract/${siteId}?/send`
 
   // ✅ after, typechecked route, no more errors
-  const action = ACTIONS['/site_contract/${siteId}']('sendSomething', { siteId })
+  const action = route('send /site_contract/${siteId}', { siteId })
 </script>
 
 <form method="POST" use:enhance {action}>
@@ -79,26 +76,26 @@ available in your `$lib/ROUTES.ts` generated file _(always in sync)_.
 
 ```svelte filename="LINKS - 1 reference in config*" {2, 9}
 <script lang="ts">
-  import { LINKS } from '$lib/ROUTES'
+  import { route } from '$lib/ROUTES'
 </script>
 
 <!-- 🤞 before, hardcoded string, error prone -->
 <a href="https://twitter.com/jycouet">Twitter</a>
 
 <!-- ✅ after, typechecked route, no more errors -->
-<a href={LINKS.twitter}>Twitter</a>
+<a href={route('twitter')}>Twitter</a>
 ```
 
 ```svelte filename="LINKS - with params & search params*" {2, 9}
 <script lang="ts">
-  import { LINKS } from '$lib/ROUTES'
+  import { route } from '$lib/ROUTES'
 </script>
 
 <!-- 🤞 before, hardcoded string, error prone -->
 <img src="https://www.gravatar.com/avatar/jycouet?s=20&d=identicon" alt="logo" />
 
 <!-- ✅ after, typechecked route, no more errors -->
-<img src={LINKS.gravatar({ str: 'jycouet', s: 20 })} alt="logo" />
+<img src={route('gravatar', { str: 'jycouet', s: 20 })} alt="logo" />
 ```
 
 <br />
@@ -154,18 +151,35 @@ your `+page.svelte` | `+server.ts` | `+page.server.ts`.
 
 ---
 
-- What kind of person are you: `PAGES['/info/terms']` or `PAGES.info_terms` ?
+- What kind of format you want to use ?
 
 _You can choose anyway_ 😜
 
 ```ts filename="vite.config.ts"
 kitRoutes({
-  // format: '/' (default)
-  format: '_'
+  /**
+   * // format: route(path)                   -> default <-
+   * route("/site/[id]", { id: 7, tab: 'info' })
+   *
+   * // format: route(symbol)
+   * route("site_id", { id: 7, tab: 'info' })
+   *
+   * // format: `variables`                       (best for code splitting & privacy)
+   * PAGE_site_id({ id: 7, tab: 'info' })
+   *
+   * // format: object[path]
+   * PAGES["/site/[id]"]({ id: 7, tab: 'info' })
+   *
+   * // format: object[symbol]
+   * PAGES.site_id({ id: 7, tab: 'info' })
+   */
+  format: 'route(path)'
 })
 ```
 
-- You like nice and formated files? You can add **any** cmd after the generation
+- You like nice and formated files? You can add **any** cmd after the generation.
+
+_Here is an example of prettier_
 
 ```ts filename="vite.config.ts"
 kitRoutes({
@@ -178,7 +192,7 @@ kitRoutes({
 ```ts filename="vite.config.ts"
 kitRoutes({
   PAGES: {
-    site: {
+    '/site': {
       explicit_search_params: {
         limit: { type: 'number' }
       }
@@ -193,7 +207,7 @@ kitRoutes({
 ```ts filename="vite.config.ts"
 kitRoutes({
   PAGES: {
-    site_id: {
+    '/site/[id]': {
       params: {
         id: { type: 'string' }
       }
@@ -212,27 +226,6 @@ import { kitRoutes } from 'vite-plugin-kit-routes'
 kitRoutes<KIT_ROUTES>({
   // Conf
 })
-```
-
-- You are concerned about `code splitting` and/or `privacy` ? Let's generate variables instead of
-  objects!
-
-```ts filename="vite.config.ts"
-kitRoutes({
-  format: 'variables'
-})
-```
-
-```ts filename="src/lib/ROUTES.ts" {7-9}
-// With format: '_', it was like 👇
-// export const PAGES: {
-//  main: '/main',
-//  about '/about'
-// }
-
-// With format: 'variables' it's like 👇
-export const PAGES_main = '/main'
-export const PAGES_about '/about'
 ```
 
 - You want to use some `LINKS` in different places in your app? Let's show you what we can do:
