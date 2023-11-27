@@ -388,60 +388,57 @@ describe('run()', async () => {
     },
   ]
 
-  //
-  // RUN
-  //
-  // 'object[path]'
-  const generated_file_objectPath = 'src/test/ROUTES_format-object-path.ts'
-  run(false, {
-    format: 'object[path]',
-    generated_file_path: generated_file_objectPath,
-    ...commonConfig,
-    ...commonConfig_Path,
-  })
+  const getPathROUTES = (f: string) => {
+    return `src/test/ROUTES_${f}.ts`
+  }
 
-  // 'object[symbol]'
-  const generated_file_objectSymbol = 'src/test/ROUTES_format-object-symbol.ts'
-  run(false, {
-    generated_file_path: generated_file_objectSymbol,
-    format: 'object[symbol]',
-    ...commonConfig_symbol,
-    ...commonConfig,
-  })
+  const runs = [
+    {
+      pathFile: 'format-object-path',
+      format: 'object[path]',
+      extra: { ...commonConfig, ...commonConfig_Path },
+    },
+    {
+      pathFile: 'format-object-symbol',
+      format: 'object[symbol]',
+      extra: { ...commonConfig, ...commonConfig_symbol },
+    },
+    {
+      pathFile: 'format-route-path',
+      format: 'route(path)',
+      extra: { ...commonConfig, ...commonConfig_Path },
+    },
+    {
+      pathFile: 'format-route-symbol',
+      format: 'route(symbol)',
+      extra: { ...commonConfig, ...commonConfig_symbol_space },
+    },
+    {
+      pathFile: 'format-format-variables',
+      format: 'variables',
+      extra: { ...commonConfig, ...commonConfig_symbol },
+    },
+  ] as const
 
-  // 'route(path)'
-  const generated_file_routePath = `src/test/ROUTES_format-route-path.ts`
-  run(false, {
-    generated_file_path: generated_file_routePath,
-    format: 'route(path)',
-    ...commonConfig,
-    ...commonConfig_Path,
-  })
+  for (let i = 0; i < runs.length; i++) {
+    const toRun = runs[i]
+    it(`run ${toRun.pathFile}`, async () => {
+      const ret = run(false, {
+        format: toRun.format,
+        generated_file_path: getPathROUTES(toRun.pathFile),
+        ...toRun.extra,
+      })
 
-  // 'route(symbol)'
-  const generated_file_routeSymbol = 'src/test/ROUTES_format-route-symbol.ts'
-  run(false, {
-    generated_file_path: generated_file_routeSymbol,
-    format: 'route(symbol)',
-    ...commonConfig,
-    ...commonConfig_symbol_space,
-  })
-
-  // 'variables'
-  const generated_file_variables = 'src/test/ROUTES_format-variables.ts'
-  run(false, {
-    generated_file_path: generated_file_variables,
-    format: 'variables',
-    ...commonConfig_symbol,
-    ...commonConfig,
-  })
+      expect(ret).toBe(true)
+    })
+  }
 
   for (let i = 0; i < table.length; i++) {
     const element = table[i]
     describe(element.name, async () => {
       //
       it('object[path]', async () => {
-        let { PAGES } = await import(generated_file_objectPath)
+        let { PAGES } = await import(getPathROUTES(runs[0].pathFile))
         expect(
           fnOrNot(PAGES, element.key_path, element.params),
           `Name: ${element.name}, i: ${i}`,
@@ -450,7 +447,7 @@ describe('run()', async () => {
 
       //
       it('object[symbol]', async () => {
-        let { PAGES } = await import(generated_file_objectSymbol)
+        let { PAGES } = await import(getPathROUTES(runs[1].pathFile))
         expect(
           fnOrNot(PAGES, element.key_symbol, element.params),
           `Name: ${element.name}, i: ${i}`,
@@ -459,7 +456,7 @@ describe('run()', async () => {
 
       //
       it('format route(path)', async () => {
-        let { route } = await import(generated_file_routePath)
+        let { route } = await import(getPathROUTES(runs[2].pathFile))
         expect(route(element.key_path, element.params), `Name: ${element.name}, i: ${i}`).toBe(
           element.results,
         )
@@ -467,7 +464,7 @@ describe('run()', async () => {
 
       //
       it('format route(symbol)', async () => {
-        let { route } = await import(generated_file_routeSymbol)
+        let { route } = await import(getPathROUTES(runs[3].pathFile))
         expect(route(element.key_symbol, element.params), `Name: ${element.name}, i: ${i}`).toBe(
           element.results,
         )
@@ -475,7 +472,7 @@ describe('run()', async () => {
 
       //
       it('format variables', async () => {
-        let vars = await import(generated_file_variables)
+        let vars = await import(getPathROUTES(runs[4].pathFile))
         if (element.results === '/') {
           expect(vars.PAGE__ROOT, `Name: ${element.name}, i: ${i}`).toBe(element.results)
         } else if (element.results === '/fr/site/Paris') {
