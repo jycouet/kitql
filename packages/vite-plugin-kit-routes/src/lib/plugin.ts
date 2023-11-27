@@ -608,6 +608,11 @@ const arrayToRecord = (arr?: string[]) => {
 }
 
 export const run = (options?: Options) => {
+  options = {
+    ...options,
+    format: options?.format ?? '/',
+  }
+
   let files = getFilesUnder(routes_path())
 
   // TODO check if harcoded links are around?
@@ -842,16 +847,12 @@ ${objTypes
  * ```
  */
 export function kitRoutes<T extends ExtendTypes = ExtendTypes>(options?: Options<T>): Plugin[] {
-  const optionsWithDefaults: Options<T> = {
-    format: options?.format ?? '/',
-  }
-
   return [
     // Run the thing at startup
     {
       name: 'kit-routes',
       configureServer() {
-        run(optionsWithDefaults)
+        run(options)
       },
     },
 
@@ -862,7 +863,7 @@ export function kitRoutes<T extends ExtendTypes = ExtendTypes>(options?: Options
         logs: [],
         watch: ['**/+page.svelte', '**/+page.server.ts', '**/+server.ts'],
         run: () => {
-          run(optionsWithDefaults)
+          run(options)
         },
       },
     ]),
