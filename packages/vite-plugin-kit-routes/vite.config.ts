@@ -14,7 +14,7 @@ export default defineConfig({
     // demo
     kitRoutes<KIT_ROUTES>({
       format: '_',
-      // format: "route('_')",
+      // format: "route('/')",
       logs: ['update', 'errors'],
       // path_base: true,
       // default_type: 'string',

@@ -1,7 +1,8 @@
 <script lang="ts">
   import { goto } from '$app/navigation'
   import { page } from '$app/stores'
-  import { LINKS, PAGES } from '$lib/ROUTES.js'
+  // import { ACTIONS, LINKS, PAGES, route, SERVERS } from '$lib/ROUTES.js'
+  import { route } from '$lib/ROUTES.js'
 
   const siteId = 'Paris'
   const contractId = 'abc'
@@ -12,6 +13,14 @@
     }
     return 'fr'
   }
+
+  // Example usage
+  // console.log(`dd`, route('/subGroup2', { first: 2 }))
+  // console.log(`dd`, route('/'))
+  // console.log(
+  //   `dd`,
+  //   route('send /site_contract/[siteId]-[contractId]', { siteId: 'Paris', contractId: 'abc' }),
+  // )
 </script>
 
 <svelte:head>

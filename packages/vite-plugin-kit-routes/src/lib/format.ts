@@ -19,7 +19,10 @@ export const format = (margin: { left?: number; top?: number; bottom?: number },
   )
 }
 
-export const appendSp = `const appendSp = (sp?: Record<string, string | number | undefined>, prefix: '?' | '&' = '?') => {
+export const appendSp = `/**
+ * Append search params to a string
+ */
+const appendSp = (sp?: Record<string, string | number | undefined>, prefix: '?' | '&' = '?') => {
   if (sp === undefined) return ''
   const mapping = Object.entries(sp)
     .filter(c => c[1] !== undefined)
@@ -30,4 +33,31 @@ export const appendSp = `const appendSp = (sp?: Record<string, string | number |
     return \`\${prefix}\${formated}\`
   }
   return ''
+}`
+
+export const routeFn = `// route function helpers
+type NonFunctionKeys<T> = { [K in keyof T]: T[K] extends Function ? never : K }[keyof T]
+type FunctionKeys<T> = { [K in keyof T]: T[K] extends Function ? K : never }[keyof T]
+type FunctionParams<T> = T extends (...args: infer P) => any ? P : never
+
+const AllObjs = { ...PAGES, ...ACTIONS, ...SERVERS, ...LINKS }
+type AllTypes = typeof AllObjs
+
+/**
+ * To be used like this: 
+ * \`\`\`ts
+ * import { route } from '$lib/ROUTES'
+ * 
+ * route('site_id', { id: 1 })
+ * \`\`\`
+ */
+export function route<T extends FunctionKeys<AllTypes>>(key: T, ...params: FunctionParams<AllTypes[T]>): string
+export function route<T extends NonFunctionKeys<AllTypes>>(key: T): string
+export function route<T extends keyof AllTypes>(key: T, ...params: any[]): string {
+  if (typeof AllObjs[key] === 'function') {
+    const element = (AllObjs as any)[key] as (...args: any[]) => any
+    return element(...params)
+  } else {
+    return AllObjs[key] as string
+  }
 }`

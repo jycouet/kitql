@@ -4,7 +4,7 @@ import type { Plugin } from 'vite'
 import watch_and_run from 'vite-plugin-watch-and-run'
 
 import { getActionsOfServerPages, getMethodsOfServerFiles } from './ast.js'
-import { appendSp, format } from './format.js'
+import { appendSp, format, routeFn } from './format.js'
 import { getFilesUnder, write } from './fs.js'
 
 type ExtendTypes = {
@@ -313,6 +313,10 @@ export const transformToMetadata = (
 
   const list: MetadataToWrite[] = []
 
+  const getSep = () => {
+    return options?.format?.includes('route') ? ` ` : `_`
+  }
+
   if (type === 'ACTIONS') {
     const { actions } = getActionsOfServerPages(originalValue)
     if (actions.length === 0) {
@@ -321,7 +325,7 @@ export const transformToMetadata = (
         buildMetadata(
           type,
           originalValue,
-          'default_' + keyToUse,
+          'default' + getSep() + keyToUse,
           keyToUse,
 
           useWithAppendSp,
@@ -336,7 +340,7 @@ export const transformToMetadata = (
           buildMetadata(
             type,
             originalValue,
-            action + '_' + keyToUse,
+            action + getSep() + keyToUse,
             keyToUse,
 
             useWithAppendSp,
@@ -357,7 +361,7 @@ export const transformToMetadata = (
           buildMetadata(
             type,
             originalValue,
-            method + '_' + keyToUse,
+            method + getSep() + keyToUse,
             keyToUse,
 
             useWithAppendSp,
@@ -505,7 +509,7 @@ export function buildMetadata(
       return `params.${c.name} = params.${c.name} ?? ${c.default}; `
     })
 
-  if (paramsDefaults.length > 0 && isAllOptional && !options?.format?.includes('route')) {
+  if (paramsDefaults.length > 0 && isAllOptional) {
     paramsDefaults = ['params = params ?? {}', ...paramsDefaults]
   }
 
@@ -669,7 +673,7 @@ export const run = (options?: Options) => {
         ? // variables
           objTypes
             .map(c => {
-              return `//\n// ${c.type}\n//
+              return `/**\n * ${c.type}\n */
 ${c.files
   .map(key => {
     if (key.strParams) {
@@ -682,63 +686,65 @@ ${c.files
     } else {
       return `export const ${c.type}_${key.keyToUse} = ${key.strReturn}`
     }
-    // const [first, ...rest] = key.prop.split(':')
-    // return `export const ${c.type}_${first.slice(1, -1)} = ${rest.join(':')}`
   })
   .join('\n')}`
             })
             .join(`\n\n`)
-        : // route function
-          options?.format?.includes('route')
-          ? `${objTypes
-              .map(c => {
-                return (
-                  // `\n//\n// ${c.type}\n//\n` +
-                  c.files
-                    .map(key => {
-                      return (
-                        `export function route(key: '${key.keyToUse}'` +
-                        `${key.strParams ? `, ${key.strParams}` : ``}): string`
-                      )
-                    })
-                    .join(`\n`)
-                )
-              })
-              .join('\n')}
-export function route(key: any, ...args: any): string { 
-${format({}, appendSp)}
-${format({ bottom: 0 }, `const params = args[0] ?? {}`)}
-${format({ bottom: 0 }, `const action = args[1] ?? ''`)}
-${format({ bottom: 0 }, `const method = args[1] ?? '' // Not used yet`)}
-${format({}, `const sp = args[2] ?? ''`)}
-${format({ bottom: 0 }, `switch(key) {`)}
-${format(
-  { bottom: 0 },
-  objTypes
-    .map(c => {
-      return c.files
-        .map(key => {
-          return format(
-            { left: 2, bottom: 0 },
-            `case '${key.keyToUse}':` +
-              `${format({ bottom: 0, top: 1 }, key.strDefault)}
-  return ${key.strReturn}`,
-          )
-        })
-        .join(`\n`)
-    })
-    .join('\n'),
-)}
-  }
-  
-  // We should never arrive here
-  return '/'
-}
-`
-          : // Format '/' or '_'
-            objTypes
-              .map(c => {
-                return `export const ${c.type} = {
+        : // :
+          //         // route function
+          //           options?.format?.includes('route')
+          //           ? `${objTypes
+          //               .map(c => {
+          //                 return (
+          //                   // `\n//\n// ${c.type}\n//\n` +
+          //                   c.files
+          //                     .map(key => {
+          //                       return (
+          //                         `export function route(key: '${key.keyToUse}'` +
+          //                         `${key.strParams ? `, ${key.strParams}` : ``}): string`
+          //                       )
+          //                     })
+          //                     .join(`\n`)
+          //                 )
+          //               })
+          //               .join('\n')}
+          // export function route(key: any, ...args: any): string {
+          // ${format({}, appendSp)}
+          // ${format({ bottom: 0 }, `const params = args[0] ?? {}`)}
+          // ${format({ bottom: 0 }, `const action = args[1] ?? ''`)}
+          // ${format({ bottom: 0 }, `const method = args[1] ?? '' // Not used yet`)}
+          // ${format({}, `const sp = args[2] ?? ''`)}
+          // ${format({ bottom: 0 }, `switch(key) {`)}
+          // ${format(
+          //   { bottom: 0 },
+          //   objTypes
+          //     .map(c => {
+          //       return c.files
+          //         .map(key => {
+          //           return format(
+          //             { left: 2, bottom: 0 },
+          //             `case '${key.keyToUse}':` +
+          //               `${format({ bottom: 0, top: 1 }, key.strDefault)}
+          //   return ${key.strReturn}`,
+          //           )
+          //         })
+          //         .join(`\n`)
+          //     })
+          //     .join('\n'),
+          // )}
+          //   }
+
+          //   // We should never arrive here
+          //   return '/'
+          // }
+          // `
+          // Format '/' or '_'
+          objTypes
+            .map(c => {
+              return (
+                `/**\n * ${c.type}\n */
+${options?.format?.includes('route') ? `` : `export `}` +
+                `const ${c.type} = {
   ${c.files
     .map(key => {
       if (key.strParams) {
@@ -754,14 +760,14 @@ ${format(
     })
     .join(',\n  ')}
 }`
-              })
-              .join(`\n\n`),
+              )
+            })
+            .join(`\n\n`),
+
+      format({ top: 1, left: 0 }, appendSp),
 
       // add appendSp
-      ...(options?.format?.includes('route')
-        ? []
-        : // Let's bing a new line on top
-          ['', appendSp]),
+      ...(options?.format?.includes('route') ? [format({ left: 0 }, routeFn)] : []),
 
       // types
       `/**
