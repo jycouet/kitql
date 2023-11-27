@@ -7,7 +7,7 @@
 /**
  * PAGES
  */
-export const PAGES = {
+const PAGES = {
   "/": `/`,
   "/subGroup": `/subGroup`,
   "/subGroup2": `/subGroup2`,
@@ -49,7 +49,7 @@ export const PAGES = {
 /**
  * SERVERS
  */
-export const SERVERS = {
+const SERVERS = {
   "GET /contract": (params?: { lang?: (string | number) }) => {
     return `${params?.lang ? `/${params?.lang}`: ''}/contract`
   },
@@ -66,7 +66,7 @@ export const SERVERS = {
 /**
  * ACTIONS
  */
-export const ACTIONS = {
+const ACTIONS = {
   "default /contract/[id]": (params: { id: (string | number), lang?: (string | number) }) => {
     return `${params?.lang ? `/${params?.lang}`: ''}/contract/${params.id}`
   },
@@ -90,7 +90,7 @@ export const ACTIONS = {
 /**
  * LINKS
  */
-export const LINKS = {
+const LINKS = {
   
 }
 
@@ -108,6 +108,33 @@ const appendSp = (sp?: Record<string, string | number | undefined>, prefix: '?' 
     return `${prefix}${formated}`
   }
   return ''
+}
+
+// route function helpers
+type NonFunctionKeys<T> = { [K in keyof T]: T[K] extends Function ? never : K }[keyof T]
+type FunctionKeys<T> = { [K in keyof T]: T[K] extends Function ? K : never }[keyof T]
+type FunctionParams<T> = T extends (...args: infer P) => any ? P : never
+
+const AllObjs = { ...PAGES, ...ACTIONS, ...SERVERS, ...LINKS }
+type AllTypes = typeof AllObjs
+
+/**
+ * To be used like this: 
+ * ```ts
+ * import { route } from '$lib/ROUTES'
+ * 
+ * route('site_id', { id: 1 })
+ * ```
+ */
+export function route<T extends FunctionKeys<AllTypes>>(key: T, ...params: FunctionParams<AllTypes[T]>): string
+export function route<T extends NonFunctionKeys<AllTypes>>(key: T): string
+export function route<T extends keyof AllTypes>(key: T, ...params: any[]): string {
+  if (typeof AllObjs[key] === 'function') {
+    const element = (AllObjs as any)[key] as (...args: any[]) => any
+    return element(...params)
+  } else {
+    return AllObjs[key] as string
+  }
 }
 
 /**

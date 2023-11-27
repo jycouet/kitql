@@ -1,4 +1,4 @@
-import { green, Log, red, yellow } from '@kitql/helpers'
+import { cyan, gray, green, italic, Log, red, stry0, yellow } from '@kitql/helpers'
 import { spawn } from 'child_process'
 import type { Plugin } from 'vite'
 import watch_and_run from 'vite-plugin-watch-and-run'
@@ -14,7 +14,13 @@ type ExtendTypes = {
   Params: Record<string, string>
 }
 
-type LogKind = 'update' | 'post_update_run' | 'errors'
+type LogKind = 'update' | 'post_update_run' | 'errors' | 'stats'
+type FormatKind =
+  | 'object[path, {}]'
+  | 'object[symbol, {}]'
+  | 'route(path, {})'
+  | 'route(symbol, {})'
+  | 'variables'
 
 export type Options<T extends ExtendTypes = ExtendTypes> = {
   /**
@@ -56,7 +62,7 @@ export type Options<T extends ExtendTypes = ExtendTypes> = {
    * PAGES_site_id({ id: 7})
    * ```
    */
-  format?: '/' | '_' | "route('/')" | "route('_')" | 'variables'
+  format?: FormatKind
 
   /**
    * default is: `string | number`
@@ -193,10 +199,6 @@ export function routes_path() {
   return `${process.cwd()}/src/routes`
 }
 
-function generated_file_path(options?: Options) {
-  return options?.generated_file_path ?? 'src/lib/ROUTES.ts'
-}
-
 export function rmvGroups(key: string) {
   let toRet = key
     // rmv (groups)
@@ -212,14 +214,11 @@ export function rmvOptional(key: string) {
   return toRet
 }
 
-export function formatKey(key: string, options?: Options) {
+export function formatKey(key: string, o: Options) {
+  const options = getDefaultOption(o)
   let toRet = rmvGroups(rmvOptional(key))
 
-  if (
-    options?.format === undefined ||
-    // Nice trick to have format : "/" or "route('/')
-    options?.format.includes('/')
-  ) {
+  if (options.format!.includes('path')) {
     return toRet
   }
 
@@ -256,12 +255,10 @@ type MetadataToWrite = {
   strParams: string
 }
 
-const getMetadata = (
-  files: string[],
-  type: 'PAGES' | 'SERVERS' | 'ACTIONS' | 'LINKS',
-  options?: Options,
-  withAppendSp?: boolean,
-) => {
+type KindOfObject = 'PAGES' | 'SERVERS' | 'ACTIONS' | 'LINKS'
+
+const getMetadata = (files: string[], type: KindOfObject, o: Options, withAppendSp?: boolean) => {
+  const options = getDefaultOption(o)
   const useWithAppendSp = withAppendSp && options?.extra_search_params === 'with'
 
   if (type === 'LINKS') {
@@ -304,8 +301,8 @@ type Param = {
 export const transformToMetadata = (
   original: string,
   originalValue: string,
-  type: 'PAGES' | 'SERVERS' | 'ACTIONS' | 'LINKS',
-  options: Options | undefined,
+  type: KindOfObject,
+  options: Options,
   useWithAppendSp: boolean | undefined,
 ): MetadataToWrite[] => {
   const keyToUse = formatKey(original, options)
@@ -314,7 +311,7 @@ export const transformToMetadata = (
   const list: MetadataToWrite[] = []
 
   const getSep = () => {
-    return options?.format?.includes('route') || options?.format?.includes('/') ? ` ` : `_`
+    return options?.format?.includes('route') || options?.format?.includes('path') ? ` ` : `_`
   }
 
   if (type === 'ACTIONS') {
@@ -392,15 +389,16 @@ export const transformToMetadata = (
 }
 
 export function buildMetadata(
-  type: 'PAGES' | 'SERVERS' | 'ACTIONS' | 'LINKS',
+  type: KindOfObject,
   originalValue: string,
   keyToUse: string,
   key_wo_prefix: string,
   useWithAppendSp: boolean | undefined,
   actionsFormat: string,
   toRet: string,
-  options?: Options,
+  o: Options,
 ) {
+  const options = getDefaultOption(o)
   // custom conf
   const viteCustomPathConfig = options?.[type]
   let customConf: CustomPath = {
@@ -562,7 +560,8 @@ export function extractParamsFromPath(path: string): Param[] {
   return params
 }
 
-const formatArgs = (params: Param[], options?: Options) => {
+const formatArgs = (params: Param[], o: Options) => {
+  const options = getDefaultOption(o)
   return params
     .sort((a, b) => {
       // if (a.optional === b.optional) {
@@ -592,12 +591,22 @@ const formatArgs = (params: Param[], options?: Options) => {
     .join(', ')
 }
 
-const shouldLog = (kind: LogKind, options?: Options) => {
+const shouldLog = (kind: LogKind, o: Options) => {
+  const options = getDefaultOption(o)
   if (options?.logs === undefined) {
     // let's log everything by default
     return true
   }
   return options.logs.includes(kind)
+}
+
+export const getDefaultOption = (o?: Options) => {
+  const options = {
+    ...o,
+    format: o?.format ?? 'route(path, {})',
+    generated_file_path: o?.generated_file_path ?? 'src/lib/ROUTES.ts',
+  }
+  return options
 }
 
 const arrayToRecord = (arr?: string[]) => {
@@ -607,11 +616,8 @@ const arrayToRecord = (arr?: string[]) => {
   return `: Record<string, never>`
 }
 
-export const run = (options?: Options) => {
-  options = {
-    ...options,
-    format: options?.format ?? '/',
-  }
+export const run = (o?: Options) => {
+  const options = getDefaultOption(o)
 
   let files = getFilesUnder(routes_path())
 
@@ -620,12 +626,12 @@ export const run = (options?: Options) => {
   // goto, href, action, src, throw redirect?
   // }
 
-  const objTypes = [
+  const objTypes: { type: KindOfObject; files: MetadataToWrite[] }[] = [
     { type: 'PAGES', files: getMetadata(files, 'PAGES', options, true) },
     { type: 'SERVERS', files: getMetadata(files, 'SERVERS', options, true) },
     { type: 'ACTIONS', files: getMetadata(files, 'ACTIONS', options, false) },
     { type: 'LINKS', files: getMetadata(files, 'LINKS', options, false) },
-  ] as const
+  ]
 
   // Validate options
   let allOk = true
@@ -666,7 +672,7 @@ export const run = (options?: Options) => {
     })
 
   if (allOk) {
-    const result = write(generated_file_path(options), [
+    const result = write(options.generated_file_path, [
       `/** 
  * This file was generated by 'vite-plugin-kit-routes'
  * 
@@ -797,33 +803,73 @@ ${objTypes
 
       if (shouldLog('update', options)) {
         child.on('close', code => {
-          if (result) {
-            log.success(`${yellow(generated_file_path(options))} updated`)
-            // TODO later
-            // log.info(
-            //   `⚠️ Warning ${yellow(`href="/about"`)} detected ` +
-            //     `in ${gray('/src/lib/component/menu.svelte')} is not safe. ` +
-            //     `You could use: ${green(`href={PAGES['/about']}`)}`,
-            // )
-            // log.info(
-            //   `⚠️ Warning ${yellow(`action="?/save"`)} detected ` +
-            //     `in ${gray('/routes/card/+page.svelte')} is not safe. ` +
-            //     `You could use: ${green(`href={ACTION['/card']('save')}`)}`,
-            // )
-          }
+          theEnd(result, objTypes, options)
         })
       }
     } else {
-      if (result) {
-        if (shouldLog('update', options)) {
-          log.success(`${yellow(generated_file_path(options))} updated`)
-        }
-      }
+      theEnd(result, objTypes, options)
     }
     return true
   }
 
   return false
+}
+
+function theEnd(
+  result: boolean,
+  objTypes: { type: KindOfObject; files: MetadataToWrite[] }[],
+  o: Options,
+) {
+  const options = getDefaultOption(o)
+  if (result) {
+    if (shouldLog('update', options)) {
+      log.success(`${yellow(options.generated_file_path)} updated`)
+    }
+
+    if (shouldLog('stats', options)) {
+      const stats = []
+      let nbRoutes = objTypes.flatMap(c => c.files).length
+      stats.push(
+        `Routes: ${yellow('' + nbRoutes)} ` +
+          `${italic(
+            `(${objTypes.map(c => `${c.type}: ${yellow('' + c.files.length)}`).join(', ')})`,
+          )}`,
+      )
+      let confgPoints = stry0(Object.entries(options ?? {}))!.length
+
+      stats.push(`Points: ${yellow('' + confgPoints)}`)
+      const score = (confgPoints / nbRoutes).toFixed(2)
+      stats.push(`Score: ${yellow(score)}`)
+      stats.push(`Format: "${yellow('' + options?.format)}"`)
+
+      log.success(`${green('Stats:')} ${stats.join(' | ')}`)
+      log.info(
+        `${gray(' Share on TwiX:')} ${cyan(
+          `https://twitter.com/intent/tweet?text=` +
+            `${encodeURI(
+              `🚀 Check out my "kit-routes" stats 🚀\n\n` +
+                `- Routes: ${nbRoutes} (${objTypes.map(c => c.files.length).join(', ')})\n` +
+                `- Points: ${confgPoints}\n` +
+                `- Score: ${score}\n` +
+                `- Format: ${options?.format}\n\n` +
+                `👀 @jycouet`,
+            )}`,
+        )}`,
+      )
+    }
+
+    // TODO later
+    // log.info(
+    //   `⚠️ Warning ${yellow(`href="/about"`)} detected ` +
+    //     `in ${gray('/src/lib/component/menu.svelte')} is not safe. ` +
+    //     `You could use: ${green(`href={PAGES['/about']}`)}`,
+    // )
+    // log.info(
+    //   `⚠️ Warning ${yellow(`action="?/save"`)} detected ` +
+    //     `in ${gray('/routes/card/+page.svelte')} is not safe. ` +
+    //     `You could use: ${green(`href={ACTION['/card']('save')}`)}`,
+    // )
+  }
 }
 
 /**

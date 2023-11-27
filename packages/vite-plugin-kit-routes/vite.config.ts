@@ -13,9 +13,9 @@ export default defineConfig({
     sveltekit(),
     // demo
     kitRoutes<KIT_ROUTES>({
-      format: '_',
-      // format: "route('/')",
-      logs: ['update', 'errors'],
+      // format: '_',
+      format: 'object[symbol, {}]',
+      // logs: ['update', 'errors'],
       // path_base: true,
       // default_type: 'string',
       // extra_search_params: 'with',

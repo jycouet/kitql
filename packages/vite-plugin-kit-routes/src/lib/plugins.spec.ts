@@ -81,44 +81,48 @@ describe('vite-plugin-kit-routes', () => {
   })
 
   it('formatKey default', async () => {
-    expect(formatKey('/[param]site/[yop](group)/[id]')).toMatchInlineSnapshot(
+    expect(formatKey('/[param]site/[yop](group)/[id]', {})).toMatchInlineSnapshot(
       '"/[param]site/[yop]/[id]"',
     )
   })
 
   it('formatKey /l', async () => {
-    expect(formatKey('/[param]site/[yop](group)/[id]', { format: '/' })).toMatchInlineSnapshot(
-      '"/[param]site/[yop]/[id]"',
-    )
+    expect(
+      formatKey('/[param]site/[yop](group)/[id]', { format: 'object[path, {}]' }),
+    ).toMatchInlineSnapshot('"/[param]site/[yop]/[id]"')
   })
 
   it('formatKey _', async () => {
-    expect(formatKey('/[param]site/[yop](group)/[id]', { format: '_' })).toMatchInlineSnapshot(
-      '"param_site_yop_id"',
-    )
+    expect(
+      formatKey('/[param]site/[yop](group)/[id]', { format: 'object[symbol, {}]' }),
+    ).toMatchInlineSnapshot('"param_site_yop_id"')
   })
 
   it('formatKey / starting with group', async () => {
-    expect(formatKey('/(group)/test', { format: '/' })).toMatchInlineSnapshot('"/test"')
-  })
-
-  it('formatKey _ starting with group', async () => {
-    expect(formatKey('/(group)/test', { format: '_' })).toMatchInlineSnapshot('"test"')
-  })
-
-  it('formatKey group original', async () => {
-    expect(formatKey('/[param]site/[yop](group)/[id]', { format: '_' })).toMatchInlineSnapshot(
-      '"param_site_yop_id"',
+    expect(formatKey('/(group)/test', { format: 'object[path, {}]' })).toMatchInlineSnapshot(
+      '"/test"',
     )
   })
 
+  it('formatKey _ starting with group', async () => {
+    expect(formatKey('/(group)/test', { format: 'object[symbol, {}]' })).toMatchInlineSnapshot(
+      '"test"',
+    )
+  })
+
+  it('formatKey group original', async () => {
+    expect(
+      formatKey('/[param]site/[yop](group)/[id]', { format: 'object[symbol, {}]' }),
+    ).toMatchInlineSnapshot('"param_site_yop_id"')
+  })
+
   it('formatKey ROOT', async () => {
-    expect(formatKey('/')).toMatchInlineSnapshot('"/"')
+    expect(formatKey('/', { format: 'object[path, {}]' })).toMatchInlineSnapshot('"/"')
   })
 
   it('fileToMetadata optional only', async () => {
     const key = '/[[lang]]'
-    const meta = transformToMetadata(key, key, 'PAGES', undefined, undefined)
+    const meta = transformToMetadata(key, key, 'PAGES', {}, undefined)
     if (meta) {
       expect(meta).toMatchInlineSnapshot(`
         [
@@ -146,7 +150,7 @@ describe('vite-plugin-kit-routes', () => {
 
   it('fileToMetadata optional', async () => {
     const key = '/[[lang]]/about'
-    const meta = transformToMetadata(key, key, 'PAGES', undefined, undefined)
+    const meta = transformToMetadata(key, key, 'PAGES', {}, undefined)
     if (meta) {
       expect(meta).toMatchInlineSnapshot(`
         [
@@ -174,7 +178,7 @@ describe('vite-plugin-kit-routes', () => {
 
   it('fileToMetadata optional not at start', async () => {
     const key = '/prefix-[[lang]]/about'
-    const meta = transformToMetadata(key, key, 'PAGES', undefined, undefined)
+    const meta = transformToMetadata(key, key, 'PAGES', {}, undefined)
     if (meta) {
       expect(meta).toMatchInlineSnapshot(`
         [
@@ -343,6 +347,7 @@ describe('run()', () => {
   it('format /', () => {
     const generated_file_path = 'src/test/ROUTES_format-slash.ts'
     run({
+      format: 'object[path, {}]',
       generated_file_path,
       ...commonConfig,
     })
@@ -498,7 +503,7 @@ describe('run()', () => {
     const generated_file_path = 'src/test/ROUTES_format-underscore.ts'
     run({
       generated_file_path,
-      format: '_',
+      format: 'object[symbol, {}]',
       ...commonConfigFormat_underscore,
       ...commonConfig,
     })
@@ -660,7 +665,7 @@ describe('run()', () => {
     const generated_file_path = 'src/test/ROUTES_format-route-slash.ts'
     run({
       generated_file_path,
-      format: "route('/')",
+      format: 'route(path, {})',
       ...commonConfig,
     })
 
@@ -842,7 +847,7 @@ describe('run()', () => {
     const generated_file_path = 'src/test/ROUTES_format-route-underscore.ts'
     run({
       generated_file_path,
-      format: "route('_')",
+      format: 'route(symbol, {})',
       ...commonConfigFormat_underscore_space,
       ...commonConfig,
     })
@@ -1193,7 +1198,7 @@ describe('run()', () => {
     const generated_file_path = 'src/test/ROUTES_base.ts'
     run({
       generated_file_path,
-      format: '_',
+      format: 'object[symbol, {}]',
       path_base: true,
       ...commonConfigFormat_underscore,
       ...commonConfig,
