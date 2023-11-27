@@ -274,7 +274,7 @@ describe('run()', () => {
     },
   }
 
-  const commonConfigFormat2: Options = {
+  const commonConfigFormat_underscore: Options = {
     PAGES: {
       subGroup2: {
         explicit_search_params: {
@@ -317,6 +317,22 @@ describe('run()', () => {
         },
       },
       send_site_contract_siteId_contractId: {
+        explicit_search_params: {
+          extra: { type: "'A' | 'B'", default: '"A"' },
+        },
+      },
+    },
+  }
+
+  const commonConfigFormat_underscore_space: Options = {
+    ...commonConfigFormat_underscore,
+    ACTIONS: {
+      'default contract_id': {
+        explicit_search_params: {
+          limit: { type: 'number' },
+        },
+      },
+      'send site_contract_siteId_contractId': {
         explicit_search_params: {
           extra: { type: "'A' | 'B'", default: '"A"' },
         },
@@ -483,7 +499,7 @@ describe('run()', () => {
     run({
       generated_file_path,
       format: '_',
-      ...commonConfigFormat2,
+      ...commonConfigFormat_underscore,
       ...commonConfig,
     })
 
@@ -827,7 +843,7 @@ describe('run()', () => {
     run({
       generated_file_path,
       format: "route('_')",
-      ...commonConfigFormat2,
+      ...commonConfigFormat_underscore_space,
       ...commonConfig,
     })
 
@@ -906,8 +922,8 @@ describe('run()', () => {
        * ACTIONS
        */
       const ACTIONS = {
-        \\"default contract_id\\": (params: { id: (string | number), lang?: ('fr' | 'en' | 'hu' | 'at' | string) }) => {
-          return \`\${params?.lang ? \`/\${params?.lang}\`: ''}/contract/\${params.id}\`
+        \\"default contract_id\\": (params: { id: (string | number), lang?: ('fr' | 'en' | 'hu' | 'at' | string), limit?: (number) }) => {
+          return \`\${params?.lang ? \`/\${params?.lang}\`: ''}/contract/\${params.id}\${appendSp({ limit: params?.limit })}\`
         },
         \\"create site\\": (params?: { lang?: ('fr' | 'en' | 'hu' | 'at' | string) }) => {
           return \`\${params?.lang ? \`/\${params?.lang}\`: ''}/site?/create\`
@@ -921,8 +937,9 @@ describe('run()', () => {
         \\"noSatisfies site_contract\\": (params?: { lang?: ('fr' | 'en' | 'hu' | 'at' | string) }) => {
           return \`\${params?.lang ? \`/\${params?.lang}\`: ''}/site_contract?/noSatisfies\`
         },
-        \\"send site_contract_siteId_contractId\\": (params: { siteId: (string | number), contractId: (string | number), lang?: ('fr' | 'en' | 'hu' | 'at' | string) }) => {
-          return \`\${params?.lang ? \`/\${params?.lang}\`: ''}/site_contract/\${params.siteId}-\${params.contractId}?/send\`
+        \\"send site_contract_siteId_contractId\\": (params: { siteId: (string | number), contractId: (string | number), lang?: ('fr' | 'en' | 'hu' | 'at' | string), extra?: ('A' | 'B') }) => {
+          params.extra = params.extra ?? \\"A\\"; 
+          return \`\${params?.lang ? \`/\${params?.lang}\`: ''}/site_contract/\${params.siteId}-\${params.contractId}?/send\${appendSp({ extra: params?.extra }, '&')}\`
         }
       }
 
@@ -1004,7 +1021,7 @@ describe('run()', () => {
         SERVERS: { 'GET contract': 'lang', 'POST contract': 'lang', 'GET site': 'lang', 'GET api_graphql': never, 'POST api_graphql': never }
         ACTIONS: { 'default contract_id': 'id' | 'lang', 'create site': 'lang', 'update site_id': 'id' | 'lang', 'delete site_id': 'id' | 'lang', 'noSatisfies site_contract': 'lang', 'send site_contract_siteId_contractId': 'siteId' | 'contractId' | 'lang' }
         LINKS: { 'twitter': never, 'twitter_post': 'name' | 'id', 'gravatar': 'str' }
-        Params: { first: never, lang: never, id: never, limit: never, demo: never, siteId: never, contractId: never, rest: never, name: never, str: never, s: never, d: never }
+        Params: { first: never, lang: never, id: never, limit: never, demo: never, siteId: never, contractId: never, rest: never, extra: never, name: never, str: never, s: never, d: never }
       }
       "
     `)
@@ -1015,7 +1032,7 @@ describe('run()', () => {
     run({
       generated_file_path,
       format: 'variables',
-      ...commonConfigFormat2,
+      ...commonConfigFormat_underscore,
       ...commonConfig,
     })
 
@@ -1178,7 +1195,7 @@ describe('run()', () => {
       generated_file_path,
       format: '_',
       path_base: true,
-      ...commonConfigFormat2,
+      ...commonConfigFormat_underscore,
       ...commonConfig,
     })
 

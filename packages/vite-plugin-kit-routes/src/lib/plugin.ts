@@ -314,7 +314,7 @@ export const transformToMetadata = (
   const list: MetadataToWrite[] = []
 
   const getSep = () => {
-    return options?.format?.includes('route') ? ` ` : `_`
+    return options?.format?.includes('route') || options?.format?.includes('/') ? ` ` : `_`
   }
 
   if (type === 'ACTIONS') {
@@ -690,55 +690,7 @@ ${c.files
   .join('\n')}`
             })
             .join(`\n\n`)
-        : // :
-          //         // route function
-          //           options?.format?.includes('route')
-          //           ? `${objTypes
-          //               .map(c => {
-          //                 return (
-          //                   // `\n//\n// ${c.type}\n//\n` +
-          //                   c.files
-          //                     .map(key => {
-          //                       return (
-          //                         `export function route(key: '${key.keyToUse}'` +
-          //                         `${key.strParams ? `, ${key.strParams}` : ``}): string`
-          //                       )
-          //                     })
-          //                     .join(`\n`)
-          //                 )
-          //               })
-          //               .join('\n')}
-          // export function route(key: any, ...args: any): string {
-          // ${format({}, appendSp)}
-          // ${format({ bottom: 0 }, `const params = args[0] ?? {}`)}
-          // ${format({ bottom: 0 }, `const action = args[1] ?? ''`)}
-          // ${format({ bottom: 0 }, `const method = args[1] ?? '' // Not used yet`)}
-          // ${format({}, `const sp = args[2] ?? ''`)}
-          // ${format({ bottom: 0 }, `switch(key) {`)}
-          // ${format(
-          //   { bottom: 0 },
-          //   objTypes
-          //     .map(c => {
-          //       return c.files
-          //         .map(key => {
-          //           return format(
-          //             { left: 2, bottom: 0 },
-          //             `case '${key.keyToUse}':` +
-          //               `${format({ bottom: 0, top: 1 }, key.strDefault)}
-          //   return ${key.strReturn}`,
-          //           )
-          //         })
-          //         .join(`\n`)
-          //     })
-          //     .join('\n'),
-          // )}
-          //   }
-
-          //   // We should never arrive here
-          //   return '/'
-          // }
-          // `
-          // Format '/' or '_'
+        : // Format '/' or '_'
           objTypes
             .map(c => {
               return (
@@ -890,12 +842,16 @@ ${objTypes
  * ```
  */
 export function kitRoutes<T extends ExtendTypes = ExtendTypes>(options?: Options<T>): Plugin[] {
+  const optionsWithDefaults: Options<T> = {
+    format: options?.format ?? '/',
+  }
+
   return [
     // Run the thing at startup
     {
       name: 'kit-routes',
       configureServer() {
-        run(options)
+        run(optionsWithDefaults)
       },
     },
 
@@ -906,7 +862,7 @@ export function kitRoutes<T extends ExtendTypes = ExtendTypes>(options?: Options
         logs: [],
         watch: ['**/+page.svelte', '**/+page.server.ts', '**/+server.ts'],
         run: () => {
-          run(options)
+          run(optionsWithDefaults)
         },
       },
     ]),

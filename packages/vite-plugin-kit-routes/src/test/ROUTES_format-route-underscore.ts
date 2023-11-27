@@ -72,8 +72,8 @@ const SERVERS = {
  * ACTIONS
  */
 const ACTIONS = {
-  "default contract_id": (params: { id: (string | number), lang?: ('fr' | 'en' | 'hu' | 'at' | string) }) => {
-    return `${params?.lang ? `/${params?.lang}`: ''}/contract/${params.id}`
+  "default contract_id": (params: { id: (string | number), lang?: ('fr' | 'en' | 'hu' | 'at' | string), limit?: (number) }) => {
+    return `${params?.lang ? `/${params?.lang}`: ''}/contract/${params.id}${appendSp({ limit: params?.limit })}`
   },
   "create site": (params?: { lang?: ('fr' | 'en' | 'hu' | 'at' | string) }) => {
     return `${params?.lang ? `/${params?.lang}`: ''}/site?/create`
@@ -87,8 +87,9 @@ const ACTIONS = {
   "noSatisfies site_contract": (params?: { lang?: ('fr' | 'en' | 'hu' | 'at' | string) }) => {
     return `${params?.lang ? `/${params?.lang}`: ''}/site_contract?/noSatisfies`
   },
-  "send site_contract_siteId_contractId": (params: { siteId: (string | number), contractId: (string | number), lang?: ('fr' | 'en' | 'hu' | 'at' | string) }) => {
-    return `${params?.lang ? `/${params?.lang}`: ''}/site_contract/${params.siteId}-${params.contractId}?/send`
+  "send site_contract_siteId_contractId": (params: { siteId: (string | number), contractId: (string | number), lang?: ('fr' | 'en' | 'hu' | 'at' | string), extra?: ('A' | 'B') }) => {
+    params.extra = params.extra ?? "A"; 
+    return `${params?.lang ? `/${params?.lang}`: ''}/site_contract/${params.siteId}-${params.contractId}?/send${appendSp({ extra: params?.extra }, '&')}`
   }
 }
 
@@ -170,5 +171,5 @@ export type KIT_ROUTES = {
   SERVERS: { 'GET contract': 'lang', 'POST contract': 'lang', 'GET site': 'lang', 'GET api_graphql': never, 'POST api_graphql': never }
   ACTIONS: { 'default contract_id': 'id' | 'lang', 'create site': 'lang', 'update site_id': 'id' | 'lang', 'delete site_id': 'id' | 'lang', 'noSatisfies site_contract': 'lang', 'send site_contract_siteId_contractId': 'siteId' | 'contractId' | 'lang' }
   LINKS: { 'twitter': never, 'twitter_post': 'name' | 'id', 'gravatar': 'str' }
-  Params: { first: never, lang: never, id: never, limit: never, demo: never, siteId: never, contractId: never, rest: never, name: never, str: never, s: never, d: never }
+  Params: { first: never, lang: never, id: never, limit: never, demo: never, siteId: never, contractId: never, rest: never, extra: never, name: never, str: never, s: never, d: never }
 }
