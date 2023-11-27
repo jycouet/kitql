@@ -1,6 +1,10 @@
 import { describe, expect, it } from 'vitest'
 
-import type { KIT_ROUTES } from '../test/ROUTES_format-route-path.js'
+import type { KIT_ROUTES as KIT_ROUTES_ObjectPath } from '../test/ROUTES_format-object-path.js'
+import type { KIT_ROUTES as KIT_ROUTES_ObjectSymbol } from '../test/ROUTES_format-object-symbol.js'
+import type { KIT_ROUTES as KIT_ROUTES_RoutePath } from '../test/ROUTES_format-route-path.js'
+import type { KIT_ROUTES as KIT_ROUTES_RouteSymbol } from '../test/ROUTES_format-route-symbol.js'
+import type { KIT_ROUTES as KIT_ROUTES_Variables } from '../test/ROUTES_format-variables.js'
 import { read } from './fs.js'
 import {
   extractParamsFromPath,
@@ -275,57 +279,7 @@ describe('run()', async () => {
     },
   }
 
-  const commonConfig_path: Options<KIT_ROUTES> = {
-    PAGES: {
-      '/subGroup2': {
-        explicit_search_params: {
-          first: {
-            required: true,
-          },
-        },
-      },
-      '/contract': {
-        extra_search_params: 'with',
-      },
-      '/site': {
-        explicit_search_params: { limit: { type: 'number' } },
-        params: {
-          // yop: { type: 'number' },
-        },
-        extra_search_params: 'with',
-      },
-      '/site/[id]': {
-        explicit_search_params: { limit: { type: 'number' }, demo: { type: 'string' } },
-        params: {
-          id: { type: 'string', default: '"Vienna"' },
-          lang: { type: "'fr' | 'hu' | undefined", default: '"fr"' },
-        },
-      },
-      '/site_contract/[siteId]-[contractId]': {
-        explicit_search_params: { limit: { type: 'number' } },
-      },
-    },
-    SERVERS: {
-      // site: {
-      //   params: { }
-      // }
-      // yop: {},
-    },
-    ACTIONS: {
-      'default /contract/[id]': {
-        explicit_search_params: {
-          limit: { type: 'number' },
-        },
-      },
-      'send /site_contract/[siteId]-[contractId]': {
-        explicit_search_params: {
-          extra: { type: "'A' | 'B'", default: '"A"' },
-        },
-      },
-    },
-  }
-
-  const commonConfig_symbol: Options = {
+  const commonConfig_symbol: Options<KIT_ROUTES_ObjectSymbol> = {
     PAGES: {
       subGroup2: {
         explicit_search_params: {
@@ -355,12 +309,7 @@ describe('run()', async () => {
         explicit_search_params: { limit: { type: 'number' } },
       },
     },
-    SERVERS: {
-      // site: {
-      //   params: { }
-      // }
-      // yop: {},
-    },
+    SERVERS: {},
     ACTIONS: {
       default_contract_id: {
         explicit_search_params: {
@@ -375,19 +324,36 @@ describe('run()', async () => {
     },
   }
 
-  const commonConfig_symbol_space: Options = {
-    ...commonConfig_symbol,
+  const commonConfig_Path: Options<KIT_ROUTES_ObjectPath> = {
+    PAGES: {
+      '/subGroup2': commonConfig_symbol.PAGES?.subGroup2,
+      '/contract': commonConfig_symbol.PAGES?.contract,
+      '/site': commonConfig_symbol.PAGES?.site,
+      '/site/[id]': commonConfig_symbol.PAGES?.site_id,
+      '/site_contract/[siteId]-[contractId]':
+        commonConfig_symbol.PAGES?.site_contract_siteId_contractId,
+    },
+    SERVERS: {},
     ACTIONS: {
-      'default contract_id': {
-        explicit_search_params: {
-          limit: { type: 'number' },
-        },
-      },
-      'send site_contract_siteId_contractId': {
-        explicit_search_params: {
-          extra: { type: "'A' | 'B'", default: '"A"' },
-        },
-      },
+      'default /contract/[id]': commonConfig_symbol.ACTIONS?.default_contract_id,
+      'send /site_contract/[siteId]-[contractId]':
+        commonConfig_symbol.ACTIONS?.send_site_contract_siteId_contractId,
+    },
+  }
+
+  const commonConfig_symbol_space: Options<KIT_ROUTES_RouteSymbol> = {
+    PAGES: {
+      subGroup2: commonConfig_symbol.PAGES?.subGroup2,
+      contract: commonConfig_symbol.PAGES?.contract,
+      site: commonConfig_symbol.PAGES?.site,
+      site_id: commonConfig_symbol.PAGES?.site_id,
+      site_contract_siteId_contractId: commonConfig_symbol.PAGES?.site_contract_siteId_contractId,
+    },
+    SERVERS: {},
+    ACTIONS: {
+      'default contract_id': commonConfig_symbol.ACTIONS?.default_contract_id,
+      'send site_contract_siteId_contractId':
+        commonConfig_symbol.ACTIONS?.send_site_contract_siteId_contractId,
     },
   }
 
@@ -397,10 +363,11 @@ describe('run()', async () => {
       format: 'object[path]',
       generated_file_path,
       ...commonConfig,
-      ...commonConfig_path,
+      ...commonConfig_Path,
     })
 
     let { PAGES } = await import(generated_file_path)
+    expect(PAGES['/']).toMatchInlineSnapshot('"/"')
     expect(PAGES['/site/[id]']({ id: 'Paris' })).toMatchInlineSnapshot('"/fr/site/Paris"')
   })
 
@@ -414,6 +381,7 @@ describe('run()', async () => {
     })
 
     let { PAGES } = await import(generated_file_path)
+    expect(PAGES['_ROOT']).toMatchInlineSnapshot('"/"')
     expect(PAGES['site_id']({ id: 'Paris' })).toMatchInlineSnapshot('"/fr/site/Paris"')
   })
 
@@ -423,7 +391,7 @@ describe('run()', async () => {
       generated_file_path,
       format: 'route(path)',
       ...commonConfig,
-      ...commonConfig_path,
+      ...commonConfig_Path,
     })
     let { route } = await import(generated_file_path)
     expect(route('/site/[id]', { id: 'Paris' })).toMatchInlineSnapshot('"/fr/site/Paris"')
@@ -434,11 +402,12 @@ describe('run()', async () => {
     run({
       generated_file_path,
       format: 'route(symbol)',
-      ...commonConfig_symbol_space,
       ...commonConfig,
+      ...commonConfig_symbol_space,
     })
 
     let { route } = await import(generated_file_path)
+    expect(route('_ROOT')).toMatchInlineSnapshot('"/"')
     expect(route('site_id', { id: 'Paris' })).toMatchInlineSnapshot('"/fr/site/Paris"')
   })
 
@@ -451,7 +420,8 @@ describe('run()', async () => {
       ...commonConfig,
     })
 
-    let { PAGE_site_id } = await import(generated_file_path)
+    let { PAGE_site_id, PAGE__ROOT } = await import(generated_file_path)
+    expect(PAGE__ROOT).toMatchInlineSnapshot('"/"')
     expect(PAGE_site_id({ id: 'Paris' })).toMatchInlineSnapshot('"/fr/site/Paris"')
   })
 
