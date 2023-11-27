@@ -16,10 +16,10 @@ type ExtendTypes = {
 
 type LogKind = 'update' | 'post_update_run' | 'errors' | 'stats'
 type FormatKind =
-  | 'object[path, {}]'
-  | 'object[symbol, {}]'
   | 'route(path, {})'
   | 'route(symbol, {})'
+  | 'object[path, {}]'
+  | 'object[symbol, {}]'
   | 'variables'
 
 export type Options<T extends ExtendTypes = ExtendTypes> = {
@@ -46,20 +46,20 @@ export type Options<T extends ExtendTypes = ExtendTypes> = {
 
   /**
    * ```ts
-   * PAGES["/site/[id]"]({ id: 7})
-   *        // vs
-   * route("/site/[id]", { id: 7})
+   * // format: route(path, {})    -> (default)
+   * route("/site/[id]", { id: 7 })
    *
-   * PAGES.site_id({ id: 7})
-   *        // vs
-   * route("site_id", { id: 7})
+   * // format: route(symbol, {})
+   * route("site_id", { id: 7 })
    *
-   * // with `route('/')`
+   * // format: object[path, {}]
+   * PAGES["/site/[id]"]({ id: 7 })
    *
-   * // with `route('_')`
+   * // format: object[symbol, {}]
+   * PAGES.site_id({ id: 7 })
    *
-   * // with `variables` (best for code splitting)
-   * PAGES_site_id({ id: 7})
+   * // format: `variables` (best for code splitting)
+   * PAGE_site_id({ id: 7})
    * ```
    */
   format?: FormatKind
@@ -689,13 +689,13 @@ ${c.files
   .map(key => {
     if (key.strParams) {
       return (
-        `export const ROUTE_${key.keyToUse} = (${key.strParams}) => {` +
+        `export const ${c.type.slice(0, -1)}_${key.keyToUse} = (${key.strParams}) => {` +
         `${format({ bottom: 0, top: 1, left: 2 }, key.strDefault)}
   return ${key.strReturn} 
 }`
       )
     } else {
-      return `export const ROUTE_${key.keyToUse} = ${key.strReturn}`
+      return `export const ${c.type.slice(0, -1)}_${key.keyToUse} = ${key.strReturn}`
     }
   })
   .join('\n')}`
