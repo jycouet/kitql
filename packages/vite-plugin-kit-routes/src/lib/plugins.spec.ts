@@ -386,7 +386,7 @@ describe('run()', async () => {
   //
   // 'object[path]'
   const generated_file_objectPath = 'src/test/ROUTES_format-object-path.ts'
-  run({
+  run(false, {
     format: 'object[path]',
     generated_file_path: generated_file_objectPath,
     ...commonConfig,
@@ -395,7 +395,7 @@ describe('run()', async () => {
 
   // 'object[symbol]'
   const generated_file_objectSymbol = 'src/test/ROUTES_format-object-symbol.ts'
-  run({
+  run(false, {
     generated_file_path: generated_file_objectSymbol,
     format: 'object[symbol]',
     ...commonConfig_symbol,
@@ -404,7 +404,7 @@ describe('run()', async () => {
 
   // 'route(path)'
   const generated_file_routePath = `src/test/ROUTES_format-route-path.ts`
-  run({
+  run(false, {
     generated_file_path: generated_file_routePath,
     format: 'route(path)',
     ...commonConfig,
@@ -413,7 +413,7 @@ describe('run()', async () => {
 
   // 'route(symbol)'
   const generated_file_routeSymbol = 'src/test/ROUTES_format-route-symbol.ts'
-  run({
+  run(false, {
     generated_file_path: generated_file_routeSymbol,
     format: 'route(symbol)',
     ...commonConfig,
@@ -422,7 +422,7 @@ describe('run()', async () => {
 
   // 'variables'
   const generated_file_variables = 'src/test/ROUTES_format-variables.ts'
-  run({
+  run(false, {
     generated_file_path: generated_file_variables,
     format: 'variables',
     ...commonConfig_symbol,
@@ -482,7 +482,7 @@ describe('run()', async () => {
 
   it('post_update_run', () => {
     const generated_file_path = 'src/test/ROUTES_post-update.ts'
-    run({
+    run(false, {
       generated_file_path,
       post_update_run: 'echo done',
     })
@@ -492,7 +492,7 @@ describe('run()', async () => {
 
   it('with path base', () => {
     const generated_file_path = 'src/test/ROUTES_base.ts'
-    run({
+    run(false, {
       generated_file_path,
       path_base: true,
     })

@@ -633,7 +633,7 @@ const arrayToRecord = (arr?: string[]) => {
   return `: Record<string, never>`
 }
 
-export const run = (o?: Options) => {
+export const run = (atStart: boolean, o?: Options) => {
   const options = getDefaultOption(o)
 
   let files = getFilesUnder(routes_path())
@@ -820,11 +820,11 @@ ${objTypes
 
       if (shouldLog('update', options)) {
         child.on('close', code => {
-          theEnd(result, objTypes, options)
+          theEnd(atStart, result, objTypes, options)
         })
       }
     } else {
-      theEnd(result, objTypes, options)
+      theEnd(atStart, result, objTypes, options)
     }
     return true
   }
@@ -833,6 +833,7 @@ ${objTypes
 }
 
 function theEnd(
+  atStart: boolean,
   result: boolean,
   objTypes: { type: KindOfObject; files: MetadataToWrite[] }[],
   o: Options,
@@ -843,7 +844,7 @@ function theEnd(
       log.success(`${yellow(options.generated_file_path)} updated`)
     }
 
-    if (shouldLog('stats', options)) {
+    if (atStart && shouldLog('stats', options)) {
       const stats = []
       let nbRoutes = objTypes.flatMap(c => c.files).length
       stats.push(
@@ -915,7 +916,7 @@ export function kitRoutes<T extends ExtendTypes = ExtendTypes>(options?: Options
     {
       name: 'kit-routes',
       configureServer() {
-        run(options)
+        run(true, options)
       },
     },
 
@@ -926,7 +927,7 @@ export function kitRoutes<T extends ExtendTypes = ExtendTypes>(options?: Options
         logs: [],
         watch: ['**/+page.svelte', '**/+page.server.ts', '**/+server.ts'],
         run: () => {
-          run(options)
+          run(false, options)
         },
       },
     ]),
