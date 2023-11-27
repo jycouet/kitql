@@ -1051,82 +1051,82 @@ describe('run()', () => {
       /**
        * PAGES
        */
-      export const ROUTE__ROOT = \`/\`
-      export const ROUTE_subGroup = \`/subGroup\`
-      export const ROUTE_subGroup2 = (params: { first: (string | number) }) => {
+      export const PAGE__ROOT = \`/\`
+      export const PAGE_subGroup = \`/subGroup\`
+      export const PAGE_subGroup2 = (params: { first: (string | number) }) => {
         return \`/subGroup2\${appendSp({ first: params?.first })}\` 
       }
-      export const ROUTE_contract = (params?: { lang?: ('fr' | 'en' | 'hu' | 'at' | string) }, sp?: Record<string, string | number>) => {
+      export const PAGE_contract = (params?: { lang?: ('fr' | 'en' | 'hu' | 'at' | string) }, sp?: Record<string, string | number>) => {
         return \`\${params?.lang ? \`/\${params?.lang}\`: ''}/contract\${appendSp(sp)}\` 
       }
-      export const ROUTE_contract_id = (params: { id: (string | number), lang?: ('fr' | 'en' | 'hu' | 'at' | string) }) => {
+      export const PAGE_contract_id = (params: { id: (string | number), lang?: ('fr' | 'en' | 'hu' | 'at' | string) }) => {
         return \`\${params?.lang ? \`/\${params?.lang}\`: ''}/contract/\${params.id}\` 
       }
-      export const ROUTE_gp_one = (params?: { lang?: ('fr' | 'en' | 'hu' | 'at' | string) }) => {
+      export const PAGE_gp_one = (params?: { lang?: ('fr' | 'en' | 'hu' | 'at' | string) }) => {
         return \`\${params?.lang ? \`/\${params?.lang}\`: ''}/gp/one\` 
       }
-      export const ROUTE_gp_two = (params?: { lang?: ('fr' | 'en' | 'hu' | 'at' | string) }) => {
+      export const PAGE_gp_two = (params?: { lang?: ('fr' | 'en' | 'hu' | 'at' | string) }) => {
         return \`\${params?.lang ? \`/\${params?.lang}\`: ''}/gp/two\` 
       }
-      export const ROUTE_main = (params?: { lang?: ('fr' | 'en' | 'hu' | 'at' | string) }) => {
+      export const PAGE_main = (params?: { lang?: ('fr' | 'en' | 'hu' | 'at' | string) }) => {
         return \`\${params?.lang ? \`/\${params?.lang}\`: ''}/main\` 
       }
-      export const ROUTE_match_id_int = (params: { id: (string | number), lang?: ('fr' | 'en' | 'hu' | 'at' | string) }) => {
+      export const PAGE_match_id_int = (params: { id: (string | number), lang?: ('fr' | 'en' | 'hu' | 'at' | string) }) => {
         return \`\${params?.lang ? \`/\${params?.lang}\`: ''}/match/\${params.id}\` 
       }
-      export const ROUTE_site = (params?: { lang?: ('fr' | 'en' | 'hu' | 'at' | string), limit?: (number) }, sp?: Record<string, string | number>) => {
+      export const PAGE_site = (params?: { lang?: ('fr' | 'en' | 'hu' | 'at' | string), limit?: (number) }, sp?: Record<string, string | number>) => {
         return \`\${params?.lang ? \`/\${params?.lang}\`: ''}/site\${appendSp({ limit: params?.limit, ...sp })}\` 
       }
-      export const ROUTE_site_id = (params?: { lang?: ('fr' | 'hu' | undefined), id?: (string), limit?: (number), demo?: (string) }) => {
+      export const PAGE_site_id = (params?: { lang?: ('fr' | 'hu' | undefined), id?: (string), limit?: (number), demo?: (string) }) => {
         params = params ?? {}
         params.lang = params.lang ?? \\"fr\\"; 
         params.id = params.id ?? \\"Vienna\\"; 
         return \`\${params?.lang ? \`/\${params?.lang}\`: ''}/site/\${params.id}\${appendSp({ limit: params?.limit, demo: params?.demo })}\` 
       }
-      export const ROUTE_site_contract_siteId_contractId = (params: { siteId: (string | number), contractId: (string | number), lang?: ('fr' | 'en' | 'hu' | 'at' | string), limit?: (number) }) => {
+      export const PAGE_site_contract_siteId_contractId = (params: { siteId: (string | number), contractId: (string | number), lang?: ('fr' | 'en' | 'hu' | 'at' | string), limit?: (number) }) => {
         return \`\${params?.lang ? \`/\${params?.lang}\`: ''}/site_contract/\${params.siteId}-\${params.contractId}\${appendSp({ limit: params?.limit })}\` 
       }
-      export const ROUTE_a_rest_z = (params: { rest: (string | number)[] }) => {
+      export const PAGE_a_rest_z = (params: { rest: (string | number)[] }) => {
         return \`/a/\${params.rest?.join('/')}/z\` 
       }
-      export const ROUTE_lay_normal = \`/lay/normal\`
-      export const ROUTE_lay_root_layout = \`/lay/root-layout\`
-      export const ROUTE_lay_skip = \`/lay/skip\`
+      export const PAGE_lay_normal = \`/lay/normal\`
+      export const PAGE_lay_root_layout = \`/lay/root-layout\`
+      export const PAGE_lay_skip = \`/lay/skip\`
 
       /**
        * SERVERS
        */
-      export const ROUTE_GET_contract = (params?: { lang?: ('fr' | 'en' | 'hu' | 'at' | string) }) => {
+      export const SERVER_GET_contract = (params?: { lang?: ('fr' | 'en' | 'hu' | 'at' | string) }) => {
         return \`\${params?.lang ? \`/\${params?.lang}\`: ''}/contract\` 
       }
-      export const ROUTE_POST_contract = (params?: { lang?: ('fr' | 'en' | 'hu' | 'at' | string) }) => {
+      export const SERVER_POST_contract = (params?: { lang?: ('fr' | 'en' | 'hu' | 'at' | string) }) => {
         return \`\${params?.lang ? \`/\${params?.lang}\`: ''}/contract\` 
       }
-      export const ROUTE_GET_site = (params?: { lang?: ('fr' | 'en' | 'hu' | 'at' | string) }) => {
+      export const SERVER_GET_site = (params?: { lang?: ('fr' | 'en' | 'hu' | 'at' | string) }) => {
         return \`\${params?.lang ? \`/\${params?.lang}\`: ''}/site\` 
       }
-      export const ROUTE_GET_api_graphql = \`/api/graphql\`
-      export const ROUTE_POST_api_graphql = \`/api/graphql\`
+      export const SERVER_GET_api_graphql = \`/api/graphql\`
+      export const SERVER_POST_api_graphql = \`/api/graphql\`
 
       /**
        * ACTIONS
        */
-      export const ROUTE_default_contract_id = (params: { id: (string | number), lang?: ('fr' | 'en' | 'hu' | 'at' | string), limit?: (number) }) => {
+      export const ACTION_default_contract_id = (params: { id: (string | number), lang?: ('fr' | 'en' | 'hu' | 'at' | string), limit?: (number) }) => {
         return \`\${params?.lang ? \`/\${params?.lang}\`: ''}/contract/\${params.id}\${appendSp({ limit: params?.limit })}\` 
       }
-      export const ROUTE_create_site = (params?: { lang?: ('fr' | 'en' | 'hu' | 'at' | string) }) => {
+      export const ACTION_create_site = (params?: { lang?: ('fr' | 'en' | 'hu' | 'at' | string) }) => {
         return \`\${params?.lang ? \`/\${params?.lang}\`: ''}/site?/create\` 
       }
-      export const ROUTE_update_site_id = (params: { id: (string | number), lang?: ('fr' | 'en' | 'hu' | 'at' | string) }) => {
+      export const ACTION_update_site_id = (params: { id: (string | number), lang?: ('fr' | 'en' | 'hu' | 'at' | string) }) => {
         return \`\${params?.lang ? \`/\${params?.lang}\`: ''}/site/\${params.id}?/update\` 
       }
-      export const ROUTE_delete_site_id = (params: { id: (string | number), lang?: ('fr' | 'en' | 'hu' | 'at' | string) }) => {
+      export const ACTION_delete_site_id = (params: { id: (string | number), lang?: ('fr' | 'en' | 'hu' | 'at' | string) }) => {
         return \`\${params?.lang ? \`/\${params?.lang}\`: ''}/site/\${params.id}?/delete\` 
       }
-      export const ROUTE_noSatisfies_site_contract = (params?: { lang?: ('fr' | 'en' | 'hu' | 'at' | string) }) => {
+      export const ACTION_noSatisfies_site_contract = (params?: { lang?: ('fr' | 'en' | 'hu' | 'at' | string) }) => {
         return \`\${params?.lang ? \`/\${params?.lang}\`: ''}/site_contract?/noSatisfies\` 
       }
-      export const ROUTE_send_site_contract_siteId_contractId = (params: { siteId: (string | number), contractId: (string | number), lang?: ('fr' | 'en' | 'hu' | 'at' | string), extra?: ('A' | 'B') }) => {
+      export const ACTION_send_site_contract_siteId_contractId = (params: { siteId: (string | number), contractId: (string | number), lang?: ('fr' | 'en' | 'hu' | 'at' | string), extra?: ('A' | 'B') }) => {
         params.extra = params.extra ?? \\"A\\"; 
         return \`\${params?.lang ? \`/\${params?.lang}\`: ''}/site_contract/\${params.siteId}-\${params.contractId}?/send\${appendSp({ extra: params?.extra }, '&')}\` 
       }
@@ -1134,11 +1134,11 @@ describe('run()', () => {
       /**
        * LINKS
        */
-      export const ROUTE_twitter = \`https:/twitter.com/jycouet\`
-      export const ROUTE_twitter_post = (params: { name: (string | number), id: (string | number) }) => {
+      export const LINK_twitter = \`https:/twitter.com/jycouet\`
+      export const LINK_twitter_post = (params: { name: (string | number), id: (string | number) }) => {
         return \`https:/twitter.com/\${params.name}/status/\${params.id}\` 
       }
-      export const ROUTE_gravatar = (params: { str: (string | number), s?: (number), d?: (\\"retro\\" | \\"identicon\\") }) => {
+      export const LINK_gravatar = (params: { str: (string | number), s?: (number), d?: (\\"retro\\" | \\"identicon\\") }) => {
         params.s = params.s ?? 75; 
         params.d = params.d ?? \\"identicon\\"; 
         return \`https:/www.gravatar.com/avatar/\${params.str}\${appendSp({ s: params?.s, d: params?.d })}\` 

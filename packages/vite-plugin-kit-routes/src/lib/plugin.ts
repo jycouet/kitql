@@ -18,9 +18,9 @@ type LogKind = 'update' | 'post_update_run' | 'errors' | 'stats'
 type FormatKind =
   | 'route(path, {})'
   | 'route(symbol, {})'
+  | 'variables'
   | 'object[path, {}]'
   | 'object[symbol, {}]'
-  | 'variables'
 
 export type Options<T extends ExtendTypes = ExtendTypes> = {
   /**
@@ -46,20 +46,20 @@ export type Options<T extends ExtendTypes = ExtendTypes> = {
 
   /**
    * ```ts
-   * // format: route(path, {})    -> (default)
-   * route("/site/[id]", { id: 7 })
+   * // format: route(path, {})    -> default <-
+   * route("/site/[id]", { id: 7, tab: 'info' })
    *
    * // format: route(symbol, {})
-   * route("site_id", { id: 7 })
-   *
-   * // format: object[path, {}]
-   * PAGES["/site/[id]"]({ id: 7 })
-   *
-   * // format: object[symbol, {}]
-   * PAGES.site_id({ id: 7 })
+   * route("site_id", { id: 7, tab: 'info' })
    *
    * // format: `variables` (best for code splitting)
-   * PAGE_site_id({ id: 7})
+   * PAGE_site_id({ id: 7, tab: 'info' })
+   *
+   * // format: object[path, {}]
+   * PAGES["/site/[id]"]({ id: 7, tab: 'info' })
+   *
+   * // format: object[symbol, {}]
+   * PAGES.site_id({ id: 7, tab: 'info' })
    * ```
    */
   format?: FormatKind
