@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest'
 
+import type { KIT_ROUTES } from '../test/ROUTES_format-route-path.js'
 import { read } from './fs.js'
 import {
   extractParamsFromPath,
@@ -251,7 +252,7 @@ describe('vite-plugin-kit-routes', () => {
   })
 })
 
-describe('run()', () => {
+describe('run()', async () => {
   const commonConfig: Options = {
     LINKS: {
       // reference to a hardcoded link
@@ -274,7 +275,57 @@ describe('run()', () => {
     },
   }
 
-  const commonConfigFormat_underscore: Options = {
+  const commonConfig_path: Options<KIT_ROUTES> = {
+    PAGES: {
+      '/subGroup2': {
+        explicit_search_params: {
+          first: {
+            required: true,
+          },
+        },
+      },
+      '/contract': {
+        extra_search_params: 'with',
+      },
+      '/site': {
+        explicit_search_params: { limit: { type: 'number' } },
+        params: {
+          // yop: { type: 'number' },
+        },
+        extra_search_params: 'with',
+      },
+      '/site/[id]': {
+        explicit_search_params: { limit: { type: 'number' }, demo: { type: 'string' } },
+        params: {
+          id: { type: 'string', default: '"Vienna"' },
+          lang: { type: "'fr' | 'hu' | undefined", default: '"fr"' },
+        },
+      },
+      '/site_contract/[siteId]-[contractId]': {
+        explicit_search_params: { limit: { type: 'number' } },
+      },
+    },
+    SERVERS: {
+      // site: {
+      //   params: { }
+      // }
+      // yop: {},
+    },
+    ACTIONS: {
+      'default /contract/[id]': {
+        explicit_search_params: {
+          limit: { type: 'number' },
+        },
+      },
+      'send /site_contract/[siteId]-[contractId]': {
+        explicit_search_params: {
+          extra: { type: "'A' | 'B'", default: '"A"' },
+        },
+      },
+    },
+  }
+
+  const commonConfig_symbol: Options = {
     PAGES: {
       subGroup2: {
         explicit_search_params: {
@@ -324,8 +375,8 @@ describe('run()', () => {
     },
   }
 
-  const commonConfigFormat_underscore_space: Options = {
-    ...commonConfigFormat_underscore,
+  const commonConfig_symbol_space: Options = {
+    ...commonConfig_symbol,
     ACTIONS: {
       'default contract_id': {
         explicit_search_params: {
@@ -346,10 +397,11 @@ describe('run()', () => {
       format: 'object[path]',
       generated_file_path,
       ...commonConfig,
+      ...commonConfig_path,
     })
 
     let { PAGES } = await import(generated_file_path)
-    expect(PAGES['/site/[id]']({ id: 'Paris' })).toMatchInlineSnapshot('"/site/Paris"')
+    expect(PAGES['/site/[id]']({ id: 'Paris' })).toMatchInlineSnapshot('"/fr/site/Paris"')
   })
 
   it('format object[symbol]', async () => {
@@ -357,7 +409,7 @@ describe('run()', () => {
     run({
       generated_file_path,
       format: 'object[symbol]',
-      ...commonConfigFormat_underscore,
+      ...commonConfig_symbol,
       ...commonConfig,
     })
 
@@ -371,10 +423,10 @@ describe('run()', () => {
       generated_file_path,
       format: 'route(path)',
       ...commonConfig,
+      ...commonConfig_path,
     })
     let { route } = await import(generated_file_path)
-    // TODO ISSUE HERE
-    expect(route('/site/[id]', { id: 'Paris' })).toMatchInlineSnapshot('"/site/Paris"')
+    expect(route('/site/[id]', { id: 'Paris' })).toMatchInlineSnapshot('"/fr/site/Paris"')
   })
 
   it('format route(symbol)', async () => {
@@ -382,7 +434,7 @@ describe('run()', () => {
     run({
       generated_file_path,
       format: 'route(symbol)',
-      ...commonConfigFormat_underscore_space,
+      ...commonConfig_symbol_space,
       ...commonConfig,
     })
 
@@ -395,7 +447,7 @@ describe('run()', () => {
     run({
       generated_file_path,
       format: 'variables',
-      ...commonConfigFormat_underscore,
+      ...commonConfig_symbol,
       ...commonConfig,
     })
 
@@ -418,7 +470,7 @@ describe('run()', () => {
     run({
       generated_file_path,
       path_base: true,
-      ...commonConfigFormat_underscore,
+      ...commonConfig_symbol,
       ...commonConfig,
     })
 
