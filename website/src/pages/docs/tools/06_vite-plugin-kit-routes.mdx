@@ -158,13 +158,13 @@ _You can choose anyway_ 😜
 ```ts filename="vite.config.ts"
 kitRoutes({
   /**
-   * // format: route(path)                   -> default <-
+   * // format: route(path)                      -> default <-
    * route("/site/[id]", { id: 7, tab: 'info' })
    *
    * // format: route(symbol)
    * route("site_id", { id: 7, tab: 'info' })
    *
-   * // format: `variables`                       (best for code splitting & privacy)
+   * // format: `variables`                      (best for code splitting & privacy)
    * PAGE_site_id({ id: 7, tab: 'info' })
    *
    * // format: object[path]
