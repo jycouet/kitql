@@ -130,7 +130,7 @@ export function route<T extends FunctionKeys<AllTypes>>(key: T, ...params: Funct
 export function route<T extends NonFunctionKeys<AllTypes>>(key: T): string
 export function route<T extends keyof AllTypes>(key: T, ...params: any[]): string {
   if (AllObjs[key] instanceof Function) {
-    const element = (AllObjs as any)[key] as (...args: any[]) => any
+    const element = (AllObjs as any)[key] as (...args: any[]) => string
     return element(...params)
   } else {
     return AllObjs[key] as string

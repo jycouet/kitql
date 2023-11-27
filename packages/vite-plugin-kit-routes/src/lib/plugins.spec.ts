@@ -357,73 +357,128 @@ describe('run()', async () => {
     },
   }
 
-  it('format object[path]', async () => {
-    const generated_file_path = 'src/test/ROUTES_format-object-path.ts'
-    run({
-      format: 'object[path]',
-      generated_file_path,
-      ...commonConfig,
-      ...commonConfig_Path,
-    })
+  function fnOrNot(obj: any, key: any, ...params: any[]): string {
+    if (obj[key] instanceof Function) {
+      const element = (obj as any)[key] as (...args: any[]) => string
+      return element(...params)
+    } else {
+      return obj[key] as string
+    }
+  }
+  const table = [
+    {
+      name: 'ROOT, return is not a function',
+      results: '/',
+      key_path: '/',
+      key_symbol: '_ROOT',
+    },
+    {
+      name: 'single param',
+      results: '/fr/site/Paris',
+      key_path: '/site/[id]',
+      key_symbol: 'site_id',
+      params: { id: 'Paris' },
+    },
+  ]
 
-    let { PAGES } = await import(generated_file_path)
-    expect(PAGES['/']).toMatchInlineSnapshot('"/"')
-    expect(PAGES['/site/[id]']({ id: 'Paris' })).toMatchInlineSnapshot('"/fr/site/Paris"')
+  //
+  // RUN
+  //
+  // 'object[path]'
+  const generated_file_objectPath = 'src/test/ROUTES_format-object-path.ts'
+  run({
+    format: 'object[path]',
+    generated_file_path: generated_file_objectPath,
+    ...commonConfig,
+    ...commonConfig_Path,
   })
 
-  it('format object[symbol]', async () => {
-    const generated_file_path = 'src/test/ROUTES_format-object-symbol.ts'
-    run({
-      generated_file_path,
-      format: 'object[symbol]',
-      ...commonConfig_symbol,
-      ...commonConfig,
-    })
-
-    let { PAGES } = await import(generated_file_path)
-    expect(PAGES['_ROOT']).toMatchInlineSnapshot('"/"')
-    expect(PAGES['site_id']({ id: 'Paris' })).toMatchInlineSnapshot('"/fr/site/Paris"')
+  // 'object[symbol]'
+  const generated_file_objectSymbol = 'src/test/ROUTES_format-object-symbol.ts'
+  run({
+    generated_file_path: generated_file_objectSymbol,
+    format: 'object[symbol]',
+    ...commonConfig_symbol,
+    ...commonConfig,
   })
 
-  it('format route(path)', async () => {
-    const generated_file_path = `src/test/ROUTES_format-route-path.ts`
-    run({
-      generated_file_path,
-      format: 'route(path)',
-      ...commonConfig,
-      ...commonConfig_Path,
-    })
-    let { route } = await import(generated_file_path)
-    expect(route('/site/[id]', { id: 'Paris' })).toMatchInlineSnapshot('"/fr/site/Paris"')
+  // 'route(path)'
+  const generated_file_routePath = `src/test/ROUTES_format-route-path.ts`
+  run({
+    generated_file_path: generated_file_routePath,
+    format: 'route(path)',
+    ...commonConfig,
+    ...commonConfig_Path,
   })
 
-  it('format route(symbol)', async () => {
-    const generated_file_path = 'src/test/ROUTES_format-route-symbol.ts'
-    run({
-      generated_file_path,
-      format: 'route(symbol)',
-      ...commonConfig,
-      ...commonConfig_symbol_space,
-    })
-
-    let { route } = await import(generated_file_path)
-    expect(route('_ROOT')).toMatchInlineSnapshot('"/"')
-    expect(route('site_id', { id: 'Paris' })).toMatchInlineSnapshot('"/fr/site/Paris"')
+  // 'route(symbol)'
+  const generated_file_routeSymbol = 'src/test/ROUTES_format-route-symbol.ts'
+  run({
+    generated_file_path: generated_file_routeSymbol,
+    format: 'route(symbol)',
+    ...commonConfig,
+    ...commonConfig_symbol_space,
   })
 
-  it('format variables', async () => {
-    const generated_file_path = 'src/test/ROUTES_format-variables.ts'
-    run({
-      generated_file_path,
-      format: 'variables',
-      ...commonConfig_symbol,
-      ...commonConfig,
-    })
-
-    let { PAGE_site_id, PAGE__ROOT } = await import(generated_file_path)
-    expect(PAGE__ROOT).toMatchInlineSnapshot('"/"')
-    expect(PAGE_site_id({ id: 'Paris' })).toMatchInlineSnapshot('"/fr/site/Paris"')
+  // 'variables'
+  const generated_file_variables = 'src/test/ROUTES_format-variables.ts'
+  run({
+    generated_file_path: generated_file_variables,
+    format: 'variables',
+    ...commonConfig_symbol,
+    ...commonConfig,
   })
+
+  for (let i = 0; i < table.length; i++) {
+    const element = table[i]
+    describe(element.name, async () => {
+      //
+      it('object[path]', async () => {
+        let { PAGES } = await import(generated_file_objectPath)
+        expect(
+          fnOrNot(PAGES, element.key_path, element.params),
+          `Name: ${element.name}, i: ${i}`,
+        ).toBe(element.results)
+      })
+
+      //
+      it('object[symbol]', async () => {
+        let { PAGES } = await import(generated_file_objectSymbol)
+        expect(
+          fnOrNot(PAGES, element.key_symbol, element.params),
+          `Name: ${element.name}, i: ${i}`,
+        ).toBe(element.results)
+      })
+
+      //
+      it('format route(path)', async () => {
+        let { route } = await import(generated_file_routePath)
+        expect(route(element.key_path, element.params), `Name: ${element.name}, i: ${i}`).toBe(
+          element.results,
+        )
+      })
+
+      //
+      it('format route(symbol)', async () => {
+        let { route } = await import(generated_file_routeSymbol)
+        expect(route(element.key_symbol, element.params), `Name: ${element.name}, i: ${i}`).toBe(
+          element.results,
+        )
+      })
+
+      //
+      it('format variables', async () => {
+        let vars = await import(generated_file_variables)
+        if (element.results === '/') {
+          expect(vars.PAGE__ROOT, `Name: ${element.name}, i: ${i}`).toBe(element.results)
+        } else if (element.results === '/fr/site/Paris') {
+          expect(vars.PAGE_site_id({ id: 'Paris' }), `Name: ${element.name}, i: ${i}`).toBe(
+            element.results,
+          )
+        }
+      })
+    })
+  }
 
   it('post_update_run', () => {
     const generated_file_path = 'src/test/ROUTES_post-update.ts'
@@ -440,8 +495,6 @@ describe('run()', async () => {
     run({
       generated_file_path,
       path_base: true,
-      ...commonConfig_symbol,
-      ...commonConfig,
     })
 
     expect(read(generated_file_path)?.includes("import { base } from '$app/paths'")).toBe(true)
