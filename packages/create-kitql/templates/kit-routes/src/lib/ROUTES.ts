@@ -80,7 +80,7 @@ export function route<T extends FunctionKeys<AllTypes>>(
 ): string;
 export function route<T extends NonFunctionKeys<AllTypes>>(key: T): string;
 export function route<T extends keyof AllTypes>(key: T, ...params: any[]): string {
-	if (AllObjs[key] instanceof Function) {
+	if ((AllObjs[key] as any) instanceof Function) {
 		const element = (AllObjs as any)[key] as (...args: any[]) => string;
 		return element(...params);
 	} else {

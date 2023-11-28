@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { LINKS, PAGES } from '$lib/ROUTES';
+	import { route } from '$lib/ROUTES';
 </script>
 
 <svelte:head>
@@ -17,12 +17,12 @@
 
 <ul>
 	<li>
-		<a href={LINKS.github_remult} target="_blank">⭐️ Remult</a>
+		<a href={route('github_remult')} target="_blank">⭐️ Remult</a>
 	</li>
 	<li>
-		<a href={LINKS.github_kitql} target="_blank">⭐️ KitQL</a>
+		<a href={route('github_kitql')} target="_blank">⭐️ KitQL</a>
 	</li>
 	<li>
-		<a href={LINKS.twitter_jycouet} target="_blank">Twitter</a>
+		<a href={route('twitter_jycouet')} target="_blank">Twitter</a>
 	</li>
 </ul>

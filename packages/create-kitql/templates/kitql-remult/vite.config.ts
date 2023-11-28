@@ -6,7 +6,6 @@ export default defineConfig({
 	plugins: [
 		sveltekit(),
 		kitRoutes({
-			logs: [], // removes logs
 			post_update_run: 'npm exec prettier ./src/lib/ROUTES.ts -- -w',
 			LINKS: {
 				twitter_jycouet: 'https://twitter.com/jycouet',
