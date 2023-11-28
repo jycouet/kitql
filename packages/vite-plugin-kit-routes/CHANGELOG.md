@@ -1,5 +1,17 @@
 # vite-plugin-kit-routes
 
+## 0.2.0-next.2
+
+### Patch Changes
+
+- [#506](https://github.com/jycouet/kitql/pull/506)
+  [`66a1590`](https://github.com/jycouet/kitql/commit/66a1590e4288661bf3650619c3d5459365f4713d)
+  Thanks [@jycouet](https://github.com/jycouet)! - fix required search param is now handled
+
+- [#506](https://github.com/jycouet/kitql/pull/506)
+  [`66a1590`](https://github.com/jycouet/kitql/commit/66a1590e4288661bf3650619c3d5459365f4713d)
+  Thanks [@jycouet](https://github.com/jycouet)! - add shorten_args_if_one_required flag
+
 ## 0.2.0-next.1
 
 ### Patch Changes
