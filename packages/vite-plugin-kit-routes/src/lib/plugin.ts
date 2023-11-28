@@ -72,11 +72,11 @@ export type Options<T extends ExtendTypes = ExtendTypes> = {
    * If you have only 1 required param, it will be a direct arg (not part of an object).
    *
    * ```ts
-   * route("/site/[id]", 7)
-   * route("site_id", 7)
-   * PAGE_site_id(7)
-   * PAGES["/site/[id]"](7)
-   * PAGES.site_id(7)
+   * route("/site/[id]", 7)       // format: route(path)
+   * route("site_id", 7)          // format: route(symbol)
+   * PAGE_site_id(7)              // format: variables
+   * PAGES["/site/[id]"](7)       // format: object[path]
+   * PAGES.site_id(7)             // format: object[symbol]
    * ```
    */
   shorten_args_if_one_required?: boolean
@@ -218,22 +218,30 @@ export function routes_path() {
 
 export function rmvGroups(key: string) {
   let toRet = key
+    // rmv /(groups)
+    .replace(/\/\([^)]*\)/, '')
     // rmv (groups)
     .replace(/\([^)]*\)/g, '')
-    .replace(/\/+/g, '/')
   return toRet
 }
 
 export function rmvOptional(key: string) {
   let toRet = key
-    // rmv (Optional)
-    .replace(/\[{2}.*?\]{2}/g, '')
+    // rmv /[[Optional]]
+    .replace(/\/\[\[.*?\]\]/, '')
+    // rmv [[Optional]]
+    .replace(/\[\[.*?\]\]/, '')
   return toRet
 }
 
 export function formatKey(key: string, o: Options) {
   const options = getDefaultOption(o)
   let toRet = rmvGroups(rmvOptional(key))
+
+  // In case we have only an optional param
+  if (toRet === '') {
+    toRet = '/'
+  }
 
   if (options.format!.includes('path')) {
     return toRet

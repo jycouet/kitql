@@ -41,10 +41,82 @@ describe('fs', () => {
   })
 })
 
-describe('rmvOptional', () => {
-  it('getFilesUnder', async () => {
+describe('rmv Helper', () => {
+  it('rmvOptional', async () => {
     const location = `${process.cwd()}/src/routes/`
-    expect(getFilesUnder(location).map(c => rmvOptional(rmvGroups(c)))).toMatchInlineSnapshot(`
+    expect(getFilesUnder(location).map(c => rmvOptional(c))).toMatchInlineSnapshot(`
+      [
+        "(rootGroup)/subGroup/+page.svelte",
+        "(rootGroup)/subGroup2/+page.svelte",
+        "+layout.svelte",
+        "+page.svelte",
+        "/contract/+page.svelte",
+        "/contract/+server.ts",
+        "/contract/[id]/+page.server.ts",
+        "/contract/[id]/+page.svelte",
+        "/gp/(logged)/one/+page.svelte",
+        "/gp/(public)/two/+page.svelte",
+        "/main/+page.svelte",
+        "/match/[id=int]/+page.svelte",
+        "/site/+page.server.ts",
+        "/site/+page.svelte",
+        "/site/+server.ts",
+        "/site/[id]/+page.server.ts",
+        "/site/[id]/+page.svelte",
+        "/site_contract/+page.server.ts",
+        "/site_contract/[siteId]-[contractId]/+page.server.ts",
+        "/site_contract/[siteId]-[contractId]/+page.svelte",
+        "a/[...rest]/z/+page.svelte",
+        "api/graphql/+server.ts",
+        "lay/(layVerySpecial)/+layout.svelte",
+        "lay/(layVerySpecial)/normal/+page.svelte",
+        "lay/(layVerySpecial)/root-layout/+page@.svelte",
+        "lay/(layVerySpecial)/skip/+page@lay.svelte",
+        "lay/+layout.svelte",
+        "page_server_woAction/+page.server.ts",
+      ]
+    `)
+  })
+
+  it('rmvGroups', async () => {
+    const location = `${process.cwd()}/src/routes/`
+    expect(getFilesUnder(location).map(c => rmvGroups(c))).toMatchInlineSnapshot(`
+      [
+        "/subGroup/+page.svelte",
+        "/subGroup2/+page.svelte",
+        "+layout.svelte",
+        "+page.svelte",
+        "[[lang]]/contract/+page.svelte",
+        "[[lang]]/contract/+server.ts",
+        "[[lang]]/contract/[id]/+page.server.ts",
+        "[[lang]]/contract/[id]/+page.svelte",
+        "[[lang]]/gp/one/+page.svelte",
+        "[[lang]]/gp/two/+page.svelte",
+        "[[lang]]/main/+page.svelte",
+        "[[lang]]/match/[id=int]/+page.svelte",
+        "[[lang]]/site/+page.server.ts",
+        "[[lang]]/site/+page.svelte",
+        "[[lang]]/site/+server.ts",
+        "[[lang]]/site/[id]/+page.server.ts",
+        "[[lang]]/site/[id]/+page.svelte",
+        "[[lang]]/site_contract/+page.server.ts",
+        "[[lang]]/site_contract/[siteId]-[contractId]/+page.server.ts",
+        "[[lang]]/site_contract/[siteId]-[contractId]/+page.svelte",
+        "a/[...rest]/z/+page.svelte",
+        "api/graphql/+server.ts",
+        "lay/+layout.svelte",
+        "lay/normal/+page.svelte",
+        "lay/root-layout/+page@.svelte",
+        "lay/skip/+page@lay.svelte",
+        "lay/+layout.svelte",
+        "page_server_woAction/+page.server.ts",
+      ]
+    `)
+  })
+
+  it('rmvGroups & Optional', async () => {
+    const location = `${process.cwd()}/src/routes/`
+    expect(getFilesUnder(location).map(c => rmvGroups(rmvOptional(c)))).toMatchInlineSnapshot(`
       [
         "/subGroup/+page.svelte",
         "/subGroup2/+page.svelte",

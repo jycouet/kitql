@@ -90,14 +90,14 @@ export const ACTION_send_site_contract_siteId_contractId = (params: { siteId: (s
 /**
  * LINKS
  */
-export const LINK_twitter = `https:/twitter.com/jycouet`
+export const LINK_twitter = `https://twitter.com/jycouet`
 export const LINK_twitter_post = (params: { name: (string | number), id: (string | number) }) => {
-  return `https:/twitter.com/${params.name}/status/${params.id}` 
+  return `https://twitter.com/${params.name}/status/${params.id}` 
 }
 export const LINK_gravatar = (str: (string | number), params: { s?: (number), d?: ("retro" | "identicon") }) => {
   params.s = params.s ?? 75; 
   params.d = params.d ?? "identicon"; 
-  return `https:/www.gravatar.com/avatar/${str}${appendSp({ s: params?.s, d: params?.d })}` 
+  return `https://www.gravatar.com/avatar/${str}${appendSp({ s: params?.s, d: params?.d })}` 
 }
 
 /**

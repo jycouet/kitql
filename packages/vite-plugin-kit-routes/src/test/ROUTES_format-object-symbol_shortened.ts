@@ -97,14 +97,14 @@ export const ACTIONS = {
  * LINKS
  */
 export const LINKS = {
-  "twitter": `https:/twitter.com/jycouet`,
+  "twitter": `https://twitter.com/jycouet`,
   "twitter_post": (params: { name: (string | number), id: (string | number) }) => {
-    return `https:/twitter.com/${params.name}/status/${params.id}`
+    return `https://twitter.com/${params.name}/status/${params.id}`
   },
   "gravatar": (str: (string | number), params: { s?: (number), d?: ("retro" | "identicon") }) => {
     params.s = params.s ?? 75; 
     params.d = params.d ?? "identicon"; 
-    return `https:/www.gravatar.com/avatar/${str}${appendSp({ s: params?.s, d: params?.d })}`
+    return `https://www.gravatar.com/avatar/${str}${appendSp({ s: params?.s, d: params?.d })}`
   }
 }
 
