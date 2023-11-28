@@ -885,11 +885,12 @@ function theEnd(
           )}`,
       )
       let confgPoints = stry0(Object.entries(options ?? {}))!.length
+      const shortV = options.shorten_args_if_one_required ? ' s' : ''
 
       stats.push(`Points: ${yellow('' + confgPoints)}`)
       const score = (confgPoints / nbRoutes).toFixed(2)
       stats.push(`Score: ${yellow(score)}`)
-      stats.push(`Format: "${yellow('' + options?.format)}"`)
+      stats.push(`Format: "${yellow('' + options?.format + shortV)}"`)
 
       log.success(`${green('Stats:')} ${stats.join(' | ')}`)
       log.info(
@@ -900,7 +901,7 @@ function theEnd(
                 `- Routes: ${nbRoutes} (${objTypes.map(c => c.files.length).join(', ')})\n` +
                 `- Points: ${confgPoints}\n` +
                 `- Score: ${score}\n` +
-                `- Format: "${options?.format}"\n\n` +
+                `- Format: "${options?.format}${shortV}"\n\n` +
                 `👀 @jycouet`,
             )}`,
         )}`,
