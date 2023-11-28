@@ -1,5 +1,13 @@
 # vite-plugin-kit-routes
 
+## 0.2.0-next.4
+
+### Patch Changes
+
+- [#511](https://github.com/jycouet/kitql/pull/511)
+  [`24a6fda`](https://github.com/jycouet/kitql/commit/24a6fdae6454db2978082a270ae0fa019d74136e)
+  Thanks [@jycouet](https://github.com/jycouet)! - fix: manage well "//" in values
+
 ## 0.2.0-next.3
 
 ### Patch Changes
