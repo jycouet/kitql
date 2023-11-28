@@ -5,7 +5,7 @@ import watch_and_run from 'vite-plugin-watch-and-run'
 
 import { getActionsOfServerPages, getMethodsOfServerFiles } from './ast.js'
 import { appendSp, format, routeFn } from './format.js'
-import { getFilesUnder, write } from './fs.js'
+import { getFilesUnder, read, write } from './fs.js'
 
 type ExtendTypes = {
   PAGES: Record<string, string>
@@ -876,6 +876,14 @@ function theEnd(
     }
 
     if (atStart && shouldLog('stats', options)) {
+      let version = ''
+      try {
+        const pkg = JSON.parse(read('./package.json') ?? '{}')
+        version =
+          pkg.devDependencies['vite-plugin-kit-routes'] ??
+          pkg.dependencies['vite-plugin-kit-routes'] ??
+          ''
+      } catch (error) {}
       const stats = []
       let nbRoutes = objTypes.flatMap(c => c.files).length
       stats.push(
@@ -901,7 +909,8 @@ function theEnd(
                 `- Routes: ${nbRoutes} (${objTypes.map(c => c.files.length).join(', ')})\n` +
                 `- Points: ${confgPoints}\n` +
                 `- Score: ${score}\n` +
-                `- Format: "${options?.format}${shortV}"\n\n` +
+                `- Format: "${options?.format}${shortV}"\n` +
+                `- Version: ${version}\n\n` +
                 `👀 @jycouet`,
             )}`,
         )}`,
