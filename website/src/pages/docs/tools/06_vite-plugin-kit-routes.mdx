@@ -158,22 +158,42 @@ _You can choose anyway_ 😜
 ```ts filename="vite.config.ts"
 kitRoutes({
   /**
-   * // format: route(path)                      -> default <-
+   * // format: `route(path)`                    -> default <-
    * route("/site/[id]", { id: 7, tab: 'info' })
    *
-   * // format: route(symbol)
+   * // format: `route(symbol)`
    * route("site_id", { id: 7, tab: 'info' })
    *
    * // format: `variables`                      (best for code splitting & privacy)
    * PAGE_site_id({ id: 7, tab: 'info' })
    *
-   * // format: object[path]
+   * // format: `object[path]`
    * PAGES["/site/[id]"]({ id: 7, tab: 'info' })
    *
-   * // format: object[symbol]
+   * // format: `object[symbol]`
    * PAGES.site_id({ id: 7, tab: 'info' })
    */
   format: 'route(path)'
+})
+```
+
+- In addition to formats, you can swich `on` a flag to have even shorter functions. This applies
+  when you have only 1 required param.
+
+```ts filename="vite.config.ts"
+kitRoutes({
+  /**
+   * default is: `false`
+   *
+   * If you have only 1 required param, it will be a direct arg (not part of an object).
+   *
+   * route("/site/[id]", 7)       route(path)
+   * route("site_id", 7)          route(symbol)
+   * PAGE_site_id(7)              variables
+   * PAGES["/site/[id]"](7)       object[path]
+   * PAGES.site_id(7)             object[symbol]
+   */
+  shorten_args_if_one_required: true
 })
 ```
 
