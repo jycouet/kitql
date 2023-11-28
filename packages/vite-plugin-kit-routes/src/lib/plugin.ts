@@ -272,7 +272,7 @@ type MetadataToWrite = {
   strParams: string
 }
 
-type KindOfObject = 'PAGES' | 'SERVERS' | 'ACTIONS' | 'LINKS'
+export type KindOfObject = 'PAGES' | 'SERVERS' | 'ACTIONS' | 'LINKS'
 
 const getMetadata = (files: string[], type: KindOfObject, o: Options, withAppendSp?: boolean) => {
   const options = getDefaultOption(o)
