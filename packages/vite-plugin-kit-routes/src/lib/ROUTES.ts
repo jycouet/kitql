@@ -11,7 +11,7 @@ export const PAGES = {
   _ROOT: `/`,
   subGroup: `/subGroup`,
   subGroup2: (params: { first: string | number }) => {
-    return `/subGroup2${appendSp({ first: params?.first })}`
+    return `/subGroup2${appendSp({ first: params.first })}`
   },
   contract: (params?: { lang?: 'fr' | 'en' | 'hu' | 'at' | string }) => {
     return `${params?.lang ? `/${params?.lang}` : ''}/contract`
@@ -28,7 +28,7 @@ export const PAGES = {
   main: (params?: { lang?: 'fr' | 'en' | 'hu' | 'at' | string }) => {
     return `${params?.lang ? `/${params?.lang}` : ''}/main`
   },
-  match_id_int: (params: { id: string | number; lang?: 'fr' | 'en' | 'hu' | 'at' | string }) => {
+  match_id_int: (params: { id: number; lang?: 'fr' | 'en' | 'hu' | 'at' | string }) => {
     return `${params?.lang ? `/${params?.lang}` : ''}/match/${params.id}`
   },
   site: (

@@ -12,6 +12,7 @@ import {
   formatKey,
   run,
   type Options,
+  type KindOfObject,
 } from './plugin.js'
 
 describe('vite-plugin-kit-routes', () => {
@@ -305,6 +306,11 @@ describe('run()', async () => {
           lang: { type: "'fr' | 'hu' | undefined", default: '"fr"' },
         },
       },
+      match_id_int: {
+        params: {
+          id: { type: 'number' },
+        },
+      },
       site_contract_siteId_contractId: {
         explicit_search_params: { limit: { type: 'number' } },
       },
@@ -330,6 +336,7 @@ describe('run()', async () => {
       '/contract': commonConfig_symbol.PAGES?.contract,
       '/site': commonConfig_symbol.PAGES?.site,
       '/site/[id]': commonConfig_symbol.PAGES?.site_id,
+      '/match/[id=int]': commonConfig_symbol.PAGES?.match_id_int,
       '/site_contract/[siteId]-[contractId]':
         commonConfig_symbol.PAGES?.site_contract_siteId_contractId,
     },
@@ -347,6 +354,7 @@ describe('run()', async () => {
       contract: commonConfig_symbol.PAGES?.contract,
       site: commonConfig_symbol.PAGES?.site,
       site_id: commonConfig_symbol.PAGES?.site_id,
+      match_id_int: commonConfig_symbol.PAGES?.match_id_int,
       site_contract_siteId_contractId: commonConfig_symbol.PAGES?.site_contract_siteId_contractId,
     },
     SERVERS: {},
@@ -357,6 +365,85 @@ describe('run()', async () => {
     },
   }
 
+  const getPathROUTES = (f: string) => {
+    return `src/test/ROUTES_${f}.ts`
+  }
+  const getToRunShortened = (info: any) => {
+    return {
+      ...info,
+      pathFile: `${info.pathFile}_shortened`,
+      extra: { ...info.extra, shorten_args_if_one_required: true },
+    }
+  }
+
+  const runs = [
+    {
+      pathFile: 'format-object-path',
+      format: 'object[path]',
+      extra: { ...commonConfig, ...commonConfig_Path },
+    },
+    {
+      pathFile: 'format-object-symbol',
+      format: 'object[symbol]',
+      extra: { ...commonConfig, ...commonConfig_symbol },
+    },
+    {
+      pathFile: 'format-route-path',
+      format: 'route(path)',
+      extra: { ...commonConfig, ...commonConfig_Path },
+    },
+    {
+      pathFile: 'format-route-symbol',
+      format: 'route(symbol)',
+      extra: { ...commonConfig, ...commonConfig_symbol_space },
+    },
+    {
+      pathFile: 'format-format-variables',
+      format: 'variables',
+      extra: { ...commonConfig, ...commonConfig_symbol },
+    },
+  ] as const
+
+  // First time
+  for (let i = 0; i < runs.length; i++) {
+    const toRun = runs[i]
+    it(`run ${toRun.pathFile}`, async () => {
+      const ret = run(false, {
+        format: toRun.format,
+        generated_file_path: getPathROUTES(toRun.pathFile),
+        ...toRun.extra,
+      })
+
+      expect(ret).toBe(true)
+    })
+  }
+  // Second time shortened
+  for (let i = 0; i < runs.length; i++) {
+    const toRun = getToRunShortened(runs[i])
+
+    it(`run ${toRun.pathFile}`, async () => {
+      const ret = run(false, {
+        format: toRun.format,
+        generated_file_path: getPathROUTES(toRun.pathFile),
+        ...toRun.extra,
+      })
+
+      expect(ret).toBe(true)
+    })
+  }
+
+  function findObj(kind: KindOfObject, PAGES: any, SERVERS: any, ACTIONS: any, LINKS: any) {
+    return kind === 'PAGES'
+      ? PAGES
+      : kind === 'SERVERS'
+        ? SERVERS
+        : kind === 'ACTIONS'
+          ? ACTIONS
+          : kind === 'LINKS'
+            ? LINKS
+            : undefined
+  }
+
   function fnOrNot(obj: any, key: any, ...params: any[]): string {
     if (obj[key] instanceof Function) {
       const element = (obj as any)[key] as (...args: any[]) => string
@@ -365,120 +452,215 @@ describe('run()', async () => {
       return obj[key] as string
     }
   }
-  const table = [
+
+  // Here is the list of tests... to run :)
+  const table: {
+    name: string
+    kind: KindOfObject
+    results: string
+    key_path: string
+    key_symbol: string
+    params: any[]
+    params_shortened: any[]
+  }[] = [
     {
       name: 'ROOT, return is not a function',
+      kind: 'PAGES',
       results: '/',
       key_path: '/',
       key_symbol: '_ROOT',
+      params: [],
+      params_shortened: [],
     },
     {
-      name: 'single param',
+      name: 'single param (required)',
+      kind: 'PAGES',
+      results: '/contract/abc',
+      key_path: '/contract/[id]',
+      key_symbol: 'contract_id',
+      params: [{ id: 'abc' }],
+      params_shortened: ['abc'],
+    },
+    {
+      name: 'single param (with default)',
+      kind: 'PAGES',
       results: '/fr/site/Paris',
       key_path: '/site/[id]',
       key_symbol: 'site_id',
-      params: { id: 'Paris' },
+      params: [{ id: 'Paris' }],
+      params_shortened: [{ id: 'Paris' }],
+    },
+    {
+      name: 'only optional',
+      kind: 'PAGES',
+      results: '/main',
+      key_path: '/main',
+      key_symbol: 'main',
+      params: [],
+      params_shortened: [],
+    },
+    {
+      name: 'with search params',
+      kind: 'PAGES',
+      results: '/contract?yop=hello',
+      key_path: '/contract',
+      key_symbol: 'contract',
+      params: [{}, { yop: 'hello' }],
+      params_shortened: [{}, { yop: 'hello' }],
+    },
+    {
+      name: 'multi params',
+      kind: 'PAGES',
+      results: '/fr/site_contract/Paris-abc?limit=2',
+      key_path: '/site_contract/[siteId]-[contractId]',
+      key_symbol: 'site_contract_siteId_contractId',
+      params: [{ siteId: 'Paris', contractId: 'abc', limit: 2, lang: 'fr' }],
+      params_shortened: [{ siteId: 'Paris', contractId: 'abc', limit: 2, lang: 'fr' }],
+    },
+    {
+      name: 'direct link',
+      kind: 'LINKS',
+      results: 'https:/twitter.com/jycouet',
+      key_path: 'twitter',
+      key_symbol: 'twitter',
+      params: [],
+      params_shortened: [],
     },
   ]
 
-  //
-  // RUN
-  //
-  // 'object[path]'
-  const generated_file_objectPath = 'src/test/ROUTES_format-object-path.ts'
-  run(false, {
-    format: 'object[path]',
-    generated_file_path: generated_file_objectPath,
-    ...commonConfig,
-    ...commonConfig_Path,
-  })
-
-  // 'object[symbol]'
-  const generated_file_objectSymbol = 'src/test/ROUTES_format-object-symbol.ts'
-  run(false, {
-    generated_file_path: generated_file_objectSymbol,
-    format: 'object[symbol]',
-    ...commonConfig_symbol,
-    ...commonConfig,
-  })
-
-  // 'route(path)'
-  const generated_file_routePath = `src/test/ROUTES_format-route-path.ts`
-  run(false, {
-    generated_file_path: generated_file_routePath,
-    format: 'route(path)',
-    ...commonConfig,
-    ...commonConfig_Path,
-  })
-
-  // 'route(symbol)'
-  const generated_file_routeSymbol = 'src/test/ROUTES_format-route-symbol.ts'
-  run(false, {
-    generated_file_path: generated_file_routeSymbol,
-    format: 'route(symbol)',
-    ...commonConfig,
-    ...commonConfig_symbol_space,
-  })
-
-  // 'variables'
-  const generated_file_variables = 'src/test/ROUTES_format-variables.ts'
-  run(false, {
-    generated_file_path: generated_file_variables,
-    format: 'variables',
-    ...commonConfig_symbol,
-    ...commonConfig,
-  })
-
+  let nbVariablesDone = 0
+  let nbVariablesShortenedDone = 0
   for (let i = 0; i < table.length; i++) {
     const element = table[i]
     describe(element.name, async () => {
       //
-      it('object[path]', async () => {
-        let { PAGES } = await import(generated_file_objectPath)
-        expect(
-          fnOrNot(PAGES, element.key_path, element.params),
-          `Name: ${element.name}, i: ${i}`,
-        ).toBe(element.results)
+      it('format object[path]', async () => {
+        let { PAGES, SERVERS, ACTIONS, LINKS } = await import(getPathROUTES(runs[0].pathFile))
+        const obj = findObj(element.kind, PAGES, SERVERS, ACTIONS, LINKS)
+        expect(fnOrNot(obj, element.key_path, ...element.params), element.name).toBe(
+          element.results,
+        )
+      })
+      // SHORTENED
+      it('format object[path] shortened', async () => {
+        let { PAGES, SERVERS, ACTIONS, LINKS } = await import(
+          getPathROUTES(getToRunShortened(runs[0]).pathFile)
+        )
+        const obj = findObj(element.kind, PAGES, SERVERS, ACTIONS, LINKS)
+        expect(fnOrNot(obj, element.key_path, ...element.params_shortened), element.name).toBe(
+          element.results,
+        )
       })
 
       //
-      it('object[symbol]', async () => {
-        let { PAGES } = await import(generated_file_objectSymbol)
-        expect(
-          fnOrNot(PAGES, element.key_symbol, element.params),
-          `Name: ${element.name}, i: ${i}`,
-        ).toBe(element.results)
+      it('format object[symbol]', async () => {
+        let { PAGES, SERVERS, ACTIONS, LINKS } = await import(getPathROUTES(runs[1].pathFile))
+        const obj = findObj(element.kind, PAGES, SERVERS, ACTIONS, LINKS)
+        expect(fnOrNot(obj, element.key_symbol, ...element.params), element.name).toBe(
+          element.results,
+        )
+      })
+      // SHORTENED
+      it('format object[symbol] shortened', async () => {
+        let { PAGES, SERVERS, ACTIONS, LINKS } = await import(
+          getPathROUTES(getToRunShortened(runs[1]).pathFile)
+        )
+        const obj = findObj(element.kind, PAGES, SERVERS, ACTIONS, LINKS)
+        expect(fnOrNot(obj, element.key_symbol, ...element.params_shortened), element.name).toBe(
+          element.results,
+        )
       })
 
       //
       it('format route(path)', async () => {
-        let { route } = await import(generated_file_routePath)
-        expect(route(element.key_path, element.params), `Name: ${element.name}, i: ${i}`).toBe(
+        let { route } = await import(getPathROUTES(runs[2].pathFile))
+        expect(route(element.key_path, ...element.params), element.name).toBe(element.results)
+      })
+      // SHORTENED
+      it('format route(path) shortened', async () => {
+        let { route } = await import(getPathROUTES(getToRunShortened(runs[2]).pathFile))
+        expect(route(element.key_path, ...element.params_shortened), element.name).toBe(
           element.results,
         )
       })
 
       //
       it('format route(symbol)', async () => {
-        let { route } = await import(generated_file_routeSymbol)
-        expect(route(element.key_symbol, element.params), `Name: ${element.name}, i: ${i}`).toBe(
+        let { route } = await import(getPathROUTES(runs[3].pathFile))
+        expect(route(element.key_symbol, ...element.params), element.name).toBe(element.results)
+      })
+      // SHORTENED
+      it('format route(symbol) shortened', async () => {
+        let { route } = await import(getPathROUTES(getToRunShortened(runs[3]).pathFile))
+        expect(route(element.key_symbol, ...element.params_shortened), element.name).toBe(
           element.results,
         )
       })
 
       //
       it('format variables', async () => {
-        let vars = await import(generated_file_variables)
+        let vars = await import(getPathROUTES(runs[4].pathFile))
         if (element.results === '/') {
-          expect(vars.PAGE__ROOT, `Name: ${element.name}, i: ${i}`).toBe(element.results)
+          nbVariablesDone++
+          expect(vars.PAGE__ROOT, element.name).toBe(element.results)
+        } else if (element.results === '/contract/abc') {
+          nbVariablesDone++
+          expect(vars.PAGE_contract_id({ id: 'abc' }), element.name).toBe(element.results)
         } else if (element.results === '/fr/site/Paris') {
-          expect(vars.PAGE_site_id({ id: 'Paris' }), `Name: ${element.name}, i: ${i}`).toBe(
+          nbVariablesDone++
+          expect(vars.PAGE_site_id({ id: 'Paris' }), element.name).toBe(element.results)
+        } else if (element.results === '/main') {
+          nbVariablesDone++
+          expect(vars.PAGE_main(), element.name).toBe(element.results)
+        } else if (element.results === '/contract?yop=hello') {
+          nbVariablesDone++
+          expect(vars.PAGE_contract({}, { yop: 'hello' }), element.name).toBe(element.results)
+        } else if (element.results === 'https:/twitter.com/jycouet') {
+          nbVariablesDone++
+          expect(vars.LINK_twitter, element.name).toBe(element.results)
+        } else if (element.results === '/fr/site_contract/Paris-abc?limit=2') {
+          nbVariablesDone++
+          expect(vars.PAGE_site_contract_siteId_contractId(...element.params), element.name).toBe(
             element.results,
           )
         }
       })
+      // SHORTENED
+      it('format variables shortened', async () => {
+        let vars = await import(getPathROUTES(getToRunShortened(runs[4]).pathFile))
+        if (element.results === '/') {
+          nbVariablesShortenedDone++
+          expect(vars.PAGE__ROOT, element.name).toBe(element.results)
+        } else if (element.results === '/contract/abc') {
+          nbVariablesShortenedDone++
+          expect(vars.PAGE_contract_id('abc'), element.name).toBe(element.results)
+        } else if (element.results === '/fr/site/Paris') {
+          nbVariablesShortenedDone++
+          expect(vars.PAGE_site_id({ id: 'Paris' }), element.name).toBe(element.results)
+        } else if (element.results === '/main') {
+          nbVariablesShortenedDone++
+          expect(vars.PAGE_main(), element.name).toBe(element.results)
+        } else if (element.results === '/contract?yop=hello') {
+          nbVariablesShortenedDone++
+          expect(vars.PAGE_contract({}, { yop: 'hello' }), element.name).toBe(element.results)
+        } else if (element.results === 'https:/twitter.com/jycouet') {
+          nbVariablesShortenedDone++
+          expect(vars.LINK_twitter, element.name).toBe(element.results)
+        } else if (element.results === '/fr/site_contract/Paris-abc?limit=2') {
+          nbVariablesShortenedDone++
+          expect(
+            vars.PAGE_site_contract_siteId_contractId(...element.params_shortened),
+            element.name,
+          ).toBe(element.results)
+        }
+      })
     })
   }
+
+  it('Check That all "variables" were done !', () => {
+    expect(nbVariablesDone, 'not shortened').toBe(table.length)
+    expect(nbVariablesShortenedDone, 'shortened').toBe(table.length)
+  })
 
   it('post_update_run', () => {
     const generated_file_path = 'src/test/ROUTES_post-update.ts'

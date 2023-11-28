@@ -62,9 +62,9 @@
   </li>
   <li>
     <a href={PAGES.match_id_int({ lang: $page.params.lang, id: 1 })}>match int 1</a>
-  </li>
-  <li>
-    <a href={PAGES.match_id_int({ lang: $page.params.lang, id: 'a' })}>match int a (expect 404)</a>
+    <!--
+      We can't do this because the type is not good
+      <a href={PAGES.match_id_int({ lang: $page.params.lang, id: 'a' })}>match int a (expect 404)</a> -->
   </li>
   <li>
     <a href={PAGES.gp_one({ lang: $page.params.lang })}>gp One</a>
