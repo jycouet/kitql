@@ -1,5 +1,12 @@
 # create-kitql
 
+## 0.0.4-next.1
+
+### Patch Changes
+
+- [`5bda54c`](https://github.com/jycouet/kitql/commit/5bda54c177c1ee389d9ab4251979bd8904bb428a)
+  Thanks [@jycouet](https://github.com/jycouet)! - bump to .3 exp with 10 formats of Kit Routes
+
 ## 0.0.4-next.0
 
 ### Patch Changes
