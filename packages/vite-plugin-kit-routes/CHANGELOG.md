@@ -1,5 +1,12 @@
 # vite-plugin-kit-routes
 
+## 0.2.0-next.3
+
+### Patch Changes
+
+- [`47abb03`](https://github.com/jycouet/kitql/commit/47abb0398df655636335e25ed9abbdce9ae1265a)
+  Thanks [@jycouet](https://github.com/jycouet)! - fix generate route function
+
 ## 0.2.0-next.2
 
 ### Patch Changes
