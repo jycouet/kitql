@@ -520,7 +520,7 @@ describe('run()', async () => {
     {
       name: 'direct link',
       kind: 'LINKS',
-      results: 'https:/twitter.com/jycouet',
+      results: 'https://twitter.com/jycouet',
       key_path: 'twitter',
       key_symbol: 'twitter',
       params: [],
@@ -615,7 +615,7 @@ describe('run()', async () => {
         } else if (element.results === '/contract?yop=hello') {
           nbVariablesDone++
           expect(vars.PAGE_contract({}, { yop: 'hello' }), element.name).toBe(element.results)
-        } else if (element.results === 'https:/twitter.com/jycouet') {
+        } else if (element.results === 'https://twitter.com/jycouet') {
           nbVariablesDone++
           expect(vars.LINK_twitter, element.name).toBe(element.results)
         } else if (element.results === '/fr/site_contract/Paris-abc?limit=2') {
@@ -643,7 +643,7 @@ describe('run()', async () => {
         } else if (element.results === '/contract?yop=hello') {
           nbVariablesShortenedDone++
           expect(vars.PAGE_contract({}, { yop: 'hello' }), element.name).toBe(element.results)
-        } else if (element.results === 'https:/twitter.com/jycouet') {
+        } else if (element.results === 'https://twitter.com/jycouet') {
           nbVariablesShortenedDone++
           expect(vars.LINK_twitter, element.name).toBe(element.results)
         } else if (element.results === '/fr/site_contract/Paris-abc?limit=2') {

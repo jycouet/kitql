@@ -97,14 +97,14 @@ const ACTIONS = {
  * LINKS
  */
 const LINKS = {
-  "twitter": `https:/twitter.com/jycouet`,
+  "twitter": `https://twitter.com/jycouet`,
   "twitter_post": (params: { name: (string | number), id: (string | number) }) => {
-    return `https:/twitter.com/${params.name}/status/${params.id}`
+    return `https://twitter.com/${params.name}/status/${params.id}`
   },
   "gravatar": (params: { str: (string | number), s?: (number), d?: ("retro" | "identicon") }) => {
     params.s = params.s ?? 75; 
     params.d = params.d ?? "identicon"; 
-    return `https:/www.gravatar.com/avatar/${params.str}${appendSp({ s: params?.s, d: params?.d })}`
+    return `https://www.gravatar.com/avatar/${params.str}${appendSp({ s: params?.s, d: params?.d })}`
   }
 }
 
@@ -143,7 +143,7 @@ type AllTypes = typeof AllObjs
 export function route<T extends FunctionKeys<AllTypes>>(key: T, ...params: FunctionParams<AllTypes[T]>): string
 export function route<T extends NonFunctionKeys<AllTypes>>(key: T): string
 export function route<T extends keyof AllTypes>(key: T, ...params: any[]): string {
-  if (AllObjs[key] instanceof Function) {
+  if (AllObjs[key] as any instanceof Function) {
     const element = (AllObjs as any)[key] as (...args: any[]) => string
     return element(...params)
   } else {
