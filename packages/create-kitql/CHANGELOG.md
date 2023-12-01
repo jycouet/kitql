@@ -1,5 +1,19 @@
 # create-kitql
 
+## 0.0.4
+
+### Patch Changes
+
+- [#517](https://github.com/jycouet/kitql/pull/517)
+  [`e1dd657`](https://github.com/jycouet/kitql/commit/e1dd65716a6b93117648208662a7f7dd9b1ce2a1)
+  Thanks [@jycouet](https://github.com/jycouet)! - fix windows copy/paste
+
+- [`592a2fe`](https://github.com/jycouet/kitql/commit/592a2fe2e620a6f1a93a02de7213dc7b88267f43)
+  Thanks [@jycouet](https://github.com/jycouet)! - update create for kit-routes
+
+- [`5bda54c`](https://github.com/jycouet/kitql/commit/5bda54c177c1ee389d9ab4251979bd8904bb428a)
+  Thanks [@jycouet](https://github.com/jycouet)! - bump to .3 exp with 10 formats of Kit Routes
+
 ## 0.0.4-next.2
 
 ### Patch Changes
