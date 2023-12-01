@@ -31,7 +31,7 @@ export const PAGE_match_id_int = (params: { id: (number), lang?: ('fr' | 'en' | 
   return `${params?.lang ? `/${params?.lang}`: ''}/match/${params.id}` 
 }
 export const PAGE_site = (params?: { lang?: ('fr' | 'en' | 'hu' | 'at' | string), limit?: (number) }, sp?: Record<string, string | number>) => {
-  return `${params?.lang ? `/${params?.lang}`: ''}/site${appendSp({ limit: params?.limit, ...sp })}` 
+  return `${params?.lang ? `/${params?.lang}`: ''}/site${appendSp({ ...sp, limit: params?.limit })}` 
 }
 export const PAGE_site_id = (params?: { lang?: ('fr' | 'hu' | undefined), id?: (string), limit?: (number), demo?: (string) }) => {
   params = params ?? {}

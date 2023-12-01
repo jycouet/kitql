@@ -902,7 +902,7 @@ function theEnd(
           )}`,
       )
       let confgPoints = stry0(Object.entries(options ?? {}))!.length
-      const shortV = options.shorten_args_if_one_required ? ' s' : ''
+      const shortV = options.shorten_args_if_one_required ? ' short' : ''
 
       stats.push(`Points: ${yellow('' + confgPoints)}`)
       const score = (confgPoints / nbRoutes).toFixed(2)
