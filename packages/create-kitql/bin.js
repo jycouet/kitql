@@ -5,14 +5,13 @@ import { program, Option } from 'commander'
 import fs from 'fs'
 import path from 'path'
 import { exit } from 'process'
-import { fileURLToPath } from 'url'
 
 const { version } = JSON.parse(fs.readFileSync(new URL('package.json', import.meta.url), 'utf-8'))
 // eslint-disable-next-line no-console
 console.log(`${gray(`create-kitql version ${version}`)}\n`)
 
 // prepare options
-const templatesDir = sourcePath(`./templates`)
+const templatesDir = `./templates`
 const options = fs
   .readdirSync(templatesDir)
   .map(templateDir => {
@@ -116,7 +115,7 @@ if (!templateMeta) {
 }
 
 copy(
-  sourcePath(path.join(templatesDir, template)),
+  path.join(templatesDir, template),
   projectDir,
   {
     // replace the project name in the template, in the template it should follow this format be be replaced
@@ -189,10 +188,6 @@ function copy(
       }
     }
   }
-}
-
-function sourcePath(/** @type {string} */ path) {
-  return fileURLToPath(new URL(path, import.meta.url).href)
 }
 
 // function pCancel(cancelText = 'Operation cancelled.') {
