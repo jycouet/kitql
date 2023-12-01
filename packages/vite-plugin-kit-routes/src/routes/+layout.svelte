@@ -80,6 +80,9 @@
     <a href={PAGES.lay_root_layout}>Layout Root</a> |
     <a href={PAGES.lay_skip}>Layout Skip</a>
   </li>
+  <li>
+    <a href={PAGES.sp()}>Search Params</a>
+  </li>
 </ul>
 
 <hr />

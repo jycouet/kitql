@@ -70,6 +70,9 @@ export const PAGES = {
   lay_normal: `/lay/normal`,
   lay_root_layout: `/lay/root-layout`,
   lay_skip: `/lay/skip`,
+  sp: (sp?: Record<string, string | number>) => {
+    return `/sp${appendSp(sp)}`
+  },
 }
 
 /**
@@ -168,6 +171,23 @@ const appendSp = (sp?: Record<string, string | number | undefined>, prefix: '?' 
 }
 
 /**
+ * get the current search params
+ *
+ * Could be use like this:
+ * ```
+ * route("/cities", { page: 2 }, { ...currentSP() })
+ * ```
+ */
+export const currentSp = () => {
+  const params = new URLSearchParams(window.location.search)
+  const record: Record<string, string> = {}
+  for (const [key, value] of params.entries()) {
+    record[key] = value
+  }
+  return record
+}
+
+/**
  * Add this type as a generic of the vite plugin `kitRoutes<KIT_ROUTES>`.
  *
  * Full example:
@@ -200,6 +220,7 @@ export type KIT_ROUTES = {
     lay_normal: never
     lay_root_layout: never
     lay_skip: never
+    sp: never
   }
   SERVERS: {
     GET_contract: 'lang'

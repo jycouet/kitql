@@ -111,6 +111,23 @@ const appendSp = (sp?: Record<string, string | number | undefined>, prefix: '?' 
   return ''
 }
 
+/**
+ * get the current search params
+ * 
+ * Could be use like this:
+ * ```
+ * route("/cities", { page: 2 }, { ...currentSP() })
+ * ```
+ */ 
+export const currentSp = () => {
+  const params = new URLSearchParams(window.location.search)
+  const record: Record<string, string> = {}
+  for (const [key, value] of params.entries()) {
+    record[key] = value
+  }
+  return record
+}
+
 // route function helpers
 type NonFunctionKeys<T> = { [K in keyof T]: T[K] extends Function ? never : K }[keyof T]
 type FunctionKeys<T> = { [K in keyof T]: T[K] extends Function ? K : never }[keyof T]
