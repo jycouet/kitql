@@ -537,9 +537,10 @@ export function buildMetadata(
     fullSP = `\${appendSp(sp${appendSpPrefix})}`
   } else if (wExtraSP && customConf.explicit_search_params) {
     params.push(`sp?: Record<string, string | number>`)
+    // We want explicite to be stronger and override sp
     fullSP =
-      `\${appendSp({ ${explicit_search_params_to_function.join(', ')}` +
-      `, ...sp }${appendSpPrefix})}`
+      `\${appendSp({ ...sp, ${explicit_search_params_to_function.join(', ')}` +
+      ` }${appendSpPrefix})}`
   } else if (!wExtraSP && customConf.explicit_search_params) {
     fullSP = `\${appendSp({ ${explicit_search_params_to_function.join(', ')} }${appendSpPrefix})}`
   }

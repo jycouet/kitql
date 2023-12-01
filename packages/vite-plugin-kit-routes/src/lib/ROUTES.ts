@@ -36,8 +36,8 @@ export const PAGES = {
     sp?: Record<string, string | number>,
   ) => {
     return `${params?.lang ? `/${params?.lang}` : ''}/site${appendSp({
-      limit: params?.limit,
       ...sp,
+      limit: params?.limit,
     })}`
   },
   site_id: (params?: {
