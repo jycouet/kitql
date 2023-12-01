@@ -372,7 +372,7 @@ describe('run()', async () => {
     return {
       ...info,
       pathFile: `${info.pathFile}_shortened`,
-      extra: { ...info.extra, shorten_args_if_one_required: true },
+      extra: { ...info.extra, format_short: true },
     }
   }
 

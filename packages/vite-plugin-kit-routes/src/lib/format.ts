@@ -33,6 +33,23 @@ const appendSp = (sp?: Record<string, string | number | undefined>, prefix: '?' 
     return \`\${prefix}\${formated}\`
   }
   return ''
+}
+
+/**
+ * get the current search params
+ * 
+ * Could be use like this:
+ * \`\`\`
+ * route("/cities", { page: 2 }, { ...currentSP() })
+ * \`\`\`
+ */ 
+export const currentSp = () => {
+  const params = new URLSearchParams(window.location.search)
+  const record: Record<string, string> = {}
+  for (const [key, value] of params.entries()) {
+    record[key] = value
+  }
+  return record
 }`
 
 export const routeFn = `// route function helpers

@@ -1,7 +1,7 @@
 <script lang="ts">
   import { enhance } from '$app/forms'
   import { page } from '$app/stores'
-  import { ACTIONS } from '$lib/ROUTES.js'
+  import { route } from '$lib/ROUTES.js'
 
   export let form: FormData
 
@@ -12,7 +12,7 @@
   // const action =  `/en/site_contract/${siteId}-${contractId}?/send`
 
   // ✅ after, typechecked route, no more errors
-  const action = ACTIONS.send_site_contract_siteId_contractId({
+  const action = route('send /site_contract/[siteId]-[contractId]', {
     lang: $page.params.lang,
     siteId,
     contractId,

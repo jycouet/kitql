@@ -29,17 +29,30 @@ export type Options<T extends ExtendTypes = ExtendTypes> = {
   post_update_run?: string
 
   /**
-   * by default, everything is logged. If you want to remove some, add them in the array.
-   *
-   * `update` when the file is updated
-   *
-   * `post_update_run` to log the command you run
-   *
-   * `errors` in case you have some!
-   *
-   * `stats` to have some stats about your routes & co 🥳
+   * Tune your logs to get exaclty what you want.
    */
-  exclude_logs?: LogKind[]
+  logs?: {
+    /**
+     * When the file is updated
+     * @default true
+     */
+    update?: boolean
+    /**
+     * to log the command you run
+     * @default true
+     */
+    post_update_run?: boolean
+    /**
+     * in case you have some!
+     * @default true
+     */
+    errors?: boolean
+    /**
+     * to have some stats about your routes & co 🥳
+     * @default false
+     */
+    stats?: boolean
+  }
 
   /**
    * @default 'src/lib/ROUTES.ts'
@@ -79,7 +92,7 @@ export type Options<T extends ExtendTypes = ExtendTypes> = {
    * PAGES.site_id(7)             // format: object[symbol]
    * ```
    */
-  shorten_args_if_one_required?: boolean
+  format_short?: boolean
 
   /**
    * default is: `string | number`
@@ -505,10 +518,13 @@ export function buildMetadata(
     })
   }
 
-  const isAllOptional = paramsFromPath.filter(c => !c.optional).length === 0
+  let isAllOptional = paramsFromPath.filter(c => !c.optional).length === 0
   if (paramsFromPath.length > 0) {
     const paramsReq = paramsFromPath.filter(c => !c.optional)
-    if (options.shorten_args_if_one_required && paramsReq.length === 1) {
+    if (options.format_short && paramsReq.length === 1) {
+      // If only ONE required param, and we have only one, then let's put params optional
+      isAllOptional = true
+
       params.push(formatArg(paramsReq[0], options))
 
       // If it's in the explicite and it's THIS one, let's change the array...
@@ -537,9 +553,10 @@ export function buildMetadata(
     fullSP = `\${appendSp(sp${appendSpPrefix})}`
   } else if (wExtraSP && customConf.explicit_search_params) {
     params.push(`sp?: Record<string, string | number>`)
+    // We want explicite to be stronger and override sp
     fullSP =
-      `\${appendSp({ ${explicit_search_params_to_function.join(', ')}` +
-      `, ...sp }${appendSpPrefix})}`
+      `\${appendSp({ ...sp, ${explicit_search_params_to_function.join(', ')}` +
+      ` }${appendSpPrefix})}`
   } else if (!wExtraSP && customConf.explicit_search_params) {
     fullSP = `\${appendSp({ ${explicit_search_params_to_function.join(', ')} }${appendSpPrefix})}`
   }
@@ -606,7 +623,7 @@ export function extractParamsFromPath(path: string): Param[] {
 const formatArgs = (params: Param[], o: Options) => {
   const options = getDefaultOption(o)
   const paramsReq = params.filter(c => !c.optional)
-  if (options.shorten_args_if_one_required && paramsReq.length === 1) {
+  if (options.format_short && paramsReq.length === 1) {
     params = params.filter(c => c.optional)
   }
 
@@ -650,15 +667,28 @@ const formatArg = (c: Param, o: Options) => {
 const shouldLog = (kind: LogKind, o: Options) => {
   const options = getDefaultOption(o)
 
-  if (options.exclude_logs?.includes(kind)) {
-    return false
+  if (options.logs.update && kind === 'update') {
+    return true
+  } else if (options.logs.post_update_run && kind === 'post_update_run') {
+    return true
+  } else if (options.logs.errors && kind === 'errors') {
+    return true
+  } else if (options.logs.stats && kind === 'stats') {
+    return true
   }
-  return true
+  return false
 }
 
 export const getDefaultOption = (o?: Options) => {
   const options = {
     ...o,
+    logs: {
+      update: true,
+      post_update_run: true,
+      errors: true,
+      stats: false,
+      ...o?.logs,
+    },
     format: o?.format ?? 'route(path)',
     generated_file_path: o?.generated_file_path ?? 'src/lib/ROUTES.ts',
   }
@@ -901,7 +931,7 @@ function theEnd(
           )}`,
       )
       let confgPoints = stry0(Object.entries(options ?? {}))!.length
-      const shortV = options.shorten_args_if_one_required ? ' s' : ''
+      const shortV = options.format_short ? ' short' : ''
 
       stats.push(`Points: ${yellow('' + confgPoints)}`)
       const score = (confgPoints / nbRoutes).toFixed(2)

@@ -14,9 +14,8 @@ export default defineConfig({
     // demo
     kitRoutes<KIT_ROUTES>({
       // format: '_',
-      format: 'object[symbol]',
-      // shorten_args_if_one_required: true,
-      // exclude_logs: ['update', 'errors', 'stats', 'post_update_run'],
+      // format: 'object[symbol]',
+      // format_short: true,
       // path_base: true,
       // default_type: 'string',
       // extra_search_params: 'with',
@@ -24,33 +23,36 @@ export default defineConfig({
       post_update_run: 'npm exec prettier ./src/lib/ROUTES.ts -- -w',
 
       PAGES: {
-        subGroup2: {
+        '/sp': {
+          extra_search_params: 'with',
+        },
+        '/subGroup2': {
           explicit_search_params: {
             first: {
               required: true,
             },
           },
         },
-        site: {
+        '/site': {
           extra_search_params: 'with',
           explicit_search_params: { limit: { type: 'number' } },
           params: {
             // yop: { type: 'number' },
           },
         },
-        site_id: {
+        '/site/[id]': {
           explicit_search_params: { limit: { type: 'number' }, demo: { type: 'string' } },
           params: {
             id: { type: 'string', default: '"Vienna"' },
             lang: { type: "'fr' | 'hu' | undefined", default: '"fr"' },
           },
         },
-        match_id_int: {
+        '/match/[id=int]': {
           params: {
             id: { type: 'number' },
           },
         },
-        site_contract_siteId_contractId: {
+        '/site_contract/[siteId]-[contractId]': {
           explicit_search_params: { limit: { type: 'number' } },
         },
       },
@@ -61,17 +63,17 @@ export default defineConfig({
         // yop: {},
       },
       ACTIONS: {
-        default_contract_id: {
+        'default /contract/[id]': {
           explicit_search_params: {
             limit: { type: 'number' },
           },
         },
-        send_site_contract_siteId_contractId: {
+        'send /site_contract/[siteId]-[contractId]': {
           explicit_search_params: {
             extra: { type: "'A' | 'B'", default: '"A"' },
           },
         },
-        create_site: {
+        'create /site': {
           explicit_search_params: {
             redirectTo: { type: '"list" | "new" | "detail"' },
           },
