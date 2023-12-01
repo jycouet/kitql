@@ -79,7 +79,7 @@ export type Options<T extends ExtendTypes = ExtendTypes> = {
    * PAGES.site_id(7)             // format: object[symbol]
    * ```
    */
-  shorten_args_if_one_required?: boolean
+  format_short?: boolean
 
   /**
    * default is: `string | number`
@@ -508,7 +508,7 @@ export function buildMetadata(
   const isAllOptional = paramsFromPath.filter(c => !c.optional).length === 0
   if (paramsFromPath.length > 0) {
     const paramsReq = paramsFromPath.filter(c => !c.optional)
-    if (options.shorten_args_if_one_required && paramsReq.length === 1) {
+    if (options.format_short && paramsReq.length === 1) {
       params.push(formatArg(paramsReq[0], options))
 
       // If it's in the explicite and it's THIS one, let's change the array...
@@ -607,7 +607,7 @@ export function extractParamsFromPath(path: string): Param[] {
 const formatArgs = (params: Param[], o: Options) => {
   const options = getDefaultOption(o)
   const paramsReq = params.filter(c => !c.optional)
-  if (options.shorten_args_if_one_required && paramsReq.length === 1) {
+  if (options.format_short && paramsReq.length === 1) {
     params = params.filter(c => c.optional)
   }
 
@@ -902,7 +902,7 @@ function theEnd(
           )}`,
       )
       let confgPoints = stry0(Object.entries(options ?? {}))!.length
-      const shortV = options.shorten_args_if_one_required ? ' short' : ''
+      const shortV = options.format_short ? ' short' : ''
 
       stats.push(`Points: ${yellow('' + confgPoints)}`)
       const score = (confgPoints / nbRoutes).toFixed(2)
