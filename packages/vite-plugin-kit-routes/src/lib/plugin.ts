@@ -913,48 +913,6 @@ function theEnd(
       log.success(`${yellow(options.generated_file_path)} updated`)
     }
 
-    if (atStart && shouldLog('stats', options)) {
-      let version = ''
-      try {
-        const pkg = JSON.parse(read('./package.json') ?? '{}')
-        version =
-          pkg.devDependencies['vite-plugin-kit-routes'] ??
-          pkg.dependencies['vite-plugin-kit-routes'] ??
-          ''
-      } catch (error) {}
-      const stats = []
-      let nbRoutes = objTypes.flatMap(c => c.files).length
-      stats.push(
-        `Routes: ${yellow('' + nbRoutes)} ` +
-          `${italic(
-            `(${objTypes.map(c => `${c.type}: ${yellow('' + c.files.length)}`).join(', ')})`,
-          )}`,
-      )
-      let confgPoints = stry0(Object.entries(options ?? {}))!.length
-      const shortV = options.format_short ? ' short' : ''
-
-      stats.push(`Points: ${yellow('' + confgPoints)}`)
-      const score = (confgPoints / nbRoutes).toFixed(2)
-      stats.push(`Score: ${yellow(score)}`)
-      stats.push(`Format: "${yellow('' + options?.format + shortV)}"`)
-
-      log.success(`${green('Stats:')} ${stats.join(' | ')}`)
-      log.info(
-        `${gray(' Share on TwiX:')} ${cyan(
-          `https://twitter.com/intent/tweet?text=` +
-            `${encodeURI(`🚀 Check out my `)}%23${encodeURI(
-              `KitRoutes stats 🚀\n\n` +
-                `- Routes: ${nbRoutes} (${objTypes.map(c => c.files.length).join(', ')})\n` +
-                `- Points: ${confgPoints}\n` +
-                `- Score: ${score}\n` +
-                `- Format: "${options?.format}${shortV}"\n` +
-                `- Version: ${version}\n\n` +
-                `👀 @jycouet`,
-            )}`,
-        )}`,
-      )
-    }
-
     // TODO later
     // log.info(
     //   `⚠️ Warning ${yellow(`href="/about"`)} detected ` +
@@ -966,6 +924,48 @@ function theEnd(
     //     `in ${gray('/routes/card/+page.svelte')} is not safe. ` +
     //     `You could use: ${green(`href={ACTION['/card']('save')}`)}`,
     // )
+  }
+
+  if (atStart && shouldLog('stats', options)) {
+    let version = ''
+    try {
+      const pkg = JSON.parse(read('./package.json') ?? '{}')
+      version =
+        pkg.devDependencies['vite-plugin-kit-routes'] ??
+        pkg.dependencies['vite-plugin-kit-routes'] ??
+        ''
+    } catch (error) {}
+    const stats = []
+    let nbRoutes = objTypes.flatMap(c => c.files).length
+    stats.push(
+      `Routes: ${yellow('' + nbRoutes)} ` +
+        `${italic(
+          `(${objTypes.map(c => `${c.type}: ${yellow('' + c.files.length)}`).join(', ')})`,
+        )}`,
+    )
+    let confgPoints = stry0(Object.entries(options ?? {}))!.length
+    const shortV = options.format_short ? ' short' : ''
+
+    stats.push(`Points: ${yellow('' + confgPoints)}`)
+    const score = (confgPoints / nbRoutes).toFixed(2)
+    stats.push(`Score: ${yellow(score)}`)
+    stats.push(`Format: "${yellow('' + options?.format + shortV)}"`)
+
+    log.success(`${green('Stats:')} ${stats.join(' | ')}`)
+    log.info(
+      `${gray(' Share on TwiX:')} ${cyan(
+        `https://twitter.com/intent/tweet?text=` +
+          `${encodeURI(`🚀 Check out my `)}%23${encodeURI(
+            `KitRoutes stats 🚀\n\n` +
+              `- Routes: ${nbRoutes} (${objTypes.map(c => c.files.length).join(', ')})\n` +
+              `- Points: ${confgPoints}\n` +
+              `- Score: ${score}\n` +
+              `- Format: "${options?.format}${shortV}"\n` +
+              `- Version: ${version}\n\n` +
+              `👀 @jycouet`,
+          )}`,
+      )}`,
+    )
   }
 }
 

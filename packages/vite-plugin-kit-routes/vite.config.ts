@@ -13,9 +13,11 @@ export default defineConfig({
     sveltekit(),
     // demo
     kitRoutes<KIT_ROUTES>({
-      // format: '_',
       // format: 'object[symbol]',
       // format_short: true,
+      logs: {
+        stats: true,
+      },
       // path_base: true,
       // default_type: 'string',
       // extra_search_params: 'with',
