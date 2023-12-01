@@ -27,15 +27,15 @@ const ACTIONS = {};
  * LINKS
  */
 const LINKS = {
-	twitter: `https:/twitter.com/jycouet`,
-	github: `https:/github.com/jycouet/kitql`,
+	twitter: `https://twitter.com/jycouet`,
+	github: `https://github.com/jycouet/kitql`,
 	github_avatar: (params: { author: string | number }) => {
-		return `https:/avatars.githubusercontent.com/${params.author}`;
+		return `https://avatars.githubusercontent.com/${params.author}`;
 	},
 	gravatar: (params: { str: string | number; s?: number; d?: 'retro' | 'identicon' }) => {
 		params.s = params.s ?? 75;
 		params.d = params.d ?? 'identicon';
-		return `https:/www.gravatar.com/avatar/${params.str}${appendSp({
+		return `https://www.gravatar.com/avatar/${params.str}${appendSp({
 			s: params?.s,
 			d: params?.d
 		})}`;
@@ -56,6 +56,23 @@ const appendSp = (sp?: Record<string, string | number | undefined>, prefix: '?' 
 		return `${prefix}${formated}`;
 	}
 	return '';
+};
+
+/**
+ * get the current search params
+ *
+ * Could be use like this:
+ * ```
+ * route("/cities", { page: 2 }, { ...currentSP() })
+ * ```
+ */
+export const currentSp = () => {
+	const params = new URLSearchParams(window.location.search);
+	const record: Record<string, string> = {};
+	for (const [key, value] of params.entries()) {
+		record[key] = value;
+	}
+	return record;
 };
 
 // route function helpers
