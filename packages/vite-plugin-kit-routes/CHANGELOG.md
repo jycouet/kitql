@@ -1,5 +1,31 @@
 # vite-plugin-kit-routes
 
+## 0.2.0-next.5
+
+### Patch Changes
+
+- [#517](https://github.com/jycouet/kitql/pull/517)
+  [`e1dd657`](https://github.com/jycouet/kitql/commit/e1dd65716a6b93117648208662a7f7dd9b1ce2a1)
+  Thanks [@jycouet](https://github.com/jycouet)! - in format_short, recalculate optionality of
+  params
+
+- [#517](https://github.com/jycouet/kitql/pull/517)
+  [`e1dd657`](https://github.com/jycouet/kitql/commit/e1dd65716a6b93117648208662a7f7dd9b1ce2a1)
+  Thanks [@jycouet](https://github.com/jycouet)! - add util currentSp() function
+
+- [#517](https://github.com/jycouet/kitql/pull/517)
+  [`e1dd657`](https://github.com/jycouet/kitql/commit/e1dd65716a6b93117648208662a7f7dd9b1ce2a1)
+  Thanks [@jycouet](https://github.com/jycouet)! - update logs params (with no stats by default)
+
+- [#517](https://github.com/jycouet/kitql/pull/517)
+  [`e1dd657`](https://github.com/jycouet/kitql/commit/e1dd65716a6b93117648208662a7f7dd9b1ce2a1)
+  Thanks [@jycouet](https://github.com/jycouet)! - rename shorten_args_if_one_required to
+  format_short
+
+- [#517](https://github.com/jycouet/kitql/pull/517)
+  [`e1dd657`](https://github.com/jycouet/kitql/commit/e1dd65716a6b93117648208662a7f7dd9b1ce2a1)
+  Thanks [@jycouet](https://github.com/jycouet)! - explicit params has now a higher priority than sp
+
 ## 0.2.0-next.4
 
 ### Patch Changes

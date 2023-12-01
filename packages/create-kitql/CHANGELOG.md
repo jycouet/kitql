@@ -1,5 +1,13 @@
 # create-kitql
 
+## 0.0.4-next.2
+
+### Patch Changes
+
+- [#517](https://github.com/jycouet/kitql/pull/517)
+  [`e1dd657`](https://github.com/jycouet/kitql/commit/e1dd65716a6b93117648208662a7f7dd9b1ce2a1)
+  Thanks [@jycouet](https://github.com/jycouet)! - fix windows copy/paste
+
 ## 0.0.4-next.1
 
 ### Patch Changes
