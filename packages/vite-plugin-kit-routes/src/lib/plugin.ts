@@ -505,10 +505,13 @@ export function buildMetadata(
     })
   }
 
-  const isAllOptional = paramsFromPath.filter(c => !c.optional).length === 0
+  let isAllOptional = paramsFromPath.filter(c => !c.optional).length === 0
   if (paramsFromPath.length > 0) {
     const paramsReq = paramsFromPath.filter(c => !c.optional)
     if (options.format_short && paramsReq.length === 1) {
+      // If only ONE required param, and we have only one, then let's put params optional
+      isAllOptional = true
+
       params.push(formatArg(paramsReq[0], options))
 
       // If it's in the explicite and it's THIS one, let's change the array...

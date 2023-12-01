@@ -10,13 +10,13 @@
 const PAGES = {
   "_ROOT": `/`,
   "subGroup": `/subGroup`,
-  "subGroup2": (first: (string | number), params: {  }) => {
+  "subGroup2": (first: (string | number), params?: {  }) => {
     return `/subGroup2${appendSp({ first })}`
   },
   "contract": (params?: { lang?: ('fr' | 'en' | 'hu' | 'at' | string) }, sp?: Record<string, string | number>) => {
     return `${params?.lang ? `/${params?.lang}`: ''}/contract${appendSp(sp)}`
   },
-  "contract_id": (id: (string | number), params: { lang?: ('fr' | 'en' | 'hu' | 'at' | string) }) => {
+  "contract_id": (id: (string | number), params?: { lang?: ('fr' | 'en' | 'hu' | 'at' | string) }) => {
     return `${params?.lang ? `/${params?.lang}`: ''}/contract/${id}`
   },
   "gp_one": (params?: { lang?: ('fr' | 'en' | 'hu' | 'at' | string) }) => {
@@ -28,7 +28,7 @@ const PAGES = {
   "main": (params?: { lang?: ('fr' | 'en' | 'hu' | 'at' | string) }) => {
     return `${params?.lang ? `/${params?.lang}`: ''}/main`
   },
-  "match_id_int": (id: (number), params: { lang?: ('fr' | 'en' | 'hu' | 'at' | string) }) => {
+  "match_id_int": (id: (number), params?: { lang?: ('fr' | 'en' | 'hu' | 'at' | string) }) => {
     return `${params?.lang ? `/${params?.lang}`: ''}/match/${id}`
   },
   "site": (params?: { lang?: ('fr' | 'en' | 'hu' | 'at' | string), limit?: (number) }, sp?: Record<string, string | number>) => {
@@ -43,7 +43,7 @@ const PAGES = {
   "site_contract_siteId_contractId": (params: { siteId: (string | number), contractId: (string | number), lang?: ('fr' | 'en' | 'hu' | 'at' | string), limit?: (number) }) => {
     return `${params?.lang ? `/${params?.lang}`: ''}/site_contract/${params.siteId}-${params.contractId}${appendSp({ limit: params?.limit })}`
   },
-  "a_rest_z": (rest: (string | number)[], params: {  }) => {
+  "a_rest_z": (rest: (string | number)[], params?: {  }) => {
     return `/a/${rest?.join('/')}/z`
   },
   "lay_normal": `/lay/normal`,
@@ -72,16 +72,16 @@ const SERVERS = {
  * ACTIONS
  */
 const ACTIONS = {
-  "default contract_id": (id: (string | number), params: { lang?: ('fr' | 'en' | 'hu' | 'at' | string), limit?: (number) }) => {
+  "default contract_id": (id: (string | number), params?: { lang?: ('fr' | 'en' | 'hu' | 'at' | string), limit?: (number) }) => {
     return `${params?.lang ? `/${params?.lang}`: ''}/contract/${id}${appendSp({ limit: params?.limit })}`
   },
   "create site": (params?: { lang?: ('fr' | 'en' | 'hu' | 'at' | string) }) => {
     return `${params?.lang ? `/${params?.lang}`: ''}/site?/create`
   },
-  "update site_id": (id: (string | number), params: { lang?: ('fr' | 'en' | 'hu' | 'at' | string) }) => {
+  "update site_id": (id: (string | number), params?: { lang?: ('fr' | 'en' | 'hu' | 'at' | string) }) => {
     return `${params?.lang ? `/${params?.lang}`: ''}/site/${id}?/update`
   },
-  "delete site_id": (id: (string | number), params: { lang?: ('fr' | 'en' | 'hu' | 'at' | string) }) => {
+  "delete site_id": (id: (string | number), params?: { lang?: ('fr' | 'en' | 'hu' | 'at' | string) }) => {
     return `${params?.lang ? `/${params?.lang}`: ''}/site/${id}?/delete`
   },
   "noSatisfies site_contract": (params?: { lang?: ('fr' | 'en' | 'hu' | 'at' | string) }) => {
@@ -101,7 +101,8 @@ const LINKS = {
   "twitter_post": (params: { name: (string | number), id: (string | number) }) => {
     return `https://twitter.com/${params.name}/status/${params.id}`
   },
-  "gravatar": (str: (string | number), params: { s?: (number), d?: ("retro" | "identicon") }) => {
+  "gravatar": (str: (string | number), params?: { s?: (number), d?: ("retro" | "identicon") }) => {
+    params = params ?? {}
     params.s = params.s ?? 75; 
     params.d = params.d ?? "identicon"; 
     return `https://www.gravatar.com/avatar/${str}${appendSp({ s: params?.s, d: params?.d })}`

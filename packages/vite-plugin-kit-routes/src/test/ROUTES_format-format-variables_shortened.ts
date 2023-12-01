@@ -9,13 +9,13 @@
  */
 export const PAGE__ROOT = `/`
 export const PAGE_subGroup = `/subGroup`
-export const PAGE_subGroup2 = (first: (string | number), params: {  }) => {
+export const PAGE_subGroup2 = (first: (string | number), params?: {  }) => {
   return `/subGroup2${appendSp({ first })}` 
 }
 export const PAGE_contract = (params?: { lang?: ('fr' | 'en' | 'hu' | 'at' | string) }, sp?: Record<string, string | number>) => {
   return `${params?.lang ? `/${params?.lang}`: ''}/contract${appendSp(sp)}` 
 }
-export const PAGE_contract_id = (id: (string | number), params: { lang?: ('fr' | 'en' | 'hu' | 'at' | string) }) => {
+export const PAGE_contract_id = (id: (string | number), params?: { lang?: ('fr' | 'en' | 'hu' | 'at' | string) }) => {
   return `${params?.lang ? `/${params?.lang}`: ''}/contract/${id}` 
 }
 export const PAGE_gp_one = (params?: { lang?: ('fr' | 'en' | 'hu' | 'at' | string) }) => {
@@ -27,7 +27,7 @@ export const PAGE_gp_two = (params?: { lang?: ('fr' | 'en' | 'hu' | 'at' | strin
 export const PAGE_main = (params?: { lang?: ('fr' | 'en' | 'hu' | 'at' | string) }) => {
   return `${params?.lang ? `/${params?.lang}`: ''}/main` 
 }
-export const PAGE_match_id_int = (id: (number), params: { lang?: ('fr' | 'en' | 'hu' | 'at' | string) }) => {
+export const PAGE_match_id_int = (id: (number), params?: { lang?: ('fr' | 'en' | 'hu' | 'at' | string) }) => {
   return `${params?.lang ? `/${params?.lang}`: ''}/match/${id}` 
 }
 export const PAGE_site = (params?: { lang?: ('fr' | 'en' | 'hu' | 'at' | string), limit?: (number) }, sp?: Record<string, string | number>) => {
@@ -42,7 +42,7 @@ export const PAGE_site_id = (params?: { lang?: ('fr' | 'hu' | undefined), id?: (
 export const PAGE_site_contract_siteId_contractId = (params: { siteId: (string | number), contractId: (string | number), lang?: ('fr' | 'en' | 'hu' | 'at' | string), limit?: (number) }) => {
   return `${params?.lang ? `/${params?.lang}`: ''}/site_contract/${params.siteId}-${params.contractId}${appendSp({ limit: params?.limit })}` 
 }
-export const PAGE_a_rest_z = (rest: (string | number)[], params: {  }) => {
+export const PAGE_a_rest_z = (rest: (string | number)[], params?: {  }) => {
   return `/a/${rest?.join('/')}/z` 
 }
 export const PAGE_lay_normal = `/lay/normal`
@@ -67,16 +67,16 @@ export const SERVER_POST_api_graphql = `/api/graphql`
 /**
  * ACTIONS
  */
-export const ACTION_default_contract_id = (id: (string | number), params: { lang?: ('fr' | 'en' | 'hu' | 'at' | string), limit?: (number) }) => {
+export const ACTION_default_contract_id = (id: (string | number), params?: { lang?: ('fr' | 'en' | 'hu' | 'at' | string), limit?: (number) }) => {
   return `${params?.lang ? `/${params?.lang}`: ''}/contract/${id}${appendSp({ limit: params?.limit })}` 
 }
 export const ACTION_create_site = (params?: { lang?: ('fr' | 'en' | 'hu' | 'at' | string) }) => {
   return `${params?.lang ? `/${params?.lang}`: ''}/site?/create` 
 }
-export const ACTION_update_site_id = (id: (string | number), params: { lang?: ('fr' | 'en' | 'hu' | 'at' | string) }) => {
+export const ACTION_update_site_id = (id: (string | number), params?: { lang?: ('fr' | 'en' | 'hu' | 'at' | string) }) => {
   return `${params?.lang ? `/${params?.lang}`: ''}/site/${id}?/update` 
 }
-export const ACTION_delete_site_id = (id: (string | number), params: { lang?: ('fr' | 'en' | 'hu' | 'at' | string) }) => {
+export const ACTION_delete_site_id = (id: (string | number), params?: { lang?: ('fr' | 'en' | 'hu' | 'at' | string) }) => {
   return `${params?.lang ? `/${params?.lang}`: ''}/site/${id}?/delete` 
 }
 export const ACTION_noSatisfies_site_contract = (params?: { lang?: ('fr' | 'en' | 'hu' | 'at' | string) }) => {
@@ -94,7 +94,8 @@ export const LINK_twitter = `https://twitter.com/jycouet`
 export const LINK_twitter_post = (params: { name: (string | number), id: (string | number) }) => {
   return `https://twitter.com/${params.name}/status/${params.id}` 
 }
-export const LINK_gravatar = (str: (string | number), params: { s?: (number), d?: ("retro" | "identicon") }) => {
+export const LINK_gravatar = (str: (string | number), params?: { s?: (number), d?: ("retro" | "identicon") }) => {
+  params = params ?? {}
   params.s = params.s ?? 75; 
   params.d = params.d ?? "identicon"; 
   return `https://www.gravatar.com/avatar/${str}${appendSp({ s: params?.s, d: params?.d })}` 
