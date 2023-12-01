@@ -1,5 +1,13 @@
 # vite-plugin-kit-routes
 
+## 0.2.1
+
+### Patch Changes
+
+- [`3f511c6`](https://github.com/jycouet/kitql/commit/3f511c6d9b263c643bc503c796407fb28d8959ab)
+  Thanks [@jycouet](https://github.com/jycouet)! - fix: stats are now shown only at start if turned
+  on
+
 ## 0.2.0
 
 ### Minor Changes
