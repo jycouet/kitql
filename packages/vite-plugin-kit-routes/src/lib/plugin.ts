@@ -29,17 +29,30 @@ export type Options<T extends ExtendTypes = ExtendTypes> = {
   post_update_run?: string
 
   /**
-   * by default, everything is logged. If you want to remove some, add them in the array.
-   *
-   * `update` when the file is updated
-   *
-   * `post_update_run` to log the command you run
-   *
-   * `errors` in case you have some!
-   *
-   * `stats` to have some stats about your routes & co 🥳
+   * Tune your logs to get exaclty what you want.
    */
-  exclude_logs?: LogKind[]
+  logs?: {
+    /**
+     * When the file is updated
+     * @default true
+     */
+    update?: boolean
+    /**
+     * to log the command you run
+     * @default true
+     */
+    post_update_run?: boolean
+    /**
+     * in case you have some!
+     * @default true
+     */
+    errors?: boolean
+    /**
+     * to have some stats about your routes & co 🥳
+     * @default false
+     */
+    stats?: boolean
+  }
 
   /**
    * @default 'src/lib/ROUTES.ts'
@@ -654,15 +667,28 @@ const formatArg = (c: Param, o: Options) => {
 const shouldLog = (kind: LogKind, o: Options) => {
   const options = getDefaultOption(o)
 
-  if (options.exclude_logs?.includes(kind)) {
-    return false
+  if (options.logs.update && kind === 'update') {
+    return true
+  } else if (options.logs.post_update_run && kind === 'post_update_run') {
+    return true
+  } else if (options.logs.errors && kind === 'errors') {
+    return true
+  } else if (options.logs.stats && kind === 'stats') {
+    return true
   }
-  return true
+  return false
 }
 
 export const getDefaultOption = (o?: Options) => {
   const options = {
     ...o,
+    logs: {
+      update: true,
+      post_update_run: true,
+      errors: true,
+      stats: false,
+      ...o?.logs,
+    },
     format: o?.format ?? 'route(path)',
     generated_file_path: o?.generated_file_path ?? 'src/lib/ROUTES.ts',
   }

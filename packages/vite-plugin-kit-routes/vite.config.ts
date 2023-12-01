@@ -16,7 +16,6 @@ export default defineConfig({
       // format: '_',
       format: 'object[symbol]',
       // format_short: true,
-      // exclude_logs: ['update', 'errors', 'stats', 'post_update_run'],
       // path_base: true,
       // default_type: 'string',
       // extra_search_params: 'with',
