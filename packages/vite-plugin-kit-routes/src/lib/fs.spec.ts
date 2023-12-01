@@ -36,6 +36,7 @@ describe('fs', () => {
         "lay/(layVerySpecial)/skip/+page@lay.svelte",
         "lay/+layout.svelte",
         "page_server_woAction/+page.server.ts",
+        "sp/+page.svelte",
       ]
     `)
   })
@@ -74,6 +75,7 @@ describe('rmv Helper', () => {
         "lay/(layVerySpecial)/skip/+page@lay.svelte",
         "lay/+layout.svelte",
         "page_server_woAction/+page.server.ts",
+        "sp/+page.svelte",
       ]
     `)
   })
@@ -110,6 +112,7 @@ describe('rmv Helper', () => {
         "lay/skip/+page@lay.svelte",
         "lay/+layout.svelte",
         "page_server_woAction/+page.server.ts",
+        "sp/+page.svelte",
       ]
     `)
   })
@@ -146,6 +149,7 @@ describe('rmv Helper', () => {
         "lay/skip/+page@lay.svelte",
         "lay/+layout.svelte",
         "page_server_woAction/+page.server.ts",
+        "sp/+page.svelte",
       ]
     `)
   })

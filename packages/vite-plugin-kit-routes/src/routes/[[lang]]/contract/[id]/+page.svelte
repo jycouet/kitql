@@ -1,13 +1,13 @@
 <script lang="ts">
   import { enhance } from '$app/forms'
   import { page } from '$app/stores'
-  import { ACTIONS } from '$lib/ROUTES.js'
+  import { route } from '$lib/ROUTES.js'
 
   export let form: FormData
 
   const id = $page.params.id
 
-  const action = ACTIONS.default_contract_id({
+  const action = route('default /contract/[id]', {
     lang: $page.params.lang,
     id,
   })

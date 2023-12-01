@@ -1,7 +1,7 @@
 <script lang="ts">
   import { goto } from '$app/navigation'
   import { page } from '$app/stores'
-  import { currentSp, PAGES } from '$lib/ROUTES.js'
+  import { currentSp, route } from '$lib/ROUTES.js'
 
   const elves = [
     { name: 'Emma', tally: 32 },
@@ -21,7 +21,7 @@
   let search = $page.url.searchParams.get('search') ?? ''
 
   const updateUrl = async () => {
-    const url = PAGES.sp({ ...currentSp(), search, skip, take })
+    const url = route('/sp', { ...currentSp(), search, skip, take })
     await goto(url, { keepFocus: true })
   }
 </script>

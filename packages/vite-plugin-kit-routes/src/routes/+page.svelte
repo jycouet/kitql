@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { PAGES } from '$lib/ROUTES.js'
+  import { route } from '$lib/ROUTES.js'
 
   const list = [
     { lang: 'fr', caption: 'Français' },
@@ -7,7 +7,7 @@
     { lang: 'hu', caption: 'Magyar' },
     { lang: 'at', caption: 'Deutsch' },
   ].map(c => {
-    return { href: PAGES.main({ lang: c.lang }), ...c }
+    return { href: route('/main', { lang: c.lang }), ...c }
   })
 </script>
 

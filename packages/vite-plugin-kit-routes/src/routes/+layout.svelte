@@ -1,6 +1,6 @@
 <script lang="ts">
   import { page } from '$app/stores'
-  import { LINKS, PAGES } from '$lib/ROUTES.js'
+  import { route } from '$lib/ROUTES.js'
 
   const siteId = 'Paris'
   const contractId = 'abc'
@@ -34,13 +34,13 @@
 <hr />
 
 <ul>
-  <li><a href={PAGES._ROOT}>Home</a></li>
+  <li><a href={route('/')}>Home</a></li>
   <li>
-    <a href={PAGES.site({ lang: $page.params.lang })}>Sites</a> |
-    <a href={PAGES.site({ lang: $page.params.lang, limit: 2 })}>Sites (with Search Param)</a>
+    <a href={route('/site', { lang: $page.params.lang })}>Sites</a> |
+    <a href={route('/site', { lang: $page.params.lang, limit: 2 })}>Sites (with Search Param)</a>
   </li>
   <li>
-    <a href={PAGES.site_id({ lang: getLang($page.params.lang), id: 'Paris' })}>Site Paris</a>
+    <a href={route('/site/[id]', { lang: getLang($page.params.lang), id: 'Paris' })}>Site Paris</a>
   </li>
   <li>
     <!-- 🤞 before, hardcoded string, error prone -->
@@ -52,7 +52,7 @@
     |
     <!-- ✅ after, typechecked route, no more errors -->
     <a
-      href={PAGES.site_contract_siteId_contractId({
+      href={route('/site_contract/[siteId]-[contractId]', {
         lang: $page.params.lang,
         siteId,
         contractId,
@@ -61,39 +61,39 @@
     >
   </li>
   <li>
-    <a href={PAGES.match_id_int({ lang: $page.params.lang, id: 1 })}>match int 1</a>
+    <a href={route('/match/[id=int]', { lang: $page.params.lang, id: 1 })}>match int 1</a>
     <!--
       We can't do this because the type is not good
       <a href={PAGES.match_id_int({ lang: $page.params.lang, id: 'a' })}>match int a (expect 404)</a> -->
   </li>
   <li>
-    <a href={PAGES.gp_one({ lang: $page.params.lang })}>gp One</a>
+    <a href={route('/gp/one', { lang: $page.params.lang })}>gp One</a>
   </li>
   <li>
-    <a href={PAGES.gp_two({ lang: $page.params.lang })}>gp Two</a>
+    <a href={route('/gp/two', { lang: $page.params.lang })}>gp Two</a>
   </li>
   <li>
-    <a href={PAGES.a_rest_z({ rest: ['SWAGER', 'GRAPHIQL'] })}>Rest SWAGER GRAPHIQL</a>
+    <a href={route('/a/[...rest]/z', { rest: ['SWAGER', 'GRAPHIQL'] })}>Rest SWAGER GRAPHIQL</a>
   </li>
   <li>
-    <a href={PAGES.lay_normal}>Layout Normal</a> |
-    <a href={PAGES.lay_root_layout}>Layout Root</a> |
-    <a href={PAGES.lay_skip}>Layout Skip</a>
+    <a href={route('/lay/normal')}>Layout Normal</a> |
+    <a href={route('/lay/root-layout')}>Layout Root</a> |
+    <a href={route('/lay/skip')}>Layout Skip</a>
   </li>
   <li>
-    <a href={PAGES.sp()}>Search Params</a>
+    <a href={route('/sp')}>Search Params</a>
   </li>
 </ul>
 
 <hr />
 
 <span> LINKS: </span>
-<a href={LINKS.twitter} target="_blank">TwiX</a> |
-<a href={LINKS.twitter_post({ name: 'jycouet', id: '1727089217707159569' })} target="_blank">
+<a href={route('twitter')} target="_blank">TwiX</a> |
+<a href={route('twitter_post', { name: 'jycouet', id: '1727089217707159569' })} target="_blank">
   TwiX Post
 </a>
 |
-<img alt="CORS issue?" src={LINKS.gravatar({ str: 'jycouet', s: 50 })} />
+<img alt="CORS issue?" src={route('gravatar', { str: 'jycouet', s: 50 })} />
 <hr />
 
 <slot />
