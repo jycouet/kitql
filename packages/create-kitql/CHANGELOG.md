@@ -1,5 +1,12 @@
 # create-kitql
 
+## 0.0.5
+
+### Patch Changes
+
+- [`790c031`](https://github.com/jycouet/kitql/commit/790c0317fcf45373197d5e70af8337691d48f75c)
+  Thanks [@jycouet](https://github.com/jycouet)! - bump kit route
+
 ## 0.0.4
 
 ### Patch Changes
