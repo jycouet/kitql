@@ -1,5 +1,3 @@
-import type { RequestHandler } from './$types'
-
-export const GET: RequestHandler = async () => {
+export const GET = async () => {
   return new Response()
 }
