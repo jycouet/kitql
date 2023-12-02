@@ -1,5 +1,14 @@
 # vite-plugin-kit-routes
 
+## 0.2.2
+
+### Patch Changes
+
+- [#523](https://github.com/jycouet/kitql/pull/523)
+  [`99f6ed1`](https://github.com/jycouet/kitql/commit/99f6ed1066c7205041a513160fba8f237d9b9d50)
+  Thanks [@kran6a](https://github.com/kran6a)! - fix: symbol format with a path having a "." is now
+  handle
+
 ## 0.2.1
 
 ### Patch Changes
