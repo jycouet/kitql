@@ -93,6 +93,9 @@ const SERVERS = {
   },
   'GET /api/graphql': `/api/graphql`,
   'POST /api/graphql': `/api/graphql`,
+  'GET /data/errors/[locale].json': (params: { locale: string | number }) => {
+    return `/data/errors/${params.locale}.json`
+  },
 }
 
 /**
@@ -267,6 +270,7 @@ export type KIT_ROUTES = {
     'GET /site': 'lang'
     'GET /api/graphql': never
     'POST /api/graphql': never
+    'GET /data/errors/[locale].json': 'locale'
   }
   ACTIONS: {
     'default /contract/[id]': 'id' | 'lang'
@@ -286,6 +290,7 @@ export type KIT_ROUTES = {
     siteId: never
     contractId: never
     rest: never
+    locale: never
     redirectTo: never
     extra: never
     name: never
