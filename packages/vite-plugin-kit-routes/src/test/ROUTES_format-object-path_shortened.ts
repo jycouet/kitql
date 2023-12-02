@@ -66,7 +66,10 @@ export const SERVERS = {
     return `${params?.lang ? `/${params?.lang}`: ''}/site`
   },
   "GET /api/graphql": `/api/graphql`,
-  "POST /api/graphql": `/api/graphql`
+  "POST /api/graphql": `/api/graphql`,
+  "GET /data/errors/[locale].json": (locale: (string | number), params?: {  }) => {
+    return `/data/errors/${locale}.json`
+  }
 }
 
 /**
@@ -160,8 +163,8 @@ export const currentSp = () => {
 */
 export type KIT_ROUTES = { 
   PAGES: { '/': never, '/subGroup': never, '/subGroup2': never, '/contract': 'lang', '/contract/[id]': 'lang' | 'id', '/gp/one': 'lang', '/gp/two': 'lang', '/main': 'lang', '/match/[id=int]': 'lang' | 'id', '/site': 'lang', '/site/[id]': 'lang' | 'id', '/site_contract/[siteId]-[contractId]': 'siteId' | 'contractId' | 'lang', '/a/[...rest]/z': 'rest', '/lay/normal': never, '/lay/root-layout': never, '/lay/skip': never, '/sp': never }
-  SERVERS: { 'GET /contract': 'lang', 'POST /contract': 'lang', 'GET /site': 'lang', 'GET /api/graphql': never, 'POST /api/graphql': never }
+  SERVERS: { 'GET /contract': 'lang', 'POST /contract': 'lang', 'GET /site': 'lang', 'GET /api/graphql': never, 'POST /api/graphql': never, 'GET /data/errors/[locale].json': 'locale' }
   ACTIONS: { 'default /contract/[id]': 'lang' | 'id', 'create /site': 'lang', 'update /site/[id]': 'lang' | 'id', 'delete /site/[id]': 'lang' | 'id', 'noSatisfies /site_contract': 'lang', 'send /site_contract/[siteId]-[contractId]': 'siteId' | 'contractId' | 'lang' }
   LINKS: { 'twitter': never, 'twitter_post': 'name' | 'id', 'gravatar': 'str' }
-  Params: { first: never, lang: never, id: never, limit: never, demo: never, siteId: never, contractId: never, rest: never, extra: never, name: never, str: never, s: never, d: never }
+  Params: { first: never, lang: never, id: never, limit: never, demo: never, siteId: never, contractId: never, rest: never, locale: never, extra: never, name: never, str: never, s: never, d: never }
 }
