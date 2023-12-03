@@ -1,5 +1,12 @@
 # create-kitql
 
+## 0.0.6
+
+### Patch Changes
+
+- [`8f5f447`](https://github.com/jycouet/kitql/commit/8f5f4478ceca6ef289c12b0aa077228738c653d2)
+  Thanks [@jycouet](https://github.com/jycouet)! - fix path & env
+
 ## 0.0.5
 
 ### Patch Changes
