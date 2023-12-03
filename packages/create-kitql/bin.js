@@ -5,13 +5,14 @@ import { program, Option } from 'commander'
 import fs from 'fs'
 import path from 'path'
 import { exit } from 'process'
+import { fileURLToPath } from 'url'
 
 const { version } = JSON.parse(fs.readFileSync(new URL('package.json', import.meta.url), 'utf-8'))
 // eslint-disable-next-line no-console
 console.log(`${gray(`create-kitql version ${version}`)}\n`)
 
 // prepare options
-const templatesDir = `./templates`
+const templatesDir = sourcePath(`./templates`)
 const options = fs
   .readdirSync(templatesDir)
   .map(templateDir => {
@@ -115,7 +116,7 @@ if (!templateMeta) {
 }
 
 copy(
-  path.join(templatesDir, template),
+  sourcePath(path.join(templatesDir, template)),
   projectDir,
   {
     // replace the project name in the template, in the template it should follow this format be be replaced
@@ -190,7 +191,15 @@ function copy(
   }
 }
 
-// function pCancel(cancelText = 'Operation cancelled.') {
-//   p.cancel(cancelText)
-//   process.exit(1)
-// }
+function sourcePath(/** @type {string} */ path) {
+  try {
+    return fileURLToPath(new URL(path, import.meta.url).href)
+  } catch (error) {
+    pCancel('Not working in this environment. Are you on Windows? Have you look into WSL?')
+  }
+}
+
+function pCancel(cancelText = 'Operation cancelled.') {
+  p.cancel(cancelText)
+  process.exit(1)
+}
