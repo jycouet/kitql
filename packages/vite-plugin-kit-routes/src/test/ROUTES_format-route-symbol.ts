@@ -10,7 +10,7 @@
 const PAGES = {
   "_ROOT": `/`,
   "subGroup": `/subGroup`,
-  "subGroup_user": `/subGroup//user`,
+  "subGroup_user": `/subGroup/user`,
   "subGroup2": (params: { first: (string | number) }) => {
     return `/subGroup2${appendSp({ first: params.first })}`
   },

@@ -9,7 +9,7 @@
  */
 export const PAGE__ROOT = `/`
 export const PAGE_subGroup = `/subGroup`
-export const PAGE_subGroup_user = `/subGroup//user`
+export const PAGE_subGroup_user = `/subGroup/user`
 export const PAGE_subGroup2 = (params: { first: (string | number) }) => {
   return `/subGroup2${appendSp({ first: params.first })}` 
 }

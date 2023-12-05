@@ -232,18 +232,19 @@ export function routes_path() {
 export function rmvGroups(key: string) {
   let toRet = key
     // rmv /(groups)
-    .replace(/\/\([^)]*\)/, '')
+    .replace(/\/\([^)]*\)/g, '')
     // rmv (groups)
     .replace(/\([^)]*\)/g, '')
+
   return toRet
 }
 
 export function rmvOptional(key: string) {
   let toRet = key
     // rmv /[[Optional]]
-    .replace(/\/\[\[.*?\]\]/, '')
+    .replace(/\/\[\[.*?\]\]/g, '')
     // rmv [[Optional]]
-    .replace(/\[\[.*?\]\]/, '')
+    .replace(/\[\[.*?\]\]/g, '')
   return toRet
 }
 
