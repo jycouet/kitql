@@ -8,10 +8,10 @@ describe('fs', () => {
     const location = `${process.cwd()}/src/routes/`
     expect(getFilesUnder(location)).toMatchInlineSnapshot(`
       [
+        "(rootGroup)/+page.svelte",
         "(rootGroup)/subGroup/+page.svelte",
         "(rootGroup)/subGroup2/+page.svelte",
         "+layout.svelte",
-        "+page.svelte",
         "[[lang]]/contract/+page.svelte",
         "[[lang]]/contract/+server.ts",
         "[[lang]]/contract/[id]/+page.server.ts",
@@ -48,10 +48,10 @@ describe('rmv Helper', () => {
     const location = `${process.cwd()}/src/routes/`
     expect(getFilesUnder(location).map(c => rmvOptional(c))).toMatchInlineSnapshot(`
       [
+        "(rootGroup)/+page.svelte",
         "(rootGroup)/subGroup/+page.svelte",
         "(rootGroup)/subGroup2/+page.svelte",
         "+layout.svelte",
-        "+page.svelte",
         "/contract/+page.svelte",
         "/contract/+server.ts",
         "/contract/[id]/+page.server.ts",
@@ -86,10 +86,10 @@ describe('rmv Helper', () => {
     const location = `${process.cwd()}/src/routes/`
     expect(getFilesUnder(location).map(c => rmvGroups(c))).toMatchInlineSnapshot(`
       [
+        "/+page.svelte",
         "/subGroup/+page.svelte",
         "/subGroup2/+page.svelte",
         "+layout.svelte",
-        "+page.svelte",
         "[[lang]]/contract/+page.svelte",
         "[[lang]]/contract/+server.ts",
         "[[lang]]/contract/[id]/+page.server.ts",
@@ -124,10 +124,10 @@ describe('rmv Helper', () => {
     const location = `${process.cwd()}/src/routes/`
     expect(getFilesUnder(location).map(c => rmvGroups(rmvOptional(c)))).toMatchInlineSnapshot(`
       [
+        "/+page.svelte",
         "/subGroup/+page.svelte",
         "/subGroup2/+page.svelte",
         "+layout.svelte",
-        "+page.svelte",
         "/contract/+page.svelte",
         "/contract/+server.ts",
         "/contract/[id]/+page.server.ts",

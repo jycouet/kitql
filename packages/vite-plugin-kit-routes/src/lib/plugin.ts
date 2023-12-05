@@ -467,10 +467,15 @@ export function buildMetadata(
     })
   }
 
+  // If empty... (it's in a group for example). Let's add a `/`
+  if (toRet === '') {
+    toRet = `/`
+  }
+
   paramsFromPath.forEach((c, i) => {
     const sMatcher = `${c.matcher ? `=${c.matcher}` : ''}`
 
-    // Very special case
+    // Very special case (only an optional param)
     if (toRet === `/[[${c.name + sMatcher}]]`) {
       toRet = `\${params?.${c.name} ? \`/\${params?.${c.name}}\`: '/'}`
     } else {
