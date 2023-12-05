@@ -1,5 +1,13 @@
 # vite-plugin-kit-routes
 
+## 0.2.3
+
+### Patch Changes
+
+- [#529](https://github.com/jycouet/kitql/pull/529)
+  [`3971fc3`](https://github.com/jycouet/kitql/commit/3971fc3b8dbe72f4d475bedf64ac753e4f387ad4)
+  Thanks [@jycouet](https://github.com/jycouet)! - manage path starting with a group
+
 ## 0.2.2
 
 ### Patch Changes
