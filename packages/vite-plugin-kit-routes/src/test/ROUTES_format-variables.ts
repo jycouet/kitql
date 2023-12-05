@@ -9,6 +9,7 @@
  */
 export const PAGE__ROOT = `/`
 export const PAGE_subGroup = `/subGroup`
+export const PAGE_subGroup_user = `/subGroup/user`
 export const PAGE_subGroup2 = (params: { first: (string | number) }) => {
   return `/subGroup2${appendSp({ first: params.first })}` 
 }
@@ -31,7 +32,7 @@ export const PAGE_match_id_int = (params: { id: (number), lang?: ('fr' | 'en' | 
   return `${params?.lang ? `/${params?.lang}`: ''}/match/${params.id}` 
 }
 export const PAGE_site = (params?: { lang?: ('fr' | 'en' | 'hu' | 'at' | string), limit?: (number) }, sp?: Record<string, string | number>) => {
-  return `${params?.lang ? `/${params?.lang}`: ''}/site${appendSp({ limit: params?.limit, ...sp })}` 
+  return `${params?.lang ? `/${params?.lang}`: ''}/site${appendSp({ ...sp, limit: params?.limit })}` 
 }
 export const PAGE_site_id = (params?: { lang?: ('fr' | 'hu' | undefined), id?: (string), limit?: (number), demo?: (string) }) => {
   params = params ?? {}
@@ -48,6 +49,7 @@ export const PAGE_a_rest_z = (params: { rest: (string | number)[] }) => {
 export const PAGE_lay_normal = `/lay/normal`
 export const PAGE_lay_root_layout = `/lay/root-layout`
 export const PAGE_lay_skip = `/lay/skip`
+export const PAGE_sp = `/sp`
 
 /**
  * SERVERS
@@ -63,6 +65,9 @@ export const SERVER_GET_site = (params?: { lang?: ('fr' | 'en' | 'hu' | 'at' | s
 }
 export const SERVER_GET_api_graphql = `/api/graphql`
 export const SERVER_POST_api_graphql = `/api/graphql`
+export const SERVER_GET_data_errors_locale_json = (params: { locale: (string | number) }) => {
+  return `/data/errors/${params.locale}.json` 
+}
 
 /**
  * ACTIONS
@@ -90,14 +95,14 @@ export const ACTION_send_site_contract_siteId_contractId = (params: { siteId: (s
 /**
  * LINKS
  */
-export const LINK_twitter = `https:/twitter.com/jycouet`
+export const LINK_twitter = `https://twitter.com/jycouet`
 export const LINK_twitter_post = (params: { name: (string | number), id: (string | number) }) => {
-  return `https:/twitter.com/${params.name}/status/${params.id}` 
+  return `https://twitter.com/${params.name}/status/${params.id}` 
 }
 export const LINK_gravatar = (params: { str: (string | number), s?: (number), d?: ("retro" | "identicon") }) => {
   params.s = params.s ?? 75; 
   params.d = params.d ?? "identicon"; 
-  return `https:/www.gravatar.com/avatar/${params.str}${appendSp({ s: params?.s, d: params?.d })}` 
+  return `https://www.gravatar.com/avatar/${params.str}${appendSp({ s: params?.s, d: params?.d })}` 
 }
 
 /**
@@ -117,6 +122,23 @@ const appendSp = (sp?: Record<string, string | number | undefined>, prefix: '?' 
 }
 
 /**
+ * get the current search params
+ * 
+ * Could be use like this:
+ * ```
+ * route("/cities", { page: 2 }, { ...currentSP() })
+ * ```
+ */ 
+export const currentSp = () => {
+  const params = new URLSearchParams(window.location.search)
+  const record: Record<string, string> = {}
+  for (const [key, value] of params.entries()) {
+    record[key] = value
+  }
+  return record
+}
+
+/**
 * Add this type as a generic of the vite plugin `kitRoutes<KIT_ROUTES>`.
 * 
 * Full example:
@@ -132,9 +154,9 @@ const appendSp = (sp?: Record<string, string | number | undefined>, prefix: '?' 
 * ```
 */
 export type KIT_ROUTES = { 
-  PAGES: { '_ROOT': never, 'subGroup': never, 'subGroup2': never, 'contract': 'lang', 'contract_id': 'id' | 'lang', 'gp_one': 'lang', 'gp_two': 'lang', 'main': 'lang', 'match_id_int': 'id' | 'lang', 'site': 'lang', 'site_id': 'lang' | 'id', 'site_contract_siteId_contractId': 'siteId' | 'contractId' | 'lang', 'a_rest_z': 'rest', 'lay_normal': never, 'lay_root_layout': never, 'lay_skip': never }
-  SERVERS: { 'GET_contract': 'lang', 'POST_contract': 'lang', 'GET_site': 'lang', 'GET_api_graphql': never, 'POST_api_graphql': never }
+  PAGES: { '_ROOT': never, 'subGroup': never, 'subGroup_user': never, 'subGroup2': never, 'contract': 'lang', 'contract_id': 'id' | 'lang', 'gp_one': 'lang', 'gp_two': 'lang', 'main': 'lang', 'match_id_int': 'id' | 'lang', 'site': 'lang', 'site_id': 'lang' | 'id', 'site_contract_siteId_contractId': 'siteId' | 'contractId' | 'lang', 'a_rest_z': 'rest', 'lay_normal': never, 'lay_root_layout': never, 'lay_skip': never, 'sp': never }
+  SERVERS: { 'GET_contract': 'lang', 'POST_contract': 'lang', 'GET_site': 'lang', 'GET_api_graphql': never, 'POST_api_graphql': never, 'GET_data_errors_locale_json': 'locale' }
   ACTIONS: { 'default_contract_id': 'id' | 'lang', 'create_site': 'lang', 'update_site_id': 'id' | 'lang', 'delete_site_id': 'id' | 'lang', 'noSatisfies_site_contract': 'lang', 'send_site_contract_siteId_contractId': 'siteId' | 'contractId' | 'lang' }
   LINKS: { 'twitter': never, 'twitter_post': 'name' | 'id', 'gravatar': 'str' }
-  Params: { first: never, lang: never, id: never, limit: never, demo: never, siteId: never, contractId: never, rest: never, extra: never, name: never, str: never, s: never, d: never }
+  Params: { first: never, lang: never, id: never, limit: never, demo: never, siteId: never, contractId: never, rest: never, locale: never, extra: never, name: never, str: never, s: never, d: never }
 }

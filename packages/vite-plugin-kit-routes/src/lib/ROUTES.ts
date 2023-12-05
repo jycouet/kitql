@@ -10,6 +10,7 @@
 const PAGES = {
   '/': `/`,
   '/subGroup': `/subGroup`,
+  '/subGroup/user': `/subGroup/user`,
   '/subGroup2': (params: { first: string | number }) => {
     return `/subGroup2${appendSp({ first: params.first })}`
   },
@@ -248,6 +249,7 @@ export type KIT_ROUTES = {
   PAGES: {
     '/': never
     '/subGroup': never
+    '/subGroup/user': never
     '/subGroup2': never
     '/contract': 'lang'
     '/contract/[id]': 'id' | 'lang'
