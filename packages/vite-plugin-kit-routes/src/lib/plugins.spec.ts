@@ -526,6 +526,15 @@ describe('run()', async () => {
       params: [],
       params_shortened: [],
     },
+    {
+      name: 'nested groups should work well',
+      kind: 'PAGES',
+      results: '/subGroup/user',
+      key_path: '/subGroup/user',
+      key_symbol: 'subGroup_user',
+      params: [],
+      params_shortened: [],
+    },
   ]
 
   let nbVariablesDone = 0
@@ -623,6 +632,9 @@ describe('run()', async () => {
           expect(vars.PAGE_site_contract_siteId_contractId(...element.params), element.name).toBe(
             element.results,
           )
+        } else if (element.results === '/subGroup/user') {
+          nbVariablesDone++
+          expect(vars.PAGE_subGroup_user, element.name).toBe(element.results)
         }
       })
       // SHORTENED
@@ -652,6 +664,9 @@ describe('run()', async () => {
             vars.PAGE_site_contract_siteId_contractId(...element.params_shortened),
             element.name,
           ).toBe(element.results)
+        } else if (element.results === '/subGroup/user') {
+          nbVariablesShortenedDone++
+          expect(vars.PAGE_subGroup_user, element.name).toBe(element.results)
         }
       })
     })
