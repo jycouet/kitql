@@ -1,5 +1,13 @@
 # vite-plugin-kit-routes
 
+## 0.2.4
+
+### Patch Changes
+
+- [#533](https://github.com/jycouet/kitql/pull/533)
+  [`91e4b65`](https://github.com/jycouet/kitql/commit/91e4b65877638216db275982d9f97153974289f3)
+  Thanks [@jycouet](https://github.com/jycouet)! - handle nested groups properly
+
 ## 0.2.3
 
 ### Patch Changes
