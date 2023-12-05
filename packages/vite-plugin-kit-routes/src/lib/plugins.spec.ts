@@ -398,7 +398,7 @@ describe('run()', async () => {
       extra: { ...commonConfig, ...commonConfig_symbol_space },
     },
     {
-      pathFile: 'format-format-variables',
+      pathFile: 'format-variables',
       format: 'variables',
       extra: { ...commonConfig, ...commonConfig_symbol },
     },
@@ -454,15 +454,7 @@ describe('run()', async () => {
   }
 
   // Here is the list of tests... to run :)
-  const table: {
-    name: string
-    kind: KindOfObject
-    results: string
-    key_path: string
-    key_symbol: string
-    params: any[]
-    params_shortened: any[]
-  }[] = [
+  const table = [
     {
       name: 'ROOT, return is not a function',
       kind: 'PAGES',
@@ -527,7 +519,7 @@ describe('run()', async () => {
       params_shortened: [],
     },
     {
-      name: 'nested groups should work well',
+      name: 'nested groups',
       kind: 'PAGES',
       results: '/subGroup/user',
       key_path: '/subGroup/user',
@@ -535,10 +527,8 @@ describe('run()', async () => {
       params: [],
       params_shortened: [],
     },
-  ]
+  ] as const
 
-  let nbVariablesDone = 0
-  let nbVariablesShortenedDone = 0
   for (let i = 0; i < table.length; i++) {
     const element = table[i]
     describe(element.name, async () => {
@@ -606,76 +596,65 @@ describe('run()', async () => {
         )
       })
 
-      //
+      // VARIABLES && SHORTENED
       it('format variables', async () => {
-        let vars = await import(getPathROUTES(runs[4].pathFile))
-        if (element.results === '/') {
-          nbVariablesDone++
-          expect(vars.PAGE__ROOT, element.name).toBe(element.results)
-        } else if (element.results === '/contract/abc') {
-          nbVariablesDone++
-          expect(vars.PAGE_contract_id({ id: 'abc' }), element.name).toBe(element.results)
-        } else if (element.results === '/fr/site/Paris') {
-          nbVariablesDone++
-          expect(vars.PAGE_site_id({ id: 'Paris' }), element.name).toBe(element.results)
-        } else if (element.results === '/main') {
-          nbVariablesDone++
-          expect(vars.PAGE_main(), element.name).toBe(element.results)
-        } else if (element.results === '/contract?yop=hello') {
-          nbVariablesDone++
-          expect(vars.PAGE_contract({}, { yop: 'hello' }), element.name).toBe(element.results)
-        } else if (element.results === 'https://twitter.com/jycouet') {
-          nbVariablesDone++
-          expect(vars.LINK_twitter, element.name).toBe(element.results)
-        } else if (element.results === '/fr/site_contract/Paris-abc?limit=2') {
-          nbVariablesDone++
-          expect(vars.PAGE_site_contract_siteId_contractId(...element.params), element.name).toBe(
-            element.results,
-          )
-        } else if (element.results === '/subGroup/user') {
-          nbVariablesDone++
-          expect(vars.PAGE_subGroup_user, element.name).toBe(element.results)
+        let vars___not = await import(getPathROUTES(runs[4].pathFile))
+        let vars_short = await import(getPathROUTES(getToRunShortened(runs[4]).pathFile))
+
+        if (element.name === 'ROOT, return is not a function') {
+          expect(vars___not.PAGE__ROOT, element.name).toBe(element.results)
+          expect(vars_short.PAGE__ROOT, element.name).toBe(element.results)
         }
-      })
-      // SHORTENED
-      it('format variables shortened', async () => {
-        let vars = await import(getPathROUTES(getToRunShortened(runs[4]).pathFile))
-        if (element.results === '/') {
-          nbVariablesShortenedDone++
-          expect(vars.PAGE__ROOT, element.name).toBe(element.results)
-        } else if (element.results === '/contract/abc') {
-          nbVariablesShortenedDone++
-          expect(vars.PAGE_contract_id('abc'), element.name).toBe(element.results)
-        } else if (element.results === '/fr/site/Paris') {
-          nbVariablesShortenedDone++
-          expect(vars.PAGE_site_id({ id: 'Paris' }), element.name).toBe(element.results)
-        } else if (element.results === '/main') {
-          nbVariablesShortenedDone++
-          expect(vars.PAGE_main(), element.name).toBe(element.results)
-        } else if (element.results === '/contract?yop=hello') {
-          nbVariablesShortenedDone++
-          expect(vars.PAGE_contract({}, { yop: 'hello' }), element.name).toBe(element.results)
-        } else if (element.results === 'https://twitter.com/jycouet') {
-          nbVariablesShortenedDone++
-          expect(vars.LINK_twitter, element.name).toBe(element.results)
-        } else if (element.results === '/fr/site_contract/Paris-abc?limit=2') {
-          nbVariablesShortenedDone++
+        //
+        else if (element.name === 'single param (required)') {
+          expect(vars___not.PAGE_contract_id({ id: 'abc' }), element.name).toBe(element.results)
+          expect(vars_short.PAGE_contract_id('abc'), element.name).toBe(element.results)
+        }
+        //
+        else if (element.name === 'single param (with default)') {
+          expect(vars___not.PAGE_site_id({ id: 'Paris' }), element.name).toBe(element.results)
+          expect(vars_short.PAGE_site_id({ id: 'Paris' }), element.name).toBe(element.results)
+        }
+        //
+        else if (element.name === 'only optional') {
+          expect(vars___not.PAGE_main(), element.name).toBe(element.results)
+          expect(vars_short.PAGE_main(), element.name).toBe(element.results)
+        }
+        //
+        else if (element.name === 'with search params') {
+          expect(vars___not.PAGE_contract({}, { yop: 'hello' }), element.name).toBe(element.results)
+          expect(vars_short.PAGE_contract({}, { yop: 'hello' }), element.name).toBe(element.results)
+        }
+        //
+        else if (element.name === 'direct link') {
+          expect(vars___not.LINK_twitter, element.name).toBe(element.results)
+          expect(vars_short.LINK_twitter, element.name).toBe(element.results)
+        }
+        //
+        else if (element.name === 'multi params') {
           expect(
-            vars.PAGE_site_contract_siteId_contractId(...element.params_shortened),
+            vars___not.PAGE_site_contract_siteId_contractId(...element.params),
             element.name,
           ).toBe(element.results)
-        } else if (element.results === '/subGroup/user') {
-          nbVariablesShortenedDone++
-          expect(vars.PAGE_subGroup_user, element.name).toBe(element.results)
+          expect(
+            vars_short.PAGE_site_contract_siteId_contractId(...element.params_shortened),
+            element.name,
+          ).toBe(element.results)
+        }
+        //
+        else if (element.name === 'nested groups') {
+          expect(vars___not.PAGE_subGroup_user, element.name).toBe(element.results)
+          expect(vars_short.PAGE_subGroup_user, element.name).toBe(element.results)
+        }
+        //
+        else {
+          expect('We should never be here').toBe(
+            'as all cases "variables" should be covered. Add an else if if you add a test',
+          )
         }
       })
     })
   }
-
-  it('Check That all "variables" were done !', () => {
-    expect(nbVariablesDone, 'not shortened').toBe(table.length)
-    expect(nbVariablesShortenedDone, 'shortened').toBe(table.length)
-  })
 
   it('post_update_run', () => {
     const generated_file_path = 'src/test/ROUTES_post-update.ts'
