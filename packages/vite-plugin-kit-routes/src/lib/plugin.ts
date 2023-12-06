@@ -5,7 +5,7 @@ import watch_and_run from 'vite-plugin-watch-and-run'
 
 import { getActionsOfServerPages, getMethodsOfServerFiles } from './ast.js'
 import { appendSp, format, routeFn } from './format.js'
-import { getFilesUnder, read, write } from './fs.js'
+import { getFilesUnder, read, write, relative, dirname } from './fs.js'
 
 type ExtendTypes = {
   PAGES: Record<string, string>
@@ -120,6 +120,12 @@ export type Options<T extends ExtendTypes = ExtendTypes> = {
    * @default false
    */
   path_base?: boolean
+
+  /**
+   * Needed if you changed it in your `svelte.config.js` & if you have some match params.
+   * @default "src/params"
+   */
+  path_params?: string
 
   /**
    * when `without` _(default)_, paths doesn't get a last argument to set extra search params
@@ -448,7 +454,7 @@ export function buildMetadata(
     customConf = viteCustomPathConfig[keyToUse]
   }
 
-  const paramsFromPath = extractParamsFromPath(originalValue)
+  const paramsFromPath = extractParamsFromPath(originalValue, options)
 
   // custom Param?
   if (customConf.params) {
@@ -595,9 +601,12 @@ export function buildMetadata(
   return baseToReturn
 }
 
-export function extractParamsFromPath(path: string): Param[] {
+export function extractParamsFromPath(path: string, o: Options): Param[] {
+  const options = getDefaultOption(o)
   const paramPattern = /\[+([^\]]+)]+/g
   const params: Param[] = []
+
+  const relToParams = relative(dirname(options.generated_file_path), options.path_params)
 
   let match
   while ((match = paramPattern.exec(path)) !== null) {
@@ -612,6 +621,8 @@ export function extractParamsFromPath(path: string): Param[] {
         matcher: matcher[1],
         fromPath: true,
         isArray,
+        // this will bring the type of the first arg of the function to to the match
+        type: `Parameters<typeof import('${relToParams}/${matcher[1]}.ts').match>[0]`,
       })
     } else {
       params.push({
@@ -697,6 +708,7 @@ export const getDefaultOption = (o?: Options) => {
     },
     format: o?.format ?? 'route(path)',
     generated_file_path: o?.generated_file_path ?? 'src/lib/ROUTES.ts',
+    path_params: o?.path_params ?? 'src/params',
   }
   return options
 }

@@ -46,3 +46,5 @@ export function getFilesUnder(rootFolder: string) {
   traverseDirectory(rootFolder)
   return files
 }
+
+export { relative, dirname }
