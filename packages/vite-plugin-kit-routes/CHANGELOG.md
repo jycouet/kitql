@@ -1,5 +1,14 @@
 # vite-plugin-kit-routes
 
+## 0.2.5
+
+### Patch Changes
+
+- [#535](https://github.com/jycouet/kitql/pull/535)
+  [`f68f150`](https://github.com/jycouet/kitql/commit/f68f15000afeaddbca2a9c1adb39799e8c4353df)
+  Thanks [@jycouet](https://github.com/jycouet)! - feat: infer route parameter type from matcher's
+  guard check if applicable (https://github.com/sveltejs/kit/pull/10755, thx @LorisSigrist)
+
 ## 0.2.4
 
 ### Patch Changes
