@@ -61,10 +61,11 @@
     >
   </li>
   <li>
-    <a href={route('/match/[id=int]', { lang: $page.params.lang, id: 1 })}>match int 1</a>
+    <a href={route('/match/[id=int]', { lang: $page.params.lang, id: 1 })}>match int 1</a> |
+    <a href={route('/match/[id=ab]', { lang: $page.params.lang, id: 'a' })}>match int a</a>
     <!--
       We can't do this because the type is not good
-      <a href={PAGES.match_id_int({ lang: $page.params.lang, id: 'a' })}>match int a (expect 404)</a> -->
+      <a href={PAGES.match_id_int({ lang: $page.params.lang, id: 'c' })}>match int c (expect 404)</a> -->
   </li>
   <li>
     <a href={route('/gp/one', { lang: $page.params.lang })}>gp One</a>

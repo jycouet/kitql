@@ -32,6 +32,12 @@ const PAGES = {
   '/main': (params?: { lang?: 'fr' | 'en' | 'hu' | 'at' | string }) => {
     return `${params?.lang ? `/${params?.lang}` : ''}/main`
   },
+  '/match/[id=ab]': (params: {
+    id: Parameters<typeof import('../params/ab.ts').match>[0]
+    lang?: 'fr' | 'en' | 'hu' | 'at' | string
+  }) => {
+    return `${params?.lang ? `/${params?.lang}` : ''}/match/${params.id}`
+  },
   '/match/[id=int]': (params: { id: number; lang?: 'fr' | 'en' | 'hu' | 'at' | string }) => {
     return `${params?.lang ? `/${params?.lang}` : ''}/match/${params.id}`
   },
@@ -256,6 +262,7 @@ export type KIT_ROUTES = {
     '/gp/one': 'lang'
     '/gp/two': 'lang'
     '/main': 'lang'
+    '/match/[id=ab]': 'id' | 'lang'
     '/match/[id=int]': 'id' | 'lang'
     '/site': 'lang'
     '/site/[id]': 'lang' | 'id'
