@@ -17,7 +17,7 @@ import {
 
 describe('vite-plugin-kit-routes', () => {
   it('get id', async () => {
-    expect(extractParamsFromPath('/site/[id]')).toMatchInlineSnapshot(`
+    expect(extractParamsFromPath('/site/[id]', {})).toMatchInlineSnapshot(`
       [
         {
           "fromPath": true,
@@ -30,7 +30,7 @@ describe('vite-plugin-kit-routes', () => {
   })
 
   it('get params & id', async () => {
-    expect(extractParamsFromPath('/site/[param]/[id]')).toMatchInlineSnapshot(`
+    expect(extractParamsFromPath('/site/[param]/[id]', {})).toMatchInlineSnapshot(`
       [
         {
           "fromPath": true,
@@ -49,7 +49,7 @@ describe('vite-plugin-kit-routes', () => {
   })
 
   it('get params & id group', async () => {
-    expect(extractParamsFromPath('/[param]site/[yop](group)/[id]')).toMatchInlineSnapshot(`
+    expect(extractParamsFromPath('/[param]site/[yop](group)/[id]', {})).toMatchInlineSnapshot(`
       [
         {
           "fromPath": true,
@@ -74,13 +74,48 @@ describe('vite-plugin-kit-routes', () => {
   })
 
   it('get optional param', async () => {
-    expect(extractParamsFromPath('/lang/[[lang]]')).toMatchInlineSnapshot(`
+    expect(extractParamsFromPath('/lang/[[lang]]', {})).toMatchInlineSnapshot(`
       [
         {
           "fromPath": true,
           "isArray": false,
           "name": "lang",
           "optional": true,
+        },
+      ]
+    `)
+  })
+
+  it('get matcher simple', async () => {
+    expect(extractParamsFromPath('/[tmp=ab]', {})).toMatchInlineSnapshot(`
+      [
+        {
+          "fromPath": true,
+          "isArray": false,
+          "matcher": "ab",
+          "name": "tmp",
+          "optional": false,
+          "type": "Parameters<typeof import('../params/ab.ts').match>[0]",
+        },
+      ]
+    `)
+  })
+
+  it('get matcher custom path', async () => {
+    expect(
+      extractParamsFromPath('/[tmp=ab]', {
+        path_params: 'src/my/custom/path',
+        generated_file_path: './src/lib/dep/routes.ts',
+      }),
+    ).toMatchInlineSnapshot(`
+      [
+        {
+          "fromPath": true,
+          "isArray": false,
+          "matcher": "ab",
+          "name": "tmp",
+          "optional": false,
+          "type": "Parameters<typeof import('../../my/custom/path/ab.ts').match>[0]",
         },
       ]
     `)
