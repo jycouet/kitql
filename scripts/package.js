@@ -1,8 +1,8 @@
 import { execSync } from 'child_process'
+import { buildSync } from 'esbuild'
 import fs from 'fs'
 import path from 'path'
 import { exit } from 'process'
-import { buildSync } from 'esbuild'
 
 // Will check the format of package.json
 execSync(`node ../../scripts/packageJsonFormat.js`)
@@ -87,8 +87,30 @@ fs.writeFileSync(
   path.join(packageDirPath, 'dist/cjs/package.json'),
   JSON.stringify({ type: 'commonjs' }, null, 2),
 )
-
 // cjs end
+
+// remove a few files
+const listOfFilesToRemove = [
+  // No need these things for kitRoutes
+  `${packageDirPath}/src/params/ab.d.ts`,
+  `${packageDirPath}/src/test/ROUTES_format-object-path.d.ts`,
+  `${packageDirPath}/src/test/ROUTES_format-object-symbol.d.ts`,
+  `${packageDirPath}/src/test/ROUTES_format-route-path.d.ts`,
+  `${packageDirPath}/src/test/ROUTES_format-route-symbol.d.ts`,
+  `${packageDirPath}/src/test/ROUTES_format-variables.d.ts`,
+
+  // no need to publish these
+  `${packageDirPath}/dist/cjs/ROUTES.js`,
+  `${packageDirPath}/dist/esm/ROUTES.js`,
+  `${packageDirPath}/dist/esm/ROUTES.d.ts`,
+]
+
+for (let i = 0; i < listOfFilesToRemove.length; i++) {
+  const fileToRmv = listOfFilesToRemove[i]
+  if (fs.existsSync(fileToRmv)) {
+    fs.unlinkSync(fileToRmv)
+  }
+}
 
 console.log(`✅ @kitql scripts/package "${pkg.name}" done`)
 
