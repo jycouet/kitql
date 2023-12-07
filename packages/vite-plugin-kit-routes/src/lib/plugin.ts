@@ -15,7 +15,14 @@ type ExtendTypes = {
 }
 
 type LogKind = 'update' | 'post_update_run' | 'errors' | 'stats'
-type FormatKind = 'route(path)' | 'route(symbol)' | 'variables' | 'object[path]' | 'object[symbol]'
+type FormatKind =
+  | 'route(path)'
+  | 'route(symbol)'
+  | 'variables'
+  | 'object[path]'
+  | 'object[symbol]'
+  | 'route(path) & object[path]'
+  | 'route(symbol) & object[symbol]'
 
 export type Options<T extends ExtendTypes = ExtendTypes> = {
   /**
@@ -810,7 +817,7 @@ ${c.files
             .map(c => {
               return (
                 `/**\n * ${c.type}\n */
-${options?.format?.includes('route') ? `` : `export `}` +
+${options?.format?.includes('object') ? `export ` : ``}` +
                 `const ${c.type} = {
   ${c.files
     .map(key => {

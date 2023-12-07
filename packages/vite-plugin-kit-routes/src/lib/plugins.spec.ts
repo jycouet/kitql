@@ -315,7 +315,7 @@ describe('run()', async () => {
     },
   }
 
-  const commonConfig_symbol: Options<KIT_ROUTES_ObjectSymbol> = {
+  const commonConfig_variables: Options<KIT_ROUTES_ObjectSymbol> = {
     PAGES: {
       subGroup2: {
         explicit_search_params: {
@@ -367,36 +367,37 @@ describe('run()', async () => {
 
   const commonConfig_Path: Options<KIT_ROUTES_ObjectPath> = {
     PAGES: {
-      '/subGroup2': commonConfig_symbol.PAGES?.subGroup2,
-      '/contract': commonConfig_symbol.PAGES?.contract,
-      '/site': commonConfig_symbol.PAGES?.site,
-      '/site/[id]': commonConfig_symbol.PAGES?.site_id,
-      '/match/[id=int]': commonConfig_symbol.PAGES?.match_id_int,
+      '/subGroup2': commonConfig_variables.PAGES?.subGroup2,
+      '/contract': commonConfig_variables.PAGES?.contract,
+      '/site': commonConfig_variables.PAGES?.site,
+      '/site/[id]': commonConfig_variables.PAGES?.site_id,
+      '/match/[id=int]': commonConfig_variables.PAGES?.match_id_int,
       '/site_contract/[siteId]-[contractId]':
-        commonConfig_symbol.PAGES?.site_contract_siteId_contractId,
+        commonConfig_variables.PAGES?.site_contract_siteId_contractId,
     },
     SERVERS: {},
     ACTIONS: {
-      'default /contract/[id]': commonConfig_symbol.ACTIONS?.default_contract_id,
+      'default /contract/[id]': commonConfig_variables.ACTIONS?.default_contract_id,
       'send /site_contract/[siteId]-[contractId]':
-        commonConfig_symbol.ACTIONS?.send_site_contract_siteId_contractId,
+        commonConfig_variables.ACTIONS?.send_site_contract_siteId_contractId,
     },
   }
 
-  const commonConfig_symbol_space: Options<KIT_ROUTES_RouteSymbol> = {
+  const commonConfig_symbol: Options<KIT_ROUTES_RouteSymbol> = {
     PAGES: {
-      subGroup2: commonConfig_symbol.PAGES?.subGroup2,
-      contract: commonConfig_symbol.PAGES?.contract,
-      site: commonConfig_symbol.PAGES?.site,
-      site_id: commonConfig_symbol.PAGES?.site_id,
-      match_id_int: commonConfig_symbol.PAGES?.match_id_int,
-      site_contract_siteId_contractId: commonConfig_symbol.PAGES?.site_contract_siteId_contractId,
+      subGroup2: commonConfig_variables.PAGES?.subGroup2,
+      contract: commonConfig_variables.PAGES?.contract,
+      site: commonConfig_variables.PAGES?.site,
+      site_id: commonConfig_variables.PAGES?.site_id,
+      match_id_int: commonConfig_variables.PAGES?.match_id_int,
+      site_contract_siteId_contractId:
+        commonConfig_variables.PAGES?.site_contract_siteId_contractId,
     },
     SERVERS: {},
     ACTIONS: {
-      'default contract_id': commonConfig_symbol.ACTIONS?.default_contract_id,
+      'default contract_id': commonConfig_variables.ACTIONS?.default_contract_id,
       'send site_contract_siteId_contractId':
-        commonConfig_symbol.ACTIONS?.send_site_contract_siteId_contractId,
+        commonConfig_variables.ACTIONS?.send_site_contract_siteId_contractId,
     },
   }
 
@@ -420,7 +421,7 @@ describe('run()', async () => {
     {
       pathFile: 'format-object-symbol',
       format: 'object[symbol]',
-      extra: { ...commonConfig, ...commonConfig_symbol },
+      extra: { ...commonConfig, ...commonConfig_variables },
     },
     {
       pathFile: 'format-route-path',
@@ -430,11 +431,21 @@ describe('run()', async () => {
     {
       pathFile: 'format-route-symbol',
       format: 'route(symbol)',
-      extra: { ...commonConfig, ...commonConfig_symbol_space },
+      extra: { ...commonConfig, ...commonConfig_symbol },
     },
     {
       pathFile: 'format-variables',
       format: 'variables',
+      extra: { ...commonConfig, ...commonConfig_variables },
+    },
+    {
+      pathFile: 'format-route-and-object-path',
+      format: 'route(path) & object[path]',
+      extra: { ...commonConfig, ...commonConfig_Path },
+    },
+    {
+      pathFile: 'format-route-and-object-symbol',
+      format: 'route(symbol) & object[symbol]',
       extra: { ...commonConfig, ...commonConfig_symbol },
     },
   ] as const
@@ -627,6 +638,67 @@ describe('run()', async () => {
       it('format route(symbol) shortened', async () => {
         let { route } = await import(getPathROUTES(getToRunShortened(runs[3]).pathFile))
         expect(route(element.key_symbol, ...element.params_shortened), element.name).toBe(
+          element.results,
+        )
+      })
+
+      //
+      it('format route(path) & object[path]', async () => {
+        let { route, PAGES, SERVERS, ACTIONS, LINKS } = await import(
+          getPathROUTES(runs[5].pathFile)
+        )
+        // route
+        expect(route(element.key_path, ...element.params), element.name).toBe(element.results)
+        const obj = findObj(element.kind, PAGES, SERVERS, ACTIONS, LINKS)
+
+        // object
+        expect(fnOrNot(obj, element.key_path, ...element.params), element.name).toBe(
+          element.results,
+        )
+      })
+      // SHORTENED
+      it('format route(path) & object[path] shortened', async () => {
+        let { route, PAGES, SERVERS, ACTIONS, LINKS } = await import(
+          getPathROUTES(getToRunShortened(runs[5]).pathFile)
+        )
+        // route
+        expect(route(element.key_path, ...element.params_shortened), element.name).toBe(
+          element.results,
+        )
+        // object
+        const obj = findObj(element.kind, PAGES, SERVERS, ACTIONS, LINKS)
+        expect(fnOrNot(obj, element.key_path, ...element.params_shortened), element.name).toBe(
+          element.results,
+        )
+      })
+
+      //
+      it('format route(symbol) & object[symbol]', async () => {
+        let { route, PAGES, SERVERS, ACTIONS, LINKS } = await import(
+          getPathROUTES(runs[6].pathFile)
+        )
+        // route
+        expect(route(element.key_symbol, ...element.params), element.name).toBe(element.results)
+        const obj = findObj(element.kind, PAGES, SERVERS, ACTIONS, LINKS)
+
+        // object
+        expect(fnOrNot(obj, element.key_symbol, ...element.params), element.name).toBe(
+          element.results,
+        )
+      })
+      // SHORTENED
+      it('format route(symbol) & object[symbol] shortened', async () => {
+        let { route, PAGES, SERVERS, ACTIONS, LINKS } = await import(
+          getPathROUTES(getToRunShortened(runs[6]).pathFile)
+        )
+        // route
+        expect(route(element.key_symbol, ...element.params_shortened), element.name).toBe(
+          element.results,
+        )
+
+        // object
+        const obj = findObj(element.kind, PAGES, SERVERS, ACTIONS, LINKS)
+        expect(fnOrNot(obj, element.key_symbol, ...element.params_shortened), element.name).toBe(
           element.results,
         )
       })
