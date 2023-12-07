@@ -1,5 +1,14 @@
 # vite-plugin-kit-routes
 
+## 0.2.6
+
+### Patch Changes
+
+- [#537](https://github.com/jycouet/kitql/pull/537)
+  [`81fb90a`](https://github.com/jycouet/kitql/commit/81fb90ad0bd50782ad35b633c13b17fa4f270a77)
+  Thanks [@jycouet](https://github.com/jycouet)! - add formats `route(path) & object[path]` AND
+  `route(symbol) & object[symbol]` exporting everything
+
 ## 0.2.5
 
 ### Patch Changes
