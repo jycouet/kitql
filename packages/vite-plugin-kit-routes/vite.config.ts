@@ -13,6 +13,7 @@ export default defineConfig({
     sveltekit(),
     // demo
     kitRoutes<KIT_ROUTES>({
+      // format: 'route(path) & object[path]',
       // format: 'object[symbol]',
       // format_short: true,
       logs: {
