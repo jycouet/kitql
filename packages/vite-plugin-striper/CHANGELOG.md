@@ -1,5 +1,13 @@
 # vite-plugin-striper
 
+## 0.0.7
+
+### Patch Changes
+
+- [#540](https://github.com/jycouet/kitql/pull/540)
+  [`3bc0223`](https://github.com/jycouet/kitql/commit/3bc02234b3fa07ccf8e55025c6bd66e3639c9ecb)
+  Thanks [@jycouet](https://github.com/jycouet)! - fix import in array is now detected
+
 ## 0.0.6
 
 ### Patch Changes
