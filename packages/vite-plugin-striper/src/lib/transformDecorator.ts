@@ -86,30 +86,22 @@ export const transformDecorator = async (code: string, decorators_to_strip: stri
 
           this.traverse(path)
         },
-        visitClassDeclaration(path) {
-          // @ts-ignore
-          if (path.node.decorators) {
-            // @ts-ignore
-            const vals = path.node.decorators.map(
-              // @ts-ignore
-              a => a.expression.callee.name,
-            )
-            // @ts-ignore
-            usedIdentifiersInCode.add(...vals)
-          }
 
+        visitClassDeclaration(path) {
+          // Capture identifiers in class decorators
+          // @ts-ignore
+          ;(path.node.decorators || []).forEach(decorator => {
+            extractIdentifiersFromExpression(decorator.expression, usedIdentifiersInCode)
+          })
+
+          // Capture identifiers in class methods and properties
           path.node.body.body.forEach(element => {
-            if (element.type === 'ClassProperty') {
+            if (element.type === 'ClassMethod' || element.type === 'ClassProperty') {
+              // Capture identifiers in element decorators
               // @ts-ignore
-              const vals = element.decorators
-                // @ts-ignore
-                .map(d => d.expression)
-                // @ts-ignore
-                .map(e => e.callee)
-                // @ts-ignore
-                .map(f => f.object.name)
-              // @ts-ignore
-              usedIdentifiersInCode.add(...vals)
+              ;(element.decorators || []).forEach(decorator => {
+                extractIdentifiersFromExpression(decorator.expression, usedIdentifiersInCode)
+              })
             }
           })
 
@@ -142,4 +134,28 @@ export const transformDecorator = async (code: string, decorators_to_strip: stri
     // if anything happens, just return the original code
     return { code, transformed: false }
   }
+}
+
+// Helper function to extract identifiers from an expression
+// @ts-ignore
+function extractIdentifiersFromExpression(expression, identifierSet) {
+  if (!expression) return
+
+  if (expression.type === 'Identifier') {
+    identifierSet.add(expression.name)
+  } else if (expression.type === 'MemberExpression') {
+    extractIdentifiersFromExpression(expression.object, identifierSet)
+    extractIdentifiersFromExpression(expression.property, identifierSet)
+  } else if (expression.type === 'CallExpression') {
+    extractIdentifiersFromExpression(expression.callee, identifierSet)
+    // @ts-ignore
+    expression.arguments.forEach(arg => extractIdentifiersFromExpression(arg, identifierSet))
+  } else if (expression.type === 'ArrayExpression') {
+    // Process each element in the array
+    // @ts-ignore
+    expression.elements.forEach(element => {
+      extractIdentifiersFromExpression(element, identifierSet)
+    })
+  }
+  // Add other expression types as needed
 }
