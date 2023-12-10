@@ -86,35 +86,55 @@ export const transformDecorator = async (code: string, decorators_to_strip: stri
 
           this.traverse(path)
         },
-        visitClassDeclaration(path) {
-          // @ts-ignore
-          if (path.node.decorators) {
-            // @ts-ignore
-            const vals = path.node.decorators.map(
-              // @ts-ignore
-              a => a.expression.callee.name,
-            )
-            // @ts-ignore
-            usedIdentifiersInCode.add(...vals)
-          }
 
+        visitClassDeclaration(path) {
+          // Capture identifiers in class decorators
+          ;(path.node.decorators || []).forEach(decorator => {
+            extractIdentifiersFromExpression(decorator.expression, usedIdentifiersInCode)
+          })
+
+          // Capture identifiers in class methods and properties
           path.node.body.body.forEach(element => {
-            if (element.type === 'ClassProperty') {
-              // @ts-ignore
-              const vals = element.decorators
-                // @ts-ignore
-                .map(d => d.expression)
-                // @ts-ignore
-                .map(e => e.callee)
-                // @ts-ignore
-                .map(f => f.object.name)
-              // @ts-ignore
-              usedIdentifiersInCode.add(...vals)
+            if (element.type === 'ClassMethod' || element.type === 'ClassProperty') {
+              // Capture identifiers in element decorators
+              ;(element.decorators || []).forEach(decorator => {
+                extractIdentifiersFromExpression(decorator.expression, usedIdentifiersInCode)
+              })
             }
           })
 
           this.traverse(path)
         },
+
+        // visitClassDeclaration(path) {
+        //   // @ts-ignore
+        //   if (path.node.decorators) {
+        //     // @ts-ignore
+        //     const vals = path.node.decorators.map(
+        //       // @ts-ignore
+        //       a => a.expression.callee.name,
+        //     )
+        //     // @ts-ignore
+        //     usedIdentifiersInCode.add(...vals)
+        //   }
+
+        //   path.node.body.body.forEach(element => {
+        //     if (element.type === 'ClassProperty') {
+        //       // @ts-ignore
+        //       const vals = element.decorators
+        //         // @ts-ignore
+        //         .map(d => d.expression)
+        //         // @ts-ignore
+        //         .map(e => e.callee)
+        //         // @ts-ignore
+        //         .map(f => f.object.name)
+        //       // @ts-ignore
+        //       usedIdentifiersInCode.add(...vals)
+        //     }
+        //   })
+
+        //   this.traverse(path)
+        // },
       })
 
       // Remove unused identifiers within import statements from the AST
@@ -142,4 +162,25 @@ export const transformDecorator = async (code: string, decorators_to_strip: stri
     // if anything happens, just return the original code
     return { code, transformed: false }
   }
+}
+
+// Helper function to extract identifiers from an expression
+function extractIdentifiersFromExpression(expression, identifierSet) {
+  if (!expression) return
+
+  if (expression.type === 'Identifier') {
+    identifierSet.add(expression.name)
+  } else if (expression.type === 'MemberExpression') {
+    extractIdentifiersFromExpression(expression.object, identifierSet)
+    extractIdentifiersFromExpression(expression.property, identifierSet)
+  } else if (expression.type === 'CallExpression') {
+    extractIdentifiersFromExpression(expression.callee, identifierSet)
+    expression.arguments.forEach(arg => extractIdentifiersFromExpression(arg, identifierSet))
+  } else if (expression.type === 'ArrayExpression') {
+    // Process each element in the array
+    expression.elements.forEach(element => {
+      extractIdentifiersFromExpression(element, identifierSet)
+    })
+  }
+  // Add other expression types as needed
 }
