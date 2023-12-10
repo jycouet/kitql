@@ -194,4 +194,54 @@ export class TasksController {
     }
   `)
   })
+
+  it('should strip just the right things', async () => {
+    const code = `import { Allow, BackendMethod, Entity, Fields, Validators } from 'remult'
+
+    @Entity<User2>('userstest', {
+      allowApiCrud: Allow.authenticated,
+    })
+    export class User2 {
+      @Fields.uuid()
+      id = ''
+    
+      @Fields.string({
+        validate: [Validators.required, Validators.uniqueOnBackend],
+      })
+      email = ''
+    
+      @BackendMethod({ allowed: Allow.everyone })
+      async testMethod() {
+        console.log('hello')
+      }
+    }
+	`
+
+    const transformed = await transformDecorator(code, ['BackendMethod'])
+
+    expect(transformed).toMatchInlineSnapshot(`
+      {
+        "code": "import { Allow, BackendMethod, Entity, Fields } from \\"remult\\";
+
+      @Entity<User2>(\\"userstest\\", {
+          allowApiCrud: Allow.authenticated
+      })
+      export class User2 {
+          @Fields.uuid()
+          id = \\"\\";
+
+          @Fields.string({
+              validate: [Validators.required, Validators.uniqueOnBackend]
+          })
+          email = \\"\\";
+
+          @BackendMethod({
+              allowed: Allow.everyone
+          })
+          async testMethod() {}
+      }",
+        "transformed": true,
+      }
+    `)
+  })
 })
