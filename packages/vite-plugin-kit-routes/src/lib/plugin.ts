@@ -1,7 +1,7 @@
 import { cyan, gray, green, italic, Log, red, stry0, yellow } from '@kitql/helpers'
 import { spawn } from 'child_process'
 import type { Plugin } from 'vite'
-import watch_and_run from 'vite-plugin-watch-and-run'
+import { watchAndRun } from 'vite-plugin-watch-and-run'
 
 import { getActionsOfServerPages, getMethodsOfServerFiles } from './ast.js'
 import { appendSp, format, routeFn } from './format.js'
@@ -1025,7 +1025,7 @@ export function kitRoutes<T extends ExtendTypes = ExtendTypes>(options?: Options
     },
 
     // Run the thing when any change in a +page.svelte (add, remove, ...)
-    watch_and_run([
+    watchAndRun([
       {
         name: 'kit-routes-watch',
         logs: [],

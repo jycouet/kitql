@@ -1,7 +1,7 @@
 import { green, Log, yellow } from '@kitql/helpers'
 import { readFileSync } from 'fs'
 import type { Plugin } from 'vite'
-import watch_and_run from 'vite-plugin-watch-and-run'
+import { watchAndRun } from 'vite-plugin-watch-and-run'
 
 import { getFilesUnder } from './fs.js'
 import { transformDecorator } from './transformDecorator.js'
@@ -116,7 +116,7 @@ export function striper(sCptions?: ViteStriperOptions): Plugin[] {
     },
 
     // Run the thing when any change in a +page.svelte (add, remove, ...)
-    watch_and_run([
+    watchAndRun([
       {
         name: 'kit-routes-watch',
         logs: [],
