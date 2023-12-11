@@ -27,7 +27,7 @@
     "check": "svelte-check --tsconfig ./tsconfig.json",
     "check:watch": "svelte-check --tsconfig ./tsconfig.json --watch",
     "test": "vitest",
-    "test:ci": "vitest --coverage",
+    "test:ci": "vitest run --coverage",
     "lint": "kitql-lint",
     "format": "kitql-lint --fix"
   },
