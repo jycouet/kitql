@@ -29,3 +29,34 @@ jobs:
 
       - name: 👌 Run Tests
         run: pnpm run test:ci
+
+  verify_create:
+    name: Verify Create
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        template: [kit-routes, sveltekit-remult]
+    steps:
+      - name: 🌐 Checkout Repository
+        uses: actions/checkout@v4
+        with:
+          # This makes Actions fetch all Git history so that Changesets can generate changelogs with the correct commits
+          fetch-depth: 0
+
+      - name: 🧑‍💻 Setup env
+        uses: jycouet/jycouet/shared-config/setup@main
+        # with:
+        #   nodeVersion: 18
+
+      - name: ➕ Create template
+        run:
+          cd packages/create-kitql && pnpm dev test-${{ matrix.template }} -t ${{ matrix.template }}
+
+      - name: 🧑‍💻 Install playwright
+        run: cd packages/create-kitql/test-${{ matrix.template }} && npx playwright install
+
+      - name: 🛠️ e2e install
+        run: cd packages/create-kitql/test-${{ matrix.template }} && npm i
+
+      - name: 👌 e2e tests
+        run: cd packages/create-kitql/test-${{ matrix.template }} && npm run test:integration
