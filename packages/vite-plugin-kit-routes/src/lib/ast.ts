@@ -1,8 +1,8 @@
 import { parse } from '@babel/parser'
 import { cyan, red, yellow } from '@kitql/helpers'
+import { read } from '@kitql/internals'
 import * as recast from 'recast'
 
-import { read } from '@kitql/internals'
 import { log, routes_path } from './plugin.js'
 
 const { visit } = recast.types
