@@ -1,5 +1,20 @@
 # vite-plugin-striper
 
+## 0.1.0
+
+### Minor Changes
+
+- [`b62cd5b`](https://github.com/jycouet/kitql/commit/b62cd5bbb7af093c85682489399e92218fd28017)
+  Thanks [@jycouet](https://github.com/jycouet)! - refacto usage @kitql/internals
+
+### Patch Changes
+
+- Updated dependencies
+  [[`54b4912`](https://github.com/jycouet/kitql/commit/54b491295df780ed30f5a039e4c78c95660fc87b),
+  [`635dc31`](https://github.com/jycouet/kitql/commit/635dc312e13404afc8527289a242ed7e2d5a71b8)]:
+  - @kitql/internals@0.9.0
+  - vite-plugin-watch-and-run@1.5.0
+
 ## 0.0.8
 
 ### Patch Changes

@@ -1,5 +1,13 @@
 # create-kitql
 
+## 0.1.0
+
+### Minor Changes
+
+- [#545](https://github.com/jycouet/kitql/pull/545)
+  [`635dc31`](https://github.com/jycouet/kitql/commit/635dc312e13404afc8527289a242ed7e2d5a71b8)
+  Thanks [@jycouet](https://github.com/jycouet)! - bump to latest
+
 ## 0.0.7
 
 ### Patch Changes

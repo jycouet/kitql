@@ -1,5 +1,13 @@
 # @kitql/vite-plugin-watch-and-run
 
+## 1.5.0
+
+### Minor Changes
+
+- [#545](https://github.com/jycouet/kitql/pull/545)
+  [`635dc31`](https://github.com/jycouet/kitql/commit/635dc312e13404afc8527289a242ed7e2d5a71b8)
+  Thanks [@jycouet](https://github.com/jycouet)! - switched to named export
+
 ## 1.4.5
 
 ### Patch Changes
