@@ -237,9 +237,9 @@ async function watcher(
 
 const log = new Log('Watch-and-Run')
 
-export default function watchAndRun(
+export const watchAndRun = (
   params: Options[],
-): Plugin & { getCheckedConf: () => StateDetail[] } {
+): Plugin & { getCheckedConf: () => StateDetail[] } => {
   return {
     name: 'watch-and-run',
 

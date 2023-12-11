@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 
-import watchAndRun from './index.js'
+import { watchAndRun } from './index.js'
 
 describe('vite-plugin-watch-and-run', () => {
   it('Should throw an error as no config is sent', async () => {

@@ -13,6 +13,7 @@
     "release:version": "npm run changeset version",
     "release": "npm run build && changeset publish",
     "nx:graph": "pnpm exec nx graph",
+    "nx:reset": "pnpm exec nx reset",
     "reset": "git clean -xdf",
     "up-dep": "pnpm -r up --latest"
   },

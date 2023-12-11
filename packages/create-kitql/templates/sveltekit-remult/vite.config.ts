@@ -1,10 +1,12 @@
 import { sveltekit } from '@sveltejs/kit/vite';
 import { defineConfig } from 'vitest/config';
 import { kitRoutes } from 'vite-plugin-kit-routes';
+import { striper } from 'vite-plugin-striper';
 
 export default defineConfig({
 	plugins: [
 		sveltekit(),
+		striper({ decorators: ['BackendMethod'] }),
 		kitRoutes({
 			post_update_run: 'npm exec prettier ./src/lib/ROUTES.ts -- -w',
 			LINKS: {
@@ -15,6 +17,6 @@ export default defineConfig({
 		})
 	],
 	test: {
-		include: ['src/**/*.{spec}.{js,ts}']
+		include: ['src/**/*.spec.{js,ts}']
 	}
 });
