@@ -1,32 +1,25 @@
 # KitQL
 
-[KitQL](https://github.com/jycouet/kitql#kitql), _A set of tools, helping **you** building efficient apps in a fast way._
+<p align="center">
+A set of tools to speedrun WebApps!
+</p>
 
 <p align="center">
   <img src="./logo.svg" width="100" />
 </p>
 
-![svelte](https://img.shields.io/badge/powered%20by-SvelteKit-FF3C02.svg?style=flat&logo=svelte)
-![ts](https://img.shields.io/badge/language-typescript-blue.svg?style=flat&logo=typescript)
+## 🌐 Infos
 
-[![Release](https://github.com/jycouet/kitql/actions/workflows/release.yml/badge.svg)](https://github.com/jycouet/kitql/actions/workflows/release.yml)
-[![Tests](https://github.com/jycouet/kitql/actions/workflows/ci.yml/badge.svg)](https://github.com/jycouet/kitql/actions/workflows/ci.yml)
 
-<br />
-
-# 🌐 Infos
-
-- Documentation: [https://kitql.dev](https://kitql.dev)
-- Day by day progress, check [twitter - jycouet](https://twitter.com/jycouet/status/1486052645567672324)
-
-<br />
-
-# ⭐️ Join us
-
-[![GitHub Repo stars](https://img.shields.io/github/stars/jycouet/kitql?logo=github&label=KitQL&color=#4ACC31)](https://github.com/jycouet/kitql)
+[![](https://img.shields.io/badge/Documentation%20of-kitql-FF3E00.svg?style=flat&logo=stackblitz&logoColor=FF3E00)](https://kitql.dev/docs)
 [![GitHub license](https://img.shields.io/badge/license-MIT-gree.svg)](./LICENSE)
 
-# ✨ Contributors
+## ⭐️ Join us
+
+[![GitHub Repo stars](https://img.shields.io/github/stars/jycouet/kitql?logo=github&label=KitQL&color=#4ACC31)](https://github.com/jycouet/kitql)
+
+
+## ✨ Contributors
 
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
 [![All Contributors](https://img.shields.io/badge/all_contributors-30-orange.svg)](#contributors)
