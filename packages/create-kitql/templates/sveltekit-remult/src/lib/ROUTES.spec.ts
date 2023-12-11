@@ -3,6 +3,6 @@ import { route } from './ROUTES';
 
 describe('ROUTES', () => {
 	it('root path is /', () => {
-		expect(route("/")).toBe("/");
+		expect(route('/')).toBe('/');
 	});
 });
