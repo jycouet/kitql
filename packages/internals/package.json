@@ -1,13 +1,9 @@
 {
-  "name": "@kitql/helpers",
-  "description": "Some useful helpers (0 deps)",
+  "name": "@kitql/internals",
+  "description": "Some useful internals",
   "keywords": [
-    "svelte",
-    "terminal",
-    "styles",
-    "color",
-    "ansi",
-    "log"
+    "AST",
+    "fs"
   ],
   "version": "0.8.5",
   "license": "MIT",
@@ -16,7 +12,7 @@
     "type": "git",
     "url": "https://github.com/jycouet/kitql",
     "directory": "packages/helper",
-    "homepage": "https://github.com/jycouet/kitql/tree/main/packages/helpers"
+    "homepage": "https://github.com/jycouet/kitql/tree/main/packages/internals"
   },
   "scripts": {
     "prepare": "svelte-kit sync",
@@ -44,6 +40,11 @@
     "typescript": "5.3.2",
     "vite": "4.5.0",
     "vitest": "0.34.0"
+  },
+  "dependencies": {
+    "@babel/parser": "^7.23.0",
+    "@kitql/helpers": "workspace:*",
+    "recast": "^0.23.4"
   },
   "sideEffects": false,
   "publishConfig": {
