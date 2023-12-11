@@ -5,7 +5,7 @@ import { watchAndRun } from 'vite-plugin-watch-and-run'
 
 import { getActionsOfServerPages, getMethodsOfServerFiles } from './ast.js'
 import { appendSp, format, routeFn } from './format.js'
-import { getFilesUnder, read, write, relative, dirname } from './fs.js'
+import { getFilesUnder, read, write, relative, dirname } from '@kitql/internals'
 
 type ExtendTypes = {
   PAGES: Record<string, string>

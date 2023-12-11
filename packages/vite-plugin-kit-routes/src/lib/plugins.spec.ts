@@ -5,7 +5,7 @@ import type { KIT_ROUTES as KIT_ROUTES_ObjectSymbol } from '../test/ROUTES_forma
 import type { KIT_ROUTES as KIT_ROUTES_RoutePath } from '../test/ROUTES_format-route-path.js'
 import type { KIT_ROUTES as KIT_ROUTES_RouteSymbol } from '../test/ROUTES_format-route-symbol.js'
 import type { KIT_ROUTES as KIT_ROUTES_Variables } from '../test/ROUTES_format-variables.js'
-import { read } from './fs.js'
+import { read } from '@kitql/internals'
 import {
   extractParamsFromPath,
   transformToMetadata,
