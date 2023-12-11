@@ -1,11 +1,11 @@
 import { cyan, gray, green, italic, Log, red, stry0, yellow } from '@kitql/helpers'
+import { getFilesUnder, read, write, relative, dirname } from '@kitql/internals'
 import { spawn } from 'child_process'
 import type { Plugin } from 'vite'
 import { watchAndRun } from 'vite-plugin-watch-and-run'
 
 import { getActionsOfServerPages, getMethodsOfServerFiles } from './ast.js'
 import { appendSp, format, routeFn } from './format.js'
-import { getFilesUnder, read, write, relative, dirname } from './fs.js'
 
 type ExtendTypes = {
   PAGES: Record<string, string>
@@ -887,7 +887,6 @@ ${objTypes
 `,
     ])
 
-    // TODO: optimize this later. We want to write the new file only if different after prettier?! (having a tmp file somewhere?)
     if (options?.post_update_run) {
       if (shouldLog('post_update_run', options)) {
         log.info(`${yellow(`post_update_run`)} "${green(options?.post_update_run)}" running...`)

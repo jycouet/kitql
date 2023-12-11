@@ -10,7 +10,7 @@ export function read(pathFile: string) {
 }
 
 export function write(pathFile: string, data: string[]) {
-  const fullDataToWrite = Array.isArray(data) ? data.join('\n') : data
+  const fullDataToWrite = data.join('\n')
 
   // createFolderIfNotExists
   mkdirSync(dirname(pathFile), { recursive: true })
@@ -46,3 +46,5 @@ export function getFilesUnder(rootFolder: string) {
   traverseDirectory(rootFolder)
   return files
 }
+
+export { relative, dirname }

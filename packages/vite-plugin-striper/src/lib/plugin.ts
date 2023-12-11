@@ -1,9 +1,9 @@
 import { green, Log, yellow } from '@kitql/helpers'
+import { getFilesUnder } from '@kitql/internals'
 import { readFileSync } from 'fs'
 import type { Plugin } from 'vite'
 import { watchAndRun } from 'vite-plugin-watch-and-run'
 
-import { getFilesUnder } from './fs.js'
 import { transformDecorator } from './transformDecorator.js'
 import { transformWarningThrow, type WarningThrow } from './transformWarningThrow.js'
 

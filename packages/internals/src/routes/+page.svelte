@@ -9,7 +9,7 @@
 <a href="www.google.com">Google</a>
 <a href={strHref}>Google</a>
 
-<img src="test" />
+<img src="test" alt="test-1" />
 <p>
   <a href="www.google.com">Google</a>
 </p>
