@@ -1,5 +1,13 @@
 # @kitql/helpers
 
+## 0.8.5
+
+### Patch Changes
+
+- [#543](https://github.com/jycouet/kitql/pull/543)
+  [`dcc5b46`](https://github.com/jycouet/kitql/commit/dcc5b46c6142636258d56036193d29183d66bce9)
+  Thanks [@jycouet](https://github.com/jycouet)! - tweak readme (needs a publish)
+
 ## 0.8.4
 
 ### Patch Changes
