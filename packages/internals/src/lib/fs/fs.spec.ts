@@ -73,8 +73,9 @@ describe('fs', () => {
   it('write file in a new place', async () => {
     const data = read(`${process.cwd()}/src/routes/+page.svelte`)
     if (data) {
-      write(`${process.cwd()}/node_modules/routes/+page.svelte` + new Date().toISOString(), [data])
-      const readAgainData = read(`${process.cwd()}/node_modules/routes/+page.svelte`)
+      const path = `${process.cwd()}/node_modules/routes/+page.svelte` + new Date().toISOString()
+      write(path, [data])
+      const readAgainData = read(path)
       expect(readAgainData).toMatchInlineSnapshot(`
         "<script lang=\\"ts\\">
           const strHref = 'www.google.com'
