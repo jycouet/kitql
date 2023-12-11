@@ -1,10 +1,10 @@
 # ⚡ KitQL - Helpers
 
-_Part of [KitQL](https://github.com/jycouet/kitql#kitql), a set of tools helping 🫵 building efficient apps in a fast way._
+_Part of [KitQL](https://github.com/jycouet/kitql#kitql), A set of tools to speedrun WebApps!_
 
 ## 📖 Read the doc
 
-[![](https://img.shields.io/badge/Documentation%20of-vite%20plugin%20kit%20routes-FF3E00.svg?style=flat&logo=stackblitz&logoColor=FF3E00)](https://kitql.dev)
+[![](https://img.shields.io/badge/Documentation%20of-@kitql%20internals-FF3E00.svg?style=flat&logo=stackblitz&logoColor=FF3E00)](https://kitql.dev)
 
 ##  ⭐️ Join us
 
