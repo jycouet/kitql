@@ -49,7 +49,7 @@ jobs:
         #   nodeVersion: 18
 
       - name: 🚧 Build Packages
-        run: pnpm run build
+        run: pnpm exec nx run @kitql/helpers:build
 
       - name: ➕ Create template
         run:
@@ -61,5 +61,5 @@ jobs:
       - name: 🛠️ e2e install
         run: cd packages/create-kitql/test-${{ matrix.template }} && npm i
 
-      - name: 👌 e2e tests
-        run: cd packages/create-kitql/test-${{ matrix.template }} && npm run test:integration
+      - name: 👌 e2e tests (build, e2e, unit)
+        run: cd packages/create-kitql/test-${{ matrix.template }} && npm run test:ci
