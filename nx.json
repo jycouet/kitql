@@ -1,0 +1,16 @@
+{
+  "targetDefaults": {
+    "lint": {},
+    "build": {
+      "dependsOn": ["^build"],
+      "outputs": ["{projectRoot}/dist, coverage, build"],
+      "cache": true
+    },
+    "test": {
+      "dependsOn": ["^build"]
+    }
+  },
+  "affected": {
+    "defaultBase": "main"
+  }
+}

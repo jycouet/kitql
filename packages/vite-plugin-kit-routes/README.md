@@ -1,6 +1,6 @@
-# ⚡ vite-plugin-kit-routes
+# 🪧 vite-plugin-kit-routes
 
-_Part of [KitQL](https://github.com/jycouet/kitql#kitql), a set of tools helping 🫵 building efficient apps in a fast way._
+_Part of [KitQL](https://github.com/jycouet/kitql#kitql), A set of tools to speedrun WebApps!_
 
 ##  📖 Read the doc
 

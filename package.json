@@ -6,13 +6,13 @@
   "type": "module",
   "scripts": {
     "dev:w": "cd website && npm run dev",
-    "test": "pnpm -F !website test",
-    "test:ci": "pnpm -F !website test",
-    "build": "rimraf packages/*/dist && pnpm -F !website build",
-    "lint": "pnpm -r lint",
-    "format": "pnpm -r format",
+    "test:ci": "pnpm exec nx run-many --target=test:ci",
+    "build": "rimraf packages/*/dist && pnpm exec nx run-many --target=build",
+    "lint": "pnpm exec nx run-many --target=lint",
+    "format": "pnpm exec nx run-many --target=format",
     "release:version": "npm run changeset version",
     "release": "npm run build && changeset publish",
+    "nx:graph": "pnpm exec nx graph",
     "reset": "git clean -xdf",
     "up-dep": "pnpm -r up --latest"
   },
@@ -21,6 +21,7 @@
     "@changesets/cli": "2.27.1",
     "@vitest/coverage-v8": "^0.34.6",
     "esbuild": "^0.19.5",
-    "rimraf": "5.0.0"
+    "rimraf": "5.0.0",
+    "nx": "17.2.0"
   }
 }

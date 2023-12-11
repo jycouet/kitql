@@ -1,6 +1,6 @@
 {
   "name": "@kitql/helpers",
-  "description": "Some useful helpers",
+  "description": "Some useful helpers (0 deps)",
   "keywords": [
     "svelte",
     "terminal",
@@ -16,7 +16,7 @@
     "type": "git",
     "url": "https://github.com/jycouet/kitql",
     "directory": "packages/helper",
-    "homepage": "https://github.com/jycouet/kitql/tree/main/packages/helper"
+    "homepage": "https://github.com/jycouet/kitql/tree/main/packages/helpers"
   },
   "scripts": {
     "prepare": "svelte-kit sync",
@@ -27,7 +27,7 @@
     "check": "svelte-check --tsconfig ./tsconfig.json",
     "check:watch": "svelte-check --tsconfig ./tsconfig.json --watch",
     "test": "vitest",
-    "test:ci": "vitest --coverage",
+    "test:ci": "vitest run --coverage",
     "lint": "kitql-lint",
     "format": "kitql-lint --fix"
   },

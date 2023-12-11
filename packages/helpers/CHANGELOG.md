@@ -1,4 +1,4 @@
-# @kitql/helper
+# @kitql/helpers
 
 ## 0.8.4
 
