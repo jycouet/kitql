@@ -2,4 +2,4 @@
 '@kitql/internals': patch
 ---
 
-add fs
+adding a global kitql fs
