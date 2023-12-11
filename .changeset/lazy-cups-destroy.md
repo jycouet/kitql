@@ -1,5 +1,5 @@
 ---
-'@kitql/internals': patch
+'@kitql/internals': minor
 ---
 
 adding a global kitql fs

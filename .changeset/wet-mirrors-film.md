@@ -1,5 +1,5 @@
 ---
-'create-kitql': patch
+'create-kitql': minor
 ---
 
 bump to latest
