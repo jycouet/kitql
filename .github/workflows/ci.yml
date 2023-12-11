@@ -48,6 +48,9 @@ jobs:
         # with:
         #   nodeVersion: 18
 
+      - name: 🚧 Build Packages
+        run: pnpm run build
+
       - name: ➕ Create template
         run:
           cd packages/create-kitql && pnpm dev test-${{ matrix.template }} -t ${{ matrix.template }}
