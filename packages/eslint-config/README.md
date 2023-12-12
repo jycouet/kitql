@@ -44,7 +44,7 @@ module.exports = {
 npm exec kitql-lint
 
 # format
-npm exec kitql-lint --fix
+npm exec kitql-lint --format
 ```
 
 ##  ⭐️ Join us
