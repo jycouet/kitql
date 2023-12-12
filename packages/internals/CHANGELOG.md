@@ -1,5 +1,16 @@
 # @kitql/internals
 
+## 0.9.2
+
+### Patch Changes
+
+- [#554](https://github.com/jycouet/kitql/pull/554)
+  [`86e6594`](https://github.com/jycouet/kitql/commit/86e65946ca7dfdba60cb31689b9fdd8f080a7181)
+  Thanks [@jycouet](https://github.com/jycouet)! - fix dep, include svelte as parser
+
+- Updated dependencies []:
+  - @kitql/helpers@0.8.6
+
 ## 0.9.1
 
 ### Patch Changes

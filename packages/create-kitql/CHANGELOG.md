@@ -1,5 +1,12 @@
 # create-kitql
 
+## 0.1.1
+
+### Patch Changes
+
+- [`5f588c9`](https://github.com/jycouet/kitql/commit/5f588c9c80ad7330d36fdaed8d51f17dc77a896e)
+  Thanks [@jycouet](https://github.com/jycouet)! - bump to latest
+
 ## 0.1.0
 
 ### Minor Changes
