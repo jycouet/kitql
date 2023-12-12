@@ -1,7 +1,7 @@
 import { defineConfig, PRODUCTS, useConfig } from '@theguild/components'
 
 const SITE_NAME = 'KitQL'
-const SITE_DESCRIPTION = 'Bring data management layer to SvelteKit'
+const SITE_DESCRIPTION = 'A set of standalone tools to SpeedRun WebApps!'
 const SOCIAL_IMAGE_URL =
   'https://raw.githubusercontent.com/jycouet/kitql/main/website/public/assets/social-kitql.png'
 

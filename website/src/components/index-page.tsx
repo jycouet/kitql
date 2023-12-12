@@ -10,7 +10,7 @@ export function IndexPage() {
   return (
     <>
       <HeroGradient
-        title="A set of tools to SpeedRun WebApps!"
+        title="A set of standalone tools to SpeedRun WebApps!"
         description="You might not need all of them, so pick and choose what suits 🫵 the best. // Happy Coding 🎉"
         link={{
           href: '/docs',
