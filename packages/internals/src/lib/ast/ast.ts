@@ -1,9 +1,10 @@
-import { read } from '$lib/fs/fs.js'
 import { parse } from '@babel/parser'
 // import type * as recast from 'recast'
 // import { prettyPrint } from 'recast'
 import { parse as parseSvelte } from 'svelte/compiler'
 import type { BaseNode, TemplateNode } from 'svelte/types/compiler/interfaces'
+
+import { read } from '../fs/fs.js'
 
 // very basic
 type ElementAttr = { type: 'a' | 'img'; attr: 'href' | 'src' }
