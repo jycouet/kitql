@@ -1,13 +1,14 @@
 import { remultSveltekit } from 'remult/remult-sveltekit';
 // import { createPostgresDataProvider } from 'remult/postgres';
 // import { DATABASE_URL } from '$env/static/private';
-import { entities } from '../shared';
+import { entities, controllers } from '../shared';
 import { remult } from 'remult';
 import { Task } from '../shared';
 
 export const handleRemult = remultSveltekit({
 	// dataProvider: createPostgresDataProvider({ connectionString: DATABASE_URL })
 	entities,
+	controllers,
 	initApi: async () => {
 		try {
 			if ((await remult.repo(Task).count()) === 0) {

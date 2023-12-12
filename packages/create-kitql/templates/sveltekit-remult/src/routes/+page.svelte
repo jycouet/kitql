@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { remult } from 'remult';
 	import { onDestroy, onMount } from 'svelte';
-	import { Task } from '../shared';
+	import { Task, TasksController } from '../shared';
 
 	let list: Task[] = [];
 	let unSub: (() => void) | null = null;
@@ -54,3 +54,7 @@
 	<input type="text" bind:value={title} />
 	<button type="submit">Add</button>
 </form>
+<button
+	on:click={async () =>
+		await TasksController.setAllCompleted(list.length > 0 ? !list[0].completed : false)}>All</button
+>

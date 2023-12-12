@@ -1,4 +1,4 @@
-import { Entity, Fields } from 'remult';
+import { BackendMethod, Entity, Fields, remult } from 'remult';
 
 @Entity('tasks', {
 	allowApiCrud: true
@@ -19,4 +19,15 @@ export class Task {
 
 	@Fields.createdAt()
 	createdAt?: Date;
+}
+
+export class TasksController {
+	@BackendMethod({ allowed: true })
+	static async setAllCompleted(completed: boolean) {
+		const taskRepo = remult.repo(Task);
+
+		for (const task of await taskRepo.find()) {
+			await taskRepo.update(task.id, { completed });
+		}
+	}
 }
