@@ -25,16 +25,15 @@
     "test": "vitest",
     "test:ci": "vitest run --coverage",
     "lint": "kitql-lint",
-    "format": "kitql-lint --fix"
+    "format": "kitql-lint --format"
   },
   "devDependencies": {
     "@sveltejs/adapter-auto": "2.1.0",
     "@sveltejs/kit": "1.29.0",
     "@sveltejs/package": "2.2.2",
-    "eslint-config-kitql": "workspace:*",
+    "@kitql/eslint-config": "workspace:*",
     "publint": "0.2.4",
     "rollup-plugin-visualizer": "^5.9.2",
-    "svelte": "4.2.1",
     "svelte-check": "3.6.0",
     "tslib": "2.6.2",
     "typescript": "5.3.2",
@@ -44,7 +43,8 @@
   "dependencies": {
     "@babel/parser": "^7.23.0",
     "@kitql/helpers": "workspace:*",
-    "recast": "^0.23.4"
+    "recast": "^0.23.4",
+    "svelte": "4.2.1"
   },
   "sideEffects": false,
   "publishConfig": {

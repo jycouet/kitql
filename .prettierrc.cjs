@@ -1,9 +1,6 @@
-const { plugins, ...prettierConfig } = require('@theguild/prettier-config')
+const config = require('./packages/eslint-config/.prettierrc.cjs')
 
 module.exports = {
-  ...prettierConfig,
-  semi: false,
-  plugins: [...plugins, 'prettier-plugin-svelte', '@trivago/prettier-plugin-sort-imports'],
-  importOrder: ['<THIRD_PARTY_MODULES>', '^[./]'],
-  importOrderSeparation: true,
+  ...config,
+  // Some custom things?
 }

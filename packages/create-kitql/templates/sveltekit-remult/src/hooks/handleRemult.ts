@@ -17,6 +17,8 @@ export const handleRemult = remultSveltekit({
 					.repo(Task)
 					.insert({ title: "You've successfully created a new KitQL remult project. 🚀" });
 			}
-		} catch (error) {}
+		} catch (error) {
+			console.error(error);
+		}
 	}
 });

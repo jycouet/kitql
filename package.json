@@ -6,9 +6,9 @@
   "type": "module",
   "scripts": {
     "dev:w": "cd website && npm run dev",
-    "test:ci": "pnpm exec nx run-many --target=test:ci",
+    "test:ci": "pnpm exec nx run-many --target=test:ci --exclude create-kitql-*",
     "build": "rimraf packages/*/dist && pnpm exec nx run-many --target=build",
-    "lint": "pnpm exec nx run-many --target=lint",
+    "lint": "pnpm exec nx run-many --target=lint --exclude create-kitql-*",
     "format": "pnpm exec nx run-many --target=format",
     "release:version": "npm run changeset version",
     "release": "npm run build && changeset publish",

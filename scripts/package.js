@@ -106,19 +106,19 @@ for (let i = 0; i < listOfFilesToRemove.length; i++) {
 }
 
 // Check that create template is using latest version
-const createTemplatePath = path.join(packageDirPath, '../create-kitql/templates')
-const templates = fs.readdirSync(createTemplatePath)
-templates.forEach(template => {
-  const pkgTemplatePath = path.join(createTemplatePath, template, 'package.json')
-  const pkgTemplateJson = JSON.parse(fs.readFileSync(pkgTemplatePath, 'utf-8'))
-  if (pkgTemplateJson.dependencies?.[pkg.name]) {
-    pkgTemplateJson.dependencies[pkg.name] = pkg.version
-  }
-  if (pkgTemplateJson.devDependencies?.[pkg.name]) {
-    pkgTemplateJson.devDependencies[pkg.name] = pkg.version
-  }
-  fs.writeFileSync(pkgTemplatePath, JSON.stringify(pkgTemplateJson, null, 2))
-})
+// const createTemplatePath = path.join(packageDirPath, '../create-kitql/templates')
+// const templates = fs.readdirSync(createTemplatePath)
+// templates.forEach(template => {
+//   const pkgTemplatePath = path.join(createTemplatePath, template, 'package.json')
+//   const pkgTemplateJson = JSON.parse(fs.readFileSync(pkgTemplatePath, 'utf-8'))
+//   if (pkgTemplateJson.dependencies?.[pkg.name]) {
+//     pkgTemplateJson.dependencies[pkg.name] = pkg.version
+//   }
+//   if (pkgTemplateJson.devDependencies?.[pkg.name]) {
+//     pkgTemplateJson.devDependencies[pkg.name] = pkg.version
+//   }
+//   fs.writeFileSync(pkgTemplatePath, JSON.stringify(pkgTemplateJson, null, 2))
+// })
 
 console.log(`✅ @kitql scripts/package "${pkg.name}" done`)
 

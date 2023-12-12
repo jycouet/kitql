@@ -123,7 +123,7 @@ copy(
     [`create-kitql-${template}`]: projectName,
   },
   { '.meta.gitignore': '.gitignore' },
-  ['.meta.json'],
+  ['.meta.json', 'node_modules'],
 )
 
 p.outro(`🎉 Everything is ready!

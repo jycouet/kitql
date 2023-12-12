@@ -24,10 +24,10 @@
     "test": "vitest",
     "test:ci": "vitest run --coverage",
     "lint": "kitql-lint",
-    "format": "kitql-lint --fix"
+    "format": "kitql-lint --format"
   },
   "devDependencies": {
-    "eslint-config-kitql": "workspace:*",
+    "@kitql/eslint-config": "workspace:*",
     "@sveltejs/adapter-auto": "2.1.0",
     "@sveltejs/kit": "1.29.0",
     "@sveltejs/package": "2.2.2",
