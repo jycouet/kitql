@@ -1,6 +1,7 @@
 # 👀 vite-plugin-watch-and-run
 
-_Part of [KitQL](https://github.com/jycouet/kitql#kitql), A set of tools to speedrun WebApps!_
+[![](https://img.shields.io/npm/v/vite-plugin-watch-and-run?color=&logo=npm)](https://www.npmjs.com/package/vite-plugin-watch-and-run)
+[![](https://img.shields.io/npm/dm/vite-plugin-watch-and-run?&logo=npm)](https://www.npmjs.com/package/vite-plugin-watch-and-run)
 
 ## 📖 Read the doc
 
@@ -10,3 +11,4 @@ _Part of [KitQL](https://github.com/jycouet/kitql#kitql), A set of tools to spee
 
 [![GitHub Repo stars](https://img.shields.io/github/stars/jycouet/kitql?logo=github&label=KitQL&color=#4ACC31)](https://github.com/jycouet/kitql)
 
+💡 _[KitQL](https://www.kitql.dev/docs) itself is not a library, it's "nothing" but a collection of standalone libraries._

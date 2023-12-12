@@ -1,6 +1,7 @@
 # ➕ create kitql
 
-_Part of [KitQL](https://github.com/jycouet/kitql#kitql), A set of tools to speedrun WebApps!_
+[![](https://img.shields.io/npm/v/create-kitql?color=&logo=npm)](https://www.npmjs.com/package/create-kitql)
+[![](https://img.shields.io/npm/dm/create-kitql?&logo=npm)](https://www.npmjs.com/package/create-kitql)
 
 ##  📖 Read the doc
 
@@ -18,4 +19,6 @@ npm create kitql@latest demo-kitql --template kitql-remult
 ##  ⭐️ Join us
 
 [![GitHub Repo stars](https://img.shields.io/github/stars/jycouet/kitql?logo=github&label=KitQL&color=#4ACC31)](https://github.com/jycouet/kitql)
+
+💡 _[KitQL](https://www.kitql.dev/docs) itself is not a library, it's "nothing" but a collection of standalone libraries._
 
