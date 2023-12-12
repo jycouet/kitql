@@ -1,5 +1,13 @@
 # @kitql/internals
 
+## 0.9.1
+
+### Patch Changes
+
+- [#551](https://github.com/jycouet/kitql/pull/551)
+  [`365743e`](https://github.com/jycouet/kitql/commit/365743ec5f8b2fbbc5648e172c7352d672f1eaaa)
+  Thanks [@jycouet](https://github.com/jycouet)! - fix internal imports
+
 ## 0.9.0
 
 ### Minor Changes
