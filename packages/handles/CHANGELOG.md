@@ -1,5 +1,12 @@
 # @kitql/handles
 
+## 0.1.4
+
+### Patch Changes
+
+- [`47d9f4d`](https://github.com/jycouet/kitql/commit/47d9f4d80d8f57556ace922b73d3a771d2e09e1c)
+  Thanks [@jycouet](https://github.com/jycouet)! - tweak readme to explain that "KitQL is nothing"
+
 ## 0.1.3
 
 ### Patch Changes

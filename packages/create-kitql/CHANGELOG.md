@@ -1,5 +1,22 @@
 # create-kitql
 
+## 0.1.0
+
+### Minor Changes
+
+- [#545](https://github.com/jycouet/kitql/pull/545)
+  [`635dc31`](https://github.com/jycouet/kitql/commit/635dc312e13404afc8527289a242ed7e2d5a71b8)
+  Thanks [@jycouet](https://github.com/jycouet)! - bump to latest
+
+### Patch Changes
+
+- [`47d9f4d`](https://github.com/jycouet/kitql/commit/47d9f4d80d8f57556ace922b73d3a771d2e09e1c)
+  Thanks [@jycouet](https://github.com/jycouet)! - tweak readme to explain that "KitQL is nothing"
+
+- Updated dependencies
+  [[`47d9f4d`](https://github.com/jycouet/kitql/commit/47d9f4d80d8f57556ace922b73d3a771d2e09e1c)]:
+  - @kitql/helpers@0.8.6
+
 ## 0.0.7
 
 ### Patch Changes
