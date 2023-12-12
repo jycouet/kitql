@@ -8,7 +8,7 @@ module.exports = {
 		'prettier'
 	],
 	rules: {
-		'@typescript-eslint/no-explicit-any': 'off'
+		// Some specific rules ?
 	},
 	parser: '@typescript-eslint/parser',
 	plugins: ['@typescript-eslint'],
