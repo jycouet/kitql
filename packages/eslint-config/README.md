@@ -1,7 +1,7 @@
-# 👌 @kitql/lint-format
+# 👌 @kitql/eslint-config
 
-[![](https://img.shields.io/npm/v/@kitql/lint-format?color=&logo=npm)](https://www.npmjs.com/package/@kitql/lint-format)
-[![](https://img.shields.io/npm/dm/@kitql/lint-format?&logo=npm)](https://www.npmjs.com/package/@kitql/lint-format)
+[![](https://img.shields.io/npm/v/@kitql/eslint-config?color=&logo=npm)](https://www.npmjs.com/package/@kitql/eslint-config)
+[![](https://img.shields.io/npm/dm/@kitql/eslint-config?&logo=npm)](https://www.npmjs.com/package/@kitql/eslint-config)
 
 ##  📖 Read the doc
 
@@ -10,7 +10,7 @@
 ## Install
 
 ```bash
-npm install @kitql/lint-format --D
+npm install @kitql/eslint-config --D
 ```
 
 ### eslint config
@@ -19,7 +19,7 @@ npm install @kitql/lint-format --D
 ```js
 module.exports = {
 	extends: [
-		'@kitql/lint-format',
+		'@kitql',
 	],
 }
 ```
@@ -28,7 +28,7 @@ module.exports = {
 
 `.prettierrc.cjs`
 ```js
-const config = require('./packages/lint-format/.prettierrc.cjs')
+const config = require('@kitql/eslint-config/.prettierrc.cjs')
 
 module.exports = {
   ...config,

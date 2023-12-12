@@ -22,13 +22,15 @@
 		"lint:example": "kitql-lint",
 		"format:example": "kitql-lint --format"
 	},
-	"devDependencies": {
+	"dependencies": {
 		"@graphql-eslint/eslint-plugin": "3.20.1",
+		"@theguild/eslint-config": "^0.11.1",
 		"@theguild/prettier-config": "2.0.2",
 		"@trivago/prettier-plugin-sort-imports": "4.3.0",
 		"@typescript-eslint/eslint-plugin": "6.14.0",
 		"@typescript-eslint/parser": "6.14.0",
 		"@vue/compiler-sfc": "3.3.4",
+		"commander": "^11.1.0",
 		"eslint": "8.55.0",
 		"eslint-config-prettier": "9.1.0",
 		"eslint-plugin-svelte": "2.35.0",
@@ -50,8 +52,5 @@
 		"cmd.js",
 		".eslintrc.cjs",
 		".prettierrc.cjs"
-	],
-	"dependencies": {
-		"commander": "^11.1.0"
-	}
+	]
 }
