@@ -166,6 +166,10 @@ importers:
         version: 0.34.6
 
   packages/eslint-config:
+    dependencies:
+      commander:
+        specifier: ^11.1.0
+        version: 11.1.0
     devDependencies:
       '@graphql-eslint/eslint-plugin':
         specifier: 3.20.1
