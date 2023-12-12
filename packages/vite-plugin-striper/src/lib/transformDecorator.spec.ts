@@ -82,21 +82,21 @@ export class TasksController {
     const transformed = await transformDecorator(code, ['BackendMethod'])
 
     expect(transformed).toMatchInlineSnapshot(`
-    {
-      "code": "import { Allow, BackendMethod, remult } from \\"remult\\";
-    import { Task } from \\"./task\\";
-    import { AUTH_SECRET } from \\"$env/static/private\\";
+      {
+        "code": "import { Allow, BackendMethod, remult } from \\"remult\\";
+      import { Task } from \\"./task\\";
+      import { AUTH_SECRET } from \\"$env/static/private\\";
 
-    export class TasksController {
-    	@BackendMethod({ allowed: Allow.authenticated })
-    	static async setAllCompleted(completed: boolean) {
-    		console.log(\\"AUTH_SECRET\\", AUTH_SECRET);
-    	//} LEAVE THIS ERROR TO SIMULATE A WRONG PARSED FILE
-    }
-    	",
-      "transformed": false,
-    }
-  `)
+      export class TasksController {
+      	@BackendMethod({ allowed: Allow.authenticated })
+      	static async setAllCompleted(completed: boolean) {
+      		console.log(\\"AUTH_SECRET\\", AUTH_SECRET);
+      	//} LEAVE THIS ERROR TO SIMULATE A WRONG PARSED FILE
+      }
+      	",
+        "info": [],
+      }
+    `)
   })
 
   it('should not do anything as there is no @BackendMethod', async () => {
@@ -124,15 +124,20 @@ export class TasksController {
 
     expect(transformed).toMatchInlineSnapshot(`
       {
-        "code": "import { AUTH_SECRET } from \\"$env/static/private\\";
+        "code": "import { Allow, BackendMethod, remult } from \\"remult\\";
+      import { Task } from \\"./task\\";
+      import { AUTH_SECRET } from \\"$env/static/private\\";
 
       export class TasksController {
-          static async yop1(completed: boolean) {}
+          static async yop1(completed: boolean) {
+              const taskRepo = remult.repo(Task);
+          }
 
           static async setAllCompleted(completed: boolean) {
               console.log(\\"AUTH_SECRET\\", AUTH_SECRET);
+              const taskRepo = remult.repo(Task);
 
-              for ( of await taskRepo.find()) {
+              for (const task of await taskRepo.find()) {
                   await taskRepo.save({
                       ...task,
                       completed
@@ -140,7 +145,7 @@ export class TasksController {
               }
           }
       }",
-        "transformed": false,
+        "info": [],
       }
     `)
   })
@@ -178,7 +183,8 @@ export class TasksController {
 
     expect(transformed).toMatchInlineSnapshot(`
       {
-        "code": "import { BackendMethod, Entity, Fields } from \\"remult\\";
+        "code": "import { TOP_SECRET } from \\"$env/static/private\\";
+      import { BackendMethod } from \\"remult\\";
 
       @Entity<Ent>()
       export class Ent {
@@ -186,13 +192,26 @@ export class TasksController {
           id!: string;
       }
 
+      const getInfo = () => {
+          const client = {};
+          console.log(TOP_SECRET);
+          return client;
+      };
+
       export class EntController {
           @BackendMethod({
               allowed: false
           })
           static async init(hello: string) {}
       }",
-        "transformed": true,
+        "info": [
+          "Striped: 'BackendMethod'",
+          "Removed: 'TOP_SECRET_NOT_USED' from '$env/static/private'",
+          "Removed: 'stry0' from '@kitql/helper'",
+          "Removed: 'Entity' from 'remult'",
+          "Removed: 'Fields' from 'remult'",
+          "Removed: 'remult' from 'remult'",
+        ],
       }
     `)
   })
@@ -223,7 +242,7 @@ export class TasksController {
 
     expect(transformed).toMatchInlineSnapshot(`
       {
-        "code": "import { Allow, BackendMethod, Entity, Fields, Validators } from \\"remult\\";
+        "code": "import { BackendMethod, Allow } from \\"remult\\";
 
       @Entity<User>(\\"userstest\\", {
           allowApiCrud: Allow.authenticated
@@ -242,7 +261,12 @@ export class TasksController {
           })
           async testMethod() {}
       }",
-        "transformed": true,
+        "info": [
+          "Striped: 'BackendMethod'",
+          "Removed: 'Entity' from 'remult'",
+          "Removed: 'Fields' from 'remult'",
+          "Removed: 'Validators' from 'remult'",
+        ],
       }
     `)
   })
