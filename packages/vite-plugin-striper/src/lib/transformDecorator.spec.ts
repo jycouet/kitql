@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 
-import { transformDecorator } from './transformDecorator.js'
+import { removeUnusedImports, transformDecorator } from './transformDecorator.js'
 
 describe('decorator', () => {
   it('should empty @BackendMethod and clean imports', async () => {
@@ -39,9 +39,8 @@ export class TasksController {
 
     expect(transformed).toMatchInlineSnapshot(`
       {
-        "code": "import { Allow, BackendMethod, remult } from \\"remult\\";
+        "code": "import { remult, BackendMethod, Allow } from \\"remult\\";
       import { Task } from \\"./task\\";
-      import { AUTH_SECRET } from \\"$env/static/private\\";
 
       export class TasksController {
           static async yop1(completed: boolean) {
@@ -58,7 +57,11 @@ export class TasksController {
           })
           static async Yop(completed: boolean) {}
       }",
-        "transformed": true,
+        "info": [
+          "Striped: 'BackendMethod'",
+          "Striped: 'BackendMethod'",
+          "Removed: 'AUTH_SECRET' from '$env/static/private'",
+        ],
       }
     `)
   })
