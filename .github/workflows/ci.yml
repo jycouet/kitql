@@ -59,7 +59,7 @@ jobs:
         run: cd packages/create-kitql/test-${{ matrix.template }} && npx playwright install
 
       - name: 🛠️ e2e install
-        run: cd packages/create-kitql/test-${{ matrix.template }} && npm i
+        run: pnpm i
 
       - name: 👌 e2e tests (build, e2e, unit)
-        run: cd packages/create-kitql/test-${{ matrix.template }} && npm test:ci
+        run: cd packages/create-kitql/test-${{ matrix.template }} && pnpm test:ci

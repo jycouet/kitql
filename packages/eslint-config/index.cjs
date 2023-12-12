@@ -3,6 +3,10 @@ module.exports = {
   parser: '@typescript-eslint/parser',
   extends: [
     '@theguild',
+    '@theguild/eslint-config/react',
+    '@theguild/eslint-config/mdx',
+    '@theguild/eslint-config/json',
+    '@theguild/eslint-config/yml',
     'eslint:recommended',
     'plugin:@typescript-eslint/recommended',
     'prettier',
