@@ -12,6 +12,7 @@ export const transformDecorator = async (code: string, decorators_to_strip: stri
     }).program as recast.types.namedTypes.Program
 
     let transformed = false
+    // const usedIdentifiersInToBeStriped = new Set<string>()
     // Empty functions with one of the decorators. (ex @BackendMethod decorator)
     visit(codeParsed, {
       visitFunction(path) {
@@ -40,10 +41,26 @@ export const transformDecorator = async (code: string, decorators_to_strip: stri
 
         this.traverse(path)
       },
+      visitImportDeclaration(path) {
+        const importSpecifiers = path.node.specifiers.filter(specifier =>
+          usedIdentifiersInCode.has(specifier.local.name),
+        )
+
+        if (importSpecifiers.length === 0) {
+          // If no specifiers are left, prune the import statement
+          path.prune()
+        } else {
+          // Update the import statement with the remaining specifiers
+          path.node.specifiers = importSpecifiers
+        }
+
+        this.traverse(path)
+      },
     })
+    // console.log(`usedIdentifiersInToBeStriped`, usedIdentifiersInToBeStriped)
 
     // Strip things
-    if (transformed) {
+    if (false) {
       // Part 1: remove non-exported things
       visit(codeParsed, {
         visitFunctionDeclaration(path) {
@@ -67,6 +84,7 @@ export const transformDecorator = async (code: string, decorators_to_strip: stri
                 decl.id.name.startsWith('export '),
             )
           ) {
+            console.log(`path.node.id.name`, path.node)
             path.prune()
           }
 
@@ -75,7 +93,7 @@ export const transformDecorator = async (code: string, decorators_to_strip: stri
       })
 
       // Part 2: Remove unused imports
-      const usedIdentifiersInCode = new Set()
+      const usedIdentifiersInCode = new Set<string>()
       // Traverse the AST to identify used identifiers
       visit(codeParsed, {
         visitIdentifier(path) {
@@ -113,7 +131,7 @@ export const transformDecorator = async (code: string, decorators_to_strip: stri
       visit(codeParsed, {
         visitImportDeclaration(path) {
           const importSpecifiers = path.node.specifiers!.filter(specifier =>
-            usedIdentifiersInCode.has(specifier.local!.name),
+            usedIdentifiersInCode.has(specifier.local!.name as string),
           )
 
           if (importSpecifiers.length === 0) {
@@ -138,24 +156,45 @@ export const transformDecorator = async (code: string, decorators_to_strip: stri
 
 // Helper function to extract identifiers from an expression
 // @ts-ignore
-function extractIdentifiersFromExpression(expression, identifierSet) {
+function extractIdentifiersFromExpression(expression: any, identifierSet: Set<string>) {
   if (!expression) return
 
-  if (expression.type === 'Identifier') {
-    identifierSet.add(expression.name)
-  } else if (expression.type === 'MemberExpression') {
-    extractIdentifiersFromExpression(expression.object, identifierSet)
-    extractIdentifiersFromExpression(expression.property, identifierSet)
-  } else if (expression.type === 'CallExpression') {
-    extractIdentifiersFromExpression(expression.callee, identifierSet)
-    // @ts-ignore
-    expression.arguments.forEach(arg => extractIdentifiersFromExpression(arg, identifierSet))
-  } else if (expression.type === 'ArrayExpression') {
-    // Process each element in the array
-    // @ts-ignore
-    expression.elements.forEach(element => {
-      extractIdentifiersFromExpression(element, identifierSet)
-    })
+  switch (expression.type) {
+    case 'Identifier':
+      identifierSet.add(expression.name)
+      break
+    case 'MemberExpression':
+      extractIdentifiersFromExpression(expression.object, identifierSet)
+      extractIdentifiersFromExpression(expression.property, identifierSet)
+      break
+    case 'CallExpression':
+      extractIdentifiersFromExpression(expression.callee, identifierSet)
+      expression.arguments.forEach((arg: any) =>
+        extractIdentifiersFromExpression(arg, identifierSet),
+      )
+      break
+    case 'ArrayExpression':
+      expression.elements.forEach((element: any) =>
+        extractIdentifiersFromExpression(element, identifierSet),
+      )
+      break
+    case 'ObjectExpression':
+      expression.properties.forEach((prop: any) => {
+        if (prop.type === 'SpreadElement') {
+          extractIdentifiersFromExpression(prop.argument, identifierSet)
+        } else if (prop.value) {
+          extractIdentifiersFromExpression(prop.value, identifierSet)
+        }
+      })
+      break
+    case 'VariableDeclarator':
+      if (expression.id && expression.id.type === 'Identifier') {
+        identifierSet.add(expression.id.name)
+      }
+      if (expression.init) {
+        extractIdentifiersFromExpression(expression.init, identifierSet)
+      }
+      break
+    // Add cases for other types as needed
   }
-  // Add other expression types as needed
 }

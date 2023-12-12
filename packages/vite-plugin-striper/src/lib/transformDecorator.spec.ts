@@ -38,25 +38,29 @@ export class TasksController {
     const transformed = await transformDecorator(code, ['BackendMethod'])
 
     expect(transformed).toMatchInlineSnapshot(`
-    {
-      "code": "import { Allow, BackendMethod } from \\"remult\\";
+      {
+        "code": "import { Allow, BackendMethod, remult } from \\"remult\\";
+      import { Task } from \\"./task\\";
+      import { AUTH_SECRET } from \\"$env/static/private\\";
 
-    export class TasksController {
-        static async yop1(completed: boolean) {}
+      export class TasksController {
+          static async yop1(completed: boolean) {
+              const taskRepo = remult.repo(Task);
+          }
 
-        @BackendMethod({
-            allowed: Allow.authenticated
-        })
-        static async setAllCompleted(completed: boolean) {}
+          @BackendMethod({
+              allowed: Allow.authenticated
+          })
+          static async setAllCompleted(completed: boolean) {}
 
-        @BackendMethod({
-            allowed: Allow.authenticated
-        })
-        static async Yop(completed: boolean) {}
-    }",
-      "transformed": true,
-    }
-  `)
+          @BackendMethod({
+              allowed: Allow.authenticated
+          })
+          static async Yop(completed: boolean) {}
+      }",
+        "transformed": true,
+      }
+    `)
   })
 
   it('should not crash if there is an error in the original file', async () => {
@@ -116,31 +120,26 @@ export class TasksController {
     const transformed = await transformDecorator(code, ['BackendMethod'])
 
     expect(transformed).toMatchInlineSnapshot(`
-    {
-      "code": "import { Allow, BackendMethod, remult } from \\"remult\\";
-    import { Task } from \\"./task\\";
-    import { AUTH_SECRET } from \\"$env/static/private\\";
+      {
+        "code": "import { AUTH_SECRET } from \\"$env/static/private\\";
 
-    export class TasksController {
-        static async yop1(completed: boolean) {
-            const taskRepo = remult.repo(Task);
-        }
+      export class TasksController {
+          static async yop1(completed: boolean) {}
 
-        static async setAllCompleted(completed: boolean) {
-            console.log(\\"AUTH_SECRET\\", AUTH_SECRET);
-            const taskRepo = remult.repo(Task);
+          static async setAllCompleted(completed: boolean) {
+              console.log(\\"AUTH_SECRET\\", AUTH_SECRET);
 
-            for (const task of await taskRepo.find()) {
-                await taskRepo.save({
-                    ...task,
-                    completed
-                });
-            }
-        }
-    }",
-      "transformed": false,
-    }
-  `)
+              for ( of await taskRepo.find()) {
+                  await taskRepo.save({
+                      ...task,
+                      completed
+                  });
+              }
+          }
+      }",
+        "transformed": false,
+      }
+    `)
   })
 
   it('should strip also unused methods', async () => {
@@ -175,30 +174,30 @@ export class TasksController {
     const transformed = await transformDecorator(code, ['BackendMethod'])
 
     expect(transformed).toMatchInlineSnapshot(`
-    {
-      "code": "import { BackendMethod, Entity, Fields } from \\"remult\\";
+      {
+        "code": "import { BackendMethod, Entity, Fields } from \\"remult\\";
 
-    @Entity<Ent>()
-    export class Ent {
-        @Fields.uuid()
-        id!: string;
-    }
+      @Entity<Ent>()
+      export class Ent {
+          @Fields.uuid()
+          id!: string;
+      }
 
-    export class EntController {
-        @BackendMethod({
-            allowed: false
-        })
-        static async init(hello: string) {}
-    }",
-      "transformed": true,
-    }
-  `)
+      export class EntController {
+          @BackendMethod({
+              allowed: false
+          })
+          static async init(hello: string) {}
+      }",
+        "transformed": true,
+      }
+    `)
   })
 
   it('should strip just the right things', async () => {
     const code = `import { Allow, BackendMethod, Entity, Fields, Validators } from 'remult'
 
-    @Entity<User2>('userstest', {
+    @Entity<User>('userstest', {
       allowApiCrud: Allow.authenticated,
     })
     export class User2 {
@@ -221,9 +220,9 @@ export class TasksController {
 
     expect(transformed).toMatchInlineSnapshot(`
       {
-        "code": "import { Allow, BackendMethod, Entity, Fields } from \\"remult\\";
+        "code": "import { Allow, BackendMethod, Entity, Fields, Validators } from \\"remult\\";
 
-      @Entity<User2>(\\"userstest\\", {
+      @Entity<User>(\\"userstest\\", {
           allowApiCrud: Allow.authenticated
       })
       export class User2 {
@@ -241,6 +240,279 @@ export class TasksController {
           async testMethod() {}
       }",
         "transformed": true,
+      }
+    `)
+  })
+
+  it('should strip unused stuff v1', async () => {
+    const code = `import { Allow, BackendMethod, Entity, Fields, Validators } from 'remult'
+
+    @Entity<User>('userstest', {
+      allowApiCrud: Allow.authenticated,
+    })
+    export class User2 {
+      @Fields.uuid()
+      id = ''
+    
+      @Fields.string({})
+      email = ''
+    
+      @BackendMethod({ allowed: Allow.everyone })
+      async testMethod() {
+        console.log('hello')
+      }
+    }
+	`
+
+    const transformed = await transformDecorator(code, ['BackendMethod'])
+
+    expect(transformed).toMatchInlineSnapshot(`
+      {
+        "code": "import { Allow, BackendMethod, Entity, Fields } from \\"remult\\";
+
+      @Entity<User>(\\"userstest\\", {
+          allowApiCrud: Allow.authenticated
+      })
+      export class User2 {
+          @Fields.uuid()
+          id = \\"\\";
+
+          @Fields.string({})
+          email = \\"\\";
+
+          @BackendMethod({
+              allowed: Allow.everyone
+          })
+          async testMethod() {}
+      }",
+        "transformed": true,
+      }
+    `)
+  })
+
+  it('should strip imports that are in the BackendMethod', async () => {
+    const code = `import { Allow, BackendMethod, Entity, Fields, Validators } from 'remult'
+
+    @Entity<User>('userstest', {
+      allowApiCrud: Allow.authenticated,
+    })
+    export class User2 {
+      @Fields.uuid()
+      id = ''
+    
+      @Fields.string({})
+      email = ''
+    
+      @BackendMethod({ allowed: Allow.everyone })
+      async testMethod() {
+        console.log('hello', Validators.required)
+      }
+    }
+	`
+
+    const transformed = await transformDecorator(code, ['BackendMethod'])
+
+    expect(transformed).toMatchInlineSnapshot(`
+      {
+        "code": "import { Allow, BackendMethod, Entity, Fields } from \\"remult\\";
+
+      @Entity<User>(\\"userstest\\", {
+          allowApiCrud: Allow.authenticated
+      })
+      export class User2 {
+          @Fields.uuid()
+          id = \\"\\";
+
+          @Fields.string({})
+          email = \\"\\";
+
+          @BackendMethod({
+              allowed: Allow.everyone
+          })
+          async testMethod() {}
+      }",
+        "transformed": true,
+      }
+    `)
+  })
+
+  it('should NOT strip imports that are in both in BackendMethod and not in', async () => {
+    const code = `import { Allow, BackendMethod, Entity, Fields, Validators } from 'remult'
+
+    @Entity<User>('userstest', {
+      allowApiCrud: Allow.authenticated,
+    })
+    export class User2 {
+      @Fields.uuid()
+      id = ''
+    
+      @Fields.string({
+        validate: [Validators.required, Validators.uniqueOnBackend],
+      })
+      email = ''
+    
+      @BackendMethod({ allowed: Allow.everyone })
+      async testMethod() {
+        console.log('hello', Validators.required)
+      }
+    }
+	`
+
+    const transformed = await transformDecorator(code, ['BackendMethod'])
+
+    expect(transformed).toMatchInlineSnapshot(`
+      {
+        "code": "import { Allow, BackendMethod, Entity, Fields, Validators } from \\"remult\\";
+
+      @Entity<User>(\\"userstest\\", {
+          allowApiCrud: Allow.authenticated
+      })
+      export class User2 {
+          @Fields.uuid()
+          id = \\"\\";
+
+          @Fields.string({
+              validate: [Validators.required, Validators.uniqueOnBackend]
+          })
+          email = \\"\\";
+
+          @BackendMethod({
+              allowed: Allow.everyone
+          })
+          async testMethod() {}
+      }",
+        "transformed": true,
+      }
+    `)
+  })
+
+  it('should strip unused stuff v2', async () => {
+    const code = `import { ObjectId } from "mongodb";
+    import { Entity, Field, Fields, remult, Relations, FieldOptions } from "remult";
+    import { runDemo } from "./utils/run-demo";
+    
+    for (const task of await taskRepo.find()) {
+			await taskRepo.save({ ...task, completed });
+		}
+
+    @Entity<Customer>("customers")
+    export class Customer {
+      @Fields.string({
+        dbName: "_id",
+        valueConverter: {
+          fieldTypeInDb: "dbid",
+        },
+      })
+      id = "";
+      @Fields.string()
+      name = "";
+      @Fields.string()
+      city = "";
+    }
+	`
+
+    const transformed = await transformDecorator(code, ['BackendMethod'])
+
+    expect(transformed).toMatchInlineSnapshot(`
+      {
+        "code": "import { Entity, Fields } from \\"remult\\";
+
+      for ( of await taskRepo.find()) {
+          await taskRepo.save({
+              ...task,
+              completed
+          });
+      }
+
+      @Entity<Customer>(\\"customers\\")
+      export class Customer {
+          @Fields.string({
+              dbName: \\"_id\\",
+
+              valueConverter: {
+                  fieldTypeInDb: \\"dbid\\"
+              }
+          })
+          id = \\"\\";
+
+          @Fields.string()
+          name = \\"\\";
+
+          @Fields.string()
+          city = \\"\\";
+      }",
+        "transformed": false,
+      }
+    `)
+  })
+
+  it('should strip unused stuff v3', async () => {
+    const code = `import { ObjectId } from "mongodb";
+    import { Entity, Field, Fields, remult, Relations, FieldOptions } from "remult";
+    import { runDemo } from "./utils/run-demo";
+    import "reflect-metadata";
+
+    @Entity<Customer>("customers")
+    export class Customer {
+      @Fields.string({
+        dbName: "_id",
+        valueConverter: {
+          fieldTypeInDb: "dbid",
+        },
+      })
+      id = "";
+      @Fields.string()
+      name = "";
+      @Fields.string()
+      city = "";
+    }
+	`
+
+    const transformed = await transformDecorator(code, ['BackendMethod'])
+
+    expect(transformed).toMatchInlineSnapshot(`
+      {
+        "code": "import { Entity, Fields } from \\"remult\\";
+
+      @Entity<Customer>(\\"customers\\")
+      export class Customer {
+          @Fields.string({
+              dbName: \\"_id\\",
+
+              valueConverter: {
+                  fieldTypeInDb: \\"dbid\\"
+              }
+          })
+          id = \\"\\";
+
+          @Fields.string()
+          name = \\"\\";
+
+          @Fields.string()
+          city = \\"\\";
+      }",
+        "transformed": false,
+      }
+    `)
+  })
+
+  it('should strip unused stuff v4', async () => {
+    const code = `import { ObjectId } from "mongodb";
+    import { Entity, Field, Fields, remult, Relations, FieldOptions } from "remult";
+    import { runDemo } from "./utils/run-demo";
+    import "reflect-metadata";
+    import * as yop from 'yop'
+
+    console.log(yop)
+	`
+
+    const transformed = await transformDecorator(code, ['BackendMethod'])
+
+    expect(transformed).toMatchInlineSnapshot(`
+      {
+        "code": "import * as yop from \\"yop\\";
+      console.log(yop);",
+        "transformed": false,
       }
     `)
   })

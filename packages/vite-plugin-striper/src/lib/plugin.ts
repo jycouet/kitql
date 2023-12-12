@@ -101,9 +101,9 @@ export function striper(sCptions?: ViteStriperOptions): Plugin[] {
           if (sCptions?.debug && transformed) {
             log.info(
               `` +
-                `${green('-----')} after transform of ${yellow(filepath)}` +
+                `${green('-----')} after transform of ${yellow(filepath)}\n` +
                 `${rest.code}` +
-                `${green('-----')}` +
+                `\n${green('-----')}` +
                 ``,
             )
           }
