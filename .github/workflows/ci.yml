@@ -59,7 +59,7 @@ jobs:
         run: cd packages/create-kitql/test-${{ matrix.template }} && npx playwright install
 
       - name: 🛠️ e2e install
-        run: cd packages/create-kitql/test-${{ matrix.template }} && pnpm i
+        run: cd packages/create-kitql/test-${{ matrix.template }} && pnpm i --no-frozen-lockfile
 
       - name: 👌 e2e tests (build, e2e, unit)
         run: cd packages/create-kitql/test-${{ matrix.template }} && pnpm run test:ci
