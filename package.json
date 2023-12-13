@@ -15,6 +15,7 @@
     "nx:graph": "pnpm exec nx graph",
     "nx:reset": "pnpm exec nx reset",
     "nx:all": "pnpm exec nx run-many --target=build,lint,test:ci --exclude=create-kitql-*",
+    "nx:affected": "pnpm exec nx affected --target=build,lint,test:ci --exclude=create-kitql-*",
     "reset": "git clean -xdf",
     "up-dep": "pnpm -r up --latest"
   },
