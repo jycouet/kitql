@@ -1,5 +1,14 @@
 # vite-plugin-kit-routes
 
+## 0.2.11
+
+### Patch Changes
+
+- [#559](https://github.com/jycouet/kitql/pull/559)
+  [`c162424`](https://github.com/jycouet/kitql/commit/c16242441d1fcd9628e1fb9948685c5b45320a8f)
+  Thanks [@jycouet](https://github.com/jycouet)! - detect export function (not only export const) in
+  +server.ts files
+
 ## 0.2.10
 
 ### Patch Changes
