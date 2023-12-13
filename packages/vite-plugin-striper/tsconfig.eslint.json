@@ -1,0 +1,15 @@
+{
+  "extends": "./tsconfig.json",
+  "include": [
+    "src/lib/**/*.ts",
+    "./**/*",
+    "./**/.*",
+    "./**/.*.[tj]s?(x)",
+    "svelte.config.js",
+    "vite.config.ts",
+    ".eslintrc.cjs",
+    "README.md",
+    "**/*"
+  ],
+  "exclude": []
+}

@@ -1,4 +1,4 @@
-import { green, Log, yellow } from '@kitql/helpers'
+import { gray, green, Log, yellow } from '@kitql/helpers'
 import { getFilesUnder } from '@kitql/internals'
 import { readFileSync } from 'fs'
 import type { Plugin } from 'vite'
@@ -101,9 +101,10 @@ export function striper(sCptions?: ViteStriperOptions): Plugin[] {
           if (sCptions?.debug && info.length > 0) {
             log.info(
               `` +
-                `${green('-----')} after transform of ${yellow(filepath)}\n` +
+                `${gray('File :')} ${yellow(filepath)}\n` +
+                `${green('-----')}\n` +
                 `${rest.code}` +
-                `\n${green(':::::')}` +
+                `\n${green(':::::')}\n` +
                 `${info}` +
                 `\n${green('-----')}` +
                 ``,
