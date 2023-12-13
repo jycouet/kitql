@@ -1,5 +1,12 @@
 # vite-plugin-striper
 
+## 0.1.3
+
+### Patch Changes
+
+- [`bb66672`](https://github.com/jycouet/kitql/commit/bb6667214ed6e14c3e4a8342f8b956fbb91e1686)
+  Thanks [@jycouet](https://github.com/jycouet)! - fix striper & unused imports
+
 ## 0.1.2
 
 ### Patch Changes
