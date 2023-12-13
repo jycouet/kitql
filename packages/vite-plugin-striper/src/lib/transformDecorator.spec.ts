@@ -295,7 +295,7 @@ export class TasksController {
 
     expect(transformed).toMatchInlineSnapshot(`
       {
-        "code": "import { Allow, BackendMethod, Entity, Fields } from \\"remult\\";
+        "code": "import { BackendMethod, Allow } from \\"remult\\";
 
       @Entity<User>(\\"userstest\\", {
           allowApiCrud: Allow.authenticated
@@ -312,7 +312,12 @@ export class TasksController {
           })
           async testMethod() {}
       }",
-        "transformed": true,
+        "info": [
+          "Striped: 'BackendMethod'",
+          "Removed: 'Entity' from 'remult'",
+          "Removed: 'Fields' from 'remult'",
+          "Removed: 'Validators' from 'remult'",
+        ],
       }
     `)
   })
@@ -341,7 +346,7 @@ export class TasksController {
 
     expect(transformed).toMatchInlineSnapshot(`
       {
-        "code": "import { Allow, BackendMethod, Entity, Fields } from \\"remult\\";
+        "code": "import { BackendMethod, Allow } from \\"remult\\";
 
       @Entity<User>(\\"userstest\\", {
           allowApiCrud: Allow.authenticated
@@ -358,7 +363,12 @@ export class TasksController {
           })
           async testMethod() {}
       }",
-        "transformed": true,
+        "info": [
+          "Striped: 'BackendMethod'",
+          "Removed: 'Entity' from 'remult'",
+          "Removed: 'Fields' from 'remult'",
+          "Removed: 'Validators' from 'remult'",
+        ],
       }
     `)
   })
@@ -389,7 +399,7 @@ export class TasksController {
 
     expect(transformed).toMatchInlineSnapshot(`
       {
-        "code": "import { Allow, BackendMethod, Entity, Fields, Validators } from \\"remult\\";
+        "code": "import { BackendMethod, Allow } from \\"remult\\";
 
       @Entity<User>(\\"userstest\\", {
           allowApiCrud: Allow.authenticated
@@ -408,7 +418,12 @@ export class TasksController {
           })
           async testMethod() {}
       }",
-        "transformed": true,
+        "info": [
+          "Striped: 'BackendMethod'",
+          "Removed: 'Entity' from 'remult'",
+          "Removed: 'Fields' from 'remult'",
+          "Removed: 'Validators' from 'remult'",
+        ],
       }
     `)
   })
@@ -442,9 +457,11 @@ export class TasksController {
 
     expect(transformed).toMatchInlineSnapshot(`
       {
-        "code": "import { Entity, Fields } from \\"remult\\";
+        "code": "import { ObjectId } from \\"mongodb\\";
+      import { Entity, Field, Fields, remult, Relations, FieldOptions } from \\"remult\\";
+      import { runDemo } from \\"./utils/run-demo\\";
 
-      for ( of await taskRepo.find()) {
+      for (const task of await taskRepo.find()) {
           await taskRepo.save({
               ...task,
               completed
@@ -468,7 +485,7 @@ export class TasksController {
           @Fields.string()
           city = \\"\\";
       }",
-        "transformed": false,
+        "info": [],
       }
     `)
   })
@@ -499,7 +516,10 @@ export class TasksController {
 
     expect(transformed).toMatchInlineSnapshot(`
       {
-        "code": "import { Entity, Fields } from \\"remult\\";
+        "code": "import { ObjectId } from \\"mongodb\\";
+      import { Entity, Field, Fields, remult, Relations, FieldOptions } from \\"remult\\";
+      import { runDemo } from \\"./utils/run-demo\\";
+      import \\"reflect-metadata\\";
 
       @Entity<Customer>(\\"customers\\")
       export class Customer {
@@ -518,7 +538,7 @@ export class TasksController {
           @Fields.string()
           city = \\"\\";
       }",
-        "transformed": false,
+        "info": [],
       }
     `)
   })
@@ -537,9 +557,13 @@ export class TasksController {
 
     expect(transformed).toMatchInlineSnapshot(`
       {
-        "code": "import * as yop from \\"yop\\";
+        "code": "import { ObjectId } from \\"mongodb\\";
+      import { Entity, Field, Fields, remult, Relations, FieldOptions } from \\"remult\\";
+      import { runDemo } from \\"./utils/run-demo\\";
+      import \\"reflect-metadata\\";
+      import * as yop from \\"yop\\";
       console.log(yop);",
-        "transformed": false,
+        "info": [],
       }
     `)
   })
