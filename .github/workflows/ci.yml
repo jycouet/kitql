@@ -27,9 +27,6 @@ jobs:
       - name: 🧹 Prettier Check
         run: pnpm run lint
 
-      - name: 🧑‍💻 Install playwright
-        run: cd packages/create-kitql/templates/kit-routes && npx playwright install
-
       - name: 👌 Run Tests
         run: pnpm run test:ci
 
