@@ -62,4 +62,4 @@ jobs:
         run: cd packages/create-kitql/test-${{ matrix.template }} && npm i
 
       - name: 👌 e2e tests (build, e2e, unit)
-        run: cd packages/create-kitql/test-${{ matrix.template }} && npm test:ci
+        run: cd packages/create-kitql/test-${{ matrix.template }} && npm run test:ci

@@ -96,14 +96,16 @@ export function striper(sCptions?: ViteStriperOptions): Plugin[] {
         }
 
         if (sCptions && (sCptions?.decorators ?? []).length > 0) {
-          const { transformed, ...rest } = await transformDecorator(code, sCptions.decorators ?? [])
+          const { info, ...rest } = await transformDecorator(code, sCptions.decorators ?? [])
 
-          if (sCptions?.debug && transformed) {
+          if (sCptions?.debug && info.length > 0) {
             log.info(
               `` +
-                `${green('-----')} after transform of ${yellow(filepath)}` +
+                `${green('-----')} after transform of ${yellow(filepath)}\n` +
                 `${rest.code}` +
-                `${green('-----')}` +
+                `\n${green(':::::')}` +
+                `${info}` +
+                `\n${green('-----')}` +
                 ``,
             )
           }
