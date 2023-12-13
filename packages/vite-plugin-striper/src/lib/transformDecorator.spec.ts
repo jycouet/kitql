@@ -39,7 +39,7 @@ export class TasksController {
 
     expect(transformed).toMatchInlineSnapshot(`
       {
-        "code": "import { remult, BackendMethod, Allow } from \\"remult\\";
+        "code": "import { BackendMethod, Allow, remult } from \\"remult\\";
       import { Task } from \\"./task\\";
 
       export class TasksController {
@@ -183,8 +183,8 @@ export class TasksController {
 
     expect(transformed).toMatchInlineSnapshot(`
       {
-        "code": "import { TOP_SECRET } from \\"$env/static/private\\";
-      import { BackendMethod } from \\"remult\\";
+        "code": "import { Entity, Fields, BackendMethod } from \\"remult\\";
+      import { TOP_SECRET } from \\"$env/static/private\\";
 
       @Entity<Ent>()
       export class Ent {
@@ -208,8 +208,6 @@ export class TasksController {
           "Striped: 'BackendMethod'",
           "Removed: 'TOP_SECRET_NOT_USED' from '$env/static/private'",
           "Removed: 'stry0' from '@kitql/helper'",
-          "Removed: 'Entity' from 'remult'",
-          "Removed: 'Fields' from 'remult'",
           "Removed: 'remult' from 'remult'",
         ],
       }
@@ -242,7 +240,7 @@ export class TasksController {
 
     expect(transformed).toMatchInlineSnapshot(`
       {
-        "code": "import { BackendMethod, Allow } from \\"remult\\";
+        "code": "import { Entity, Allow, Fields, Validators, BackendMethod } from \\"remult\\";
 
       @Entity<User>(\\"userstest\\", {
           allowApiCrud: Allow.authenticated
@@ -263,15 +261,12 @@ export class TasksController {
       }",
         "info": [
           "Striped: 'BackendMethod'",
-          "Removed: 'Entity' from 'remult'",
-          "Removed: 'Fields' from 'remult'",
-          "Removed: 'Validators' from 'remult'",
         ],
       }
     `)
   })
 
-  it('should strip unused stuff v1', async () => {
+  it('should strip unused stuff when decorator', async () => {
     const code = `import { Allow, BackendMethod, Entity, Fields, Validators } from 'remult'
 
     @Entity<User>('userstest', {
@@ -295,7 +290,7 @@ export class TasksController {
 
     expect(transformed).toMatchInlineSnapshot(`
       {
-        "code": "import { BackendMethod, Allow } from \\"remult\\";
+        "code": "import { Entity, Allow, Fields, BackendMethod } from \\"remult\\";
 
       @Entity<User>(\\"userstest\\", {
           allowApiCrud: Allow.authenticated
@@ -314,8 +309,6 @@ export class TasksController {
       }",
         "info": [
           "Striped: 'BackendMethod'",
-          "Removed: 'Entity' from 'remult'",
-          "Removed: 'Fields' from 'remult'",
           "Removed: 'Validators' from 'remult'",
         ],
       }
@@ -346,7 +339,7 @@ export class TasksController {
 
     expect(transformed).toMatchInlineSnapshot(`
       {
-        "code": "import { BackendMethod, Allow } from \\"remult\\";
+        "code": "import { Entity, Allow, Fields, BackendMethod } from \\"remult\\";
 
       @Entity<User>(\\"userstest\\", {
           allowApiCrud: Allow.authenticated
@@ -365,8 +358,6 @@ export class TasksController {
       }",
         "info": [
           "Striped: 'BackendMethod'",
-          "Removed: 'Entity' from 'remult'",
-          "Removed: 'Fields' from 'remult'",
           "Removed: 'Validators' from 'remult'",
         ],
       }
@@ -399,7 +390,7 @@ export class TasksController {
 
     expect(transformed).toMatchInlineSnapshot(`
       {
-        "code": "import { BackendMethod, Allow } from \\"remult\\";
+        "code": "import { Entity, Allow, Fields, Validators, BackendMethod } from \\"remult\\";
 
       @Entity<User>(\\"userstest\\", {
           allowApiCrud: Allow.authenticated
@@ -420,150 +411,7 @@ export class TasksController {
       }",
         "info": [
           "Striped: 'BackendMethod'",
-          "Removed: 'Entity' from 'remult'",
-          "Removed: 'Fields' from 'remult'",
-          "Removed: 'Validators' from 'remult'",
         ],
-      }
-    `)
-  })
-
-  it('should strip unused stuff v2', async () => {
-    const code = `import { ObjectId } from "mongodb";
-    import { Entity, Field, Fields, remult, Relations, FieldOptions } from "remult";
-    import { runDemo } from "./utils/run-demo";
-    
-    for (const task of await taskRepo.find()) {
-			await taskRepo.save({ ...task, completed });
-		}
-
-    @Entity<Customer>("customers")
-    export class Customer {
-      @Fields.string({
-        dbName: "_id",
-        valueConverter: {
-          fieldTypeInDb: "dbid",
-        },
-      })
-      id = "";
-      @Fields.string()
-      name = "";
-      @Fields.string()
-      city = "";
-    }
-	`
-
-    const transformed = await transformDecorator(code, ['BackendMethod'])
-
-    expect(transformed).toMatchInlineSnapshot(`
-      {
-        "code": "import { ObjectId } from \\"mongodb\\";
-      import { Entity, Field, Fields, remult, Relations, FieldOptions } from \\"remult\\";
-      import { runDemo } from \\"./utils/run-demo\\";
-
-      for (const task of await taskRepo.find()) {
-          await taskRepo.save({
-              ...task,
-              completed
-          });
-      }
-
-      @Entity<Customer>(\\"customers\\")
-      export class Customer {
-          @Fields.string({
-              dbName: \\"_id\\",
-
-              valueConverter: {
-                  fieldTypeInDb: \\"dbid\\"
-              }
-          })
-          id = \\"\\";
-
-          @Fields.string()
-          name = \\"\\";
-
-          @Fields.string()
-          city = \\"\\";
-      }",
-        "info": [],
-      }
-    `)
-  })
-
-  it('should strip unused stuff v3', async () => {
-    const code = `import { ObjectId } from "mongodb";
-    import { Entity, Field, Fields, remult, Relations, FieldOptions } from "remult";
-    import { runDemo } from "./utils/run-demo";
-    import "reflect-metadata";
-
-    @Entity<Customer>("customers")
-    export class Customer {
-      @Fields.string({
-        dbName: "_id",
-        valueConverter: {
-          fieldTypeInDb: "dbid",
-        },
-      })
-      id = "";
-      @Fields.string()
-      name = "";
-      @Fields.string()
-      city = "";
-    }
-	`
-
-    const transformed = await transformDecorator(code, ['BackendMethod'])
-
-    expect(transformed).toMatchInlineSnapshot(`
-      {
-        "code": "import { ObjectId } from \\"mongodb\\";
-      import { Entity, Field, Fields, remult, Relations, FieldOptions } from \\"remult\\";
-      import { runDemo } from \\"./utils/run-demo\\";
-      import \\"reflect-metadata\\";
-
-      @Entity<Customer>(\\"customers\\")
-      export class Customer {
-          @Fields.string({
-              dbName: \\"_id\\",
-
-              valueConverter: {
-                  fieldTypeInDb: \\"dbid\\"
-              }
-          })
-          id = \\"\\";
-
-          @Fields.string()
-          name = \\"\\";
-
-          @Fields.string()
-          city = \\"\\";
-      }",
-        "info": [],
-      }
-    `)
-  })
-
-  it('should strip unused stuff v4', async () => {
-    const code = `import { ObjectId } from "mongodb";
-    import { Entity, Field, Fields, remult, Relations, FieldOptions } from "remult";
-    import { runDemo } from "./utils/run-demo";
-    import "reflect-metadata";
-    import * as yop from 'yop'
-
-    console.log(yop)
-	`
-
-    const transformed = await transformDecorator(code, ['BackendMethod'])
-
-    expect(transformed).toMatchInlineSnapshot(`
-      {
-        "code": "import { ObjectId } from \\"mongodb\\";
-      import { Entity, Field, Fields, remult, Relations, FieldOptions } from \\"remult\\";
-      import { runDemo } from \\"./utils/run-demo\\";
-      import \\"reflect-metadata\\";
-      import * as yop from \\"yop\\";
-      console.log(yop);",
-        "info": [],
       }
     `)
   })
