@@ -1,5 +1,13 @@
 # @kitql/helpers
 
+## 0.8.7
+
+### Patch Changes
+
+- [#563](https://github.com/jycouet/kitql/pull/563)
+  [`34dfde6`](https://github.com/jycouet/kitql/commit/34dfde6ac2c590cc77d600f9ea963e48dc92d199)
+  Thanks [@jycouet](https://github.com/jycouet)! - Pimp default logs look & feel
+
 ## 0.8.6
 
 ### Patch Changes
