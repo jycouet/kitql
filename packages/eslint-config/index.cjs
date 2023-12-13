@@ -3,7 +3,6 @@ module.exports = {
   parser: '@typescript-eslint/parser',
   extends: [
     '@theguild',
-    '@theguild/eslint-config/react',
     '@theguild/eslint-config/mdx',
     '@theguild/eslint-config/json',
     '@theguild/eslint-config/yml',
@@ -42,9 +41,12 @@ module.exports = {
       },
     },
   ],
+  ignorePatterns: ['tsconfig.json', 'tsconfig.eslint.json', '.npmrc', 'README.md'],
   parserOptions: {
     sourceType: 'module',
     ecmaVersion: 2020,
+    project: 'tsconfig.eslint.json',
+    extraFileExtensions: ['.json'],
   },
   env: {
     browser: true,

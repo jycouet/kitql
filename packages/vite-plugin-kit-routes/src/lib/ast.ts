@@ -18,22 +18,34 @@ export const getMethodsOfServerFiles = (pathFile: string) => {
   let exportedNames: string[] = []
   visit(codeParsed, {
     visitExportNamedDeclaration(path) {
-      // @ts-ignore
-      const declarations = path.node.declaration?.declarations
-      if (declarations) {
-        declarations.forEach((declaration: any) => {
-          if (declaration.id.name) {
+      const declaration = path.node.declaration
+
+      // Check for variable declarations
+      if (declaration?.type === 'VariableDeclaration') {
+        declaration.declarations.forEach(declaration => {
+          if (
+            declaration.type === 'VariableDeclarator' &&
+            declaration.id.type === 'Identifier' &&
+            declaration.id.name
+          ) {
             exportedNames.push(declaration.id.name)
           }
         })
       }
 
+      // Check for function declarations
+      if (declaration?.type === 'FunctionDeclaration') {
+        if (declaration.id && declaration.id.name) {
+          exportedNames.push(String(declaration.id.name))
+        }
+      }
+
       // Check for export specifiers (for aliased exports)
       const specifiers = path.node.specifiers
       if (specifiers) {
-        specifiers.forEach((specifier: any) => {
+        specifiers.forEach(specifier => {
           if (specifier.exported.name) {
-            exportedNames.push(specifier.exported.name)
+            exportedNames.push(String(specifier.exported.name))
           }
         })
       }

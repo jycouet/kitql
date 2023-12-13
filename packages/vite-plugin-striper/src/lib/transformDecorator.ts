@@ -70,7 +70,8 @@ export const removeUnusedImports = async (code: string) => {
         this.traverse(path)
       },
     })
-    console.log(`usedIdentifiers`, usedIdentifiers)
+
+    // console.log(`usedIdentifiers`, usedIdentifiers)
 
     let removed = Array.from(originalImports)
 
