@@ -57,8 +57,8 @@ jobs:
         # with:
         #   nodeVersion: 18
 
-      - name: 🚧 Build Packages
-        run: pnpm exec nx run @kitql/helpers:build
+      - name: 🚧 Run nx all
+        run: pnpm nx:all
 
       - name: ➕ Create template
         run:
