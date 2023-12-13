@@ -1,15 +1,17 @@
 {
   "targetDefaults": {
-    "lint": {},
     "build": {
       "dependsOn": ["^build"],
       "cache": true
     },
-    "test": {
-      "dependsOn": ["^build"]
+    "lint": {},
+    "test:ci": {
+      "dependsOn": ["^build"],
+      "cache": true
     }
   },
   "affected": {
     "defaultBase": "main"
-  }
+  },
+  "nxCloudAccessToken": "ZDI2ZDMyZmMtMjRmYi00Yzg4LWJlMWYtNDA3ZDc0ZTFhMGJifHJlYWQ="
 }
