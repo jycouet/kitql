@@ -71,7 +71,7 @@ export const removeUnusedImports = async (code: string) => {
       },
     })
 
-    console.log(`usedIdentifiers`, usedIdentifiers)
+    // console.log(`usedIdentifiers`, usedIdentifiers)
 
     let removed = Array.from(originalImports)
 
