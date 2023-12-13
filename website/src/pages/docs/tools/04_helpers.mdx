@@ -33,6 +33,8 @@ npm i -D @kitql/helpers
 
 Organize logs with `SQL` as prefix. _(Imagine you have multiple modules)_
 
+And this :
+
 ```ts
 import { green, Log, yellow } from '@kitql/helpers'
 
@@ -40,7 +42,17 @@ const logSQL = new Log('SQL')
 
 logSQL.info(`Check out the ${yellow(`yellow`)} information`)
 logSQL.info(`Or the ${green(`green`)} one!`)
+logSQL.error(`Hooo no!`)
+logSQL.info(`Working on something...`, { level: 3 })
+logSQL.info(`Working on something else...`, { level: 4 })
+logSQL.success(`Perfect, it's fixed!`)
 ```
+
+<br />
+
+Will turn into that :
+
+<img src="/assets/20231213 - Logs.png" />
 
 ## 💤 Sleep
 

@@ -1,4 +1,11 @@
-import { bold, colorProcess, greenBright, magenta, redBright } from './colors/index.js'
+import {
+  bgCyanBright,
+  bold,
+  colorProcess,
+  greenBright,
+  magenta,
+  redBright,
+} from './colors/index.js'
 
 export class Log {
   private toolName: string
@@ -23,39 +30,33 @@ export class Log {
   private buildStr(msg: string, withError: boolean, withSuccess: boolean, indent: string) {
     const table = []
     if (this.toolName) {
-      table.push(String(magenta(`[${this.toolName}]`)))
+      // table.push(String(magenta(`[${this.toolName}]`)))
+      table.push(String(bgCyanBright(` ${this.toolName} `)))
     }
 
     // DateTime or Time or nothing
     if (this.withDate === 'dateTime') {
-      table.push(String(magenta(`[${new Date().toISOString()}]`)))
+      table.push(String(bgCyanBright(`${new Date().toISOString()} `)))
     } else if (this.withDate === 'time') {
-      table.push(String(magenta(`[${new Date().toISOString().split('T')[1]}]`)))
+      table.push(String(bgCyanBright(`${new Date().toISOString().split('T')[1]} `)))
     }
 
     // Status icon or prefixEmoji
     if (withError) {
-      table.push(bold(redBright('✘')))
+      table.push(bold(redBright(' ✘ ')))
     } else if (withSuccess) {
-      table.push(bold(greenBright('✔')))
+      table.push(bold(greenBright(' ✔ ')))
     } else {
-      table.push(String(this.prefixEmoji))
+      table.push(String(' ' + this.prefixEmoji))
     }
 
     table.push(indent)
 
-    // prefix message with a space if there is already something in the table
-    if (table.join('').length > 0) {
-      table.push(` `)
-    }
     table.push(String(msg))
 
     const str = table.join('')
 
     return colorProcess(str)
-
-    // wrap it because we always unwrap after ;)
-    return [str]
   }
 
   info(msg: string, conf?: { level?: number; withSuccess?: boolean }) {
