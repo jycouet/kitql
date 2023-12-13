@@ -24,7 +24,7 @@ jobs:
       - name: 🚧 Build Packages
         run: pnpm run build
 
-      - name: 🧹 Prettier Check
+      - name: 🧹 Lint Check
         run: pnpm run lint
 
       - name: 👌 Run Tests
