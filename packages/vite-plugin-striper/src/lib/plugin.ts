@@ -5,6 +5,7 @@ import type { Plugin } from 'vite'
 import { watchAndRun } from 'vite-plugin-watch-and-run'
 
 import { transformDecorator } from './transformDecorator.js'
+import { removePackages } from './transformPackage.js'
 import { transformWarningThrow, type WarningThrow } from './transformWarningThrow.js'
 
 export type ViteStriperOptions = {
@@ -12,6 +13,11 @@ export type ViteStriperOptions = {
    * for example: `['BackendMethod']`
    */
   decorators?: string[]
+
+  /**
+   * for example: `['mongodb']`
+   */
+  packages?: string[]
 
   /**
    * If true, skip warnings if a throw is not a class.
@@ -44,7 +50,7 @@ export type ViteStriperOptions = {
  * ```
  * 
  */
-export function striper(sCptions?: ViteStriperOptions): Plugin[] {
+export function striper(options?: ViteStriperOptions): Plugin[] {
   const log = new Log('striper')
   let listOrThrow: WarningThrow[] = []
 
@@ -67,7 +73,7 @@ export function striper(sCptions?: ViteStriperOptions): Plugin[] {
       enforce: 'pre',
 
       config: async () => {
-        if (sCptions?.log_on_throw_is_not_a_new_class) {
+        if (options?.log_on_throw_is_not_a_new_class) {
           const files = getFilesUnder(getProjectPath())
           listOrThrow = []
           for (let i = 0; i < files.length; i++) {
@@ -77,7 +83,7 @@ export function striper(sCptions?: ViteStriperOptions): Plugin[] {
               absolutePath,
               getProjectPath(),
               code,
-              sCptions?.log_on_throw_is_not_a_new_class,
+              options?.log_on_throw_is_not_a_new_class,
             )
             listOrThrow.push(...list)
           }
@@ -95,13 +101,13 @@ export function striper(sCptions?: ViteStriperOptions): Plugin[] {
           return
         }
 
-        if (sCptions && (sCptions?.decorators ?? []).length > 0) {
-          const { info, ...rest } = await transformDecorator(code, sCptions.decorators ?? [])
+        if (options && options?.decorators && options.decorators.length > 0) {
+          const { info, ...rest } = await transformDecorator(code, options.decorators)
 
-          if (sCptions?.debug && info.length > 0) {
+          if (options?.debug && info.length > 0) {
             log.info(
               `` +
-                `${gray('File :')} ${yellow(filepath)}\n` +
+                `${gray('File:')} ${yellow(filepath)}\n` +
                 `${green('-----')}\n` +
                 `${rest.code}` +
                 `\n${green(':::::')}\n` +
@@ -110,8 +116,23 @@ export function striper(sCptions?: ViteStriperOptions): Plugin[] {
                 ``,
             )
           }
+        }
 
-          return rest
+        if (options && options?.packages && options.packages.length > 0) {
+          const { info, ...rest } = await removePackages(code, options.packages)
+
+          if (options?.debug && info.length > 0) {
+            log.info(
+              `` +
+                `${gray('File:')} ${yellow(filepath)}\n` +
+                `${green('-----')}\n` +
+                `${rest.code}` +
+                `\n${green(':::::')}\n` +
+                `${info}` +
+                `\n${green('-----')}` +
+                ``,
+            )
+          }
         }
 
         return
@@ -125,7 +146,7 @@ export function striper(sCptions?: ViteStriperOptions): Plugin[] {
         logs: [],
         watch: ['**'],
         run: async (server, absolutePath) => {
-          if (sCptions?.log_on_throw_is_not_a_new_class) {
+          if (options?.log_on_throw_is_not_a_new_class) {
             // Only file in our project
             if (absolutePath && absolutePath.startsWith(getProjectPath())) {
               const code = readFileSync(absolutePath, { encoding: 'utf8' })
@@ -134,7 +155,7 @@ export function striper(sCptions?: ViteStriperOptions): Plugin[] {
                 absolutePath,
                 getProjectPath(),
                 code,
-                sCptions?.log_on_throw_is_not_a_new_class,
+                options?.log_on_throw_is_not_a_new_class,
               )
               listOrThrow.push(...list)
               display()
