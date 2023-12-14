@@ -1,5 +1,19 @@
 # vite-plugin-striper
 
+## 0.1.6-next.0
+
+### Patch Changes
+
+- [#570](https://github.com/jycouet/kitql/pull/570)
+  [`d701a57`](https://github.com/jycouet/kitql/commit/d701a576f69204e5c982a1bc4c994e088b2f2cee)
+  Thanks [@jycouet](https://github.com/jycouet)! - feat: remove some packages for the browser build
+
+- Updated dependencies
+  [[`2aaacce`](https://github.com/jycouet/kitql/commit/2aaacce3fc4ce0792ac8850b84d99c133d3a5997)]:
+  - @kitql/helpers@0.8.8-next.0
+  - @kitql/internals@0.9.4-next.0
+  - vite-plugin-watch-and-run@1.5.2-next.0
+
 ## 0.1.5
 
 ### Patch Changes
