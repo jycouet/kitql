@@ -1,5 +1,13 @@
 # create-kitql
 
+## 0.1.2-next.0
+
+### Patch Changes
+
+- Updated dependencies
+  [[`2aaacce`](https://github.com/jycouet/kitql/commit/2aaacce3fc4ce0792ac8850b84d99c133d3a5997)]:
+  - @kitql/helpers@0.8.8-next.0
+
 ## 0.1.1
 
 ### Patch Changes
