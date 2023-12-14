@@ -3,8 +3,10 @@ import {
   bold,
   colorProcess,
   greenBright,
-  magenta,
   redBright,
+  bgRedBright,
+  bgGreen,
+  bgBlueBright,
 } from './colors/index.js'
 
 export class Log {
@@ -30,8 +32,14 @@ export class Log {
   private buildStr(msg: string, withError: boolean, withSuccess: boolean, indent: string) {
     const table = []
     if (this.toolName) {
-      // table.push(String(magenta(`[${this.toolName}]`)))
-      table.push(String(bgCyanBright(` ${this.toolName} `)))
+      const strTool = ` ${this.toolName} `
+      if (withError) {
+        table.push(bgRedBright(strTool))
+      } else if (withSuccess) {
+        table.push(bgGreen(strTool))
+      } else {
+        table.push(bgBlueBright(strTool))
+      }
     }
 
     // DateTime or Time or nothing
