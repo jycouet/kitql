@@ -58,7 +58,7 @@ jobs:
         #   nodeVersion: 18
 
       - name: 🚧 Run nx build
-        run: pnpm nx:build
+        run: pnpm build
 
       - name: ➕ Create template
         run:
