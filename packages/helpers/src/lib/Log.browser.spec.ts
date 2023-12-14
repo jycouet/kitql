@@ -147,7 +147,7 @@ describe('kitql - helper - Log', () => {
           %cyellow%c
           %cyellowBright%c
         ",
-        "background-color: #00ffff",
+        "background-color: #1e90ff",
         "",
         "background-color: black",
         "",
@@ -246,7 +246,7 @@ describe('kitql - helper - Log', () => {
     expect(result).toMatchInlineSnapshot(`
       [
         "%c tool name %c with red: %cred%c and another %cred2%c",
-        "background-color: #00ffff",
+        "background-color: #1e90ff",
         "",
         "color: red",
         "",
@@ -266,7 +266,7 @@ describe('kitql - helper - Log', () => {
     expect(result).toMatchInlineSnapshot(`
       [
         "%c tool name %c with red: %cred%c and another %cred2%c",
-        "background-color: #00ffff",
+        "background-color: #1e90ff",
         "",
         "color: red",
         "",

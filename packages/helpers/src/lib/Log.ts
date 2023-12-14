@@ -44,9 +44,9 @@ export class Log {
 
     // DateTime or Time or nothing
     if (this.withDate === 'dateTime') {
-      table.push(String(bgCyanBright(`${new Date().toISOString()} `)))
+      table.push(String(bgBlueBright(`${new Date().toISOString()} `)))
     } else if (this.withDate === 'time') {
-      table.push(String(bgCyanBright(`${new Date().toISOString().split('T')[1]} `)))
+      table.push(String(bgBlueBright(`${new Date().toISOString().split('T')[1]} `)))
     }
 
     // Status icon or prefixEmoji
