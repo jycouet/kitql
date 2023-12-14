@@ -369,6 +369,7 @@ export const transformToMetadata = (
   if (type === 'ACTIONS') {
     const { actions } = getActionsOfServerPages(originalValue)
     if (actions.length === 0) {
+      // Nothing to do
     } else if (actions.length === 1 && actions[0] === 'default') {
       list.push(
         buildMetadata(
@@ -486,7 +487,7 @@ export function buildMetadata(
     toRet = `/`
   }
 
-  paramsFromPath.forEach((c, i) => {
+  paramsFromPath.forEach(c => {
     const sMatcher = `${c.matcher ? `=${c.matcher}` : ''}`
 
     // Very special case (only an optional param)
@@ -913,7 +914,7 @@ ${objTypes
       }
 
       if (shouldLog('update', options)) {
-        child.on('close', code => {
+        child.on('close', () => {
           theEnd(atStart, result, objTypes, options)
         })
       }
@@ -959,7 +960,9 @@ function theEnd(
         pkg.devDependencies['vite-plugin-kit-routes'] ??
         pkg.dependencies['vite-plugin-kit-routes'] ??
         ''
-    } catch (error) {}
+    } catch (error) {
+      // silent error
+    }
     const stats = []
     const nbRoutes = objTypes.flatMap(c => c.files).length
     stats.push(
