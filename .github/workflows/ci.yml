@@ -22,7 +22,7 @@ jobs:
         #   nodeVersion: 18
 
       - name: 🛠️ Prepare nx 1/2
-        uses: nrwl/nx-set-shas@v3
+        uses: nrwl/nx-set-shas@v4
 
       - name: 🛠️ Prepare nx 2/2
         run: git branch --track main origin/main
