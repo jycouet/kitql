@@ -1,5 +1,6 @@
 #!/usr/bin/env node
-import { spawn, spawnSync } from 'child_process'
+import { Log, red } from '@kitql/helpers'
+import { spawnSync } from 'child_process'
 import { program, Option } from 'commander'
 import fs from 'fs'
 
@@ -60,9 +61,9 @@ const cmdPrettier =
   `${format ? ' --write' : ''}` +
   // exec
   ` .`
-spawnSync(cmdPrettier, {
+let result_prettier = spawnSync(cmdPrettier, {
   shell: true,
-  // cwd: process.cwd(),
+  cwd: process.cwd(),
   stdio: 'inherit',
 })
 
@@ -75,11 +76,22 @@ const cmdEsLint =
   `${format ? ' --fix' : ''} ` +
   // exec
   ` .`
-spawnSync(cmdEsLint, {
+let result_eslint = spawnSync(cmdEsLint, {
   shell: true,
-  // cwd: process.cwd(),
+  cwd: process.cwd(),
   stdio: 'inherit',
 })
 
-// console.log(`cmdPrettier`, cmdPrettier)
-// console.log(`cmdEsLint`, cmdEsLint)
+const log = new Log('kitql lint')
+if (result_prettier.status) {
+  log.error(red(`prettier failed, check logs above.`))
+}
+if (result_eslint.status) {
+  log.error(red(`eslint failed, check logs above.`))
+}
+
+if (result_prettier.status === 0 && result_eslint.status === 0) {
+  log.success(`All good, your files looks great!`)
+}
+
+process.exit(result_prettier.status || result_eslint.status)
