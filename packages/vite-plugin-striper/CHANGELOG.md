@@ -1,5 +1,14 @@
 # vite-plugin-striper
 
+## 0.1.6-next.1
+
+### Patch Changes
+
+- [#572](https://github.com/jycouet/kitql/pull/572)
+  [`249e563`](https://github.com/jycouet/kitql/commit/249e563b7c7f14062cb6d26ca9182e7acd2e7343)
+  Thanks [@jycouet](https://github.com/jycouet)! - remove browser package, update strategy to
+  replace to const
+
 ## 0.1.6-next.0
 
 ### Patch Changes
