@@ -1,5 +1,4 @@
 import {
-  bgCyanBright,
   bold,
   colorProcess,
   greenBright,
