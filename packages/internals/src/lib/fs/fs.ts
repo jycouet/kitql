@@ -5,7 +5,9 @@ import { dirname, join, relative } from 'path'
 export function read(pathFile: string) {
   try {
     return readFileSync(pathFile, { encoding: 'utf8' })
-  } catch (error) {}
+  } catch (error) {
+    // nothing to do
+  }
   return null
 }
 
