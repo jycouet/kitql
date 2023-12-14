@@ -1,10 +1,7 @@
 import { parse } from '@babel/parser'
 import * as recast from 'recast'
-import { prettyPrint } from 'recast'
 
 const { visit } = recast.types
-
-type Statement = recast.types.namedTypes.Statement
 
 export const removePackages = async (code: string, packages_to_strip: string[]) => {
   try {
