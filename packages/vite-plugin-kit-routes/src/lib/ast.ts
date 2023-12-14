@@ -15,7 +15,7 @@ export const getMethodsOfServerFiles = (pathFile: string) => {
     sourceType: 'module',
   }).program as recast.types.namedTypes.Program
 
-  let exportedNames: string[] = []
+  const exportedNames: string[] = []
   visit(codeParsed, {
     visitExportNamedDeclaration(path) {
       const declaration = path.node.declaration

@@ -243,7 +243,7 @@ export function routes_path() {
 }
 
 export function rmvGroups(key: string) {
-  let toRet = key
+  const toRet = key
     // rmv /(groups)
     .replace(/\/\([^)]*\)/g, '')
     // rmv (groups)
@@ -253,7 +253,7 @@ export function rmvGroups(key: string) {
 }
 
 export function rmvOptional(key: string) {
-  let toRet = key
+  const toRet = key
     // rmv /[[Optional]]
     .replace(/\/\[\[.*?\]\]/g, '')
     // rmv [[Optional]]
@@ -358,7 +358,7 @@ export const transformToMetadata = (
   useWithAppendSp: boolean | undefined,
 ): MetadataToWrite[] => {
   const keyToUse = formatKey(original, options)
-  let toRet = rmvGroups(originalValue)
+  const toRet = rmvGroups(originalValue)
 
   const list: MetadataToWrite[] = []
 
@@ -730,7 +730,7 @@ const arrayToRecord = (arr?: string[]) => {
 export const run = (atStart: boolean, o?: Options) => {
   const options = getDefaultOption(o)
 
-  let files = getFilesUnder(routes_path())
+  const files = getFilesUnder(routes_path())
 
   // TODO check if harcoded links are around?
   // for (let i = 0; i < files.length; i++) {
@@ -745,7 +745,7 @@ export const run = (atStart: boolean, o?: Options) => {
   ]
 
   // Validate options
-  let allOk = true
+  const allOk = true
   objTypes
     .filter(c => c.type !== 'LINKS')
     .forEach(o => {
@@ -961,14 +961,14 @@ function theEnd(
         ''
     } catch (error) {}
     const stats = []
-    let nbRoutes = objTypes.flatMap(c => c.files).length
+    const nbRoutes = objTypes.flatMap(c => c.files).length
     stats.push(
       `Routes: ${yellow('' + nbRoutes)} ` +
         `${italic(
           `(${objTypes.map(c => `${c.type}: ${yellow('' + c.files.length)}`).join(', ')})`,
         )}`,
     )
-    let confgPoints = stry0(Object.entries(options ?? {}))!.length
+    const confgPoints = stry0(Object.entries(options ?? {}))!.length
     const shortV = options.format_short ? ' short' : ''
 
     stats.push(`Points: ${yellow('' + confgPoints)}`)

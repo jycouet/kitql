@@ -163,7 +163,7 @@ async function watcher(
 
     // print the message
     if (info.logs.includes('trigger')) {
-      let message = [`Watch ${cyan(watchKind)}`]
+      const message = [`Watch ${cyan(watchKind)}`]
       if (info.watch && absolutePath) {
         message.push(green(absolutePath.replaceAll(process.cwd(), '')))
       }
