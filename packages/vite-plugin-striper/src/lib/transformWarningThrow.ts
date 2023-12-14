@@ -1,6 +1,5 @@
 import { parse } from '@babel/parser'
 import * as recast from 'recast'
-import { prettyPrint } from 'recast'
 
 const { visit } = recast.types
 
@@ -22,7 +21,7 @@ export const transformWarningThrow = async (
       sourceType: 'module',
     }).program as recast.types.namedTypes.Program
 
-    let list: WarningThrow[] = []
+    const list: WarningThrow[] = []
 
     visit(codeParsed, {
       visitFunction(path) {

@@ -1,50 +1,35 @@
 #!/usr/bin/env node
+import { Log, red } from '@kitql/helpers'
 import { spawn, spawnSync } from 'child_process'
 import { program, Option } from 'commander'
 import fs from 'fs'
+
+const log = new Log('kitql-lint')
 
 program.addOption(new Option('-f, --format', 'format'))
 
 program.parse(process.argv)
 const options_cli = program.opts()
 
-// console.info(`options_cli`, options_cli)
-
-let pathPrettierIgnore = ''
-try {
-  fs.statSync('.prettierignore')
-  pathPrettierIgnore = '.prettierignore'
-} catch (error) {
-  try {
-    fs.statSync('../../.prettierignore')
-    pathPrettierIgnore = '../../.prettierignore'
-  } catch (error) {
-    // Still nothing
+const findFileOrUp = fileName => {
+  // Find file recursively 4 levels max up
+  for (let i = 0; i < 4; i++) {
+    try {
+      const path = '../'.repeat(i) + fileName
+      if (fs.statSync(path)) {
+        return path
+      }
+    } catch (error) {
+      // nothing to do
+    }
   }
-}
-if (!pathPrettierIgnore) {
-  console.error(`.prettierignore not found`)
-  process.exit(0)
+
+  log.error(red(`${fileName} not found`))
+  process.exit(1)
 }
 
-let pathPrettierCjs = ''
-try {
-  fs.statSync('.prettierrc.cjs')
-  pathPrettierCjs = '.prettierrc.cjs'
-} catch (error) {
-  try {
-    fs.statSync('../../.prettierrc.cjs')
-    pathPrettierCjs = '../../.prettierrc.cjs'
-  } catch (error) {
-    // Still nothing
-  }
-}
-if (!pathPrettierCjs) {
-  console.error(`.prettierrc.cjs not found`)
-  process.exit(0)
-}
-
-// --config <path>
+let pathPrettierIgnore = findFileOrUp('.prettierignore')
+let pathPrettierCjs = findFileOrUp('.prettierrc.cjs')
 
 const format = options_cli.format ?? false
 
@@ -60,26 +45,46 @@ const cmdPrettier =
   `${format ? ' --write' : ''}` +
   // exec
   ` .`
-spawnSync(cmdPrettier, {
+let result_prettier = spawn(cmdPrettier, {
   shell: true,
-  // cwd: process.cwd(),
-  stdio: 'inherit',
+  cwd: process.cwd(),
+  stdio: 'pipe',
 })
 
-// Then eslint
-const cmdEsLint =
-  `eslint` +
-  // ignore?
-  ` --ignore-path ${pathPrettierIgnore}` +
-  // format or not
-  `${format ? ' --fix' : ''} ` +
-  // exec
-  ` "*"`
-spawnSync(cmdEsLint, {
-  shell: true,
-  // cwd: process.cwd(),
-  stdio: 'inherit',
-})
+// let's not log anything when we are formating prettier
+if (!format) {
+  const logPrettier = new Log('kitql-lint prettier')
+  result_prettier.stdout.on('data', data => {
+    logPrettier.error(data.toString())
+  })
+}
 
-// console.log(`cmdPrettier`, cmdPrettier)
-// console.log(`cmdEsLint`, cmdEsLint)
+result_prettier.on('close', code => {
+  // Then eslint
+  const cmdEsLint =
+    `eslint` +
+    // ignore?
+    ` --ignore-path ${pathPrettierIgnore}` +
+    // format or not
+    `${format ? ' --fix' : ''}` +
+    // exec
+    ` .`
+
+  // log.info(cmdEsLint)
+
+  let result_eslint = spawnSync(cmdEsLint, {
+    shell: true,
+    cwd: process.cwd(),
+    stdio: 'inherit',
+  })
+
+  if (result_eslint.status) {
+    log.error(red(`eslint failed, check logs above.`))
+  }
+
+  if (code === 0 && result_eslint.status === 0) {
+    log.success(`All good, your files looks great!`)
+  }
+
+  process.exit(code || result_eslint.status)
+})

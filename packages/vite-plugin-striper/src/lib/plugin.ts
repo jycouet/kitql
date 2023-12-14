@@ -68,7 +68,7 @@ export function striper(sCptions?: ViteStriperOptions): Plugin[] {
 
       config: async () => {
         if (sCptions?.log_on_throw_is_not_a_new_class) {
-          let files = getFilesUnder(getProjectPath())
+          const files = getFilesUnder(getProjectPath())
           listOrThrow = []
           for (let i = 0; i < files.length; i++) {
             const absolutePath = getProjectPath() + '/' + files[i]

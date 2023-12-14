@@ -1,3 +1,4 @@
+import { Log } from '@kitql/helpers'
 import { error } from '@sveltejs/kit'
 
 /**
@@ -55,7 +56,9 @@ export const handleProxies = options => {
           duplex: 'half',
         })
         .catch(err => {
-          console.log('handleProxies ERROR', err)
+          const log = new Log('handleProxies')
+          console.error(err)
+          log.error('handleProxies ERROR')
           throw err
         })
     }

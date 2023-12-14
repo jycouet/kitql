@@ -28,7 +28,7 @@ export function extractHtmlElementAttr_Text(pathFile: string, elements: ElementA
   const source = read(process.cwd() + pathFile) ?? ''
   const parsed = parseSvelte(source)
 
-  let found: Found[] = []
+  const found: Found[] = []
 
   function getLineAndColumn(index: number): { line: number; column: number } {
     const lines = source.substring(0, index).split('\n')

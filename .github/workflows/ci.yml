@@ -29,8 +29,6 @@ jobs:
 
       - name: 👌 Run nx affected
         run: pnpm nx:affected
-        env:
-          NX_CLOUD_ACCESS_TOKEN: ${{ secrets.NX_CLOUD_ACCESS_TOKEN }}
 
       # - name: 🚧 Build Packages
       #   run: pnpm run build
@@ -59,10 +57,8 @@ jobs:
         # with:
         #   nodeVersion: 18
 
-      - name: 🚧 Run nx all
-        run: pnpm nx:all
-        env:
-          NX_CLOUD_ACCESS_TOKEN: ${{ secrets.NX_CLOUD_ACCESS_TOKEN }}
+      - name: 🚧 Run nx build
+        run: pnpm nx:build
 
       - name: ➕ Create template
         run:

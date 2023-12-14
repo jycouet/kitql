@@ -3,9 +3,7 @@ import { describe, expect, it } from 'vitest'
 
 import type { KIT_ROUTES as KIT_ROUTES_ObjectPath } from '../test/ROUTES_format-object-path.js'
 import type { KIT_ROUTES as KIT_ROUTES_ObjectSymbol } from '../test/ROUTES_format-object-symbol.js'
-import type { KIT_ROUTES as KIT_ROUTES_RoutePath } from '../test/ROUTES_format-route-path.js'
 import type { KIT_ROUTES as KIT_ROUTES_RouteSymbol } from '../test/ROUTES_format-route-symbol.js'
-import type { KIT_ROUTES as KIT_ROUTES_Variables } from '../test/ROUTES_format-variables.js'
 import {
   extractParamsFromPath,
   transformToMetadata,
@@ -582,7 +580,7 @@ describe('run()', async () => {
     describe(element.name, async () => {
       //
       it('format object[path]', async () => {
-        let { PAGES, SERVERS, ACTIONS, LINKS } = await import(getPathROUTES(runs[0].pathFile))
+        const { PAGES, SERVERS, ACTIONS, LINKS } = await import(getPathROUTES(runs[0].pathFile))
         const obj = findObj(element.kind, PAGES, SERVERS, ACTIONS, LINKS)
         expect(fnOrNot(obj, element.key_path, ...element.params), element.name).toBe(
           element.results,
@@ -590,7 +588,7 @@ describe('run()', async () => {
       })
       // SHORTENED
       it('format object[path] shortened', async () => {
-        let { PAGES, SERVERS, ACTIONS, LINKS } = await import(
+        const { PAGES, SERVERS, ACTIONS, LINKS } = await import(
           getPathROUTES(getToRunShortened(runs[0]).pathFile)
         )
         const obj = findObj(element.kind, PAGES, SERVERS, ACTIONS, LINKS)
@@ -601,7 +599,7 @@ describe('run()', async () => {
 
       //
       it('format object[symbol]', async () => {
-        let { PAGES, SERVERS, ACTIONS, LINKS } = await import(getPathROUTES(runs[1].pathFile))
+        const { PAGES, SERVERS, ACTIONS, LINKS } = await import(getPathROUTES(runs[1].pathFile))
         const obj = findObj(element.kind, PAGES, SERVERS, ACTIONS, LINKS)
         expect(fnOrNot(obj, element.key_symbol, ...element.params), element.name).toBe(
           element.results,
@@ -609,7 +607,7 @@ describe('run()', async () => {
       })
       // SHORTENED
       it('format object[symbol] shortened', async () => {
-        let { PAGES, SERVERS, ACTIONS, LINKS } = await import(
+        const { PAGES, SERVERS, ACTIONS, LINKS } = await import(
           getPathROUTES(getToRunShortened(runs[1]).pathFile)
         )
         const obj = findObj(element.kind, PAGES, SERVERS, ACTIONS, LINKS)
@@ -620,12 +618,12 @@ describe('run()', async () => {
 
       //
       it('format route(path)', async () => {
-        let { route } = await import(getPathROUTES(runs[2].pathFile))
+        const { route } = await import(getPathROUTES(runs[2].pathFile))
         expect(route(element.key_path, ...element.params), element.name).toBe(element.results)
       })
       // SHORTENED
       it('format route(path) shortened', async () => {
-        let { route } = await import(getPathROUTES(getToRunShortened(runs[2]).pathFile))
+        const { route } = await import(getPathROUTES(getToRunShortened(runs[2]).pathFile))
         expect(route(element.key_path, ...element.params_shortened), element.name).toBe(
           element.results,
         )
@@ -633,12 +631,12 @@ describe('run()', async () => {
 
       //
       it('format route(symbol)', async () => {
-        let { route } = await import(getPathROUTES(runs[3].pathFile))
+        const { route } = await import(getPathROUTES(runs[3].pathFile))
         expect(route(element.key_symbol, ...element.params), element.name).toBe(element.results)
       })
       // SHORTENED
       it('format route(symbol) shortened', async () => {
-        let { route } = await import(getPathROUTES(getToRunShortened(runs[3]).pathFile))
+        const { route } = await import(getPathROUTES(getToRunShortened(runs[3]).pathFile))
         expect(route(element.key_symbol, ...element.params_shortened), element.name).toBe(
           element.results,
         )
@@ -646,7 +644,7 @@ describe('run()', async () => {
 
       //
       it('format route(path) & object[path]', async () => {
-        let { route, PAGES, SERVERS, ACTIONS, LINKS } = await import(
+        const { route, PAGES, SERVERS, ACTIONS, LINKS } = await import(
           getPathROUTES(runs[5].pathFile)
         )
         // route
@@ -660,7 +658,7 @@ describe('run()', async () => {
       })
       // SHORTENED
       it('format route(path) & object[path] shortened', async () => {
-        let { route, PAGES, SERVERS, ACTIONS, LINKS } = await import(
+        const { route, PAGES, SERVERS, ACTIONS, LINKS } = await import(
           getPathROUTES(getToRunShortened(runs[5]).pathFile)
         )
         // route
@@ -676,7 +674,7 @@ describe('run()', async () => {
 
       //
       it('format route(symbol) & object[symbol]', async () => {
-        let { route, PAGES, SERVERS, ACTIONS, LINKS } = await import(
+        const { route, PAGES, SERVERS, ACTIONS, LINKS } = await import(
           getPathROUTES(runs[6].pathFile)
         )
         // route
@@ -690,7 +688,7 @@ describe('run()', async () => {
       })
       // SHORTENED
       it('format route(symbol) & object[symbol] shortened', async () => {
-        let { route, PAGES, SERVERS, ACTIONS, LINKS } = await import(
+        const { route, PAGES, SERVERS, ACTIONS, LINKS } = await import(
           getPathROUTES(getToRunShortened(runs[6]).pathFile)
         )
         // route
@@ -707,8 +705,8 @@ describe('run()', async () => {
 
       // VARIABLES && SHORTENED
       it('format variables', async () => {
-        let vars___not = await import(getPathROUTES(runs[4].pathFile))
-        let vars_short = await import(getPathROUTES(getToRunShortened(runs[4]).pathFile))
+        const vars___not = await import(getPathROUTES(runs[4].pathFile))
+        const vars_short = await import(getPathROUTES(getToRunShortened(runs[4]).pathFile))
 
         if (element.name === 'ROOT, return is not a function') {
           expect(vars___not.PAGE__ROOT, element.name).toBe(element.results)

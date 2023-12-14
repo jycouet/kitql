@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 
-import { removeUnusedImports, transformDecorator } from './transformDecorator.js'
+import { transformDecorator } from './transformDecorator.js'
 
 describe('decorator', () => {
   it('should empty @BackendMethod and clean imports', async () => {

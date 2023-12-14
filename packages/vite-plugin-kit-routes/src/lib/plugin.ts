@@ -243,7 +243,7 @@ export function routes_path() {
 }
 
 export function rmvGroups(key: string) {
-  let toRet = key
+  const toRet = key
     // rmv /(groups)
     .replace(/\/\([^)]*\)/g, '')
     // rmv (groups)
@@ -253,7 +253,7 @@ export function rmvGroups(key: string) {
 }
 
 export function rmvOptional(key: string) {
-  let toRet = key
+  const toRet = key
     // rmv /[[Optional]]
     .replace(/\/\[\[.*?\]\]/g, '')
     // rmv [[Optional]]
@@ -358,7 +358,7 @@ export const transformToMetadata = (
   useWithAppendSp: boolean | undefined,
 ): MetadataToWrite[] => {
   const keyToUse = formatKey(original, options)
-  let toRet = rmvGroups(originalValue)
+  const toRet = rmvGroups(originalValue)
 
   const list: MetadataToWrite[] = []
 
@@ -369,6 +369,7 @@ export const transformToMetadata = (
   if (type === 'ACTIONS') {
     const { actions } = getActionsOfServerPages(originalValue)
     if (actions.length === 0) {
+      // Nothing to do
     } else if (actions.length === 1 && actions[0] === 'default') {
       list.push(
         buildMetadata(
@@ -486,7 +487,7 @@ export function buildMetadata(
     toRet = `/`
   }
 
-  paramsFromPath.forEach((c, i) => {
+  paramsFromPath.forEach(c => {
     const sMatcher = `${c.matcher ? `=${c.matcher}` : ''}`
 
     // Very special case (only an optional param)
@@ -730,7 +731,7 @@ const arrayToRecord = (arr?: string[]) => {
 export const run = (atStart: boolean, o?: Options) => {
   const options = getDefaultOption(o)
 
-  let files = getFilesUnder(routes_path())
+  const files = getFilesUnder(routes_path())
 
   // TODO check if harcoded links are around?
   // for (let i = 0; i < files.length; i++) {
@@ -745,7 +746,7 @@ export const run = (atStart: boolean, o?: Options) => {
   ]
 
   // Validate options
-  let allOk = true
+  const allOk = true
   objTypes
     .filter(c => c.type !== 'LINKS')
     .forEach(o => {
@@ -913,7 +914,7 @@ ${objTypes
       }
 
       if (shouldLog('update', options)) {
-        child.on('close', code => {
+        child.on('close', () => {
           theEnd(atStart, result, objTypes, options)
         })
       }
@@ -959,16 +960,18 @@ function theEnd(
         pkg.devDependencies['vite-plugin-kit-routes'] ??
         pkg.dependencies['vite-plugin-kit-routes'] ??
         ''
-    } catch (error) {}
+    } catch (error) {
+      // silent error
+    }
     const stats = []
-    let nbRoutes = objTypes.flatMap(c => c.files).length
+    const nbRoutes = objTypes.flatMap(c => c.files).length
     stats.push(
       `Routes: ${yellow('' + nbRoutes)} ` +
         `${italic(
           `(${objTypes.map(c => `${c.type}: ${yellow('' + c.files.length)}`).join(', ')})`,
         )}`,
     )
-    let confgPoints = stry0(Object.entries(options ?? {}))!.length
+    const confgPoints = stry0(Object.entries(options ?? {}))!.length
     const shortV = options.format_short ? ' short' : ''
 
     stats.push(`Points: ${yellow('' + confgPoints)}`)

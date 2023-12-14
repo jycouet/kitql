@@ -17,7 +17,7 @@ export const removeUnusedImports = async (code: string) => {
     const originalImports = new Map()
 
     // Step 1: Remove all global imports and store them
-    let newBody: Statement[] = []
+    const newBody: Statement[] = []
     ast.program.body.forEach(node => {
       if (node.type === 'ImportDeclaration') {
         node.specifiers.forEach(specifier => {
@@ -70,8 +70,6 @@ export const removeUnusedImports = async (code: string) => {
         this.traverse(path)
       },
     })
-
-    // console.log(`usedIdentifiers`, usedIdentifiers)
 
     let removed = Array.from(originalImports)
 
@@ -126,7 +124,7 @@ export const transformDecorator = async (code: string, decorators_to_strip: stri
       sourceType: 'module',
     })
 
-    let decorators_striped: string[] = []
+    const decorators_striped: string[] = []
     // Empty functions with one of the decorators. (ex @BackendMethod decorator)
     visit(ast.program, {
       visitFunction(path) {
@@ -157,7 +155,7 @@ export const transformDecorator = async (code: string, decorators_to_strip: stri
       },
     })
 
-    let res = prettyPrint(ast.program, {})
+    const res = prettyPrint(ast.program, {})
     const info = decorators_striped.map(decorator => `Striped: '${decorator}'`)
 
     if (decorators_striped.length > 0) {

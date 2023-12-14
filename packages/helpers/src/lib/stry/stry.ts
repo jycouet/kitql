@@ -6,7 +6,7 @@ import { stringify } from './safe-stable-stringify.js'
 /**
  * nice utility to stringify objects without spaces
  */
-export function stry0(obj: Object | null | undefined): string | null | undefined {
+export function stry0(obj: object | null | undefined): string | null | undefined {
   return stry(obj, 0)
 }
 
@@ -15,7 +15,7 @@ export function stry0(obj: Object | null | undefined): string | null | undefined
  * Be careful, order of args are different than JSON.stringify
  */
 export function stry(
-  obj: Object | null | undefined,
+  obj: object | null | undefined,
   space: string | number | undefined = 2,
   replacer?: (string | number)[] | null | undefined,
 ): string | null | undefined {
@@ -28,6 +28,6 @@ export function stry(
 /**
  * Check strict equality of 2 objects
  */
-export function stryEq(obj1: Object | null | undefined, obj2: Object | null | undefined): boolean {
+export function stryEq(obj1: object | null | undefined, obj2: object | null | undefined): boolean {
   return stry0(obj1) === stry0(obj2)
 }

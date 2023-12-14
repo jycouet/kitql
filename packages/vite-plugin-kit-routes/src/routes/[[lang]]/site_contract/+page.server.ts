@@ -1,6 +1,6 @@
 export const actions = {
   noSatisfies: async data => {
-    console.log(`noSatisfies`)
+    console.info(`noSatisfies`)
 
     return {
       body: {
