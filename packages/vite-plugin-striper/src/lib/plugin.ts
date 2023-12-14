@@ -104,6 +104,9 @@ export function striper(options?: ViteStriperOptions): Plugin[] {
         if (options && options?.decorators && options.decorators.length > 0) {
           const { info, ...rest } = await transformDecorator(code, options.decorators)
 
+          // Update the code for later transforms
+          code = rest.code
+
           if (options?.debug && info.length > 0) {
             log.info(
               `` +
@@ -111,7 +114,7 @@ export function striper(options?: ViteStriperOptions): Plugin[] {
                 `${green('-----')}\n` +
                 `${rest.code}` +
                 `\n${green(':::::')}\n` +
-                `${info}` +
+                `${info.join('\n')}` +
                 `\n${green('-----')}` +
                 ``,
             )
@@ -128,7 +131,7 @@ export function striper(options?: ViteStriperOptions): Plugin[] {
                 `${green('-----')}\n` +
                 `${rest.code}` +
                 `\n${green(':::::')}\n` +
-                `${info}` +
+                `${info.join('\n')}` +
                 `\n${green('-----')}` +
                 ``,
             )
