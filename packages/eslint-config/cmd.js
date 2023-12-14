@@ -74,7 +74,7 @@ const cmdEsLint =
   // format or not
   `${format ? ' --fix' : ''} ` +
   // exec
-  ` "*"`
+  ` .`
 spawnSync(cmdEsLint, {
   shell: true,
   // cwd: process.cwd(),
