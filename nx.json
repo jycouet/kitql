@@ -4,7 +4,9 @@
       "dependsOn": ["^build"],
       "cache": true
     },
-    "lint": {},
+    "lint": {
+      "dependsOn": ["^build"]
+    },
     "test:ci": {
       "dependsOn": ["^build"],
       "cache": true
