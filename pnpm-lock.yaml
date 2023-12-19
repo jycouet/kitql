@@ -390,14 +390,17 @@ importers:
         specifier: workspace:*
         version: link:../eslint-config
       '@sveltejs/adapter-auto':
-        specifier: 2.1.0
-        version: 2.1.0(@sveltejs/kit@1.30.1)
+        specifier: ^3.0.0
+        version: 3.0.0(@sveltejs/kit@2.0.3)
       '@sveltejs/kit':
-        specifier: 1.30.1
-        version: 1.30.1(svelte@4.2.1)(vite@4.5.1)
+        specifier: ^2.0.0
+        version: 2.0.3(@sveltejs/vite-plugin-svelte@3.0.1)(svelte@4.2.1)(vite@5.0.10)
       '@sveltejs/package':
         specifier: 2.2.2
         version: 2.2.2(svelte@4.2.1)(typescript@5.3.2)
+      '@sveltejs/vite-plugin-svelte':
+        specifier: ^3.0.0
+        version: 3.0.1(svelte@4.2.1)(vite@5.0.10)
       publint:
         specifier: 0.2.4
         version: 0.2.4
@@ -414,11 +417,11 @@ importers:
         specifier: 5.3.2
         version: 5.3.2
       vite:
-        specifier: 4.5.1
-        version: 4.5.1(@types/node@20.10.0)
+        specifier: ^5.0.0
+        version: 5.0.10
       vitest:
-        specifier: 0.34.6
-        version: 0.34.6
+        specifier: ^1.0.0
+        version: 1.0.4
     publishDirectory: dist
 
   packages/vite-plugin-kit-routes:
