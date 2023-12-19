@@ -21,14 +21,17 @@ jobs:
         # with:
         #   nodeVersion: 18
 
-      - name: 🛠️ Prepare nx 1/2
-        uses: nrwl/nx-set-shas@v4
+      # - name: 🛠️ Prepare nx 1/2
+      #   uses: nrwl/nx-set-shas@v4
 
-      - name: 🛠️ Prepare nx 2/2
-        run: git branch --track main origin/main
+      # - name: 🛠️ Prepare nx 2/2
+      #   run: git branch --track main origin/main
 
-      - name: 👌 Run nx affected
-        run: pnpm nx:affected
+      # - name: 👌 Run nx affected
+      #   run: pnpm nx:affected
+
+      - name: 👌 Run nx all
+        run: pnpm nx:all
 
       # - name: 🚧 Build Packages
       #   run: pnpm run build
