@@ -9,7 +9,7 @@
       "cache": true
     },
     "lint": {
-      "dependsOn": ["build"]
+      "dependsOn": ["^build", "build"]
     }
   },
   "affected": {
