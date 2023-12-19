@@ -29,7 +29,7 @@ describe('package', () => {
       {
         "code": "const ObjectId = null;
 
-      @Entity(\\"tasks\\", {
+      @Entity("tasks", {
           allowApiCrud: true
       })
       export class Task {
@@ -44,7 +44,7 @@ describe('package', () => {
                   }
               }
           })
-          aMongoDbIdField = \\"\\";
+          aMongoDbIdField = "";
       }",
         "info": [
           "Replaced import from 'mongodb'",
@@ -79,7 +79,7 @@ describe('package', () => {
         "code": "const ObjectId = null;
       const demo = null;
 
-      @Entity(\\"tasks\\", {
+      @Entity("tasks", {
           allowApiCrud: true
       })
       export class Task {
@@ -93,7 +93,7 @@ describe('package', () => {
                   }
               }
           })
-          aMongoDbIdField = \\"\\";
+          aMongoDbIdField = "";
       }",
         "info": [
           "Replaced import from 'mongodb'",

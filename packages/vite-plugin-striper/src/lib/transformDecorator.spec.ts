@@ -39,8 +39,8 @@ export class TasksController {
 
     expect(transformed).toMatchInlineSnapshot(`
       {
-        "code": "import { BackendMethod, Allow, remult } from \\"remult\\";
-      import { Task } from \\"./task\\";
+        "code": "import { BackendMethod, Allow, remult } from "remult";
+      import { Task } from "./task";
 
       export class TasksController {
           static async yop1(completed: boolean) {
@@ -83,14 +83,14 @@ export class TasksController {
 
     expect(transformed).toMatchInlineSnapshot(`
       {
-        "code": "import { Allow, BackendMethod, remult } from \\"remult\\";
-      import { Task } from \\"./task\\";
-      import { AUTH_SECRET } from \\"$env/static/private\\";
+        "code": "import { Allow, BackendMethod, remult } from "remult";
+      import { Task } from "./task";
+      import { AUTH_SECRET } from "$env/static/private";
 
       export class TasksController {
       	@BackendMethod({ allowed: Allow.authenticated })
       	static async setAllCompleted(completed: boolean) {
-      		console.log(\\"AUTH_SECRET\\", AUTH_SECRET);
+      		console.log("AUTH_SECRET", AUTH_SECRET);
       	//} LEAVE THIS ERROR TO SIMULATE A WRONG PARSED FILE
       }
       	",
@@ -124,9 +124,9 @@ export class TasksController {
 
     expect(transformed).toMatchInlineSnapshot(`
       {
-        "code": "import { Allow, BackendMethod, remult } from \\"remult\\";
-      import { Task } from \\"./task\\";
-      import { AUTH_SECRET } from \\"$env/static/private\\";
+        "code": "import { Allow, BackendMethod, remult } from "remult";
+      import { Task } from "./task";
+      import { AUTH_SECRET } from "$env/static/private";
 
       export class TasksController {
           static async yop1(completed: boolean) {
@@ -134,7 +134,7 @@ export class TasksController {
           }
 
           static async setAllCompleted(completed: boolean) {
-              console.log(\\"AUTH_SECRET\\", AUTH_SECRET);
+              console.log("AUTH_SECRET", AUTH_SECRET);
               const taskRepo = remult.repo(Task);
 
               for (const task of await taskRepo.find()) {
@@ -183,8 +183,8 @@ export class TasksController {
 
     expect(transformed).toMatchInlineSnapshot(`
       {
-        "code": "import { Entity, Fields, BackendMethod } from \\"remult\\";
-      import { TOP_SECRET } from \\"$env/static/private\\";
+        "code": "import { Entity, Fields, BackendMethod } from "remult";
+      import { TOP_SECRET } from "$env/static/private";
 
       @Entity<Ent>()
       export class Ent {
@@ -240,19 +240,19 @@ export class TasksController {
 
     expect(transformed).toMatchInlineSnapshot(`
       {
-        "code": "import { Entity, Allow, Fields, Validators, BackendMethod } from \\"remult\\";
+        "code": "import { Entity, Allow, Fields, Validators, BackendMethod } from "remult";
 
-      @Entity<User>(\\"userstest\\", {
+      @Entity<User>("userstest", {
           allowApiCrud: Allow.authenticated
       })
       export class User2 {
           @Fields.uuid()
-          id = \\"\\";
+          id = "";
 
           @Fields.string({
               validate: [Validators.required, Validators.uniqueOnBackend]
           })
-          email = \\"\\";
+          email = "";
 
           @BackendMethod({
               allowed: Allow.everyone
@@ -290,17 +290,17 @@ export class TasksController {
 
     expect(transformed).toMatchInlineSnapshot(`
       {
-        "code": "import { Entity, Allow, Fields, BackendMethod } from \\"remult\\";
+        "code": "import { Entity, Allow, Fields, BackendMethod } from "remult";
 
-      @Entity<User>(\\"userstest\\", {
+      @Entity<User>("userstest", {
           allowApiCrud: Allow.authenticated
       })
       export class User2 {
           @Fields.uuid()
-          id = \\"\\";
+          id = "";
 
           @Fields.string({})
-          email = \\"\\";
+          email = "";
 
           @BackendMethod({
               allowed: Allow.everyone
@@ -339,17 +339,17 @@ export class TasksController {
 
     expect(transformed).toMatchInlineSnapshot(`
       {
-        "code": "import { Entity, Allow, Fields, BackendMethod } from \\"remult\\";
+        "code": "import { Entity, Allow, Fields, BackendMethod } from "remult";
 
-      @Entity<User>(\\"userstest\\", {
+      @Entity<User>("userstest", {
           allowApiCrud: Allow.authenticated
       })
       export class User2 {
           @Fields.uuid()
-          id = \\"\\";
+          id = "";
 
           @Fields.string({})
-          email = \\"\\";
+          email = "";
 
           @BackendMethod({
               allowed: Allow.everyone
@@ -390,19 +390,19 @@ export class TasksController {
 
     expect(transformed).toMatchInlineSnapshot(`
       {
-        "code": "import { Entity, Allow, Fields, Validators, BackendMethod } from \\"remult\\";
+        "code": "import { Entity, Allow, Fields, Validators, BackendMethod } from "remult";
 
-      @Entity<User>(\\"userstest\\", {
+      @Entity<User>("userstest", {
           allowApiCrud: Allow.authenticated
       })
       export class User2 {
           @Fields.uuid()
-          id = \\"\\";
+          id = "";
 
           @Fields.string({
               validate: [Validators.required, Validators.uniqueOnBackend]
           })
-          email = \\"\\";
+          email = "";
 
           @BackendMethod({
               allowed: Allow.everyone
