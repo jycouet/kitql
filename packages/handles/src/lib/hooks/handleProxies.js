@@ -21,13 +21,13 @@ export const handleProxies = options => {
     // We should not find more than 1
     if (proxies_found.length > 1) {
       error(
-                403,
-                JSON.stringify({
-                  error: 'Multiple proxies found',
-                  proxies_found,
-                  url: event.url.pathname,
-                }),
-              );
+        403,
+        JSON.stringify({
+          error: 'Multiple proxies found',
+          proxies_found,
+          url: event.url.pathname,
+        }),
+      )
     }
     // We find one, perfect, let's use it
     else if (proxies_found.length === 1) {
@@ -37,7 +37,7 @@ export const handleProxies = options => {
 
       // reject requests that don't come from the webapp, to avoid your proxy being abused.
       if (!origin || new URL(origin).origin !== event.url.origin) {
-        error(403, 'Request Forbidden.');
+        error(403, 'Request Forbidden.')
       }
 
       // strip "from" from the request path
