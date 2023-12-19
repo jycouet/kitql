@@ -53,38 +53,52 @@ const getAllIndexOf = (str: string, subStr: string) => {
   return indexes
 }
 
-export const colorProcess = (str: string): string[] => {
+export const colorProcess = (...msgs: any[]): any[] => {
   if (!BROWSER) {
-    return [str]
-  }
-  const originalStr = str
-  const posToReplace: { index: number; browser: string }[] = []
-
-  // we need to make it unique
-  const tagsUsed = [...new Set(extractKitQLTags(str))]
-  for (const key of tagsUsed) {
-    // check indexes
-    const indexesStarts = getAllIndexOf(originalStr, `${START1}${key}${START2}`)
-    for (const index of indexesStarts) {
-      posToReplace.push({ index, browser: getStyleBrowser(key) })
-    }
-
-    // replace with %c in another str to make sure we don't change the order of indexes
-    str = str.replaceAll(`${START1}${key}${START2}`, '%c')
+    return [...msgs]
   }
 
-  const indexesEnd = getAllIndexOf(originalStr, END)
-  for (const index of indexesEnd) {
-    posToReplace.push({ index, browser: '' })
-  }
-  str = str.replaceAll(END, '%c')
+  const arr = [...msgs]
 
+  const msgsTransformed: any[] = []
   const colors: string[] = []
-  for (const c of posToReplace.sort((a, b) => a.index - b.index)) {
-    colors.push(c.browser)
+  const additional: any[] = []
+
+  for (let i = 0; i < arr.length; i++) {
+    let msg = arr[i]
+    if (typeof msg !== 'string') {
+      additional.push(msg)
+    } else {
+      const originalStr = msg
+      const posToReplace: { index: number; browser: string }[] = []
+
+      // we need to make it unique
+      const tagsUsed = [...new Set(extractKitQLTags(originalStr))]
+      for (const key of tagsUsed) {
+        // check indexes
+        const indexesStarts = getAllIndexOf(originalStr, `${START1}${key}${START2}`)
+        for (const index of indexesStarts) {
+          posToReplace.push({ index, browser: getStyleBrowser(key) })
+        }
+
+        // replace with %c in another str to make sure we don't change the order of indexes
+        msg = msg.replaceAll(`${START1}${key}${START2}`, '%c')
+      }
+
+      const indexesEnd = getAllIndexOf(originalStr, END)
+      for (const index of indexesEnd) {
+        posToReplace.push({ index, browser: '' })
+      }
+      msg = msg.replaceAll(END, '%c')
+
+      for (const c of posToReplace.sort((a, b) => a.index - b.index)) {
+        colors.push(c.browser)
+      }
+      msgsTransformed.push(msg)
+    }
   }
 
-  return [str, ...colors]
+  return [msgsTransformed.join(' '), ...colors, ...additional]
 }
 
 //

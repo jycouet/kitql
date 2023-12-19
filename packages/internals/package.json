@@ -28,17 +28,18 @@
     "format": "kitql-lint --format"
   },
   "devDependencies": {
-    "@sveltejs/adapter-auto": "2.1.0",
-    "@sveltejs/kit": "1.30.1",
+    "@sveltejs/adapter-auto": "^3.0.0",
+    "@sveltejs/kit": "^2.0.0",
     "@sveltejs/package": "2.2.2",
     "@kitql/eslint-config": "workspace:*",
+    "@sveltejs/vite-plugin-svelte": "^3.0.0",
     "publint": "0.2.4",
     "rollup-plugin-visualizer": "^5.9.2",
     "svelte-check": "3.6.0",
     "tslib": "2.6.2",
     "typescript": "5.3.2",
-    "vite": "4.5.1",
-    "vitest": "0.34.6"
+    "vite": "^5.0.0",
+    "vitest": "^1.0.0"
   },
   "dependencies": {
     "@babel/parser": "^7.23.0",
