@@ -13,8 +13,17 @@ module.exports = {
   ],
   plugins: ['unused-imports', 'svelte', '@typescript-eslint'],
   rules: {
-    'no-console': ['error', { allow: ['info', 'warn', 'error', 'time', 'timeEnd'] }],
+    'no-console': ['error', { allow: ['info', 'warn', 'error', 'time', 'timeEnd', 'dir'] }],
     'unused-imports/no-unused-imports': 'error',
+    '@typescript-eslint/no-unused-vars': [
+      'warn',
+      {
+        argsIgnorePattern: '^_',
+        varsIgnorePattern: '^_',
+        caughtErrorsIgnorePattern: '^_',
+      },
+    ],
+    'no-empty': ['error', { allowEmptyCatch: true }],
     '@typescript-eslint/ban-ts-ignore': 'off',
     '@typescript-eslint/ban-ts-comment': 'off',
     '@typescript-eslint/no-explicit-any': 'off',
@@ -38,6 +47,7 @@ module.exports = {
       extends: ['plugin:@graphql-eslint/schema-all', 'plugin:@graphql-eslint/operations-all'],
       rules: {
         '@graphql-eslint/alphabetize': 'off',
+        '@graphql-eslint/no-one-place-fragments': 'off',
       },
     },
   ],
