@@ -28,7 +28,7 @@ export class Log {
     this.prefixEmoji = options?.prefixEmoji ?? ''
   }
 
-  private buildStr(msg: string, withError: boolean, withSuccess: boolean, indent: string) {
+  private buildStr(withError: boolean, withSuccess: boolean, level: number, ...msgs: any[]) {
     const table = []
     if (this.toolName) {
       const strTool = ` ${this.toolName} `
@@ -50,44 +50,70 @@ export class Log {
 
     // Status icon or prefixEmoji
     if (withError) {
-      table.push(bold(redBright(' ✘ ')))
+      table.push(bold(redBright(' ✘')))
     } else if (withSuccess) {
-      table.push(bold(greenBright(' ✔ ')))
+      table.push(bold(greenBright(' ✔')))
     } else {
-      table.push(String(' ' + this.prefixEmoji))
+      table.push(String('' + this.prefixEmoji))
     }
 
-    table.push(indent)
-
-    table.push(String(msg))
-
-    const str = table.join('')
-
-    return colorProcess(str)
-  }
-
-  info(msg: string, conf?: { level?: number; withSuccess?: boolean }) {
-    const level = conf?.level ?? 0
-    const withSuccess = conf?.withSuccess ?? false
-
-    if (this.levelsToShow !== null && level <= this.levelsToShow) {
+    if (level > 0) {
       const indent = ' '.repeat(level)
-      const built = this.buildStr(msg, false, withSuccess, indent)
-      console.info(...built)
-      return built
+      table.push(indent)
     }
-    return null
+
+    if (table.length === 0 || (table.length === 1 && table[0] === '')) {
+      return colorProcess(...[...msgs.flatMap(c => c)])
+    }
+
+    return colorProcess(...[table.join(''), ...msgs.flatMap(c => c)])
   }
 
-  success(msg: string, conf?: { level?: number }) {
-    const level = conf?.level ?? 0
-    return this.info(msg, { level, withSuccess: true })
+  /**
+   * console.info with options
+   * @param conf with level of indentation
+   */
+  infoO(conf: { level: number }, ...msgs: any[]) {
+    const built = this.buildStr(false, false, conf.level, ...msgs)
+    console.info(...built.flatMap(c => c))
+    return built
   }
 
-  error(msg: string) {
-    const built = this.buildStr(msg, true, false, '')
+  /**
+   * console.info
+   */
+  info(...msgs: any[]) {
+    const built = this.buildStr(false, false, 0, ...msgs)
+    console.info(...built.flatMap(c => c))
+    return built
+  }
+
+  /**
+   * console.info with options and success icon
+   * @param conf with level of indentation
+   */
+  successO(conf: { level: number }, ...msgs: any[]) {
+    const built = this.buildStr(false, true, conf.level, msgs)
+    console.info(...built.flatMap(c => c))
+    return built
+  }
+
+  /**
+   * console.info with success icon
+   */
+  success(...msgs: any[]) {
+    const built = this.buildStr(false, true, 0, msgs)
+    console.info(...built.flatMap(c => c))
+    return built
+  }
+
+  /**
+   * console.error with error icon
+   */
+  error(...msgs: any[]) {
+    const built = this.buildStr(true, false, 0, msgs)
     // Keep error to have the stacktrace in the browser
-    console.error(...built)
+    console.error(...built.flatMap(c => c))
     return built
   }
 }
