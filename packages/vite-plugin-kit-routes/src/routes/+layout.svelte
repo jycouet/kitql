@@ -82,7 +82,8 @@
     <a href={route('/lay/skip')}>Layout Skip</a>
   </li>
   <li>
-    <a href={route('/sp')}>Search Params</a>
+    <a href={route('/sp')}>Search Params</a> |
+    <a href={route('/spArray', { ids: [7, 11] })}>Search Params (Array)</a>
   </li>
 </ul>
 

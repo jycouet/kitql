@@ -349,6 +349,11 @@ describe('run()', async () => {
       site_contract_siteId_contractId: {
         explicit_search_params: { limit: { type: 'number' } },
       },
+      spArray: {
+        explicit_search_params: {
+          ids: { type: 'number[]', required: true },
+        },
+      },
     },
     SERVERS: {},
     ACTIONS: {
@@ -824,6 +829,7 @@ describe('rmv Helper', () => {
         "lay/+layout.svelte",
         "page_server_woAction/+page.server.ts",
         "sp/+page.svelte",
+        "spArray/+page.svelte",
       ]
     `)
   })
@@ -870,6 +876,7 @@ describe('rmv Helper', () => {
         "lay/+layout.svelte",
         "page_server_woAction/+page.server.ts",
         "sp/+page.svelte",
+        "spArray/+page.svelte",
       ]
     `)
 
@@ -909,6 +916,7 @@ describe('rmv Helper', () => {
         "lay/+layout.svelte",
         "page_server_woAction/+page.server.ts",
         "sp/+page.svelte",
+        "spArray/+page.svelte",
       ]
     `)
   })
@@ -951,6 +959,7 @@ describe('rmv Helper', () => {
         "lay/+layout.svelte",
         "page_server_woAction/+page.server.ts",
         "sp/+page.svelte",
+        "spArray/+page.svelte",
       ]
     `)
   })

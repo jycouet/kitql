@@ -84,6 +84,9 @@ const PAGES = {
   '/sp': (sp?: Record<string, string | number>) => {
     return `/sp${appendSp(sp)}`
   },
+  '/spArray': (params: { ids: number[] }) => {
+    return `/spArray${appendSp({ ids: params.ids })}`
+  },
 }
 
 /**
@@ -179,7 +182,10 @@ const LINKS = {
 /**
  * Append search params to a string
  */
-const appendSp = (sp?: Record<string, string | number | undefined>, prefix: '?' | '&' = '?') => {
+const appendSp = (
+  sp?: Record<string, string | number | string[] | number[] | undefined>,
+  prefix: '?' | '&' = '?',
+) => {
   if (sp === undefined) return ''
   const mapping = Object.entries(sp)
     .filter(c => c[1] !== undefined)
@@ -275,6 +281,7 @@ export type KIT_ROUTES = {
     '/lay/root-layout': never
     '/lay/skip': never
     '/sp': never
+    '/spArray': never
   }
   SERVERS: {
     'GET /server_func_get': never
@@ -304,6 +311,7 @@ export type KIT_ROUTES = {
     siteId: never
     contractId: never
     rest: never
+    ids: never
     locale: never
     redirectTo: never
     extra: never

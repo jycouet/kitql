@@ -22,7 +22,7 @@ export const format = (margin: { left?: number; top?: number; bottom?: number },
 export const appendSp = `/**
  * Append search params to a string
  */
-const appendSp = (sp?: Record<string, string | number | undefined>, prefix: '?' | '&' = '?') => {
+const appendSp = (sp?: Record<string, string | number| string[] | number[] | undefined>, prefix: '?' | '&' = '?') => {
   if (sp === undefined) return ''
   const mapping = Object.entries(sp)
     .filter(c => c[1] !== undefined)
