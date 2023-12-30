@@ -1,5 +1,6 @@
 <script lang="ts">
   import { page } from '$app/stores'
+
   const ids: number[] =
     $page.url.searchParams
       .get('ids')

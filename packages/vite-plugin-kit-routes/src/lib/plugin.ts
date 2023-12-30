@@ -533,7 +533,6 @@ export function buildMetadata(
   // custom search Param?
   const explicit_search_params_to_function: [param: string, val: string][] = []
   if (customConf.explicit_search_params) {
-    let allSpOptional = true
     let someParamsHaveDefault = paramsFromPath.filter(c => c.default !== undefined).length > 0
 
     Object.entries(customConf.explicit_search_params).forEach(sp => {
@@ -549,7 +548,6 @@ export function buildMetadata(
 
       if (sp[1].required) {
         isAllOptional = false
-        allSpOptional = false
         paramsReq.push(param)
       }
       if (sp[1].default !== undefined) {
@@ -566,7 +564,7 @@ export function buildMetadata(
     }
 
     Object.entries(customConf.explicit_search_params).forEach(sp => {
-      let val = `params${paramsIsOptional ? '?' : ''}.${sp[0]}`
+      const val = `params${paramsIsOptional ? '?' : ''}.${sp[0]}`
 
       explicit_search_params_to_function.push([sp[0], getSpValue(val, sp[1])])
     })
