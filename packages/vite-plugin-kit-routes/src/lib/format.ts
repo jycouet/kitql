@@ -24,7 +24,7 @@ export const appendSp = `type ParamValue = string | number | undefined
 /**
  * Append search params to a string
  */
-const appendSp = (sp?: Record<string, ParamValue | ParamValue[]>, prefix: '?' | '&' = '?') => {
+export const appendSp = (sp?: Record<string, ParamValue | ParamValue[]>, prefix: '?' | '&' = '?') => {
   if (sp === undefined) return ''
 
   const params = new URLSearchParams()
