@@ -13,7 +13,7 @@
 npm create kitql@latest
 
 # or with a name & template selected to go even faster
-npm create kitql@latest demo-kitql --template kitql-remult
+npm create kitql@latest demo-kitql --template sveltekit-remult
 ```
 
 ## ⭐️ Join us
