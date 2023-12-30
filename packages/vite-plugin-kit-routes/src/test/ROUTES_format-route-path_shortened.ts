@@ -37,16 +37,16 @@ const PAGES = {
     return `${params?.lang ? `/${params?.lang}`: ''}/match/${id}`
   },
   "/site": (params?: { lang?: ('fr' | 'en' | 'hu' | 'at' | string), limit?: (number) }, sp?: Record<string, string | number>) => {
-    return `${params?.lang ? `/${params?.lang}`: ''}/site${appendSp({ ...sp, limit: params?.limit !== undefined ? String(params?.limit) : undefined })}`
+    return `${params?.lang ? `/${params?.lang}`: ''}/site${appendSp({ ...sp, limit: StringOrUndefined(params?.limit) })}`
   },
   "/site/[id]": (params?: { lang?: ('fr' | 'hu' | undefined), id?: (string), limit?: (number), demo?: (string) }) => {
     params = params ?? {}
     params.lang = params.lang ?? "fr"; 
     params.id = params.id ?? "Vienna"; 
-    return `${params?.lang ? `/${params?.lang}`: ''}/site/${params.id}${appendSp({ limit: params.limit !== undefined ? String(params.limit) : undefined, demo: params.demo !== undefined ? String(params.demo) : undefined })}`
+    return `${params?.lang ? `/${params?.lang}`: ''}/site/${params.id}${appendSp({ limit: StringOrUndefined(params.limit), demo: StringOrUndefined(params.demo) })}`
   },
   "/site_contract/[siteId]-[contractId]": (params: { siteId: (string | number), contractId: (string | number), lang?: ('fr' | 'en' | 'hu' | 'at' | string), limit?: (number) }) => {
-    return `${params?.lang ? `/${params?.lang}`: ''}/site_contract/${params.siteId}-${params.contractId}${appendSp({ limit: params.limit !== undefined ? String(params.limit) : undefined })}`
+    return `${params?.lang ? `/${params?.lang}`: ''}/site_contract/${params.siteId}-${params.contractId}${appendSp({ limit: StringOrUndefined(params.limit) })}`
   },
   "/a/[...rest]/z": (rest: (string | number)[], params?: {  }) => {
     return `/a/${rest?.join('/')}/z`
@@ -86,7 +86,7 @@ const SERVERS = {
  */
 const ACTIONS = {
   "default /contract/[id]": (id: (string | number), params?: { lang?: ('fr' | 'en' | 'hu' | 'at' | string), limit?: (number) }) => {
-    return `${params?.lang ? `/${params?.lang}`: ''}/contract/${id}${appendSp({ limit: params?.limit !== undefined ? String(params?.limit) : undefined })}`
+    return `${params?.lang ? `/${params?.lang}`: ''}/contract/${id}${appendSp({ limit: StringOrUndefined(params?.limit) })}`
   },
   "create /site": (params?: { lang?: ('fr' | 'en' | 'hu' | 'at' | string) }) => {
     return `${params?.lang ? `/${params?.lang}`: ''}/site?/create`
@@ -169,6 +169,14 @@ export const currentSp = () => {
     record[key] = value
   }
   return record
+}
+
+function StringOrUndefined(val: any) {
+  if (val === undefined) {
+    return undefined
+  }
+
+  return String(val)
 }
 
 // route function helpers

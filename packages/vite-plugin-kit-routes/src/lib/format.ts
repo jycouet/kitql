@@ -66,6 +66,14 @@ export const currentSp = () => {
     record[key] = value
   }
   return record
+}
+
+function StringOrUndefined(val: any) {
+  if (val === undefined) {
+    return undefined
+  }
+
+  return String(val)
 }`
 
 export const routeFn = `// route function helpers

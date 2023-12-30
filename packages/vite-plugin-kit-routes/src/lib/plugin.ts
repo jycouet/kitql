@@ -648,7 +648,7 @@ function getSpValue(rawValue: string, param: ExplicitSearchParam) {
       return `String(${rawValue})`
     }
 
-    return `${rawValue} !== undefined ? String(${rawValue}) : undefined`
+    return `StringOrUndefined(${rawValue})`
   }
 
   return rawValue

@@ -48,7 +48,7 @@ const PAGES = {
   ) => {
     return `${params?.lang ? `/${params?.lang}` : ''}/site${appendSp({
       ...sp,
-      limit: params?.limit !== undefined ? String(params?.limit) : undefined,
+      limit: StringOrUndefined(params?.limit),
     })}`
   },
   '/site/[id]': (params?: {
@@ -61,8 +61,8 @@ const PAGES = {
     params.lang = params.lang ?? 'fr'
     params.id = params.id ?? 'Vienna'
     return `${params?.lang ? `/${params?.lang}` : ''}/site/${params.id}${appendSp({
-      limit: params.limit !== undefined ? String(params.limit) : undefined,
-      demo: params.demo !== undefined ? String(params.demo) : undefined,
+      limit: StringOrUndefined(params.limit),
+      demo: StringOrUndefined(params.demo),
     })}`
   },
   '/site_contract/[siteId]-[contractId]': (params: {
@@ -73,7 +73,7 @@ const PAGES = {
   }) => {
     return `${params?.lang ? `/${params?.lang}` : ''}/site_contract/${params.siteId}-${
       params.contractId
-    }${appendSp({ limit: params.limit !== undefined ? String(params.limit) : undefined })}`
+    }${appendSp({ limit: StringOrUndefined(params.limit) })}`
   },
   '/a/[...rest]/z': (params: { rest: (string | number)[] }) => {
     return `/a/${params.rest?.join('/')}/z`
@@ -124,7 +124,7 @@ const ACTIONS = {
     limit?: number
   }) => {
     return `${params?.lang ? `/${params?.lang}` : ''}/contract/${params.id}${appendSp({
-      limit: params.limit !== undefined ? String(params.limit) : undefined,
+      limit: StringOrUndefined(params.limit),
     })}`
   },
   'create /site': (params?: {
@@ -132,7 +132,7 @@ const ACTIONS = {
     redirectTo?: 'list' | 'new' | 'detail'
   }) => {
     return `${params?.lang ? `/${params?.lang}` : ''}/site?/create${appendSp(
-      { redirectTo: params?.redirectTo !== undefined ? String(params?.redirectTo) : undefined },
+      { redirectTo: StringOrUndefined(params?.redirectTo) },
       '&',
     )}`
   },
@@ -232,6 +232,14 @@ export const currentSp = () => {
     record[key] = value
   }
   return record
+}
+
+function StringOrUndefined(val: any) {
+  if (val === undefined) {
+    return undefined
+  }
+
+  return String(val)
 }
 
 // route function helpers

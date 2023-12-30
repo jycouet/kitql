@@ -36,16 +36,16 @@ export const PAGE_match_id_int = (params: { id: (number), lang?: ('fr' | 'en' | 
   return `${params?.lang ? `/${params?.lang}`: ''}/match/${params.id}`
 }
 export const PAGE_site = (params?: { lang?: ('fr' | 'en' | 'hu' | 'at' | string), limit?: (number) }, sp?: Record<string, string | number>) => {
-  return `${params?.lang ? `/${params?.lang}`: ''}/site${appendSp({ ...sp, limit: params?.limit !== undefined ? String(params?.limit) : undefined })}`
+  return `${params?.lang ? `/${params?.lang}`: ''}/site${appendSp({ ...sp, limit: StringOrUndefined(params?.limit) })}`
 }
 export const PAGE_site_id = (params?: { lang?: ('fr' | 'hu' | undefined), id?: (string), limit?: (number), demo?: (string) }) => {
   params = params ?? {}
   params.lang = params.lang ?? "fr"; 
   params.id = params.id ?? "Vienna"; 
-  return `${params?.lang ? `/${params?.lang}`: ''}/site/${params.id}${appendSp({ limit: params.limit !== undefined ? String(params.limit) : undefined, demo: params.demo !== undefined ? String(params.demo) : undefined })}`
+  return `${params?.lang ? `/${params?.lang}`: ''}/site/${params.id}${appendSp({ limit: StringOrUndefined(params.limit), demo: StringOrUndefined(params.demo) })}`
 }
 export const PAGE_site_contract_siteId_contractId = (params: { siteId: (string | number), contractId: (string | number), lang?: ('fr' | 'en' | 'hu' | 'at' | string), limit?: (number) }) => {
-  return `${params?.lang ? `/${params?.lang}`: ''}/site_contract/${params.siteId}-${params.contractId}${appendSp({ limit: params.limit !== undefined ? String(params.limit) : undefined })}`
+  return `${params?.lang ? `/${params?.lang}`: ''}/site_contract/${params.siteId}-${params.contractId}${appendSp({ limit: StringOrUndefined(params.limit) })}`
 }
 export const PAGE_a_rest_z = (params: { rest: (string | number)[] }) => {
   return `/a/${params.rest?.join('/')}/z`
@@ -81,7 +81,7 @@ export const SERVER_GET_data_errors_locale_json = (params: { locale: (string | n
  * ACTIONS
  */
 export const ACTION_default_contract_id = (params: { id: (string | number), lang?: ('fr' | 'en' | 'hu' | 'at' | string), limit?: (number) }) => {
-  return `${params?.lang ? `/${params?.lang}`: ''}/contract/${params.id}${appendSp({ limit: params.limit !== undefined ? String(params.limit) : undefined })}`
+  return `${params?.lang ? `/${params?.lang}`: ''}/contract/${params.id}${appendSp({ limit: StringOrUndefined(params.limit) })}`
 }
 export const ACTION_create_site = (params?: { lang?: ('fr' | 'en' | 'hu' | 'at' | string) }) => {
   return `${params?.lang ? `/${params?.lang}`: ''}/site?/create`
@@ -160,6 +160,14 @@ export const currentSp = () => {
     record[key] = value
   }
   return record
+}
+
+function StringOrUndefined(val: any) {
+  if (val === undefined) {
+    return undefined
+  }
+
+  return String(val)
 }
 
 /**
