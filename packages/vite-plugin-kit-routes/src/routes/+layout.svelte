@@ -82,7 +82,9 @@
     <a href={route('/lay/skip')}>Layout Skip</a>
   </li>
   <li>
-    <a href={route('/sp')}>Search Params</a>
+    <a href={route('/sp')}>Search Params</a> |
+    <a href={route('/spArray', { ids: [1, 2, 3] })}>Array Search Params</a> |
+    <a href={route('/spArrayComma', { ids: [1, 2, 3].join(',') })}>Array Search Params (comma-separated)</a>
   </li>
 </ul>
 

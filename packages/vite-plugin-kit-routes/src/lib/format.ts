@@ -19,18 +19,34 @@ export const format = (margin: { left?: number; top?: number; bottom?: number },
   )
 }
 
-export const appendSp = `/**
+export const appendSp = `type ParamValue = string | number | undefined
+
+/**
  * Append search params to a string
  */
-const appendSp = (sp?: Record<string, string | number | undefined>, prefix: '?' | '&' = '?') => {
+const appendSp = (sp?: Record<string, ParamValue | ParamValue[]>, prefix: '?' | '&' = '?') => {
   if (sp === undefined) return ''
-  const mapping = Object.entries(sp)
-    .filter(c => c[1] !== undefined)
-    .map(c => [c[0], String(c[1])])
 
-  const formated = new URLSearchParams(mapping).toString()
-  if (formated) {
-    return \`\${prefix}\${formated}\`
+  const params = new URLSearchParams()
+  const append = (n: string, v: ParamValue) => {
+    if (v !== undefined) {
+      params.append(n, String(v))
+    }
+  }
+
+  for (const [name, val] of Object.entries(sp)) {
+    if (Array.isArray(val)) {
+      for (const v of val) {
+        append(name, v)
+      }
+    } else {
+      append(name, val)
+    }
+  }
+
+  const formatted = params.toString()
+  if (formatted) {
+    return \`\${prefix}\${formatted}\`
   }
   return ''
 }

@@ -824,6 +824,8 @@ describe('rmv Helper', () => {
         "lay/+layout.svelte",
         "page_server_woAction/+page.server.ts",
         "sp/+page.svelte",
+        "spArray/+page.svelte",
+        "spArrayComma/+page.svelte",
       ]
     `)
   })
@@ -870,6 +872,8 @@ describe('rmv Helper', () => {
         "lay/+layout.svelte",
         "page_server_woAction/+page.server.ts",
         "sp/+page.svelte",
+        "spArray/+page.svelte",
+        "spArrayComma/+page.svelte",
       ]
     `)
 
@@ -909,6 +913,8 @@ describe('rmv Helper', () => {
         "lay/+layout.svelte",
         "page_server_woAction/+page.server.ts",
         "sp/+page.svelte",
+        "spArray/+page.svelte",
+        "spArrayComma/+page.svelte",
       ]
     `)
   })
@@ -951,6 +957,8 @@ describe('rmv Helper', () => {
         "lay/+layout.svelte",
         "page_server_woAction/+page.server.ts",
         "sp/+page.svelte",
+        "spArray/+page.svelte",
+        "spArrayComma/+page.svelte",
       ]
     `)
   })

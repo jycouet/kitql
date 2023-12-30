@@ -84,6 +84,12 @@ const PAGES = {
   '/sp': (sp?: Record<string, string | number>) => {
     return `/sp${appendSp(sp)}`
   },
+  '/spArray': (params: { ids: number[] }) => {
+    return `/spArray${appendSp({ ids: params.ids })}`
+  },
+  '/spArrayComma': (params: { ids: string }) => {
+    return `/spArrayComma${appendSp({ ids: params.ids })}`
+  },
 }
 
 /**
@@ -176,18 +182,34 @@ const LINKS = {
   },
 }
 
+type ParamValue = string | number | undefined
+
 /**
  * Append search params to a string
  */
-const appendSp = (sp?: Record<string, string | number | undefined>, prefix: '?' | '&' = '?') => {
+const appendSp = (sp?: Record<string, ParamValue | ParamValue[]>, prefix: '?' | '&' = '?') => {
   if (sp === undefined) return ''
-  const mapping = Object.entries(sp)
-    .filter(c => c[1] !== undefined)
-    .map(c => [c[0], String(c[1])])
 
-  const formated = new URLSearchParams(mapping).toString()
-  if (formated) {
-    return `${prefix}${formated}`
+  const params = new URLSearchParams()
+  const append = (n: string, v: ParamValue) => {
+    if (v !== undefined) {
+      params.append(n, String(v))
+    }
+  }
+
+  for (const [name, val] of Object.entries(sp)) {
+    if (Array.isArray(val)) {
+      for (const v of val) {
+        append(name, v)
+      }
+    } else {
+      append(name, val)
+    }
+  }
+
+  const formatted = params.toString()
+  if (formatted) {
+    return `${prefix}${formatted}`
   }
   return ''
 }
@@ -275,6 +297,8 @@ export type KIT_ROUTES = {
     '/lay/root-layout': never
     '/lay/skip': never
     '/sp': never
+    '/spArray': never
+    '/spArrayComma': never
   }
   SERVERS: {
     'GET /server_func_get': never
@@ -304,6 +328,7 @@ export type KIT_ROUTES = {
     siteId: never
     contractId: never
     rest: never
+    ids: never
     locale: never
     redirectTo: never
     extra: never
