@@ -63,7 +63,7 @@ export default defineConfig({
           explicit_search_params: { ids: { type: 'number[]', required: true } },
         },
         '/spArrayComma': {
-          explicit_search_params: { ids: { type: 'string', required: true } },
+          explicit_search_params: { ids: { type: 'number[]', required: true, joinArray: true } },
         },
       },
       SERVERS: {

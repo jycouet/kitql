@@ -87,8 +87,8 @@ const PAGES = {
   '/spArray': (params: { ids: number[] }) => {
     return `/spArray${appendSp({ ids: params.ids })}`
   },
-  '/spArrayComma': (params: { ids: string }) => {
-    return `/spArrayComma${appendSp({ ids: params.ids })}`
+  '/spArrayComma': (params: { ids: number[] }) => {
+    return `/spArrayComma${appendSp({ ids: params.ids.join(',') })}`
   },
 }
 

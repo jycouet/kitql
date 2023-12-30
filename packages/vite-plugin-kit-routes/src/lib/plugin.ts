@@ -234,6 +234,7 @@ export type ExtendParam = {
 
 export type ExplicitSearchParam = ExtendParam & {
   required?: boolean
+  joinArray?: boolean
 }
 
 export const log = new Log('Kit Routes')
@@ -532,8 +533,9 @@ export function buildMetadata(
         default: sp[1].default,
         isArray: false,
       })
+      const opt = sp[1].required ? '' : '?'
       explicit_search_params_to_function.push(
-        `${sp[0]}: params${sp[1].required ? '' : '?'}.${sp[0]}`,
+        `${sp[0]}: params${opt}.${sp[0]}${sp[1].joinArray ? `${opt}.join(',')` : ''}`,
       )
     })
   }
