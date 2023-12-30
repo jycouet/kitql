@@ -13,7 +13,7 @@ const PAGES = {
   '/subGroup': `/subGroup`,
   '/subGroup/user': `/subGroup/user`,
   '/subGroup2': (params: { first: string | number }) => {
-    return `/subGroup2${appendSp({ first: params.first })}`
+    return `/subGroup2${appendSp({ first: String(params.first) })}`
   },
   '/contract': (params?: { lang?: 'fr' | 'en' | 'hu' | 'at' | string }) => {
     return `${params?.lang ? `/${params?.lang}` : ''}/contract`
@@ -48,7 +48,7 @@ const PAGES = {
   ) => {
     return `${params?.lang ? `/${params?.lang}` : ''}/site${appendSp({
       ...sp,
-      limit: params?.limit,
+      limit: params?.limit !== undefined ? String(params?.limit) : undefined,
     })}`
   },
   '/site/[id]': (params?: {
@@ -61,8 +61,8 @@ const PAGES = {
     params.lang = params.lang ?? 'fr'
     params.id = params.id ?? 'Vienna'
     return `${params?.lang ? `/${params?.lang}` : ''}/site/${params.id}${appendSp({
-      limit: params?.limit,
-      demo: params?.demo,
+      limit: params.limit !== undefined ? String(params.limit) : undefined,
+      demo: params.demo !== undefined ? String(params.demo) : undefined,
     })}`
   },
   '/site_contract/[siteId]-[contractId]': (params: {
@@ -73,7 +73,7 @@ const PAGES = {
   }) => {
     return `${params?.lang ? `/${params?.lang}` : ''}/site_contract/${params.siteId}-${
       params.contractId
-    }${appendSp({ limit: params?.limit })}`
+    }${appendSp({ limit: params.limit !== undefined ? String(params.limit) : undefined })}`
   },
   '/a/[...rest]/z': (params: { rest: (string | number)[] }) => {
     return `/a/${params.rest?.join('/')}/z`
@@ -88,7 +88,7 @@ const PAGES = {
     return `/spArray${appendSp({ ids: params.ids })}`
   },
   '/spArrayComma': (params: { ids: number[] }) => {
-    return `/spArrayComma${appendSp({ ids: params.ids.join(',') })}`
+    return `/spArrayComma${appendSp({ ids: String(params.ids) })}`
   },
 }
 
@@ -124,7 +124,7 @@ const ACTIONS = {
     limit?: number
   }) => {
     return `${params?.lang ? `/${params?.lang}` : ''}/contract/${params.id}${appendSp({
-      limit: params?.limit,
+      limit: params.limit !== undefined ? String(params.limit) : undefined,
     })}`
   },
   'create /site': (params?: {
@@ -132,7 +132,7 @@ const ACTIONS = {
     redirectTo?: 'list' | 'new' | 'detail'
   }) => {
     return `${params?.lang ? `/${params?.lang}` : ''}/site?/create${appendSp(
-      { redirectTo: params?.redirectTo },
+      { redirectTo: params?.redirectTo !== undefined ? String(params?.redirectTo) : undefined },
       '&',
     )}`
   },
@@ -160,7 +160,7 @@ const ACTIONS = {
     params.extra = params.extra ?? 'A'
     return `${params?.lang ? `/${params?.lang}` : ''}/site_contract/${params.siteId}-${
       params.contractId
-    }?/send${appendSp({ extra: params?.extra }, '&')}`
+    }?/send${appendSp({ extra: String(params.extra) }, '&')}`
   },
 }
 
@@ -176,8 +176,8 @@ const LINKS = {
     params.s = params.s ?? 75
     params.d = params.d ?? 'identicon'
     return `https://www.gravatar.com/avatar/${params.str}${appendSp({
-      s: params?.s,
-      d: params?.d,
+      s: String(params.s),
+      d: String(params.d),
     })}`
   },
 }

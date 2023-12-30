@@ -60,10 +60,10 @@ export default defineConfig({
           explicit_search_params: { limit: { type: 'number' } },
         },
         '/spArray': {
-          explicit_search_params: { ids: { type: 'number[]', required: true } },
+          explicit_search_params: { ids: { type: 'number[]', required: true, arrayMode: 'split' } },
         },
         '/spArrayComma': {
-          explicit_search_params: { ids: { type: 'number[]', required: true, joinArray: true } },
+          explicit_search_params: { ids: { type: 'number[]', required: true } },
         },
       },
       SERVERS: {

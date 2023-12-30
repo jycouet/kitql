@@ -234,7 +234,12 @@ export type ExtendParam = {
 
 export type ExplicitSearchParam = ExtendParam & {
   required?: boolean
-  joinArray?: boolean
+  /**
+   * Controls how arrays are converted into parameters.
+   * `join` will join elements with `,` into a single parameter.
+   * With `split` the parameter will be repeated for each element.
+   */
+  arrayMode?: 'join' | 'split'
 }
 
 export const log = new Log('Kit Routes')
@@ -522,27 +527,52 @@ export function buildMetadata(
 
   const params = []
 
+  let isAllOptional = paramsFromPath.filter(c => !c.optional).length === 0
+  const paramsReq = paramsFromPath.filter(c => !c.optional)
+
   // custom search Param?
-  let explicit_search_params_to_function: string[] = []
+  const explicit_search_params_to_function: [param: string, val: string][] = []
   if (customConf.explicit_search_params) {
+    let allSpOptional = true
+    let someParamsHaveDefault = paramsFromPath.filter(c => c.default !== undefined).length > 0
+
     Object.entries(customConf.explicit_search_params).forEach(sp => {
-      paramsFromPath.push({
+      const param = {
         name: sp[0],
         optional: !sp[1].required,
         type: sp[1].type,
         default: sp[1].default,
         isArray: false,
-      })
-      const opt = sp[1].required ? '' : '?'
-      explicit_search_params_to_function.push(
-        `${sp[0]}: params${opt}.${sp[0]}${sp[1].joinArray ? `${opt}.join(',')` : ''}`,
-      )
+      }
+
+      paramsFromPath.push(param)
+
+      if (sp[1].required) {
+        isAllOptional = false
+        allSpOptional = false
+        paramsReq.push(param)
+      }
+      if (sp[1].default !== undefined) {
+        someParamsHaveDefault = true
+      }
+    })
+
+    let paramsIsOptional = isAllOptional
+    if (options.format_short && paramsReq.length === 1) {
+      paramsIsOptional = true
+    }
+    if (someParamsHaveDefault) {
+      paramsIsOptional = false
+    }
+
+    Object.entries(customConf.explicit_search_params).forEach(sp => {
+      let val = `params${paramsIsOptional ? '?' : ''}.${sp[0]}`
+
+      explicit_search_params_to_function.push([sp[0], getSpValue(val, sp[1])])
     })
   }
 
-  let isAllOptional = paramsFromPath.filter(c => !c.optional).length === 0
   if (paramsFromPath.length > 0) {
-    const paramsReq = paramsFromPath.filter(c => !c.optional)
     if (options.format_short && paramsReq.length === 1) {
       // If only ONE required param, and we have only one, then let's put params optional
       isAllOptional = true
@@ -552,10 +582,11 @@ export function buildMetadata(
       // If it's in the explicite and it's THIS one, let's change the array...
       if (
         explicit_search_params_to_function.length === 1 &&
-        explicit_search_params_to_function[0] ===
-          `${paramsReq[0].name}: params${!paramsReq[0].optional ? '' : '?'}.${paramsReq[0].name}`
+        explicit_search_params_to_function[0][0] === paramsReq[0].name
       ) {
-        explicit_search_params_to_function = [paramsReq[0].name]
+        const sp = customConf.explicit_search_params![paramsReq[0].name]
+
+        explicit_search_params_to_function[0][1] = getSpValue(paramsReq[0].name, sp)
       } else {
         // in params
         toRet = toRet.replaceAll(`params.${paramsReq[0].name}`, paramsReq[0].name)
@@ -563,6 +594,10 @@ export function buildMetadata(
     }
     params.push(`params${isAllOptional ? '?' : ''}: { ${formatArgs(paramsFromPath, options)} }`)
   }
+
+  const explicit_search_params = explicit_search_params_to_function
+    .map(([param, val]) => (param === val ? param : `${param}: ${val}`))
+    .join(', ')
 
   let fullSP = ''
   const wExtraSP =
@@ -576,11 +611,9 @@ export function buildMetadata(
   } else if (wExtraSP && customConf.explicit_search_params) {
     params.push(`sp?: Record<string, string | number>`)
     // We want explicite to be stronger and override sp
-    fullSP =
-      `\${appendSp({ ...sp, ${explicit_search_params_to_function.join(', ')}` +
-      ` }${appendSpPrefix})}`
+    fullSP = `\${appendSp({ ...sp, ${explicit_search_params} }${appendSpPrefix})}`
   } else if (!wExtraSP && customConf.explicit_search_params) {
-    fullSP = `\${appendSp({ ${explicit_search_params_to_function.join(', ')} }${appendSpPrefix})}`
+    fullSP = `\${appendSp({ ${explicit_search_params} }${appendSpPrefix})}`
   }
 
   let paramsDefaults = paramsFromPath
@@ -609,6 +642,18 @@ export function buildMetadata(
   }
 
   return baseToReturn
+}
+
+function getSpValue(rawValue: string, param: ExplicitSearchParam) {
+  if ((param.arrayMode ?? 'join') === 'join') {
+    if (param.required || param.default !== undefined) {
+      return `String(${rawValue})`
+    }
+
+    return `${rawValue} !== undefined ? String(${rawValue}) : undefined`
+  }
+
+  return rawValue
 }
 
 export function extractParamsFromPath(path: string, o: Options): Param[] {
@@ -788,9 +833,9 @@ export const run = (atStart: boolean, o?: Options) => {
   if (allOk) {
     const result = write(options.generated_file_path, [
       `/* eslint-disable */
-/** 
+/**
  * This file was generated by 'vite-plugin-kit-routes'
- * 
+ *
  *      >> DO NOT EDIT THIS FILE MANUALLY <<
  */${options?.path_base ? `\nimport { base } from '$app/paths'` : ''}
 `,
@@ -806,7 +851,7 @@ ${c.files
       return (
         `export const ${c.type.slice(0, -1)}_${key.keyToUse} = (${key.strParams}) => {` +
         `${format({ bottom: 0, top: 1, left: 2 }, key.strDefault)}
-  return ${key.strReturn} 
+  return ${key.strReturn}
 }`
       )
     } else {
@@ -850,12 +895,12 @@ ${options?.format?.includes('object') ? `export ` : ``}` +
       // types
       `/**
 * Add this type as a generic of the vite plugin \`kitRoutes<KIT_ROUTES>\`.
-* 
+*
 * Full example:
 * \`\`\`ts
 * import type { KIT_ROUTES } from '$lib/ROUTES'
 * import { kitRoutes } from 'vite-plugin-kit-routes'
-* 
+*
 * kitRoutes<KIT_ROUTES>({
 *  PAGES: {
 *    // here, key of object will be typed!
@@ -863,7 +908,7 @@ ${options?.format?.includes('object') ? `export ` : ``}` +
 * })
 * \`\`\`
 */
-export type KIT_ROUTES = { 
+export type KIT_ROUTES = {
 ${objTypes
   .map(c => {
     return `  ${c.type}${arrayToRecord(
