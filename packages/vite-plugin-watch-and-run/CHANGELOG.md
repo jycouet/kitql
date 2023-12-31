@@ -1,5 +1,20 @@
 # @kitql/vite-plugin-watch-and-run
 
+## 1.6.0
+
+### Minor Changes
+
+- [#574](https://github.com/jycouet/kitql/pull/574)
+  [`d6b5a08`](https://github.com/jycouet/kitql/commit/d6b5a08f5a15fa9db54818ce69221817b1a7d2bf)
+  Thanks [@jycouet](https://github.com/jycouet)! - bump to vite 5
+
+### Patch Changes
+
+- Updated dependencies
+  [[`d6b5a08`](https://github.com/jycouet/kitql/commit/d6b5a08f5a15fa9db54818ce69221817b1a7d2bf),
+  [`2aaacce`](https://github.com/jycouet/kitql/commit/2aaacce3fc4ce0792ac8850b84d99c133d3a5997)]:
+  - @kitql/helpers@0.8.8
+
 ## 1.6.0-next.1
 
 ### Minor Changes
