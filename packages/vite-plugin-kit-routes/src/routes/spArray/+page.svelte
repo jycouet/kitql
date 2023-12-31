@@ -1,9 +1,10 @@
 <script lang="ts">
   import { page } from '$app/stores'
 
-  const ids: number[] = $page.url.searchParams.getAll('ids')?.map(id => parseInt(id)) ?? []
+  $: raw = $page.url.searchParams.getAll('ids')
+  $: parsed = raw.map(id => parseInt(id, 10))
 </script>
 
 <h2>Array Search Params</h2>
 
-<pre>{JSON.stringify(ids)}</pre>
+<pre>{JSON.stringify({ raw, parsed }, null, 2)}</pre>
