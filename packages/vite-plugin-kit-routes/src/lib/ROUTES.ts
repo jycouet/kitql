@@ -61,8 +61,8 @@ const PAGES = {
     params.lang = params.lang ?? 'fr'
     params.id = params.id ?? 'Vienna'
     return `${params?.lang ? `/${params?.lang}` : ''}/site/${params.id}${appendSp({
-      limit: params?.limit,
-      demo: params?.demo,
+      limit: params.limit,
+      demo: params.demo,
     })}`
   },
   '/site_contract/[siteId]-[contractId]': (params: {
@@ -73,7 +73,7 @@ const PAGES = {
   }) => {
     return `${params?.lang ? `/${params?.lang}` : ''}/site_contract/${params.siteId}-${
       params.contractId
-    }${appendSp({ limit: params?.limit })}`
+    }${appendSp({ limit: params.limit })}`
   },
   '/a/[...rest]/z': (params: { rest: (string | number)[] }) => {
     return `/a/${params.rest?.join('/')}/z`
@@ -83,6 +83,12 @@ const PAGES = {
   '/lay/skip': `/lay/skip`,
   '/sp': (sp?: Record<string, string | number>) => {
     return `/sp${appendSp(sp)}`
+  },
+  '/spArray': (params: { ids: number[] }) => {
+    return `/spArray${appendSp({ ids: params.ids })}`
+  },
+  '/spArrayComma': (params: { ids: number[] }) => {
+    return `/spArrayComma${appendSp({ ids: String(params.ids) })}`
   },
 }
 
@@ -118,7 +124,7 @@ const ACTIONS = {
     limit?: number
   }) => {
     return `${params?.lang ? `/${params?.lang}` : ''}/contract/${params.id}${appendSp({
-      limit: params?.limit,
+      limit: params.limit,
     })}`
   },
   'create /site': (params?: {
@@ -154,7 +160,7 @@ const ACTIONS = {
     params.extra = params.extra ?? 'A'
     return `${params?.lang ? `/${params?.lang}` : ''}/site_contract/${params.siteId}-${
       params.contractId
-    }?/send${appendSp({ extra: params?.extra }, '&')}`
+    }?/send${appendSp({ extra: params.extra }, '&')}`
   },
 }
 
@@ -169,25 +175,41 @@ const LINKS = {
   gravatar: (params: { str: string; s?: number; d?: 'retro' | 'identicon' }) => {
     params.s = params.s ?? 75
     params.d = params.d ?? 'identicon'
-    return `https://www.gravatar.com/avatar/${params.str}${appendSp({
-      s: params?.s,
-      d: params?.d,
-    })}`
+    return `https://www.gravatar.com/avatar/${params.str}${appendSp({ s: params.s, d: params.d })}`
   },
 }
+
+type ParamValue = string | number | undefined
 
 /**
  * Append search params to a string
  */
-const appendSp = (sp?: Record<string, string | number | undefined>, prefix: '?' | '&' = '?') => {
+export const appendSp = (
+  sp?: Record<string, ParamValue | ParamValue[]>,
+  prefix: '?' | '&' = '?',
+) => {
   if (sp === undefined) return ''
-  const mapping = Object.entries(sp)
-    .filter(c => c[1] !== undefined)
-    .map(c => [c[0], String(c[1])])
 
-  const formated = new URLSearchParams(mapping).toString()
-  if (formated) {
-    return `${prefix}${formated}`
+  const params = new URLSearchParams()
+  const append = (n: string, v: ParamValue) => {
+    if (v !== undefined) {
+      params.append(n, String(v))
+    }
+  }
+
+  for (const [name, val] of Object.entries(sp)) {
+    if (Array.isArray(val)) {
+      for (const v of val) {
+        append(name, v)
+      }
+    } else {
+      append(name, val)
+    }
+  }
+
+  const formatted = params.toString()
+  if (formatted) {
+    return `${prefix}${formatted}`
   }
   return ''
 }
@@ -207,6 +229,14 @@ export const currentSp = () => {
     record[key] = value
   }
   return record
+}
+
+function StringOrUndefined(val: any) {
+  if (val === undefined) {
+    return undefined
+  }
+
+  return String(val)
 }
 
 // route function helpers
@@ -275,6 +305,8 @@ export type KIT_ROUTES = {
     '/lay/root-layout': never
     '/lay/skip': never
     '/sp': never
+    '/spArray': never
+    '/spArrayComma': never
   }
   SERVERS: {
     'GET /server_func_get': never
@@ -304,6 +336,7 @@ export type KIT_ROUTES = {
     siteId: never
     contractId: never
     rest: never
+    ids: never
     locale: never
     redirectTo: never
     extra: never

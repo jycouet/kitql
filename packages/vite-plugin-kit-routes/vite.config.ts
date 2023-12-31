@@ -59,6 +59,12 @@ export default defineConfig({
         '/site_contract/[siteId]-[contractId]': {
           explicit_search_params: { limit: { type: 'number' } },
         },
+        '/spArray': {
+          explicit_search_params: { ids: { type: 'number[]', required: true } },
+        },
+        '/spArrayComma': {
+          explicit_search_params: { ids: { type: 'number[]', required: true, arrayMode: 'join' } },
+        },
       },
       SERVERS: {
         // site: {
