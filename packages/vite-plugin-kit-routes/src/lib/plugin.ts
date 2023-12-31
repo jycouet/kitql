@@ -238,6 +238,8 @@ export type ExplicitSearchParam = ExtendParam & {
    * Controls how arrays are converted into parameters.
    * `join` will join elements with `,` into a single parameter.
    * With `split` the parameter will be repeated for each element.
+   *
+   * @default 'split'
    */
   arrayMode?: 'join' | 'split'
 }
@@ -643,7 +645,7 @@ export function buildMetadata(
 }
 
 function getSpValue(rawValue: string, param: ExplicitSearchParam) {
-  if ((param.arrayMode ?? 'join') === 'join') {
+  if (param.arrayMode === 'join') {
     if (param.required || param.default !== undefined) {
       return `String(${rawValue})`
     }
