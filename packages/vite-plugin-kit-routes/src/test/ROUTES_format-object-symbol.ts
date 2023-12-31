@@ -55,8 +55,12 @@ export const PAGES = {
   "lay_root_layout": `/lay/root-layout`,
   "lay_skip": `/lay/skip`,
   "sp": `/sp`,
-  "spArray": `/spArray`,
-  "spArrayComma": `/spArrayComma`
+  "spArray": (params: { ids: (number[]) }) => {
+    return `/spArray${appendSp({ ids: params.ids })}`
+  },
+  "spArrayComma": (params: { ids: (number[]) }) => {
+    return `/spArrayComma${appendSp({ ids: String(params.ids) })}`
+  }
 }
 
 /**
@@ -198,5 +202,5 @@ export type KIT_ROUTES = {
   SERVERS: { 'GET_server_func_get': never, 'POST_server_func_post': never, 'GET_contract': 'lang', 'POST_contract': 'lang', 'GET_site': 'lang', 'GET_api_graphql': never, 'POST_api_graphql': never, 'GET_data_errors_locale_json': 'locale' }
   ACTIONS: { 'default_contract_id': 'id' | 'lang', 'create_site': 'lang', 'update_site_id': 'id' | 'lang', 'delete_site_id': 'id' | 'lang', 'noSatisfies_site_contract': 'lang', 'send_site_contract_siteId_contractId': 'siteId' | 'contractId' | 'lang' }
   LINKS: { 'twitter': never, 'twitter_post': 'name' | 'id', 'gravatar': 'str' }
-  Params: { first: never, lang: never, id: never, limit: never, demo: never, siteId: never, contractId: never, rest: never, locale: never, extra: never, name: never, str: never, s: never, d: never }
+  Params: { first: never, lang: never, id: never, limit: never, demo: never, siteId: never, contractId: never, rest: never, ids: never, locale: never, extra: never, name: never, str: never, s: never, d: never }
 }
