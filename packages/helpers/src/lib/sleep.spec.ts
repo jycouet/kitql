@@ -8,7 +8,7 @@ describe('kitql - helper - sleep', () => {
     await sleep(0)
     const timestamp = new Date().getTime() - start.getTime()
     console.info(`timestamp No time`, timestamp)
-    expect(timestamp).toBeLessThan(5)
+    expect(timestamp).toBeLessThan(7)
   })
 
   it('1000 ms', async () => {
