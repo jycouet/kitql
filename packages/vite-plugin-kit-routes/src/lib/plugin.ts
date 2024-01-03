@@ -775,7 +775,7 @@ const arrayToRecord = (arr?: string[]) => {
   return `: Record<string, never>`
 }
 
-export const run = (atStart: boolean, o?: Options) => {
+export const run = async (atStart: boolean, o?: Options) => {
   const options = getDefaultOption(o)
 
   const files = getFilesUnder(routes_path())
@@ -960,10 +960,14 @@ ${objTypes
         })
       }
 
+      const exitPromise = new Promise<void>(resolve => {
+        child.on('close', () => resolve())
+      })
+
+      await exitPromise
+
       if (shouldLog('update', options)) {
-        child.on('close', () => {
-          theEnd(atStart, result, objTypes, options)
-        })
+        theEnd(atStart, result, objTypes, options)
       }
     } else {
       theEnd(atStart, result, objTypes, options)
@@ -1069,8 +1073,8 @@ export function kitRoutes<T extends ExtendTypes = ExtendTypes>(options?: Options
     // Run the thing at startup
     {
       name: 'kit-routes',
-      configureServer() {
-        run(true, options)
+      async buildStart() {
+        await run(true, options)
       },
     },
 
@@ -1080,8 +1084,8 @@ export function kitRoutes<T extends ExtendTypes = ExtendTypes>(options?: Options
         name: 'kit-routes-watch',
         logs: [],
         watch: ['**/+page.svelte', '**/+page.server.ts', '**/+server.ts'],
-        run: () => {
-          run(false, options)
+        run: async () => {
+          await run(false, options)
         },
       },
     ]),
