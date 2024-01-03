@@ -1,5 +1,13 @@
 # vite-plugin-kit-routes
 
+## 0.4.0
+
+### Minor Changes
+
+- [#588](https://github.com/jycouet/kitql/pull/588)
+  [`7d1f998`](https://github.com/jycouet/kitql/commit/7d1f9986a1e786f72f29c955c7e01d55bc2a2d43)
+  Thanks [@fehnomenal](https://github.com/fehnomenal)! - also generate routes during build
+
 ## 0.3.0
 
 ### Minor Changes
