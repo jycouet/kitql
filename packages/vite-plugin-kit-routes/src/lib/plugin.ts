@@ -1,6 +1,6 @@
 import { cyan, gray, green, italic, Log, red, stry0, yellow } from '@kitql/helpers'
 import { getFilesUnder, read, write, relative, dirname } from '@kitql/internals'
-import { spawn } from 'child_process'
+import { spawnSync } from 'child_process'
 import type { Plugin } from 'vite'
 import { watchAndRun } from 'vite-plugin-watch-and-run'
 
@@ -942,28 +942,26 @@ ${objTypes
       }
 
       // do the stuff
-      const child = spawn(options.post_update_run, { shell: true })
+      const child = spawnSync(options.post_update_run, { shell: true })
 
       // report things
       if (shouldLog('post_update_run', options)) {
-        child.stdout.on('data', data => {
-          if (data.toString()) {
-            log.info(data.toString())
-          }
-        })
+        const stdout = child.stdout.toString()
+        if (stdout) {
+          log.info(stdout)
+        }
       }
 
       // report errors
       if (shouldLog('errors', options)) {
-        child.stderr.on('data', data => {
-          log.error(data.toString())
-        })
+        const stderr = child.stderr.toString()
+        if (stderr) {
+          log.error(stderr)
+        }
       }
 
       if (shouldLog('update', options)) {
-        child.on('close', () => {
-          theEnd(atStart, result, objTypes, options)
-        })
+        theEnd(atStart, result, objTypes, options)
       }
     } else {
       theEnd(atStart, result, objTypes, options)
