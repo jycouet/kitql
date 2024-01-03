@@ -460,7 +460,7 @@ describe('run()', async () => {
   for (let i = 0; i < runs.length; i++) {
     const toRun = runs[i]
     it(`run ${toRun.pathFile}`, async () => {
-      const ret = run(false, {
+      const ret = await run(false, {
         format: toRun.format,
         generated_file_path: getPathROUTES(toRun.pathFile),
         ...toRun.extra,
@@ -474,7 +474,7 @@ describe('run()', async () => {
     const toRun = getToRunShortened(runs[i])
 
     it(`run ${toRun.pathFile}`, async () => {
-      const ret = run(false, {
+      const ret = await run(false, {
         format: toRun.format,
         generated_file_path: getPathROUTES(toRun.pathFile),
         ...toRun.extra,
@@ -769,9 +769,9 @@ describe('run()', async () => {
     })
   }
 
-  it('post_update_run', () => {
+  it('post_update_run', async () => {
     const generated_file_path = 'src/test/ROUTES_post-update.ts'
-    run(false, {
+    await run(false, {
       generated_file_path,
       post_update_run: 'echo done',
     })
@@ -779,9 +779,9 @@ describe('run()', async () => {
     expect(true).toBe(true)
   })
 
-  it('with path base', () => {
+  it('with path base', async () => {
     const generated_file_path = 'src/test/ROUTES_base.ts'
-    run(false, {
+    await run(false, {
       generated_file_path,
       path_base: true,
     })

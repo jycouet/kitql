@@ -1,6 +1,6 @@
 import { cyan, gray, green, italic, Log, red, stry0, yellow } from '@kitql/helpers'
 import { getFilesUnder, read, write, relative, dirname } from '@kitql/internals'
-import { spawnSync } from 'child_process'
+import { spawn } from 'child_process'
 import type { Plugin } from 'vite'
 import { watchAndRun } from 'vite-plugin-watch-and-run'
 
@@ -775,7 +775,7 @@ const arrayToRecord = (arr?: string[]) => {
   return `: Record<string, never>`
 }
 
-export const run = (atStart: boolean, o?: Options) => {
+export const run = async (atStart: boolean, o?: Options) => {
   const options = getDefaultOption(o)
 
   const files = getFilesUnder(routes_path())
@@ -942,23 +942,29 @@ ${objTypes
       }
 
       // do the stuff
-      const child = spawnSync(options.post_update_run, { shell: true })
+      const child = spawn(options.post_update_run, { shell: true })
 
       // report things
       if (shouldLog('post_update_run', options)) {
-        const stdout = child.stdout.toString()
-        if (stdout) {
-          log.info(stdout)
-        }
+        child.stdout.on('data', data => {
+          if (data.toString()) {
+            log.info(data.toString())
+          }
+        })
       }
 
       // report errors
       if (shouldLog('errors', options)) {
-        const stderr = child.stderr.toString()
-        if (stderr) {
-          log.error(stderr)
-        }
+        child.stderr.on('data', data => {
+          log.error(data.toString())
+        })
       }
+
+      const exitPromise = new Promise<void>(resolve => {
+        child.on('close', () => resolve())
+      })
+
+      await exitPromise
 
       if (shouldLog('update', options)) {
         theEnd(atStart, result, objTypes, options)
@@ -1067,8 +1073,8 @@ export function kitRoutes<T extends ExtendTypes = ExtendTypes>(options?: Options
     // Run the thing at startup
     {
       name: 'kit-routes',
-      buildStart() {
-        run(true, options)
+      async buildStart() {
+        await run(true, options)
       },
     },
 
@@ -1078,8 +1084,8 @@ export function kitRoutes<T extends ExtendTypes = ExtendTypes>(options?: Options
         name: 'kit-routes-watch',
         logs: [],
         watch: ['**/+page.svelte', '**/+page.server.ts', '**/+server.ts'],
-        run: () => {
-          run(false, options)
+        run: async () => {
+          await run(false, options)
         },
       },
     ]),
