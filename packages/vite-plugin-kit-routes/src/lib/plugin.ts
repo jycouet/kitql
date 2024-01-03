@@ -1067,7 +1067,7 @@ export function kitRoutes<T extends ExtendTypes = ExtendTypes>(options?: Options
     // Run the thing at startup
     {
       name: 'kit-routes',
-      configureServer() {
+      buildStart() {
         run(true, options)
       },
     },
