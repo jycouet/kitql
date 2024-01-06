@@ -282,7 +282,7 @@ export function formatKey(key: string, o: Options) {
     return toRet
   }
 
-  const toReplace = ['/', '[', ']', '(', ')', '-', '=', '.']
+  const toReplace = ['/', '[', ']', '(', ')', '-', '=', '.', ':']
   toRet = toRet
     .split('')
     .map(c => (toReplace.includes(c) ? '_' : c))
