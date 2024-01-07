@@ -30,7 +30,7 @@ export const PAGES = {
   "/main": (params?: { lang?: ('fr' | 'en' | 'hu' | 'at' | string) }) => {
     return `${params?.lang ? `/${params?.lang}`: ''}/main`
   },
-  "/match/[id=ab]": (id: (Parameters<typeof import('../params/ab.ts').match>[0]), params?: { lang?: ('fr' | 'en' | 'hu' | 'at' | string) }) => {
+  "/match/[id=ab]": (id: (ParamMatcherParam<typeof import('../params/ab.ts').match>), params?: { lang?: ('fr' | 'en' | 'hu' | 'at' | string) }) => {
     return `${params?.lang ? `/${params?.lang}`: ''}/match/${id}`
   },
   "/match/[id=int]": (id: (number), params?: { lang?: ('fr' | 'en' | 'hu' | 'at' | string) }) => {
@@ -178,6 +178,9 @@ function StringOrUndefined(val: any) {
 
   return String(val)
 }
+
+type ParamMatcherParam<T extends (...args: any) => any> = ExtractParam<Parameters<T>[0]>;
+type ExtractParam<T> = T extends `${number}` ? number : T;
 
 /**
 * Add this type as a generic of the vite plugin `kitRoutes<KIT_ROUTES>`.

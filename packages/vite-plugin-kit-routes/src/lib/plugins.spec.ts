@@ -95,7 +95,7 @@ describe('vite-plugin-kit-routes', () => {
           "matcher": "ab",
           "name": "tmp",
           "optional": false,
-          "type": "Parameters<typeof import('../params/ab.ts').match>[0]",
+          "type": "ParamMatcherParam<typeof import('../params/ab.ts').match>",
         },
       ]
     `)
@@ -115,7 +115,7 @@ describe('vite-plugin-kit-routes', () => {
           "matcher": "ab",
           "name": "tmp",
           "optional": false,
-          "type": "Parameters<typeof import('../../my/custom/path/ab.ts').match>[0]",
+          "type": "ParamMatcherParam<typeof import('../../my/custom/path/ab.ts').match>",
         },
       ]
     `)
@@ -313,6 +313,7 @@ describe('run()', async () => {
     override_params: {
       lang: { type: "'fr' | 'en' | 'hu' | 'at' | string" },
     },
+    override_matcher_params: ['number'],
   }
 
   const commonConfig_variables: Options<KIT_ROUTES_ObjectSymbol> = {
@@ -774,6 +775,7 @@ describe('run()', async () => {
     await run(false, {
       generated_file_path,
       post_update_run: 'echo done',
+      override_matcher_params: ['number'],
     })
 
     expect(true).toBe(true)
@@ -784,6 +786,7 @@ describe('run()', async () => {
     await run(false, {
       generated_file_path,
       path_base: true,
+      override_matcher_params: ['number'],
     })
 
     expect(read(generated_file_path)?.includes("import { base } from '$app/paths'")).toBe(true)

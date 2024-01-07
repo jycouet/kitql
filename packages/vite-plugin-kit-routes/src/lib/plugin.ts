@@ -180,6 +180,27 @@ export type Options<T extends ExtendTypes = ExtendTypes> = {
    * To override the type of a param globally.
    */
   override_params?: Partial<{ [K in keyof T['Params']]: OverrideParam }>
+
+  /**
+   * SvelteKit's param matchers always work on strings, but can be typed more specific like `` `${number}` ``.
+   * Unfortunately, TypeScript cannot extract this inner type by inferring: in `` `${number}` extends `${infer S}` ``
+   * `S` is still `` `${number}` ``. It can be worked around by testing against specific types.
+   *
+   * This setting allows to specify which types should be tested against.
+   *
+   * If you have a matcher like:
+   * ```ts
+   * export const match = (param: `${number}`): param is `${number}` => /^\d+$/.test(param);
+   * ```
+   *
+   * Set this option to
+   * ```ts
+   * ['number']
+   * ```
+   *
+   * to get `number` as the type in autocompletion.
+   */
+  override_matcher_params?: string[]
 }
 
 export type CustomPath<Params extends string | never = string> = {
@@ -677,7 +698,7 @@ export function extractParamsFromPath(path: string, o: Options): Param[] {
         fromPath: true,
         isArray,
         // this will bring the type of the first arg of the function to to the match
-        type: `Parameters<typeof import('${relToParams}/${matcher[1]}.ts').match>[0]`,
+        type: `ParamMatcherParam<typeof import('${relToParams}/${matcher[1]}.ts').match>`,
       })
     } else {
       params.push({
@@ -891,6 +912,12 @@ ${options?.format?.includes('object') ? `export ` : ``}` +
 
       // add appendSp
       ...(options?.format?.includes('route') ? [format({ left: 0 }, routeFn)] : []),
+
+      // param matcher overrides
+      `type ParamMatcherParam<T extends (...args: any) => any> = ExtractParam<Parameters<T>[0]>;`,
+      `type ExtractParam<T> =${(options.override_matcher_params ?? []).reduce((acc, cur) => {
+        return acc + ` T extends \`\${${cur}}\` ? ${cur} :`
+      }, '')} T;\n`,
 
       // types
       `/**

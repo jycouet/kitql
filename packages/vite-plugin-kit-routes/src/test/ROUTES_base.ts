@@ -29,10 +29,10 @@ const PAGES = {
   "/main": (params?: { lang?: (string | number) }) => {
     return `${base}${params?.lang ? `/${params?.lang}`: ''}/main`
   },
-  "/match/[id=ab]": (params: { id: (Parameters<typeof import('../params/ab.ts').match>[0]), lang?: (string | number) }) => {
+  "/match/[id=ab]": (params: { id: (ParamMatcherParam<typeof import('../params/ab.ts').match>), lang?: (string | number) }) => {
     return `${base}${params?.lang ? `/${params?.lang}`: ''}/match/${params.id}`
   },
-  "/match/[id=int]": (params: { id: (Parameters<typeof import('../params/int.ts').match>[0]), lang?: (string | number) }) => {
+  "/match/[id=int]": (params: { id: (ParamMatcherParam<typeof import('../params/int.ts').match>), lang?: (string | number) }) => {
     return `${base}${params?.lang ? `/${params?.lang}`: ''}/match/${params.id}`
   },
   "/site": (params?: { lang?: (string | number) }) => {
@@ -191,6 +191,9 @@ export function route<T extends keyof AllTypes>(key: T, ...params: any[]): strin
     return AllObjs[key] as string
   }
 }
+
+type ParamMatcherParam<T extends (...args: any) => any> = ExtractParam<Parameters<T>[0]>;
+type ExtractParam<T> = T extends `${number}` ? number : T;
 
 /**
 * Add this type as a generic of the vite plugin `kitRoutes<KIT_ROUTES>`.

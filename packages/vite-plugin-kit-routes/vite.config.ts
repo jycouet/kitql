@@ -112,6 +112,8 @@ export default defineConfig({
       override_params: {
         lang: { type: "'fr' | 'en' | 'hu' | 'at' | string" },
       },
+
+      override_matcher_params: ['number'],
     }),
   ],
   test: {
