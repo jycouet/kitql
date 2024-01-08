@@ -1,5 +1,13 @@
 # vite-plugin-kit-routes
 
+## 0.5.0
+
+### Minor Changes
+
+- [#591](https://github.com/jycouet/kitql/pull/591)
+  [`87432e8`](https://github.com/jycouet/kitql/commit/87432e84d689c7cb22d7286bcd6b90918e29ed57)
+  Thanks [@fehnomenal](https://github.com/fehnomenal)! - Replace colons in path identifiers
+
 ## 0.4.0
 
 ### Minor Changes
