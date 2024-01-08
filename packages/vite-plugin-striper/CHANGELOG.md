@@ -1,5 +1,14 @@
 # vite-plugin-striper
 
+## 0.3.0
+
+### Minor Changes
+
+- [#593](https://github.com/jycouet/kitql/pull/593)
+  [`ae3353f`](https://github.com/jycouet/kitql/commit/ae3353ff1a40ef9db75d77efc08c180872e6b006)
+  Thanks [@jycouet](https://github.com/jycouet)! - striper is now actually spripping things! (it was
+  not updating the transformed code before)
+
 ## 0.2.0
 
 ### Minor Changes
