@@ -1,5 +1,13 @@
 # vite-plugin-striper
 
+## 0.3.1
+
+### Patch Changes
+
+- [#594](https://github.com/jycouet/kitql/pull/594)
+  [`36005dc`](https://github.com/jycouet/kitql/commit/36005dc3770e10bd847baf78f086f58708d20049)
+  Thanks [@jycouet](https://github.com/jycouet)! - transform imported form packages things to let
+
 ## 0.3.0
 
 ### Minor Changes
