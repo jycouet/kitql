@@ -27,7 +27,7 @@ describe('package', () => {
 
     expect(transformed).toMatchInlineSnapshot(`
       {
-        "code": "const ObjectId = null;
+        "code": "let ObjectId = null;
 
       @Entity("tasks", {
           allowApiCrud: true
@@ -76,8 +76,8 @@ describe('package', () => {
 
     expect(transformed).toMatchInlineSnapshot(`
       {
-        "code": "const ObjectId = null;
-      const demo = null;
+        "code": "let ObjectId = null;
+      let demo = null;
 
       @Entity("tasks", {
           allowApiCrud: true

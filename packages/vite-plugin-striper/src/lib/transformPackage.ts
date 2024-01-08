@@ -23,7 +23,7 @@ export const removePackages = async (code: string, packages_to_strip: string[]) 
           const replacementNodes = specifiers
             .map(specifier => {
               if (specifier.type === 'ImportSpecifier') {
-                return builders.variableDeclaration('const', [
+                return builders.variableDeclaration('let', [
                   builders.variableDeclarator(
                     builders.identifier(String(specifier.imported.name)),
                     builders.literal(null),
