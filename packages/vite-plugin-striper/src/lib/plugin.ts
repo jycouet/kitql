@@ -106,7 +106,7 @@ export function striper(options?: ViteStriperOptions): Plugin[] {
         if (options && options?.decorators && options.decorators.length > 0) {
           const { info, ...rest } = await transformDecorator(code, options.decorators)
 
-          // Update the code for later transforms
+          // Update the code for later transforms & return it
           code = rest.code
 
           infosNumber += info.length
@@ -127,7 +127,12 @@ export function striper(options?: ViteStriperOptions): Plugin[] {
 
         if (options && options?.packages && options.packages.length > 0) {
           const { info, ...rest } = await removePackages(code, options.packages)
+
+          // Update the code for later transforms & return it
+          code = rest.code
+
           infosNumber += info.length
+
           if (options?.debug && info.length > 0) {
             log.info(
               `` +
