@@ -5,7 +5,11 @@ import { striper } from './src/lib/plugin.js'
 
 export default defineConfig({
   plugins: [
-    striper({ log_on_throw_is_not_a_new_class: true }),
+    striper({
+      decorators: ['BackendMethod'],
+      debug: false,
+      log_on_throw_is_not_a_new_class: true,
+    }),
     //
     sveltekit(),
   ],
