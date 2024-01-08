@@ -146,9 +146,23 @@ export const transformDecorator = async (code: string, decorators_to_strip: stri
           return true
         })
 
-        // If one of decorators was found, empty the function body
+        // If one of the decorators was found, empty the function body and remove types
         if (foundDecorator) {
           path.node.body.body = []
+
+          // Remove the return type of the function
+          if (path.node.returnType) {
+            delete path.node.returnType
+          }
+
+          // Remove the types of all parameters
+          path.node.params.forEach(param => {
+            // @ts-ignore
+            if (param.typeAnnotation) {
+              // @ts-ignore
+              delete param.typeAnnotation
+            }
+          })
         }
 
         this.traverse(path)

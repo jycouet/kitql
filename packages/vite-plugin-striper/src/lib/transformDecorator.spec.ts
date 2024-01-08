@@ -50,12 +50,12 @@ export class TasksController {
           @BackendMethod({
               allowed: Allow.authenticated
           })
-          static async setAllCompleted(completed: boolean) {}
+          static async setAllCompleted(completed) {}
 
           @BackendMethod({
               allowed: Allow.authenticated
           })
-          static async Yop(completed: boolean) {}
+          static async Yop(completed) {}
       }",
         "info": [
           "Striped: 'BackendMethod'",
@@ -202,7 +202,7 @@ export class TasksController {
           @BackendMethod({
               allowed: false
           })
-          static async init(hello: string) {}
+          static async init(hello) {}
       }",
         "info": [
           "Striped: 'BackendMethod'",
@@ -411,6 +411,44 @@ export class TasksController {
       }",
         "info": [
           "Striped: 'BackendMethod'",
+        ],
+      }
+    `)
+  })
+
+  it('should strip import types', async () => {
+    const code = `import { AUTH_SECRET } from '$env/static/private'
+    import { BackendMethod, type Allowed, remult } from 'remult'
+    
+    export class ActionsController {
+      @BackendMethod({
+        // Only unauthenticated users can call this method
+        allowed: () => remult.user === undefined,
+      })
+      static async read(info: Allowed) {
+        console.log('AUTH_SECRET', AUTH_SECRET)
+        return AUTH_SECRET + ' ' + info
+      }
+    }
+    
+	`
+
+    const transformed = await transformDecorator(code, ['BackendMethod'])
+
+    expect(transformed).toMatchInlineSnapshot(`
+      {
+        "code": "import { BackendMethod, remult } from "remult";
+
+      export class ActionsController {
+          @BackendMethod({
+              allowed: () => remult.user === undefined
+          })
+          static async read(info) {}
+      }",
+        "info": [
+          "Striped: 'BackendMethod'",
+          "Removed: 'AUTH_SECRET' from '$env/static/private'",
+          "Removed: 'Allowed' from 'remult'",
         ],
       }
     `)
