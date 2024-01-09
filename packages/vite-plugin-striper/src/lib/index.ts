@@ -1,3 +1,3 @@
-import { striper } from './plugin.js'
+import { stripper } from './plugin.js'
 
-export { striper }
+export { stripper }

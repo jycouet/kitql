@@ -24,7 +24,7 @@ standalone libraries._
 | [@kitql/eslint-config](./packages/helpers/README.md)                        |      [![](https://img.shields.io/npm/v/@kitql/eslint-config?color=&logo=npm)](https://www.npmjs.com/package/@kitql/eslint-config)      |      [![](https://img.shields.io/npm/dm/@kitql/eslint-config?&logo=npm)](https://www.npmjs.com/package/@kitql/eslint-config)      |
 | [vite-plugin-kit-routes](./packages/vite-plugin-kit-routes/README.md)       |    [![](https://img.shields.io/npm/v/vite-plugin-kit-routes?color=&logo=npm)](https://www.npmjs.com/package/vite-plugin-kit-routes)    |    [![](https://img.shields.io/npm/dm/vite-plugin-kit-routes?&logo=npm)](https://www.npmjs.com/package/vite-plugin-kit-routes)    |
 | [vite-plugin-watch-and-run](./packages/vite-plugin-watch-and-run/README.md) | [![](https://img.shields.io/npm/v/vite-plugin-watch-and-run?color=&logo=npm)](https://www.npmjs.com/package/vite-plugin-watch-and-run) | [![](https://img.shields.io/npm/dm/vite-plugin-watch-and-run?&logo=npm)](https://www.npmjs.com/package/vite-plugin-watch-and-run) |
-| [vite-plugin-striper](./packages/vite-plugin-striper/README.md)             |       [![](https://img.shields.io/npm/v/vite-plugin-striper?color=&logo=npm)](https://www.npmjs.com/package/vite-plugin-striper)       |       [![](https://img.shields.io/npm/dm/vite-plugin-striper?&logo=npm)](https://www.npmjs.com/package/vite-plugin-striper)       |
+| [vite-plugin-stripper](./packages/vite-plugin-stripper/README.md)           |      [![](https://img.shields.io/npm/v/vite-plugin-stripper?color=&logo=npm)](https://www.npmjs.com/package/vite-plugin-stripper)      |      [![](https://img.shields.io/npm/dm/vite-plugin-stripper?&logo=npm)](https://www.npmjs.com/package/vite-plugin-stripper)      |
 | [@kitql/handles](./packages/handles/README.md)                              |            [![](https://img.shields.io/npm/v/@kitql/handles?color=&logo=npm)](https://www.npmjs.com/package/@kitql/handles)            |            [![](https://img.shields.io/npm/dm/@kitql/handles?&logo=npm)](https://www.npmjs.com/package/@kitql/handles)            |
 | [@kitql/internals](./packages/internals/README.md)                          |          [![](https://img.shields.io/npm/v/@kitql/internals?color=&logo=npm)](https://www.npmjs.com/package/@kitql/internals)          |          [![](https://img.shields.io/npm/dm/@kitql/internals?&logo=npm)](https://www.npmjs.com/package/@kitql/internals)          |
 | [create-kitql](./packages/create-kitql/README.md)                           |              [![](https://img.shields.io/npm/v/create-kitql?color=&logo=npm)](https://www.npmjs.com/package/create-kitql)              |              [![](https://img.shields.io/npm/dm/create-kitql?&logo=npm)](https://www.npmjs.com/package/create-kitql)              |
@@ -38,7 +38,9 @@ _\*Order by subjective usefulness_ 😉
 ## ✨ Contributors
 
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
+
 [![All Contributors](https://img.shields.io/badge/all_contributors-32-orange.svg?style=flat-square)](#contributors-)
+
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 
 Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/docs/en/emoji-key)):
