@@ -57,8 +57,6 @@ let result_prettier = spawn(cmdPrettier, {
 if (!format) {
   const logPrettier = new Log('kitql-lint prettier')
   result_prettier.stdout.on('data', data => {
-    console.log(`coucou`)
-
     logPrettier.error(
       data
         .toString()
