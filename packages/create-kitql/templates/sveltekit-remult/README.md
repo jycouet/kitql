@@ -29,5 +29,4 @@ TODO...
 
 ## Info
 
-xxx.spec.ts for unit test
-xxx.e2e.ts for e2e test
+xxx.spec.ts for unit test xxx.e2e.ts for e2e test

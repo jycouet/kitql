@@ -7,6 +7,7 @@ import fs from 'fs'
 const log = new Log('kitql-lint')
 
 program.addOption(new Option('-f, --format', 'format'))
+program.addOption(new Option('-g, --glob <type>', 'file/dir/glob (. by default)', '.'))
 
 program.parse(process.argv)
 const options_cli = program.opts()
@@ -32,6 +33,7 @@ let pathPrettierIgnore = findFileOrUp('.prettierignore')
 let pathPrettierCjs = findFileOrUp('.prettierrc.cjs')
 
 const format = options_cli.format ?? false
+const glob = options_cli.glob ?? '.'
 
 // First prettier
 const cmdPrettier =
@@ -44,7 +46,7 @@ const cmdPrettier =
   // format or not
   `${format ? ' --write' : ''}` +
   // exec
-  ` .`
+  ` ${glob}`
 let result_prettier = spawn(cmdPrettier, {
   shell: true,
   cwd: process.cwd(),
@@ -55,7 +57,12 @@ let result_prettier = spawn(cmdPrettier, {
 if (!format) {
   const logPrettier = new Log('kitql-lint prettier')
   result_prettier.stdout.on('data', data => {
-    logPrettier.error(data.toString())
+    logPrettier.error(
+      data
+        .toString()
+        // rmv the last \n if any
+        .replace(/\n$/, ''),
+    )
   })
 }
 
@@ -68,7 +75,7 @@ result_prettier.on('close', code => {
     // format or not
     `${format ? ' --fix' : ''}` +
     // exec
-    ` .`
+    ` ${glob}`
 
   // log.info(cmdEsLint)
 

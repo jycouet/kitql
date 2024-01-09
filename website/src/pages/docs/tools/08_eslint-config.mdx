@@ -1,0 +1,69 @@
+import { Callout } from '@theguild/components'
+
+# 👌 How to - `@kitql/eslint-config`
+
+<Callout type="info" emoji="💡">
+  _**KitQL** itself is not a library, it's "nothing" but a collection of standalone libraries._
+</Callout>
+
+To have eslint & prettier in your project, you need 20 dep, files, ... and it's a pain to maintain
+in each project.
+
+Here the idea is to reduce as much as possible the config on your end. _(Of course, you can still
+tune things)_
+
+## Install
+
+```bash
+npm install @kitql/eslint-config --D
+```
+
+### eslint config
+
+`.eslintrc.js`
+
+```js
+/** @type { import("eslint").Linter.FlatConfig } */
+module.exports = {
+  extends: ['@kitql'],
+  rules: {
+    // You can add rules here
+  }
+}
+```
+
+### prettier config
+
+`.prettierrc.cjs`
+
+```js
+const config = require('@kitql/eslint-config/.prettierrc.cjs')
+
+module.exports = {
+  ...config
+  // Some custom things?
+}
+```
+
+### ignore things with
+
+`.prettierignore`
+
+```bash
+.DS_Store
+node_modules
+/build
+/.svelte-kit
+/package
+.env
+.env.*
+!.env.example
+
+# Ignore files for PNPM, NPM and YARN
+pnpm-lock.yaml
+package-lock.json
+yarn.lock
+
+# Ignore files that are project specific
+/db
+```
