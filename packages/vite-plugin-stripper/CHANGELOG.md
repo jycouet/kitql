@@ -1,5 +1,13 @@
 # vite-plugin-stripper
 
+## 0.3.2
+
+### Patch Changes
+
+- [#597](https://github.com/jycouet/kitql/pull/597)
+  [`e2b89c3`](https://github.com/jycouet/kitql/commit/e2b89c38a472b996844f2118b721ab12d9a86d51)
+  Thanks [@jycouet](https://github.com/jycouet)! - stripper with 2 p, not the fish!
+
 ## 0.3.1
 
 ### Patch Changes
@@ -14,8 +22,8 @@
 
 - [#593](https://github.com/jycouet/kitql/pull/593)
   [`ae3353f`](https://github.com/jycouet/kitql/commit/ae3353ff1a40ef9db75d77efc08c180872e6b006)
-  Thanks [@jycouet](https://github.com/jycouet)! - stripper is now actually spripping things! (it was
-  not updating the transformed code before)
+  Thanks [@jycouet](https://github.com/jycouet)! - stripper is now actually spripping things! (it
+  was not updating the transformed code before)
 
 ## 0.2.0
 
