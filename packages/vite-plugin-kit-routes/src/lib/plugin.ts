@@ -956,7 +956,12 @@ ${objTypes
       // report errors
       if (shouldLog('errors', options)) {
         child.stderr.on('data', data => {
-          log.error(data.toString())
+          const msg = data.toString().replace(/\n$/, '')
+          if (msg.includes('DEP0040') && msg.includes('punycode')) {
+            // silent error
+          } else {
+            log.error(msg)
+          }
         })
       }
 

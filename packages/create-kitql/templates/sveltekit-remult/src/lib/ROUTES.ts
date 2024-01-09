@@ -9,43 +9,62 @@
  * PAGES
  */
 const PAGES = {
-	'/': `/`
-};
+  '/': `/`,
+}
 
 /**
  * SERVERS
  */
-const SERVERS = {};
+const SERVERS = {}
 
 /**
  * ACTIONS
  */
-const ACTIONS = {};
+const ACTIONS = {}
 
 /**
  * LINKS
  */
 const LINKS = {
-	twitter_jycouet: `https://twitter.com/jycouet`,
-	github_kitql: `https://github.com/jycouet/kitql`,
-	github_remult: `https://github.com/jycouet/kitql`
-};
+  twitter_jycouet: `https://twitter.com/jycouet`,
+  github_kitql: `https://github.com/jycouet/kitql`,
+  github_remult: `https://github.com/jycouet/kitql`,
+}
+
+type ParamValue = string | number | undefined
 
 /**
  * Append search params to a string
  */
-const appendSp = (sp?: Record<string, string | number | undefined>, prefix: '?' | '&' = '?') => {
-	if (sp === undefined) return '';
-	const mapping = Object.entries(sp)
-		.filter((c) => c[1] !== undefined)
-		.map((c) => [c[0], String(c[1])]);
+export const appendSp = (
+  sp?: Record<string, ParamValue | ParamValue[]>,
+  prefix: '?' | '&' = '?',
+) => {
+  if (sp === undefined) return ''
 
-	const formated = new URLSearchParams(mapping).toString();
-	if (formated) {
-		return `${prefix}${formated}`;
-	}
-	return '';
-};
+  const params = new URLSearchParams()
+  const append = (n: string, v: ParamValue) => {
+    if (v !== undefined) {
+      params.append(n, String(v))
+    }
+  }
+
+  for (const [name, val] of Object.entries(sp)) {
+    if (Array.isArray(val)) {
+      for (const v of val) {
+        append(name, v)
+      }
+    } else {
+      append(name, val)
+    }
+  }
+
+  const formatted = params.toString()
+  if (formatted) {
+    return `${prefix}${formatted}`
+  }
+  return ''
+}
 
 /**
  * get the current search params
@@ -56,21 +75,29 @@ const appendSp = (sp?: Record<string, string | number | undefined>, prefix: '?' 
  * ```
  */
 export const currentSp = () => {
-	const params = new URLSearchParams(window.location.search);
-	const record: Record<string, string> = {};
-	for (const [key, value] of params.entries()) {
-		record[key] = value;
-	}
-	return record;
-};
+  const params = new URLSearchParams(window.location.search)
+  const record: Record<string, string> = {}
+  for (const [key, value] of params.entries()) {
+    record[key] = value
+  }
+  return record
+}
+
+function StringOrUndefined(val: any) {
+  if (val === undefined) {
+    return undefined
+  }
+
+  return String(val)
+}
 
 // route function helpers
-type NonFunctionKeys<T> = { [K in keyof T]: T[K] extends Function ? never : K }[keyof T];
-type FunctionKeys<T> = { [K in keyof T]: T[K] extends Function ? K : never }[keyof T];
-type FunctionParams<T> = T extends (...args: infer P) => any ? P : never;
+type NonFunctionKeys<T> = { [K in keyof T]: T[K] extends Function ? never : K }[keyof T]
+type FunctionKeys<T> = { [K in keyof T]: T[K] extends Function ? K : never }[keyof T]
+type FunctionParams<T> = T extends (...args: infer P) => any ? P : never
 
-const AllObjs = { ...PAGES, ...ACTIONS, ...SERVERS, ...LINKS };
-type AllTypes = typeof AllObjs;
+const AllObjs = { ...PAGES, ...ACTIONS, ...SERVERS, ...LINKS }
+type AllTypes = typeof AllObjs
 
 /**
  * To be used like this:
@@ -81,17 +108,17 @@ type AllTypes = typeof AllObjs;
  * ```
  */
 export function route<T extends FunctionKeys<AllTypes>>(
-	key: T,
-	...params: FunctionParams<AllTypes[T]>
-): string;
-export function route<T extends NonFunctionKeys<AllTypes>>(key: T): string;
+  key: T,
+  ...params: FunctionParams<AllTypes[T]>
+): string
+export function route<T extends NonFunctionKeys<AllTypes>>(key: T): string
 export function route<T extends keyof AllTypes>(key: T, ...params: any[]): string {
-	if ((AllObjs[key] as any) instanceof Function) {
-		const element = (AllObjs as any)[key] as (...args: any[]) => string;
-		return element(...params);
-	} else {
-		return AllObjs[key] as string;
-	}
+  if ((AllObjs[key] as any) instanceof Function) {
+    const element = (AllObjs as any)[key] as (...args: any[]) => string
+    return element(...params)
+  } else {
+    return AllObjs[key] as string
+  }
 }
 
 /**
@@ -110,9 +137,9 @@ export function route<T extends keyof AllTypes>(key: T, ...params: any[]): strin
  * ```
  */
 export type KIT_ROUTES = {
-	PAGES: { '/': never };
-	SERVERS: Record<string, never>;
-	ACTIONS: Record<string, never>;
-	LINKS: { twitter_jycouet: never; github_kitql: never; github_remult: never };
-	Params: Record<string, never>;
-};
+  PAGES: { '/': never }
+  SERVERS: Record<string, never>
+  ACTIONS: Record<string, never>
+  LINKS: { twitter_jycouet: never; github_kitql: never; github_remult: never }
+  Params: Record<string, never>
+}

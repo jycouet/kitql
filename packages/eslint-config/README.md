@@ -18,8 +18,10 @@ npm install @kitql/eslint-config --D
 `.eslintrc.js`
 
 ```js
+/** @type { import("eslint").Linter.FlatConfig } */
 module.exports = {
-  extends: ['@kitql']
+  extends: ['@kitql'],
+  rules: {}
 }
 ```
 
@@ -35,6 +37,10 @@ module.exports = {
   // Some custom things?
 }
 ```
+
+### ignore things with
+
+`.prettierignore`
 
 ### usage
 
