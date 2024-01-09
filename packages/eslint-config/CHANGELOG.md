@@ -1,5 +1,14 @@
 # eslint-config-kitql
 
+## 0.1.1
+
+### Patch Changes
+
+- [#599](https://github.com/jycouet/kitql/pull/599)
+  [`5a2f362`](https://github.com/jycouet/kitql/commit/5a2f3623798a101e86ff4b65f4f639c6206b2ab2)
+  Thanks [@jycouet](https://github.com/jycouet)! - add option to format by file/dir/glob with arg
+  `-g`
+
 ## 0.1.0
 
 ### Minor Changes
