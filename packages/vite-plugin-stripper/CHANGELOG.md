@@ -1,4 +1,4 @@
-# vite-plugin-striper
+# vite-plugin-stripper
 
 ## 0.3.1
 
@@ -14,7 +14,7 @@
 
 - [#593](https://github.com/jycouet/kitql/pull/593)
   [`ae3353f`](https://github.com/jycouet/kitql/commit/ae3353ff1a40ef9db75d77efc08c180872e6b006)
-  Thanks [@jycouet](https://github.com/jycouet)! - striper is now actually spripping things! (it was
+  Thanks [@jycouet](https://github.com/jycouet)! - stripper is now actually spripping things! (it was
   not updating the transformed code before)
 
 ## 0.2.0
@@ -107,7 +107,7 @@
 ### Patch Changes
 
 - [`bb66672`](https://github.com/jycouet/kitql/commit/bb6667214ed6e14c3e4a8342f8b956fbb91e1686)
-  Thanks [@jycouet](https://github.com/jycouet)! - fix striper & unused imports
+  Thanks [@jycouet](https://github.com/jycouet)! - fix stripper & unused imports
 
 ## 0.1.2
 
@@ -260,7 +260,7 @@
 
 - [#426](https://github.com/jycouet/kitql/pull/426)
   [`5bc8fd8`](https://github.com/jycouet/kitql/commit/5bc8fd8215f89f5e236edbc8689c79de4ef600c7)
-  Thanks [@jycouet](https://github.com/jycouet)! - Bring striper to @kitql
+  Thanks [@jycouet](https://github.com/jycouet)! - Bring stripper to @kitql
 
 ## 0.0.6
 

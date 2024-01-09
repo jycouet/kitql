@@ -39,19 +39,19 @@ export type ViteStriperOptions = {
  * ```ts
   import { sveltekit } from "@sveltejs/kit/vite";
   import { defineConfig } from "vite";
-  import { striper } from "vite-plugin-striper";   // 👈
+  import { stripper } from "vite-plugin-stripper";   // 👈
   
   export default defineConfig({
     plugins: [
-      striper({ decorators: ['BackendMethod'] }),  // 👈
+      stripper({ decorators: ['BackendMethod'] }),  // 👈
       sveltekit()
     ],
   });
  * ```
  * 
  */
-export function striper(options?: ViteStriperOptions): Plugin[] {
-  const log = new Log('striper')
+export function stripper(options?: ViteStriperOptions): Plugin[] {
+  const log = new Log('stripper')
   let listOrThrow: WarningThrow[] = []
 
   const display = () => {
@@ -69,7 +69,7 @@ export function striper(options?: ViteStriperOptions): Plugin[] {
 
   return [
     {
-      name: 'vite-plugin-striper-decorator',
+      name: 'vite-plugin-stripper',
       enforce: 'pre',
 
       config: async () => {
