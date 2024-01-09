@@ -144,8 +144,8 @@ importers:
         specifier: ^3.0.0
         version: 3.1.0(prettier@3.1.0)(svelte@4.2.8)
       remult:
-        specifier: ^0.23.0
-        version: 0.23.2
+        specifier: ^0.24.1
+        version: 0.24.1
       svelte:
         specifier: ^4.2.7
         version: 4.2.8
@@ -184,10 +184,10 @@ importers:
         version: 0.11.1(eslint@8.56.0)(typescript@5.3.2)
       '@theguild/prettier-config':
         specifier: 2.0.2
-        version: 2.0.2(@vue/compiler-sfc@3.3.4)(prettier@3.1.0)
+        version: 2.0.2(@vue/compiler-sfc@3.4.7)(prettier@3.1.0)
       '@trivago/prettier-plugin-sort-imports':
         specifier: 4.3.0
-        version: 4.3.0(@vue/compiler-sfc@3.3.4)(prettier@3.1.0)
+        version: 4.3.0(@vue/compiler-sfc@3.4.7)(prettier@3.1.0)
       '@typescript-eslint/eslint-plugin':
         specifier: 6.18.1
         version: 6.18.1(@typescript-eslint/parser@6.18.1)(eslint@8.56.0)(typescript@5.3.2)
@@ -195,8 +195,8 @@ importers:
         specifier: 6.18.1
         version: 6.18.1(eslint@8.56.0)(typescript@5.3.2)
       '@vue/compiler-sfc':
-        specifier: 3.3.4
-        version: 3.3.4
+        specifier: 3.4.7
+        version: 3.4.7
       commander:
         specifier: ^11.1.0
         version: 11.1.0
@@ -463,8 +463,8 @@ importers:
         specifier: 0.2.4
         version: 0.2.4
       remult:
-        specifier: ^0.23.0
-        version: 0.23.2
+        specifier: ^0.24.1
+        version: 0.24.1
       svelte:
         specifier: 4.2.1
         version: 4.2.1
@@ -923,7 +923,6 @@ packages:
     hasBin: true
     dependencies:
       '@babel/types': 7.23.6
-    dev: true
 
   /@babel/plugin-syntax-import-assertions@7.22.5(@babel/core@7.23.2):
     resolution: {integrity: sha512-rdV97N7KqsRzeNGoWUOK6yUsWarLjE5Su/Snk9IYPU9CwkWHs4t+rTGOvffTR8XGkJMTAdLfO0xVnXm8wugIJg==}
@@ -1790,7 +1789,7 @@ packages:
   /@humanwhocodes/object-schema@2.0.1:
     resolution: {integrity: sha512-dvuCeX5fC9dXgJn9t+X5atfmgQAzUOWqS1254Gh0m6i8wKd10ebXkfNKiRK+1GWi/yTvvLDHpoxLr0xxxeslWw==}
 
-  /@ianvs/prettier-plugin-sort-imports@4.1.1(@vue/compiler-sfc@3.3.4)(prettier@3.1.0):
+  /@ianvs/prettier-plugin-sort-imports@4.1.1(@vue/compiler-sfc@3.4.7)(prettier@3.1.0):
     resolution: {integrity: sha512-kJhXq63ngpTQ2dxgf5GasbPJWsJA3LgoOdd7WGhpUSzLgLgI4IsIzYkbJf9kmpOHe7Vdm/o3PcRA3jmizXUuAQ==}
     peerDependencies:
       '@vue/compiler-sfc': '>=3.0.0'
@@ -1804,7 +1803,7 @@ packages:
       '@babel/parser': 7.23.0
       '@babel/traverse': 7.23.2
       '@babel/types': 7.23.6
-      '@vue/compiler-sfc': 3.3.4
+      '@vue/compiler-sfc': 3.4.7
       prettier: 3.1.0
       semver: 7.5.4
     transitivePeerDependencies:
@@ -3108,12 +3107,12 @@ packages:
       - typescript
     dev: false
 
-  /@theguild/prettier-config@2.0.2(@vue/compiler-sfc@3.3.4)(prettier@3.1.0):
+  /@theguild/prettier-config@2.0.2(@vue/compiler-sfc@3.4.7)(prettier@3.1.0):
     resolution: {integrity: sha512-XByOO9Oash2mEXM2j9KcV/UUzkjzUrStyMNDkLBjHwLV9ir6auhFgo0UJZoYJildsMwO1FR8XpluocLPmNyI9w==}
     peerDependencies:
       prettier: ^3
     dependencies:
-      '@ianvs/prettier-plugin-sort-imports': 4.1.1(@vue/compiler-sfc@3.3.4)(prettier@3.1.0)
+      '@ianvs/prettier-plugin-sort-imports': 4.1.1(@vue/compiler-sfc@3.4.7)(prettier@3.1.0)
       prettier: 3.1.0
       prettier-plugin-pkg: 0.18.0(prettier@3.1.0)
       prettier-plugin-sh: 0.13.1(prettier@3.1.0)
@@ -3153,7 +3152,7 @@ packages:
       - ts-node
     dev: true
 
-  /@trivago/prettier-plugin-sort-imports@4.3.0(@vue/compiler-sfc@3.3.4)(prettier@3.1.0):
+  /@trivago/prettier-plugin-sort-imports@4.3.0(@vue/compiler-sfc@3.4.7)(prettier@3.1.0):
     resolution: {integrity: sha512-r3n0onD3BTOVUNPhR4lhVK4/pABGpbA7bW3eumZnYdKaHkf1qEC+Mag6DPbGNuuh0eG8AaYj+YqmVHSiGslaTQ==}
     peerDependencies:
       '@vue/compiler-sfc': 3.x
@@ -3166,7 +3165,7 @@ packages:
       '@babel/parser': 7.23.0
       '@babel/traverse': 7.23.2
       '@babel/types': 7.17.0
-      '@vue/compiler-sfc': 3.3.4
+      '@vue/compiler-sfc': 3.4.7
       javascript-natural-sort: 0.7.1
       lodash: 4.17.21
       prettier: 3.1.0
@@ -3686,56 +3685,46 @@ packages:
       pretty-format: 29.7.0
     dev: true
 
-  /@vue/compiler-core@3.3.4:
-    resolution: {integrity: sha512-cquyDNvZ6jTbf/+x+AgM2Arrp6G4Dzbb0R64jiG804HRMfRiFXWI6kqUVqZ6ZR0bQhIoQjB4+2bhNtVwndW15g==}
+  /@vue/compiler-core@3.4.7:
+    resolution: {integrity: sha512-hhCaE3pTMrlIJK7M/o3Xf7HV8+JoNTGOQ/coWS+V+pH6QFFyqtoXqQzpqsNp7UK17xYKua/MBiKj4e1vgZOBYw==}
     dependencies:
-      '@babel/parser': 7.23.0
-      '@vue/shared': 3.3.4
+      '@babel/parser': 7.23.6
+      '@vue/shared': 3.4.7
+      entities: 4.5.0
       estree-walker: 2.0.2
       source-map-js: 1.0.2
     dev: false
 
-  /@vue/compiler-dom@3.3.4:
-    resolution: {integrity: sha512-wyM+OjOVpuUukIq6p5+nwHYtj9cFroz9cwkfmP9O1nzH68BenTTv0u7/ndggT8cIQlnBeOo6sUT/gvHcIkLA5w==}
+  /@vue/compiler-dom@3.4.7:
+    resolution: {integrity: sha512-qDKBAIurCTub4n/6jDYkXwgsFuriqqmmLrIq1N2QDfYJA/mwiwvxi09OGn28g+uDdERX9NaKDLji0oTjE3sScg==}
     dependencies:
-      '@vue/compiler-core': 3.3.4
-      '@vue/shared': 3.3.4
+      '@vue/compiler-core': 3.4.7
+      '@vue/shared': 3.4.7
     dev: false
 
-  /@vue/compiler-sfc@3.3.4:
-    resolution: {integrity: sha512-6y/d8uw+5TkCuzBkgLS0v3lSM3hJDntFEiUORM11pQ/hKvkhSKZrXW6i69UyXlJQisJxuUEJKAWEqWbWsLeNKQ==}
+  /@vue/compiler-sfc@3.4.7:
+    resolution: {integrity: sha512-Gec6CLkReVswDYjQFq79O5rktri4R7TsD/VPCiUoJw40JhNNxaNJJa8mrQrWoJluW4ETy6QN0NUyC/JO77OCOw==}
     dependencies:
-      '@babel/parser': 7.23.0
-      '@vue/compiler-core': 3.3.4
-      '@vue/compiler-dom': 3.3.4
-      '@vue/compiler-ssr': 3.3.4
-      '@vue/reactivity-transform': 3.3.4
-      '@vue/shared': 3.3.4
+      '@babel/parser': 7.23.6
+      '@vue/compiler-core': 3.4.7
+      '@vue/compiler-dom': 3.4.7
+      '@vue/compiler-ssr': 3.4.7
+      '@vue/shared': 3.4.7
       estree-walker: 2.0.2
-      magic-string: 0.30.4
-      postcss: 8.4.31
+      magic-string: 0.30.5
+      postcss: 8.4.32
       source-map-js: 1.0.2
     dev: false
 
-  /@vue/compiler-ssr@3.3.4:
-    resolution: {integrity: sha512-m0v6oKpup2nMSehwA6Uuu+j+wEwcy7QmwMkVNVfrV9P2qE5KshC6RwOCq8fjGS/Eak/uNb8AaWekfiXxbBB6gQ==}
+  /@vue/compiler-ssr@3.4.7:
+    resolution: {integrity: sha512-PvYeSOvnCkST5mGS0TLwEn5w+4GavtEn6adcq8AspbHaIr+mId5hp7cG3ASy3iy8b+LuXEG2/QaV/nj5BQ/Aww==}
     dependencies:
-      '@vue/compiler-dom': 3.3.4
-      '@vue/shared': 3.3.4
+      '@vue/compiler-dom': 3.4.7
+      '@vue/shared': 3.4.7
     dev: false
 
-  /@vue/reactivity-transform@3.3.4:
-    resolution: {integrity: sha512-MXgwjako4nu5WFLAjpBnCj/ieqcjE2aJBINUNQzkZQfzIZA4xn+0fV1tIYBJvvva3N3OvKGofRLvQIwEQPpaXw==}
-    dependencies:
-      '@babel/parser': 7.23.0
-      '@vue/compiler-core': 3.3.4
-      '@vue/shared': 3.3.4
-      estree-walker: 2.0.2
-      magic-string: 0.30.4
-    dev: false
-
-  /@vue/shared@3.3.4:
-    resolution: {integrity: sha512-7OjdcV8vQ74eiz1TZLzZP4JwqM5fA94K6yntPS5Z25r9HDuGNzaGdgvwKYq6S+MxwF0TFRwe50fIR/MYnakdkQ==}
+  /@vue/shared@3.4.7:
+    resolution: {integrity: sha512-G+i4glX1dMJk88sbJEcQEGWRQnVm9eIY7CcQbO5dpdsD9SF8jka3Mr5OqZYGjczGN1+D6EUwdu6phcmcx9iuPA==}
     dev: false
 
   /@webassemblyjs/ast@1.9.0:
@@ -10078,7 +10067,6 @@ packages:
     resolution: {integrity: sha512-eSRppjcPIatRIMC1U6UngP8XFcz8MQWGQdt1MTBQ7NaAmvXDfvNxbvWV3x2y6CdEUciCSsDHDQZbhYaB8QEo2g==}
     engines: {node: ^10 || ^12 || ^13.7 || ^14 || >=15.0.1}
     hasBin: true
-    dev: true
 
   /nanomatch@1.2.13:
     resolution: {integrity: sha512-fpoe2T0RbHwBTBUOftAfBPaDEi06ufaUai0mE6Yn1kacc3SnTErfb/h+X94VXzI64rKFHYImXSvdwGGCmwOqCA==}
@@ -11402,7 +11390,6 @@ packages:
       nanoid: 3.3.7
       picocolors: 1.0.0
       source-map-js: 1.0.2
-    dev: true
 
   /postgres-array@2.0.0:
     resolution: {integrity: sha512-VpZrUqU5A69eQyW2c5CA1jtLecCsN2U/bD6VilrFDWq5+5UIEVO7nazS3TEcHf1zuPYO/sqGvUvW62g86RXZuA==}
@@ -11536,7 +11523,7 @@ packages:
       prettier-plugin-twig-melody:
         optional: true
     dependencies:
-      '@trivago/prettier-plugin-sort-imports': 4.3.0(@vue/compiler-sfc@3.3.4)(prettier@3.1.0)
+      '@trivago/prettier-plugin-sort-imports': 4.3.0(@vue/compiler-sfc@3.4.7)(prettier@3.1.0)
       prettier: 3.1.0
       prettier-plugin-svelte: 3.1.0(prettier@3.1.0)(svelte@4.2.0)
     dev: false
@@ -12054,8 +12041,8 @@ packages:
     resolution: {integrity: sha512-/hS+Y0u3aOfIETiaiirUFwDBDzmXPvO+jAfKTitUngIPzdKc6Z0LoFjM/CK5PL4C+eKwHohlHAb6H0VFfmmUsw==}
     dev: false
 
-  /remult@0.23.2:
-    resolution: {integrity: sha512-ptwiv/mAhZe0d1MrPKGNJYS+4fA23ZrEOySo2fLz/ro9Hh41xqE/F8Bj9klNFCPxM6TMsZvZJiHwbNb6UaKL4Q==}
+  /remult@0.24.1:
+    resolution: {integrity: sha512-SajaCQ+rEbKJR7tXDWU3UiyKCkRcuC+Ht2hcGhD/r7Posu5qFK19RsgtNHzActH03Zg+fBYP/fff8+XmmfNVnQ==}
     dependencies:
       '@paralleldrive/cuid2': 2.2.2
       reflect-metadata: 0.1.14
