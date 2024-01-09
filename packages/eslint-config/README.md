@@ -5,7 +5,7 @@
 
 ## 📖 Read the doc
 
-[![](https://img.shields.io/badge/Documentation%20of-kitql%20lint%20format-FF3E00.svg?style=flat&logo=stackblitz&logoColor=FF3E00)](https://kitql.dev/docs)
+[![](https://img.shields.io/badge/Documentation%20of-kitql%20lint%20format-FF3E00.svg?style=flat&logo=stackblitz&logoColor=FF3E00)](https://kitql.dev/docs/tools/08_eslint-config)
 
 ## Install
 
@@ -41,6 +41,25 @@ module.exports = {
 ### ignore things with
 
 `.prettierignore`
+
+```bash
+.DS_Store
+node_modules
+/build
+/.svelte-kit
+/package
+.env
+.env.*
+!.env.example
+
+# Ignore files for PNPM, NPM and YARN
+pnpm-lock.yaml
+package-lock.json
+yarn.lock
+
+# Ignore files that are project specific
+/db
+```
 
 ### usage
 
