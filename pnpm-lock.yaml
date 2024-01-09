@@ -426,7 +426,7 @@ importers:
         version: 1.0.4
     publishDirectory: dist
 
-  packages/vite-plugin-striper:
+  packages/vite-plugin-stripper:
     dependencies:
       '@babel/parser':
         specifier: ^7.23.0
@@ -8886,7 +8886,6 @@ packages:
     engines: {node: '>=12'}
     dependencies:
       '@jridgewell/sourcemap-codec': 1.4.15
-    dev: true
 
   /make-dir@2.1.0:
     resolution: {integrity: sha512-LS9X+dc8KLxXCb8dni79fLIIUA5VyZoyjSMCwTluaXA0o27cCK0bhXkpgw+sTXVpPy/lSO57ilRixqk0vDmtRA==}
@@ -13235,7 +13234,7 @@ packages:
       estree-walker: 3.0.3
       is-reference: 3.0.1
       locate-character: 3.0.0
-      magic-string: 0.30.4
+      magic-string: 0.30.5
       periscopic: 3.1.0
 
   /svelte@4.2.8:
