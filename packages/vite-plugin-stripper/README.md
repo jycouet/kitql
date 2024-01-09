@@ -1,5 +1,5 @@
 <center>
-<img src="https://raw.githubusercontent.com/jycouet/kitql/main/packages/vite-plugin-striper/static/logo.png" width="100" alt="logo 4 fun" />
+<img src="https://raw.githubusercontent.com/jycouet/kitql/main/packages/vite-plugin-stripper/static/logo.png" width="100" alt="logo 4 fun" />
 </center>
 
 # 🥶 vite-plugin-stripper
