@@ -44,10 +44,10 @@ objects/functions available in your `$lib/ROUTES.ts` generated file _(always in 
 </script>
 
 <!-- 🤞 before, hardcoded string, error prone -->
-<a href="/site_contract/{siteId}">Go to site</a>
+<a href="/site/123">Go to site</a>
 
 <!-- ✅ after, typechecked route, no more errors -->
-<a href={route('/site_contract/{siteId}', { siteId })}>Go to site</a>
+<a href={route('/site/[id]', { id: 123 })}>Go to site</a>
 ```
 
 ```svelte filename="With 1 Search Param*" {2, 9}
@@ -56,10 +56,10 @@ objects/functions available in your `$lib/ROUTES.ts` generated file _(always in 
 </script>
 
 <!-- 🤞 before, hardcoded string, error prone -->
-<a href="/site_contract/{siteId}?limit={3}">Go to site</a>
+<a href="/site/123?limit=3">Go to site</a>
 
 <!-- ✅ after, typechecked route, no more errors -->
-<a href={route('/site_contract/{siteId}', { siteId, limit: 3 })}>Go to site</a>
+<a href={route('/site/[id]', { id: 123, limit: 3 })}>Go to site</a>
 ```
 
 ```svelte filename="With a named action" {4, 12}
@@ -68,13 +68,13 @@ objects/functions available in your `$lib/ROUTES.ts` generated file _(always in 
   import { page } from '$app/stores'
   import { route } from '$lib/ROUTES'
 
-  const siteId = $page.params.siteId
+  const id = $page.params.id
 
   // 🤞 before, hardcoded string, error prone
-  const action =  `/site_contract/${siteId}?/send`
+  const action =  `/site/${id}?/send`
 
   // ✅ after, typechecked route, no more errors
-  const action = route('send /site_contract/${siteId}', { siteId })
+  const action = route('send /site/[id]', { id })
 </script>
 
 <form method="POST" use:enhance {action}>
