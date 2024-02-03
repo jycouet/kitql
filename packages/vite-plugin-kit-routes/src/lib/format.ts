@@ -9,7 +9,7 @@ export const format = (margin: { left?: number; top?: number; bottom?: number },
 
   const strWithSpace = str
     .split('\n')
-    .map(c => `${Array(m.left).fill(' ').join('')}${c}`)
+    .map((c) => `${Array(m.left).fill(' ').join('')}${c}`)
     .join('\n')
 
   return (

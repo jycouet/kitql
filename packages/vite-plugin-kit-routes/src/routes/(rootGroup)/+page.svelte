@@ -6,7 +6,7 @@
     { lang: 'en', caption: 'English' },
     { lang: 'hu', caption: 'Magyar' },
     { lang: 'at', caption: 'Deutsch' },
-  ].map(c => {
+  ].map((c) => {
     return { href: route('/main', { lang: c.lang }), ...c }
   })
 </script>

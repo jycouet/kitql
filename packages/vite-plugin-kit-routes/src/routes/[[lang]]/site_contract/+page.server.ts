@@ -1,5 +1,5 @@
 export const actions = {
-  noSatisfies: async data => {
+  noSatisfies: async (data) => {
     console.info(`noSatisfies`)
 
     return {

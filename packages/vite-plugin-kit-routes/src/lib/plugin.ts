@@ -292,7 +292,7 @@ export function formatKey(key: string, o: Options) {
   const toReplace = ['/', '[', ']', '(', ')', '-', '=', '.', ':']
   toRet = toRet
     .split('')
-    .map(c => (toReplace.includes(c) ? '_' : c))
+    .map((c) => (toReplace.includes(c) ? '_' : c))
     .join('')
     .replaceAll('...', '')
     .replaceAll('__', '_')
@@ -329,30 +329,30 @@ const getMetadata = (files: string[], type: KindOfObject, o: Options, withAppend
   const useWithAppendSp = withAppendSp && options?.extra_search_params === 'with'
 
   if (type === 'LINKS') {
-    const toRet = Object.entries(options?.LINKS ?? {}).flatMap(c => {
+    const toRet = Object.entries(options?.LINKS ?? {}).flatMap((c) => {
       const hrefToUse = typeof c[1] === 'string' ? c[1] : c[1].href
       return transformToMetadata(c[0], hrefToUse, type, options, useWithAppendSp)
     })
-    return toRet.filter(c => c !== null) as MetadataToWrite[]
+    return toRet.filter((c) => c !== null) as MetadataToWrite[]
   }
 
   const lookFor =
     type === 'PAGES' ? '+page.svelte' : type === 'SERVERS' ? '+server.ts' : '+page.server.ts'
 
   // For windows
-  files = files.map(c => c.replaceAll('\\', '/'))
+  files = files.map((c) => c.replaceAll('\\', '/'))
 
   // remove the layout info
-  files = files.map(c => c.replace(/@[^.]*\./, '.'))
+  files = files.map((c) => c.replace(/@[^.]*\./, '.'))
 
   const toRet = files
-    .filter(file => file.endsWith(lookFor))
-    .map(file => `/` + file.replace(`/${lookFor}`, '').replace(lookFor, ''))
+    .filter((file) => file.endsWith(lookFor))
+    .map((file) => `/` + file.replace(`/${lookFor}`, '').replace(lookFor, ''))
     // Keep the sorting at this level, it will make more sense
     .sort()
-    .flatMap(original => transformToMetadata(original, original, type, options, useWithAppendSp))
+    .flatMap((original) => transformToMetadata(original, original, type, options, useWithAppendSp))
 
-  return toRet.filter(c => c !== null) as MetadataToWrite[]
+  return toRet.filter((c) => c !== null) as MetadataToWrite[]
 }
 
 type Param = {
@@ -400,7 +400,7 @@ export const transformToMetadata = (
         ),
       )
     } else {
-      actions.map(action => {
+      actions.map((action) => {
         list.push(
           buildMetadata(
             type,
@@ -421,7 +421,7 @@ export const transformToMetadata = (
     if (methods.length === 0) {
       return []
     } else {
-      methods.map(method => {
+      methods.map((method) => {
         list.push(
           buildMetadata(
             type,
@@ -481,7 +481,7 @@ export function buildMetadata(
 
   // custom Param?
   if (customConf.params) {
-    Object.entries(customConf.params).forEach(sp => {
+    Object.entries(customConf.params).forEach((sp) => {
       for (let i = 0; i < paramsFromPath.length; i++) {
         if (paramsFromPath[i].name === sp[0]) {
           if (sp[1] && sp[1].type) {
@@ -502,7 +502,7 @@ export function buildMetadata(
     toRet = `/`
   }
 
-  paramsFromPath.forEach(c => {
+  paramsFromPath.forEach((c) => {
     const sMatcher = `${c.matcher ? `=${c.matcher}` : ''}`
 
     // Very special case (only an optional param)
@@ -512,7 +512,7 @@ export function buildMetadata(
       // Always 2 cases, with "/" prefix and without
       const cases = ['/', '']
       // First -> optionnals
-      cases.forEach(prefix => {
+      cases.forEach((prefix) => {
         toRet = toRet.replaceAll(
           `${prefix}[[${c.name + sMatcher}]]`,
           `\${params?.${c.name} ? \`${prefix}\${params?.${c.name}}\`: ''}`,
@@ -520,12 +520,12 @@ export function buildMetadata(
       })
 
       // Second -> params
-      cases.forEach(prefix => {
+      cases.forEach((prefix) => {
         toRet = toRet.replaceAll(`${prefix}[${c.name + sMatcher}]`, `${prefix}\${params.${c.name}}`)
       })
 
       // Third -> [...rest]
-      cases.forEach(prefix => {
+      cases.forEach((prefix) => {
         toRet = toRet.replaceAll(
           `${prefix}[...${c.name + sMatcher}]`,
           `${prefix}\${params.${c.name}?.join('/')}`,
@@ -536,15 +536,15 @@ export function buildMetadata(
 
   const params = []
 
-  let isAllOptional = paramsFromPath.filter(c => !c.optional).length === 0
-  const paramsReq = paramsFromPath.filter(c => !c.optional)
+  let isAllOptional = paramsFromPath.filter((c) => !c.optional).length === 0
+  const paramsReq = paramsFromPath.filter((c) => !c.optional)
 
   // custom search Param?
   const explicit_search_params_to_function: [param: string, val: string][] = []
   if (customConf.explicit_search_params) {
-    let someParamsHaveDefault = paramsFromPath.filter(c => c.default !== undefined).length > 0
+    let someParamsHaveDefault = paramsFromPath.filter((c) => c.default !== undefined).length > 0
 
-    Object.entries(customConf.explicit_search_params).forEach(sp => {
+    Object.entries(customConf.explicit_search_params).forEach((sp) => {
       const param = {
         name: sp[0],
         optional: !sp[1].required,
@@ -572,7 +572,7 @@ export function buildMetadata(
       paramsIsOptional = false
     }
 
-    Object.entries(customConf.explicit_search_params).forEach(sp => {
+    Object.entries(customConf.explicit_search_params).forEach((sp) => {
       const val = `params${paramsIsOptional ? '?' : ''}.${sp[0]}`
 
       explicit_search_params_to_function.push([sp[0], getSpValue(val, sp[1])])
@@ -624,8 +624,8 @@ export function buildMetadata(
   }
 
   let paramsDefaults = paramsFromPath
-    .filter(c => c.default !== undefined)
-    .map(c => {
+    .filter((c) => c.default !== undefined)
+    .map((c) => {
       return `params.${c.name} = params.${c.name} ?? ${c.default}; `
     })
 
@@ -701,9 +701,9 @@ export function extractParamsFromPath(path: string, o: Options): Param[] {
 
 const formatArgs = (params: Param[], o: Options) => {
   const options = getDefaultOption(o)
-  const paramsReq = params.filter(c => !c.optional)
+  const paramsReq = params.filter((c) => !c.optional)
   if (options.format_short && paramsReq.length === 1) {
-    params = params.filter(c => c.optional)
+    params = params.filter((c) => c.optional)
   }
 
   const str = params
@@ -716,7 +716,7 @@ const formatArgs = (params: Param[], o: Options) => {
       // Let's sort only by 'optional' at the end.
       return a.optional < b.optional ? -1 : 1
     })
-    .map(c => {
+    .map((c) => {
       return formatArg(c, o)
     })
     .join(', ')
@@ -728,7 +728,7 @@ const formatArg = (c: Param, o: Options) => {
   const options = getDefaultOption(o)
 
   const override_params = Object.entries(options?.override_params ?? {}).filter(
-    d => d[0] === c.name,
+    (d) => d[0] === c.name,
   )
 
   let override_param = undefined
@@ -802,11 +802,11 @@ export const run = async (atStart: boolean, o?: Options) => {
   // Validate options
   const allOk = true
   objTypes
-    .filter(c => c.type !== 'LINKS')
-    .forEach(o => {
-      Object.entries(options?.[o.type] ?? {}).forEach(e => {
+    .filter((c) => c.type !== 'LINKS')
+    .forEach((o) => {
+      Object.entries(options?.[o.type] ?? {}).forEach((e) => {
         const [key, cPath] = e
-        const found = o.files.find(c => c.keyToUse === key)
+        const found = o.files.find((c) => c.keyToUse === key)
         if (!found) {
           if (shouldLog('errors', options)) {
             log.error(
@@ -817,9 +817,9 @@ export const run = async (atStart: boolean, o?: Options) => {
           // allOk = false
         } else {
           if (cPath) {
-            Object.entries(cPath.params ?? {}).forEach(p => {
+            Object.entries(cPath.params ?? {}).forEach((p) => {
               const [pKey] = p
-              const paramsFromPathFound = found.paramsFromPath.find(c => c.name === pKey)
+              const paramsFromPathFound = found.paramsFromPath.find((c) => c.name === pKey)
               if (!paramsFromPathFound) {
                 if (shouldLog('errors', options)) {
                   log.error(
@@ -850,10 +850,10 @@ export const run = async (atStart: boolean, o?: Options) => {
       options?.format === 'variables'
         ? // Format variables
           objTypes
-            .map(c => {
+            .map((c) => {
               return `/**\n * ${c.type}\n */
 ${c.files
-  .map(key => {
+  .map((key) => {
     if (key.strParams) {
       return (
         `export const ${c.type.slice(0, -1)}_${key.keyToUse} = (${key.strParams}) => {` +
@@ -870,13 +870,13 @@ ${c.files
             .join(`\n\n`)
         : // Format Others
           objTypes
-            .map(c => {
+            .map((c) => {
               return (
                 `/**\n * ${c.type}\n */
 ${options?.format?.includes('object') ? `export ` : ``}` +
                 `const ${c.type} = {
   ${c.files
-    .map(key => {
+    .map((key) => {
       if (key.strParams) {
         return (
           `"${key.keyToUse}": (${key.strParams}) => {` +
@@ -917,15 +917,15 @@ ${options?.format?.includes('object') ? `export ` : ``}` +
 */
 export type KIT_ROUTES = {
 ${objTypes
-  .map(c => {
+  .map((c) => {
     return `  ${c.type}${arrayToRecord(
-      c.files.map(d => {
+      c.files.map((d) => {
         return `'${d.keyToUse}': ${
-          d.paramsFromPath.filter(e => e.fromPath === true).length === 0
+          d.paramsFromPath.filter((e) => e.fromPath === true).length === 0
             ? 'never'
             : d.paramsFromPath
-                .filter(e => e.fromPath === true)
-                .map(e => {
+                .filter((e) => e.fromPath === true)
+                .map((e) => {
                   return `'${e.name}'`
                 })
                 .join(' | ')
@@ -936,7 +936,9 @@ ${objTypes
   .join('\n')}
   Params${arrayToRecord([
     ...new Set(
-      objTypes.flatMap(c => c.files.flatMap(d => d.paramsFromPath.map(e => `${e.name}: never`))),
+      objTypes.flatMap((c) =>
+        c.files.flatMap((d) => d.paramsFromPath.map((e) => `${e.name}: never`)),
+      ),
     ),
   ])}
 }
@@ -953,7 +955,7 @@ ${objTypes
 
       // report things
       if (shouldLog('post_update_run', options)) {
-        child.stdout.on('data', data => {
+        child.stdout.on('data', (data) => {
           if (data.toString()) {
             log.info(data.toString())
           }
@@ -962,7 +964,7 @@ ${objTypes
 
       // report errors
       if (shouldLog('errors', options)) {
-        child.stderr.on('data', data => {
+        child.stderr.on('data', (data) => {
           const msg = data.toString().replace(/\n$/, '')
           if (msg.includes('DEP0040') && msg.includes('punycode')) {
             // silent error
@@ -972,7 +974,7 @@ ${objTypes
         })
       }
 
-      const exitPromise = new Promise<void>(resolve => {
+      const exitPromise = new Promise<void>((resolve) => {
         child.on('close', () => resolve())
       })
 
@@ -1027,11 +1029,11 @@ function theEnd(
       // silent error
     }
     const stats = []
-    const nbRoutes = objTypes.flatMap(c => c.files).length
+    const nbRoutes = objTypes.flatMap((c) => c.files).length
     stats.push(
       `Routes: ${yellow('' + nbRoutes)} ` +
         `${italic(
-          `(${objTypes.map(c => `${c.type}: ${yellow('' + c.files.length)}`).join(', ')})`,
+          `(${objTypes.map((c) => `${c.type}: ${yellow('' + c.files.length)}`).join(', ')})`,
         )}`,
     )
     const confgPoints = stry0(Object.entries(options ?? {}))!.length
@@ -1048,7 +1050,7 @@ function theEnd(
         `https://twitter.com/intent/tweet?text=` +
           `${encodeURI(`🚀 Check out my `)}%23${encodeURI(
             `KitRoutes stats 🚀\n\n` +
-              `- Routes: ${nbRoutes} (${objTypes.map(c => c.files.length).join(', ')})\n` +
+              `- Routes: ${nbRoutes} (${objTypes.map((c) => c.files.length).join(', ')})\n` +
               `- Points: ${confgPoints}\n` +
               `- Score: ${score}\n` +
               `- Format: "${options?.format}${shortV}"\n` +

@@ -23,7 +23,7 @@ export const getMethodsOfServerFiles = (pathFile: string) => {
 
       // Check for variable declarations
       if (declaration?.type === 'VariableDeclaration') {
-        declaration.declarations.forEach(declaration => {
+        declaration.declarations.forEach((declaration) => {
           if (
             declaration.type === 'VariableDeclarator' &&
             declaration.id.type === 'Identifier' &&
@@ -44,7 +44,7 @@ export const getMethodsOfServerFiles = (pathFile: string) => {
       // Check for export specifiers (for aliased exports)
       const specifiers = path.node.specifiers
       if (specifiers) {
-        specifiers.forEach(specifier => {
+        specifiers.forEach((specifier) => {
           if (specifier.exported.name) {
             exportedNames.push(String(specifier.exported.name))
           }
@@ -100,7 +100,7 @@ export const getActionsOfServerPages = (pathFile: string) => {
 
   if (actions.length > 1 && actions.includes('default')) {
     // Let's remove the default action form our list, and say something
-    actions = actions.filter(c => c !== 'default')
+    actions = actions.filter((c) => c !== 'default')
     log.error(
       `In file: ${yellow(pathToFile)}` +
         `\n\t      When using named actions (${yellow(actions.join(', '))})` +

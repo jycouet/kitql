@@ -1,5 +1,6 @@
 <script lang="ts">
   import { page } from '$app/stores'
+
   import { route } from '$lib/ROUTES.js'
 
   const siteId = 'Paris'

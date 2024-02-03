@@ -63,10 +63,10 @@ export class Log {
     }
 
     if (table.length === 0 || (table.length === 1 && table[0] === '')) {
-      return colorProcess(...[...msgs.flatMap(c => c)])
+      return colorProcess(...[...msgs.flatMap((c) => c)])
     }
 
-    return colorProcess(...[table.join(''), ...msgs.flatMap(c => c)])
+    return colorProcess(...[table.join(''), ...msgs.flatMap((c) => c)])
   }
 
   /**
@@ -75,7 +75,7 @@ export class Log {
    */
   infoO(conf: { level: number }, ...msgs: any[]) {
     const built = this.buildStr(false, false, conf.level, ...msgs)
-    console.info(...built.flatMap(c => c))
+    console.info(...built.flatMap((c) => c))
     return built
   }
 
@@ -84,7 +84,7 @@ export class Log {
    */
   info(...msgs: any[]) {
     const built = this.buildStr(false, false, 0, ...msgs)
-    console.info(...built.flatMap(c => c))
+    console.info(...built.flatMap((c) => c))
     return built
   }
 
@@ -94,7 +94,7 @@ export class Log {
    */
   successO(conf: { level: number }, ...msgs: any[]) {
     const built = this.buildStr(false, true, conf.level, msgs)
-    console.info(...built.flatMap(c => c))
+    console.info(...built.flatMap((c) => c))
     return built
   }
 
@@ -103,7 +103,7 @@ export class Log {
    */
   success(...msgs: any[]) {
     const built = this.buildStr(false, true, 0, msgs)
-    console.info(...built.flatMap(c => c))
+    console.info(...built.flatMap((c) => c))
     return built
   }
 
@@ -113,7 +113,7 @@ export class Log {
   error(...msgs: any[]) {
     const built = this.buildStr(true, false, 0, msgs)
     // Keep error to have the stacktrace in the browser
-    console.error(...built.flatMap(c => c))
+    console.error(...built.flatMap((c) => c))
     return built
   }
 }

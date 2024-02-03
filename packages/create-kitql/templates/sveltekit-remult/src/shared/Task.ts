@@ -8,7 +8,7 @@ export class Task {
   id!: string
 
   @Fields.string<Task>({
-    validate: task => {
+    validate: (task) => {
       if (task.title.length < 3) throw 'The title must be at least 3 characters long'
     },
   })

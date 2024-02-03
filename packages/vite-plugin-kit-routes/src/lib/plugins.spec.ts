@@ -821,7 +821,7 @@ describe('options', () => {
 describe('rmv Helper', () => {
   it('rmvOptional', async () => {
     const location = routes_path()
-    expect(getFilesUnder(location).map(c => rmvOptional(c))).toMatchInlineSnapshot(`
+    expect(getFilesUnder(location).map((c) => rmvOptional(c))).toMatchInlineSnapshot(`
       [
         "(rootGroup)/+page.svelte",
         "(rootGroup)/subGroup/(anotherSub)/user/+page.svelte",
@@ -910,7 +910,7 @@ describe('rmv Helper', () => {
       ]
     `)
 
-    expect(getFilesUnder(location).map(c => rmvGroups(c))).toMatchInlineSnapshot(`
+    expect(getFilesUnder(location).map((c) => rmvGroups(c))).toMatchInlineSnapshot(`
       [
         "/+page.svelte",
         "/subGroup/user/+page.svelte",
@@ -954,7 +954,7 @@ describe('rmv Helper', () => {
 
   it('rmvGroups & Optional', async () => {
     const location = routes_path()
-    expect(getFilesUnder(location).map(c => rmvGroups(rmvOptional(c)))).toMatchInlineSnapshot(`
+    expect(getFilesUnder(location).map((c) => rmvGroups(rmvOptional(c)))).toMatchInlineSnapshot(`
       [
         "/+page.svelte",
         "/subGroup/user/+page.svelte",

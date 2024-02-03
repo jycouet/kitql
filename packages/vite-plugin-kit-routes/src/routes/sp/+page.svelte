@@ -1,6 +1,7 @@
 <script lang="ts">
   import { goto } from '$app/navigation'
   import { page } from '$app/stores'
+
   import { currentSp, route } from '$lib/ROUTES.js'
 
   const elves = [
@@ -41,6 +42,6 @@
   <input type="number" bind:value={take} on:keyup={updateUrl} min="0" />
 </label>
 
-{#each elves.filter(c => c.name.toLowerCase().includes(search)).splice(skip, take) as elve}
+{#each elves.filter((c) => c.name.toLowerCase().includes(search)).splice(skip, take) as elve}
   <div>{elve.tally > 0 ? '✅' : '😳'} {elve.name}</div>
 {/each}

@@ -14,10 +14,10 @@ import { Log } from '@kitql/helpers'
  *
  * @param {import('./handleProxies.t.js').handleProxiesOptions} options
  */
-export const handleProxies = options => {
+export const handleProxies = (options) => {
   /** @type {import('@sveltejs/kit').Handle} */
   return async ({ event, resolve }) => {
-    const proxies_found = options.proxies.filter(c => event.url.pathname.startsWith(c.from))
+    const proxies_found = options.proxies.filter((c) => event.url.pathname.startsWith(c.from))
 
     // We should not find more than 1
     if (proxies_found.length > 1) {
@@ -56,7 +56,7 @@ export const handleProxies = options => {
           // @ts-ignore
           duplex: 'half',
         })
-        .catch(err => {
+        .catch((err) => {
           const log = new Log('handleProxies')
           console.error(err)
           log.error('handleProxies ERROR')
