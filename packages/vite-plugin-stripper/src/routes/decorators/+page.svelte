@@ -1,5 +1,6 @@
 <script lang="ts">
   import { onMount } from 'svelte'
+
   import { ActionsController } from '../../shared/actionsController.js'
 
   let secretContent = '???'

@@ -1,4 +1,4 @@
-import { test, expect, describe } from 'vitest'
+import { describe, expect, test } from 'vitest'
 
 import { extractHtmlElementAttr_Text, format, parseTs } from './ast.js'
 

@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 
-import { getFilesUnder, read, write, relative } from './fs.js'
+import { getFilesUnder, read, relative, write } from './fs.js'
 
 describe('fs', () => {
   it('getFilesUnder', async () => {

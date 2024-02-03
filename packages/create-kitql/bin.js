@@ -1,11 +1,12 @@
 #!/usr/bin/env node
-import * as p from '@clack/prompts'
-import { bold, cyan, gray, green, italic } from '@kitql/helpers'
-import { program, Option } from 'commander'
 import fs from 'fs'
 import path from 'path'
 import { exit } from 'process'
 import { fileURLToPath } from 'url'
+import * as p from '@clack/prompts'
+import { Option, program } from 'commander'
+
+import { bold, cyan, gray, green, italic } from '@kitql/helpers'
 
 const { version } = JSON.parse(fs.readFileSync(new URL('package.json', import.meta.url), 'utf-8'))
 // eslint-disable-next-line no-console
