@@ -1,6 +1,8 @@
 <script lang="ts">
-  import { remult } from 'remult'
   import { onDestroy, onMount } from 'svelte'
+
+  import { remult } from 'remult'
+
   import { Task, TasksController } from '../shared'
 
   let list: Task[] = []

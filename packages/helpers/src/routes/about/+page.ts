@@ -1,6 +1,6 @@
 // import {  underline } from '$lib/colors/index.js'
-import { Log } from '$lib/Log.js'
 import { underline } from '$lib/index.js'
+import { Log } from '$lib/Log.js'
 
 export const load = async () => {
   const l = new Log('@kitql/helpers')

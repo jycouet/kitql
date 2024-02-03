@@ -1,8 +1,9 @@
 #!/usr/bin/env node
-import { Log, red } from '@kitql/helpers'
 import { spawn, spawnSync } from 'child_process'
-import { program, Option } from 'commander'
 import fs from 'fs'
+import { Option, program } from 'commander'
+
+import { Log, red } from '@kitql/helpers'
 
 const log = new Log('kitql-lint')
 

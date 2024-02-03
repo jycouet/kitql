@@ -1,4 +1,3 @@
-import { Log } from '$lib/Log.js'
 import {
   bgBlack,
   bgBlackBright,
@@ -42,6 +41,7 @@ import {
   yellow,
   yellowBright,
 } from '$lib/index.js'
+import { Log } from '$lib/Log.js'
 
 const logSQL = new Log(
   'SQL',

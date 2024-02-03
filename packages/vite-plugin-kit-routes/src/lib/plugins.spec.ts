@@ -1,19 +1,20 @@
-import { getFilesUnder, read } from '@kitql/internals'
 import { describe, expect, it } from 'vitest'
+
+import { getFilesUnder, read } from '@kitql/internals'
 
 import type { KIT_ROUTES as KIT_ROUTES_ObjectPath } from '../test/ROUTES_format-object-path.js'
 import type { KIT_ROUTES as KIT_ROUTES_ObjectSymbol } from '../test/ROUTES_format-object-symbol.js'
 import type { KIT_ROUTES as KIT_ROUTES_RouteSymbol } from '../test/ROUTES_format-route-symbol.js'
 import {
   extractParamsFromPath,
-  transformToMetadata,
   formatKey,
-  run,
-  type Options,
-  type KindOfObject,
-  rmvOptional,
   rmvGroups,
+  rmvOptional,
   routes_path,
+  run,
+  transformToMetadata,
+  type KindOfObject,
+  type Options,
 } from './plugin.js'
 
 describe('vite-plugin-kit-routes', () => {

@@ -1,11 +1,11 @@
 import {
+  bgBlueBright,
+  bgGreen,
+  bgRedBright,
   bold,
   colorProcess,
   greenBright,
   redBright,
-  bgRedBright,
-  bgGreen,
-  bgBlueBright,
 } from './colors/index.js'
 
 export class Log {

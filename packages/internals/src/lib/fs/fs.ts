@@ -1,5 +1,4 @@
-import { readdirSync } from 'fs'
-import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'fs'
+import { existsSync, mkdirSync, readdirSync, readFileSync, writeFileSync } from 'fs'
 import { dirname, join, relative } from 'path'
 
 export function read(pathFile: string) {
