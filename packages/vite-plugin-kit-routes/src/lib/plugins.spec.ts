@@ -13,6 +13,7 @@ import {
   type KindOfObject,
   rmvOptional,
   rmvGroups,
+  routes_path,
 } from './plugin.js'
 
 describe('vite-plugin-kit-routes', () => {
@@ -791,9 +792,34 @@ describe('run()', async () => {
   })
 })
 
+describe('options', () => {
+  it('Looking at another path (lib)', async () => {
+    const location = routes_path('/src/lib')
+    expect(getFilesUnder(location)).toMatchInlineSnapshot(`
+      [
+        "ROUTES.ts",
+        "ast.ts",
+        "format.ts",
+        "index.ts",
+        "plugin.ts",
+        "plugins.spec.ts",
+      ]
+    `)
+  })
+
+  it('Looking at another path (routes/api)', async () => {
+    const location = routes_path('/src/routes/api')
+    expect(getFilesUnder(location)).toMatchInlineSnapshot(`
+      [
+        "graphql/+server.ts",
+      ]
+    `)
+  })
+})
+
 describe('rmv Helper', () => {
   it('rmvOptional', async () => {
-    const location = `${process.cwd()}/src/routes/`
+    const location = routes_path()
     expect(getFilesUnder(location).map(c => rmvOptional(c))).toMatchInlineSnapshot(`
       [
         "(rootGroup)/+page.svelte",
@@ -841,7 +867,7 @@ describe('rmv Helper', () => {
   })
 
   it('rmvGroups', async () => {
-    const location = `${process.cwd()}/src/routes/`
+    const location = routes_path()
     expect(getFilesUnder(location)).toMatchInlineSnapshot(`
       [
         "(rootGroup)/+page.svelte",
@@ -926,7 +952,7 @@ describe('rmv Helper', () => {
   })
 
   it('rmvGroups & Optional', async () => {
-    const location = `${process.cwd()}/src/routes/`
+    const location = routes_path()
     expect(getFilesUnder(location).map(c => rmvGroups(rmvOptional(c)))).toMatchInlineSnapshot(`
       [
         "/+page.svelte",
