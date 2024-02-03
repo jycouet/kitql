@@ -38,7 +38,7 @@ export function extractHtmlElementAttr_Text(pathFile: string, elements: ElementA
   }
 
   function traverse(node: TemplateNode) {
-    elements.forEach(element => {
+    elements.forEach((element) => {
       if (node.type === 'Element' && node.name === element.type) {
         const hrefAttribute: BaseNode = node.attributes.find(
           (attr: { name: string }) => attr.name === element.attr,
@@ -59,7 +59,7 @@ export function extractHtmlElementAttr_Text(pathFile: string, elements: ElementA
     })
 
     if (node.children) {
-      node.children.forEach(child => traverse(child))
+      node.children.forEach((child) => traverse(child))
     }
   }
 

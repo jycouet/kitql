@@ -1,7 +1,7 @@
 import type { Actions } from './$types.d.ts'
 
 export const actions = {
-  send: async data => {
+  send: async (data) => {
     console.info(`send`, data.params, data.url.searchParams.get('extra'))
 
     return {

@@ -16,7 +16,7 @@ console.log(`${gray(`create-kitql version ${version}`)}\n`)
 const templatesDir = sourcePath(`./templates`)
 const options = fs
   .readdirSync(templatesDir)
-  .map(templateDir => {
+  .map((templateDir) => {
     // in .meta.json you can find:
     /** @type {{label?: string, hint?: string, order?: number}} */
     let data = {}
@@ -31,7 +31,7 @@ const options = fs
 program.argument('[project_name]', 'optional project name')
 program.addOption(
   new Option('-t, --template <template>', 'template you want to use').choices(
-    options.map(c => c.value),
+    options.map((c) => c.value),
   ),
 )
 
@@ -110,7 +110,7 @@ if (p.isCancel(template)) {
   process.exit(1)
 }
 const templateDir = path.join(templatesDir, template)
-const templateMeta = options.find(option => option.value === template)
+const templateMeta = options.find((option) => option.value === template)
 if (!templateMeta) {
   // this will never happen, but it helps to types later
   exit(1)

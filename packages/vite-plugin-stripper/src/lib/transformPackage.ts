@@ -21,7 +21,7 @@ export const removePackages = async (code: string, packages_to_strip: string[]) 
         if (packages_to_strip.includes(String(packageName))) {
           const specifiers = path.node.specifiers!
           const replacementNodes = specifiers
-            .map(specifier => {
+            .map((specifier) => {
               if (specifier.type === 'ImportSpecifier') {
                 return builders.variableDeclaration('let', [
                   builders.variableDeclarator(
@@ -46,7 +46,7 @@ export const removePackages = async (code: string, packages_to_strip: string[]) 
 
     return {
       code: recast.print(ast).code,
-      info: packages_striped.map(pkg => `Replaced import from '${pkg}'`),
+      info: packages_striped.map((pkg) => `Replaced import from '${pkg}'`),
     }
   } catch (error) {
     return { code, info: [] }

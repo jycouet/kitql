@@ -56,7 +56,7 @@ export function stripper(options?: ViteStriperOptions): Plugin[] {
   let listOrThrow: WarningThrow[] = []
 
   const display = () => {
-    listOrThrow.forEach(item => {
+    listOrThrow.forEach((item) => {
       log.error(
         `Throw is not a new class in ${yellow(item.relativePathFile)}:${yellow(String(item.line))}`,
       )

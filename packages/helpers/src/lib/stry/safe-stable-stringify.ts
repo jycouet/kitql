@@ -139,7 +139,7 @@ function getStrictOption(options) {
       throw new TypeError('The "strict" argument must be of type boolean')
     }
     if (value) {
-      return value => {
+      return (value) => {
         let message = `Object can not safely be stringified. Received type ${typeof value}`
         if (typeof value !== 'function') message += ` (${value.toString()})`
         throw new Error(message)

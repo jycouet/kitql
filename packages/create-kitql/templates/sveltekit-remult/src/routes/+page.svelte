@@ -14,7 +14,7 @@
     unSub = remult
       .repo(Task)
       .liveQuery()
-      .subscribe(info => {
+      .subscribe((info) => {
         list = info.applyChanges(list)
       })
   })

@@ -20,7 +20,7 @@ describe('parse', function () {
       { type: 'img', attr: 'src' },
     ])
 
-    expect(list.map(c => format(c))).toMatchInlineSnapshot(`
+    expect(list.map((c) => format(c))).toMatchInlineSnapshot(`
       [
         "/src/routes/+page.svelte:9:9 a href www.google.com",
         "/src/routes/+page.svelte:12:10 img src test",

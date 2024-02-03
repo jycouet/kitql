@@ -5,7 +5,7 @@ import type { Plugin, ViteDevServer } from 'vite'
 import { cyan, green, Log, magenta, red } from '@kitql/helpers'
 
 const nbOverlap = (a1: readonly any[], a2: readonly any[]) => {
-  return a1.filter(value => a2?.includes(value)).length
+  return a1.filter((value) => a2?.includes(value)).length
 }
 
 export type Options = {
@@ -200,19 +200,19 @@ async function watcher(
 
       //spit stdout to screen
       if (info.logs.includes('streamData')) {
-        child.stdout.on('data', data => {
+        child.stdout.on('data', (data) => {
           process.stdout.write(formatLog(data.toString(), info.name ?? ''))
         })
       }
 
       //spit stderr to screen
       if (info.logs.includes('streamError')) {
-        child.stderr.on('data', data => {
+        child.stderr.on('data', (data) => {
           process.stdout.write(formatLog(data.toString(), info.name ?? ''))
         })
       }
 
-      child.on('close', code => {
+      child.on('close', (code) => {
         if (info.logs.includes('end')) {
           const message = [`Finished`]
           if (info.name) {

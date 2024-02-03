@@ -18,9 +18,9 @@ export const removeUnusedImports = async (code: string) => {
 
     // Step 1: Remove all global imports and store them
     const newBody: Statement[] = []
-    ast.program.body.forEach(node => {
+    ast.program.body.forEach((node) => {
       if (node.type === 'ImportDeclaration') {
-        node.specifiers.forEach(specifier => {
+        node.specifiers.forEach((specifier) => {
           if (specifier.type === 'ImportSpecifier') {
             const name =
               specifier.imported && specifier.imported.type === 'Identifier'
@@ -52,16 +52,16 @@ export const removeUnusedImports = async (code: string) => {
       visitClassDeclaration(path) {
         // Capture identifiers in class decorators
         // @ts-ignore
-        ;(path.node.decorators || []).forEach(decorator => {
+        ;(path.node.decorators || []).forEach((decorator) => {
           extractIdentifiersFromExpression(decorator.expression, usedIdentifiers)
         })
 
         // Capture identifiers in class methods and properties
-        path.node.body.body.forEach(element => {
+        path.node.body.body.forEach((element) => {
           if (element.type === 'ClassMethod' || element.type === 'ClassProperty') {
             // Capture identifiers in element decorators
             // @ts-ignore
-            ;(element.decorators || []).forEach(decorator => {
+            ;(element.decorators || []).forEach((decorator) => {
               extractIdentifiersFromExpression(decorator.expression, usedIdentifiers)
             })
           }
@@ -75,12 +75,12 @@ export const removeUnusedImports = async (code: string) => {
 
     // Step 3: Add back necessary imports
     const necessaryImports: Statement[] = []
-    usedIdentifiers.forEach(identifier => {
+    usedIdentifiers.forEach((identifier) => {
       if (originalImports.has(identifier)) {
         const source = originalImports.get(identifier)
         removed = removed.filter(([id, src]) => !(id === identifier && src === source))
         // @ts-ignore
-        const found = necessaryImports.find(importDecl => importDecl.source.value === source)
+        const found = necessaryImports.find((importDecl) => importDecl.source.value === source)
         if (found) {
           // @ts-ignore
           found.specifiers.push({
@@ -133,7 +133,7 @@ export const transformDecorator = async (code: string, decorators_to_strip: stri
         let foundDecorator = false
 
         // @ts-ignore
-        path.node.decorators = decorators.filter(decorator => {
+        path.node.decorators = decorators.filter((decorator) => {
           if (
             decorator.expression.callee &&
             decorators_to_strip.includes(decorator.expression.callee.name)
@@ -156,7 +156,7 @@ export const transformDecorator = async (code: string, decorators_to_strip: stri
           }
 
           // Remove the types of all parameters
-          path.node.params.forEach(param => {
+          path.node.params.forEach((param) => {
             // @ts-ignore
             if (param.typeAnnotation) {
               // @ts-ignore
@@ -170,7 +170,7 @@ export const transformDecorator = async (code: string, decorators_to_strip: stri
     })
 
     const res = prettyPrint(ast.program, {})
-    const info = decorators_striped.map(decorator => `Striped: '${decorator}'`)
+    const info = decorators_striped.map((decorator) => `Striped: '${decorator}'`)
 
     if (decorators_striped.length > 0) {
       const { code, info: newInfo } = await removeUnusedImports(res.code)
