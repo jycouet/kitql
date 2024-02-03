@@ -1,8 +1,8 @@
+// import { createPostgresDataProvider } from 'remult/postgres';
+// import { DATABASE_URL } from '$env/static/private'
 import { remult } from 'remult'
 import { remultSveltekit } from 'remult/remult-sveltekit'
 
-// import { createPostgresDataProvider } from 'remult/postgres';
-// import { DATABASE_URL } from '$env/static/private';
 import { controllers, entities, Task } from '../shared'
 
 export const handleRemult = remultSveltekit({

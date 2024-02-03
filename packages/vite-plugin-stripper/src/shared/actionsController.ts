@@ -1,5 +1,4 @@
 import { AUTH_SECRET } from '$env/static/private'
-
 import { BackendMethod, remult, type Allowed } from 'remult'
 
 export class ActionsController {
