@@ -23,7 +23,8 @@ export default defineConfig({
       // default_type: 'string',
       // extra_search_params: 'with',
       // generated_file_path: 'src/lib/another_path_for_the_file.ts',
-      post_update_run: 'npm exec prettier ./src/lib/ROUTES.ts -- -w',
+      // post_update_run: 'npm exec prettier ./src/lib/ROUTES.ts -- -w',
+      post_update_run: 'kitql-lint --format -g ./src/lib/ROUTES.ts',
 
       PAGES: {
         // '/': { extra_search_params: 'with' },
