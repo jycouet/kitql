@@ -1,5 +1,11 @@
 # eslint-config-kitql
 
+## 0.3.0
+
+### Minor Changes
+
+- [#610](https://github.com/jycouet/kitql/pull/610) [`d96f6da`](https://github.com/jycouet/kitql/commit/d96f6daa54dd5e16f18ee82932609dc8cbbc5fe2) Thanks [@jycouet](https://github.com/jycouet)! - let's have a working state
+
 ## 0.2.0
 
 ### Minor Changes
