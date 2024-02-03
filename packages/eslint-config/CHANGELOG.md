@@ -1,5 +1,11 @@
 # eslint-config-kitql
 
+## 0.2.0
+
+### Minor Changes
+
+- [#503](https://github.com/jycouet/kitql/pull/503) [`ad174be`](https://github.com/jycouet/kitql/commit/ad174beb299f8615bba09ac8dab307cbcc13b194) Thanks [@renovate](https://github.com/apps/renovate)! - bump to latest and update config with new defaults
+
 ## 0.1.1
 
 ### Patch Changes

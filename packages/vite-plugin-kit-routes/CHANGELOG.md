@@ -1,5 +1,16 @@
 # vite-plugin-kit-routes
 
+## 0.5.2
+
+### Patch Changes
+
+- [#608](https://github.com/jycouet/kitql/pull/608) [`b0b7bf0`](https://github.com/jycouet/kitql/commit/b0b7bf0ebe6db2c83d6cac876039b38a591d9c5e) Thanks [@jycouet](https://github.com/jycouet)! - new option `routes_path` to match your custom config
+
+- Updated dependencies []:
+  - @kitql/helpers@0.8.8
+  - @kitql/internals@0.9.4
+  - vite-plugin-watch-and-run@1.6.0
+
 ## 0.5.1
 
 ### Patch Changes
