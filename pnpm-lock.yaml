@@ -51,8 +51,8 @@ importers:
   packages/create-kitql/templates/kit-routes:
     devDependencies:
       '@playwright/test':
-        specifier: ^1.28.1
-        version: 1.40.1
+        specifier: ^1.41.2
+        version: 1.41.2
       '@sveltejs/adapter-auto':
         specifier: ^3.0.0
         version: 3.0.0(@sveltejs/kit@2.0.3)
@@ -111,8 +111,8 @@ importers:
         specifier: ^0.1.1
         version: link:../../../eslint-config
       '@playwright/test':
-        specifier: ^1.28.1
-        version: 1.40.1
+        specifier: ^1.41.2
+        version: 1.41.2
       '@sveltejs/adapter-auto':
         specifier: ^3.0.0
         version: 3.0.0(@sveltejs/kit@2.0.3)
@@ -2326,12 +2326,12 @@ packages:
       tslib: 2.6.2
     dev: false
 
-  /@playwright/test@1.40.1:
-    resolution: {integrity: sha512-EaaawMTOeEItCRvfmkI9v6rBkF1svM8wjl/YPRrg2N2Wmp+4qJYkWtJsbew1szfKKDm6fPLy4YAanBhIlf9dWw==}
+  /@playwright/test@1.41.2:
+    resolution: {integrity: sha512-qQB9h7KbibJzrDpkXkYvsmiDJK14FULCCZgEcoe2AvFAS64oCirWTwzTlAYEbKaRxWs5TFesE1Na6izMv3HfGg==}
     engines: {node: '>=16'}
     hasBin: true
     dependencies:
-      playwright: 1.40.1
+      playwright: 1.41.2
     dev: true
 
   /@polka/url@1.0.0-next.21:
@@ -7921,6 +7921,7 @@ packages:
   /is-accessor-descriptor@0.1.6:
     resolution: {integrity: sha512-e1BM1qnDbMRG3ll2U9dSK0UMHuWOs3pY3AtcFsmvwPtKL3MML/Q86i+GilLfvqEs4GW+ExB91tQ3Ig9noDIZ+A==}
     engines: {node: '>=0.10.0'}
+    deprecated: Please upgrade to v0.1.7
     dependencies:
       kind-of: 3.2.2
     dev: false
@@ -7928,6 +7929,7 @@ packages:
   /is-accessor-descriptor@1.0.0:
     resolution: {integrity: sha512-m5hnHTkcVsPfqx3AKlyttIPb7J+XykHvJP2B9bZDjlhLIoEq4XoK64Vg7boZlVWYK6LUY94dYPEE7Lh0ZkZKcQ==}
     engines: {node: '>=0.10.0'}
+    deprecated: Please upgrade to v1.0.1
     dependencies:
       kind-of: 6.0.3
     dev: false
@@ -8038,6 +8040,7 @@ packages:
   /is-data-descriptor@0.1.4:
     resolution: {integrity: sha512-+w9D5ulSoBNlmw9OHn3U2v51SyoCd0he+bB3xMl62oijhrspxowjU+AIcDY0N3iEJbUEkB15IlMASQsxYigvXg==}
     engines: {node: '>=0.10.0'}
+    deprecated: Please upgrade to v0.1.5
     dependencies:
       kind-of: 3.2.2
     dev: false
@@ -8045,6 +8048,7 @@ packages:
   /is-data-descriptor@1.0.0:
     resolution: {integrity: sha512-jbRXy1FmtAoCjQkVmIVYwuuqDFUbaOeDjmed1tOGPrsMhtJA4rD9tkgA0F1qJ3gRFRXcHYVkdeaP50Q5rE/jLQ==}
     engines: {node: '>=0.10.0'}
+    deprecated: Please upgrade to v1.0.1
     dependencies:
       kind-of: 6.0.3
     dev: false
@@ -10937,18 +10941,18 @@ packages:
       pathe: 1.1.1
     dev: true
 
-  /playwright-core@1.40.1:
-    resolution: {integrity: sha512-+hkOycxPiV534c4HhpfX6yrlawqVUzITRKwHAmYfmsVreltEl6fAZJ3DPfLMOODw0H3s1Itd6MDCWmP1fl/QvQ==}
+  /playwright-core@1.41.2:
+    resolution: {integrity: sha512-VaTvwCA4Y8kxEe+kfm2+uUUw5Lubf38RxF7FpBxLPmGe5sdNkSg5e3ChEigaGrX7qdqT3pt2m/98LiyvU2x6CA==}
     engines: {node: '>=16'}
     hasBin: true
     dev: true
 
-  /playwright@1.40.1:
-    resolution: {integrity: sha512-2eHI7IioIpQ0bS1Ovg/HszsN/XKNwEG1kbzSDDmADpclKc7CyqkHw7Mg2JCz/bbCxg25QUPcjksoMW7JcIFQmw==}
+  /playwright@1.41.2:
+    resolution: {integrity: sha512-v0bOa6H2GJChDL8pAeLa/LZC4feoAMbSQm1/jF/ySsWWoaNItvrMP7GEkvEEFyCTUYKMxjQKaTSg5up7nR6/8A==}
     engines: {node: '>=16'}
     hasBin: true
     dependencies:
-      playwright-core: 1.40.1
+      playwright-core: 1.41.2
     optionalDependencies:
       fsevents: 2.3.2
     dev: true
