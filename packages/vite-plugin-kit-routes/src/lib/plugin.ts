@@ -1,6 +1,7 @@
 import { cyan, gray, green, italic, Log, red, stry0, yellow } from '@kitql/helpers'
 import { getFilesUnder, read, write, relative, dirname } from '@kitql/internals'
 import { spawn } from 'child_process'
+import { posix } from 'path'
 import type { Plugin } from 'vite'
 import { watchAndRun } from 'vite-plugin-watch-and-run'
 
@@ -129,6 +130,11 @@ export type Options<T extends ExtendTypes = ExtendTypes> = {
   path_base?: boolean
 
   /**
+   * @default `src/routes`
+   */
+  routes_path?: string
+
+  /**
    * Needed if you changed it in your `svelte.config.js` & if you have some match params.
    * @default "src/params"
    */
@@ -246,8 +252,8 @@ export type ExplicitSearchParam = ExtendParam & {
 
 export const log = new Log('Kit Routes')
 
-export function routes_path() {
-  return `${process.cwd()}/src/routes`
+export function routes_path(routes_path = 'src/routes') {
+  return posix.join(process.cwd(), routes_path)
 }
 
 export function rmvGroups(key: string) {
@@ -778,7 +784,7 @@ const arrayToRecord = (arr?: string[]) => {
 export const run = async (atStart: boolean, o?: Options) => {
   const options = getDefaultOption(o)
 
-  const files = getFilesUnder(routes_path())
+  const files = getFilesUnder(routes_path(options.routes_path))
 
   // TODO check if harcoded links are around?
   // for (let i = 0; i < files.length; i++) {
