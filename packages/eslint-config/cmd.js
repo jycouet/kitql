@@ -1,14 +1,14 @@
 #!/usr/bin/env node
-import { spawn, spawnSync } from 'child_process'
-import fs from 'fs'
-import { Option, program } from 'commander'
-
 import { Log, red } from '@kitql/helpers'
+import { spawn, spawnSync } from 'child_process'
+import { Option, program } from 'commander'
+import fs from 'fs'
 
 const log = new Log('kitql-lint')
 
 program.addOption(new Option('-f, --format', 'format'))
 program.addOption(new Option('-g, --glob <type>', 'file/dir/glob (. by default)', '.'))
+program.addOption(new Option('--verbose', 'add more logs', false))
 
 program.parse(process.argv)
 const options_cli = program.opts()
@@ -35,6 +35,7 @@ let pathPrettierCjs = findFileOrUp('.prettierrc.cjs')
 
 const format = options_cli.format ?? false
 const glob = options_cli.glob ?? '.'
+const verbose = options_cli.verbose ?? false
 
 // First prettier
 const cmdPrettier =
@@ -48,6 +49,10 @@ const cmdPrettier =
   `${format ? ' --write' : ''}` +
   // exec
   ` ${glob}`
+
+if (verbose) {
+  log.info(cmdPrettier)
+}
 let result_prettier = spawn(cmdPrettier, {
   shell: true,
   cwd: process.cwd(),
@@ -66,8 +71,19 @@ if (!format) {
     )
   })
 }
+if (format && verbose) {
+  const logPrettier = new Log('kitql-lint prettier')
+  result_prettier.stdout.on('data', data => {
+    logPrettier.success(
+      data
+        .toString()
+        // rmv the last \n if any
+        .replace(/\n$/, ''),
+    )
+  })
+}
 
-result_prettier.on('close', code => {
+function esLintRun(code) {
   // Then eslint
   const cmdEsLint =
     `eslint` +
@@ -78,7 +94,9 @@ result_prettier.on('close', code => {
     // exec
     ` ${glob}`
 
-  // log.info(cmdEsLint)
+  if (verbose) {
+    log.info(cmdEsLint)
+  }
 
   let result_eslint = spawnSync(cmdEsLint, {
     shell: true,
@@ -95,4 +113,38 @@ result_prettier.on('close', code => {
   }
 
   process.exit(code || result_eslint.status)
+}
+
+result_prettier.stdout.on('end', data => {
+  if (verbose) {
+    log.info(`end`, data)
+  }
+})
+result_prettier.stdout.on('error', data => {
+  if (verbose) {
+    log.info(`error`, data)
+  }
+})
+result_prettier.stdout.on('pause', data => {
+  if (verbose) {
+    log.info(`pause`, data)
+  }
+})
+result_prettier.stdout.on('readable', data => {
+  if (verbose) {
+    log.info(`readable`, data)
+  }
+})
+result_prettier.stdout.on('resume', data => {
+  if (verbose) {
+    log.info(`resume`, data)
+  }
+  esLintRun(0)
+})
+
+result_prettier.on('close', data => {
+  if (verbose) {
+    log.info(`close`, data)
+  }
+  esLintRun(data)
 })
