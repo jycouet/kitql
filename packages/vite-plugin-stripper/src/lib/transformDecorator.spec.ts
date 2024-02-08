@@ -58,8 +58,8 @@ export class TasksController {
           static async Yop(completed) {}
       }",
         "info": [
-          "Striped: 'BackendMethod'",
-          "Striped: 'BackendMethod'",
+          "Striped: ["BackendMethod","setAllCompleted"]",
+          "Striped: ["BackendMethod","Yop"]",
           "Removed: 'AUTH_SECRET' from '$env/static/private'",
         ],
       }
@@ -205,7 +205,7 @@ export class TasksController {
           static async init(hello) {}
       }",
         "info": [
-          "Striped: 'BackendMethod'",
+          "Striped: ["BackendMethod","init"]",
           "Removed: 'TOP_SECRET_NOT_USED' from '$env/static/private'",
           "Removed: 'stry0' from '@kitql/helper'",
           "Removed: 'remult' from 'remult'",
@@ -260,7 +260,7 @@ export class TasksController {
           async testMethod() {}
       }",
         "info": [
-          "Striped: 'BackendMethod'",
+          "Striped: ["BackendMethod","testMethod"]",
         ],
       }
     `)
@@ -308,7 +308,7 @@ export class TasksController {
           async testMethod() {}
       }",
         "info": [
-          "Striped: 'BackendMethod'",
+          "Striped: ["BackendMethod","testMethod"]",
           "Removed: 'Validators' from 'remult'",
         ],
       }
@@ -357,7 +357,7 @@ export class TasksController {
           async testMethod() {}
       }",
         "info": [
-          "Striped: 'BackendMethod'",
+          "Striped: ["BackendMethod","testMethod"]",
           "Removed: 'Validators' from 'remult'",
         ],
       }
@@ -410,7 +410,7 @@ export class TasksController {
           async testMethod() {}
       }",
         "info": [
-          "Striped: 'BackendMethod'",
+          "Striped: ["BackendMethod","testMethod"]",
         ],
       }
     `)
@@ -446,7 +446,7 @@ export class TasksController {
           static async read(info) {}
       }",
         "info": [
-          "Striped: 'BackendMethod'",
+          "Striped: ["BackendMethod","read"]",
           "Removed: 'AUTH_SECRET' from '$env/static/private'",
           "Removed: 'Allowed' from 'remult'",
         ],

@@ -124,13 +124,25 @@ export const transformDecorator = async (code: string, decorators_to_strip: stri
       sourceType: 'module',
     })
 
-    const decorators_striped: string[] = []
+    const decorators_striped: { decorator: string; functionName: string }[] = []
     // Empty functions with one of the decorators. (ex @BackendMethod decorator)
     visit(ast.program, {
       visitFunction(path) {
         // @ts-ignore
         const decorators: any[] = path.node.decorators || []
         let foundDecorator = false
+
+        let functionName: string
+        // Check if the function is a standalone function or a method in a class
+        if (path.node.id && path.node.id.name) {
+          // Standalone function
+          functionName =
+            typeof path.node.id.name === 'string' ? path.node.id.name : 'IdentifierKind'
+          // @ts-ignore
+        } else if (path.node.key && path.node.key.name) {
+          // @ts-ignore
+          functionName = path.node.key.name
+        }
 
         // @ts-ignore
         path.node.decorators = decorators.filter((decorator) => {
@@ -139,7 +151,13 @@ export const transformDecorator = async (code: string, decorators_to_strip: stri
             decorators_to_strip.includes(decorator.expression.callee.name)
           ) {
             foundDecorator = true
-            decorators_striped.push(decorator.expression.callee.name)
+
+            // Push both the decorator name and the associated function name
+            decorators_striped.push({
+              decorator: decorator.expression.callee.name,
+              functionName: functionName ?? '???',
+            })
+
             // We actually need to keep the decorator
             // return false;
           }
@@ -170,7 +188,9 @@ export const transformDecorator = async (code: string, decorators_to_strip: stri
     })
 
     const res = prettyPrint(ast.program, {})
-    const info = decorators_striped.map((decorator) => `Striped: '${decorator}'`)
+    const info = decorators_striped.map(
+      (decorator) => `Striped: ${JSON.stringify(Object.values(decorator))}`,
+    )
 
     if (decorators_striped.length > 0) {
       const { code, info: newInfo } = await removeUnusedImports(res.code)
