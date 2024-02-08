@@ -16,6 +16,11 @@ export type ViteStriperOptions = {
   decorators?: string[]
 
   /**
+   * If true, will empty almost all the file if a decorator is found. (experimental!)
+   */
+  hard?: boolean
+
+  /**
    * for example: `['mongodb']`
    */
   packages?: string[]
@@ -105,7 +110,11 @@ export function stripper(options?: ViteStriperOptions): Plugin[] {
         let infosNumber = 0
 
         if (options && options?.decorators && options.decorators.length > 0) {
-          const { info, ...rest } = await transformDecorator(code, options.decorators)
+          const { info, ...rest } = await transformDecorator(
+            code,
+            options.decorators,
+            options.hard ?? false,
+          )
 
           // Update the code for later transforms & return it
           code = rest.code

@@ -117,20 +117,42 @@ export const removeUnusedImports = async (code: string) => {
   }
 }
 
-export const transformDecorator = async (code: string, decorators_to_strip: string[]) => {
+export const transformDecorator = async (
+  code: string,
+  decorators_to_strip: string[],
+  hard: boolean,
+) => {
   try {
     const ast = parse(code ?? '', {
       plugins: ['typescript', 'importAssertions', 'decorators-legacy'],
       sourceType: 'module',
     })
 
-    const decorators_striped: string[] = []
+    let currentClassName = '' // Variable to hold the current class name
+    const decorators_striped: { decorator: string; functionName: string; className: string }[] = []
+
     // Empty functions with one of the decorators. (ex @BackendMethod decorator)
     visit(ast.program, {
+      visitClassDeclaration(path) {
+        currentClassName = path.node.id.name
+        this.traverse(path)
+      },
       visitFunction(path) {
         // @ts-ignore
         const decorators: any[] = path.node.decorators || []
         let foundDecorator = false
+
+        let functionName: string
+        // Check if the function is a standalone function or a method in a class
+        if (path.node.id && path.node.id.name) {
+          // Standalone function
+          functionName =
+            typeof path.node.id.name === 'string' ? path.node.id.name : 'IdentifierKind'
+          // @ts-ignore
+        } else if (path.node.key && path.node.key.name) {
+          // @ts-ignore
+          functionName = path.node.key.name
+        }
 
         // @ts-ignore
         path.node.decorators = decorators.filter((decorator) => {
@@ -139,7 +161,14 @@ export const transformDecorator = async (code: string, decorators_to_strip: stri
             decorators_to_strip.includes(decorator.expression.callee.name)
           ) {
             foundDecorator = true
-            decorators_striped.push(decorator.expression.callee.name)
+
+            // Push both the decorator name and the associated function name
+            decorators_striped.push({
+              className: currentClassName,
+              decorator: decorator.expression.callee.name,
+              functionName: functionName ?? '???',
+            })
+
             // We actually need to keep the decorator
             // return false;
           }
@@ -170,12 +199,43 @@ export const transformDecorator = async (code: string, decorators_to_strip: stri
     })
 
     const res = prettyPrint(ast.program, {})
-    const info = decorators_striped.map((decorator) => `Striped: '${decorator}'`)
+    const info = decorators_striped.map(
+      (decorator) => `Striped: ${JSON.stringify(Object.values(decorator))}`,
+    )
 
     if (decorators_striped.length > 0) {
       const { code, info: newInfo } = await removeUnusedImports(res.code)
       res.code = code
       info.push(...newInfo)
+    }
+
+    if (decorators_striped.length > 0 && hard) {
+      // decorators_striped group by className with valid typescript
+      const groupedByClassName = decorators_striped.reduce(
+        (
+          acc: Record<string, { decorator: string; functionName: string; className: string }[]>,
+          item,
+        ) => {
+          if (!acc[item.className]) {
+            acc[item.className] = []
+          }
+          acc[item.className].push(item)
+          return acc
+        },
+        {},
+      )
+
+      res.code = `import { BackendMethod } from 'remult'
+
+${Object.entries(groupedByClassName).map(([className, decorators]) => {
+  return `export class ${className} {${decorators
+    .map(
+      (c) => `\n  @BackendMethod({})
+  static async ${c.functionName}() {}`,
+    )
+    .join('')}
+}`
+})}`
     }
 
     return { ...res, info }

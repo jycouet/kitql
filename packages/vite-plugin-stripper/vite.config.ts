@@ -9,6 +9,7 @@ export default defineConfig({
       decorators: ['BackendMethod'],
       debug: false,
       log_on_throw_is_not_a_new_class: true,
+      hard: true,
     }),
     //
     sveltekit(),

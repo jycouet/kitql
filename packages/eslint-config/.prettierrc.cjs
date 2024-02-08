@@ -15,11 +15,13 @@ module.exports = {
     '',
     '^(\\$houdini)(.*)$', // special
     '^(remult)(.*)$', // special
+    '^(remult-kit)(.*)$', // special
     '^(@kitql)(.*)$', // special
     '',
     '^(\\$env)(.*)$', // special sveltekit
     '^(\\$app)(.*)$', // special sveltekit
     '',
+    '^(@app/common)(.*)$', // Aliases
     '^(\\$)(.*)$', // Aliases
     '',
     '^[./]', // inside
