@@ -1,5 +1,11 @@
 # create-kitql
 
+## 0.1.5
+
+### Patch Changes
+
+- [#615](https://github.com/jycouet/kitql/pull/615) [`4f1b749`](https://github.com/jycouet/kitql/commit/4f1b74934cde97056767ee74836c2e4517f5c259) Thanks [@jycouet](https://github.com/jycouet)! - bump dep
+
 ## 0.1.4
 
 ### Patch Changes
