@@ -453,4 +453,35 @@ export class TasksController {
       }
     `)
   })
+
+  it('should strip import types hard', async () => {
+    const code = `import { AUTH_SECRET } from '$env/static/private'
+    import { BackendMethod, type Allowed, remult } from 'remult'
+    
+    export class ActionsController {
+      @BackendMethod({
+        // Only unauthenticated users can call this method
+        allowed: () => remult.user === undefined,
+      })
+      static async read(info: Allowed) {
+        console.log('AUTH_SECRET', AUTH_SECRET)
+        return AUTH_SECRET + ' ' + info
+      }
+    }
+    
+	`
+
+    const transformed = await transformDecorator(code, ['BackendMethod'], true)
+
+    expect(transformed).toMatchInlineSnapshot(`
+      {
+        "code": "",
+        "info": [
+          "Striped: ["BackendMethod","read"]",
+          "Removed: 'AUTH_SECRET' from '$env/static/private'",
+          "Removed: 'Allowed' from 'remult'",
+        ],
+      }
+    `)
+  })
 })

@@ -117,7 +117,11 @@ export const removeUnusedImports = async (code: string) => {
   }
 }
 
-export const transformDecorator = async (code: string, decorators_to_strip: string[]) => {
+export const transformDecorator = async (
+  code: string,
+  decorators_to_strip: string[],
+  hard: boolean,
+) => {
   try {
     const ast = parse(code ?? '', {
       plugins: ['typescript', 'importAssertions', 'decorators-legacy'],
@@ -196,6 +200,9 @@ export const transformDecorator = async (code: string, decorators_to_strip: stri
       const { code, info: newInfo } = await removeUnusedImports(res.code)
       res.code = code
       info.push(...newInfo)
+    }
+    if (hard) {
+      res.code = ''
     }
 
     return { ...res, info }
