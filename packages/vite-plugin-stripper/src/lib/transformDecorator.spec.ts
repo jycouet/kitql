@@ -35,7 +35,7 @@ export class TasksController {
 }
 	`
 
-    const transformed = await transformDecorator(code, ['BackendMethod'])
+    let transformed = await transformDecorator(code, ['BackendMethod'], false)
 
     expect(transformed).toMatchInlineSnapshot(`
       {
@@ -58,8 +58,28 @@ export class TasksController {
           static async Yop(completed) {}
       }",
         "info": [
-          "Striped: ["BackendMethod","setAllCompleted"]",
-          "Striped: ["BackendMethod","Yop"]",
+          "Striped: ["TasksController","BackendMethod","setAllCompleted"]",
+          "Striped: ["TasksController","BackendMethod","Yop"]",
+          "Removed: 'AUTH_SECRET' from '$env/static/private'",
+        ],
+      }
+    `)
+
+    transformed = await transformDecorator(code, ['BackendMethod'], true)
+
+    expect(transformed).toMatchInlineSnapshot(`
+      {
+        "code": "import { BackendMethod } from 'remult'
+
+      export class TasksController {
+        @BackendMethod({})
+        static async setAllCompleted() {}
+        @BackendMethod({})
+        static async Yop() {}
+      }",
+        "info": [
+          "Striped: ["TasksController","BackendMethod","setAllCompleted"]",
+          "Striped: ["TasksController","BackendMethod","Yop"]",
           "Removed: 'AUTH_SECRET' from '$env/static/private'",
         ],
       }
@@ -79,7 +99,7 @@ export class TasksController {
 }
 	`
 
-    const transformed = await transformDecorator(code, ['BackendMethod'])
+    const transformed = await transformDecorator(code, ['BackendMethod'], false)
 
     expect(transformed).toMatchInlineSnapshot(`
       {
@@ -120,7 +140,36 @@ export class TasksController {
 }
 	`
 
-    const transformed = await transformDecorator(code, ['BackendMethod'])
+    let transformed = await transformDecorator(code, ['BackendMethod'], false)
+
+    expect(transformed).toMatchInlineSnapshot(`
+      {
+        "code": "import { Allow, BackendMethod, remult } from "remult";
+      import { Task } from "./task";
+      import { AUTH_SECRET } from "$env/static/private";
+
+      export class TasksController {
+          static async yop1(completed: boolean) {
+              const taskRepo = remult.repo(Task);
+          }
+
+          static async setAllCompleted(completed: boolean) {
+              console.log("AUTH_SECRET", AUTH_SECRET);
+              const taskRepo = remult.repo(Task);
+
+              for (const task of await taskRepo.find()) {
+                  await taskRepo.save({
+                      ...task,
+                      completed
+                  });
+              }
+          }
+      }",
+        "info": [],
+      }
+    `)
+
+    transformed = await transformDecorator(code, ['BackendMethod'], true)
 
     expect(transformed).toMatchInlineSnapshot(`
       {
@@ -179,7 +228,7 @@ export class TasksController {
   }  
 	`
 
-    const transformed = await transformDecorator(code, ['BackendMethod'])
+    let transformed = await transformDecorator(code, ['BackendMethod'], false)
 
     expect(transformed).toMatchInlineSnapshot(`
       {
@@ -205,7 +254,26 @@ export class TasksController {
           static async init(hello) {}
       }",
         "info": [
-          "Striped: ["BackendMethod","init"]",
+          "Striped: ["EntController","BackendMethod","init"]",
+          "Removed: 'TOP_SECRET_NOT_USED' from '$env/static/private'",
+          "Removed: 'stry0' from '@kitql/helper'",
+          "Removed: 'remult' from 'remult'",
+        ],
+      }
+    `)
+
+    transformed = await transformDecorator(code, ['BackendMethod'], true)
+
+    expect(transformed).toMatchInlineSnapshot(`
+      {
+        "code": "import { BackendMethod } from 'remult'
+
+      export class EntController {
+        @BackendMethod({})
+        static async init() {}
+      }",
+        "info": [
+          "Striped: ["EntController","BackendMethod","init"]",
           "Removed: 'TOP_SECRET_NOT_USED' from '$env/static/private'",
           "Removed: 'stry0' from '@kitql/helper'",
           "Removed: 'remult' from 'remult'",
@@ -236,7 +304,7 @@ export class TasksController {
     }
 	`
 
-    const transformed = await transformDecorator(code, ['BackendMethod'])
+    const transformed = await transformDecorator(code, ['BackendMethod'], false)
 
     expect(transformed).toMatchInlineSnapshot(`
       {
@@ -260,7 +328,7 @@ export class TasksController {
           async testMethod() {}
       }",
         "info": [
-          "Striped: ["BackendMethod","testMethod"]",
+          "Striped: ["User2","BackendMethod","testMethod"]",
         ],
       }
     `)
@@ -286,7 +354,7 @@ export class TasksController {
     }
 	`
 
-    const transformed = await transformDecorator(code, ['BackendMethod'])
+    const transformed = await transformDecorator(code, ['BackendMethod'], false)
 
     expect(transformed).toMatchInlineSnapshot(`
       {
@@ -308,7 +376,7 @@ export class TasksController {
           async testMethod() {}
       }",
         "info": [
-          "Striped: ["BackendMethod","testMethod"]",
+          "Striped: ["User2","BackendMethod","testMethod"]",
           "Removed: 'Validators' from 'remult'",
         ],
       }
@@ -335,7 +403,7 @@ export class TasksController {
     }
 	`
 
-    const transformed = await transformDecorator(code, ['BackendMethod'])
+    const transformed = await transformDecorator(code, ['BackendMethod'], false)
 
     expect(transformed).toMatchInlineSnapshot(`
       {
@@ -357,7 +425,7 @@ export class TasksController {
           async testMethod() {}
       }",
         "info": [
-          "Striped: ["BackendMethod","testMethod"]",
+          "Striped: ["User2","BackendMethod","testMethod"]",
           "Removed: 'Validators' from 'remult'",
         ],
       }
@@ -386,7 +454,7 @@ export class TasksController {
     }
 	`
 
-    const transformed = await transformDecorator(code, ['BackendMethod'])
+    const transformed = await transformDecorator(code, ['BackendMethod'], false)
 
     expect(transformed).toMatchInlineSnapshot(`
       {
@@ -410,7 +478,7 @@ export class TasksController {
           async testMethod() {}
       }",
         "info": [
-          "Striped: ["BackendMethod","testMethod"]",
+          "Striped: ["User2","BackendMethod","testMethod"]",
         ],
       }
     `)
@@ -433,7 +501,7 @@ export class TasksController {
     
 	`
 
-    const transformed = await transformDecorator(code, ['BackendMethod'])
+    let transformed = await transformDecorator(code, ['BackendMethod'], false)
 
     expect(transformed).toMatchInlineSnapshot(`
       {
@@ -446,38 +514,25 @@ export class TasksController {
           static async read(info) {}
       }",
         "info": [
-          "Striped: ["BackendMethod","read"]",
+          "Striped: ["ActionsController","BackendMethod","read"]",
           "Removed: 'AUTH_SECRET' from '$env/static/private'",
           "Removed: 'Allowed' from 'remult'",
         ],
       }
     `)
-  })
 
-  it('should strip import types hard', async () => {
-    const code = `import { AUTH_SECRET } from '$env/static/private'
-    import { BackendMethod, type Allowed, remult } from 'remult'
-    
-    export class ActionsController {
-      @BackendMethod({
-        // Only unauthenticated users can call this method
-        allowed: () => remult.user === undefined,
-      })
-      static async read(info: Allowed) {
-        console.log('AUTH_SECRET', AUTH_SECRET)
-        return AUTH_SECRET + ' ' + info
-      }
-    }
-    
-	`
-
-    const transformed = await transformDecorator(code, ['BackendMethod'], true)
+    transformed = await transformDecorator(code, ['BackendMethod'], true)
 
     expect(transformed).toMatchInlineSnapshot(`
       {
-        "code": "",
+        "code": "import { BackendMethod } from 'remult'
+
+      export class ActionsController {
+        @BackendMethod({})
+        static async read() {}
+      }",
         "info": [
-          "Striped: ["BackendMethod","read"]",
+          "Striped: ["ActionsController","BackendMethod","read"]",
           "Removed: 'AUTH_SECRET' from '$env/static/private'",
           "Removed: 'Allowed' from 'remult'",
         ],

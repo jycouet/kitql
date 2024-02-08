@@ -128,9 +128,15 @@ export const transformDecorator = async (
       sourceType: 'module',
     })
 
-    const decorators_striped: { decorator: string; functionName: string }[] = []
+    let currentClassName = '' // Variable to hold the current class name
+    const decorators_striped: { decorator: string; functionName: string; className: string }[] = []
+
     // Empty functions with one of the decorators. (ex @BackendMethod decorator)
     visit(ast.program, {
+      visitClassDeclaration(path) {
+        currentClassName = path.node.id.name
+        this.traverse(path)
+      },
       visitFunction(path) {
         // @ts-ignore
         const decorators: any[] = path.node.decorators || []
@@ -158,6 +164,7 @@ export const transformDecorator = async (
 
             // Push both the decorator name and the associated function name
             decorators_striped.push({
+              className: currentClassName,
               decorator: decorator.expression.callee.name,
               functionName: functionName ?? '???',
             })
@@ -201,8 +208,34 @@ export const transformDecorator = async (
       res.code = code
       info.push(...newInfo)
     }
-    if (hard) {
-      res.code = ''
+
+    if (decorators_striped.length > 0 && hard) {
+      // decorators_striped group by className with valid typescript
+      const groupedByClassName = decorators_striped.reduce(
+        (
+          acc: Record<string, { decorator: string; functionName: string; className: string }[]>,
+          item,
+        ) => {
+          if (!acc[item.className]) {
+            acc[item.className] = []
+          }
+          acc[item.className].push(item)
+          return acc
+        },
+        {},
+      )
+
+      res.code = `import { BackendMethod } from 'remult'
+
+${Object.entries(groupedByClassName).map(([className, decorators]) => {
+  return `export class ${className} {${decorators
+    .map(
+      (c) => `\n  @BackendMethod({})
+  static async ${c.functionName}() {}`,
+    )
+    .join('')}
+}`
+})}`
     }
 
     return { ...res, info }
