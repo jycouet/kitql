@@ -1,5 +1,16 @@
 # vite-plugin-stripper
 
+## 0.3.3
+
+### Patch Changes
+
+- [#615](https://github.com/jycouet/kitql/pull/615) [`4f1b749`](https://github.com/jycouet/kitql/commit/4f1b74934cde97056767ee74836c2e4517f5c259) Thanks [@jycouet](https://github.com/jycouet)! - add hard option to stripper
+
+- Updated dependencies []:
+  - @kitql/helpers@0.8.8
+  - @kitql/internals@0.9.4
+  - vite-plugin-watch-and-run@1.6.0
+
 ## 0.3.2
 
 ### Patch Changes
