@@ -1074,10 +1074,10 @@ function theEnd(
  * ---
  * Then, you can add the `ROUTES` type... It will be crazy good!
  * ```ts
- * import type { ROUTES } from '$lib/ROUTES'
+ * import type { KIT_ROUTES } from '$lib/ROUTES'
  * import { kitRoutes } from 'vite-plugin-kit-routes'
  *
- * kitRoutes<ROUTES>({
+ * kitRoutes<KIT_ROUTES>({
  *  // Conf
  * })
  * ```
