@@ -1,7 +1,7 @@
 # KitQL
 
 <p align="center">
-A set of tools to speedrun WebApps!
+  A set of tools to speedrun WebApps!
 </p>
 
 <p align="center">
