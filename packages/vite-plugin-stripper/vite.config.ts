@@ -10,7 +10,7 @@ export default defineConfig({
       debug: true,
       log_on_throw_is_not_a_new_class: true,
       hard: true,
-      packages: ['$env/static/private', 'oslo/password'],
+      nullify: ['$env/static/private', 'oslo/password'],
     }),
     //
     sveltekit(),

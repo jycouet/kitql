@@ -134,6 +134,7 @@ export const transformDecorator = async (
     // Empty functions with one of the decorators. (ex @BackendMethod decorator)
     visit(ast.program, {
       visitClassDeclaration(path) {
+        // @ts-ignore
         currentClassName = path.node.id.name
         this.traverse(path)
       },
