@@ -1,5 +1,16 @@
 # vite-plugin-kit-routes
 
+## 0.6.0
+
+### Minor Changes
+
+- [`aeb2577`](https://github.com/jycouet/kitql/commit/aeb2577b214a5b8513db01ef2ad2f02d81313d72) Thanks [@jycouet](https://github.com/jycouet)! - fix: vite plugin type to use PluginOption
+
+### Patch Changes
+
+- Updated dependencies [[`aeb2577`](https://github.com/jycouet/kitql/commit/aeb2577b214a5b8513db01ef2ad2f02d81313d72)]:
+  - vite-plugin-watch-and-run@1.7.0
+
 ## 0.5.3
 
 ### Patch Changes
