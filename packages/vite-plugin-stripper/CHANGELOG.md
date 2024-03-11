@@ -1,5 +1,11 @@
 # vite-plugin-stripper
 
+## 0.4.0
+
+### Minor Changes
+
+- [#626](https://github.com/jycouet/kitql/pull/626) [`25e8e33`](https://github.com/jycouet/kitql/commit/25e8e33ebba61a9d9c33333082b92350e617ad07) Thanks [@jycouet](https://github.com/jycouet)! - change arg `packages` to `nullify`
+
 ## 0.3.3
 
 ### Patch Changes
