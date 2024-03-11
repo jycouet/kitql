@@ -1,6 +1,6 @@
 import { spawn } from 'child_process'
 import { posix } from 'path'
-import type { Plugin } from 'vite'
+import type { PluginOption } from 'vite'
 import { watchAndRun } from 'vite-plugin-watch-and-run'
 
 import { cyan, gray, green, italic, Log, red, stry0, yellow } from '@kitql/helpers'
@@ -1082,7 +1082,9 @@ function theEnd(
  * })
  * ```
  */
-export function kitRoutes<T extends RouteMappings = RouteMappings>(options?: Options<T>): Plugin[] {
+export function kitRoutes<T extends RouteMappings = RouteMappings>(
+  options?: Options<T>,
+): PluginOption[] {
   return [
     // Run the thing at startup
     {

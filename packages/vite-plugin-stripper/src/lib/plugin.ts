@@ -1,5 +1,5 @@
 import { readFileSync } from 'fs'
-import type { Plugin } from 'vite'
+import type { PluginOption } from 'vite'
 import { watchAndRun } from 'vite-plugin-watch-and-run'
 
 import { gray, green, Log, yellow } from '@kitql/helpers'
@@ -22,11 +22,11 @@ export type ViteStriperOptions = {
 
   /**
    * For example if you set `nullify: ['mongodb']`
-   * 
+   *
    * ```ts
    * // This line
    * import { ObjectId } from 'mongodb'
-   * 
+   *
    * // We become
    * let ObjectId = null;
    * ```
@@ -64,7 +64,7 @@ export type ViteStriperOptions = {
  * ```
  * 
  */
-export function stripper(options?: ViteStriperOptions): Plugin[] {
+export function stripper(options?: ViteStriperOptions): PluginOption[] {
   const log = new Log('stripper')
   let listOrThrow: WarningThrow[] = []
 

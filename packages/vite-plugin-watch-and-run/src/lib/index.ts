@@ -1,6 +1,6 @@
 import { spawn } from 'child_process'
 import micromatch from 'micromatch'
-import type { Plugin, ViteDevServer } from 'vite'
+import type { PluginOption, ViteDevServer } from 'vite'
 
 import { cyan, green, Log, magenta, red } from '@kitql/helpers'
 
@@ -240,7 +240,7 @@ const log = new Log('Watch-and-Run')
 
 export const watchAndRun = (
   params: Options[],
-): Plugin & { getCheckedConf: () => StateDetail[] } => {
+): PluginOption & { getCheckedConf: () => StateDetail[] } => {
   return {
     name: 'watch-and-run',
 
