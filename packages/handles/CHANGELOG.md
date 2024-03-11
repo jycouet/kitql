@@ -1,5 +1,11 @@
 # @kitql/handles
 
+## 0.1.5
+
+### Patch Changes
+
+- [#629](https://github.com/jycouet/kitql/pull/629) [`f474d6f`](https://github.com/jycouet/kitql/commit/f474d6f7b4a1aefefb5eed9dce98bec226ea0310) Thanks [@jycouet](https://github.com/jycouet)! - bump internals
+
 ## 0.1.4
 
 ### Patch Changes

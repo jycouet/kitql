@@ -1,5 +1,16 @@
 # vite-plugin-kit-routes
 
+## 0.5.3
+
+### Patch Changes
+
+- [#629](https://github.com/jycouet/kitql/pull/629) [`f474d6f`](https://github.com/jycouet/kitql/commit/f474d6f7b4a1aefefb5eed9dce98bec226ea0310) Thanks [@jycouet](https://github.com/jycouet)! - bump internals
+
+- Updated dependencies [[`f474d6f`](https://github.com/jycouet/kitql/commit/f474d6f7b4a1aefefb5eed9dce98bec226ea0310)]:
+  - @kitql/helpers@0.8.9
+  - @kitql/internals@0.9.5
+  - vite-plugin-watch-and-run@1.6.1
+
 ## 0.5.2
 
 ### Patch Changes
