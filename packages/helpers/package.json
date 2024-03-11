@@ -32,10 +32,10 @@
     "format": "kitql-lint --format"
   },
   "devDependencies": {
+    "@kitql/eslint-config": "workspace:*",
     "@sveltejs/adapter-auto": "^3.0.0",
     "@sveltejs/kit": "^2.0.0",
     "@sveltejs/package": "2.2.2",
-    "@kitql/eslint-config": "workspace:*",
     "@sveltejs/vite-plugin-svelte": "^3.0.0",
     "publint": "0.2.4",
     "rollup-plugin-visualizer": "^5.9.2",
@@ -45,6 +45,9 @@
     "typescript": "5.3.2",
     "vite": "^5.0.0",
     "vitest": "^1.0.0"
+  },
+  "dependencies": {
+    "esm-env": "^1.0.0"
   },
   "sideEffects": false,
   "publishConfig": {
