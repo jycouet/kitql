@@ -9,7 +9,7 @@ import { dirname, getFilesUnder, read, relative, write } from '@kitql/internals'
 import { getActionsOfServerPages, getMethodsOfServerFiles } from './ast.js'
 import { appendSp, format, routeFn } from './format.js'
 
-type ExtendTypes = {
+export type RouteMappings = {
   PAGES: Record<string, string>
   SERVERS: Record<string, string>
   ACTIONS: Record<string, string>
@@ -26,7 +26,7 @@ type FormatKind =
   | 'route(path) & object[path]'
   | 'route(symbol) & object[symbol]'
 
-export type Options<T extends ExtendTypes = ExtendTypes> = {
+export type Options<T extends RouteMappings = RouteMappings> = {
   /**
    * run any command after an update of some routes.
    *
@@ -1082,7 +1082,7 @@ function theEnd(
  * })
  * ```
  */
-export function kitRoutes<T extends ExtendTypes = ExtendTypes>(options?: Options<T>): Plugin[] {
+export function kitRoutes<T extends RouteMappings = RouteMappings>(options?: Options<T>): Plugin[] {
   return [
     // Run the thing at startup
     {
