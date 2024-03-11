@@ -47,7 +47,7 @@ import { Log } from './Log.js'
 
 describe('kitql - helper - Log', () => {
   beforeEach(() => {
-    vi.mock('$lib/constants.js', () => ({
+    vi.mock('esm-env', () => ({
       BROWSER: true,
     }))
   })

@@ -4,7 +4,7 @@ import { color, colorProcess, red } from './index.js'
 
 describe('browser', () => {
   beforeEach(() => {
-    vi.mock('$lib/constants.js', () => ({
+    vi.mock('esm-env', () => ({
       BROWSER: true,
     }))
   })

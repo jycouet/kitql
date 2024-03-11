@@ -21,9 +21,17 @@ export type ViteStriperOptions = {
   hard?: boolean
 
   /**
-   * for example: `['mongodb']`
+   * For example if you set `nullify: ['mongodb']`
+   * 
+   * ```ts
+   * // This line
+   * import { ObjectId } from 'mongodb'
+   * 
+   * // We become
+   * let ObjectId = null;
+   * ```
    */
-  packages?: string[]
+  nullify?: string[]
 
   /**
    * If true, skip warnings if a throw is not a class.
@@ -135,8 +143,8 @@ export function stripper(options?: ViteStriperOptions): Plugin[] {
           }
         }
 
-        if (options && options?.packages && options.packages.length > 0) {
-          const { info, ...rest } = await removePackages(code, options.packages)
+        if (options && options?.nullify && options.nullify.length > 0) {
+          const { info, ...rest } = await removePackages(code, options.nullify)
 
           // Update the code for later transforms & return it
           code = rest.code
