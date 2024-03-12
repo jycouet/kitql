@@ -1,4 +1,5 @@
 import { BROWSER } from 'esm-env'
+
 import * as stylesBrowser from './stylesBrowser.js'
 import * as stylesNode from './stylesNode.js'
 import type { Style } from './types.js'
