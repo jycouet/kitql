@@ -1,5 +1,11 @@
 # vite-plugin-kit-routes
 
+## 0.6.1
+
+### Patch Changes
+
+- [#631](https://github.com/jycouet/kitql/pull/631) [`f886a69`](https://github.com/jycouet/kitql/commit/f886a690de0856ca720f6eb2ed02e83e93885ac8) Thanks [@jycouet](https://github.com/jycouet)! - add `format_page_route_id` option
+
 ## 0.6.0
 
 ### Minor Changes
