@@ -27,6 +27,8 @@ export default defineConfig({
       // post_update_run: 'npm exec prettier ./src/lib/ROUTES.ts -- -w',
       post_update_run: 'kitql-lint --format -g ./src/lib/ROUTES.ts',
 
+      // format_page_route_id: true,
+
       PAGES: {
         // '/': { extra_search_params: 'with' },
         '/sp': {

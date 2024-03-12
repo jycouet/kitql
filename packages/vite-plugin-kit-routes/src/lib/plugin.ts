@@ -104,6 +104,21 @@ export type Options<T extends RouteMappings = RouteMappings> = {
   format_short?: boolean
 
   /**
+   * default is: `false`
+   *
+   * ```ts
+   * // with `true` (it will match $page.route.id)
+   * route('/[[lang]]/gp/(logged)/one')
+   *
+   * // with `false`
+   * route('/gp/one')
+   * ```
+   *
+   * Could be usefull to set the `active` class on the current link for example.
+   */
+  format_page_route_id?: boolean
+
+  /**
    * default is: `string | number`
    */
   default_type?: string
@@ -278,7 +293,7 @@ export function rmvOptional(key: string) {
 
 export function formatKey(key: string, o: Options) {
   const options = getDefaultOption(o)
-  let toRet = rmvGroups(rmvOptional(key))
+  let toRet = o.format_page_route_id ? key : rmvGroups(rmvOptional(key))
 
   // In case we have only an optional param
   if (toRet === '') {

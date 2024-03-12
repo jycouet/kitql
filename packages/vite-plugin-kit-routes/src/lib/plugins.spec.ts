@@ -4,6 +4,7 @@ import { getFilesUnder, read } from '@kitql/internals'
 
 import type { KIT_ROUTES as KIT_ROUTES_ObjectPath } from '../test/ROUTES_format-object-path.js'
 import type { KIT_ROUTES as KIT_ROUTES_ObjectSymbol } from '../test/ROUTES_format-object-symbol.js'
+import type { KIT_ROUTES as KIT_ROUTES_ObjectPathPageId } from '../test/ROUTES_format-route-path-page-id.js'
 import type { KIT_ROUTES as KIT_ROUTES_RouteSymbol } from '../test/ROUTES_format-route-symbol.js'
 import {
   extractParamsFromPath,
@@ -391,6 +392,24 @@ describe('run()', async () => {
     },
   }
 
+  const commonConfig_Path_PageId: Options<KIT_ROUTES_ObjectPathPageId> = {
+    PAGES: {
+      '/(rootGroup)/subGroup2': commonConfig_variables.PAGES?.subGroup2,
+      '/[[lang]]/contract': commonConfig_variables.PAGES?.contract,
+      '/[[lang]]/site': commonConfig_variables.PAGES?.site,
+      '/[[lang]]/site/[id]': commonConfig_variables.PAGES?.site_id,
+      '/[[lang]]/match/[id=int]': commonConfig_variables.PAGES?.match_id_int,
+      '/[[lang]]/site_contract/[siteId]-[contractId]':
+        commonConfig_variables.PAGES?.site_contract_siteId_contractId,
+    },
+    SERVERS: {},
+    ACTIONS: {
+      'default /[[lang]]/contract/[id]': commonConfig_variables.ACTIONS?.default_contract_id,
+      'send /[[lang]]/site_contract/[siteId]-[contractId]':
+        commonConfig_variables.ACTIONS?.send_site_contract_siteId_contractId,
+    },
+  }
+
   const commonConfig_symbol: Options<KIT_ROUTES_RouteSymbol> = {
     PAGES: {
       subGroup2: commonConfig_variables.PAGES?.subGroup2,
@@ -431,6 +450,7 @@ describe('run()', async () => {
       format: 'object[symbol]',
       extra: { ...commonConfig, ...commonConfig_variables },
     },
+    // this is the default
     {
       pathFile: 'format-route-path',
       format: 'route(path)',
@@ -455,6 +475,11 @@ describe('run()', async () => {
       pathFile: 'format-route-and-object-symbol',
       format: 'route(symbol) & object[symbol]',
       extra: { ...commonConfig, ...commonConfig_symbol },
+    },
+    {
+      pathFile: 'format-route-path-page-id',
+      format: 'route(path)',
+      extra: { ...commonConfig, ...commonConfig_Path_PageId, format_page_route_id: true },
     },
   ] as const
 
@@ -514,6 +539,7 @@ describe('run()', async () => {
       kind: 'PAGES',
       results: '/',
       key_path: '/',
+      key_path_routeId: '/(rootGroup)',
       key_symbol: '_ROOT',
       params: [],
       params_shortened: [],
@@ -523,6 +549,7 @@ describe('run()', async () => {
       kind: 'PAGES',
       results: '/contract/abc',
       key_path: '/contract/[id]',
+      key_path_routeId: '/[[lang]]/contract/[id]',
       key_symbol: 'contract_id',
       params: [{ id: 'abc' }],
       params_shortened: ['abc'],
@@ -532,6 +559,7 @@ describe('run()', async () => {
       kind: 'PAGES',
       results: '/fr/site/Paris',
       key_path: '/site/[id]',
+      key_path_routeId: '/[[lang]]/site/[id]',
       key_symbol: 'site_id',
       params: [{ id: 'Paris' }],
       params_shortened: [{ id: 'Paris' }],
@@ -541,6 +569,7 @@ describe('run()', async () => {
       kind: 'PAGES',
       results: '/main',
       key_path: '/main',
+      key_path_routeId: '/[[lang]]/main',
       key_symbol: 'main',
       params: [],
       params_shortened: [],
@@ -550,6 +579,7 @@ describe('run()', async () => {
       kind: 'PAGES',
       results: '/contract?yop=hello',
       key_path: '/contract',
+      key_path_routeId: '/[[lang]]/contract',
       key_symbol: 'contract',
       params: [{}, { yop: 'hello' }],
       params_shortened: [{}, { yop: 'hello' }],
@@ -559,6 +589,7 @@ describe('run()', async () => {
       kind: 'PAGES',
       results: '/fr/site_contract/Paris-abc?limit=2',
       key_path: '/site_contract/[siteId]-[contractId]',
+      key_path_routeId: '/[[lang]]/site_contract/[siteId]-[contractId]',
       key_symbol: 'site_contract_siteId_contractId',
       params: [{ siteId: 'Paris', contractId: 'abc', limit: 2, lang: 'fr' }],
       params_shortened: [{ siteId: 'Paris', contractId: 'abc', limit: 2, lang: 'fr' }],
@@ -568,6 +599,7 @@ describe('run()', async () => {
       kind: 'LINKS',
       results: 'https://twitter.com/jycouet',
       key_path: 'twitter',
+      key_path_routeId: 'twitter',
       key_symbol: 'twitter',
       params: [],
       params_shortened: [],
@@ -577,6 +609,7 @@ describe('run()', async () => {
       kind: 'PAGES',
       results: '/subGroup/user',
       key_path: '/subGroup/user',
+      key_path_routeId: '/(rootGroup)/subGroup/(anotherSub)/user',
       key_symbol: 'subGroup_user',
       params: [],
       params_shortened: [],
@@ -707,6 +740,21 @@ describe('run()', async () => {
         // object
         const obj = findObj(element.kind, PAGES, SERVERS, ACTIONS, LINKS)
         expect(fnOrNot(obj, element.key_symbol, ...element.params_shortened), element.name).toBe(
+          element.results,
+        )
+      })
+
+      //
+      it('format route(path) & route_id', async () => {
+        const { route } = await import(getPathROUTES(runs[7].pathFile))
+        expect(route(element.key_path_routeId, ...element.params), element.name).toBe(
+          element.results,
+        )
+      })
+      // SHORTENED
+      it('format route(path) & route_id shortened', async () => {
+        const { route } = await import(getPathROUTES(getToRunShortened(runs[7]).pathFile))
+        expect(route(element.key_path_routeId, ...element.params_shortened), element.name).toBe(
           element.results,
         )
       })
