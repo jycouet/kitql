@@ -4,7 +4,7 @@ import { getFilesUnder, read } from '@kitql/internals'
 
 import type { KIT_ROUTES as KIT_ROUTES_ObjectPath } from '../test/ROUTES_format-object-path.js'
 import type { KIT_ROUTES as KIT_ROUTES_ObjectSymbol } from '../test/ROUTES_format-object-symbol.js'
-import type { KIT_ROUTES as KIT_ROUTES_ObjectPath_PageRouteId } from '../test/ROUTES_format-route-path-page-id.js'
+import type { KIT_ROUTES as KIT_ROUTES_RoutePathPageRouteId } from '../test/ROUTES_format-route-path-page-route-id.js'
 import type { KIT_ROUTES as KIT_ROUTES_RouteSymbol } from '../test/ROUTES_format-route-symbol.js'
 import {
   extractParamsFromPath,
@@ -392,7 +392,7 @@ describe('run()', async () => {
     },
   }
 
-  const commonConfig_Path_PageRouteId: Options<KIT_ROUTES_ObjectPath_PageRouteId> = {
+  const commonConfig_Path_PageRouteId: Options<KIT_ROUTES_RoutePathPageRouteId> = {
     PAGES: {
       '/(rootGroup)/subGroup2': commonConfig_variables.PAGES?.subGroup2,
       '/[[lang]]/contract': commonConfig_variables.PAGES?.contract,
