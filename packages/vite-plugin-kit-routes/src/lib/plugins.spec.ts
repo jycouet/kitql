@@ -4,7 +4,7 @@ import { getFilesUnder, read } from '@kitql/internals'
 
 import type { KIT_ROUTES as KIT_ROUTES_ObjectPath } from '../test/ROUTES_format-object-path.js'
 import type { KIT_ROUTES as KIT_ROUTES_ObjectSymbol } from '../test/ROUTES_format-object-symbol.js'
-import type { KIT_ROUTES as KIT_ROUTES_ObjectPathPageId } from '../test/ROUTES_format-route-path-page-id.js'
+import type { KIT_ROUTES as KIT_ROUTES_ObjectPath_PageRouteId } from '../test/ROUTES_format-route-path-page-id.js'
 import type { KIT_ROUTES as KIT_ROUTES_RouteSymbol } from '../test/ROUTES_format-route-symbol.js'
 import {
   extractParamsFromPath,
@@ -392,7 +392,7 @@ describe('run()', async () => {
     },
   }
 
-  const commonConfig_Path_PageId: Options<KIT_ROUTES_ObjectPathPageId> = {
+  const commonConfig_Path_PageRouteId: Options<KIT_ROUTES_ObjectPath_PageRouteId> = {
     PAGES: {
       '/(rootGroup)/subGroup2': commonConfig_variables.PAGES?.subGroup2,
       '/[[lang]]/contract': commonConfig_variables.PAGES?.contract,
@@ -477,9 +477,9 @@ describe('run()', async () => {
       extra: { ...commonConfig, ...commonConfig_symbol },
     },
     {
-      pathFile: 'format-route-path-page-id',
+      pathFile: 'format-route-path-page-route-id',
       format: 'route(path)',
-      extra: { ...commonConfig, ...commonConfig_Path_PageId, format_page_route_id: true },
+      extra: { ...commonConfig, ...commonConfig_Path_PageRouteId, format_page_route_id: true },
     },
   ] as const
 
