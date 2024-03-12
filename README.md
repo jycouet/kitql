@@ -38,9 +38,7 @@ _\*Order by subjective usefulness_ 😉
 ## ✨ Contributors
 
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
-
-[![All Contributors](https://img.shields.io/badge/all_contributors-32-orange.svg?style=flat-square)](#contributors-)
-
+[![All Contributors](https://img.shields.io/badge/all_contributors-33-orange.svg?style=flat-square)](#contributors-)
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 
 Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/docs/en/emoji-key)):
@@ -91,6 +89,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/mihaa1"><img src="https://avatars.githubusercontent.com/u/15923264?v=4?s=100" width="100px;" alt="mihaa1"/><br /><sub><b>mihaa1</b></sub></a><br /><a href="https://github.com/jycouet/kitql/issues?q=author%3Amihaa1" title="Bug reports">🐛</a></td>
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/Dan1ve"><img src="https://avatars.githubusercontent.com/u/7125814?v=4?s=100" width="100px;" alt="Daniel Veihelmann"/><br /><sub><b>Daniel Veihelmann</b></sub></a><br /><a href="https://github.com/jycouet/kitql/issues?q=author%3ADan1ve" title="Bug reports">🐛</a></td>
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/fehnomenal"><img src="https://avatars.githubusercontent.com/u/9959940?v=4?s=100" width="100px;" alt="Andreas Fehn"/><br /><sub><b>Andreas Fehn</b></sub></a><br /><a href="#example-fehnomenal" title="Examples">💡</a> <a href="https://github.com/jycouet/kitql/commits?author=fehnomenal" title="Code">💻</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/ranjan-purbey"><img src="https://avatars.githubusercontent.com/u/6953187?v=4?s=100" width="100px;" alt="Ranjan Purbey"/><br /><sub><b>Ranjan Purbey</b></sub></a><br /><a href="#ideas-ranjan-purbey" title="Ideas, Planning, & Feedback">🤔</a></td>
     </tr>
   </tbody>
 </table>
