@@ -6,7 +6,8 @@ const SOCIAL_IMAGE_URL =
   'https://raw.githubusercontent.com/jycouet/kitql/main/website/public/assets/social-kitql.png'
 
 export default defineConfig({
-  siteName: SITE_NAME,
+  websiteName: SITE_NAME,
+  description: PRODUCTS.KITQL.title,
   docsRepositoryBase: 'https://github.com/jycouet/kitql/tree/main/website',
   head: () => {
     const config = useConfig<{ description?: string; image?: string }>()
@@ -35,10 +36,5 @@ export default defineConfig({
       </>
     )
   },
-  logo: (
-    <>
-      {PRODUCTS.KITQL.logo({ className: 'mr-1.5 h-9 w-9' })}
-      <h1 className="md:text-md text-sm font-medium">{SITE_NAME}</h1>
-    </>
-  ),
+  logo: PRODUCTS.KITQL.logo({ className: 'w-9' }),
 })
