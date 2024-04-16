@@ -58,8 +58,9 @@ jobs:
 
       - name: 🧑‍💻 Setup env
         uses: jycouet/jycouet/shared-config/setup@main
-        # with:
-        #   nodeVersion: 18
+        with:
+          pnpmVersion: 9
+          # nodeVersion: 18
 
       - name: 🚧 Run nx build
         run: pnpm build
