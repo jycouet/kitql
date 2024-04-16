@@ -1,5 +1,11 @@
 # vite-plugin-kit-routes
 
+## 0.6.2
+
+### Patch Changes
+
+- [#644](https://github.com/jycouet/kitql/pull/644) [`35568fb`](https://github.com/jycouet/kitql/commit/35568fb0bc3e071fa413cc8558a8c21c6f7e80b1) Thanks [@jycouet](https://github.com/jycouet)! - fix relative path on windows (using posix)
+
 ## 0.6.1
 
 ### Patch Changes
