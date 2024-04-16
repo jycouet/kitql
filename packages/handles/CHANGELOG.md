@@ -1,5 +1,11 @@
 # @kitql/handles
 
+## 0.1.6
+
+### Patch Changes
+
+- [#647](https://github.com/jycouet/kitql/pull/647) [`75e0e9d`](https://github.com/jycouet/kitql/commit/75e0e9d7d50ae4c42c69a3321b681cf95076fe3c) Thanks [@jycouet](https://github.com/jycouet)! - log if multiple proxy match
+
 ## 0.1.5
 
 ### Patch Changes
