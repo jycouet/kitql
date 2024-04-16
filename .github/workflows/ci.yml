@@ -18,8 +18,9 @@ jobs:
 
       - name: 🧑‍💻 Setup env
         uses: jycouet/jycouet/shared-config/setup@main
-        # with:
-        #   nodeVersion: 18
+        with:
+          pnpmVersion: 9
+          # nodeVersion: 18
 
       # - name: 🛠️ Prepare nx 1/2
       #   uses: nrwl/nx-set-shas@v4
