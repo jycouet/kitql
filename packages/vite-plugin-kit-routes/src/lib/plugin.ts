@@ -4,7 +4,7 @@ import type { PluginOption } from 'vite'
 import { watchAndRun } from 'vite-plugin-watch-and-run'
 
 import { cyan, gray, green, italic, Log, red, stry0, yellow } from '@kitql/helpers'
-import { dirname, getFilesUnder, read, relative, write } from '@kitql/internals'
+import { dirname, getFilesUnder, read, write } from '@kitql/internals'
 
 import { getActionsOfServerPages, getMethodsOfServerFiles } from './ast.js'
 import { appendSp, format, routeFn } from './format.js'
@@ -683,7 +683,7 @@ export function extractParamsFromPath(path: string, o: Options): Param[] {
   const paramPattern = /\[+([^\]]+)]+/g
   const params: Param[] = []
 
-  const relToParams = relative(dirname(options.generated_file_path), options.path_params)
+  const relToParams = posix.relative(dirname(options.generated_file_path), options.path_params)
 
   let match
   while ((match = paramPattern.exec(path)) !== null) {
