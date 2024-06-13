@@ -15,6 +15,9 @@ No more 🤞, now be **confident** ✅!
 By default, no Configuration is requiered. Just [Install](#installation) the plugin, and use
 objects/functions available in your `$lib/ROUTES.ts` generated file _(always in sync)_.
 
+_Note that this plugin is meant to be used with typescript today. If you want a JSDoc version of it,
+please open an issue._
+
 ## Showcase
 
 <iframe src="https://www.youtube.com/embed/GH5NxbdCZ74?start=489" />
@@ -251,8 +254,9 @@ kitRoutes({
   ready! _Under `PAGES`, `SERVERS` and `ACTIONS`, you will get autocompletion for route config._ 🤯
 
 ```ts filename="vite.config.ts"
-import type { KIT_ROUTES } from '$lib/ROUTES'
 import { kitRoutes } from 'vite-plugin-kit-routes'
+
+import type { KIT_ROUTES } from '$lib/ROUTES'
 
 kitRoutes<KIT_ROUTES>({
   // Conf
