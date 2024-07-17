@@ -81,8 +81,11 @@ type NonFunctionKeys<T> = { [K in keyof T]: T[K] extends Function ? never : K }[
 type FunctionKeys<T> = { [K in keyof T]: T[K] extends Function ? K : never }[keyof T]
 type FunctionParams<T> = T extends (...args: infer P) => any ? P : never
 
-export const AllObjs = { ...PAGES, ...ACTIONS, ...SERVERS, ...LINKS }
+const AllObjs = { ...PAGES, ...ACTIONS, ...SERVERS, ...LINKS }
 type AllTypes = typeof AllObjs
+
+export type AllRoutes<T = AllTypes, K = keyof T> = K extends `${infer I1} ${infer I2}` ? I2 : K;
+export const allRoutes = [... new Set(Object.keys(AllObjs).map((k) => /^\/.*|[^ ]?\/.*$/.exec(k)?.[0] ?? null))];
 
 /**
  * To be used like this: 
