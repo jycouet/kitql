@@ -20,6 +20,7 @@ jobs:
         uses: jycouet/jycouet/shared-config/setup@main
         with:
           pnpmVersion: 9
+          frozenMode: false
           # nodeVersion: 18
 
       # - name: 🛠️ Prepare nx 1/2
