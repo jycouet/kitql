@@ -38,7 +38,7 @@ _\*Order by subjective usefulness_ 😉
 ## ✨ Contributors
 
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
-[![All Contributors](https://img.shields.io/badge/all_contributors-35-orange.svg?style=flat-square)](#contributors-)
+[![All Contributors](https://img.shields.io/badge/all_contributors-36-orange.svg?style=flat-square)](#contributors-)
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 
 Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/docs/en/emoji-key)):
@@ -92,6 +92,9 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/ranjan-purbey"><img src="https://avatars.githubusercontent.com/u/6953187?v=4?s=100" width="100px;" alt="Ranjan Purbey"/><br /><sub><b>Ranjan Purbey</b></sub></a><br /><a href="#ideas-ranjan-purbey" title="Ideas, Planning, & Feedback">🤔</a></td>
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/PudottaPommin"><img src="https://avatars.githubusercontent.com/u/1709099?v=4?s=100" width="100px;" alt="Michal Hanajik"/><br /><sub><b>Michal Hanajik</b></sub></a><br /><a href="https://github.com/jycouet/kitql/commits?author=PudottaPommin" title="Code">💻</a></td>
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/oscarfsbs"><img src="https://avatars.githubusercontent.com/u/128075003?v=4?s=100" width="100px;" alt="oscar"/><br /><sub><b>oscar</b></sub></a><br /><a href="https://github.com/jycouet/kitql/commits?author=oscarfsbs" title="Documentation">📖</a></td>
+    </tr>
+    <tr>
+      <td align="center" valign="top" width="14.28%"><a href="https://emac.ac"><img src="https://avatars.githubusercontent.com/u/18234710?v=4?s=100" width="100px;" alt="Eduardo "Dudu""/><br /><sub><b>Eduardo "Dudu"</b></sub></a><br /><a href="https://github.com/jycouet/kitql/commits?author=duducpp" title="Code">💻</a></td>
     </tr>
   </tbody>
 </table>
