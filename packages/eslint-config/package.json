@@ -20,7 +20,7 @@
 	},
 	"main": "index.cjs",
 	"scripts": {
-		"lint": "node ./cmd.js",
+		"lint": "node ./cmd.js --verbose -p none",
 		"format": "node ./cmd.js -f",
 		"lint:example": "kitql-lint",
 		"format:example": "kitql-lint --format"

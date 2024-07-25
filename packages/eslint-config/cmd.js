@@ -10,6 +10,13 @@ const log = new Log('kitql-lint')
 program.addOption(new Option('-f, --format', 'format'))
 program.addOption(new Option('-g, --glob <type>', 'file/dir/glob (. by default)', '.'))
 program.addOption(new Option('--verbose', 'add more logs', false))
+program.addOption(
+  new Option(
+    '-p, --prefix <type>',
+    'prefix by with "pnpm" or "npm" or "none" ("none" by default)',
+    'none',
+  ),
+)
 
 program.parse(process.argv)
 const options_cli = program.opts()
@@ -37,9 +44,20 @@ let pathPrettierCjs = findFileOrUp('.prettierrc.cjs')
 const format = options_cli.format ?? false
 const glob = options_cli.glob ?? '.'
 const verbose = options_cli.verbose ?? false
+const pre = options_cli.prefix ?? 'none'
+
+let preToUse = ''
+if (pre === 'npm') {
+  preToUse = 'npm exec '
+} else if (pre === 'pnpm') {
+  preToUse = 'pnpm '
+} else {
+  preToUse = ''
+}
 
 // First prettier
 const cmdPrettier =
+  preToUse +
   `prettier` +
   ` --list-different` +
   // ignore?
@@ -87,6 +105,7 @@ if (format && verbose) {
 function esLintRun(code) {
   // Then eslint
   const cmdEsLint =
+    preToUse +
     `eslint` +
     // ignore?
     ` --ignore-path ${pathPrettierIgnore}` +
@@ -137,7 +156,7 @@ result_prettier.stdout.on('readable', (data) => {
   }
 })
 result_prettier.stdout.on('resume', (data) => {
-  if (verbose) {
+  if (verbose && data) {
     log.info(`resume`, data)
   }
   esLintRun(0)
