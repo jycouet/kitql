@@ -1,5 +1,11 @@
 # vite-plugin-kit-routes
 
+## 0.6.3
+
+### Patch Changes
+
+- [#676](https://github.com/jycouet/kitql/pull/676) [`99c9786`](https://github.com/jycouet/kitql/commit/99c9786b598adb8cf397a585ecbaf65d3485bec3) Thanks [@duducpp](https://github.com/duducpp)! - add routes as Set (with all routes options) & Routes type.
+
 ## 0.6.2
 
 ### Patch Changes
