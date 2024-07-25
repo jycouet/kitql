@@ -1,5 +1,11 @@
 # eslint-config-kitql
 
+## 0.3.3
+
+### Patch Changes
+
+- [#677](https://github.com/jycouet/kitql/pull/677) [`82b16f8`](https://github.com/jycouet/kitql/commit/82b16f8a1430f2bd2ca131b714304d7c9dea73d1) Thanks [@jycouet](https://github.com/jycouet)! - add prefix (default to "npm")
+
 ## 0.3.2
 
 ### Patch Changes
