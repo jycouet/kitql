@@ -1,5 +1,11 @@
 # vite-plugin-kit-routes
 
+## 0.6.4
+
+### Patch Changes
+
+- [#682](https://github.com/jycouet/kitql/pull/682) [`3b996e1`](https://github.com/jycouet/kitql/commit/3b996e15a6310044ee250392f096d8ef172b9f43) Thanks [@jycouet](https://github.com/jycouet)! - fix warning about noUnusedLocals on generated ROUTE file
+
 ## 0.6.3
 
 ### Patch Changes
