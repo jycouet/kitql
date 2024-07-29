@@ -170,15 +170,6 @@ export const currentSp = () => {
   return record
 }
 
-// @ts-expect-error can break noUnusedLocals ts rule
-function StringOrUndefined(val: any) {
-  if (val === undefined) {
-    return undefined
-  }
-
-  return String(val)
-}
-
 /**
 * Add this type as a generic of the vite plugin `kitRoutes<KIT_ROUTES>`.
 *
