@@ -6,7 +6,7 @@
 
 - [#689](https://github.com/jycouet/kitql/pull/689) [`60a8033`](https://github.com/jycouet/kitql/commit/60a8033b927ad458b3f179663f91df94f008af4f) Thanks [@jycouet](https://github.com/jycouet)! - switch internal function to inline to avoid ts warnings
 
-- [#687](https://github.com/jycouet/kitql/pull/687) [`db682d4`](https://github.com/jycouet/kitql/commit/db682d4e0e9a7bfcbd88eefa5d5df6a7a7a04dfb) Thanks [@Dan1ve](https://github.com/Dan1ve)! - Methods with \_ prefix in +server.ts are exported in ROUTES.ts
+- [#687](https://github.com/jycouet/kitql/pull/687) [`db682d4`](https://github.com/jycouet/kitql/commit/db682d4e0e9a7bfcbd88eefa5d5df6a7a7a04dfb) Thanks [@Dan1ve](https://github.com/Dan1ve)! - Methods with \_ prefix in +server.ts are NOT exported in ROUTES.ts
 
 ## 0.6.4
 
