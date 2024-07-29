@@ -672,7 +672,7 @@ function getSpValue(rawValue: string, param: ExplicitSearchParam) {
       return `String(${rawValue})`
     }
 
-    return `StringOrUndefined(${rawValue})`
+    return `${rawValue} === undefined ? undefined : String(${rawValue})`
   }
 
   return rawValue
