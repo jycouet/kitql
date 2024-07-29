@@ -97,6 +97,7 @@ const PAGES = {
  */
 const SERVERS = {
   'GET /server_func_get': `/server_func_get`,
+  'GET /server_func_get_and_': `/server_func_get_and_`,
   'POST /server_func_post': `/server_func_post`,
   'GET /contract': (params?: { lang?: 'fr' | 'en' | 'hu' | 'at' | string }) => {
     return `${params?.lang ? `/${params?.lang}` : ''}/contract`
@@ -318,6 +319,7 @@ export type KIT_ROUTES = {
   }
   SERVERS: {
     'GET /server_func_get': never
+    'GET /server_func_get_and_': never
     'POST /server_func_post': never
     'GET /contract': 'lang'
     'POST /contract': 'lang'
