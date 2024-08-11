@@ -6,10 +6,10 @@ import { handleProxies } from '$lib/hooks/handle-proxies.js'
 export const handle = sequence(
   handleProxies({ proxies: [{ from: '/proxy', to: 'http://eu.httpbin.org/' }] }),
   handleCors([
-    ['/api/cors-default-options', {}],
-    [/\/api\/cors-reflect/, { origin: true }],
+    ['/api/cors-handler/default-options', {}],
+    [/\/api\/cors-handler\/reflect/, { origin: true }],
     [
-      '/api/cors-complex-options',
+      '/api/cors-handler/complex-options',
       {
         origin: ['http://google.com', /trusted-domain/],
         methods: ['GET', 'PUT'],

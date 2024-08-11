@@ -1,8 +1,10 @@
 import { expect, test } from '@playwright/test'
 
 test.describe('CORS endpoint with no options', async () => {
-  test('OPTIONS /api/cors-default-options/basic', async ({ request }) => {
-    const response = await request.fetch('/api/cors-default-options/basic', { method: 'OPTIONS' })
+  test('OPTIONS /api/cors-handler/default-options/basic', async ({ request }) => {
+    const response = await request.fetch('/api/cors-handler/default-options/basic', {
+      method: 'OPTIONS',
+    })
     expect(response.status()).toBe(204)
     expect(response.headers()['access-control-allow-origin']).toBe('*')
     expect(response.headers()['access-control-allow-methods']).toBe(
@@ -13,10 +15,10 @@ test.describe('CORS endpoint with no options', async () => {
     expect(response.headers()['access-control-expose-headers']).toBeUndefined()
     expect(response.headers()['access-control-max-age']).toBeUndefined()
   })
-  test('OPTIONS /api/cors-default-options/basic with origin and Access-Control-Request-Headers', async ({
+  test('OPTIONS /api/cors-handler/default-options/basic with origin and Access-Control-Request-Headers', async ({
     request,
   }) => {
-    const response = await request.fetch('/api/cors-default-options/basic', {
+    const response = await request.fetch('/api/cors-handler/default-options/basic', {
       method: 'OPTIONS',
       headers: { 'Access-Control-Request-Headers': 'X-Custom-Header', Origin: 'http://google.com' },
     })
@@ -31,8 +33,8 @@ test.describe('CORS endpoint with no options', async () => {
     expect(response.headers()['access-control-max-age']).toBeUndefined()
     expect(response.headers()['vary']).toBe('Access-Control-Request-Headers')
   })
-  test('GET /api/cors-default-options/basic', async ({ request }) => {
-    const response = await request.get('/api/cors-default-options/basic')
+  test('GET /api/cors-handler/default-options/basic', async ({ request }) => {
+    const response = await request.get('/api/cors-handler/default-options/basic')
     expect(response.status()).toBe(200)
     expect(await response.json()).toEqual({ message: 'Success message' })
     expect(response.headers()['access-control-allow-origin']).toBe('*')
@@ -43,10 +45,15 @@ test.describe('CORS endpoint with no options', async () => {
     expect(response.headers()['access-control-max-age']).toBeUndefined()
     expect(response.headers()['vary']).toBeUndefined()
   })
-  test('OPTIONS /api/cors-default-options/with-response-headers', async ({ request }) => {
-    const response = await request.fetch('/api/cors-default-options/with-response-headers', {
-      method: 'OPTIONS',
-    })
+  test('OPTIONS /api/cors-handler/default-options/with-response-headers', async ({
+    request,
+  }) => {
+    const response = await request.fetch(
+      '/api/cors-handler/default-options/with-response-headers',
+      {
+        method: 'OPTIONS',
+      },
+    )
     expect(response.status()).toBe(204)
     expect(response.headers()['access-control-allow-origin']).toBe('*')
     expect(response.headers()['access-control-allow-methods']).toBe(
@@ -59,7 +66,7 @@ test.describe('CORS endpoint with no options', async () => {
     expect(response.headers()['x-custom-header']).toBe('custom value')
   })
   test('OPTIONS to nonexistent path', async ({ request }) => {
-    const response = await request.fetch('/api/cors-default-options/missing', {
+    const response = await request.fetch('/api/cors-handler/default-options/missing', {
       method: 'OPTIONS',
     })
     expect(response.status()).toBe(404)
@@ -67,8 +74,8 @@ test.describe('CORS endpoint with no options', async () => {
 })
 
 test.describe('CORS endpoint with origin set to reflect', async () => {
-  test('OPTIONS /api/cors-reflect', async ({ request }) => {
-    const response = await request.fetch('/api/cors-reflect', { method: 'OPTIONS' })
+  test('OPTIONS /api/cors-handler/reflect', async ({ request }) => {
+    const response = await request.fetch('/api/cors-handler/reflect', { method: 'OPTIONS' })
     expect(response.status()).toBe(204)
     expect(response.headers()['access-control-allow-origin']).toBeUndefined()
     expect(response.headers()['access-control-allow-methods']).toBe(
@@ -80,8 +87,8 @@ test.describe('CORS endpoint with origin set to reflect', async () => {
     expect(response.headers()['access-control-max-age']).toBeUndefined()
     expect(response.headers()['vary']).toBe('Origin')
   })
-  test('OPTIONS /api/cors-reflect with origin', async ({ request }) => {
-    const response = await request.fetch('/api/cors-reflect', {
+  test('OPTIONS /api/cors-handler/reflect with origin', async ({ request }) => {
+    const response = await request.fetch('/api/cors-handler/reflect', {
       method: 'OPTIONS',
       headers: { Origin: 'http://google.com' },
     })
@@ -99,8 +106,10 @@ test.describe('CORS endpoint with origin set to reflect', async () => {
 })
 
 test.describe('CORS endpoint with complex options', async () => {
-  test('OPTIONS /api/cors-complex-options, no origin', async ({ request }) => {
-    const response = await request.fetch('/api/cors-complex-options', { method: 'OPTIONS' })
+  test('OPTIONS /api/cors-handler/complex-options, no origin', async ({ request }) => {
+    const response = await request.fetch('/api/cors-handler/complex-options', {
+      method: 'OPTIONS',
+    })
     expect(response.status()).toBe(204)
     expect(response.headers()['access-control-allow-origin']).toBeUndefined()
     expect(response.headers()['access-control-allow-methods']).toBe('GET,PUT')
@@ -109,8 +118,10 @@ test.describe('CORS endpoint with complex options', async () => {
     expect(response.headers()['access-control-expose-headers']).toBe('X-Exposed-Header')
     expect(response.headers()['access-control-max-age']).toBe('42')
   })
-  test('OPTIONS /api/cors-complex-options with non-matching origin', async ({ request }) => {
-    const response = await request.fetch('/api/cors-complex-options', {
+  test('OPTIONS /api/cors-handler/complex-options with non-matching origin', async ({
+    request,
+  }) => {
+    const response = await request.fetch('/api/cors-handler/complex-options', {
       method: 'OPTIONS',
       headers: { Origin: 'http://example.com' },
     })
@@ -122,8 +133,10 @@ test.describe('CORS endpoint with complex options', async () => {
     expect(response.headers()['access-control-expose-headers']).toBe('X-Exposed-Header')
     expect(response.headers()['access-control-max-age']).toBe('42')
   })
-  test('OPTIONS /api/cors-complex-options with matching origin', async ({ request }) => {
-    const response = await request.fetch('/api/cors-complex-options', {
+  test('OPTIONS /api/cors-handler/complex-options with matching origin', async ({
+    request,
+  }) => {
+    const response = await request.fetch('/api/cors-handler/complex-options', {
       method: 'OPTIONS',
       headers: { Origin: 'http://google.com' },
     })
@@ -135,8 +148,10 @@ test.describe('CORS endpoint with complex options', async () => {
     expect(response.headers()['access-control-expose-headers']).toBe('X-Exposed-Header')
     expect(response.headers()['access-control-max-age']).toBe('42')
   })
-  test('OPTIONS /api/cors-complex-options with matching origin regex', async ({ request }) => {
-    const response = await request.fetch('/api/cors-complex-options', {
+  test('OPTIONS /api/cors-handler/complex-options with matching origin regex', async ({
+    request,
+  }) => {
+    const response = await request.fetch('/api/cors-handler/complex-options', {
       method: 'OPTIONS',
       headers: { Origin: 'http://sub.trusted-domain.com' },
     })
