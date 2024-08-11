@@ -1,6 +1,9 @@
 import { expect, test } from '@playwright/test'
 
+import { assertDefined } from './utils.js'
+
 test('proxies requests as expected to specified endpoint', async ({ request, baseURL }) => {
+  assertDefined(baseURL)
   const response = await request.get('/proxy/status/200', {
     headers: {
       origin: baseURL,

@@ -9,4 +9,14 @@ export default defineConfig({
   test: {
     include: ['src/**/*.{test,spec}.{js,ts}'],
   },
+  server: {
+    cors: {
+      origin: false,
+    },
+  },
+  preview: {
+    cors: {
+      origin: false,
+    },
+  },
 })

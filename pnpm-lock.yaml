@@ -215,6 +215,9 @@ importers:
       esm-env:
         specifier: ^1.0.0
         version: 1.0.0
+      vary:
+        specifier: ^1.1.2
+        version: 1.1.2
     devDependencies:
       '@kitql/eslint-config':
         specifier: workspace:*
@@ -237,6 +240,9 @@ importers:
       '@sveltejs/vite-plugin-svelte':
         specifier: ^3.0.0
         version: 3.0.1(svelte@4.2.1)(vite@5.0.10(@types/node@20.12.7)(terser@5.30.3))
+      '@types/vary':
+        specifier: ^1.1.3
+        version: 1.1.3
       publint:
         specifier: 0.2.4
         version: 0.2.4
@@ -2606,6 +2612,9 @@ packages:
 
   '@types/unist@3.0.0':
     resolution: {integrity: sha512-MFETx3tbTjE7Uk6vvnWINA/1iJ7LuMdO4fcq8UfF0pRbj01aGLduVvQcRyswuACJdpnHgg8E3rQLhaRdNEJS0w==}
+
+  '@types/vary@1.1.3':
+    resolution: {integrity: sha512-XJT8/ZQCL7NUut9QDLf6l24JfAEl7bnNdgxfj50cHIpEPRJLHHDDFOAq6i+GsEmeFfH7NamhBE4c4Thtb2egWg==}
 
   '@types/ws@8.5.7':
     resolution: {integrity: sha512-6UrLjiDUvn40CMrAubXuIVtj2PEfKDffJS7ychvnPU44j+KVeXmdHHTgqcM/dxLUTHxlXHiFM8Skmb8ozGdTnQ==}
@@ -8391,6 +8400,10 @@ packages:
     resolution: {integrity: sha512-Z6Uz+TYwEqE7ZN50gwn+1LCVo9ZVrpxRPOhOLnncYkY1ZzOYtrX8Fwf/rFktZ8R5mJms6EZf5TqNOMeZmnPq9Q==}
     engines: {node: '>=12'}
 
+  vary@1.1.2:
+    resolution: {integrity: sha512-BNGbWLfd0eUPabhkXUVm0j8uuvREyTh5ovRa/dyow/BqAbZJyC+5fU+IzQOzmAKzYqYRAISoRhdQr3eIZ/PXqg==}
+    engines: {node: '>= 0.8'}
+
   vfile-location@5.0.2:
     resolution: {integrity: sha512-NXPYyxyBSH7zB5U6+3uDdd6Nybz6o6/od9rk8bp9H8GR3L+cm/fC0uUTbqBmUTnMCUDslAGBOIKNfvvb+gGlDg==}
 
@@ -10973,6 +10986,10 @@ snapshots:
   '@types/unist@2.0.6': {}
 
   '@types/unist@3.0.0': {}
+
+  '@types/vary@1.1.3':
+    dependencies:
+      '@types/node': 20.12.7
 
   '@types/ws@8.5.7':
     dependencies:
@@ -18495,6 +18512,8 @@ snapshots:
       spdx-expression-parse: 3.0.1
 
   value-or-promise@1.0.12: {}
+
+  vary@1.1.2: {}
 
   vfile-location@5.0.2:
     dependencies:
