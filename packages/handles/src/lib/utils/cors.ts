@@ -1,7 +1,7 @@
 import type { RequestHandler } from '@sveltejs/kit'
 import { append } from 'vary'
 
-type StaticOrigin = boolean | string | RegExp | Array<string | RegExp>
+import { isOriginAllowed, type StaticOrigin } from './origins.js'
 
 export interface CorsOptions {
   /**
@@ -109,24 +109,6 @@ function applyHeaders(headers: ConfiguredHeaders, response: Response): Response 
     }
   }
   return response
-}
-
-function isOriginAllowed(requestOrigin: string, origin: StaticOrigin): boolean {
-  if (Array.isArray(origin)) {
-    for (const originPattern of origin) {
-      if (isOriginAllowed(requestOrigin, originPattern)) {
-        return true
-      }
-    }
-    return false
-  }
-  if (typeof origin === 'string') {
-    return requestOrigin === origin
-  }
-  if (origin instanceof RegExp) {
-    return origin.test(requestOrigin)
-  }
-  return !!origin
 }
 
 export function cors(

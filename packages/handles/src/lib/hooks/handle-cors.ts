@@ -4,7 +4,7 @@ import { cors, type CorsOptionsByPath } from '$lib/utils/cors.js'
 
 export function handleCors(options: CorsOptionsByPath): Handle {
   return async ({ event, resolve }) => {
-    const url = new URL(event.request.url)
+    const url = event.url
     const matchingCorsOptions = options.find(([path]) =>
       typeof path === 'string' ? url.pathname.startsWith(path) : path.test(url.pathname),
     )

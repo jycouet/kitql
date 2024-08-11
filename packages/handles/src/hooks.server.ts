@@ -1,6 +1,7 @@
 import { sequence } from '@sveltejs/kit/hooks'
 
 import { handleCors } from '$lib/hooks/handle-cors.js'
+import { handleCsrf } from '$lib/hooks/handle-csrf.js'
 import { handleProxies } from '$lib/hooks/handle-proxies.js'
 
 export const handle = sequence(
@@ -19,5 +20,9 @@ export const handle = sequence(
         maxAge: 42,
       },
     ],
+  ]),
+  handleCsrf([
+    ['/api/csrf-handler/all-origins', true],
+    [/\/api\/csrf-handler\/some-origins/, ['http://google.com', /trusted-domain/]],
   ]),
 )
