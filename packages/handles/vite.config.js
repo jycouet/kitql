@@ -9,6 +9,8 @@ export default defineConfig({
   test: {
     include: ['src/**/*.{test,spec}.{js,ts}'],
   },
+  // disable automatic CORS in dev and preview, which is enabled by default and breaks our testing
+  // of explicit cors handling
   server: {
     cors: {
       origin: false,
