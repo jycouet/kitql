@@ -1,9 +1,14 @@
-import { error } from '@sveltejs/kit'
+import type { Handle } from '@sveltejs/kit'
 import { DEV } from 'esm-env'
 
 import { Log } from '@kitql/helpers'
 
+import { httpErrorResponse } from './hook-error.js'
+
 const log = new Log('handleProxies')
+
+export type ProxyDefinition = { from: string; to: string }
+export type HandleProxiesOptions = { proxies: ProxyDefinition[] }
 
 /**
  * usage:
@@ -15,10 +20,8 @@ const log = new Log('handleProxies')
  *		handleProxies({ proxies: [{ from: "/proxy", to: "http://my.super.website/graphql" }] }),
  *	);
  *
- * @param {import('./handleProxies.t.js').handleProxiesOptions} options
  */
-export const handleProxies = (options) => {
-  /** @type {import('@sveltejs/kit').Handle} */
+export function handleProxies(options: HandleProxiesOptions): Handle {
   return async ({ event, resolve }) => {
     const proxies_found = options.proxies.filter((c) => event.url.pathname.startsWith(c.from))
 
@@ -33,7 +36,7 @@ export const handleProxies = (options) => {
 
       // reject requests that don't come from the webapp, to avoid your proxy being abused.
       if (!origin || new URL(origin).origin !== event.url.origin) {
-        error(403, 'Request Forbidden.')
+        return httpErrorResponse(event.request, 403, 'Forbidden')
       }
 
       // strip "from" from the request path
@@ -51,7 +54,9 @@ export const handleProxies = (options) => {
           body: event.request.body,
           method: event.request.method,
           headers: requestHeaders,
-          // @ts-ignore
+          // typescript does not yet support the `duplex` property of `RequestInit`
+          // see: https://github.com/microsoft/TypeScript-DOM-lib-generator/issues/1483
+          // @ts-expect-error
           duplex: 'half',
         })
         .catch((err) => {
@@ -61,7 +66,6 @@ export const handleProxies = (options) => {
         })
     }
 
-    // Fallback to normal request
     return resolve(event)
   }
 }

@@ -23,7 +23,8 @@
     "check": "svelte-check",
     "check:watch": "svelte-check",
     "test": "vitest",
-    "test:ci": "vitest run --coverage",
+    "test:e2e": "playwright test",
+    "test:ci": "npm run test:e2e && npm run test",
     "lint": "kitql-lint",
     "format": "kitql-lint --format"
   },
@@ -34,6 +35,7 @@
   "devDependencies": {
     "@kitql/eslint-config": "workspace:*",
     "@kitql/helpers": "workspace:*",
+    "@playwright/test": "^1.46.0",
     "@sveltejs/adapter-node": "^5.0.0",
     "@sveltejs/kit": "^2.4.0",
     "@sveltejs/package": "2.3.0",

@@ -169,7 +169,7 @@ importers:
         version: 2.0.2(@vue/compiler-sfc@3.4.7)(prettier@3.2.4)
       '@typescript-eslint/eslint-plugin':
         specifier: 7.7.0
-        version: 7.7.0(@typescript-eslint/parser@7.7.0(eslint@8.57.0)(typescript@5.4.2))(eslint@8.57.0)(typescript@5.4.2)
+        version: 7.7.0(@typescript-eslint/parser@7.7.0(eslint@8.57.0)(typescript@5.3.2))(eslint@8.57.0)(typescript@5.4.2)
       '@typescript-eslint/parser':
         specifier: 7.7.0
         version: 7.7.0(eslint@8.57.0)(typescript@5.4.2)
@@ -190,7 +190,7 @@ importers:
         version: 2.39.3(eslint@8.57.0)(svelte@4.2.0)
       eslint-plugin-unused-imports:
         specifier: 3.2.0
-        version: 3.2.0(@typescript-eslint/eslint-plugin@7.7.0(@typescript-eslint/parser@7.7.0(eslint@8.57.0)(typescript@5.4.2))(eslint@8.57.0)(typescript@5.4.2))(eslint@8.57.0)
+        version: 3.2.0(@typescript-eslint/eslint-plugin@7.7.0(@typescript-eslint/parser@7.7.0(eslint@8.57.0)(typescript@5.3.2))(eslint@8.57.0)(typescript@5.4.2))(eslint@8.57.0)
       prettier:
         specifier: 3.2.4
         version: 3.2.4
@@ -222,6 +222,9 @@ importers:
       '@kitql/helpers':
         specifier: workspace:*
         version: link:../helpers/dist
+      '@playwright/test':
+        specifier: ^1.46.0
+        version: 1.46.0
       '@sveltejs/adapter-node':
         specifier: ^5.0.0
         version: 5.0.0(@sveltejs/kit@2.5.3(@sveltejs/vite-plugin-svelte@3.0.1(svelte@4.2.1)(vite@5.0.10(@types/node@20.12.7)(terser@5.30.3)))(svelte@4.2.1)(vite@5.0.10(@types/node@20.12.7)(terser@5.30.3)))
@@ -1962,6 +1965,11 @@ packages:
   '@playwright/test@1.42.1':
     resolution: {integrity: sha512-Gq9rmS54mjBL/7/MvBaNOBwbfnh7beHvS6oS4srqXFcQHpQCV1+c8JXWE8VLPyRDhgS3H8x8A7hztqI9VnwrAQ==}
     engines: {node: '>=16'}
+    hasBin: true
+
+  '@playwright/test@1.46.0':
+    resolution: {integrity: sha512-/QYft5VArOrGRP5pgkrfKksqsKA6CEFyGQ/gjNe6q0y4tZ1aaPfq4gIjudr1s3D+pXyrPRdsy4opKDrjBabE5w==}
+    engines: {node: '>=18'}
     hasBin: true
 
   '@polka/url@1.0.0-next.25':
@@ -6602,9 +6610,19 @@ packages:
     engines: {node: '>=16'}
     hasBin: true
 
+  playwright-core@1.46.0:
+    resolution: {integrity: sha512-9Y/d5UIwuJk8t3+lhmMSAJyNP1BUC/DqP3cQJDQQL/oWqAiuPTLgy7Q5dzglmTLwcBRdetzgNM/gni7ckfTr6A==}
+    engines: {node: '>=18'}
+    hasBin: true
+
   playwright@1.42.1:
     resolution: {integrity: sha512-PgwB03s2DZBcNRoW+1w9E+VkLBxweib6KTXM0M3tkiT4jVxKSi6PmVJ591J+0u10LUrgxB7dLRbiJqO5s2QPMg==}
     engines: {node: '>=16'}
+    hasBin: true
+
+  playwright@1.46.0:
+    resolution: {integrity: sha512-XYJ5WvfefWONh1uPAUAi0H2xXV5S3vrtcnXe6uAOgdGi3aSpqOSXX08IAjXW34xitfuOJsvXU5anXZxPSEQiJw==}
+    engines: {node: '>=18'}
     hasBin: true
 
   pluralize@8.0.0:
@@ -9863,14 +9881,14 @@ snapshots:
       '@kitql/helpers': 0.8.9
       '@theguild/eslint-config': 0.11.1(eslint@8.57.0)(typescript@5.4.2)
       '@theguild/prettier-config': 2.0.2(@vue/compiler-sfc@3.4.7)(prettier@3.2.4)
-      '@typescript-eslint/eslint-plugin': 7.7.0(@typescript-eslint/parser@7.7.0(eslint@8.57.0)(typescript@5.4.2))(eslint@8.57.0)(typescript@5.4.2)
+      '@typescript-eslint/eslint-plugin': 7.7.0(@typescript-eslint/parser@7.7.0(eslint@8.57.0)(typescript@5.3.2))(eslint@8.57.0)(typescript@5.4.2)
       '@typescript-eslint/parser': 7.7.0(eslint@8.57.0)(typescript@5.4.2)
       '@vue/compiler-sfc': 3.4.7
       commander: 12.0.0
       eslint: 8.57.0
       eslint-config-prettier: 9.1.0(eslint@8.57.0)
       eslint-plugin-svelte: 2.39.3(eslint@8.57.0)(svelte@4.2.0)
-      eslint-plugin-unused-imports: 3.2.0(@typescript-eslint/eslint-plugin@7.7.0(@typescript-eslint/parser@7.7.0(eslint@8.57.0)(typescript@5.4.2))(eslint@8.57.0)(typescript@5.4.2))(eslint@8.57.0)
+      eslint-plugin-unused-imports: 3.2.0(@typescript-eslint/eslint-plugin@7.7.0(@typescript-eslint/parser@7.7.0(eslint@8.57.0)(typescript@5.3.2))(eslint@8.57.0)(typescript@5.4.2))(eslint@8.57.0)
       prettier: 3.2.4
       prettier-plugin-sh: 0.14.0(prettier@3.2.4)
       prettier-plugin-svelte: 3.2.2(prettier@3.2.4)(svelte@4.2.0)
@@ -10294,6 +10312,10 @@ snapshots:
   '@playwright/test@1.42.1':
     dependencies:
       playwright: 1.42.1
+
+  '@playwright/test@1.46.0':
+    dependencies:
+      playwright: 1.46.0
 
   '@polka/url@1.0.0-next.25': {}
 
@@ -10996,7 +11018,7 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@typescript-eslint/eslint-plugin@7.7.0(@typescript-eslint/parser@7.7.0(eslint@8.57.0)(typescript@5.4.2))(eslint@8.57.0)(typescript@5.4.2)':
+  '@typescript-eslint/eslint-plugin@7.7.0(@typescript-eslint/parser@7.7.0(eslint@8.57.0)(typescript@5.3.2))(eslint@8.57.0)(typescript@5.4.2)':
     dependencies:
       '@eslint-community/regexpp': 4.10.0
       '@typescript-eslint/parser': 7.7.0(eslint@8.57.0)(typescript@5.4.2)
@@ -13274,12 +13296,12 @@ snapshots:
       semver: 7.5.4
       strip-indent: 3.0.0
 
-  eslint-plugin-unused-imports@3.2.0(@typescript-eslint/eslint-plugin@7.7.0(@typescript-eslint/parser@7.7.0(eslint@8.57.0)(typescript@5.4.2))(eslint@8.57.0)(typescript@5.4.2))(eslint@8.57.0):
+  eslint-plugin-unused-imports@3.2.0(@typescript-eslint/eslint-plugin@7.7.0(@typescript-eslint/parser@7.7.0(eslint@8.57.0)(typescript@5.3.2))(eslint@8.57.0)(typescript@5.4.2))(eslint@8.57.0):
     dependencies:
       eslint: 8.57.0
       eslint-rule-composer: 0.3.0
     optionalDependencies:
-      '@typescript-eslint/eslint-plugin': 7.7.0(@typescript-eslint/parser@7.7.0(eslint@8.57.0)(typescript@5.4.2))(eslint@8.57.0)(typescript@5.4.2)
+      '@typescript-eslint/eslint-plugin': 7.7.0(@typescript-eslint/parser@7.7.0(eslint@8.57.0)(typescript@5.3.2))(eslint@8.57.0)(typescript@5.4.2)
 
   eslint-plugin-yml@1.10.0(eslint@8.57.0):
     dependencies:
@@ -16398,9 +16420,17 @@ snapshots:
 
   playwright-core@1.42.1: {}
 
+  playwright-core@1.46.0: {}
+
   playwright@1.42.1:
     dependencies:
       playwright-core: 1.42.1
+    optionalDependencies:
+      fsevents: 2.3.2
+
+  playwright@1.46.0:
+    dependencies:
+      playwright-core: 1.46.0
     optionalDependencies:
       fsevents: 2.3.2
 
