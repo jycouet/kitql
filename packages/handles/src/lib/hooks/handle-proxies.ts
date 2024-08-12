@@ -16,10 +16,13 @@ export type HandleProxiesOptions = { proxies: ProxyDefinition[] }
  * e.g. a request to `/from/some/other/path` will be proxied to `to/some/other/path`. The request
  * method, body, and headers are preserved, with the exception of the `Host` header which is set to
  * the proxy target hostname.
+ *
+ * If multiple options entries match a request, the first matching entry is used, and a warning is
+ * logged in development.
  */
-export function handleProxies(options: HandleProxiesOptions): Handle {
+export function handleProxies({ proxies }: HandleProxiesOptions): Handle {
   return async ({ event, resolve }) => {
-    const proxies_found = options.proxies.filter((c) => event.url.pathname.startsWith(c.from))
+    const proxies_found = proxies.filter((c) => event.url.pathname.startsWith(c.from))
 
     // We should not find more than 1
     if (proxies_found.length > 0) {

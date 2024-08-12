@@ -186,3 +186,56 @@ test.describe('CSRF endpoint with no options (default csrf behavior)', async () 
     expect(response.status()).toBe(403)
   })
 })
+
+test.describe('CSRF endpoint with false origin (default csrf behavior)', async () => {
+  test('POST /api/csrf-handler/false-origin, no origin', async ({ request }) => {
+    const response = await request.post('/api/csrf-handler/false-origin', {
+      form: { key: 'value' },
+    })
+    expect(response.status()).toBe(403)
+  })
+  test('PUT /api/csrf-handler/false-origin, no origin', async ({ request }) => {
+    const response = await request.put('/api/csrf-handler/false-origin', { form: { key: 'value' } })
+    expect(response.status()).toBe(403)
+  })
+  test('PATCH /api/csrf-handler/false-origin, no origin', async ({ request }) => {
+    const response = await request.patch('/api/csrf-handler/false-origin', {
+      form: { key: 'value' },
+    })
+    expect(response.status()).toBe(403)
+  })
+  test('DELETE /api/csrf-handler/false-origin, no origin', async ({ request }) => {
+    const response = await request.delete('/api/csrf-handler/false-origin', {
+      form: { key: 'value' },
+    })
+    expect(response.status()).toBe(403)
+  })
+  test('POST /api/csrf-handler/false-origin, with origin', async ({ request }) => {
+    const response = await request.post('/api/csrf-handler/false-origin', {
+      form: { key: 'value' },
+      headers: { origin: 'http://google.com' },
+    })
+    expect(response.status()).toBe(403)
+  })
+  test('PUT /api/csrf-handler/false-origin, with origin', async ({ request }) => {
+    const response = await request.put('/api/csrf-handler/false-origin', {
+      form: { key: 'value' },
+      headers: { origin: 'http://google.com' },
+    })
+    expect(response.status()).toBe(403)
+  })
+  test('PATCH /api/csrf-handler/false-origin, with origin', async ({ request }) => {
+    const response = await request.patch('/api/csrf-handler/false-origin', {
+      form: { key: 'value' },
+      headers: { origin: 'http://google.com' },
+    })
+    expect(response.status()).toBe(403)
+  })
+  test('DELETE /api/csrf-handler/false-origin, with origin', async ({ request }) => {
+    const response = await request.delete('/api/csrf-handler/false-origin', {
+      form: { key: 'value' },
+      headers: { origin: 'http://google.com' },
+    })
+    expect(response.status()).toBe(403)
+  })
+})

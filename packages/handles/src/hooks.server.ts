@@ -36,7 +36,8 @@ export const handle = sequence(
     ],
   ]),
   handleCsrf([
-    ['/api/csrf-handler/all-origins', true],
-    [/\/api\/csrf-handler\/some-origins/, ['http://google.com', /trusted-domain/]],
+    ['/api/csrf-handler/all-origins', { origin: true }],
+    [/\/api\/csrf-handler\/some-origins/, { origin: ['http://google.com', /trusted-domain/] }],
+    ['/api/csrf-handler/false-origin', { origin: false }],
   ]),
 )

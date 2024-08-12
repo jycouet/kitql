@@ -1,18 +1,18 @@
 import type { RequestHandler } from '@sveltejs/kit'
 import { append } from 'vary'
 
-import { isOriginAllowed, type StaticOrigin } from './origins.js'
+import { isOriginAllowed, type AllowedOrigin } from './origins.js'
 
 export interface CorsOptions {
   /**
    * If `true`, reflects request origin in `Access-Control-Allow-Origin`. If set to `*` or a
    * specific origin, sets `Access-Control-Allow-Origin` to that value. If a RegExp or an array of
    * strings/RegExps, reflects the request origin in `Access-Control-Allow-Origin` if it matches any
-   * of the strings / RegExps provided. If explicitly set to `undefined`, does not set the
-   * `Access-Control-Allow-Origin` header.
+   * of the strings / RegExps provided. If explicitly set to `false` or `undefined`, does not set
+   * the `Access-Control-Allow-Origin` header.
    * @default '*'
    */
-  origin?: StaticOrigin | undefined
+  origin?: AllowedOrigin | undefined
   /**
    * Sets `Access-Control-Allow-Methods` to the given string or array of strings (joined with `,`).
    * If explicitly set to `undefined`, does not set the `Access-Control-Allow-Methods` header.
@@ -49,13 +49,11 @@ export interface CorsOptions {
   optionsStatusSuccess?: number | undefined
 }
 
-export type CorsOptionsByPath = Array<[string | RegExp, CorsOptions]>
-
 type ConfiguredHeaders = Array<[string, string]>
 
 function configureOrigin({ origin }: CorsOptions, req: Request): ConfiguredHeaders {
   const requestOrigin = req.headers.get('Origin')
-  if (origin == null) {
+  if (origin == null || origin === false) {
     return []
   }
   if (typeof origin === 'string') {
@@ -175,6 +173,10 @@ export function cors(
   return applyHeaders(headers, response)
 }
 
+/**
+ * A function that wraps a request handler to add CORS headers to the response. Provides an
+ * `OPTIONS` member which returns a default response, with CORS headers, for an OPTIONS request.
+ */
 export interface CorsWrapper {
   (handler: RequestHandler): RequestHandler
   OPTIONS: RequestHandler

@@ -1,16 +1,14 @@
 import type { Handle } from '@sveltejs/kit'
 
-import { cors, type CorsOptionsByPath } from '$lib/utils/cors.js'
+import { cors, type CorsOptions } from '$lib/utils/cors.js'
+import { getMatchingOptionForURL, type OptionsByPath } from '$lib/utils/paths.js'
 
-export function handleCors(options: CorsOptionsByPath): Handle {
+export function handleCors(options: OptionsByPath<CorsOptions>): Handle {
   return async ({ event, resolve }) => {
     const url = event.url
-    const matchingCorsOptions = options.find(([path]) =>
-      typeof path === 'string' ? url.pathname.startsWith(path) : path.test(url.pathname),
-    )
+    const corsOptions = getMatchingOptionForURL(url, options)
 
-    if (matchingCorsOptions) {
-      const [, corsOptions] = matchingCorsOptions
+    if (corsOptions) {
       let response = await resolve(event)
       if (event.request.method === 'OPTIONS' && response.status === 405) {
         // This route exists, but the OPTIONS method is not allowed (likely because an explicit

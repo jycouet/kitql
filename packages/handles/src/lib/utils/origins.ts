@@ -1,6 +1,10 @@
-export type StaticOrigin = boolean | string | RegExp | Array<string | RegExp>
 
-export function isOriginAllowed(requestOrigin: string, origin: StaticOrigin): boolean {
+/**
+ * A type that represents an allowed origin definition.
+ */
+export type AllowedOrigin = boolean | string | RegExp | Array<string | RegExp>
+
+export function isOriginAllowed(requestOrigin: string, origin: AllowedOrigin): boolean {
   if (Array.isArray(origin)) {
     for (const originPattern of origin) {
       if (isOriginAllowed(requestOrigin, originPattern)) {
