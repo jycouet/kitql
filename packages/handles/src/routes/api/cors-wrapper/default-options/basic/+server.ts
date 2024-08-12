@@ -1,9 +1,9 @@
 import { json } from '@sveltejs/kit'
 
-import { CreateCorsWrapper } from '$lib/index.js'
+import { createCorsWrapper } from '$lib/index.js'
 
-const wrapper = CreateCorsWrapper()
+const wrapper = createCorsWrapper()
 
-export const OPTIONS = wrapper(() => new Response(null, { status: 204 }))
+export const OPTIONS = wrapper.OPTIONS
 
 export const GET = wrapper(() => json({ message: 'Success message' }))

@@ -20,6 +20,20 @@ export const handle = sequence(
         maxAge: 42,
       },
     ],
+    [
+      '/api/cors-handler/edge-cases',
+      {
+        // explicitly disable the `Access-Control-Allow-Origin` header
+        origin: undefined,
+        // explicitly disable the `Access-Control-Allow-Methods` header
+        methods: undefined,
+        // explicitly disable the `Access-Control-Allow-Headers` header
+        allowedHeaders: undefined,
+        // set `Access-Control-Allow-Credentials` header to 'true'
+        credentials: true,
+        optionsStatusSuccess: 200,
+      },
+    ],
   ]),
   handleCsrf([
     ['/api/csrf-handler/all-origins', true],

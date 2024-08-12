@@ -11,15 +11,11 @@ export type ProxyDefinition = { from: string; to: string }
 export type HandleProxiesOptions = { proxies: ProxyDefinition[] }
 
 /**
- * usage:
- *	import { sequence } from '@sveltejs/kit/hooks';
- *	import { handleProxies } from '@kitql/handles'
- *
- *	export const handle = sequence(
- *		// Proxy requests through kit
- *		handleProxies({ proxies: [{ from: "/proxy", to: "http://my.super.website/graphql" }] }),
- *	);
- *
+ * Creates a handler which, for requests matching a given `from` prefix in the given options,
+ * proxies the request to the `to` URL. Any path elements after the matching prefix are preserved,
+ * e.g. a request to `/from/some/other/path` will be proxied to `to/some/other/path`. The request
+ * method, body, and headers are preserved, with the exception of the `Host` header which is set to
+ * the proxy target hostname.
  */
 export function handleProxies(options: HandleProxiesOptions): Handle {
   return async ({ event, resolve }) => {

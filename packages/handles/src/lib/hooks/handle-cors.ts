@@ -13,9 +13,10 @@ export function handleCors(options: CorsOptionsByPath): Handle {
       const [, corsOptions] = matchingCorsOptions
       let response = await resolve(event)
       if (event.request.method === 'OPTIONS' && response.status === 405) {
-        // This route exists, but the OPTIONS method is not allowed. Rewrite the response to 204 No
-        // Content.
-        response = new Response(null, { status: 204 })
+        // This route exists, but the OPTIONS method is not allowed (likely because an explicit
+        // OPTIONS handler was not defined in `+server.ts`). Return an empty response with the
+        // appropriate status code.
+        response = new Response(null, { status: corsOptions.optionsStatusSuccess ?? 204 })
       }
       cors(corsOptions, event.request, response)
       return response

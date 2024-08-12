@@ -5,17 +5,48 @@ import { isOriginAllowed, type StaticOrigin } from './origins.js'
 
 export interface CorsOptions {
   /**
-   * @default '*''
+   * If `true`, reflects request origin in `Access-Control-Allow-Origin`. If set to `*` or a
+   * specific origin, sets `Access-Control-Allow-Origin` to that value. If a RegExp or an array of
+   * strings/RegExps, reflects the request origin in `Access-Control-Allow-Origin` if it matches any
+   * of the strings / RegExps provided. If explicitly set to `undefined`, does not set the
+   * `Access-Control-Allow-Origin` header.
+   * @default '*'
    */
   origin?: StaticOrigin | undefined
   /**
+   * Sets `Access-Control-Allow-Methods` to the given string or array of strings (joined with `,`).
+   * If explicitly set to `undefined`, does not set the `Access-Control-Allow-Methods` header.
    * @default 'GET,HEAD,PUT,PATCH,POST,DELETE'
    */
   methods?: string | string[] | undefined
-  allowedHeaders?: string | string[] | undefined
+  /**
+   * Sets `Access-Control-Allow-Headers` to the given string or array of strings (joined with `,`).
+   * If set to `true`, reflects the `Access-Control-Request-Headers` header. If explicitly set to
+   * `false`, or `undefined`, does not set the `Access-Control-Allow-Headers` header.
+   * @default true
+   */
+  allowedHeaders?: string | string[] | boolean | undefined
+  /**
+   * Sets `Access-Control-Expose-Headers` to the given string or array of strings (joined with `,`).
+   * If not specified, does not set `Access-Control-Expose-Headers`.
+   */
   exposedHeaders?: string | string[] | undefined
+  /**
+   * Sets `Access-Control-Allow-Credentials` to `true` if `true`, or unset if `false`.
+   * @default false
+   */
   credentials?: boolean | undefined
+  /**
+   * Sets `Access-Control-Max-Age` to the given number. If unset, does not set
+   * `Access-Control-Max-Age`.
+   */
   maxAge?: number | undefined
+  /**
+   * If set, returns the given status code for preflight requests. If unset, returns 204. Useful for
+   * clients that fail if an OPTIONS request returns 204 (mostly legacy browsers).
+   * @default 204
+   */
+  optionsStatusSuccess?: number | undefined
 }
 
 export type CorsOptionsByPath = Array<[string | RegExp, CorsOptions]>
@@ -24,8 +55,8 @@ type ConfiguredHeaders = Array<[string, string]>
 
 function configureOrigin({ origin }: CorsOptions, req: Request): ConfiguredHeaders {
   const requestOrigin = req.headers.get('Origin')
-  if (origin === '*' || origin == null) {
-    return [['Access-Control-Allow-Origin', '*']]
+  if (origin == null) {
+    return []
   }
   if (typeof origin === 'string') {
     return [['Access-Control-Allow-Origin', origin]]
@@ -55,8 +86,8 @@ function configureCredentials({ credentials }: CorsOptions): ConfiguredHeaders {
 }
 
 function configureAllowedHeaders({ allowedHeaders }: CorsOptions, req: Request): ConfiguredHeaders {
-  if (allowedHeaders == null) {
-    // if unspecified, reflect request headers
+  if (allowedHeaders === true) {
+    // reflect request headers
     const requestHeaders = req.headers.get('Access-Control-Request-Headers')
     if (requestHeaders) {
       return [
@@ -64,6 +95,9 @@ function configureAllowedHeaders({ allowedHeaders }: CorsOptions, req: Request):
         ['Vary', 'Access-Control-Request-Headers'],
       ]
     }
+    return []
+  }
+  if (allowedHeaders == null || allowedHeaders === false) {
     return []
   }
   return [
@@ -119,6 +153,7 @@ export function cors(
   const options: CorsOptions = {
     origin: '*',
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+    allowedHeaders: true,
     ...inputOptions,
   }
   if (request.method === 'OPTIONS') {
@@ -140,11 +175,21 @@ export function cors(
   return applyHeaders(headers, response)
 }
 
-export const CreateCorsWrapper =
-  (options: CorsOptions = {}) =>
-  (handler: RequestHandler): RequestHandler =>
-  async (event) => {
-    const { request } = event
-    const response = await handler(event)
-    return cors(options, request, response)
+export interface CorsWrapper {
+  (handler: RequestHandler): RequestHandler
+  OPTIONS: RequestHandler
+}
+
+export function createCorsWrapper(options: CorsOptions = {}): CorsWrapper {
+  const corsWrapper = function corsWrapper(handler: RequestHandler): RequestHandler {
+    return async (event) => {
+      const { request } = event
+      const response = await handler(event)
+      return cors(options, request, response)
+    }
   }
+  corsWrapper.OPTIONS = corsWrapper(
+    async () => new Response(null, { status: options.optionsStatusSuccess ?? 204 }),
+  )
+  return corsWrapper
+}

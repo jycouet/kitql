@@ -1,11 +1,15 @@
 import { json } from '@sveltejs/kit'
 
-import { CreateCorsWrapper } from '$lib/index.js'
+import { createCorsWrapper } from '$lib/index.js'
 
-const wrapper = CreateCorsWrapper()
+const wrapper = createCorsWrapper()
 
 export const OPTIONS = wrapper(
-  () => new Response(null, { status: 204, headers: { 'X-Custom-Header': 'custom value' } }),
+  () =>
+    new Response(null, {
+      status: 204,
+      headers: { 'X-Custom-Header': 'custom value', 'Access-Control-Max-Age': '42' },
+    }),
 )
 
 export const GET = wrapper(() =>
