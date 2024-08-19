@@ -38,7 +38,7 @@ _\*Order by subjective usefulness_ 😉
 ## ✨ Contributors
 
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
-[![All Contributors](https://img.shields.io/badge/all_contributors-38-orange.svg?style=flat-square)](#contributors-)
+[![All Contributors](https://img.shields.io/badge/all_contributors-39-orange.svg?style=flat-square)](#contributors-)
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 
 Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/docs/en/emoji-key)):
@@ -97,6 +97,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
       <td align="center" valign="top" width="14.28%"><a href="https://emac.ac"><img src="https://avatars.githubusercontent.com/u/18234710?v=4?s=100" width="100px;" alt="Eduardo "Dudu""/><br /><sub><b>Eduardo "Dudu"</b></sub></a><br /><a href="https://github.com/jycouet/kitql/commits?author=duducpp" title="Code">💻</a></td>
       <td align="center" valign="top" width="14.28%"><a href="http://johnathan.dev"><img src="https://avatars.githubusercontent.com/u/1262078?v=4?s=100" width="100px;" alt="Johnathan Ludwig"/><br /><sub><b>Johnathan Ludwig</b></sub></a><br /><a href="https://github.com/jycouet/kitql/issues?q=author%3Ajohnathanludwig" title="Bug reports">🐛</a></td>
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/esadler44"><img src="https://avatars.githubusercontent.com/u/3618810?v=4?s=100" width="100px;" alt="Elliot Sadler"/><br /><sub><b>Elliot Sadler</b></sub></a><br /><a href="https://github.com/jycouet/kitql/commits?author=esadler44" title="Documentation">📖</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/fnimick"><img src="https://avatars.githubusercontent.com/u/704308?v=4?s=100" width="100px;" alt="Francis Nimick"/><br /><sub><b>Francis Nimick</b></sub></a><br /><a href="https://github.com/jycouet/kitql/commits?author=fnimick" title="Code">💻</a></td>
     </tr>
   </tbody>
 </table>
