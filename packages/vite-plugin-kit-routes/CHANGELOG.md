@@ -1,5 +1,11 @@
 # vite-plugin-kit-routes
 
+## 0.6.6
+
+### Patch Changes
+
+- [#699](https://github.com/jycouet/kitql/pull/699) [`6e95cf7`](https://github.com/jycouet/kitql/commit/6e95cf7251ca255de8a3b5b1212ef15b6a4c0f85) Thanks [@jycouet](https://github.com/jycouet)! - add trailingSlash option to config (as a global flag)
+
 ## 0.6.5
 
 ### Patch Changes
