@@ -5,7 +5,7 @@ import { handleCsrf } from '$lib/hooks/handle-csrf.js'
 import { handleProxies } from '$lib/hooks/handle-proxies.js'
 
 export const handle = sequence(
-  handleProxies({ proxies: [{ from: '/proxy', to: 'http://eu.httpbin.org/' }] }),
+  handleProxies([['/proxy', { to: 'http://eu.httpbin.org/' }]]),
   handleCors([
     ['/api/cors-handler/default-options', {}],
     [/\/api\/cors-handler\/reflect/, { origin: true }],

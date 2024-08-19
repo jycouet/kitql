@@ -4,7 +4,7 @@ import { cors, type CorsOptions } from '$lib/utils/cors.js'
 import { getMatchingOptionForURL, type OptionsByPath } from '$lib/utils/paths.js'
 
 /**
- * Creates a handler which adds CORS headers to responses for requests matching a given `path` in
+ * Creates a handler which adds CORS headers to responses for requests matching a given path in
  * the given options. If multiple options entries would match a request, the first matching entry is
  * used.
  *

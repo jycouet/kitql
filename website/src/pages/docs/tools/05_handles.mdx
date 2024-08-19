@@ -83,14 +83,13 @@ export default defineConfig({
 
 ### `handleProxies`
 
-Creates a handler which, for requests matching a given `from` prefix in the given options, proxies
-the request to the `to` URL. Any path elements after the matching prefix are preserved, e.g. a
-request to `/from/some/other/path` will be proxied to `to/some/other/path`. The request method,
-body, and headers are preserved, with the exception of the `Host` header which is set to the proxy
-target hostname.
+Creates a handler which, for requests matching a given path prefix in the given options, proxies the
+request to the `to` URL in the corresponding `ProxyOptions`. Any path elements after the
+matching prefix are preserved, e.g. a request to `/from/some/other/path` will be proxied to
+`to/some/other/path`. The request method, body, and headers are preserved, with the exception of the
+`Host` header which is set to the proxy target hostname.
 
-If multiple options entries match a request, the first matching entry is used, and a warning is
-logged in development.
+If multiple options entries would match a request, the first matching entry is used.
 
 ```ts filename="src/hooks.server.ts"
 import { sequence } from '@sveltejs/kit/hooks'
@@ -101,7 +100,7 @@ export const handle = sequence(
   // Forwards all requests to paths beginning with `/proxy` to
   // `http://my.super.website/graphql`. Subpaths are preserved, e.g. `/proxy/api/path` is
   // forwarded to `http://my.super.website/graphql/api/path`.
-  handleProxies({ proxies: [{ from: '/proxy', to: 'http://my.super.website/graphql' }] })
+  handleProxies([['/proxy', { to: 'http://my.super.website/graphql' }]])
 )
 ```
 
