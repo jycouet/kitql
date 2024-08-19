@@ -1,6 +1,5 @@
-import type { Handle } from '@sveltejs/kit'
+import { error, type Handle } from '@sveltejs/kit'
 
-import { httpErrorResponse } from '$lib/utils/hook-error.js'
 import { isOriginAllowed, type AllowedOrigin } from '$lib/utils/origins.js'
 import { getMatchingOptionForURL, type OptionsByPath } from '$lib/utils/paths.js'
 
@@ -52,11 +51,7 @@ export function handleCsrf(options: OptionsByPath<CsrfOptions>): Handle {
         !isOriginAllowed(requestOrigin, allowedOrigin))
 
     if (forbidden) {
-      return httpErrorResponse(
-        event.request,
-        403,
-        `Cross-site ${request.method} form submissions are forbidden`,
-      )
+      error(403, `Cross-site ${request.method} form submissions are forbidden`)
     }
 
     return resolve(event)

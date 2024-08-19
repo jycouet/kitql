@@ -1,8 +1,7 @@
-import type { Handle } from '@sveltejs/kit'
+import { error, type Handle } from '@sveltejs/kit'
 
 import { Log } from '@kitql/helpers'
 
-import { httpErrorResponse } from '$lib/utils/hook-error.js'
 import type { OptionsByStringPath } from '$lib/utils/paths.js'
 
 const log = new Log('handleProxies')
@@ -31,7 +30,7 @@ export function handleProxies(options: OptionsByStringPath<ProxyOptions>): Handl
     const origin = event.request.headers.get('Origin')
     // reject requests that don't come from the webapp, to avoid your proxy being abused.
     if (!origin || new URL(origin).origin !== event.url.origin) {
-      return httpErrorResponse(event.request, 403, 'Forbidden')
+      error(403, 'Forbidden')
     }
 
     // strip "from" from the request path
