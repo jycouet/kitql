@@ -51,8 +51,8 @@ importers:
   packages/create-kitql/templates/kit-routes:
     devDependencies:
       '@playwright/test':
-        specifier: ^1.42.1
-        version: 1.42.1
+        specifier: ^1.46.1
+        version: 1.46.1
       '@sveltejs/adapter-auto':
         specifier: ^3.0.0
         version: 3.0.0(@sveltejs/kit@2.5.3(@sveltejs/vite-plugin-svelte@3.0.1(svelte@4.2.8)(vite@5.0.10(@types/node@20.12.7)(terser@5.30.3)))(svelte@4.2.8)(vite@5.0.10(@types/node@20.12.7)(terser@5.30.3)))
@@ -109,10 +109,10 @@ importers:
     devDependencies:
       '@kitql/eslint-config':
         specifier: latest
-        version: 0.3.3(@babel/core@7.24.4)(@ianvs/prettier-plugin-sort-imports@4.1.1(@vue/compiler-sfc@3.4.7)(prettier@3.2.4))(@types/node@20.12.7)(graphql@16.8.1)
+        version: 0.3.3(@babel/core@7.24.4)(@ianvs/prettier-plugin-sort-imports@4.1.1(prettier@3.2.4))(@types/node@20.12.7)(graphql@16.8.1)
       '@playwright/test':
-        specifier: ^1.42.1
-        version: 1.42.1
+        specifier: ^1.46.1
+        version: 1.46.1
       '@sveltejs/adapter-auto':
         specifier: ^3.0.0
         version: 3.0.0(@sveltejs/kit@2.5.3(@sveltejs/vite-plugin-svelte@3.0.1(svelte@4.2.8)(vite@5.0.10(@types/node@20.12.7)(terser@5.30.3)))(svelte@4.2.8)(vite@5.0.10(@types/node@20.12.7)(terser@5.30.3)))
@@ -202,7 +202,7 @@ importers:
         version: 3.2.2(prettier@3.2.4)(svelte@4.2.0)
       prettier-plugin-tailwindcss:
         specifier: 0.5.7
-        version: 0.5.7(@ianvs/prettier-plugin-sort-imports@4.1.1(@vue/compiler-sfc@3.4.7)(prettier@3.2.4))(prettier-plugin-svelte@3.2.2(prettier@3.2.4)(svelte@4.2.8))(prettier@3.2.4)
+        version: 0.5.7(@ianvs/prettier-plugin-sort-imports@4.1.1(prettier@3.2.4))(prettier-plugin-svelte@3.2.2(prettier@3.2.4)(svelte@4.2.8))(prettier@3.2.4)
       svelte:
         specifier: 4.2.0
         version: 4.2.0
@@ -226,8 +226,8 @@ importers:
         specifier: workspace:*
         version: link:../helpers/dist
       '@playwright/test':
-        specifier: ^1.46.0
-        version: 1.46.0
+        specifier: ^1.46.1
+        version: 1.46.1
       '@sveltejs/adapter-node':
         specifier: ^5.0.0
         version: 5.0.0(@sveltejs/kit@2.5.3(@sveltejs/vite-plugin-svelte@3.0.1(svelte@4.2.1)(vite@5.0.10(@types/node@20.12.7)(terser@5.30.3)))(svelte@4.2.1)(vite@5.0.10(@types/node@20.12.7)(terser@5.30.3)))
@@ -1968,13 +1968,8 @@ packages:
     resolution: {integrity: sha512-POgTXhjrTfbTV63DiFXav4lBHiICLKKwDeaKn9Nphwj7WH6m0hMMCaJkMyRWjgtPFyRKRVoMXXjczsTQRDEhYw==}
     engines: {node: ^12.20.0 || ^14.18.0 || >=16.0.0}
 
-  '@playwright/test@1.42.1':
-    resolution: {integrity: sha512-Gq9rmS54mjBL/7/MvBaNOBwbfnh7beHvS6oS4srqXFcQHpQCV1+c8JXWE8VLPyRDhgS3H8x8A7hztqI9VnwrAQ==}
-    engines: {node: '>=16'}
-    hasBin: true
-
-  '@playwright/test@1.46.0':
-    resolution: {integrity: sha512-/QYft5VArOrGRP5pgkrfKksqsKA6CEFyGQ/gjNe6q0y4tZ1aaPfq4gIjudr1s3D+pXyrPRdsy4opKDrjBabE5w==}
+  '@playwright/test@1.46.1':
+    resolution: {integrity: sha512-Fq6SwLujA/DOIvNC2EL/SojJnkKf/rAwJ//APpJJHRyMi1PdKrY3Az+4XNQ51N4RTbItbIByQ0jgd1tayq1aeA==}
     engines: {node: '>=18'}
     hasBin: true
 
@@ -6614,23 +6609,13 @@ packages:
   pkg-types@1.0.3:
     resolution: {integrity: sha512-nN7pYi0AQqJnoLPC9eHFQ8AcyaixBUOwvqc5TDnIKCMEE6I0y8P7OKA7fPexsXGCGxQDl/cmrLAp26LhcwxZ4A==}
 
-  playwright-core@1.42.1:
-    resolution: {integrity: sha512-mxz6zclokgrke9p1vtdy/COWBH+eOZgYUVVU34C73M+4j4HLlQJHtfcqiqqxpP0o8HhMkflvfbquLX5dg6wlfA==}
-    engines: {node: '>=16'}
-    hasBin: true
-
-  playwright-core@1.46.0:
-    resolution: {integrity: sha512-9Y/d5UIwuJk8t3+lhmMSAJyNP1BUC/DqP3cQJDQQL/oWqAiuPTLgy7Q5dzglmTLwcBRdetzgNM/gni7ckfTr6A==}
+  playwright-core@1.46.1:
+    resolution: {integrity: sha512-h9LqIQaAv+CYvWzsZ+h3RsrqCStkBHlgo6/TJlFst3cOTlLghBQlJwPOZKQJTKNaD3QIB7aAVQ+gfWbN3NXB7A==}
     engines: {node: '>=18'}
     hasBin: true
 
-  playwright@1.42.1:
-    resolution: {integrity: sha512-PgwB03s2DZBcNRoW+1w9E+VkLBxweib6KTXM0M3tkiT4jVxKSi6PmVJ591J+0u10LUrgxB7dLRbiJqO5s2QPMg==}
-    engines: {node: '>=16'}
-    hasBin: true
-
-  playwright@1.46.0:
-    resolution: {integrity: sha512-XYJ5WvfefWONh1uPAUAi0H2xXV5S3vrtcnXe6uAOgdGi3aSpqOSXX08IAjXW34xitfuOJsvXU5anXZxPSEQiJw==}
+  playwright@1.46.1:
+    resolution: {integrity: sha512-oPcr1yqoXLCkgKtD5eNUPLiN40rYEM39odNpIb6VE6S7/15gJmA1NzVv6zJYusV0e7tzvkU/utBFNa/Kpxmwng==}
     engines: {node: '>=18'}
     hasBin: true
 
@@ -9888,7 +9873,7 @@ snapshots:
       '@jridgewell/resolve-uri': 3.1.2
       '@jridgewell/sourcemap-codec': 1.4.15
 
-  '@kitql/eslint-config@0.3.3(@babel/core@7.24.4)(@ianvs/prettier-plugin-sort-imports@4.1.1(@vue/compiler-sfc@3.4.7)(prettier@3.2.4))(@types/node@20.12.7)(graphql@16.8.1)':
+  '@kitql/eslint-config@0.3.3(@babel/core@7.24.4)(@ianvs/prettier-plugin-sort-imports@4.1.1(prettier@3.2.4))(@types/node@20.12.7)(graphql@16.8.1)':
     dependencies:
       '@graphql-eslint/eslint-plugin': 3.20.1(@babel/core@7.24.4)(@types/node@20.12.7)(graphql@16.8.1)
       '@kitql/helpers': 0.8.9
@@ -9905,7 +9890,7 @@ snapshots:
       prettier: 3.2.4
       prettier-plugin-sh: 0.14.0(prettier@3.2.4)
       prettier-plugin-svelte: 3.2.2(prettier@3.2.4)(svelte@4.2.0)
-      prettier-plugin-tailwindcss: 0.5.7(@ianvs/prettier-plugin-sort-imports@4.1.1(@vue/compiler-sfc@3.4.7)(prettier@3.2.4))(prettier-plugin-svelte@3.2.2(prettier@3.2.4)(svelte@4.2.8))(prettier@3.2.4)
+      prettier-plugin-tailwindcss: 0.5.7(@ianvs/prettier-plugin-sort-imports@4.1.1(prettier@3.2.4))(prettier-plugin-svelte@3.2.2(prettier@3.2.4)(svelte@4.2.8))(prettier@3.2.4)
       svelte: 4.2.0
       typescript: 5.4.2
     transitivePeerDependencies:
@@ -10322,13 +10307,9 @@ snapshots:
       picocolors: 1.0.0
       tslib: 2.6.2
 
-  '@playwright/test@1.42.1':
+  '@playwright/test@1.46.1':
     dependencies:
-      playwright: 1.42.1
-
-  '@playwright/test@1.46.0':
-    dependencies:
-      playwright: 1.46.0
+      playwright: 1.46.1
 
   '@polka/url@1.0.0-next.25': {}
 
@@ -16435,19 +16416,11 @@ snapshots:
       mlly: 1.4.2
       pathe: 1.1.1
 
-  playwright-core@1.42.1: {}
+  playwright-core@1.46.1: {}
 
-  playwright-core@1.46.0: {}
-
-  playwright@1.42.1:
+  playwright@1.46.1:
     dependencies:
-      playwright-core: 1.42.1
-    optionalDependencies:
-      fsevents: 2.3.2
-
-  playwright@1.46.0:
-    dependencies:
-      playwright-core: 1.46.0
+      playwright-core: 1.46.1
     optionalDependencies:
       fsevents: 2.3.2
 
@@ -16747,7 +16720,7 @@ snapshots:
       prettier: 3.2.4
       svelte: 4.2.0
 
-  prettier-plugin-tailwindcss@0.5.7(@ianvs/prettier-plugin-sort-imports@4.1.1(@vue/compiler-sfc@3.4.7)(prettier@3.2.4))(prettier-plugin-svelte@3.2.2(prettier@3.2.4)(svelte@4.2.8))(prettier@3.2.4):
+  prettier-plugin-tailwindcss@0.5.7(@ianvs/prettier-plugin-sort-imports@4.1.1(prettier@3.2.4))(prettier-plugin-svelte@3.2.2(prettier@3.2.4)(svelte@4.2.8))(prettier@3.2.4):
     dependencies:
       prettier: 3.2.4
     optionalDependencies:
