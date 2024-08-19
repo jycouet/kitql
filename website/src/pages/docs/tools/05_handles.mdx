@@ -84,12 +84,27 @@ export default defineConfig({
 ### `handleProxies`
 
 Creates a handler which, for requests matching a given path prefix in the given options, proxies the
-request to the `to` URL in the corresponding `ProxyOptions`. Any path elements after the
-matching prefix are preserved, e.g. a request to `/from/some/other/path` will be proxied to
+request to the `to` URL in the corresponding `ProxyOptions`. Any path elements after the matching
+prefix are preserved, e.g. a request to `/from/some/other/path` will be proxied to
 `to/some/other/path`. The request method, body, and headers are preserved, with the exception of the
 `Host` header which is set to the proxy target hostname.
 
+If a `requestHook` is defined, it is called with the original request event before the returned
+request is proxied. This allows for modifying the request before it is sent, e.g. to add or remove
+authentication headers, api keys, etc. If the returned request is to a URL with the same origin as
+the initial request and a path that also starts with the current path prefix, that request path is
+proxied; otherwise, the returned request path is not modified before it is fetched. If the
+`requestHook` function throws, the request is not proxied and a response corresponding to the thrown
+object (matching Sveltekit endpoint behavior) is returned to the client instead.
+
 If multiple options entries would match a request, the first matching entry is used.
+
+For requests matching a path prefix in options that do not have an `Origin` header or that have an
+`Origin` header not matching the request's origin, a 403 Forbidden response is returned. This
+prevents use of the proxy by other browser applications, but (**IMPORTANT**) does not prevent abuse
+of the proxy by applications that can set the `Origin` header manually to match. To prevent this,
+you can require user authentication and authorization before allowing proxying, validating either in
+a preceding hook or directly in the `requestHook`.
 
 ```ts filename="src/hooks.server.ts"
 import { sequence } from '@sveltejs/kit/hooks'
@@ -212,23 +227,38 @@ export const handle = sequence(
 
 ### `handleProxies`: `ProxyOptions`
 
-#### from
-
-> **from**: `string`
-
-The path prefix to match for requests to proxy.
-
 #### to
 
 > **to**: `string`
 
 The URL to which to proxy requests.
 
+#### requestHook
+
+> `optional` **requestHook**: `(event: RequestEvent) => MaybePromise<Request>`
+
+A function that is called with the original request event before the request is proxied. The
+function can modify the request before it is sent, e.g. to add or remove authentication headers, api
+keys, etc. If the returned request is to a URL with the same origin as the initial request and a
+path that also starts with the matched path prefix, that request path is proxied; otherwise, the
+returned request path is not modified before it is fetched. If the `requestHook` function throws,
+the request is not proxied and a response corresponding to the thrown object (matching Sveltekit
+endpoint behavior) is returned to the client instead.
+
+### `handleProxies`: `OptionsByStringPath`
+
+An array of tuples, where the first element is a string to match against the request URL pathname,
+and the second element is the options to apply in the event of a match. A request matches if the
+request URL pathname begins with the provided string. If multiple entries match a request, the first
+matching entry is used.
+
 ### `handleCors` and `handleCsrf`: `OptionsByPath`
 
-An array of tuples, where the first element is a path or RegExp to match against the request path,
-and the second element is the options to apply to requests matching that path. If multiple entries
-match a request, the first matching entry is used.
+An array of tuples, where the first element is a string or RegExp to match against the request URL
+pathname, and the second element is the options to apply in the event of a match. If a string is
+provided, the request URL pathname must begin with the provided string; if a RegExp is provided, it
+is tested against the request URL pathname using `RegExp.test`. If multiple entries match a request,
+the first matching entry is used.
 
 ### `handleCors` and `createCorsWrapper`: `CorsOptions`
 
