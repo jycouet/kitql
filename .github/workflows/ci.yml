@@ -70,7 +70,7 @@ jobs:
           cd packages/create-kitql && pnpm dev test-${{ matrix.template }} -t ${{ matrix.template }}
 
       - name: 🧑‍💻 Install playwright
-        run: cd packages/create-kitql/test-${{ matrix.template }} && npx playwright@1.42.1 install
+        run: cd packages/create-kitql/test-${{ matrix.template }} && npx playwright@1.46.1 install
 
       - name: 🛠️ e2e install
         run: cd packages/create-kitql/test-${{ matrix.template }} && pnpm i --no-frozen-lockfile

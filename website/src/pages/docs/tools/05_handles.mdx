@@ -6,7 +6,7 @@ import { Callout, NPMBadge } from '@theguild/components'
   _**KitQL** itself is not a library, it's "nothing" but a collection of standalone libraries._
 </Callout>
 
-A set of handles that can help 🫵!
+A set of handles and utilities for request handling customization in SvelteKit 🫵!
 
 ## Installation
 
@@ -14,16 +14,284 @@ A set of handles that can help 🫵!
 npm i -D @kitql/handles
 ```
 
-## Configuration
+## Utilities
+
+- `handleProxies` - implements a reverse proxy that forwards from a path to a given external
+  service. Useful for hiding a backing service from clients.
+- `handleCors` - applies CORS headers to set of defined routes. The configuration options allowed
+  per route are a subset of those used by the
+  [cors](https://www.npmjs.com/package/cors#configuration-options) package, for easy migration.
+- `handleCsrf` - allows cross-site form submissions to a set of defined routes. The allowed origins
+  for submissions can be configured per route. For all other routes, implements the default CSRF
+  behavior of SvelteKit, where all cross-site form submissions are blocked.
+- `createCorsWrapper` - creates a wrapper around a `RequestHandler` that adds CORS headers to the
+  request. This allows enabling CORS on one specific route `+server.ts` without needing to modify
+  `hooks.server.ts`.
+
+## Required SvelteKit / Vite Configuration Changes
+
+### `handleCsrf`
+
+To use `handleCsrf`, disable SvelteKit's default CSRF blocking behavior. `handleCsrf` will duplicate
+the behavior of the default CSRF blocking for any routes that are not specifically configured.
+
+```js filename="svelte.config.js"
+const config = {
+  kit: {
+    // ... other kit options
+    // disable sveltekit built-in CSRF blocking - this is replaced by `handleCsrf`
+    csrf: {
+      checkOrigin: false
+    }
+  }
+}
+```
+
+### `handleCors` and `createCorsWrapper`
+
+Not strictly necessary, but recommended: when using `handleCors` or `createCorsWrapper`, disable
+Vite's default addition of wildcard CORS headers in
+[development](https://vitejs.dev/config/server-options#server-cors) and
+[preview](https://vitejs.dev/config/preview-options#preview-cors) mode. This allows you to test your
+CORS configuration as it would behave in production.
+
+Note that you need to specify `cors: { origin: false }` rather than disabling cors entirely with
+`cors: false`, as the SvelteKit vite plugin
+[adds its own CORS configuration](https://github.com/sveltejs/kit/blob/2b19df3855b13737399a7173f25e4fecbd7f689a/packages/kit/src/exports/vite/index.js#L262)
+with `cors: { preflightContinue: true }`. This is not included in the warning logging for overriden
+config entries due to [a SvelteKit vite plugin issue](https://github.com/sveltejs/kit/issues/12574).
+
+```ts filename="vite.config.ts"
+export default defineConfig({
+  // ... plugins, etc
+  // disable automatic CORS header addition in dev
+  server: {
+    cors: {
+      origin: false
+    }
+  },
+  // disable automatic CORS header addition in preview
+  preview: {
+    cors: {
+      origin: false
+    }
+  }
+})
+```
+
+## Usage
+
+### `handleProxies`
+
+Creates a handler which, for requests matching a given `from` prefix in the given options, proxies
+the request to the `to` URL. Any path elements after the matching prefix are preserved, e.g. a
+request to `/from/some/other/path` will be proxied to `to/some/other/path`. The request method,
+body, and headers are preserved, with the exception of the `Host` header which is set to the proxy
+target hostname.
+
+If multiple options entries match a request, the first matching entry is used, and a warning is
+logged in development.
 
 ```ts filename="src/hooks.server.ts"
-import { handleProxies } from '@kitql/handles'
 import { sequence } from '@sveltejs/kit/hooks'
 
+import { handleProxies } from '@kitql/handles'
+
 export const handle = sequence(
-  // Proxy requests through kit
+  // Forwards all requests to paths beginning with `/proxy` to
+  // `http://my.super.website/graphql`. Subpaths are preserved, e.g. `/proxy/api/path` is
+  // forwarded to `http://my.super.website/graphql/api/path`.
   handleProxies({ proxies: [{ from: '/proxy', to: 'http://my.super.website/graphql' }] })
 )
 ```
 
 This way, customers will never see the url `http://my.super.website/graphql`.
+
+### `handleCors`
+
+```ts filename="src/hooks.server.ts"
+import { sequence } from '@sveltejs/kit/hooks'
+
+import { handleCors } from '@kitql/handles'
+
+export const handle = sequence(
+  handleCors([
+    // default options: set origin to '*', allow methods 'GET,HEAD,PUT,PATCH,POST,DELETE',
+    // reflect request `Access-Control-Request-Headers` value to `Access-Control-Allow-Headers`
+    ['/api/cors-handler/default-options', {}],
+    // reflect request origin to `Access-Control-Allow-Origin`, use other defaults
+    [/some-path-regex\/*\/reflect/, { origin: true }],
+    [
+      '/api/cors-handler/complex-options',
+      {
+        // allow only trusted origins, defined by either string or matching regex
+        origin: ['http://google.com', /trusted-domain/],
+        // allow only certain methods
+        methods: ['GET', 'PUT'],
+        // customize allowed headers
+        allowedHeaders: 'X-Allowed-Header',
+        // customize exposed headers
+        exposedHeaders: 'X-Exposed-Header',
+        // set `Access-Control-Allow-Credentials` header to 'true'
+        credentials: true,
+        // set `Access-Control-Max-Age` header to 42
+        maxAge: 42
+        // return 200 status code rather than 204 for preflight requests
+        optionsStatusSuccess: 200,
+      }
+    ]
+  ])
+)
+```
+
+### `createCorsWrapper`
+
+```ts filename="src/routes/api/endpoint/+server.ts"
+import { json } from '@sveltejs/kit'
+
+import { createCorsWrapper } from '@kitql/handles'
+
+const wrapper = createCorsWrapper({
+  origin: ['http://my-trusted-origin.dev', /other-trusted-origin-regex/],
+  methods: ['GET', 'POST']
+  // other options, matching those for `handleCors`
+})
+
+// default options handler, which returns the status code defined in the
+// `createCorsWrapper` options, or 204 if none is provided.
+export const OPTIONS = wrapper.OPTIONS
+
+// alternatively, you can define your own options handler if you need to
+// customize the response, e.g. with additional headers.
+export const OPTIONS = wrapper(
+  () => new Response(null, { status: 204, headers: { 'X-Custom-Header': 'custom value' } }),
+)
+
+// wrap your request handlers with the wrapper to correctly set CORS headers
+export const GET = wrapper(() => json({ message: 'Success message' }))
+export const POST = wrapper((event) => { ... })
+```
+
+### `handleCsrf`
+
+Creates a handler which blocks cross-site form submissions not explicitly enabled by the given
+options. The logic is ported from the native SvelteKit CSRF prevention logic, with the addition of
+the ability to selectively disable this protection for specific routes and (optionally) limit the
+allowed request origins for cross-site form submissions for those routes. See:
+[respond.js](https://github.com/sveltejs/kit/blob/008056b6ef33b554f8b03131c2635cc14b677ff1/packages/kit/src/runtime/server/respond.js#L63)
+
+If a form submission request's origin does not match the target URL origin, the request is checked
+against the provided options. If the request's path matches a `path` in the options, and the request
+origin is allowed by the `origin` in the options, the request is allowed to proceed.
+
+Any requests not matching a `path` in the options, or for which the request origin is not allowed,
+are blocked with status 403.
+
+The logic for detecting which requests should be subject to CSRF protection is also ported from
+SvelteKit. A request is subject to CSRF protection if:
+
+- the request origin does not match the target URL origin (i.e. the app origin)
+- the method is POST, PUT, PATCH, or DELETE
+- the content type is application/x-www-form-urlencoded, multipart/form-data, or text/plain
+
+```ts filename="src/hooks.server.ts"
+import { sequence } from '@sveltejs/kit/hooks'
+
+import { handleCsrf } from '@kitql/handles'
+
+export const handle = sequence(
+  handleCsrf([
+    // allow cross-site form submissions from all origins
+    ['/api/csrf-handler/all-origins', { origin: true }],
+    // allow cross-site form submissions from only certain origins
+    [(/\/api\/csrf-handler\/some-origins/, { origin: ['http://google.com', /trusted-domain/] })]
+  ])
+)
+```
+
+## Configuration Options
+
+### `handleProxies`: `ProxyOptions`
+
+#### from
+
+> **from**: `string`
+
+The path prefix to match for requests to proxy.
+
+#### to
+
+> **to**: `string`
+
+The URL to which to proxy requests.
+
+### `handleCors` and `handleCsrf`: `OptionsByPath`
+
+An array of tuples, where the first element is a path or RegExp to match against the request path,
+and the second element is the options to apply to requests matching that path. If multiple entries
+match a request, the first matching entry is used.
+
+### `handleCors` and `createCorsWrapper`: `CorsOptions`
+
+#### origin?
+
+> `optional` **origin**: `boolean` \| `string` \| `RegExp` \| (`string` \| `RegExp`)[]
+
+If `true`, reflects request origin in `Access-Control-Allow-Origin`. If set to a specific string,
+sets `Access-Control-Allow-Origin` to that value. If a RegExp or an array of strings/RegExps,
+reflects the request origin in `Access-Control-Allow-Origin` if it matches any of the strings /
+RegExps provided. If explicitly set to `false` or `undefined`, does not set the
+`Access-Control-Allow-Origin` header. Defaults to `'*'`.
+
+#### allowedHeaders?
+
+> `optional` **allowedHeaders**: `string` \| `boolean` \| `string`[]
+
+Sets `Access-Control-Allow-Headers` to the given string or array of strings (joined with `,`). If
+set to `true`, reflects the `Access-Control-Request-Headers` header. If explicitly set to `false`,
+or `undefined`, does not set the `Access-Control-Allow-Headers` header. Defaults to `true`.
+
+#### credentials?
+
+> `optional` **credentials**: `boolean`
+
+Sets `Access-Control-Allow-Credentials` to `true` if `true`, or unset if `false`. Defaults to
+`false`.
+
+#### exposedHeaders?
+
+> `optional` **exposedHeaders**: `string` \| `string`[]
+
+Sets `Access-Control-Expose-Headers` to the given string or array of strings (joined with `,`). If
+not specified, does not set `Access-Control-Expose-Headers`.
+
+#### maxAge?
+
+> `optional` **maxAge**: `number`
+
+Sets `Access-Control-Max-Age` to the given number. If unset, does not set `Access-Control-Max-Age`.
+
+#### methods?
+
+> `optional` **methods**: `string` \| `string`[]
+
+Sets `Access-Control-Allow-Methods` to the given string or array of strings (joined with `,`). If
+explicitly set to `undefined`, does not set the `Access-Control-Allow-Methods` header. Defaults to
+`'GET,HEAD,PUT,PATCH,POST,DELETE'`.
+
+#### optionsStatusSuccess?
+
+> `optional` **optionsStatusSuccess**: `number`
+
+If set, returns the given status code for preflight requests. If unset, returns 204. Useful for
+clients that fail if an OPTIONS request returns 204 (mostly legacy browsers).
+
+### `handleCsrf`: `CsrfOptions`
+
+#### origin
+
+> **origin**: `boolean` \| `string` \| `RegExp` \| (`string` \| `RegExp`)[]
+
+If `true`, allows all origins to perform cross-site form submissions. If set to a specific string, a
+RegExp, or an array of strings/RegExps, allows cross-site form submissions if the request origin
+matches the provided allowed origins. If set to `false`, cross-site form submissions are blocked.

@@ -1,26 +1,28 @@
-import { error } from '@sveltejs/kit'
+import type { Handle } from '@sveltejs/kit'
 import { DEV } from 'esm-env'
 
 import { Log } from '@kitql/helpers'
 
+import { httpErrorResponse } from './hook-error.js'
+
 const log = new Log('handleProxies')
 
+export type ProxyDefinition = { from: string; to: string }
+export type HandleProxiesOptions = { proxies: ProxyDefinition[] }
+
 /**
- * usage:
- *	import { sequence } from '@sveltejs/kit/hooks';
- *	import { handleProxies } from '@kitql/handles'
+ * Creates a handler which, for requests matching a given `from` prefix in the given options,
+ * proxies the request to the `to` URL. Any path elements after the matching prefix are preserved,
+ * e.g. a request to `/from/some/other/path` will be proxied to `to/some/other/path`. The request
+ * method, body, and headers are preserved, with the exception of the `Host` header which is set to
+ * the proxy target hostname.
  *
- *	export const handle = sequence(
- *		// Proxy requests through kit
- *		handleProxies({ proxies: [{ from: "/proxy", to: "http://my.super.website/graphql" }] }),
- *	);
- *
- * @param {import('./handleProxies.t.js').handleProxiesOptions} options
+ * If multiple options entries match a request, the first matching entry is used, and a warning is
+ * logged in development.
  */
-export const handleProxies = (options) => {
-  /** @type {import('@sveltejs/kit').Handle} */
+export function handleProxies({ proxies }: HandleProxiesOptions): Handle {
   return async ({ event, resolve }) => {
-    const proxies_found = options.proxies.filter((c) => event.url.pathname.startsWith(c.from))
+    const proxies_found = proxies.filter((c) => event.url.pathname.startsWith(c.from))
 
     // We should not find more than 1
     if (proxies_found.length > 0) {
@@ -33,7 +35,7 @@ export const handleProxies = (options) => {
 
       // reject requests that don't come from the webapp, to avoid your proxy being abused.
       if (!origin || new URL(origin).origin !== event.url.origin) {
-        error(403, 'Request Forbidden.')
+        return httpErrorResponse(event.request, 403, 'Forbidden')
       }
 
       // strip "from" from the request path
@@ -51,7 +53,9 @@ export const handleProxies = (options) => {
           body: event.request.body,
           method: event.request.method,
           headers: requestHeaders,
-          // @ts-ignore
+          // typescript does not yet support the `duplex` property of `RequestInit`
+          // see: https://github.com/microsoft/TypeScript-DOM-lib-generator/issues/1483
+          // @ts-expect-error
           duplex: 'half',
         })
         .catch((err) => {
@@ -61,7 +65,6 @@ export const handleProxies = (options) => {
         })
     }
 
-    // Fallback to normal request
     return resolve(event)
   }
 }

@@ -51,8 +51,8 @@ importers:
   packages/create-kitql/templates/kit-routes:
     devDependencies:
       '@playwright/test':
-        specifier: ^1.42.1
-        version: 1.42.1
+        specifier: ^1.46.1
+        version: 1.46.1
       '@sveltejs/adapter-auto':
         specifier: ^3.0.0
         version: 3.0.0(@sveltejs/kit@2.5.3(@sveltejs/vite-plugin-svelte@3.0.1(svelte@4.2.8)(vite@5.0.10(@types/node@20.12.7)(terser@5.30.3)))(svelte@4.2.8)(vite@5.0.10(@types/node@20.12.7)(terser@5.30.3)))
@@ -109,10 +109,10 @@ importers:
     devDependencies:
       '@kitql/eslint-config':
         specifier: latest
-        version: 0.3.3(@babel/core@7.24.4)(@ianvs/prettier-plugin-sort-imports@4.1.1(@vue/compiler-sfc@3.4.7)(prettier@3.2.4))(@types/node@20.12.7)(graphql@16.8.1)
+        version: 0.3.3(@babel/core@7.24.4)(@ianvs/prettier-plugin-sort-imports@4.1.1(prettier@3.2.4))(@types/node@20.12.7)(graphql@16.8.1)
       '@playwright/test':
-        specifier: ^1.42.1
-        version: 1.42.1
+        specifier: ^1.46.1
+        version: 1.46.1
       '@sveltejs/adapter-auto':
         specifier: ^3.0.0
         version: 3.0.0(@sveltejs/kit@2.5.3(@sveltejs/vite-plugin-svelte@3.0.1(svelte@4.2.8)(vite@5.0.10(@types/node@20.12.7)(terser@5.30.3)))(svelte@4.2.8)(vite@5.0.10(@types/node@20.12.7)(terser@5.30.3)))
@@ -169,7 +169,7 @@ importers:
         version: 2.0.2(@vue/compiler-sfc@3.4.7)(prettier@3.2.4)
       '@typescript-eslint/eslint-plugin':
         specifier: 7.7.0
-        version: 7.7.0(@typescript-eslint/parser@7.7.0(eslint@8.57.0)(typescript@5.4.2))(eslint@8.57.0)(typescript@5.4.2)
+        version: 7.7.0(@typescript-eslint/parser@7.7.0(eslint@8.57.0)(typescript@5.3.2))(eslint@8.57.0)(typescript@5.4.2)
       '@typescript-eslint/parser':
         specifier: 7.7.0
         version: 7.7.0(eslint@8.57.0)(typescript@5.4.2)
@@ -190,7 +190,7 @@ importers:
         version: 2.39.3(eslint@8.57.0)(svelte@4.2.0)
       eslint-plugin-unused-imports:
         specifier: 3.2.0
-        version: 3.2.0(@typescript-eslint/eslint-plugin@7.7.0(@typescript-eslint/parser@7.7.0(eslint@8.57.0)(typescript@5.4.2))(eslint@8.57.0)(typescript@5.4.2))(eslint@8.57.0)
+        version: 3.2.0(@typescript-eslint/eslint-plugin@7.7.0(@typescript-eslint/parser@7.7.0(eslint@8.57.0)(typescript@5.3.2))(eslint@8.57.0)(typescript@5.4.2))(eslint@8.57.0)
       prettier:
         specifier: 3.2.4
         version: 3.2.4
@@ -202,7 +202,7 @@ importers:
         version: 3.2.2(prettier@3.2.4)(svelte@4.2.0)
       prettier-plugin-tailwindcss:
         specifier: 0.5.7
-        version: 0.5.7(@ianvs/prettier-plugin-sort-imports@4.1.1(@vue/compiler-sfc@3.4.7)(prettier@3.2.4))(prettier-plugin-svelte@3.2.2(prettier@3.2.4)(svelte@4.2.8))(prettier@3.2.4)
+        version: 0.5.7(@ianvs/prettier-plugin-sort-imports@4.1.1(prettier@3.2.4))(prettier-plugin-svelte@3.2.2(prettier@3.2.4)(svelte@4.2.8))(prettier@3.2.4)
       svelte:
         specifier: 4.2.0
         version: 4.2.0
@@ -215,6 +215,9 @@ importers:
       esm-env:
         specifier: ^1.0.0
         version: 1.0.0
+      vary:
+        specifier: ^1.1.2
+        version: 1.1.2
     devDependencies:
       '@kitql/eslint-config':
         specifier: workspace:*
@@ -222,6 +225,9 @@ importers:
       '@kitql/helpers':
         specifier: workspace:*
         version: link:../helpers/dist
+      '@playwright/test':
+        specifier: ^1.46.1
+        version: 1.46.1
       '@sveltejs/adapter-node':
         specifier: ^5.0.0
         version: 5.0.0(@sveltejs/kit@2.5.3(@sveltejs/vite-plugin-svelte@3.0.1(svelte@4.2.1)(vite@5.0.10(@types/node@20.12.7)(terser@5.30.3)))(svelte@4.2.1)(vite@5.0.10(@types/node@20.12.7)(terser@5.30.3)))
@@ -234,6 +240,9 @@ importers:
       '@sveltejs/vite-plugin-svelte':
         specifier: ^3.0.0
         version: 3.0.1(svelte@4.2.1)(vite@5.0.10(@types/node@20.12.7)(terser@5.30.3))
+      '@types/vary':
+        specifier: ^1.1.3
+        version: 1.1.3
       publint:
         specifier: 0.2.4
         version: 0.2.4
@@ -1959,9 +1968,9 @@ packages:
     resolution: {integrity: sha512-POgTXhjrTfbTV63DiFXav4lBHiICLKKwDeaKn9Nphwj7WH6m0hMMCaJkMyRWjgtPFyRKRVoMXXjczsTQRDEhYw==}
     engines: {node: ^12.20.0 || ^14.18.0 || >=16.0.0}
 
-  '@playwright/test@1.42.1':
-    resolution: {integrity: sha512-Gq9rmS54mjBL/7/MvBaNOBwbfnh7beHvS6oS4srqXFcQHpQCV1+c8JXWE8VLPyRDhgS3H8x8A7hztqI9VnwrAQ==}
-    engines: {node: '>=16'}
+  '@playwright/test@1.46.1':
+    resolution: {integrity: sha512-Fq6SwLujA/DOIvNC2EL/SojJnkKf/rAwJ//APpJJHRyMi1PdKrY3Az+4XNQ51N4RTbItbIByQ0jgd1tayq1aeA==}
+    engines: {node: '>=18'}
     hasBin: true
 
   '@polka/url@1.0.0-next.25':
@@ -2598,6 +2607,9 @@ packages:
 
   '@types/unist@3.0.0':
     resolution: {integrity: sha512-MFETx3tbTjE7Uk6vvnWINA/1iJ7LuMdO4fcq8UfF0pRbj01aGLduVvQcRyswuACJdpnHgg8E3rQLhaRdNEJS0w==}
+
+  '@types/vary@1.1.3':
+    resolution: {integrity: sha512-XJT8/ZQCL7NUut9QDLf6l24JfAEl7bnNdgxfj50cHIpEPRJLHHDDFOAq6i+GsEmeFfH7NamhBE4c4Thtb2egWg==}
 
   '@types/ws@8.5.7':
     resolution: {integrity: sha512-6UrLjiDUvn40CMrAubXuIVtj2PEfKDffJS7ychvnPU44j+KVeXmdHHTgqcM/dxLUTHxlXHiFM8Skmb8ozGdTnQ==}
@@ -6597,14 +6609,14 @@ packages:
   pkg-types@1.0.3:
     resolution: {integrity: sha512-nN7pYi0AQqJnoLPC9eHFQ8AcyaixBUOwvqc5TDnIKCMEE6I0y8P7OKA7fPexsXGCGxQDl/cmrLAp26LhcwxZ4A==}
 
-  playwright-core@1.42.1:
-    resolution: {integrity: sha512-mxz6zclokgrke9p1vtdy/COWBH+eOZgYUVVU34C73M+4j4HLlQJHtfcqiqqxpP0o8HhMkflvfbquLX5dg6wlfA==}
-    engines: {node: '>=16'}
+  playwright-core@1.46.1:
+    resolution: {integrity: sha512-h9LqIQaAv+CYvWzsZ+h3RsrqCStkBHlgo6/TJlFst3cOTlLghBQlJwPOZKQJTKNaD3QIB7aAVQ+gfWbN3NXB7A==}
+    engines: {node: '>=18'}
     hasBin: true
 
-  playwright@1.42.1:
-    resolution: {integrity: sha512-PgwB03s2DZBcNRoW+1w9E+VkLBxweib6KTXM0M3tkiT4jVxKSi6PmVJ591J+0u10LUrgxB7dLRbiJqO5s2QPMg==}
-    engines: {node: '>=16'}
+  playwright@1.46.1:
+    resolution: {integrity: sha512-oPcr1yqoXLCkgKtD5eNUPLiN40rYEM39odNpIb6VE6S7/15gJmA1NzVv6zJYusV0e7tzvkU/utBFNa/Kpxmwng==}
+    engines: {node: '>=18'}
     hasBin: true
 
   pluralize@8.0.0:
@@ -8373,6 +8385,10 @@ packages:
     resolution: {integrity: sha512-Z6Uz+TYwEqE7ZN50gwn+1LCVo9ZVrpxRPOhOLnncYkY1ZzOYtrX8Fwf/rFktZ8R5mJms6EZf5TqNOMeZmnPq9Q==}
     engines: {node: '>=12'}
 
+  vary@1.1.2:
+    resolution: {integrity: sha512-BNGbWLfd0eUPabhkXUVm0j8uuvREyTh5ovRa/dyow/BqAbZJyC+5fU+IzQOzmAKzYqYRAISoRhdQr3eIZ/PXqg==}
+    engines: {node: '>= 0.8'}
+
   vfile-location@5.0.2:
     resolution: {integrity: sha512-NXPYyxyBSH7zB5U6+3uDdd6Nybz6o6/od9rk8bp9H8GR3L+cm/fC0uUTbqBmUTnMCUDslAGBOIKNfvvb+gGlDg==}
 
@@ -9857,24 +9873,24 @@ snapshots:
       '@jridgewell/resolve-uri': 3.1.2
       '@jridgewell/sourcemap-codec': 1.4.15
 
-  '@kitql/eslint-config@0.3.3(@babel/core@7.24.4)(@ianvs/prettier-plugin-sort-imports@4.1.1(@vue/compiler-sfc@3.4.7)(prettier@3.2.4))(@types/node@20.12.7)(graphql@16.8.1)':
+  '@kitql/eslint-config@0.3.3(@babel/core@7.24.4)(@ianvs/prettier-plugin-sort-imports@4.1.1(prettier@3.2.4))(@types/node@20.12.7)(graphql@16.8.1)':
     dependencies:
       '@graphql-eslint/eslint-plugin': 3.20.1(@babel/core@7.24.4)(@types/node@20.12.7)(graphql@16.8.1)
       '@kitql/helpers': 0.8.9
       '@theguild/eslint-config': 0.11.1(eslint@8.57.0)(typescript@5.4.2)
       '@theguild/prettier-config': 2.0.2(@vue/compiler-sfc@3.4.7)(prettier@3.2.4)
-      '@typescript-eslint/eslint-plugin': 7.7.0(@typescript-eslint/parser@7.7.0(eslint@8.57.0)(typescript@5.4.2))(eslint@8.57.0)(typescript@5.4.2)
+      '@typescript-eslint/eslint-plugin': 7.7.0(@typescript-eslint/parser@7.7.0(eslint@8.57.0)(typescript@5.3.2))(eslint@8.57.0)(typescript@5.4.2)
       '@typescript-eslint/parser': 7.7.0(eslint@8.57.0)(typescript@5.4.2)
       '@vue/compiler-sfc': 3.4.7
       commander: 12.0.0
       eslint: 8.57.0
       eslint-config-prettier: 9.1.0(eslint@8.57.0)
       eslint-plugin-svelte: 2.39.3(eslint@8.57.0)(svelte@4.2.0)
-      eslint-plugin-unused-imports: 3.2.0(@typescript-eslint/eslint-plugin@7.7.0(@typescript-eslint/parser@7.7.0(eslint@8.57.0)(typescript@5.4.2))(eslint@8.57.0)(typescript@5.4.2))(eslint@8.57.0)
+      eslint-plugin-unused-imports: 3.2.0(@typescript-eslint/eslint-plugin@7.7.0(@typescript-eslint/parser@7.7.0(eslint@8.57.0)(typescript@5.3.2))(eslint@8.57.0)(typescript@5.4.2))(eslint@8.57.0)
       prettier: 3.2.4
       prettier-plugin-sh: 0.14.0(prettier@3.2.4)
       prettier-plugin-svelte: 3.2.2(prettier@3.2.4)(svelte@4.2.0)
-      prettier-plugin-tailwindcss: 0.5.7(@ianvs/prettier-plugin-sort-imports@4.1.1(@vue/compiler-sfc@3.4.7)(prettier@3.2.4))(prettier-plugin-svelte@3.2.2(prettier@3.2.4)(svelte@4.2.8))(prettier@3.2.4)
+      prettier-plugin-tailwindcss: 0.5.7(@ianvs/prettier-plugin-sort-imports@4.1.1(prettier@3.2.4))(prettier-plugin-svelte@3.2.2(prettier@3.2.4)(svelte@4.2.8))(prettier@3.2.4)
       svelte: 4.2.0
       typescript: 5.4.2
     transitivePeerDependencies:
@@ -10291,9 +10307,9 @@ snapshots:
       picocolors: 1.0.0
       tslib: 2.6.2
 
-  '@playwright/test@1.42.1':
+  '@playwright/test@1.46.1':
     dependencies:
-      playwright: 1.42.1
+      playwright: 1.46.1
 
   '@polka/url@1.0.0-next.25': {}
 
@@ -10952,6 +10968,10 @@ snapshots:
 
   '@types/unist@3.0.0': {}
 
+  '@types/vary@1.1.3':
+    dependencies:
+      '@types/node': 20.12.7
+
   '@types/ws@8.5.7':
     dependencies:
       '@types/node': 20.12.7
@@ -10996,7 +11016,7 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@typescript-eslint/eslint-plugin@7.7.0(@typescript-eslint/parser@7.7.0(eslint@8.57.0)(typescript@5.4.2))(eslint@8.57.0)(typescript@5.4.2)':
+  '@typescript-eslint/eslint-plugin@7.7.0(@typescript-eslint/parser@7.7.0(eslint@8.57.0)(typescript@5.3.2))(eslint@8.57.0)(typescript@5.4.2)':
     dependencies:
       '@eslint-community/regexpp': 4.10.0
       '@typescript-eslint/parser': 7.7.0(eslint@8.57.0)(typescript@5.4.2)
@@ -13274,12 +13294,12 @@ snapshots:
       semver: 7.5.4
       strip-indent: 3.0.0
 
-  eslint-plugin-unused-imports@3.2.0(@typescript-eslint/eslint-plugin@7.7.0(@typescript-eslint/parser@7.7.0(eslint@8.57.0)(typescript@5.4.2))(eslint@8.57.0)(typescript@5.4.2))(eslint@8.57.0):
+  eslint-plugin-unused-imports@3.2.0(@typescript-eslint/eslint-plugin@7.7.0(@typescript-eslint/parser@7.7.0(eslint@8.57.0)(typescript@5.3.2))(eslint@8.57.0)(typescript@5.4.2))(eslint@8.57.0):
     dependencies:
       eslint: 8.57.0
       eslint-rule-composer: 0.3.0
     optionalDependencies:
-      '@typescript-eslint/eslint-plugin': 7.7.0(@typescript-eslint/parser@7.7.0(eslint@8.57.0)(typescript@5.4.2))(eslint@8.57.0)(typescript@5.4.2)
+      '@typescript-eslint/eslint-plugin': 7.7.0(@typescript-eslint/parser@7.7.0(eslint@8.57.0)(typescript@5.3.2))(eslint@8.57.0)(typescript@5.4.2)
 
   eslint-plugin-yml@1.10.0(eslint@8.57.0):
     dependencies:
@@ -16396,11 +16416,11 @@ snapshots:
       mlly: 1.4.2
       pathe: 1.1.1
 
-  playwright-core@1.42.1: {}
+  playwright-core@1.46.1: {}
 
-  playwright@1.42.1:
+  playwright@1.46.1:
     dependencies:
-      playwright-core: 1.42.1
+      playwright-core: 1.46.1
     optionalDependencies:
       fsevents: 2.3.2
 
@@ -16700,7 +16720,7 @@ snapshots:
       prettier: 3.2.4
       svelte: 4.2.0
 
-  prettier-plugin-tailwindcss@0.5.7(@ianvs/prettier-plugin-sort-imports@4.1.1(@vue/compiler-sfc@3.4.7)(prettier@3.2.4))(prettier-plugin-svelte@3.2.2(prettier@3.2.4)(svelte@4.2.8))(prettier@3.2.4):
+  prettier-plugin-tailwindcss@0.5.7(@ianvs/prettier-plugin-sort-imports@4.1.1(prettier@3.2.4))(prettier-plugin-svelte@3.2.2(prettier@3.2.4)(svelte@4.2.8))(prettier@3.2.4):
     dependencies:
       prettier: 3.2.4
     optionalDependencies:
@@ -18465,6 +18485,8 @@ snapshots:
       spdx-expression-parse: 3.0.1
 
   value-or-promise@1.0.12: {}
+
+  vary@1.1.2: {}
 
   vfile-location@5.0.2:
     dependencies:
