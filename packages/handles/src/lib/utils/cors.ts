@@ -182,6 +182,11 @@ export interface CorsWrapper {
   OPTIONS: RequestHandler
 }
 
+/**
+ * Creates a {@link CorsWrapper} function that wraps a `RequestHandler` function and applies CORS
+ * headers to the response. Also provides an `OPTIONS` member that returns a default response for
+ * OPTIONS requests.
+ */
 export function createCorsWrapper(options: CorsOptions = {}): CorsWrapper {
   const corsWrapper = function corsWrapper(handler: RequestHandler): RequestHandler {
     return async (event) => {

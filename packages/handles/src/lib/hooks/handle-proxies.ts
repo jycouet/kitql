@@ -3,7 +3,7 @@ import { DEV } from 'esm-env'
 
 import { Log } from '@kitql/helpers'
 
-import { httpErrorResponse } from './hook-error.js'
+import { httpErrorResponse } from '$lib/utils/hook-error.js'
 
 const log = new Log('handleProxies')
 

@@ -1,9 +1,8 @@
 import type { Handle } from '@sveltejs/kit'
 
+import { httpErrorResponse } from '$lib/utils/hook-error.js'
 import { isOriginAllowed, type AllowedOrigin } from '$lib/utils/origins.js'
 import { getMatchingOptionForURL, type OptionsByPath } from '$lib/utils/paths.js'
-
-import { httpErrorResponse } from './hook-error.js'
 
 /**
  * Defines an `AllowedOrigin` specification to limit the origins from which the form submissions are
@@ -21,11 +20,12 @@ export interface CsrfOptions {
  * https://github.com/sveltejs/kit/blob/008056b6ef33b554f8b03131c2635cc14b677ff1/packages/kit/src/runtime/server/respond.js#L63
  *
  * If a form submission request's origin does not match the target URL origin, the request is
- * checked against the provided options. If the request's path matches a `path` in the options, and
- * the request origin is allowed by the `origin` in the options, the request is allowed to proceed.
+ * checked against the provided options. If the request's path matches a path in the options, and
+ * the request origin is allowed by the {@link AllowedOrigin} in the matching {@link CsrfOptions}
+ * for said path, the request is allowed to proceed.
  *
- * Any requests not matching a `path` in the options, or for which the request origin is not
- * allowed, are blocked with status 403.
+ * Any cross-site form submission requests not matching a `path` in the options, or for which the
+ * request origin is not allowed, are blocked with status 403.
  *
  * The logic for detecting which requests should be subject to CSRF protection is also ported from
  * SvelteKit. A request is subject to CSRF protection if:
