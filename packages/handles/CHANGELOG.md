@@ -1,5 +1,11 @@
 # @kitql/handles
 
+## 0.1.7
+
+### Patch Changes
+
+- [#697](https://github.com/jycouet/kitql/pull/697) [`4b7e636`](https://github.com/jycouet/kitql/commit/4b7e63689540f874ae8f284f380e03fa6ca82863) Thanks [@fnimick](https://github.com/fnimick)! - add new handles `handleCors`, `handleCsrf`, and utility `createCorsWrapper`
+
 ## 0.1.6
 
 ### Patch Changes
