@@ -167,6 +167,15 @@ export type Options<T extends RouteMappings = RouteMappings> = {
    */
   extra_search_params?: 'with' | 'without'
 
+  /**
+   * When `never` _(default)_, trailing slashes are removed from the URL.
+   * You can also set it to `always` to add trailing slashes to the URL.
+   * Learn more about trailing slashes in the [SvelteKit documentation](https://kit.svelte.dev/docs/page-options#trailingslash).
+   *
+   * We decide for a global config flag as a first step [link to issue](https://github.com/jycouet/kitql/issues/698).
+   */
+  trailingSlash?: 'never' | 'always'
+
   PAGES?: Partial<{ [K in keyof T['PAGES']]: CustomPath<Extract<T['PAGES'][K], string>> }>
   SERVERS?: Partial<{ [K in keyof T['SERVERS']]: CustomPath<Extract<T['SERVERS'][K], string>> }>
   ACTIONS?: Partial<{ [K in keyof T['ACTIONS']]: CustomPath<Extract<T['ACTIONS'][K], string>> }>
@@ -650,7 +659,10 @@ export function buildMetadata(
 
   const pathBaesStr = options?.path_base ? '${base}' : ''
   const strDefault = paramsDefaults.length > 0 ? `${paramsDefaults.join('\n')}` : ''
-  const strReturn = `\`${pathBaesStr}${toRet}${actionsFormat}${fullSP}\``
+
+  const trailingSlashToUse = o.trailingSlash === 'always' ? '/' : ''
+
+  const strReturn = `\`${pathBaesStr}${toRet}${trailingSlashToUse}${actionsFormat}${fullSP}\``
   const strParams = params.join(', ')
 
   const baseToReturn: MetadataToWrite = {
