@@ -1,5 +1,13 @@
 # eslint-config-kitql
 
+## 0.3.5
+
+### Patch Changes
+
+- [#707](https://github.com/jycouet/kitql/pull/707)
+  [`2667600`](https://github.com/jycouet/kitql/commit/2667600bea6d3e84b31352ee57ae35cec7701ddc)
+  Thanks [@jycouet](https://github.com/jycouet)! - rmv default graphql rules & plugin
+
 ## 0.3.4
 
 ### Patch Changes
