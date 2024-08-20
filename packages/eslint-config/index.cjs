@@ -28,7 +28,7 @@ module.exports = {
     '@typescript-eslint/ban-ts-comment': 'off',
     '@typescript-eslint/no-explicit-any': 'off',
     '@typescript-eslint/no-non-null-assertion': 'off',
-    '@typescript-eslint/ban-types': 'error',
+    '@typescript-eslint/no-unused-expressions': 'off',
   },
   overrides: [
     {
@@ -36,18 +36,6 @@ module.exports = {
       parser: 'svelte-eslint-parser',
       parserOptions: {
         parser: '@typescript-eslint/parser',
-      },
-    },
-    {
-      files: ['*.graphql', '*.gql'],
-      parserOptions: {
-        operations: '**/*.gql',
-        schema: '**/*.graphql',
-      },
-      extends: ['plugin:@graphql-eslint/schema-all', 'plugin:@graphql-eslint/operations-all'],
-      rules: {
-        '@graphql-eslint/alphabetize': 'off',
-        '@graphql-eslint/no-one-place-fragments': 'off',
       },
     },
   ],
