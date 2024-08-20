@@ -1,37 +1,56 @@
 # eslint-config-kitql
 
+## 0.3.4
+
+### Patch Changes
+
+- [`ad9ce9e`](https://github.com/jycouet/kitql/commit/ad9ce9e69badfc08cb554c667829e9574fb6c230)
+  Thanks [@jycouet](https://github.com/jycouet)! - rename remult-kit to firstly
+
 ## 0.3.3
 
 ### Patch Changes
 
-- [#677](https://github.com/jycouet/kitql/pull/677) [`82b16f8`](https://github.com/jycouet/kitql/commit/82b16f8a1430f2bd2ca131b714304d7c9dea73d1) Thanks [@jycouet](https://github.com/jycouet)! - add prefix (default to "none")
+- [#677](https://github.com/jycouet/kitql/pull/677)
+  [`82b16f8`](https://github.com/jycouet/kitql/commit/82b16f8a1430f2bd2ca131b714304d7c9dea73d1)
+  Thanks [@jycouet](https://github.com/jycouet)! - add prefix (default to "none")
 
 ## 0.3.2
 
 ### Patch Changes
 
-- [#629](https://github.com/jycouet/kitql/pull/629) [`f474d6f`](https://github.com/jycouet/kitql/commit/f474d6f7b4a1aefefb5eed9dce98bec226ea0310) Thanks [@jycouet](https://github.com/jycouet)! - bump internals
+- [#629](https://github.com/jycouet/kitql/pull/629)
+  [`f474d6f`](https://github.com/jycouet/kitql/commit/f474d6f7b4a1aefefb5eed9dce98bec226ea0310)
+  Thanks [@jycouet](https://github.com/jycouet)! - bump internals
 
-- Updated dependencies [[`f474d6f`](https://github.com/jycouet/kitql/commit/f474d6f7b4a1aefefb5eed9dce98bec226ea0310)]:
+- Updated dependencies
+  [[`f474d6f`](https://github.com/jycouet/kitql/commit/f474d6f7b4a1aefefb5eed9dce98bec226ea0310)]:
   - @kitql/helpers@0.8.9
 
 ## 0.3.1
 
 ### Patch Changes
 
-- [#615](https://github.com/jycouet/kitql/pull/615) [`4f1b749`](https://github.com/jycouet/kitql/commit/4f1b74934cde97056767ee74836c2e4517f5c259) Thanks [@jycouet](https://github.com/jycouet)! - bump dep
+- [#615](https://github.com/jycouet/kitql/pull/615)
+  [`4f1b749`](https://github.com/jycouet/kitql/commit/4f1b74934cde97056767ee74836c2e4517f5c259)
+  Thanks [@jycouet](https://github.com/jycouet)! - bump dep
 
 ## 0.3.0
 
 ### Minor Changes
 
-- [#610](https://github.com/jycouet/kitql/pull/610) [`d96f6da`](https://github.com/jycouet/kitql/commit/d96f6daa54dd5e16f18ee82932609dc8cbbc5fe2) Thanks [@jycouet](https://github.com/jycouet)! - let's have a working state
+- [#610](https://github.com/jycouet/kitql/pull/610)
+  [`d96f6da`](https://github.com/jycouet/kitql/commit/d96f6daa54dd5e16f18ee82932609dc8cbbc5fe2)
+  Thanks [@jycouet](https://github.com/jycouet)! - let's have a working state
 
 ## 0.2.0
 
 ### Minor Changes
 
-- [#503](https://github.com/jycouet/kitql/pull/503) [`ad174be`](https://github.com/jycouet/kitql/commit/ad174beb299f8615bba09ac8dab307cbcc13b194) Thanks [@renovate](https://github.com/apps/renovate)! - bump to latest and update config with new defaults
+- [#503](https://github.com/jycouet/kitql/pull/503)
+  [`ad174be`](https://github.com/jycouet/kitql/commit/ad174beb299f8615bba09ac8dab307cbcc13b194)
+  Thanks [@renovate](https://github.com/apps/renovate)! - bump to latest and update config with new
+  defaults
 
 ## 0.1.1
 
