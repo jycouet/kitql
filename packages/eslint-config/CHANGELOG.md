@@ -1,5 +1,12 @@
 # eslint-config-kitql
 
+## 0.3.6
+
+### Patch Changes
+
+- [`19739f4`](https://github.com/jycouet/kitql/commit/19739f43e7a3f5d2dc9d16acdde506edbcad8fe4)
+  Thanks [@jycouet](https://github.com/jycouet)! - revert version bump
+
 ## 0.3.5
 
 ### Patch Changes
