@@ -1052,7 +1052,7 @@ function theEnd(
         pkg.devDependencies['vite-plugin-kit-routes'] ??
         pkg.dependencies['vite-plugin-kit-routes'] ??
         ''
-    } catch (error) {
+    } catch (_error) {
       // silent error
     }
     const stats = []
