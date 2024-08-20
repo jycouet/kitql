@@ -1,4 +1,3 @@
-
 /**
  * A type that represents an allowed origin definition.
  */
