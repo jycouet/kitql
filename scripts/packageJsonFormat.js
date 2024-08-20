@@ -40,10 +40,10 @@ fs.writeFileSync(
       types: './esm/index.d.ts',
       exports: {
         '.': {
-          require: './cjs/index.js',
           types: './esm/index.d.ts',
-          default: './esm/index.js',
+          require: './cjs/index.js',
           svelte: './esm/index.js',
+          default: './esm/index.js',
         },
       },
       engines: {
