@@ -15,7 +15,7 @@ module.exports = {
     '',
     '^(\\$houdini)(.*)$', // special
     '^(remult)(.*)$', // special
-    '^(remult-kit)(.*)$', // special
+    '^(firstly)(.*)$', // special
     '^(@kitql)(.*)$', // special
     '',
     '^(\\$env)(.*)$', // special sveltekit
