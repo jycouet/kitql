@@ -1,22 +1,38 @@
 # @kitql/handles
 
+## 0.2.0
+
+### Minor Changes
+
+- [#704](https://github.com/jycouet/kitql/pull/704)
+  [`e2058bf`](https://github.com/jycouet/kitql/commit/e2058bf02531ef04719ef167f88cde9e7a1f3a4d)
+  Thanks [@fnimick](https://github.com/fnimick)! - [BREAKING] `handleProxies` arguments have changed
+  shape. (doc is up-to-date)
+
 ## 0.1.7
 
 ### Patch Changes
 
-- [#697](https://github.com/jycouet/kitql/pull/697) [`4b7e636`](https://github.com/jycouet/kitql/commit/4b7e63689540f874ae8f284f380e03fa6ca82863) Thanks [@fnimick](https://github.com/fnimick)! - add new handles `handleCors`, `handleCsrf`, and utility `createCorsWrapper`
+- [#697](https://github.com/jycouet/kitql/pull/697)
+  [`4b7e636`](https://github.com/jycouet/kitql/commit/4b7e63689540f874ae8f284f380e03fa6ca82863)
+  Thanks [@fnimick](https://github.com/fnimick)! - add new handles `handleCors`, `handleCsrf`, and
+  utility `createCorsWrapper`
 
 ## 0.1.6
 
 ### Patch Changes
 
-- [#647](https://github.com/jycouet/kitql/pull/647) [`75e0e9d`](https://github.com/jycouet/kitql/commit/75e0e9d7d50ae4c42c69a3321b681cf95076fe3c) Thanks [@jycouet](https://github.com/jycouet)! - log if multiple proxy match
+- [#647](https://github.com/jycouet/kitql/pull/647)
+  [`75e0e9d`](https://github.com/jycouet/kitql/commit/75e0e9d7d50ae4c42c69a3321b681cf95076fe3c)
+  Thanks [@jycouet](https://github.com/jycouet)! - log if multiple proxy match
 
 ## 0.1.5
 
 ### Patch Changes
 
-- [#629](https://github.com/jycouet/kitql/pull/629) [`f474d6f`](https://github.com/jycouet/kitql/commit/f474d6f7b4a1aefefb5eed9dce98bec226ea0310) Thanks [@jycouet](https://github.com/jycouet)! - bump internals
+- [#629](https://github.com/jycouet/kitql/pull/629)
+  [`f474d6f`](https://github.com/jycouet/kitql/commit/f474d6f7b4a1aefefb5eed9dce98bec226ea0310)
+  Thanks [@jycouet](https://github.com/jycouet)! - bump internals
 
 ## 0.1.4
 
