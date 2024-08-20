@@ -11,9 +11,10 @@ module.exports = {
     'prettier',
     'plugin:svelte/recommended',
   ],
-  plugins: ['svelte', '@typescript-eslint'],
+  plugins: ['unused-imports', 'svelte', '@typescript-eslint'],
   rules: {
     'no-console': ['error', { allow: ['info', 'warn', 'error', 'time', 'timeEnd', 'dir'] }],
+    'unused-imports/no-unused-imports': 'error',
     '@typescript-eslint/no-unused-vars': [
       'warn',
       {
