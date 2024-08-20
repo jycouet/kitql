@@ -1,5 +1,5 @@
 import { sveltekit } from '@sveltejs/kit/vite'
-import { defineConfig } from 'vite'
+import { defineConfig } from 'vitest/config'
 
 import type { KIT_ROUTES } from '$lib/ROUTES.js'
 
