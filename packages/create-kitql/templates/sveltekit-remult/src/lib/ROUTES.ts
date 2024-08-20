@@ -36,10 +36,7 @@ type ParamValue = string | number | undefined
 /**
  * Append search params to a string
  */
-export const appendSp = (
-  sp?: Record<string, ParamValue | ParamValue[]>,
-  prefix: '?' | '&' = '?',
-) => {
+export const appendSp = (sp?: Record, prefix: '?' | '&' = '?') => {
   if (sp === undefined) return ''
 
   const params = new URLSearchParams()
@@ -76,7 +73,7 @@ export const appendSp = (
  */
 export const currentSp = () => {
   const params = new URLSearchParams(window.location.search)
-  const record: Record<string, string> = {}
+  const record: Record = {}
   for (const [key, value] of params.entries()) {
     record[key] = value
   }
@@ -107,11 +104,8 @@ type AllTypes = typeof AllObjs
  * route('site_id', { id: 1 })
  * ```
  */
-export function route<T extends FunctionKeys<AllTypes>>(
-  key: T,
-  ...params: FunctionParams<AllTypes[T]>
-): string
-export function route<T extends NonFunctionKeys<AllTypes>>(key: T): string
+export function route<T extends FunctionKeys>(key: T, ...params: FunctionParams): string
+export function route<T extends NonFunctionKeys>(key: T): string
 export function route<T extends keyof AllTypes>(key: T, ...params: any[]): string {
   if ((AllObjs[key] as any) instanceof Function) {
     const element = (AllObjs as any)[key] as (...args: any[]) => string
@@ -138,8 +132,8 @@ export function route<T extends keyof AllTypes>(key: T, ...params: any[]): strin
  */
 export type KIT_ROUTES = {
   PAGES: { '/': never }
-  SERVERS: Record<string, never>
-  ACTIONS: Record<string, never>
+  SERVERS: Record
+  ACTIONS: Record
   LINKS: { twitter_jycouet: never; github_kitql: never; github_remult: never }
-  Params: Record<string, never>
+  Params: Record
 }

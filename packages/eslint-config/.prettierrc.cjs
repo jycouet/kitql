@@ -2,6 +2,7 @@ const { plugins, ...prettierConfig } = require('@theguild/prettier-config')
 
 module.exports = {
   ...prettierConfig,
+  singleQuote: true,
   semi: false,
   arrowParens: 'always',
   plugins: [
