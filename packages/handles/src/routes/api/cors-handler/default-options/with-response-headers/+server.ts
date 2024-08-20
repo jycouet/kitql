@@ -8,5 +8,8 @@ export async function OPTIONS() {
 }
 
 export async function GET() {
-  return json({ message: 'Success message' }, { headers: { 'X-Custom-Header': 'custom get value' } })
+  return json(
+    { message: 'Success message' },
+    { headers: { 'X-Custom-Header': 'custom get value' } },
+  )
 }
