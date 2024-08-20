@@ -3,6 +3,18 @@ import type { Handle } from '@sveltejs/kit'
 import { cors, type CorsOptions } from '$lib/utils/cors.js'
 import { getMatchingOptionForURL, type OptionsByPath } from '$lib/utils/paths.js'
 
+/**
+ * Creates a handler which adds CORS headers to responses for requests matching a given path in
+ * the given options. If multiple options entries would match a request, the first matching entry is
+ * used.
+ *
+ * The behavior of the handler for a matching path is specified by the {@link CorsOptions} object
+ * provided in the options.
+ *
+ * Of note, if a path match is found, the route exists, and no OPTIONS handler is defined for the
+ * route, the handler will return a valid OPTIONS response with the appropriate CORS headers. This
+ * obviates the need for an explicit OPTIONS handler in `+server.ts` endpoints.
+ */
 export function handleCors(options: OptionsByPath<CorsOptions>): Handle {
   return async ({ event, resolve }) => {
     const url = event.url
