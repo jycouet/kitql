@@ -31,3 +31,15 @@ export function stry(
 export function stryEq(obj1: object | null | undefined, obj2: object | null | undefined): boolean {
   return stry0(obj1) === stry0(obj2)
 }
+
+export function midTrim(str: string, o?: { len?: number; midStr?: string }): string {
+  const len = o?.len || 21
+  if (str.length > len) {
+    const midStr = o?.midStr || '...'
+    const reducedLen = len - midStr.length
+    const trimLength = Math.floor(reducedLen / 2)
+    return `${str.slice(0, trimLength).trim()}${midStr}${str.slice(-trimLength).trim()}`
+  }
+
+  return str
+}

@@ -1,6 +1,6 @@
 export type { Prettify } from './Prettify.js'
 export { sleep } from './sleep.js'
-export { stry, stry0, stryEq } from './stry/stry.js'
+export { stry, stry0, stryEq, midTrim } from './stry/stry.js'
 
 export { Log } from './Log.js'
 export {

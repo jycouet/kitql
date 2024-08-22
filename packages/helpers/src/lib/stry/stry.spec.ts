@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 
-import { stry, stry0, stryEq } from './stry.js'
+import { midTrim, stry, stry0, stryEq } from './stry.js'
 
 describe('kitql - helper - stry', () => {
   it('space 2', () => {
@@ -194,5 +194,49 @@ describe('kitql - helper - stryEq', () => {
 
     const result = stryEq(obj1, obj2)
     expect(result).toBe(false)
+  })
+})
+
+describe('kitql - helper - midTrim', () => {
+  it('midTrim 0', () => {
+    const x = midTrim('A')
+    expect(x).toBe(x)
+  })
+
+  it('midTrim 1', () => {
+    const x = midTrim('Auth - Users sessions')
+    expect(x).toBe(x)
+  })
+
+  it('midTrim 2', () => {
+    const i = '#######0123456789#######'
+    expect(i.length).toBe(24)
+    const x = midTrim(i)
+    expect(x.length).toBe(21)
+    expect(x).toBe('#######01...89#######')
+  })
+
+  it('midTrim 3', () => {
+    const i = '#######01234567890#######'
+    expect(i.length).toBe(25)
+    const x = midTrim(i)
+    expect(x.length).toBe(21)
+    expect(x).toBe('#######01...90#######')
+  })
+
+  it('midTrim 4', () => {
+    const i = '#######01234567890#######'
+    expect(i.length).toBe(25)
+    const x = midTrim(i, { midStr: '_' })
+    expect(x.length).toBe(21)
+    expect(x).toBe('#######012_890#######')
+  })
+
+  it('midTrim 5', () => {
+    const i = '0123456789'
+    expect(i.length).toBe(10)
+    const x = midTrim(i, { len: 3, midStr: '_' })
+    expect(x.length).toBe(3)
+    expect(x).toBe('0_9')
   })
 })
