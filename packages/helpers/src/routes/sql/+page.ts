@@ -56,7 +56,7 @@ export const load = async () => {
   logSQL.infoO({ level: 4 }, `Working on something else...`, { level: 4 })
   logSQL.success(`Perfect, it's fixed!`)
 
-  const msg = `with all colors: 
+  const _msg = `with all colors: 
   ${bgBlack('bgBlack')}
   ${bgBlackBright('bgBlackBright')}
   ${bgBlue('bgBlue')}
@@ -99,7 +99,7 @@ export const load = async () => {
   ${yellow('yellow')}
   ${yellowBright('yellowBright')}
 `
-  // logSQL.info(msg)
+  // logSQL.info(_msg)
 
   return {}
 }
