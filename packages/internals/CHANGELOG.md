@@ -1,5 +1,12 @@
 # @kitql/internals
 
+## 0.9.7
+
+### Patch Changes
+
+- [`e164a1a`](https://github.com/jycouet/kitql/commit/e164a1a029b75ac827ebc89cc05e473e2d4f2965)
+  Thanks [@jycouet](https://github.com/jycouet)! - now also exporting `getRelativePackagePath`... !
+
 ## 0.9.6
 
 ### Patch Changes
