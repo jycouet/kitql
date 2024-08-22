@@ -1,61 +1,93 @@
 # vite-plugin-kit-routes
 
+## 0.6.7
+
+### Patch Changes
+
+- Updated dependencies
+  [[`aefdc49`](https://github.com/jycouet/kitql/commit/aefdc49fb2dced506e0e9b1d88c59f1ef8762e1e)]:
+  - @kitql/internals@0.9.6
+
 ## 0.6.6
 
 ### Patch Changes
 
-- [#699](https://github.com/jycouet/kitql/pull/699) [`6e95cf7`](https://github.com/jycouet/kitql/commit/6e95cf7251ca255de8a3b5b1212ef15b6a4c0f85) Thanks [@jycouet](https://github.com/jycouet)! - add trailingSlash option to config (as a global flag)
+- [#699](https://github.com/jycouet/kitql/pull/699)
+  [`6e95cf7`](https://github.com/jycouet/kitql/commit/6e95cf7251ca255de8a3b5b1212ef15b6a4c0f85)
+  Thanks [@jycouet](https://github.com/jycouet)! - add trailingSlash option to config (as a global
+  flag)
 
 ## 0.6.5
 
 ### Patch Changes
 
-- [#689](https://github.com/jycouet/kitql/pull/689) [`60a8033`](https://github.com/jycouet/kitql/commit/60a8033b927ad458b3f179663f91df94f008af4f) Thanks [@jycouet](https://github.com/jycouet)! - switch internal function to inline to avoid ts warnings
+- [#689](https://github.com/jycouet/kitql/pull/689)
+  [`60a8033`](https://github.com/jycouet/kitql/commit/60a8033b927ad458b3f179663f91df94f008af4f)
+  Thanks [@jycouet](https://github.com/jycouet)! - switch internal function to inline to avoid ts
+  warnings
 
-- [#687](https://github.com/jycouet/kitql/pull/687) [`db682d4`](https://github.com/jycouet/kitql/commit/db682d4e0e9a7bfcbd88eefa5d5df6a7a7a04dfb) Thanks [@Dan1ve](https://github.com/Dan1ve)! - Methods with \_ prefix in +server.ts are NOT exported in ROUTES.ts
+- [#687](https://github.com/jycouet/kitql/pull/687)
+  [`db682d4`](https://github.com/jycouet/kitql/commit/db682d4e0e9a7bfcbd88eefa5d5df6a7a7a04dfb)
+  Thanks [@Dan1ve](https://github.com/Dan1ve)! - Methods with \_ prefix in +server.ts are NOT
+  exported in ROUTES.ts
 
 ## 0.6.4
 
 ### Patch Changes
 
-- [#682](https://github.com/jycouet/kitql/pull/682) [`3b996e1`](https://github.com/jycouet/kitql/commit/3b996e15a6310044ee250392f096d8ef172b9f43) Thanks [@jycouet](https://github.com/jycouet)! - fix warning about noUnusedLocals on generated ROUTE file
+- [#682](https://github.com/jycouet/kitql/pull/682)
+  [`3b996e1`](https://github.com/jycouet/kitql/commit/3b996e15a6310044ee250392f096d8ef172b9f43)
+  Thanks [@jycouet](https://github.com/jycouet)! - fix warning about noUnusedLocals on generated
+  ROUTE file
 
 ## 0.6.3
 
 ### Patch Changes
 
-- [#676](https://github.com/jycouet/kitql/pull/676) [`99c9786`](https://github.com/jycouet/kitql/commit/99c9786b598adb8cf397a585ecbaf65d3485bec3) Thanks [@duducpp](https://github.com/duducpp)! - add routes as Set (with all routes options) & Routes type.
+- [#676](https://github.com/jycouet/kitql/pull/676)
+  [`99c9786`](https://github.com/jycouet/kitql/commit/99c9786b598adb8cf397a585ecbaf65d3485bec3)
+  Thanks [@duducpp](https://github.com/duducpp)! - add routes as Set (with all routes options) &
+  Routes type.
 
 ## 0.6.2
 
 ### Patch Changes
 
-- [#644](https://github.com/jycouet/kitql/pull/644) [`35568fb`](https://github.com/jycouet/kitql/commit/35568fb0bc3e071fa413cc8558a8c21c6f7e80b1) Thanks [@jycouet](https://github.com/jycouet)! - fix relative path on windows (using posix)
+- [#644](https://github.com/jycouet/kitql/pull/644)
+  [`35568fb`](https://github.com/jycouet/kitql/commit/35568fb0bc3e071fa413cc8558a8c21c6f7e80b1)
+  Thanks [@jycouet](https://github.com/jycouet)! - fix relative path on windows (using posix)
 
 ## 0.6.1
 
 ### Patch Changes
 
-- [#631](https://github.com/jycouet/kitql/pull/631) [`f886a69`](https://github.com/jycouet/kitql/commit/f886a690de0856ca720f6eb2ed02e83e93885ac8) Thanks [@jycouet](https://github.com/jycouet)! - add `format_page_route_id` option
+- [#631](https://github.com/jycouet/kitql/pull/631)
+  [`f886a69`](https://github.com/jycouet/kitql/commit/f886a690de0856ca720f6eb2ed02e83e93885ac8)
+  Thanks [@jycouet](https://github.com/jycouet)! - add `format_page_route_id` option
 
 ## 0.6.0
 
 ### Minor Changes
 
-- [`aeb2577`](https://github.com/jycouet/kitql/commit/aeb2577b214a5b8513db01ef2ad2f02d81313d72) Thanks [@jycouet](https://github.com/jycouet)! - fix: vite plugin type to use PluginOption
+- [`aeb2577`](https://github.com/jycouet/kitql/commit/aeb2577b214a5b8513db01ef2ad2f02d81313d72)
+  Thanks [@jycouet](https://github.com/jycouet)! - fix: vite plugin type to use PluginOption
 
 ### Patch Changes
 
-- Updated dependencies [[`aeb2577`](https://github.com/jycouet/kitql/commit/aeb2577b214a5b8513db01ef2ad2f02d81313d72)]:
+- Updated dependencies
+  [[`aeb2577`](https://github.com/jycouet/kitql/commit/aeb2577b214a5b8513db01ef2ad2f02d81313d72)]:
   - vite-plugin-watch-and-run@1.7.0
 
 ## 0.5.3
 
 ### Patch Changes
 
-- [#629](https://github.com/jycouet/kitql/pull/629) [`f474d6f`](https://github.com/jycouet/kitql/commit/f474d6f7b4a1aefefb5eed9dce98bec226ea0310) Thanks [@jycouet](https://github.com/jycouet)! - bump internals
+- [#629](https://github.com/jycouet/kitql/pull/629)
+  [`f474d6f`](https://github.com/jycouet/kitql/commit/f474d6f7b4a1aefefb5eed9dce98bec226ea0310)
+  Thanks [@jycouet](https://github.com/jycouet)! - bump internals
 
-- Updated dependencies [[`f474d6f`](https://github.com/jycouet/kitql/commit/f474d6f7b4a1aefefb5eed9dce98bec226ea0310)]:
+- Updated dependencies
+  [[`f474d6f`](https://github.com/jycouet/kitql/commit/f474d6f7b4a1aefefb5eed9dce98bec226ea0310)]:
   - @kitql/helpers@0.8.9
   - @kitql/internals@0.9.5
   - vite-plugin-watch-and-run@1.6.1
@@ -64,7 +96,10 @@
 
 ### Patch Changes
 
-- [#608](https://github.com/jycouet/kitql/pull/608) [`b0b7bf0`](https://github.com/jycouet/kitql/commit/b0b7bf0ebe6db2c83d6cac876039b38a591d9c5e) Thanks [@jycouet](https://github.com/jycouet)! - new option `routes_path` to match your custom config
+- [#608](https://github.com/jycouet/kitql/pull/608)
+  [`b0b7bf0`](https://github.com/jycouet/kitql/commit/b0b7bf0ebe6db2c83d6cac876039b38a591d9c5e)
+  Thanks [@jycouet](https://github.com/jycouet)! - new option `routes_path` to match your custom
+  config
 
 - Updated dependencies []:
   - @kitql/helpers@0.8.8

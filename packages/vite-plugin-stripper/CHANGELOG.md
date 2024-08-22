@@ -1,23 +1,36 @@
 # vite-plugin-stripper
 
+## 0.5.1
+
+### Patch Changes
+
+- Updated dependencies
+  [[`aefdc49`](https://github.com/jycouet/kitql/commit/aefdc49fb2dced506e0e9b1d88c59f1ef8762e1e)]:
+  - @kitql/internals@0.9.6
+
 ## 0.5.0
 
 ### Minor Changes
 
-- [`aeb2577`](https://github.com/jycouet/kitql/commit/aeb2577b214a5b8513db01ef2ad2f02d81313d72) Thanks [@jycouet](https://github.com/jycouet)! - fix: vite plugin type to use PluginOption
+- [`aeb2577`](https://github.com/jycouet/kitql/commit/aeb2577b214a5b8513db01ef2ad2f02d81313d72)
+  Thanks [@jycouet](https://github.com/jycouet)! - fix: vite plugin type to use PluginOption
 
 ### Patch Changes
 
-- Updated dependencies [[`aeb2577`](https://github.com/jycouet/kitql/commit/aeb2577b214a5b8513db01ef2ad2f02d81313d72)]:
+- Updated dependencies
+  [[`aeb2577`](https://github.com/jycouet/kitql/commit/aeb2577b214a5b8513db01ef2ad2f02d81313d72)]:
   - vite-plugin-watch-and-run@1.7.0
 
 ## 0.4.1
 
 ### Patch Changes
 
-- [#629](https://github.com/jycouet/kitql/pull/629) [`f474d6f`](https://github.com/jycouet/kitql/commit/f474d6f7b4a1aefefb5eed9dce98bec226ea0310) Thanks [@jycouet](https://github.com/jycouet)! - bump internals
+- [#629](https://github.com/jycouet/kitql/pull/629)
+  [`f474d6f`](https://github.com/jycouet/kitql/commit/f474d6f7b4a1aefefb5eed9dce98bec226ea0310)
+  Thanks [@jycouet](https://github.com/jycouet)! - bump internals
 
-- Updated dependencies [[`f474d6f`](https://github.com/jycouet/kitql/commit/f474d6f7b4a1aefefb5eed9dce98bec226ea0310)]:
+- Updated dependencies
+  [[`f474d6f`](https://github.com/jycouet/kitql/commit/f474d6f7b4a1aefefb5eed9dce98bec226ea0310)]:
   - @kitql/helpers@0.8.9
   - @kitql/internals@0.9.5
   - vite-plugin-watch-and-run@1.6.1
@@ -26,13 +39,17 @@
 
 ### Minor Changes
 
-- [#626](https://github.com/jycouet/kitql/pull/626) [`25e8e33`](https://github.com/jycouet/kitql/commit/25e8e33ebba61a9d9c33333082b92350e617ad07) Thanks [@jycouet](https://github.com/jycouet)! - change arg `packages` to `nullify`
+- [#626](https://github.com/jycouet/kitql/pull/626)
+  [`25e8e33`](https://github.com/jycouet/kitql/commit/25e8e33ebba61a9d9c33333082b92350e617ad07)
+  Thanks [@jycouet](https://github.com/jycouet)! - change arg `packages` to `nullify`
 
 ## 0.3.3
 
 ### Patch Changes
 
-- [#615](https://github.com/jycouet/kitql/pull/615) [`4f1b749`](https://github.com/jycouet/kitql/commit/4f1b74934cde97056767ee74836c2e4517f5c259) Thanks [@jycouet](https://github.com/jycouet)! - add hard option to stripper
+- [#615](https://github.com/jycouet/kitql/pull/615)
+  [`4f1b749`](https://github.com/jycouet/kitql/commit/4f1b74934cde97056767ee74836c2e4517f5c259)
+  Thanks [@jycouet](https://github.com/jycouet)! - add hard option to stripper
 
 - Updated dependencies []:
   - @kitql/helpers@0.8.8

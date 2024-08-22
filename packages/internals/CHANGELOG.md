@@ -1,12 +1,23 @@
 # @kitql/internals
 
+## 0.9.6
+
+### Patch Changes
+
+- [#710](https://github.com/jycouet/kitql/pull/710)
+  [`aefdc49`](https://github.com/jycouet/kitql/commit/aefdc49fb2dced506e0e9b1d88c59f1ef8762e1e)
+  Thanks [@jycouet](https://github.com/jycouet)! - add new function `getRelativePackagePath`
+
 ## 0.9.5
 
 ### Patch Changes
 
-- [#629](https://github.com/jycouet/kitql/pull/629) [`f474d6f`](https://github.com/jycouet/kitql/commit/f474d6f7b4a1aefefb5eed9dce98bec226ea0310) Thanks [@jycouet](https://github.com/jycouet)! - bump internals
+- [#629](https://github.com/jycouet/kitql/pull/629)
+  [`f474d6f`](https://github.com/jycouet/kitql/commit/f474d6f7b4a1aefefb5eed9dce98bec226ea0310)
+  Thanks [@jycouet](https://github.com/jycouet)! - bump internals
 
-- Updated dependencies [[`f474d6f`](https://github.com/jycouet/kitql/commit/f474d6f7b4a1aefefb5eed9dce98bec226ea0310)]:
+- Updated dependencies
+  [[`f474d6f`](https://github.com/jycouet/kitql/commit/f474d6f7b4a1aefefb5eed9dce98bec226ea0310)]:
   - @kitql/helpers@0.8.9
 
 ## 0.9.4
