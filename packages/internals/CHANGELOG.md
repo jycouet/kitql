@@ -1,5 +1,12 @@
 # @kitql/internals
 
+## 0.9.8
+
+### Patch Changes
+
+- [`18d7ad2`](https://github.com/jycouet/kitql/commit/18d7ad26b9a51e396a63edc8e452e5de49c66b1f)
+  Thanks [@jycouet](https://github.com/jycouet)! - remove deps to node
+
 ## 0.9.7
 
 ### Patch Changes
