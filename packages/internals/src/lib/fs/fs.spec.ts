@@ -1,8 +1,27 @@
 import { describe, expect, it } from 'vitest'
 
-import { getFilesUnder, read, relative, write } from './fs.js'
+import { getFilesUnder, getRelativePackagePath, read, relative, write } from './fs.js'
 
 describe('fs', () => {
+  it('should get package path single', async () => {
+    const path = getRelativePackagePath('recast')
+    expect(path).toMatchInlineSnapshot(
+      `"../../node_modules/.pnpm/recast@0.23.4/node_modules/recast"`,
+    )
+  })
+
+  it('should get package path with / and in root', async () => {
+    const path = getRelativePackagePath('@theguild/eslint-config')
+    expect(path).toMatchInlineSnapshot(
+      `"../../node_modules/.pnpm/@theguild+eslint-config@0.11.11_eslint@8.57.0_typescript@5.4.2/node_modules/@theguild/eslint-config/src"`,
+    )
+  })
+
+  it('should get null as the package doesn t exist', async () => {
+    const path = getRelativePackagePath('This_Package_doesnt_exist')
+    expect(path).toBeNull()
+  })
+
   it('getFilesUnder', async () => {
     const location = relative(`${process.cwd()}`, 'src/routes/')
     expect(getFilesUnder(location)).toMatchInlineSnapshot(`

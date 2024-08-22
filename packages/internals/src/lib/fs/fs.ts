@@ -48,4 +48,25 @@ export function getFilesUnder(rootFolder: string) {
   return files
 }
 
+function isNodeError(error: unknown): error is NodeJS.ErrnoException {
+  return (error as NodeJS.ErrnoException).code !== undefined
+}
+
+/**
+ * Get the relative path of a package, is the package is not found, it will return null
+ * @param packageName The name of your package
+ * @returns
+ */
+export function getRelativePackagePath(packageName: string) {
+  try {
+    const packagePath = require.resolve(packageName)
+    return relative(process.cwd(), dirname(packagePath))
+  } catch (error) {
+    if (isNodeError(error) && error.code === 'MODULE_NOT_FOUND') {
+      return null
+    }
+    throw error
+  }
+}
+
 export { relative, dirname }
