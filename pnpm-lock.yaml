@@ -35,8 +35,8 @@ importers:
         specifier: ^0.7.0
         version: 0.7.0
       '@kitql/helpers':
-        specifier: 0.8.9
-        version: 0.8.9
+        specifier: workspace:*
+        version: link:../helpers/dist
       commander:
         specifier: ^12.0.0
         version: 12.0.0
@@ -156,8 +156,8 @@ importers:
   packages/eslint-config:
     dependencies:
       '@kitql/helpers':
-        specifier: 0.8.9
-        version: 0.8.9
+        specifier: workspace:*
+        version: link:../helpers/dist
       '@theguild/eslint-config':
         specifier: ^0.11.1
         version: 0.11.11(eslint@8.57.0)(typescript@5.4.2)

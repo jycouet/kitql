@@ -1,10 +1,20 @@
 # @kitql/helpers
 
+## 0.8.10
+
+### Patch Changes
+
+- [#714](https://github.com/jycouet/kitql/pull/714)
+  [`53804e4`](https://github.com/jycouet/kitql/commit/53804e44e6ae3ba8e0de54a2de87cae4f4e32437)
+  Thanks [@jycouet](https://github.com/jycouet)! - add midTrim function
+
 ## 0.8.9
 
 ### Patch Changes
 
-- [#629](https://github.com/jycouet/kitql/pull/629) [`f474d6f`](https://github.com/jycouet/kitql/commit/f474d6f7b4a1aefefb5eed9dce98bec226ea0310) Thanks [@jycouet](https://github.com/jycouet)! - bump internals
+- [#629](https://github.com/jycouet/kitql/pull/629)
+  [`f474d6f`](https://github.com/jycouet/kitql/commit/f474d6f7b4a1aefefb5eed9dce98bec226ea0310)
+  Thanks [@jycouet](https://github.com/jycouet)! - bump internals
 
 ## 0.8.8
 

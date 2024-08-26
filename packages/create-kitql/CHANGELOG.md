@@ -1,19 +1,32 @@
 # create-kitql
 
+## 0.1.7
+
+### Patch Changes
+
+- Updated dependencies
+  [[`53804e4`](https://github.com/jycouet/kitql/commit/53804e44e6ae3ba8e0de54a2de87cae4f4e32437)]:
+  - @kitql/helpers@0.8.10
+
 ## 0.1.6
 
 ### Patch Changes
 
-- [#629](https://github.com/jycouet/kitql/pull/629) [`f474d6f`](https://github.com/jycouet/kitql/commit/f474d6f7b4a1aefefb5eed9dce98bec226ea0310) Thanks [@jycouet](https://github.com/jycouet)! - bump internals
+- [#629](https://github.com/jycouet/kitql/pull/629)
+  [`f474d6f`](https://github.com/jycouet/kitql/commit/f474d6f7b4a1aefefb5eed9dce98bec226ea0310)
+  Thanks [@jycouet](https://github.com/jycouet)! - bump internals
 
-- Updated dependencies [[`f474d6f`](https://github.com/jycouet/kitql/commit/f474d6f7b4a1aefefb5eed9dce98bec226ea0310)]:
+- Updated dependencies
+  [[`f474d6f`](https://github.com/jycouet/kitql/commit/f474d6f7b4a1aefefb5eed9dce98bec226ea0310)]:
   - @kitql/helpers@0.8.9
 
 ## 0.1.5
 
 ### Patch Changes
 
-- [#615](https://github.com/jycouet/kitql/pull/615) [`4f1b749`](https://github.com/jycouet/kitql/commit/4f1b74934cde97056767ee74836c2e4517f5c259) Thanks [@jycouet](https://github.com/jycouet)! - bump dep
+- [#615](https://github.com/jycouet/kitql/pull/615)
+  [`4f1b749`](https://github.com/jycouet/kitql/commit/4f1b74934cde97056767ee74836c2e4517f5c259)
+  Thanks [@jycouet](https://github.com/jycouet)! - bump dep
 
 ## 0.1.4
 

@@ -1,5 +1,17 @@
 # eslint-config-kitql
 
+## 0.3.7
+
+### Patch Changes
+
+- [#721](https://github.com/jycouet/kitql/pull/721)
+  [`dabca51`](https://github.com/jycouet/kitql/commit/dabca5188a1a8ab08c1d0dee7ad671f94b9d83ad)
+  Thanks [@jycouet](https://github.com/jycouet)! - bump eslint svelte
+
+- Updated dependencies
+  [[`53804e4`](https://github.com/jycouet/kitql/commit/53804e44e6ae3ba8e0de54a2de87cae4f4e32437)]:
+  - @kitql/helpers@0.8.10
+
 ## 0.3.6
 
 ### Patch Changes

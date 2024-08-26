@@ -1,18 +1,35 @@
 # @kitql/vite-plugin-watch-and-run
 
+## 1.7.1
+
+### Patch Changes
+
+- [#721](https://github.com/jycouet/kitql/pull/721)
+  [`dabca51`](https://github.com/jycouet/kitql/commit/dabca5188a1a8ab08c1d0dee7ad671f94b9d83ad)
+  Thanks [@jycouet](https://github.com/jycouet)! - bump micromatch to fix 2 moderate severity
+  vulnerabilities
+
+- Updated dependencies
+  [[`53804e4`](https://github.com/jycouet/kitql/commit/53804e44e6ae3ba8e0de54a2de87cae4f4e32437)]:
+  - @kitql/helpers@0.8.10
+
 ## 1.7.0
 
 ### Minor Changes
 
-- [`aeb2577`](https://github.com/jycouet/kitql/commit/aeb2577b214a5b8513db01ef2ad2f02d81313d72) Thanks [@jycouet](https://github.com/jycouet)! - fix: vite plugin type to use PluginOption
+- [`aeb2577`](https://github.com/jycouet/kitql/commit/aeb2577b214a5b8513db01ef2ad2f02d81313d72)
+  Thanks [@jycouet](https://github.com/jycouet)! - fix: vite plugin type to use PluginOption
 
 ## 1.6.1
 
 ### Patch Changes
 
-- [#629](https://github.com/jycouet/kitql/pull/629) [`f474d6f`](https://github.com/jycouet/kitql/commit/f474d6f7b4a1aefefb5eed9dce98bec226ea0310) Thanks [@jycouet](https://github.com/jycouet)! - bump internals
+- [#629](https://github.com/jycouet/kitql/pull/629)
+  [`f474d6f`](https://github.com/jycouet/kitql/commit/f474d6f7b4a1aefefb5eed9dce98bec226ea0310)
+  Thanks [@jycouet](https://github.com/jycouet)! - bump internals
 
-- Updated dependencies [[`f474d6f`](https://github.com/jycouet/kitql/commit/f474d6f7b4a1aefefb5eed9dce98bec226ea0310)]:
+- Updated dependencies
+  [[`f474d6f`](https://github.com/jycouet/kitql/commit/f474d6f7b4a1aefefb5eed9dce98bec226ea0310)]:
   - @kitql/helpers@0.8.9
 
 ## 1.6.0
