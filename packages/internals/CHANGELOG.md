@@ -1,5 +1,13 @@
 # @kitql/internals
 
+## 0.9.9
+
+### Patch Changes
+
+- Updated dependencies
+  [[`53804e4`](https://github.com/jycouet/kitql/commit/53804e44e6ae3ba8e0de54a2de87cae4f4e32437)]:
+  - @kitql/helpers@0.8.10
+
 ## 0.9.8
 
 ### Patch Changes
