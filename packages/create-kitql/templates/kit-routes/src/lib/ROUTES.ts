@@ -36,25 +36,41 @@ const LINKS = {
 	gravatar: (params: { str: string | number; s?: number; d?: 'retro' | 'identicon' }) => {
 		params.s = params.s ?? 75;
 		params.d = params.d ?? 'identicon';
-		return `https://www.gravatar.com/avatar/${params.str}${appendSp({
-			s: params?.s,
-			d: params?.d
-		})}`;
+		return `https://www.gravatar.com/avatar/${params.str}${appendSp({ s: params.s, d: params.d })}`;
 	}
 };
+
+type ParamValue = string | number | undefined;
 
 /**
  * Append search params to a string
  */
-const appendSp = (sp?: Record<string, string | number | undefined>, prefix: '?' | '&' = '?') => {
+export const appendSp = (
+	sp?: Record<string, ParamValue | ParamValue[]>,
+	prefix: '?' | '&' = '?'
+) => {
 	if (sp === undefined) return '';
-	const mapping = Object.entries(sp)
-		.filter((c) => c[1] !== undefined)
-		.map((c) => [c[0], String(c[1])]);
 
-	const formated = new URLSearchParams(mapping).toString();
-	if (formated) {
-		return `${prefix}${formated}`;
+	const params = new URLSearchParams();
+	const append = (n: string, v: ParamValue) => {
+		if (v !== undefined) {
+			params.append(n, String(v));
+		}
+	};
+
+	for (const [name, val] of Object.entries(sp)) {
+		if (Array.isArray(val)) {
+			for (const v of val) {
+				append(name, v);
+			}
+		} else {
+			append(name, val);
+		}
+	}
+
+	const formatted = params.toString();
+	if (formatted) {
+		return `${prefix}${formatted}`;
 	}
 	return '';
 };
@@ -83,6 +99,13 @@ type FunctionParams<T> = T extends (...args: infer P) => any ? P : never;
 
 const AllObjs = { ...PAGES, ...ACTIONS, ...SERVERS, ...LINKS };
 type AllTypes = typeof AllObjs;
+
+export type Routes = keyof AllTypes extends `${string}/${infer Route}`
+	? `/${Route}`
+	: keyof AllTypes;
+export const routes = [
+	...new Set(Object.keys(AllObjs).map((route) => /^\/.*|[^ ]?\/.*$/.exec(route)?.[0] ?? route))
+] as Routes[];
 
 /**
  * To be used like this:
