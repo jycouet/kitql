@@ -40,7 +40,7 @@ export default [
         {
           argsIgnorePattern: '^_',
           varsIgnorePattern: '^_',
-          caughtErrorsIgnorePattern: '^(_|error|e)$', // Ignore caught errors with names starting with _ or "error"
+          caughtErrorsIgnorePattern: '^(_.*|e|error)$',
         },
       ],
       '@typescript-eslint/no-require-imports': 'off',
