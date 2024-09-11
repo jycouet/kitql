@@ -49,6 +49,13 @@ export default [
       '@typescript-eslint/no-explicit-any': 'off',
       '@typescript-eslint/no-non-null-assertion': 'off',
       '@typescript-eslint/no-unused-expressions': 'off',
+      '@typescript-eslint/no-empty-object-type': 'off',
+
+      'no-undef': 'off',
+      'svelte/no-at-html-tags': 'off',
+      'no-inner-declarations': 'off',
+      'svelte/no-inner-declarations': 'off',
+      '@typescript-eslint/no-unused-vars': 'off',
     },
   },
 ]
