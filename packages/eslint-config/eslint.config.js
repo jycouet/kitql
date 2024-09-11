@@ -4,7 +4,7 @@ import globals from 'globals'
 import ts from 'typescript-eslint'
 
 /** @type {import('eslint').Linter.Config[]} */
-export default [
+export const config = [
   js.configs.recommended,
   ...ts.configs.recommended,
   ...svelte.configs['flat/recommended'],
@@ -28,6 +28,7 @@ export default [
     ignores: ['build/', '.svelte-kit/', 'dist/'],
   },
   {
+    name: '@kitql rules',
     rules: {
       'no-console': [
         'error',
@@ -35,6 +36,7 @@ export default [
           allow: ['info', 'warn', 'error', 'time', 'timeEnd', 'dir'],
         },
       ],
+
       '@typescript-eslint/no-unused-vars': [
         'warn',
         {
@@ -52,9 +54,11 @@ export default [
       '@typescript-eslint/no-empty-object-type': 'off',
 
       'no-undef': 'off',
-      'svelte/no-at-html-tags': 'off',
       'no-inner-declarations': 'off',
+      'svelte/no-at-html-tags': 'off',
       'svelte/no-inner-declarations': 'off',
     },
   },
 ]
+
+export default config
