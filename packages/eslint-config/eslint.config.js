@@ -1,5 +1,6 @@
 import js from '@eslint/js'
 import svelte from 'eslint-plugin-svelte'
+import unusedImports from 'eslint-plugin-unused-imports'
 import globals from 'globals'
 import ts from 'typescript-eslint'
 
@@ -37,14 +38,6 @@ export const config = [
         },
       ],
 
-      '@typescript-eslint/no-unused-vars': [
-        'warn',
-        {
-          argsIgnorePattern: '^_',
-          varsIgnorePattern: '^_',
-          caughtErrorsIgnorePattern: '^(_.*|e|error)$',
-        },
-      ],
       '@typescript-eslint/no-require-imports': 'off',
       '@typescript-eslint/ban-ts-ignore': 'off',
       '@typescript-eslint/ban-ts-comment': 'off',
@@ -57,6 +50,26 @@ export const config = [
       'no-inner-declarations': 'off',
       'svelte/no-at-html-tags': 'off',
       'svelte/no-inner-declarations': 'off',
+    },
+  },
+  {
+    plugins: {
+      'unused-imports': unusedImports,
+    },
+    rules: {
+      'no-unused-vars': 'off', // or "@typescript-eslint/no-unused-vars": "off",
+      '@typescript-eslint/no-unused-vars': 'off',
+      'unused-imports/no-unused-imports': 'error',
+      'unused-imports/no-unused-vars': 'off',
+      // 'unused-imports/no-unused-vars': [
+      //   'warn',
+      //   {
+      //     vars: 'all',
+      //     varsIgnorePattern: '^_',
+      //     args: 'after-used',
+      //     argsIgnorePattern: '^_',
+      //   },
+      // ],
     },
   },
 ]

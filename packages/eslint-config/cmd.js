@@ -75,7 +75,7 @@ function prettierRun() {
   const result_prettier = spawnSync(cmdPrettier, {
     shell: true,
     cwd: process.cwd(),
-    stdio: 'pipe',
+    stdio: 'inherit',
   })
 
   return result_prettier
