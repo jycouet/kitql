@@ -9,8 +9,8 @@ describe('fs', () => {
   })
 
   it('should get package path with / and in root', async () => {
-    const path = getRelativePackagePath('@theguild/eslint-config')
-    expect(path).toMatchInlineSnapshot(`"../../node_modules/@theguild/eslint-config"`)
+    const path = getRelativePackagePath('@theguild/prettier-config')
+    expect(path).toMatchInlineSnapshot(`"../../node_modules/@theguild/prettier-config"`)
   })
 
   it('should get null as the package doesn t exist', async () => {
