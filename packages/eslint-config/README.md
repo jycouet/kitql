@@ -18,7 +18,7 @@ npm install @kitql/eslint-config --D
 `.eslintrc.js`
 
 ```js
-/** @type { import("eslint").Linter.FlatConfig } */
+/** @type { import("eslint").Linter.Config } */
 module.exports = {
   extends: ['@kitql'],
   rules: {}
