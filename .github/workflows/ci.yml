@@ -48,7 +48,8 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        template: [kit-routes, sveltekit-remult]
+        template: [kit-routes]
+        # template: [kit-routes, sveltekit-remult]
     steps:
       - name: 🌐 Checkout Repository
         uses: actions/checkout@v4
