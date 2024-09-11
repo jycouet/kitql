@@ -61,7 +61,7 @@ const cmdPrettier =
   `prettier` +
   ` --list-different` +
   // ignore?
-  ` --ignore-pattern ${pathPrettierIgnore}` +
+  ` --ignore-path ${pathPrettierIgnore}` +
   // config
   ` --config ${pathPrettierCjs}` +
   // format or not
@@ -166,5 +166,6 @@ result_prettier.on('close', (data) => {
   if (verbose) {
     log.info(`close`, data)
   }
+
   esLintRun(data)
 })

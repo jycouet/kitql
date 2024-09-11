@@ -13,13 +13,12 @@
   "bin": {
     "kitql-lint": "./cmd.js"
   },
-  "main": "index.cjs",
+  "main": "eslint.config.js",
   "files": [
-    ".eslintrc.cjs",
     ".prettierrc.cjs",
     "cmd.js",
     "cmd.sh",
-    "index.cjs"
+    "eslint.config.js"
   ],
   "keywords": [
     "cli",
@@ -33,14 +32,19 @@
     "lint:example": "kitql-lint"
   },
   "dependencies": {
-    "@eslint/eslintrc": "^3.1.0",
     "@eslint/js": "^9.10.0",
     "@kitql/helpers": "workspace:*",
-    "@theguild/eslint-config": "^0.12.1",
+    "@theguild/eslint-config": "0.12.1",
     "@theguild/prettier-config": "2.0.7",
-    "commander": "^12.1.0",
+    "@types/eslint": "9.6.1",
+    "commander": "12.1.0",
     "eslint": "9.10.0",
-    "globals": "^15.9.0"
+    "eslint-plugin-svelte": "2.43.0",
+    "globals": "15.9.0",
+    "prettier": "3.3.3",
+    "prettier-plugin-svelte": "3.2.6",
+    "prettier-plugin-tailwindcss": "0.6.6",
+    "typescript-eslint": "8.5.0"
   },
   "publishConfig": {
     "access": "public"
