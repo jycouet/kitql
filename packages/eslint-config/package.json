@@ -1,57 +1,49 @@
 {
-	"name": "@kitql/eslint-config",
-	"description": "opinionated linting and formatting for projects",
-	"keywords": [
-		"cli",
-		"eslint",
-		"eslint-config"
-	],
-	"version": "0.3.7",
-	"license": "MIT",
-	"type": "module",
-	"repository": {
-		"type": "git",
-		"url": "https://github.com/jycouet/kitql",
-		"directory": "packages/eslint-config",
-		"homepage": "https://github.com/jycouet/kitql/tree/main/packages/eslint-config"
-	},
-	"bin": {
-		"kitql-lint": "./cmd.js"
-	},
-	"main": "index.cjs",
-	"scripts": {
-		"lint": "node ./cmd.js --verbose -p none",
-		"format": "node ./cmd.js -f",
-		"lint:example": "kitql-lint",
-		"format:example": "kitql-lint --format"
-	},
-	"dependencies": {
-		"@kitql/helpers": "workspace:*",
-		"@theguild/eslint-config": "^0.11.1",
-		"@theguild/prettier-config": "2.0.7",
-		"@typescript-eslint/eslint-plugin": "7.7.0",
-		"@typescript-eslint/parser": "7.7.0",
-		"@vue/compiler-sfc": "3.4.7",
-		"commander": "^12.0.0",
-		"eslint": "8.57.0",
-		"eslint-config-prettier": "9.1.0",
-		"eslint-plugin-svelte": "2.43.0",
-		"eslint-plugin-unused-imports": "3.2.0",
-		"prettier": "3.3.2",
-		"prettier-plugin-svelte": "3.2.6",
-		"prettier-plugin-tailwindcss": "0.6.6",
-		"svelte": "4.2.19",
-		"typescript": "5.4.2"
-	},
-	"sideEffects": false,
-	"publishConfig": {
-		"access": "public"
-	},
-	"files": [
-		"index.cjs",
-		"cmd.sh",
-		"cmd.js",
-		".eslintrc.cjs",
-		".prettierrc.cjs"
-	]
+  "name": "@kitql/eslint-config",
+  "version": "0.3.7",
+  "type": "module",
+  "description": "opinionated linting and formatting for projects",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jycouet/kitql",
+    "directory": "packages/eslint-config",
+    "homepage": "https://github.com/jycouet/kitql/tree/main/packages/eslint-config"
+  },
+  "license": "MIT",
+  "bin": {
+    "kitql-lint": "./cmd.js"
+  },
+  "main": "index.cjs",
+  "files": [
+    ".eslintrc.cjs",
+    ".prettierrc.cjs",
+    "cmd.js",
+    "cmd.sh",
+    "index.cjs"
+  ],
+  "keywords": [
+    "cli",
+    "eslint",
+    "eslint-config"
+  ],
+  "scripts": {
+    "format": "node ./cmd.js -f",
+    "format:example": "kitql-lint --format",
+    "lint": "node ./cmd.js --verbose -p none",
+    "lint:example": "kitql-lint"
+  },
+  "dependencies": {
+    "@eslint/eslintrc": "^3.1.0",
+    "@eslint/js": "^9.10.0",
+    "@kitql/helpers": "workspace:*",
+    "@theguild/eslint-config": "^0.12.1",
+    "@theguild/prettier-config": "2.0.7",
+    "commander": "^12.1.0",
+    "eslint": "9.10.0",
+    "globals": "^15.9.0"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "sideEffects": false
 }

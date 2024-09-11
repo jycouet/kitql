@@ -1,6 +1,6 @@
 #!/usr/bin/env node
-import { spawn, spawnSync } from 'child_process'
-import fs from 'fs'
+import { spawn, spawnSync } from 'node:child_process'
+import fs from 'node:fs'
 import { Option, program } from 'commander'
 
 import { Log, red } from '@kitql/helpers'
@@ -38,8 +38,8 @@ const findFileOrUp = (fileName) => {
   process.exit(1)
 }
 
-let pathPrettierIgnore = findFileOrUp('.prettierignore')
-let pathPrettierCjs = findFileOrUp('.prettierrc.cjs')
+const pathPrettierIgnore = findFileOrUp('.prettierignore')
+const pathPrettierCjs = findFileOrUp('.prettierrc.cjs')
 
 const format = options_cli.format ?? false
 const glob = options_cli.glob ?? '.'
@@ -61,7 +61,7 @@ const cmdPrettier =
   `prettier` +
   ` --list-different` +
   // ignore?
-  ` --ignore-path ${pathPrettierIgnore}` +
+  ` --ignore-pattern ${pathPrettierIgnore}` +
   // config
   ` --config ${pathPrettierCjs}` +
   // format or not
@@ -72,7 +72,7 @@ const cmdPrettier =
 if (verbose) {
   log.info(cmdPrettier)
 }
-let result_prettier = spawn(cmdPrettier, {
+const result_prettier = spawn(cmdPrettier, {
   shell: true,
   cwd: process.cwd(),
   stdio: 'pipe',
@@ -108,7 +108,7 @@ function esLintRun(code) {
     preToUse +
     `eslint` +
     // ignore?
-    ` --ignore-path ${pathPrettierIgnore}` +
+    ` --ignore-pattern ${pathPrettierIgnore}` +
     // format or not
     `${format ? ' --fix' : ''}` +
     // exec
@@ -118,7 +118,7 @@ function esLintRun(code) {
     log.info(cmdEsLint)
   }
 
-  let result_eslint = spawnSync(cmdEsLint, {
+  const result_eslint = spawnSync(cmdEsLint, {
     shell: true,
     cwd: process.cwd(),
     stdio: 'inherit',
