@@ -816,7 +816,18 @@ export const run = async (atStart: boolean, o?: Options) => {
 
   // TODO check if harcoded links are around?
   // for (let i = 0; i < files.length; i++) {
-  // goto, href, action, src, throw redirect?
+  //   if (files[i].endsWith('.svelte')) {
+  //     const found = extractHtmlElementAttr_Text(options.routes_path + '/' + files[i], [
+  //       { type: 'a', attr: 'href' },
+  //     ])
+  //     console.log(`found`, found, files[i])
+
+  //     // log.info(
+  //     //   `⚠️ Warning ${yellow(`action="?/save"`)} detected ` +
+  //     //     `in ${gray('/routes/card/+page.svelte')} is not safe. ` +
+  //     //     `You could use: ${green(`href={route('/card'}`)}`,
+  //     // )
+  //   }
   // }
 
   const objTypes: { type: KindOfObject; files: MetadataToWrite[] }[] = [
@@ -1030,18 +1041,6 @@ function theEnd(
     if (shouldLog('update', options)) {
       log.success(`${yellow(options.generated_file_path)} updated`)
     }
-
-    // TODO later
-    // log.info(
-    //   `⚠️ Warning ${yellow(`href="/about"`)} detected ` +
-    //     `in ${gray('/src/lib/component/menu.svelte')} is not safe. ` +
-    //     `You could use: ${green(`href={PAGES['/about']}`)}`,
-    // )
-    // log.info(
-    //   `⚠️ Warning ${yellow(`action="?/save"`)} detected ` +
-    //     `in ${gray('/routes/card/+page.svelte')} is not safe. ` +
-    //     `You could use: ${green(`href={ACTION['/card']('save')}`)}`,
-    // )
   }
 
   if (atStart && shouldLog('stats', options)) {

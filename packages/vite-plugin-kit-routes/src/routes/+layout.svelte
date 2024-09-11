@@ -87,6 +87,7 @@
     <a href={route('/spArray', { ids: [1, 2, 3] })}>Array Search Params</a> |
     <a href={route('/spArrayComma', { ids: [1, 2, 3] })}>Array Search Params (comma-separated)</a>
   </li>
+  <a href="/COUCOU-Yop">Unsafe Link</a>
 </ul>
 
 <hr />
