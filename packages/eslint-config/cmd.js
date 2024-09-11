@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-import { spawn, spawnSync } from 'node:child_process'
+import { spawnSync } from 'node:child_process'
 import fs from 'node:fs'
 import { Option, program } from 'commander'
 
@@ -55,54 +55,33 @@ if (pre === 'npm') {
   preToUse = ''
 }
 
-// First prettier
-const cmdPrettier =
-  preToUse +
-  `prettier` +
-  ` --list-different` +
-  // ignore?
-  ` --ignore-path ${pathPrettierIgnore}` +
-  // config
-  ` --config ${pathPrettierCjs}` +
-  // format or not
-  `${format ? ' --write' : ''}` +
-  // exec
-  ` ${glob}`
+function prettierRun() {
+  const cmdPrettier =
+    preToUse +
+    `prettier` +
+    ` --list-different` +
+    // ignore?
+    ` --ignore-path ${pathPrettierIgnore}` +
+    // config
+    ` --config ${pathPrettierCjs}` +
+    // format or not
+    `${format ? ' --write' : ''}` +
+    // exec
+    ` ${glob}`
 
-if (verbose) {
-  log.info(cmdPrettier)
-}
-const result_prettier = spawn(cmdPrettier, {
-  shell: true,
-  cwd: process.cwd(),
-  stdio: 'pipe',
-})
-
-// let's not log anything when we are formating prettier
-if (!format) {
-  const logPrettier = new Log('kitql-lint prettier')
-  result_prettier.stdout.on('data', (data) => {
-    logPrettier.error(
-      data
-        .toString()
-        // rmv the last \n if any
-        .replace(/\n$/, ''),
-    )
+  if (verbose) {
+    log.info(cmdPrettier)
+  }
+  const result_prettier = spawnSync(cmdPrettier, {
+    shell: true,
+    cwd: process.cwd(),
+    stdio: 'pipe',
   })
-}
-if (format && verbose) {
-  const logPrettier = new Log('kitql-lint prettier')
-  result_prettier.stdout.on('data', (data) => {
-    logPrettier.success(
-      data
-        .toString()
-        // rmv the last \n if any
-        .replace(/\n$/, ''),
-    )
-  })
+
+  return result_prettier
 }
 
-function esLintRun(code) {
+function eslintRun() {
   // Then eslint
   const cmdEsLint =
     preToUse +
@@ -124,48 +103,20 @@ function esLintRun(code) {
     stdio: 'inherit',
   })
 
-  if (result_eslint.status) {
-    log.error(red(`eslint failed, check logs above.`))
-  }
-
-  if (code === 0 && result_eslint.status === 0) {
-    log.success(`All good, your files looks great!`)
-  }
-
-  process.exit(code || result_eslint.status)
+  return result_eslint
 }
 
-result_prettier.stdout.on('end', (data) => {
-  if (verbose) {
-    log.info(`end`, data)
-  }
-})
-result_prettier.stdout.on('error', (data) => {
-  if (verbose) {
-    log.info(`error`, data)
-  }
-})
-result_prettier.stdout.on('pause', (data) => {
-  if (verbose) {
-    log.info(`pause`, data)
-  }
-})
-result_prettier.stdout.on('readable', (data) => {
-  if (verbose) {
-    log.info(`readable`, data)
-  }
-})
-result_prettier.stdout.on('resume', (data) => {
-  if (verbose && data) {
-    log.info(`resume`, data)
-  }
-  esLintRun(0)
-})
+const eslintCode = eslintRun()
+if (eslintCode.status) {
+  log.error(red(`eslint failed, check logs above.`))
+  process.exit(eslintCode.status)
+}
 
-result_prettier.on('close', (data) => {
-  if (verbose) {
-    log.info(`close`, data)
-  }
+const prettierCode = prettierRun()
+if (prettierCode.status) {
+  log.error(red(`prettier failed, check logs above.`))
+  process.exit(eslintCode.status)
+}
 
-  esLintRun(data)
-})
+log.success(`All good, your files looks great!`)
+process.exit(0)
