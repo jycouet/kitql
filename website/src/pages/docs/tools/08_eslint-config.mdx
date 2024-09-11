@@ -20,23 +20,23 @@ npm i -D @kitql/eslint-config
 
 ### eslint config
 
-`.eslintrc.js`
+```js filename="eslint.config.js"
+import kitql from '@kitql/eslint-config'
 
-```js
 /** @type { import("eslint").Linter.FlatConfig } */
-module.exports = {
-  extends: ['@kitql'],
-  rules: {
-    // You can add rules here
+export default [
+  ...kitql,
+  {
+    rules: {
+      // Some custom things?
+    }
   }
-}
+]
 ```
 
 ### prettier config
 
-`.prettierrc.cjs`
-
-```js
+```js filename=".prettierrc.cjs"
 const config = require('@kitql/eslint-config/.prettierrc.cjs')
 
 module.exports = {
@@ -47,9 +47,7 @@ module.exports = {
 
 ### ignore things with
 
-`.prettierignore`
-
-```bash
+```bash filename=".prettierignore"
 .DS_Store
 node_modules
 /build
