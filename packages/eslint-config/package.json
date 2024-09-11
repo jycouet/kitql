@@ -31,10 +31,12 @@
     "lint": "node ./cmd.js --verbose -p none",
     "lint:example": "kitql-lint"
   },
+  "peerDependencies": {
+    "prettier": "^3.3.3"
+  },
   "dependencies": {
     "@eslint/js": "^9.10.0",
     "@kitql/helpers": "workspace:*",
-    "@theguild/eslint-config": "0.12.1",
     "@theguild/prettier-config": "2.0.7",
     "@types/eslint": "9.6.1",
     "commander": "12.1.0",

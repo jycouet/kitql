@@ -55,7 +55,6 @@ export default [
       'svelte/no-at-html-tags': 'off',
       'no-inner-declarations': 'off',
       'svelte/no-inner-declarations': 'off',
-      '@typescript-eslint/no-unused-vars': 'off',
     },
   },
 ]
