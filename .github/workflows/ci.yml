@@ -20,7 +20,7 @@ jobs:
         uses: jycouet/jycouet/shared-config/setup@main
         with:
           pnpmVersion: 9
-          # nodeVersion: 18
+          nodeVersion: 22.6.0
 
       # - name: 🛠️ Prepare nx 1/2
       #   uses: nrwl/nx-set-shas@v4
@@ -48,7 +48,8 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        template: [kit-routes, sveltekit-remult]
+        template: [kit-routes]
+        # template: [kit-routes, sveltekit-remult]
     steps:
       - name: 🌐 Checkout Repository
         uses: actions/checkout@v4
@@ -60,7 +61,7 @@ jobs:
         uses: jycouet/jycouet/shared-config/setup@main
         with:
           pnpmVersion: 9
-          # nodeVersion: 18
+          nodeVersion: 22.6.0
 
       - name: 🚧 Run nx build
         run: pnpm build

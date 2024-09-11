@@ -817,10 +817,14 @@ export const run = async (atStart: boolean, o?: Options) => {
   // TODO check if harcoded links are around?
   // for (let i = 0; i < files.length; i++) {
   //   if (files[i].endsWith('.svelte')) {
-  //     const found = extractHtmlElementAttr_Text(options.routes_path + '/' + files[i], [
-  //       { type: 'a', attr: 'href' },
-  //     ])
-  //     console.log(`found`, found, files[i])
+  //     const pathToCheck = (options.routes_path ?? '/src/routes') + '/' + files[i]
+
+  //     try {
+  //       const found = extractHtmlElementAttr_Text(pathToCheck, [{ type: 'a', attr: 'href' }])
+  //     } catch (error) {
+  //       console.log(`error`, error)
+  //     }
+  //     // console.log(`found`, found, files[i])
 
   //     // log.info(
   //     //   `⚠️ Warning ${yellow(`action="?/save"`)} detected ` +

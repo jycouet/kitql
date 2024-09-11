@@ -1,5 +1,16 @@
 # @kitql/internals
 
+## 0.9.10-next.0
+
+### Patch Changes
+
+- [#731](https://github.com/jycouet/kitql/pull/731)
+  [`1bd5ea8`](https://github.com/jycouet/kitql/commit/1bd5ea8c5dc08f995b16d015d23dd577a14a7cf6)
+  Thanks [@jycouet](https://github.com/jycouet)! - bump internal usage of svelte
+
+- Updated dependencies []:
+  - @kitql/helpers@0.8.10
+
 ## 0.9.9
 
 ### Patch Changes

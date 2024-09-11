@@ -1,5 +1,15 @@
 # vite-plugin-stripper
 
+## 0.5.5-next.0
+
+### Patch Changes
+
+- Updated dependencies
+  [[`1bd5ea8`](https://github.com/jycouet/kitql/commit/1bd5ea8c5dc08f995b16d015d23dd577a14a7cf6)]:
+  - @kitql/internals@0.9.10-next.0
+  - @kitql/helpers@0.8.10
+  - vite-plugin-watch-and-run@1.7.1
+
 ## 0.5.4
 
 ### Patch Changes
