@@ -1,5 +1,15 @@
 # eslint-config-kitql
 
+## 0.4.0-next.3
+
+### Patch Changes
+
+- [`d728bba`](https://github.com/jycouet/kitql/commit/d728bba8c9e649f0e22ffc5ee99a1b582bf57225)
+  Thanks [@jycouet](https://github.com/jycouet)! - deploy all files in eslint
+
+- Updated dependencies []:
+  - @kitql/helpers@0.8.10
+
 ## 0.4.0-next.2
 
 ### Patch Changes
