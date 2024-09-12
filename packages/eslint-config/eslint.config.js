@@ -5,7 +5,7 @@ import unusedImports from 'eslint-plugin-unused-imports'
 import globals from 'globals'
 import ts from 'typescript-eslint'
 
-import { findFileOrUp } from '@kitql/internals'
+import { findFileOrUp } from './helper/findFileOrUp.js'
 
 const pathPrettierIgnore = findFileOrUp('.prettierignore', { absolute: true })
 
@@ -17,7 +17,7 @@ export const config = [
   },
   {
     name: 'eslint/defaults/recommended',
-    rules: js.configs.recommended, // TODO, would be nice to have a name by default?
+    ...js.configs.recommended, // TODO, would be nice to have a name by default?
   },
   ...ts.configs.recommended,
   ...svelte.configs['flat/recommended'],

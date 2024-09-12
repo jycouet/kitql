@@ -3,7 +3,8 @@ import { spawnSync } from 'node:child_process'
 import { Option, program } from 'commander'
 
 import { Log, red } from '@kitql/helpers'
-import { findFileOrUp } from '@kitql/internals'
+
+import { findFileOrUp } from './helper/findFileOrUp.js'
 
 const log = new Log('kitql-lint')
 
