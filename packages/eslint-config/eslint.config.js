@@ -13,7 +13,7 @@ const pathPrettierIgnore = findFileOrUp('.prettierignore', { absolute: true })
 export const config = [
   {
     name: '@kitql:prettier:ignores',
-    ignores: includeIgnoreFile(pathPrettierIgnore).ignores,
+    ignores: pathPrettierIgnore ? includeIgnoreFile(pathPrettierIgnore).ignores : [],
   },
   {
     name: 'eslint/defaults/recommended',
