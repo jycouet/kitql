@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 
-import { getFilesUnder, getRelativePackagePath, read, relative, write } from './fs.js'
+import { findFileOrUp, getFilesUnder, getRelativePackagePath, read, relative, write } from './fs.js'
 
 describe('fs', () => {
   it('should get package path single', async () => {
@@ -106,5 +106,16 @@ describe('fs', () => {
         "
       `)
     }
+  })
+
+  it('should find a file', async () => {
+    const res = findFileOrUp('package.json')
+    expect(res).toMatchInlineSnapshot(`"package.json"`)
+  })
+
+  it('should find a file absolute', async () => {
+    const res = findFileOrUp('package.json', { absolute: true })
+    expect(res).not.toBe('package.json')
+    expect(res).match(/package.json$/)
   })
 })

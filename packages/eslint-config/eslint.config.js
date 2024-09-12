@@ -1,15 +1,28 @@
+import { includeIgnoreFile } from '@eslint/compat'
 import js from '@eslint/js'
 import svelte from 'eslint-plugin-svelte'
 import unusedImports from 'eslint-plugin-unused-imports'
 import globals from 'globals'
 import ts from 'typescript-eslint'
 
+import { findFileOrUp } from '@kitql/internals'
+
+const pathPrettierIgnore = findFileOrUp('.prettierignore', { absolute: true })
+
 /** @type {import('eslint').Linter.Config[]} */
 export const config = [
-  js.configs.recommended,
+  {
+    name: '@kitql:prettier:ignores',
+    ignores: includeIgnoreFile(pathPrettierIgnore).ignores,
+  },
+  {
+    name: 'eslint/defaults/recommended',
+    rules: js.configs.recommended, // TODO, would be nice to have a name by default?
+  },
   ...ts.configs.recommended,
   ...svelte.configs['flat/recommended'],
   {
+    name: '@kitql:languages',
     languageOptions: {
       globals: {
         ...globals.browser,
@@ -18,6 +31,7 @@ export const config = [
     },
   },
   {
+    name: '@kitql:svelte:languages',
     files: ['**/*.svelte'],
     languageOptions: {
       parserOptions: {
@@ -26,10 +40,34 @@ export const config = [
     },
   },
   {
-    ignores: ['build/', '.svelte-kit/', 'dist/'],
+    name: '@kitql:ignores',
+    ignores: ['build/', '.svelte-kit/', 'dist/', '**/build/', '**/.svelte-kit/', '**/dist/'],
   },
   {
-    name: '@kitql rules',
+    name: '@kitql:unused-imports',
+    plugins: {
+      'unused-imports': unusedImports,
+    },
+    rules: {
+      'no-unused-vars': 'off',
+      '@typescript-eslint/no-unused-vars': 'off',
+
+      'unused-imports/no-unused-imports': 'error',
+      'unused-imports/no-unused-vars': 'off',
+      // 'unused-imports/no-unused-vars': [
+      //   'warn',
+      //   {
+      //     vars: 'all',
+      //     varsIgnorePattern: '^_',
+      //     args: 'after-used',
+      //     argsIgnorePattern: '^_',
+      //   },
+      // ],
+      'no-empty': ['error', { allowEmptyCatch: true }],
+    },
+  },
+  {
+    name: '@kitql:rules',
     rules: {
       'no-console': [
         'error',
@@ -50,26 +88,6 @@ export const config = [
       'no-inner-declarations': 'off',
       'svelte/no-at-html-tags': 'off',
       'svelte/no-inner-declarations': 'off',
-    },
-  },
-  {
-    plugins: {
-      'unused-imports': unusedImports,
-    },
-    rules: {
-      'no-unused-vars': 'off', // or "@typescript-eslint/no-unused-vars": "off",
-      '@typescript-eslint/no-unused-vars': 'off',
-      'unused-imports/no-unused-imports': 'error',
-      'unused-imports/no-unused-vars': 'off',
-      // 'unused-imports/no-unused-vars': [
-      //   'warn',
-      //   {
-      //     vars: 'all',
-      //     varsIgnorePattern: '^_',
-      //     args: 'after-used',
-      //     argsIgnorePattern: '^_',
-      //   },
-      // ],
     },
   },
 ]

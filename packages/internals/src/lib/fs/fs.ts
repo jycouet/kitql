@@ -1,5 +1,7 @@
-import { existsSync, mkdirSync, readdirSync, readFileSync, writeFileSync } from 'fs'
-import { dirname, join, relative } from 'path'
+import { existsSync, mkdirSync, readdirSync, readFileSync, statSync, writeFileSync } from 'fs'
+import { dirname, join, relative, resolve } from 'path'
+
+import { Log, red } from '@kitql/helpers'
 
 export function read(pathFile: string) {
   try {
@@ -64,3 +66,24 @@ export function getRelativePackagePath(packageName: string) {
 }
 
 export { relative, dirname }
+
+export const findFileOrUp = (fileName: string, options?: { absolute: boolean }) => {
+  // Find file recursively 4 levels max up
+  for (let i = 0; i < 4; i++) {
+    try {
+      const pathFound = '../'.repeat(i) + fileName
+      if (statSync(pathFound)) {
+        if (options?.absolute) {
+          return resolve(pathFound)
+        }
+        return pathFound
+      }
+    } catch (error) {
+      // nothing to do
+    }
+  }
+
+  const log = new Log('kitql-internals')
+  log.error(red(`${fileName} not found`))
+  return null
+}
