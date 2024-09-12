@@ -1,12 +1,18 @@
 #!/usr/bin/env node
-import { spawnSync } from 'node:child_process'
+import { spawn } from 'node:child_process'
 import { Option, program } from 'commander'
+import ora from 'ora'
 
-import { Log, red } from '@kitql/helpers'
+import { bgBlueBright, gray, red } from '@kitql/helpers'
 
 import { findFileOrUp } from './helper/findFileOrUp.js'
 
-const log = new Log('kitql-lint')
+const spinner = ora({
+  // hideCursor: true,
+  prefixText: bgBlueBright(` kitql-lint `),
+  text: 'check config',
+})
+spinner.start()
 
 program.addOption(new Option('-f, --format', 'format'))
 program.addOption(new Option('-g, --glob <type>', 'file/dir/glob (. by default)', '.'))
@@ -39,7 +45,52 @@ if (pre === 'npm') {
   preToUse = ''
 }
 
-function prettierRun() {
+async function customSpawn(cmd) {
+  const child = spawn(cmd, {
+    shell: true,
+    cwd: process.cwd(),
+    stdio: 'inherit',
+  })
+  // console.log(`child`, child)
+
+  let data = ''
+  // for await (const chunk of child?.stdout) {
+  //   console.log('stdout chunk: ' + chunk)
+  //   data += chunk
+  // }
+  let error = ''
+  // for await (const chunk of child?.stderr) {
+  //   console.error('stderr chunk: ' + chunk)
+  //   error += chunk
+  // }
+  const exitCode = await new Promise((resolve, reject) => {
+    child.on('close', resolve)
+  })
+
+  if (exitCode) {
+    // throw new Error(`subprocess error exit ${exitCode}, ${error}`)
+    return { status: exitCode, error }
+  }
+  return data
+}
+
+async function eslintRun() {
+  const cmdEsLint =
+    preToUse +
+    `eslint` +
+    // format or not
+    `${format ? ' --fix' : ''}` +
+    // exec
+    ` ${glob}`
+
+  spinner.text = verbose ? 'eslint ' + gray(`(${cmdEsLint})`) : 'eslint'
+
+  const result_eslint = await customSpawn(cmdEsLint)
+
+  return result_eslint
+}
+
+async function prettierRun() {
   const cmdPrettier =
     preToUse +
     `prettier` +
@@ -53,52 +104,25 @@ function prettierRun() {
     // exec
     ` ${glob}`
 
-  if (verbose) {
-    log.info(cmdPrettier)
-  }
-  const result_prettier = spawnSync(cmdPrettier, {
-    shell: true,
-    cwd: process.cwd(),
-    stdio: 'inherit',
-  })
+  spinner.text = verbose ? 'prettier ' + gray(`(${cmdPrettier})`) : 'prettier'
+
+  const result_prettier = await customSpawn(cmdPrettier)
 
   return result_prettier
 }
 
-function eslintRun() {
-  // Then eslint
-  const cmdEsLint =
-    preToUse +
-    `eslint` +
-    // format or not
-    `${format ? ' --fix' : ''}` +
-    // exec
-    ` ${glob}`
-
-  if (verbose) {
-    log.info(cmdEsLint)
-  }
-
-  const result_eslint = spawnSync(cmdEsLint, {
-    shell: true,
-    cwd: process.cwd(),
-    stdio: 'inherit',
-  })
-
-  return result_eslint
-}
-
-const eslintCode = eslintRun()
+const eslintCode = await eslintRun()
 if (eslintCode.status) {
-  log.error(red(`eslint failed, check logs above.`))
+  spinner.fail(red(`eslint failed, check logs above.`))
   process.exit(eslintCode.status)
 }
 
-const prettierCode = prettierRun()
+const prettierCode = await prettierRun()
 if (prettierCode.status) {
-  log.error(red(`prettier failed, check logs above.`))
+  spinner.fail(red(`prettier failed, check logs above.`))
   process.exit(eslintCode.status)
 }
 
-log.success(`All good, your files looks great!`)
+spinner.succeed(`All good, your files looks great!`)
+spinner.stop()
 process.exit(0)
