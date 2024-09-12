@@ -1,5 +1,15 @@
 # eslint-config-kitql
 
+## 0.4.0-next.5
+
+### Patch Changes
+
+- [`cb77e9f`](https://github.com/jycouet/kitql/commit/cb77e9f63c0871daf7ff616fe184ef4c38af024f)
+  Thanks [@jycouet](https://github.com/jycouet)! - if no prettierignore eslint is still working
+
+- Updated dependencies []:
+  - @kitql/helpers@0.8.10
+
 ## 0.4.0-next.4
 
 ### Patch Changes
