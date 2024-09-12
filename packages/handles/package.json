@@ -1,36 +1,19 @@
 {
   "name": "@kitql/handles",
-  "version": "0.2.0",
-  "type": "module",
   "description": "Some useful handles for SvelteKit",
+  "keywords": [
+    "svelte",
+    "sveltekit"
+  ],
+  "version": "0.2.0",
+  "license": "MIT",
+  "type": "module",
   "repository": {
     "type": "git",
     "url": "https://github.com/jycouet/kitql",
     "directory": "packages/handles",
     "homepage": "https://github.com/jycouet/kitql/tree/main/packages/handles"
   },
-  "license": "MIT",
-  "engines": {
-    "node": "^16.14 || >=18"
-  },
-  "exports": {
-    ".": {
-      "types": "./esm/index.d.ts",
-      "require": "./cjs/index.js",
-      "svelte": "./esm/index.js",
-      "default": "./esm/index.js"
-    }
-  },
-  "types": "./esm/index.d.ts",
-  "files": [
-    "dist",
-    "!dist/**/*.spec.*",
-    "!dist/**/*.test.*"
-  ],
-  "keywords": [
-    "svelte",
-    "sveltekit"
-  ],
   "scripts": {
     "build": "vite build && svelte-package && node ../../scripts/package.js",
     "check": "svelte-check",
@@ -49,10 +32,6 @@
     "@sveltejs/kit": "^2.4.0",
     "svelte": "^3.54.0 || ^4.0.0 || ^5.0.0"
   },
-  "dependencies": {
-    "esm-env": "^1.0.0",
-    "vary": "^1.1.2"
-  },
   "devDependencies": {
     "@kitql/eslint-config": "workspace:*",
     "@kitql/helpers": "workspace:*",
@@ -70,10 +49,31 @@
     "vite": "^5.4.0",
     "vitest": "2.0.5"
   },
+  "dependencies": {
+    "esm-env": "^1.0.0",
+    "vary": "^1.1.2"
+  },
+  "sideEffects": false,
   "publishConfig": {
     "directory": "dist",
     "access": "public"
   },
-  "sideEffects": false,
-  "svelte": "./esm/index.js"
+  "files": [
+    "dist",
+    "!dist/**/*.test.*",
+    "!dist/**/*.spec.*"
+  ],
+  "svelte": "./esm/index.js",
+  "types": "./esm/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./esm/index.d.ts",
+      "require": "./cjs/index.js",
+      "svelte": "./esm/index.js",
+      "default": "./esm/index.js"
+    }
+  },
+  "engines": {
+    "node": "^16.14 || >=18"
+  }
 }

@@ -1,9 +1,10 @@
 #!/usr/bin/env node
 import { spawnSync } from 'node:child_process'
-import fs from 'node:fs'
 import { Option, program } from 'commander'
 
 import { Log, red } from '@kitql/helpers'
+
+import { findFileOrUp } from './helper/findFileOrUp.js'
 
 const log = new Log('kitql-lint')
 
@@ -20,23 +21,6 @@ program.addOption(
 
 program.parse(process.argv)
 const options_cli = program.opts()
-
-const findFileOrUp = (fileName) => {
-  // Find file recursively 4 levels max up
-  for (let i = 0; i < 4; i++) {
-    try {
-      const path = '../'.repeat(i) + fileName
-      if (fs.statSync(path)) {
-        return path
-      }
-    } catch (error) {
-      // nothing to do
-    }
-  }
-
-  log.error(red(`${fileName} not found`))
-  process.exit(1)
-}
 
 const pathPrettierIgnore = findFileOrUp('.prettierignore')
 const pathPrettierCjs = findFileOrUp('.prettierrc.cjs')
@@ -86,8 +70,6 @@ function eslintRun() {
   const cmdEsLint =
     preToUse +
     `eslint` +
-    // ignore?
-    ` --ignore-pattern ${pathPrettierIgnore}` +
     // format or not
     `${format ? ' --fix' : ''}` +
     // exec
