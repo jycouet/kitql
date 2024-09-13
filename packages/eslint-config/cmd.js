@@ -3,7 +3,7 @@ import { spawn } from 'node:child_process'
 import { Option, program } from 'commander'
 import ora from 'ora'
 
-import { bgBlueBright, gray, red } from '@kitql/helpers'
+import { bgBlueBright, bgGreen, bgRedBright, gray, red } from '@kitql/helpers'
 
 import { findFileOrUp } from './helper/findFileOrUp.js'
 
@@ -113,16 +113,19 @@ async function prettierRun() {
 
 const eslintCode = await eslintRun()
 if (eslintCode.status) {
+  spinner.prefixText = bgRedBright(` kitql-lint `)
   spinner.fail(red(`eslint failed, check logs above.`))
   process.exit(eslintCode.status)
 }
 
 const prettierCode = await prettierRun()
 if (prettierCode.status) {
+  spinner.prefixText = bgRedBright(` kitql-lint `)
   spinner.fail(red(`prettier failed, check logs above.`))
   process.exit(eslintCode.status)
 }
 
+spinner.prefixText = bgGreen(` kitql-lint `)
 spinner.succeed(`All good, your files looks great!`)
 spinner.stop()
 process.exit(0)
