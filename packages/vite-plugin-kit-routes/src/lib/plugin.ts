@@ -997,7 +997,7 @@ ${objTypes
 
       // report things
       if (shouldLog('post_update_run', options)) {
-        child.stdout.on('data', (data) => {
+        child.stderr.on('data', (data) => {
           if (data.toString()) {
             log.info(data.toString())
           }
@@ -1006,7 +1006,7 @@ ${objTypes
 
       // report errors
       if (shouldLog('errors', options)) {
-        child.stderr.on('data', (data) => {
+        child.stderr.on('error', (data) => {
           const msg = data.toString().replace(/\n$/, '')
           if (msg.includes('DEP0040') && msg.includes('punycode')) {
             // silent error
@@ -1046,7 +1046,6 @@ function theEnd(
       log.success(`${yellow(options.generated_file_path)} updated`)
     }
   }
-
   if (atStart && shouldLog('stats', options)) {
     let version = ''
     try {
@@ -1127,9 +1126,19 @@ export function kitRoutes<T extends RouteMappings = RouteMappings>(
     // Run the thing when any change in a +page.svelte (add, remove, ...)
     watchAndRun([
       {
-        name: 'kit-routes-watch',
+        name: 'kit-routes-watch-svelte-files',
         logs: [],
-        watch: ['**/+page.svelte', '**/+page.server.ts', '**/+server.ts'],
+        watchKind: ['add', 'unlink'],
+        watch: ['**/+page.svelte'],
+        run: async () => {
+          await run(false, options)
+        },
+      },
+
+      {
+        name: 'kit-routes-watch-server-files',
+        logs: [],
+        watch: ['**/+page.server.ts', '**/+server.ts'],
         run: async () => {
           await run(false, options)
         },
