@@ -1,5 +1,18 @@
 # eslint-config-kitql
 
+## 0.4.0
+
+### Minor Changes
+
+- [#733](https://github.com/jycouet/kitql/pull/733)
+  [`8aee9fa`](https://github.com/jycouet/kitql/commit/8aee9fae8d8440a39c85afa3852e4767479c267b)
+  Thanks [@jycouet](https://github.com/jycouet)! - Bump to eslint 9 and prettier 3
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @kitql/helpers@0.8.10
+
 ## 0.4.0-next.6
 
 ### Patch Changes
