@@ -1,5 +1,38 @@
 # eslint-config-kitql
 
+## 0.4.0
+
+### Minor Changes
+
+- [#733](https://github.com/jycouet/kitql/pull/733)
+  [`8aee9fa`](https://github.com/jycouet/kitql/commit/8aee9fae8d8440a39c85afa3852e4767479c267b)
+  Thanks [@jycouet](https://github.com/jycouet)! - Bump to eslint 9 and prettier 3
+
+### Patch Changes
+
+- [#736](https://github.com/jycouet/kitql/pull/736)
+  [`ae8115d`](https://github.com/jycouet/kitql/commit/ae8115da293cd0475472c120410735cdff0f2948)
+  Thanks [@jycouet](https://github.com/jycouet)! - improve default config thx to inspector
+
+- [`390db25`](https://github.com/jycouet/kitql/commit/390db257aa2c9081c10c971c95dc7878654f5721)
+  Thanks [@jycouet](https://github.com/jycouet)! - add unused-imports back
+
+- [`6f047c7`](https://github.com/jycouet/kitql/commit/6f047c78afcf389651697e754d42dfff18c22976)
+  Thanks [@jycouet](https://github.com/jycouet)! - fix
+  https://github.com/sweepline/eslint-plugin-unused-imports/issues/100
+
+- [`d6eef51`](https://github.com/jycouet/kitql/commit/d6eef511acf4e1b5dd088fd6960c7e5385cd657f)
+  Thanks [@jycouet](https://github.com/jycouet)! - add some spin
+
+- [`d728bba`](https://github.com/jycouet/kitql/commit/d728bba8c9e649f0e22ffc5ee99a1b582bf57225)
+  Thanks [@jycouet](https://github.com/jycouet)! - deploy all files in eslint
+
+- [`cb77e9f`](https://github.com/jycouet/kitql/commit/cb77e9f63c0871daf7ff616fe184ef4c38af024f)
+  Thanks [@jycouet](https://github.com/jycouet)! - if no prettierignore eslint is still working
+
+- Updated dependencies []:
+  - @kitql/helpers@0.8.10
+
 ## 0.4.0-next.6
 
 ### Patch Changes

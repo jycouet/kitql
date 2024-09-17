@@ -1,5 +1,20 @@
 # @kitql/internals
 
+## 0.9.10
+
+### Patch Changes
+
+- [#731](https://github.com/jycouet/kitql/pull/731)
+  [`1bd5ea8`](https://github.com/jycouet/kitql/commit/1bd5ea8c5dc08f995b16d015d23dd577a14a7cf6)
+  Thanks [@jycouet](https://github.com/jycouet)! - bump internal usage of svelte
+
+- [#736](https://github.com/jycouet/kitql/pull/736)
+  [`ae8115d`](https://github.com/jycouet/kitql/commit/ae8115da293cd0475472c120410735cdff0f2948)
+  Thanks [@jycouet](https://github.com/jycouet)! - add findFileOrUp
+
+- Updated dependencies []:
+  - @kitql/helpers@0.8.10
+
 ## 0.9.10-next.1
 
 ### Patch Changes

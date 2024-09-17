@@ -1,6 +1,6 @@
 # vite-plugin-kit-routes
 
-## 0.6.11-next.2
+## 0.6.11
 
 ### Patch Changes
 
@@ -8,6 +8,13 @@
   [`a3d166d`](https://github.com/jycouet/kitql/commit/a3d166d67165822a9b1895f4e771be33970100e1)
   Thanks [@jycouet](https://github.com/jycouet)! - Doesn't generate when +page.svelte is saved (only
   create or delete)
+
+- Updated dependencies
+  [[`1bd5ea8`](https://github.com/jycouet/kitql/commit/1bd5ea8c5dc08f995b16d015d23dd577a14a7cf6),
+  [`ae8115d`](https://github.com/jycouet/kitql/commit/ae8115da293cd0475472c120410735cdff0f2948)]:
+  - @kitql/internals@0.9.10
+  - @kitql/helpers@0.8.10
+  - vite-plugin-watch-and-run@1.7.1
 
 ## 0.6.11-next.1
 
