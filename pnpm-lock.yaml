@@ -82,7 +82,7 @@ importers:
         version: 5.4.2(@types/node@20.16.1)(terser@5.30.3)
       vite-plugin-kit-routes:
         specifier: latest
-        version: 0.6.10
+        version: 0.6.11
       vitest:
         specifier: 2.1.0
         version: 2.1.0(@types/node@20.16.1)(terser@5.30.3)
@@ -120,8 +120,8 @@ importers:
         specifier: ^4.1.4
         version: 4.1.4(@typescript-eslint/eslint-plugin@8.6.0(@typescript-eslint/parser@8.5.0(eslint@9.10.0(jiti@1.21.0))(typescript@5.5.4))(eslint@9.10.0(jiti@1.21.0))(typescript@5.5.4))(eslint@9.10.0(jiti@1.21.0))
       globals:
-        specifier: 15.9.0
-        version: 15.9.0
+        specifier: 15.11.0
+        version: 15.11.0
       ora:
         specifier: ^8.1.0
         version: 8.1.0
@@ -1185,8 +1185,8 @@ packages:
     resolution: {integrity: sha512-r9m0eQyjy3Z2sdeXA8wRGl2tgKtZ9puPuZ3vm9Cv3WMMWVmbKVzUJvF+4UucsHzT9xECFbO9lcQu7lIb774PPQ==}
     engines: {node: ^16.14 || >=18}
 
-  '@kitql/internals@0.9.9':
-    resolution: {integrity: sha512-bacdzSXFNwH35B54VWWafIaYKCmlpZLd9BlPKTLGgRtN/5w2sjT5/xtIV2Qx9xVKYiVIkMYR6447eM2dXnHF1w==}
+  '@kitql/internals@0.9.10':
+    resolution: {integrity: sha512-t0BUn/XenYdSpq3bLGFqB3Ic4lIFChsNObxKFl8g7+VP9SyS6cUrcFYZgE8hssBmDjsoeF7Nu4N2071bN8V8Fw==}
     engines: {node: ^16.14 || >=18}
 
   '@lit-labs/ssr-dom-shim@1.2.0':
@@ -2485,9 +2485,6 @@ packages:
   axios@1.7.4:
     resolution: {integrity: sha512-DukmaFRnY6AzAALSH4J2M3k6PkaC+MfaAGdEERRWcC9q3/TWQwLpHR8ZRLKTdQ3aBDL64EdluRDjJqKw+BPZEw==}
 
-  axobject-query@3.2.1:
-    resolution: {integrity: sha512-jsyHu61e6N4Vbz/v18DHwWYKK0bSWLqn47eeDSKPB7m8tqMHF9YJ+mhIk2lVteyZrY8tnSj/jHOv4YiTCuCJgg==}
-
   axobject-query@4.1.0:
     resolution: {integrity: sha512-qIj0G9wZbMGNLjLmg1PT6v2mE9AH2zlnADJD/2tC6E00hgmhUOfEB6greHPAfLRSufHqROIUTkw6E+M3lH0PTQ==}
     engines: {node: '>= 0.4'}
@@ -3681,7 +3678,7 @@ packages:
     resolution: {integrity: sha512-oWb1Z6mkHIskLzEJ/XWX0srkpkTQ7vaopMQkyaEIoq0fmtFVxOthb8cCxeT+p3ynTdkk/RZwbgG4brR5BeWECw==}
     engines: {node: '>= 4.0'}
     os: [darwin]
-    deprecated: The v1 package contains DANGEROUS / INSECURE binaries. Upgrade to safe fsevents v2
+    deprecated: Upgrade to fsevents v2 to mitigate potential security issues
 
   fsevents@2.3.2:
     resolution: {integrity: sha512-xiqMQR4xAeHTuB9uWm+fFRcIOgKBMiOBP+eXiyT7jsgVCq1bkVygt00oASowB7EdtpOHaaPgKt812P9ab+DDKA==}
@@ -3772,8 +3769,8 @@ packages:
     resolution: {integrity: sha512-oahGvuMGQlPw/ivIYBjVSrWAfWLBeku5tpPE2fOPLi+WHffIWbuh2tCjhyQhTBPMf5E9jDEH4FOmTYgYwbKwtQ==}
     engines: {node: '>=18'}
 
-  globals@15.9.0:
-    resolution: {integrity: sha512-SmSKyLLKFbSr6rptvP8izbyxJL4ILwqO9Jg23UA0sDlGlu58V59D1//I3vlc0KJphVdUR7vMjHIplYnzBxorQA==}
+  globals@15.11.0:
+    resolution: {integrity: sha512-yeyNSjdbyVaWurlwCpcA6XNBrHTMIeDdj0/hnvX/OLJ9ekOXYbLsLinH/MucQyGvNnXhidTdNhTtJaffL2sMfw==}
     engines: {node: '>=18'}
 
   globalyzer@0.1.0:
@@ -6228,10 +6225,6 @@ packages:
       svelte: ^3.55 || ^4.0.0-next.0 || ^4.0 || ^5.0.0-next.0
       typescript: ^4.9.4 || ^5.0.0
 
-  svelte@4.2.1:
-    resolution: {integrity: sha512-LpLqY2Jr7cRxkrTc796/AaaoMLF/1ax7cto8Ot76wrvKQhrPmZ0JgajiWPmg9mTSDqO16SSLiD17r9MsvAPTmw==}
-    engines: {node: '>=16'}
-
   svelte@4.2.19:
     resolution: {integrity: sha512-IY1rnGr6izd10B0A8LqsBfmlT5OILVuZ7XsI0vdGPEvuonFV7NYEUK4dAkm9Zg2q0Um92kYjTpS1CAP3Nh/KWw==}
     engines: {node: '>=16'}
@@ -6598,8 +6591,8 @@ packages:
     engines: {node: ^18.0.0 || >=20.0.0}
     hasBin: true
 
-  vite-plugin-kit-routes@0.6.10:
-    resolution: {integrity: sha512-Fea0iz4eHQ0CAUFiuFwf2cBnjLZS9PFpSEXGL7ipbKAlNaf5iDjPpxFncxsUH1g6YxsAZRbbulXkKU6PDVycKA==}
+  vite-plugin-kit-routes@0.6.11:
+    resolution: {integrity: sha512-W1WNQt6DNM03KD6s/Q0z1bgTNNVbRC+ML8dg1P3XRMUzqEc8mOOOJ2iPxDtj6JFsu/YP4tmbibKCA7R58qq6kA==}
     engines: {node: ^16.14 || >=18}
 
   vite-plugin-watch-and-run@1.7.1:
@@ -7554,12 +7547,12 @@ snapshots:
     dependencies:
       esm-env: 1.0.0
 
-  '@kitql/internals@0.9.9':
+  '@kitql/internals@0.9.10':
     dependencies:
       '@babel/parser': 7.25.3
       '@kitql/helpers': 0.8.10
       recast: 0.23.4
-      svelte: 4.2.1
+      svelte: 4.2.19
 
   '@lit-labs/ssr-dom-shim@1.2.0': {}
 
@@ -8914,10 +8907,6 @@ snapshots:
       proxy-from-env: 1.1.0
     transitivePeerDependencies:
       - debug
-
-  axobject-query@3.2.1:
-    dependencies:
-      dequal: 2.0.3
 
   axobject-query@4.1.0: {}
 
@@ -10446,7 +10435,7 @@ snapshots:
 
   globals@14.0.0: {}
 
-  globals@15.9.0: {}
+  globals@15.11.0: {}
 
   globalyzer@0.1.0: {}
 
@@ -13565,22 +13554,6 @@ snapshots:
       svelte: 4.2.19
       typescript: 5.5.4
 
-  svelte@4.2.1:
-    dependencies:
-      '@ampproject/remapping': 2.3.0
-      '@jridgewell/sourcemap-codec': 1.5.0
-      '@jridgewell/trace-mapping': 0.3.25
-      acorn: 8.12.1
-      aria-query: 5.3.0
-      axobject-query: 3.2.1
-      code-red: 1.0.4
-      css-tree: 2.3.1
-      estree-walker: 3.0.3
-      is-reference: 3.0.1
-      locate-character: 3.0.0
-      magic-string: 0.30.11
-      periscopic: 3.1.0
-
   svelte@4.2.19:
     dependencies:
       '@ampproject/remapping': 2.3.0
@@ -14073,11 +14046,11 @@ snapshots:
       - supports-color
       - terser
 
-  vite-plugin-kit-routes@0.6.10:
+  vite-plugin-kit-routes@0.6.11:
     dependencies:
       '@babel/parser': 7.24.4
       '@kitql/helpers': 0.8.10
-      '@kitql/internals': 0.9.9
+      '@kitql/internals': 0.9.10
       recast: 0.23.4
       vite-plugin-watch-and-run: 1.7.1
 
