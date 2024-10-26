@@ -26,11 +26,14 @@
     "lint": "kitql-lint",
     "format": "kitql-lint --format"
   },
+  "peerDependencies": {
+   "@sveltejs/kit": "^2.4.0"
+  },
   "devDependencies": {
     "@kitql/eslint-config": "workspace:*",
     "@sveltejs/adapter-auto": "3.3.1",
     "@sveltejs/kit": "2.7.3",
-    "@sveltejs/package": "2.3.0",
+    "@sveltejs/package": "2.3.7",
     "@sveltejs/vite-plugin-svelte": "4.0.0",
     "publint": "0.2.4",
     "svelte": "5.1.3",
