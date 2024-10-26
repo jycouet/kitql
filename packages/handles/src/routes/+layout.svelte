@@ -1,3 +1,13 @@
+<script>
+  /**
+   * @typedef {Object} Props
+   * @property {import('svelte').Snippet} [children]
+   */
+
+  /** @type {Props} */
+  let { children } = $props();
+</script>
+
 <svelte:head>
   <title>KitQL</title>
 </svelte:head>
@@ -21,7 +31,7 @@
   <a href="/">Home</a>
 </center>
 
-<slot />
+{@render children?.()}
 
 <style>
   :root {
