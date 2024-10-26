@@ -64,7 +64,7 @@ export type ViteStriperOptions = {
  * ```
  * 
  */
-export function stripper(options?: ViteStriperOptions): PluginOption[] {
+export function stripper(options?: ViteStriperOptions): PluginOption {
   const log = new Log('stripper')
   let listOrThrow: WarningThrow[] = []
 

@@ -1,11 +1,16 @@
 // import { prettyPrint } from 'recast'
 import { parse } from '@babel/parser'
 import * as recast from 'recast'
+import { prettyPrint as recastPrettyPrint } from 'recast'
 import { parse as parseSvelte } from 'svelte/compiler'
 // @ts-ignore
 import type { TemplateNode } from 'svelte/types/compiler/interfaces'
 
 import { read } from '../fs/fs.js'
+
+export type Statement = recast.types.namedTypes.Statement
+
+export { recastPrettyPrint as prettyPrint }
 
 // very basic
 type ElementAttr = { type: 'a' | 'img'; attr: 'href' | 'src' }
