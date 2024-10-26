@@ -1,3 +1,7 @@
+<script>
+  let { children } = $props()
+</script>
+
 <svelte:head>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/water.css@2/out/dark.css" />
 </svelte:head>
@@ -8,4 +12,4 @@
   <li><a href="/sql">SQL</a></li>
 </ul>
 
-<slot />
+{@render children?.()}
