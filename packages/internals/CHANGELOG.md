@@ -1,5 +1,17 @@
 # @kitql/internals
 
+## 0.9.11-next.0
+
+### Patch Changes
+
+- [#760](https://github.com/jycouet/kitql/pull/760)
+  [`3d93a2a`](https://github.com/jycouet/kitql/commit/3d93a2ab41b7f65be382ccab126b36cc2346de90)
+  Thanks [@jycouet](https://github.com/jycouet)! - internal using svelte 5
+
+- [#760](https://github.com/jycouet/kitql/pull/760)
+  [`3d93a2a`](https://github.com/jycouet/kitql/commit/3d93a2ab41b7f65be382ccab126b36cc2346de90)
+  Thanks [@jycouet](https://github.com/jycouet)! - expose visit from recast
+
 ## 0.9.10
 
 ### Patch Changes
