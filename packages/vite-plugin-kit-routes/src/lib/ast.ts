@@ -1,20 +1,12 @@
-import { parse } from '@babel/parser'
-import * as recast from 'recast'
-
 import { cyan, red, yellow } from '@kitql/helpers'
-import { read } from '@kitql/internals'
+import { parseTs, read, visit } from '@kitql/internals'
 
 import { log, routes_path } from './plugin.js'
-
-const { visit } = recast.types
 
 export const getMethodsOfServerFiles = (pathFile: string) => {
   const code = read(`${routes_path()}/${pathFile}/${'+server.ts'}`)
 
-  const codeParsed = parse(code ?? '', {
-    plugins: ['typescript', 'importAssertions', 'decorators-legacy'],
-    sourceType: 'module',
-  }).program as recast.types.namedTypes.Program
+  const codeParsed = parseTs(code)
 
   const exportedNames: string[] = []
   visit(codeParsed, {
@@ -64,10 +56,7 @@ export const getActionsOfServerPages = (pathFile: string) => {
 
   let withLoad = false
 
-  const codeParsed = parse(code ?? '', {
-    plugins: ['typescript', 'importAssertions', 'decorators-legacy'],
-    sourceType: 'module',
-  }).program as recast.types.namedTypes.Program
+  const codeParsed = parseTs(code)
 
   let actions: string[] = []
   visit(codeParsed, {

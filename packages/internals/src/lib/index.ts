@@ -7,4 +7,4 @@ export {
   getRelativePackagePath,
   findFileOrUp,
 } from './fs/fs.js'
-export { parseTs, extractHtmlElementAttr_Text } from './ast/ast.js'
+export { parseTs, extractHtmlElementAttr_Text, visit } from './ast/ast.js'

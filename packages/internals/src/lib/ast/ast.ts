@@ -1,6 +1,6 @@
-// import type * as recast from 'recast'
 // import { prettyPrint } from 'recast'
 import { parse } from '@babel/parser'
+import * as recast from 'recast'
 import { parse as parseSvelte } from 'svelte/compiler'
 import type { BaseNode, TemplateNode } from 'svelte/types/compiler/interfaces'
 
@@ -68,11 +68,13 @@ export function extractHtmlElementAttr_Text(pathFile: string, elements: ElementA
   return found
 }
 
-export function parseTs(source: string) {
+export function parseTs(source: string | null) {
   const parsed = parse(source ?? '', {
     plugins: ['typescript', 'importAssertions', 'decorators-legacy'],
     sourceType: 'module',
-  }).program // as recast.types.namedTypes.Program
+  }).program as recast.types.namedTypes.Program
 
-  return parsed.type
+  return parsed
 }
+
+export const { visit } = recast.types

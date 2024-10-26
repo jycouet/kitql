@@ -296,18 +296,12 @@ importers:
 
   packages/vite-plugin-kit-routes:
     dependencies:
-      '@babel/parser':
-        specifier: ^7.23.0
-        version: 7.23.0
       '@kitql/helpers':
         specifier: workspace:*
         version: link:../helpers/dist
       '@kitql/internals':
         specifier: workspace:*
         version: link:../internals/dist
-      recast:
-        specifier: ^0.23.4
-        version: 0.23.4
       vite-plugin-watch-and-run:
         specifier: workspace:*
         version: link:../vite-plugin-watch-and-run/dist
