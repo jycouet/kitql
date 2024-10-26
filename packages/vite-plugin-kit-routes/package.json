@@ -27,7 +27,7 @@
     "format": "kitql-lint --format"
   },
   "peerDependencies": {
-   "@sveltejs/kit": "^2.4.0"
+    "@sveltejs/kit": "^2.4.0"
   },
   "devDependencies": {
     "@kitql/eslint-config": "workspace:*",
@@ -67,5 +67,8 @@
       "svelte": "./esm/index.js",
       "default": "./esm/index.js"
     }
+  },
+  "engines": {
+    "node": "^16.14 || >=18"
   }
 }
