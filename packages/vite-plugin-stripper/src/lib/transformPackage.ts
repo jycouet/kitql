@@ -1,17 +1,8 @@
-import { parse } from '@babel/parser'
-import * as recast from 'recast'
-
-const {
-  visit,
-  types: { builders },
-} = recast
+import { builders, parseTs, prettyPrint, visit } from '@kitql/internals'
 
 export const removePackages = async (code: string, packages_to_strip: string[]) => {
   try {
-    const ast = parse(code, {
-      plugins: ['typescript', 'decorators-legacy', 'importAssertions'],
-      sourceType: 'module',
-    })
+    const ast = parseTs(code)
 
     const packages_striped: string[] = []
 
@@ -45,7 +36,7 @@ export const removePackages = async (code: string, packages_to_strip: string[]) 
     })
 
     return {
-      code: recast.print(ast).code,
+      code: prettyPrint(ast).code,
       info: packages_striped.map((pkg) => `Replaced import from '${pkg}'`),
     }
   } catch (error) {

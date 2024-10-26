@@ -1,4 +1,3 @@
-// import { prettyPrint } from 'recast'
 import { parse } from '@babel/parser'
 import * as recast from 'recast'
 import { prettyPrint as recastPrettyPrint } from 'recast'
@@ -83,4 +82,4 @@ export function parseTs(source: string | null) {
   return parsed
 }
 
-export const { visit } = recast.types
+export const { visit, builders } = recast.types
