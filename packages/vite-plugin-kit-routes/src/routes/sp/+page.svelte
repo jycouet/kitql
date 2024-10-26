@@ -17,9 +17,9 @@
     { name: 'Brittney', tally: -98 },
   ]
 
-  let take = Number($page.url.searchParams.get('take') ?? 10)
-  let skip = Number($page.url.searchParams.get('skip') ?? 0)
-  let search = $page.url.searchParams.get('search') ?? ''
+  let take = $state(Number($page.url.searchParams.get('take') ?? 10))
+  let skip = $state(Number($page.url.searchParams.get('skip') ?? 0))
+  let search = $state($page.url.searchParams.get('search') ?? '')
 
   const updateUrl = async () => {
     const url = route('/sp', { ...currentSp(), search, skip, take })
@@ -31,15 +31,15 @@
 
 <label>
   Filter by name
-  <input bind:value={search} on:keyup={updateUrl} placeholder="enter something" />
+  <input bind:value={search} onkeyup={updateUrl} placeholder="enter something" />
 </label>
 <label>
   Skip
-  <input type="number" bind:value={skip} on:keyup={updateUrl} min="0" />
+  <input type="number" bind:value={skip} onkeyup={updateUrl} min="0" />
 </label>
 <label>
   Take
-  <input type="number" bind:value={take} on:keyup={updateUrl} min="0" />
+  <input type="number" bind:value={take} onkeyup={updateUrl} min="0" />
 </label>
 
 {#each elves.filter((c) => c.name.toLowerCase().includes(search)).splice(skip, take) as elve}

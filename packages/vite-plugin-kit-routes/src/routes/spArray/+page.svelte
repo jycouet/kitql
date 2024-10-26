@@ -1,8 +1,8 @@
 <script lang="ts">
   import { page } from '$app/stores'
 
-  $: raw = $page.url.searchParams.getAll('ids')
-  $: parsed = raw.map((id) => parseInt(id, 10))
+  let raw = $derived($page.url.searchParams.getAll('ids'))
+  let parsed = $derived(raw.map((id) => parseInt(id, 10)))
 </script>
 
 <h2>Array Search Params</h2>

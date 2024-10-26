@@ -4,7 +4,11 @@
 
   import { route } from '$lib/ROUTES.js'
 
-  export let form: FormData
+  interface Props {
+    form: FormData;
+  }
+
+  let { form }: Props = $props();
 
   const siteId = $page.params.siteId
   const contractId = $page.params.contractId
