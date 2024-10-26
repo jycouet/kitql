@@ -1,5 +1,19 @@
 # vite-plugin-stripper
 
+## 0.6.0-next.1
+
+### Minor Changes
+
+- [#761](https://github.com/jycouet/kitql/pull/761)
+  [`74295f9`](https://github.com/jycouet/kitql/commit/74295f93ec37d4bf4770d33ed8d8300fe8ac06bc)
+  Thanks [@github-actions](https://github.com/apps/github-actions)! - Bump internals to Svelte 5
+
+### Patch Changes
+
+- Updated dependencies
+  [[`74295f9`](https://github.com/jycouet/kitql/commit/74295f93ec37d4bf4770d33ed8d8300fe8ac06bc)]:
+  - @kitql/internals@0.10.0-next.1
+
 ## 0.5.6-next.0
 
 ### Patch Changes
