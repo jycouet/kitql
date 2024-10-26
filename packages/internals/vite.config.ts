@@ -2,7 +2,7 @@ import { sveltekit } from '@sveltejs/kit/vite'
 import { visualizer } from 'rollup-plugin-visualizer'
 import { defineConfig } from 'vite'
 
-export default defineConfig({
+export default defineConfig(() => ({
   plugins: [
     sveltekit(),
     visualizer({
@@ -16,4 +16,4 @@ export default defineConfig({
   test: {
     include: ['src/**/*.{test,spec}.{js,ts}'],
   },
-})
+}))

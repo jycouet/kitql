@@ -1,6 +1,10 @@
+<script>
+  let { children } = $props()
+</script>
+
 <p class="cool">Nice Layout...</p>
 <br />
-<slot />
+{@render children?.()}
 
 <style>
   .cool {

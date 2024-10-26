@@ -1113,7 +1113,7 @@ function theEnd(
  */
 export function kitRoutes<T extends RouteMappings = RouteMappings>(
   options?: Options<T>,
-): PluginOption[] {
+): PluginOption {
   return [
     // Run the thing at startup
     {

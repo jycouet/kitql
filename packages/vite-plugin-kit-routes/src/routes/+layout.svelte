@@ -3,6 +3,12 @@
 
   import { route } from '$lib/ROUTES.js'
 
+  interface Props {
+    children?: import('svelte').Snippet
+  }
+
+  let { children }: Props = $props()
+
   const siteId = 'Paris'
   const contractId = 'abc'
 
@@ -101,7 +107,7 @@
 <img alt="CORS issue?" src={route('gravatar', { str: 'jycouet', s: 50 })} />
 <hr />
 
-<slot />
+{@render children?.()}
 
 <hr />
 

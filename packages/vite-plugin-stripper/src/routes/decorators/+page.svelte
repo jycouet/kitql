@@ -1,12 +1,12 @@
 <script lang="ts">
-  import { onMount } from 'svelte'
-
   import { ActionsController } from '../../shared/actionsController.js'
 
-  let secretContent = '???'
+  let secretContent = $state('???')
 
-  onMount(async () => {
-    secretContent = await ActionsController.read(true)
+  $effect(() => {
+    ActionsController.read(true).then((content) => {
+      secretContent = content
+    })
   })
 </script>
 

@@ -1,7 +1,4 @@
-import { parse } from '@babel/parser'
-import * as recast from 'recast'
-
-const { visit } = recast.types
+import { parseTs, visit } from '@kitql/internals'
 
 export type WarningThrow = {
   relativePathFile: string
@@ -16,10 +13,7 @@ export const transformWarningThrow = async (
   log_on_throw_is_not_a_new_class: boolean,
 ) => {
   try {
-    const codeParsed = parse(code ?? '', {
-      plugins: ['typescript', 'importAssertions', 'decorators-legacy'],
-      sourceType: 'module',
-    }).program as recast.types.namedTypes.Program
+    const codeParsed = parseTs(code)
 
     const list: WarningThrow[] = []
 

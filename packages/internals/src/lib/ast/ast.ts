@@ -1,10 +1,15 @@
-// import type * as recast from 'recast'
-// import { prettyPrint } from 'recast'
 import { parse } from '@babel/parser'
+import * as recast from 'recast'
+import { prettyPrint as recastPrettyPrint } from 'recast'
 import { parse as parseSvelte } from 'svelte/compiler'
-import type { BaseNode, TemplateNode } from 'svelte/types/compiler/interfaces'
+// @ts-ignore
+import type { TemplateNode } from 'svelte/types/compiler/interfaces'
 
 import { read } from '../fs/fs.js'
+
+export type Statement = recast.types.namedTypes.Statement
+
+export { recastPrettyPrint as prettyPrint }
 
 // very basic
 type ElementAttr = { type: 'a' | 'img'; attr: 'href' | 'src' }
@@ -40,7 +45,7 @@ export function extractHtmlElementAttr_Text(pathFile: string, elements: ElementA
   function traverse(node: TemplateNode) {
     elements.forEach((element) => {
       if (node.type === 'Element' && node.name === element.type) {
-        const hrefAttribute: BaseNode = node.attributes.find(
+        const hrefAttribute = node.attributes.find(
           (attr: { name: string }) => attr.name === element.attr,
         )
         if (hrefAttribute && hrefAttribute.value.length && hrefAttribute.value[0].type === 'Text') {
@@ -59,7 +64,7 @@ export function extractHtmlElementAttr_Text(pathFile: string, elements: ElementA
     })
 
     if (node.children) {
-      node.children.forEach((child) => traverse(child))
+      node.children.forEach((child: TemplateNode) => traverse(child))
     }
   }
 
@@ -68,11 +73,13 @@ export function extractHtmlElementAttr_Text(pathFile: string, elements: ElementA
   return found
 }
 
-export function parseTs(source: string) {
+export function parseTs(source: string | null) {
   const parsed = parse(source ?? '', {
     plugins: ['typescript', 'importAssertions', 'decorators-legacy'],
     sourceType: 'module',
-  }).program // as recast.types.namedTypes.Program
+  }).program as recast.types.namedTypes.Program
 
-  return parsed.type
+  return parsed
 }
+
+export const { visit, builders } = recast.types

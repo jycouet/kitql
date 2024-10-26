@@ -1,31 +1,23 @@
-import { parse } from '@babel/parser'
-import * as recast from 'recast'
-import { prettyPrint } from 'recast'
-
-const { visit } = recast.types
-
-type Statement = recast.types.namedTypes.Statement
+import { parseTs, prettyPrint, visit } from '@kitql/internals'
+import type { Statement } from '@kitql/internals'
 
 export const removeUnusedImports = async (code: string) => {
   try {
-    const ast = parse(code, {
-      plugins: ['typescript', 'decorators-legacy', 'importAssertions'],
-      sourceType: 'module',
-    })
+    const program = parseTs(code)
 
     const usedIdentifiers = new Set()
     const originalImports = new Map()
 
     // Step 1: Remove all global imports and store them
     const newBody: Statement[] = []
-    ast.program.body.forEach((node) => {
+    program.body.forEach((node) => {
       if (node.type === 'ImportDeclaration') {
-        node.specifiers.forEach((specifier) => {
+        ;(node.specifiers ?? []).forEach((specifier) => {
           if (specifier.type === 'ImportSpecifier') {
             const name =
               specifier.imported && specifier.imported.type === 'Identifier'
                 ? specifier.imported.name
-                : specifier.local.name
+                : specifier.local?.name
             if (!originalImports.has(name)) {
               originalImports.set(name, node.source.value)
             }
@@ -36,10 +28,10 @@ export const removeUnusedImports = async (code: string) => {
       }
     })
     // @ts-ignore
-    ast.program.body = newBody
+    program.body = newBody
 
     // Step 2: List all identifiers used in the code
-    visit(ast, {
+    visit(program, {
       visitIdentifier(path) {
         // Let's not add identifiers from import specifiers
         if (path.parentPath.value.type !== 'ImportSpecifier') {
@@ -106,10 +98,10 @@ export const removeUnusedImports = async (code: string) => {
     })
 
     // @ts-ignore
-    ast.program.body.unshift(...necessaryImports)
+    program.body.unshift(...necessaryImports)
 
     return {
-      code: recast.print(ast).code,
+      code: prettyPrint(program).code,
       info: removed.map(([id, src]) => `Removed: '${id}' from '${src}'`),
     }
   } catch (error) {
@@ -123,16 +115,13 @@ export const transformDecorator = async (
   hard: boolean,
 ) => {
   try {
-    const ast = parse(code ?? '', {
-      plugins: ['typescript', 'importAssertions', 'decorators-legacy'],
-      sourceType: 'module',
-    })
+    const program = parseTs(code)
 
     let currentClassName = '' // Variable to hold the current class name
     const decorators_striped: { decorator: string; functionName: string; className: string }[] = []
 
     // Empty functions with one of the decorators. (ex @BackendMethod decorator)
-    visit(ast.program, {
+    visit(program, {
       visitClassDeclaration(path) {
         // @ts-ignore
         currentClassName = path.node.id.name
@@ -199,7 +188,7 @@ export const transformDecorator = async (
       },
     })
 
-    const res = prettyPrint(ast.program, {})
+    const res = prettyPrint(program, {})
     const info = decorators_striped.map(
       (decorator) => `Striped: ${JSON.stringify(Object.values(decorator))}`,
     )
