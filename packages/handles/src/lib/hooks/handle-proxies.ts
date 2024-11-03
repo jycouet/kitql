@@ -19,7 +19,7 @@ export interface ProxyOptions {
  *
  * If the fetch fails, the error is logged and rethrown.
  */
-function fetchMaybeProxiedRequest(
+async function fetchMaybeProxiedRequest(
   fetch: RequestEvent['fetch'],
   request: Request,
   proxiedUrl?: string,
@@ -29,7 +29,7 @@ function fetchMaybeProxiedRequest(
   if (proxiedUrl != null) {
     requestHeaders.set('host', new URL(proxiedUrl).hostname)
   }
-  return fetch(url, {
+  const response = await fetch(url, {
     body: request.body,
     method: request.method,
     headers: requestHeaders,
@@ -41,6 +41,18 @@ function fetchMaybeProxiedRequest(
     console.error(err)
     log.error('handleProxies ERROR')
     throw err
+  })
+
+  // Create a new response with modified headers
+  const newHeaders = new Headers(response.headers)
+
+  // Remove the Content-Encoding header to prevent decoding issues
+  newHeaders.delete('Content-Encoding')
+
+  return new Response(response.body, {
+    status: response.status,
+    statusText: response.statusText,
+    headers: newHeaders,
   })
 }
 

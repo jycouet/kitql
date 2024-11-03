@@ -33,7 +33,7 @@ jobs:
         name: setup env
         with:
           pnpmVersion: 9
-          nodeVersion: 22.6.0
+          nodeVersion: 22.11.0
 
       - name: Create Release Pull Request or Publish to npm
         id: changesets
