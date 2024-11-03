@@ -1,5 +1,14 @@
 # @kitql/handles
 
+## 0.2.1-next.0
+
+### Patch Changes
+
+- [#766](https://github.com/jycouet/kitql/pull/766)
+  [`0b14bc8`](https://github.com/jycouet/kitql/commit/0b14bc87e67f88c9b016f3cc8124203c697690f2)
+  Thanks [@jycouet](https://github.com/jycouet)! - rmv Content-Encoding in response of a proxied
+  handle
+
 ## 0.2.0
 
 ### Minor Changes
