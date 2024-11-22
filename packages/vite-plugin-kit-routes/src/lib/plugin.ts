@@ -62,6 +62,13 @@ export type Options<T extends RouteMappings = RouteMappings> = {
      */
     stats?: boolean
   }
+  
+  /**
+   * Export ROUTES, LINKS, SERVERS and ACTIONS constants in the generated file
+   * Does nothing when the format is "variables", as exporting is required then.
+   * @default false
+   */
+  exportObjects?: boolean
 
   /**
    * @default 'src/lib/ROUTES.ts'
@@ -915,7 +922,7 @@ ${c.files
             .map((c) => {
               return (
                 `/**\n * ${c.type}\n */
-${options?.format?.includes('object') ? `export ` : ``}` +
+${options?.exportObjects || options?.format?.includes('object') ? `export ` : ``}` +
                 `const ${c.type} = {
   ${c.files
     .map((key) => {
