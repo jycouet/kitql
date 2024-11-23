@@ -1,5 +1,12 @@
 # vite-plugin-kit-routes
 
+## 0.7.0
+
+### Minor Changes
+
+- [#775](https://github.com/jycouet/kitql/pull/775)
+  Thanks [@ewen-lbh](https://github.com/ewen-lbh)! - add exportConsts config option
+
 ## 0.7.0-next.1
 
 ### Minor Changes
