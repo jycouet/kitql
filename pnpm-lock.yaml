@@ -15,8 +15,8 @@ importers:
         specifier: 2.27.7
         version: 2.27.7
       '@vitest/coverage-v8':
-        specifier: 2.1.0
-        version: 2.1.0(vitest@2.1.8(@types/node@22.10.1)(terser@5.30.3))
+        specifier: 2.1.8
+        version: 2.1.8(vitest@2.1.8(@types/node@22.10.1)(terser@5.30.3))
       esbuild:
         specifier: 0.24.0
         version: 0.24.0
@@ -2053,11 +2053,11 @@ packages:
   '@ungap/structured-clone@1.2.0':
     resolution: {integrity: sha512-zuVdFrMJiuCDQUMCzQaD6KL28MjnqqN8XnAqiEq9PNm/hCPTSGfrXCOfwj1ow4LFb/tNymJPwsNbVePc1xFqrQ==}
 
-  '@vitest/coverage-v8@2.1.0':
-    resolution: {integrity: sha512-yqCkr2nrV4o58VcVMxTVkS6Ggxzy7pmSD8JbTbhbH5PsQfUIES1QT716VUzo33wf2lX9EcWYdT3Vl2MMmjR59g==}
+  '@vitest/coverage-v8@2.1.8':
+    resolution: {integrity: sha512-2Y7BPlKH18mAZYAW1tYByudlCYrQyl5RGvnnDYJKW5tCiO5qg3KSAy3XAxcxKz900a0ZXxWtKrMuZLe3lKBpJw==}
     peerDependencies:
-      '@vitest/browser': 2.1.0
-      vitest: 2.1.0
+      '@vitest/browser': 2.1.8
+      vitest: 2.1.8
     peerDependenciesMeta:
       '@vitest/browser':
         optional: true
@@ -4221,8 +4221,8 @@ packages:
   magic-string@0.30.14:
     resolution: {integrity: sha512-5c99P1WKTed11ZC0HMJOj6CDIue6F8ySu+bJL+85q1zBEIY8IklrJ1eiKC2NDRh3Ct3FcvmJPyQHb9erXMTJNw==}
 
-  magicast@0.3.4:
-    resolution: {integrity: sha512-TyDF/Pn36bBji9rWKHlZe+PZb6Mx5V8IHCSxk7X4aljM4e/vyDvZZYwHewdVaqiA0nb3ghfHU/6AUpDxWoER2Q==}
+  magicast@0.3.5:
+    resolution: {integrity: sha512-L0WhttDl+2BOsybvEOLK7fW3UA0OQ0IQ2d6Zl2x/a6vVRs3bAY0ECOSHHeL5jD+SbOpOCUEi0y1DgHEn9Qn1AQ==}
 
   make-dir@2.1.0:
     resolution: {integrity: sha512-LS9X+dc8KLxXCb8dni79fLIIUA5VyZoyjSMCwTluaXA0o27cCK0bhXkpgw+sTXVpPy/lSO57ilRixqk0vDmtRA==}
@@ -8130,7 +8130,7 @@ snapshots:
 
   '@ungap/structured-clone@1.2.0': {}
 
-  '@vitest/coverage-v8@2.1.0(vitest@2.1.8(@types/node@22.10.1)(terser@5.30.3))':
+  '@vitest/coverage-v8@2.1.8(vitest@2.1.8(@types/node@22.10.1)(terser@5.30.3))':
     dependencies:
       '@ampproject/remapping': 2.3.0
       '@bcoe/v8-coverage': 0.2.3
@@ -8140,7 +8140,7 @@ snapshots:
       istanbul-lib-source-maps: 5.0.6
       istanbul-reports: 3.1.7
       magic-string: 0.30.14
-      magicast: 0.3.4
+      magicast: 0.3.5
       std-env: 3.8.0
       test-exclude: 7.0.1
       tinyrainbow: 1.2.0
@@ -10635,7 +10635,7 @@ snapshots:
     dependencies:
       '@jridgewell/sourcemap-codec': 1.5.0
 
-  magicast@0.3.4:
+  magicast@0.3.5:
     dependencies:
       '@babel/parser': 7.26.2
       '@babel/types': 7.26.0
