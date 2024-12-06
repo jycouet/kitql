@@ -85,6 +85,9 @@ importers:
 
   packages/handles:
     dependencies:
+      '@kitql/helpers':
+        specifier: workspace:*
+        version: link:../helpers/dist
       esm-env:
         specifier: ^1.0.0
         version: 1.0.0
@@ -95,9 +98,6 @@ importers:
       '@kitql/eslint-config':
         specifier: workspace:*
         version: link:../eslint-config
-      '@kitql/helpers':
-        specifier: workspace:*
-        version: link:../helpers/dist
       '@playwright/test':
         specifier: 1.49.0
         version: 1.49.0
