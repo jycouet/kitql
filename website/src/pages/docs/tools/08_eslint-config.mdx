@@ -43,10 +43,10 @@ npx @eslint/config-inspector
 
 ### prettier config
 
-```js filename=".prettierrc.cjs"
-const config = require('@kitql/eslint-config/.prettierrc.cjs')
+```js filename=".prettierrc.mjs"
+import config from '@kitql/eslint-config/.prettierrc.mjs'
 
-module.exports = {
+export default {
   ...config
   // Some custom things?
 }
