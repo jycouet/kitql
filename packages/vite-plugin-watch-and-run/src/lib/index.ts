@@ -253,6 +253,13 @@ export const watchAndRun = (
       // check params, throw Errors if not valid and return a new object representing the state of the plugin
       const watchAndRunConf = checkConf(params)
 
+      // watch files outside of Vite root directory
+      for (const conf of watchAndRunConf) {
+        if (conf.watch) {
+            server.watcher.add(conf.watch);
+        }
+      }
+
       for (const kind of kindWithPath) {
         const _watcher = async (absolutePath: string) =>
           watcher(server, absolutePath, kind, watchAndRunConf)
