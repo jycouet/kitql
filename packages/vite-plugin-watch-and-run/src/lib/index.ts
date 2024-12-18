@@ -240,7 +240,8 @@ const log = new Log('Watch-and-Run')
 
 export const watchAndRun = (
   params: Options[],
-): PluginOption & { getCheckedConf: () => StateDetail[] } => {
+): PluginOption & { getCheckedConf: () => StateDetail[],
+   configureServer: (server: ViteDevServer) => void } => {
   return {
     name: 'watch-and-run',
 
@@ -252,6 +253,13 @@ export const watchAndRun = (
     async configureServer(server) {
       // check params, throw Errors if not valid and return a new object representing the state of the plugin
       const watchAndRunConf = checkConf(params)
+
+      // watch files outside of Vite root directory
+      for (const conf of watchAndRunConf) {
+        if (conf.watch) {
+            server.watcher.add(conf.watch);
+        }
+      }
 
       for (const kind of kindWithPath) {
         const _watcher = async (absolutePath: string) =>
