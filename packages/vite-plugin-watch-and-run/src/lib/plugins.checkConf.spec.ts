@@ -178,4 +178,28 @@ describe('configureServer', () => {
     expect(mockServer.watcher.on).toHaveBeenCalledWith('change', expect.any(Function))
     expect(mockServer.watcher.on).toHaveBeenCalledWith('unlink', expect.any(Function))
   })
+
+  it('should handle watch patterns outside of project root', async () => {
+    const watchPatterns = [
+      '../../shared/**/*.ts',           // Parent directories
+      '../sibling-project/**/*.graphql', // Sibling directory
+      '/absolute/path/**/*.json',        // Absolute path
+      './src/**/*.ts'                    // Regular project path
+    ]
+    
+    const p = watchAndRun([{ 
+      watch: watchPatterns,
+      run: 'npm run gen'
+    }])
+
+    await p.configureServer(mockServer)
+
+    // Verify that external patterns are added to the watcher
+    expect(mockServer.watcher.add).toHaveBeenCalledWith(watchPatterns)
+    
+    // Verify watchers are set up for file events
+    expect(mockServer.watcher.on).toHaveBeenCalledWith('add', expect.any(Function))
+    expect(mockServer.watcher.on).toHaveBeenCalledWith('change', expect.any(Function))
+    expect(mockServer.watcher.on).toHaveBeenCalledWith('unlink', expect.any(Function))
+  })
 })
