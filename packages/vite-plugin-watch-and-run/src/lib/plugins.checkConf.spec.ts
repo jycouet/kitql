@@ -154,4 +154,28 @@ describe('configureServer', () => {
 
     expect(mockServer.watcher.add).not.toHaveBeenCalled()
   })
+
+  it('should handle array of watch patterns with different file types', async () => {
+    const watchPatterns = ['**/*.gql', '**/*.graphql', '**/*.ts', 'src/**/*.json']
+    const p = watchAndRun([{ 
+      watch: watchPatterns,
+      run: 'npm run gen'
+    }, {
+      // Add a second config to ensure multiple configs work with arrays
+      watch: ['**/*.css', '**/*.scss'],
+      run: 'npm run build:css'
+    }])
+
+    await p.configureServer(mockServer)
+
+    // Should add both watch pattern arrays
+    expect(mockServer.watcher.add).toHaveBeenCalledTimes(2)
+    expect(mockServer.watcher.add).toHaveBeenNthCalledWith(1, watchPatterns)
+    expect(mockServer.watcher.add).toHaveBeenNthCalledWith(2, ['**/*.css', '**/*.scss'])
+
+    // Verify all watchers are still set up
+    expect(mockServer.watcher.on).toHaveBeenCalledWith('add', expect.any(Function))
+    expect(mockServer.watcher.on).toHaveBeenCalledWith('change', expect.any(Function))
+    expect(mockServer.watcher.on).toHaveBeenCalledWith('unlink', expect.any(Function))
+  })
 })
