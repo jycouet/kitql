@@ -239,6 +239,42 @@ importers:
         version: 2.1.8(@types/node@22.10.1)(terser@5.30.3)
     publishDirectory: dist
 
+  packages/svelte:
+    devDependencies:
+      '@kitql/eslint-config':
+        specifier: workspace:*
+        version: link:../eslint-config
+      '@sveltejs/adapter-auto':
+        specifier: 3.3.1
+        version: 3.3.1(@sveltejs/kit@2.9.0(@sveltejs/vite-plugin-svelte@5.0.1(svelte@5.8.0)(vite@6.0.3(@types/node@22.10.1)(jiti@1.21.0)(terser@5.30.3)))(svelte@5.8.0)(vite@6.0.3(@types/node@22.10.1)(jiti@1.21.0)(terser@5.30.3)))
+      '@sveltejs/kit':
+        specifier: 2.9.0
+        version: 2.9.0(@sveltejs/vite-plugin-svelte@5.0.1(svelte@5.8.0)(vite@6.0.3(@types/node@22.10.1)(jiti@1.21.0)(terser@5.30.3)))(svelte@5.8.0)(vite@6.0.3(@types/node@22.10.1)(jiti@1.21.0)(terser@5.30.3))
+      '@sveltejs/package':
+        specifier: 2.3.7
+        version: 2.3.7(svelte@5.8.0)(typescript@5.7.2)
+      '@sveltejs/vite-plugin-svelte':
+        specifier: 5.0.1
+        version: 5.0.1(svelte@5.8.0)(vite@6.0.3(@types/node@22.10.1)(jiti@1.21.0)(terser@5.30.3))
+      publint:
+        specifier: 0.2.4
+        version: 0.2.4
+      svelte:
+        specifier: 5.8.0
+        version: 5.8.0
+      svelte-check:
+        specifier: 4.1.1
+        version: 4.1.1(svelte@5.8.0)(typescript@5.7.2)
+      typescript:
+        specifier: 5.7.2
+        version: 5.7.2
+      vite:
+        specifier: 6.0.3
+        version: 6.0.3(@types/node@22.10.1)(jiti@1.21.0)(terser@5.30.3)
+      vitest:
+        specifier: 2.1.8
+        version: 2.1.8(@types/node@22.10.1)(terser@5.30.3)
+
   packages/vite-plugin-kit-routes:
     dependencies:
       '@kitql/helpers':
