@@ -1,12 +1,12 @@
-const { plugins, ...prettierConfig } = require('@theguild/prettier-config')
+import prettierConfig from '@theguild/prettier-config'
 
-module.exports = {
+export default {
   ...prettierConfig,
   singleQuote: true,
   semi: false,
   arrowParens: 'always',
   plugins: [
-    ...plugins,
+    ...prettierConfig.plugins,
     'prettier-plugin-svelte',
     'prettier-plugin-tailwindcss', // MUST come last
   ],

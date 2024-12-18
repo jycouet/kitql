@@ -29,7 +29,7 @@ program.parse(process.argv)
 const options_cli = program.opts()
 
 const pathPrettierIgnore = findFileOrUp('.prettierignore')
-const pathPrettierCjs = findFileOrUp('.prettierrc.cjs')
+const pathPrettierCjs = findFileOrUp('.prettierrc.mjs')
 
 const format = options_cli.format ?? false
 const glob = options_cli.glob ?? '.'
