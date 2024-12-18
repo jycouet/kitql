@@ -1,11 +1,21 @@
 # vite-plugin-kit-routes
 
+## 0.7.1-next.0
+
+### Patch Changes
+
+- Updated dependencies
+  [[`50da081`](https://github.com/jycouet/kitql/commit/50da081607f041431006a3f250009c8603a98d4d)]:
+  - vite-plugin-watch-and-run@1.7.2-next.0
+  - @kitql/helpers@0.8.10
+  - @kitql/internals@0.10.0
+
 ## 0.7.0
 
 ### Minor Changes
 
-- [#775](https://github.com/jycouet/kitql/pull/775)
-  Thanks [@ewen-lbh](https://github.com/ewen-lbh)! - add exportConsts config option
+- [#775](https://github.com/jycouet/kitql/pull/775) Thanks
+  [@ewen-lbh](https://github.com/ewen-lbh)! - add exportConsts config option
 
 ## 0.7.0-next.1
 

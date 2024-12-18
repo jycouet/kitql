@@ -1,5 +1,16 @@
 # @kitql/vite-plugin-watch-and-run
 
+## 1.7.2-next.0
+
+### Patch Changes
+
+- [#801](https://github.com/jycouet/kitql/pull/801)
+  [`50da081`](https://github.com/jycouet/kitql/commit/50da081607f041431006a3f250009c8603a98d4d)
+  Thanks [@kerryj89](https://github.com/kerryj89)! - watch support path outside of current directory
+
+- Updated dependencies []:
+  - @kitql/helpers@0.8.10
+
 ## 1.7.1
 
 ### Patch Changes
