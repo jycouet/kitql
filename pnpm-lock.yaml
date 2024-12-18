@@ -65,8 +65,8 @@ importers:
         specifier: ^4.1.4
         version: 4.1.4(@typescript-eslint/eslint-plugin@8.17.0(@typescript-eslint/parser@8.17.0(eslint@9.10.0(jiti@1.21.0))(typescript@5.7.2))(eslint@9.10.0(jiti@1.21.0))(typescript@5.7.2))(eslint@9.10.0(jiti@1.21.0))
       globals:
-        specifier: 15.13.0
-        version: 15.13.0
+        specifier: 15.14.0
+        version: 15.14.0
       ora:
         specifier: ^8.1.0
         version: 8.1.0
@@ -238,42 +238,6 @@ importers:
         specifier: 2.1.8
         version: 2.1.8(@types/node@22.10.1)(terser@5.30.3)
     publishDirectory: dist
-
-  packages/svelte:
-    devDependencies:
-      '@kitql/eslint-config':
-        specifier: workspace:*
-        version: link:../eslint-config
-      '@sveltejs/adapter-auto':
-        specifier: 3.3.1
-        version: 3.3.1(@sveltejs/kit@2.9.0(@sveltejs/vite-plugin-svelte@5.0.1(svelte@5.8.0)(vite@6.0.3(@types/node@22.10.1)(jiti@1.21.0)(terser@5.30.3)))(svelte@5.8.0)(vite@6.0.3(@types/node@22.10.1)(jiti@1.21.0)(terser@5.30.3)))
-      '@sveltejs/kit':
-        specifier: 2.9.0
-        version: 2.9.0(@sveltejs/vite-plugin-svelte@5.0.1(svelte@5.8.0)(vite@6.0.3(@types/node@22.10.1)(jiti@1.21.0)(terser@5.30.3)))(svelte@5.8.0)(vite@6.0.3(@types/node@22.10.1)(jiti@1.21.0)(terser@5.30.3))
-      '@sveltejs/package':
-        specifier: 2.3.7
-        version: 2.3.7(svelte@5.8.0)(typescript@5.7.2)
-      '@sveltejs/vite-plugin-svelte':
-        specifier: 5.0.1
-        version: 5.0.1(svelte@5.8.0)(vite@6.0.3(@types/node@22.10.1)(jiti@1.21.0)(terser@5.30.3))
-      publint:
-        specifier: 0.2.4
-        version: 0.2.4
-      svelte:
-        specifier: 5.8.0
-        version: 5.8.0
-      svelte-check:
-        specifier: 4.1.1
-        version: 4.1.1(svelte@5.8.0)(typescript@5.7.2)
-      typescript:
-        specifier: 5.7.2
-        version: 5.7.2
-      vite:
-        specifier: 6.0.3
-        version: 6.0.3(@types/node@22.10.1)(jiti@1.21.0)(terser@5.30.3)
-      vitest:
-        specifier: 2.1.8
-        version: 2.1.8(@types/node@22.10.1)(terser@5.30.3)
 
   packages/vite-plugin-kit-routes:
     dependencies:
@@ -3631,8 +3595,8 @@ packages:
     resolution: {integrity: sha512-oahGvuMGQlPw/ivIYBjVSrWAfWLBeku5tpPE2fOPLi+WHffIWbuh2tCjhyQhTBPMf5E9jDEH4FOmTYgYwbKwtQ==}
     engines: {node: '>=18'}
 
-  globals@15.13.0:
-    resolution: {integrity: sha512-49TewVEz0UxZjr1WYYsWpPrhyC/B/pA8Bq0fUmet2n+eR7yn0IvNzNaoBwnK6mdkzcN+se7Ez9zUgULTz2QH4g==}
+  globals@15.14.0:
+    resolution: {integrity: sha512-OkToC372DtlQeje9/zHIo5CT8lRP/FUgEOKBEhU4e0abL7J7CD24fD9ohiLN5hagG/kWCYj4K5oaxxtj2Z0Dig==}
     engines: {node: '>=18'}
 
   globalyzer@0.1.0:
@@ -10030,7 +9994,7 @@ snapshots:
 
   globals@14.0.0: {}
 
-  globals@15.13.0: {}
+  globals@15.14.0: {}
 
   globalyzer@0.1.0: {}
 
