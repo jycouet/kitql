@@ -14,10 +14,14 @@ export default defineConfig({
         run: 'echo coucou 👋',
         watch: path.resolve('src/**/*.svelte'),
       },
+      { name: 'Yop NOK', run: 'exit(1)', watch: path.resolve('src/**/*.svelte') },
     ]),
-    watchAndRun([{ name: 'Yop NOK', run: 'exit(1)', watch: path.resolve('src/**/*.svelte') }]),
+    watchAndRun([
+      {
+        name: 'Readme update',
+        run: 'echo Hello new readme 👋',
+        watch: path.resolve('../../README.md'),
+      },
+    ]),
   ],
-  test: {
-    include: ['src/**/*.{test,spec}.{js,ts}'],
-  },
 })

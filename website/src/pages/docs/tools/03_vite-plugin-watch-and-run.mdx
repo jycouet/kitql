@@ -18,30 +18,28 @@ npm i -D vite-plugin-watch-and-run
 
 Add `watchAndRun` plugin with the following configuration:
 
-- `watch`: a glob pattern to watch for changes. This will be matched against the _absolute path_ for
-  altered files.
+- `watch`: a glob pattern to watch for changes. This will be matched against the **absolute path**
+  for altered files.
 - `run`: a command to trigger when a file change is detected (You can be very creative 🥳!)
 
 ```js filename="vite.config.js"
 import path from 'path'
 import { watchAndRun } from 'vite-plugin-watch-and-run'
+import { defineConfig } from 'vite'
 
-/** @type {import('vite').UserConfig} */
-const config = {
+export default defineConfig({
   plugins: [
     watchAndRun([
       {
         name: 'gen',
-        watchKind: ['add', 'change', 'unlink'],
         watch: path.resolve('src/**/*.(gql|svelte)'),
-        run: 'npm run gen',
-        delay: 300
+        run: 'npm run gen'
+        // watchKind: ['add', 'change', 'unlink'], // (default)
+        // delay: 300                              // (default)
       }
     ])
   ]
 }
-
-export default config
 ```
 
 ## Side Notes
@@ -53,3 +51,24 @@ export default config
 
 - For the `run` command we recommend to use `npm run xxx` as it will work for `npm`, `yarn` and
   `pnpm` 🙃
+
+- `watch` infos
+  - You can use glob patterns to watch for changes under the root directory.
+
+```js
+{
+  watch: path.resolve('**/*.ts')
+}
+```
+
+- You can use absolute path to watch for changes on a specific file on your machine. That's useful
+  if you want to watch for changes on a file that is in your monorepo for example!
+
+```js
+{
+  watch: path.resolve('../../README.md')
+}
+```
+
+- You can also go with `watchFile` that is a function that will be called with the filepath. Inside,
+  you can decide what to do.
