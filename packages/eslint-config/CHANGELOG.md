@@ -1,5 +1,19 @@
 # eslint-config-kitql
 
+## 0.5.0
+
+### Minor Changes
+
+- [#802](https://github.com/jycouet/kitql/pull/802)
+  [`4e72b36`](https://github.com/jycouet/kitql/commit/4e72b365ff034db24ec3e78da38fca1b784c696b)
+  Thanks [@jycouet](https://github.com/jycouet)! - switch .prettierrc.cjs to .prettierrc.mjs (and
+  use type module)
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @kitql/helpers@0.8.10
+
 ## 0.5.0-next.0
 
 ### Minor Changes
