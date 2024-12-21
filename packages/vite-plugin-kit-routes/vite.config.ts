@@ -21,6 +21,7 @@ export default defineConfig({
         stats: true,
       },
       // path_base: true,
+      // router_type: 'hash',
       // default_type: 'string',
       // extra_search_params: 'with',
       // generated_file_path: 'src/lib/another_path_for_the_file.ts',
@@ -78,21 +79,21 @@ export default defineConfig({
         // yop: {},
       },
       ACTIONS: {
-        'default /contract/[id]': {
-          explicit_search_params: {
-            limit: { type: 'number' },
-          },
-        },
-        'send /site_contract/[siteId]-[contractId]': {
-          explicit_search_params: {
-            extra: { type: "'A' | 'B'", default: '"A"' },
-          },
-        },
-        'create /site': {
-          explicit_search_params: {
-            redirectTo: { type: '"list" | "new" | "detail"' },
-          },
-        },
+        // 'default /contract/[id]': {
+        //   explicit_search_params: {
+        //     limit: { type: 'number' },
+        //   },
+        // },
+        // 'send /site_contract/[siteId]-[contractId]': {
+        //   explicit_search_params: {
+        //     extra: { type: "'A' | 'B'", default: '"A"' },
+        //   },
+        // },
+        // 'create /site': {
+        //   explicit_search_params: {
+        //     redirectTo: { type: '"list" | "new" | "detail"' },
+        //   },
+        // },
       },
       LINKS: {
         // reference to a hardcoded link
