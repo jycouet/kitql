@@ -1,5 +1,14 @@
 # vite-plugin-kit-routes
 
+## 0.7.2
+
+### Patch Changes
+
+- [#810](https://github.com/jycouet/kitql/pull/810)
+  [`29b8393`](https://github.com/jycouet/kitql/commit/29b8393299fc91b22a543f8674f638b11c60ee73)
+  Thanks [@jycouet](https://github.com/jycouet)! - adding router_type config to manage hash routes
+  (need sveltekit 2.14.0). More infos here https://bsky.app/profile/svelte.dev/post/3ldtkhzy7bc2g
+
 ## 0.7.1
 
 ### Patch Changes
