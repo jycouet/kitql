@@ -113,11 +113,15 @@ const ACTIONS = {
   'default /contract/[id]': (params: {
     id: string | number
     lang?: 'fr' | 'en' | 'hu' | 'at' | string
+    limit?: number
   }) => {
-    return `${params?.lang ? `/${params?.lang}` : ''}/contract/${params.id}`
+    return `${params?.lang ? `/${params?.lang}` : ''}/contract/${params.id}${appendSp({ limit: params.limit })}`
   },
-  'create /site': (params?: { lang?: 'fr' | 'en' | 'hu' | 'at' | string }) => {
-    return `${params?.lang ? `/${params?.lang}` : ''}/site?/create`
+  'create /site': (params?: {
+    lang?: 'fr' | 'en' | 'hu' | 'at' | string
+    redirectTo?: 'list' | 'new' | 'detail'
+  }) => {
+    return `${params?.lang ? `/${params?.lang}` : ''}/site?/create${appendSp({ redirectTo: params?.redirectTo }, '&')}`
   },
   'update /site/[id]': (params: {
     id: string | number
@@ -138,8 +142,10 @@ const ACTIONS = {
     siteId: string | number
     contractId: string | number
     lang?: 'fr' | 'en' | 'hu' | 'at' | string
+    extra?: 'A' | 'B'
   }) => {
-    return `${params?.lang ? `/${params?.lang}` : ''}/site_contract/${params.siteId}-${params.contractId}?/send`
+    params.extra = params.extra ?? 'A'
+    return `${params?.lang ? `/${params?.lang}` : ''}/site_contract/${params.siteId}-${params.contractId}?/send${appendSp({ extra: params.extra }, '&')}`
   },
 }
 
@@ -317,6 +323,8 @@ export type KIT_ROUTES = {
     rest: never
     ids: never
     locale: never
+    redirectTo: never
+    extra: never
     name: never
     str: never
     s: never

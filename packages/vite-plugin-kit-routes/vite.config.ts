@@ -79,21 +79,21 @@ export default defineConfig({
         // yop: {},
       },
       ACTIONS: {
-        // 'default /contract/[id]': {
-        //   explicit_search_params: {
-        //     limit: { type: 'number' },
-        //   },
-        // },
-        // 'send /site_contract/[siteId]-[contractId]': {
-        //   explicit_search_params: {
-        //     extra: { type: "'A' | 'B'", default: '"A"' },
-        //   },
-        // },
-        // 'create /site': {
-        //   explicit_search_params: {
-        //     redirectTo: { type: '"list" | "new" | "detail"' },
-        //   },
-        // },
+        'default /contract/[id]': {
+          explicit_search_params: {
+            limit: { type: 'number' },
+          },
+        },
+        'send /site_contract/[siteId]-[contractId]': {
+          explicit_search_params: {
+            extra: { type: "'A' | 'B'", default: '"A"' },
+          },
+        },
+        'create /site': {
+          explicit_search_params: {
+            redirectTo: { type: '"list" | "new" | "detail"' },
+          },
+        },
       },
       LINKS: {
         // reference to a hardcoded link
