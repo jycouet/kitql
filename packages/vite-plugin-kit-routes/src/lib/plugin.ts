@@ -62,7 +62,7 @@ export type Options<T extends RouteMappings = RouteMappings> = {
      */
     stats?: boolean
   }
-  
+
   /**
    * Export ROUTES, LINKS, SERVERS and ACTIONS constants in the generated file
    * Does nothing when the format is "variables", as exporting is required then.
@@ -151,6 +151,14 @@ export type Options<T extends RouteMappings = RouteMappings> = {
    * @default false
    */
   path_base?: boolean
+
+  /**
+   * What type of client-side router to use.
+   * - 'pathname' is the default and means the current URL pathname determines the route
+   * - 'hash' means the route is determined by location.hash. In this case, SSR and prerendering are disabled. This is only recommended if pathname is not an option, for example because you don't control the webserver where your app is deployed.
+   * @default "pathname"
+   */
+  router_type?: 'pathname' | 'hash'
 
   /**
    * @default `src/routes`
@@ -664,7 +672,7 @@ export function buildMetadata(
     paramsDefaults = ['params = params ?? {}', ...paramsDefaults]
   }
 
-  const pathBaesStr = options?.path_base ? '${base}' : ''
+  const pathBaesStr = options?.router_type === 'hash' ? '#' : options?.path_base ? '${base}' : ''
   const strDefault = paramsDefaults.length > 0 ? `${paramsDefaults.join('\n')}` : ''
 
   const trailingSlashToUse = o.trailingSlash === 'always' ? '/' : ''
@@ -1041,7 +1049,8 @@ ${objTypes
   return false
 }
 
-const dolLib = ['$', "lib"].join('')
+// eslint-disable-next-line
+let dolLib = ['$', 'lib'].join('')
 
 function theEnd(
   atStart: boolean,

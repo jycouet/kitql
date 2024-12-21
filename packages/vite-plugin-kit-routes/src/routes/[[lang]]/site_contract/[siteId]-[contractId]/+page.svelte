@@ -5,10 +5,10 @@
   import { route } from '$lib/ROUTES.js'
 
   interface Props {
-    form: FormData;
+    form: FormData
   }
 
-  let { form }: Props = $props();
+  let { form }: Props = $props()
 
   const siteId = $page.params.siteId
   const contractId = $page.params.contractId

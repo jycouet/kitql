@@ -21,6 +21,7 @@ export default defineConfig({
         stats: true,
       },
       // path_base: true,
+      // router_type: 'hash',
       // default_type: 'string',
       // extra_search_params: 'with',
       // generated_file_path: 'src/lib/another_path_for_the_file.ts',

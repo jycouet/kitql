@@ -15,6 +15,9 @@ const config = {
     // paths: {
     //   base: '/yop',
     // },
+    // router: {
+    //   type: 'hash',
+    // },
   },
 }
 
