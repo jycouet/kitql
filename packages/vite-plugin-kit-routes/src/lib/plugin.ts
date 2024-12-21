@@ -1049,7 +1049,8 @@ ${objTypes
   return false
 }
 
-const dolLib = ['$', 'lib'].join('')
+// eslint-disable-next-line
+let dolLib = ['$', 'lib'].join('')
 
 function theEnd(
   atStart: boolean,

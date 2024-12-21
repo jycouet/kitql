@@ -839,6 +839,16 @@ describe('run()', async () => {
     expect(read(generated_file_path)?.includes("import { base } from '$app/paths'")).toBe(true)
     expect(read(generated_file_path)?.includes('${base}')).toBe(true)
   })
+
+  it('with router hash', async () => {
+    const generated_file_path = 'src/test/ROUTES_hash.ts'
+    await run(false, {
+      generated_file_path,
+      router_type: 'hash',
+    })
+
+    expect(read(generated_file_path)?.includes(`"/": \`#/\``)).toBe(true)
+  })
 })
 
 describe('options', () => {
