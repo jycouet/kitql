@@ -675,9 +675,10 @@ export function buildMetadata(
   const pathBaesStr = options?.router_type === 'hash' ? '#' : options?.path_base ? '${base}' : ''
   const strDefault = paramsDefaults.length > 0 ? `${paramsDefaults.join('\n')}` : ''
 
-  const trailingSlashToUse = o.trailingSlash === 'always' ? '/' : ''
+  const completeToRet = `${pathBaesStr}${toRet}`;
+  const trailingSlashToUse = o.trailingSlash === 'always' && !completeToRet.endsWith("/") ? '/' : ''
 
-  const strReturn = `\`${pathBaesStr}${toRet}${trailingSlashToUse}${actionsFormat}${fullSP}\``
+  const strReturn = `\`${completeToRet}${trailingSlashToUse}${actionsFormat}${fullSP}\``
   const strParams = params.join(', ')
 
   const baseToReturn: MetadataToWrite = {
