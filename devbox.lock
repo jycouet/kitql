@@ -1,0 +1,70 @@
+{
+  "lockfile_version": "1",
+  "packages": {
+    "nodejs@22": {
+      "last_modified": "2024-12-03T12:40:06Z",
+      "plugin_version": "0.0.2",
+      "resolved": "github:NixOS/nixpkgs/566e53c2ad750c84f6d31f9ccb9d00f823165550#nodejs_22",
+      "source": "devbox-search",
+      "version": "22.10.0",
+      "systems": {
+        "aarch64-darwin": {
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/3r50cvcf5d7fahnkx4nkr2nk3h377h4s-nodejs-22.10.0",
+              "default": true
+            },
+            {
+              "name": "libv8",
+              "path": "/nix/store/6rgrpzdbylr432xa1r4mi9wc5i2bgvw0-nodejs-22.10.0-libv8"
+            }
+          ],
+          "store_path": "/nix/store/3r50cvcf5d7fahnkx4nkr2nk3h377h4s-nodejs-22.10.0"
+        },
+        "aarch64-linux": {
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/ayfg2m6gwh5047hapf316jrilxd8kk4k-nodejs-22.10.0",
+              "default": true
+            },
+            {
+              "name": "libv8",
+              "path": "/nix/store/649q0xdwl617h2s8j50f7880df60w37a-nodejs-22.10.0-libv8"
+            }
+          ],
+          "store_path": "/nix/store/ayfg2m6gwh5047hapf316jrilxd8kk4k-nodejs-22.10.0"
+        },
+        "x86_64-darwin": {
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/4rmbk8pg2lvv22aqjk8b539pfspsm98m-nodejs-22.10.0",
+              "default": true
+            },
+            {
+              "name": "libv8",
+              "path": "/nix/store/g1bmrm6lq74zdid30q8hh3102qxpk7p7-nodejs-22.10.0-libv8"
+            }
+          ],
+          "store_path": "/nix/store/4rmbk8pg2lvv22aqjk8b539pfspsm98m-nodejs-22.10.0"
+        },
+        "x86_64-linux": {
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/0xvgzkl74v6jrh79ibh7ss770dh4hb69-nodejs-22.10.0",
+              "default": true
+            },
+            {
+              "name": "libv8",
+              "path": "/nix/store/j0nfkz29q3iigzl6ly1a75bivd1bsqc3-nodejs-22.10.0-libv8"
+            }
+          ],
+          "store_path": "/nix/store/0xvgzkl74v6jrh79ibh7ss770dh4hb69-nodejs-22.10.0"
+        }
+      }
+    }
+  }
+}
