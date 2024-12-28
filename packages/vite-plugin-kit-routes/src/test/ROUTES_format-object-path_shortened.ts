@@ -177,7 +177,7 @@ export const currentSp = () => {
 *
 * Full example:
 * ```ts
-* import type { KIT_ROUTES } from '$lib/ROUTES'
+* import type { KIT_ROUTES } from '$_lib/ROUTES'
 * import { kitRoutes } from 'vite-plugin-kit-routes'
 *
 * kitRoutes<KIT_ROUTES>({
