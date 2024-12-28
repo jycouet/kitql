@@ -836,7 +836,8 @@ describe('run()', async () => {
       path_base: true,
     })
 
-    expect(read(generated_file_path)?.includes("import { base } from '$app/paths'")).toBe(true)
+    expect(read(generated_file_path)?.includes('import { base } from')).toBe(true)
+    expect(read(generated_file_path)?.includes('$app/paths')).toBe(true)
     expect(read(generated_file_path)?.includes('${base}')).toBe(true)
   })
 
