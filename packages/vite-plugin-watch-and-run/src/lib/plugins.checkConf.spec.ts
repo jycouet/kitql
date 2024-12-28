@@ -1,6 +1,5 @@
-import { describe, expect, it } from 'vitest'
-import { vi, beforeEach, afterEach } from 'vitest'
 import type { ViteDevServer } from 'vite'
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 
 import { watchAndRun } from './index.js'
 
@@ -26,17 +25,19 @@ describe('vite-plugin-watch-and-run', () => {
   it('Should throw an error as no run', async () => {
     const p = watchAndRun([{ watch: 'hello!' } as any])
     try {
-       p.getCheckedConf()
+      p.getCheckedConf()
     } catch (error: any) {
       expect(error.message).toEqual('plugin watch-and-run, `run` is missing.')
     }
   })
 
   it('Should have a valid conf, with default all defaults', async () => {
-    const p = watchAndRun([{ 
-      watch: ['**/*.(gql|graphql)', '**/*.ts'], 
-      run: 'npm run gen'
-    }])
+    const p = watchAndRun([
+      {
+        watch: ['**/*.(gql|graphql)', '**/*.ts'],
+        run: 'npm run gen',
+      },
+    ])
 
     expect(p.getCheckedConf()).toMatchInlineSnapshot(`
       [
@@ -71,7 +72,7 @@ describe('vite-plugin-watch-and-run', () => {
 
 describe('configureServer', () => {
   let mockServer: ViteDevServer
-  
+
   beforeEach(() => {
     // Create mock watcher with all required methods
     const mockWatcher = {
@@ -91,10 +92,12 @@ describe('configureServer', () => {
 
   it('should add watch patterns to server watcher', async () => {
     const watchPattern = '**/*.(gql|graphql)'
-    const p = watchAndRun([{ 
-      watch: watchPattern,
-      run: 'npm run gen'
-    }])
+    const p = watchAndRun([
+      {
+        watch: watchPattern,
+        run: 'npm run gen',
+      },
+    ])
 
     await p.configureServer(mockServer)
 
@@ -102,10 +105,12 @@ describe('configureServer', () => {
   })
 
   it('should set up watchers for all kindWithPath events', async () => {
-    const p = watchAndRun([{ 
-      watch: '**/*.(gql|graphql)',
-      run: 'npm run gen'
-    }])
+    const p = watchAndRun([
+      {
+        watch: '**/*.(gql|graphql)',
+        run: 'npm run gen',
+      },
+    ])
 
     await p.configureServer(mockServer)
 
@@ -118,10 +123,12 @@ describe('configureServer', () => {
   })
 
   it('should set up watchers for all kindWithoutPath events', async () => {
-    const p = watchAndRun([{ 
-      watch: '**/*.(gql|graphql)',
-      run: 'npm run gen'
-    }])
+    const p = watchAndRun([
+      {
+        watch: '**/*.(gql|graphql)',
+        run: 'npm run gen',
+      },
+    ])
 
     await p.configureServer(mockServer)
 
@@ -134,10 +141,12 @@ describe('configureServer', () => {
 
   it('should handle multiple watch patterns', async () => {
     const watchPatterns = ['**/*.gql', '**/*.graphql']
-    const p = watchAndRun([{ 
-      watch: watchPatterns,
-      run: 'npm run gen'
-    }])
+    const p = watchAndRun([
+      {
+        watch: watchPatterns,
+        run: 'npm run gen',
+      },
+    ])
 
     await p.configureServer(mockServer)
 
@@ -145,10 +154,12 @@ describe('configureServer', () => {
   })
 
   it('should not add watcher if no watch pattern is provided', async () => {
-    const p = watchAndRun([{ 
-      watchFile: async () => true,
-      run: 'npm run gen'
-    }])
+    const p = watchAndRun([
+      {
+        watchFile: async () => true,
+        run: 'npm run gen',
+      },
+    ])
 
     await p.configureServer(mockServer)
 
@@ -157,14 +168,17 @@ describe('configureServer', () => {
 
   it('should handle array of watch patterns with different file types', async () => {
     const watchPatterns = ['**/*.gql', '**/*.graphql', '**/*.ts', 'src/**/*.json']
-    const p = watchAndRun([{ 
-      watch: watchPatterns,
-      run: 'npm run gen'
-    }, {
-      // Add a second config to ensure multiple configs work with arrays
-      watch: ['**/*.css', '**/*.scss'],
-      run: 'npm run build:css'
-    }])
+    const p = watchAndRun([
+      {
+        watch: watchPatterns,
+        run: 'npm run gen',
+      },
+      {
+        // Add a second config to ensure multiple configs work with arrays
+        watch: ['**/*.css', '**/*.scss'],
+        run: 'npm run build:css',
+      },
+    ])
 
     await p.configureServer(mockServer)
 
@@ -181,22 +195,24 @@ describe('configureServer', () => {
 
   it('should handle watch patterns outside of project root', async () => {
     const watchPatterns = [
-      '../../shared/**/*.ts',           // Parent directories
+      '../../shared/**/*.ts', // Parent directories
       '../sibling-project/**/*.graphql', // Sibling directory
-      '/absolute/path/**/*.json',        // Absolute path
-      './src/**/*.ts'                    // Regular project path
+      '/absolute/path/**/*.json', // Absolute path
+      './src/**/*.ts', // Regular project path
     ]
-    
-    const p = watchAndRun([{ 
-      watch: watchPatterns,
-      run: 'npm run gen'
-    }])
+
+    const p = watchAndRun([
+      {
+        watch: watchPatterns,
+        run: 'npm run gen',
+      },
+    ])
 
     await p.configureServer(mockServer)
 
     // Verify that external patterns are added to the watcher
     expect(mockServer.watcher.add).toHaveBeenCalledWith(watchPatterns)
-    
+
     // Verify watchers are set up for file events
     expect(mockServer.watcher.on).toHaveBeenCalledWith('add', expect.any(Function))
     expect(mockServer.watcher.on).toHaveBeenCalledWith('change', expect.any(Function))

@@ -240,8 +240,10 @@ const log = new Log('Watch-and-Run')
 
 export const watchAndRun = (
   params: Options[],
-): PluginOption & { getCheckedConf: () => StateDetail[],
-   configureServer: (server: ViteDevServer) => void } => {
+): PluginOption & {
+  getCheckedConf: () => StateDetail[]
+  configureServer: (server: ViteDevServer) => void
+} => {
   return {
     name: 'watch-and-run',
 
@@ -257,7 +259,7 @@ export const watchAndRun = (
       // watch files outside of Vite root directory
       for (const conf of watchAndRunConf) {
         if (conf.watch) {
-            server.watcher.add(conf.watch);
+          server.watcher.add(conf.watch)
         }
       }
 

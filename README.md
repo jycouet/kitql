@@ -38,7 +38,7 @@ _\*Order by subjective usefulness_ 😉
 ## ✨ Contributors
 
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
-[![All Contributors](https://img.shields.io/badge/all_contributors-41-orange.svg?style=flat-square)](#contributors-)
+[![All Contributors](https://img.shields.io/badge/all_contributors-43-orange.svg?style=flat-square)](#contributors-)
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 
 Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/docs/en/emoji-key)):
@@ -100,6 +100,10 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/fnimick"><img src="https://avatars.githubusercontent.com/u/704308?v=4?s=100" width="100px;" alt="Francis Nimick"/><br /><sub><b>Francis Nimick</b></sub></a><br /><a href="https://github.com/jycouet/kitql/commits?author=fnimick" title="Code">💻</a></td>
       <td align="center" valign="top" width="14.28%"><a href="https://gwen.works"><img src="https://avatars.githubusercontent.com/u/39094199?v=4?s=100" width="100px;" alt="Gwen Le Bihan"/><br /><sub><b>Gwen Le Bihan</b></sub></a><br /><a href="https://github.com/jycouet/kitql/commits?author=ewen-lbh" title="Code">💻</a></td>
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/kerryj89"><img src="https://avatars.githubusercontent.com/u/1977804?v=4?s=100" width="100px;" alt="Kerry Johnson"/><br /><sub><b>Kerry Johnson</b></sub></a><br /><a href="https://github.com/jycouet/kitql/commits?author=kerryj89" title="Code">💻</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="http://www.nafkhanzam.com"><img src="https://avatars.githubusercontent.com/u/48153421?v=4?s=100" width="100px;" alt="Moch. Nafkhan Alzamzami"/><br /><sub><b>Moch. Nafkhan Alzamzami</b></sub></a><br /><a href="https://github.com/jycouet/kitql/commits?author=nafkhanzam" title="Code">💻</a></td>
+    </tr>
+    <tr>
+      <td align="center" valign="top" width="14.28%"><a href="http://mathias.ninja"><img src="https://avatars.githubusercontent.com/u/78111467?v=4?s=100" width="100px;" alt="Mathias"/><br /><sub><b>Mathias</b></sub></a><br /><a href="https://github.com/jycouet/kitql/commits?author=matubu" title="Documentation">📖</a></td>
     </tr>
   </tbody>
 </table>
