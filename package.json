@@ -6,6 +6,7 @@
   "type": "module",
   "scripts": {
     "dev:w": "cd website && npm run dev",
+    "build": "pnpm -F \"!website\" build",
     "release:version": "npm run changeset version",
     "release": "npm run build && changeset publish",
     "reset": "git clean -xdf",
