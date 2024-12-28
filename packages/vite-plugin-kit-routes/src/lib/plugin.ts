@@ -1050,7 +1050,8 @@ ${objTypes
   return false
 }
 
-const dolLib = ['$', 'lib'].join('')
+// const dolLib = ['$', 'lib'].join('')
+const dolLib = ['$', '_', 'lib'].join('')
 
 function theEnd(
   atStart: boolean,
