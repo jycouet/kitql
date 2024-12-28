@@ -35,7 +35,7 @@ jobs:
           nodeVersion: 22.11.0
 
       - name: 🚧 Build Packages
-        run: pnpm -F "@kitql/*" build
+        run: pnpm -F "!website" build
 
       - name: 🧹 Lint Check
         run: pnpm -F ${{ matrix.prj }} lint
