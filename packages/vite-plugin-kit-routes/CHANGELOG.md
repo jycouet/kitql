@@ -1,5 +1,14 @@
 # vite-plugin-kit-routes
 
+## 0.7.3
+
+### Patch Changes
+
+- [#812](https://github.com/jycouet/kitql/pull/812)
+  [`8228ece`](https://github.com/jycouet/kitql/commit/8228ece95280ea489bba5bd69d1a124ebceed2af)
+  Thanks [@nafkhanzam](https://github.com/nafkhanzam)! - fix some rare cases where double trailing
+  slash was happening
+
 ## 0.7.2
 
 ### Patch Changes
