@@ -19,7 +19,7 @@ jobs:
       - name: 🧑‍💻 Setup env
         uses: jycouet/jycouet/shared-config/setup@main
         with:
-          pnpmVersion: 9
+          pnpmVersion: 9.15.1
           nodeVersion: 22.11.0
 
       - name: 🚧 Build Packages
@@ -48,7 +48,7 @@ jobs:
   #     - name: 🧑‍💻 Setup env
   #       uses: jycouet/jycouet/shared-config/setup@main
   #       with:
-  #         pnpmVersion: 9
+  #         pnpmVersion: 9.15.1
   #         nodeVersion: 22.11.0
 
   #     - name: 🚧 Run build
