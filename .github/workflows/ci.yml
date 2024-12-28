@@ -22,26 +22,14 @@ jobs:
           pnpmVersion: 9
           nodeVersion: 22.11.0
 
-      # - name: 🛠️ Prepare nx 1/2
-      #   uses: nrwl/nx-set-shas@v4
+      - name: 🚧 Build Packages
+        run: pnpm -r build
 
-      # - name: 🛠️ Prepare nx 2/2
-      #   run: git branch --track main origin/main
+      - name: 🧹 Lint Check
+        run: pnpm -r lint
 
-      # - name: 👌 Run nx affected
-      #   run: pnpm nx:affected
-
-      - name: 👌 Run nx all
-        run: pnpm nx:all
-
-      # - name: 🚧 Build Packages
-      #   run: pnpm run build
-
-      # - name: 🧹 Lint Check
-      #   run: pnpm run lint
-
-      # - name: 👌 Run Tests
-      #   run: pnpm run test:ci
+      - name: 👌 Run Tests
+        run: pnpm -r test:ci
 
   # verify_create:
   #   name: Verify Create
@@ -63,7 +51,7 @@ jobs:
   #         pnpmVersion: 9
   #         nodeVersion: 22.11.0
 
-  #     - name: 🚧 Run nx build
+  #     - name: 🚧 Run build
   #       run: pnpm build
 
   #     - name: ➕ Create template

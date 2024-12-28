@@ -6,15 +6,8 @@
   "type": "module",
   "scripts": {
     "dev:w": "cd website && npm run dev",
-    "lint": "pnpm nx run-many --target=lint",
-    "format": "pnpm nx run-many --target=format",
     "release:version": "npm run changeset version",
     "release": "npm run build && changeset publish",
-    "build": "rimraf packages/*/dist && pnpm nx run-many --target=build --exclude=create-kitql-*",
-    "nx:graph": "pnpm nx graph",
-    "nx:all": "pnpm nx run-many --target=build,lint,test:ci --exclude=create-kitql-*",
-    "nx:affected": "pnpm nx affected --target=build,lint,test:ci --exclude=create-kitql-*",
-    "nx:reset": "pnpm nx reset",
     "reset": "git clean -xdf",
     "up-dep": "pnpm -r up --latest"
   },
@@ -23,8 +16,8 @@
     "@changesets/cli": "2.27.7",
     "@vitest/coverage-v8": "2.1.8",
     "esbuild": "0.24.0",
-    "nx": "20.2.0",
     "prettier": "3.4.2",
     "rimraf": "6.0.1"
-  }
+  },
+  "packageManager": "pnpm@9.15.1"
 }
