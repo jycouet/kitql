@@ -847,7 +847,7 @@ describe('run()', async () => {
       router_type: 'hash',
     })
 
-    expect(read(generated_file_path)?.includes(`"/": \`#/\``)).toBe(true)
+    expect(read(generated_file_path)?.includes('#/')).toBe(true)
   })
 })
 

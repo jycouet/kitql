@@ -187,7 +187,7 @@ export const routes = [
 /**
  * To be used like this: 
  * ```ts
- * import { route } from '$lib/ROUTES'
+ * import { route } from './ROUTES'
  * 
  * route('site_id', { id: 1 })
  * ```

@@ -675,8 +675,8 @@ export function buildMetadata(
   const pathBaesStr = options?.router_type === 'hash' ? '#' : options?.path_base ? '${base}' : ''
   const strDefault = paramsDefaults.length > 0 ? `${paramsDefaults.join('\n')}` : ''
 
-  const completeToRet = `${pathBaesStr}${toRet}`;
-  const trailingSlashToUse = o.trailingSlash === 'always' && !completeToRet.endsWith("/") ? '/' : ''
+  const completeToRet = `${pathBaesStr}${toRet}`
+  const trailingSlashToUse = o.trailingSlash === 'always' && !completeToRet.endsWith('/') ? '/' : ''
 
   const strReturn = `\`${completeToRet}${trailingSlashToUse}${actionsFormat}${fullSP}\``
   const strParams = params.join(', ')
@@ -1050,8 +1050,7 @@ ${objTypes
   return false
 }
 
-// eslint-disable-next-line
-let dolLib = ['$', 'lib'].join('')
+const dolLib = ['$', 'lib'].join('')
 
 function theEnd(
   atStart: boolean,
