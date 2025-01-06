@@ -121,7 +121,7 @@ importers:
         version: 5.16.0
       svelte-check:
         specifier: 4.1.1
-        version: 4.1.1(svelte@5.16.0)(typescript@5.7.2)
+        version: 4.1.1(picomatch@4.0.2)(svelte@5.16.0)(typescript@5.7.2)
       tslib:
         specifier: 2.8.0
         version: 2.8.0
@@ -161,14 +161,14 @@ importers:
         specifier: 0.2.4
         version: 0.2.4
       rollup-plugin-visualizer:
-        specifier: 5.12.0
-        version: 5.12.0(rollup@4.28.1)
+        specifier: 5.14.0
+        version: 5.14.0(rollup@4.28.1)
       svelte:
         specifier: 5.16.0
         version: 5.16.0
       svelte-check:
         specifier: 4.1.1
-        version: 4.1.1(svelte@5.16.0)(typescript@5.7.2)
+        version: 4.1.1(picomatch@4.0.2)(svelte@5.16.0)(typescript@5.7.2)
       tslib:
         specifier: 2.8.0
         version: 2.8.0
@@ -217,11 +217,11 @@ importers:
         specifier: 0.2.4
         version: 0.2.4
       rollup-plugin-visualizer:
-        specifier: 5.12.0
-        version: 5.12.0(rollup@4.28.1)
+        specifier: 5.14.0
+        version: 5.14.0(rollup@4.28.1)
       svelte-check:
         specifier: 4.1.1
-        version: 4.1.1(svelte@5.8.0)(typescript@5.7.2)
+        version: 4.1.1(picomatch@4.0.2)(svelte@5.8.0)(typescript@5.7.2)
       tslib:
         specifier: 2.8.0
         version: 2.8.0
@@ -271,7 +271,7 @@ importers:
         version: 5.16.0
       svelte-check:
         specifier: 4.1.1
-        version: 4.1.1(svelte@5.16.0)(typescript@5.7.2)
+        version: 4.1.1(picomatch@4.0.2)(svelte@5.16.0)(typescript@5.7.2)
       tslib:
         specifier: 2.8.0
         version: 2.8.0
@@ -327,7 +327,7 @@ importers:
         version: 5.16.0
       svelte-check:
         specifier: 4.1.1
-        version: 4.1.1(svelte@5.16.0)(typescript@5.7.2)
+        version: 4.1.1(picomatch@4.0.2)(svelte@5.16.0)(typescript@5.7.2)
       tslib:
         specifier: 2.8.0
         version: 2.8.0
@@ -377,7 +377,7 @@ importers:
         version: 5.16.0
       svelte-check:
         specifier: 4.1.1
-        version: 4.1.1(svelte@5.16.0)(typescript@5.7.2)
+        version: 4.1.1(picomatch@4.0.2)(svelte@5.16.0)(typescript@5.7.2)
       tslib:
         specifier: 2.8.0
         version: 2.8.0
@@ -4686,6 +4686,10 @@ packages:
     resolution: {integrity: sha512-JU3teHTNjmE2VCGFzuY8EXzCDVwEqB2a8fsIvwaStHhAWJEeVd1o1QD80CU6+ZdEXXSLbSsuLwJjkCBWqRQUVA==}
     engines: {node: '>=8.6'}
 
+  picomatch@4.0.2:
+    resolution: {integrity: sha512-M7BAV6Rlcy5u+m6oPhAPFgJTzAioX/6B0DxyvDlo9l8+T3nLKbrczg2WLUyzd45L8RqfUMyGPzekbMvX2Ldkwg==}
+    engines: {node: '>=12'}
+
   pify@2.3.0:
     resolution: {integrity: sha512-udgsAY+fTnvv7kI7aaxbqwWNb0AHiB0qBO89PZKPkoTmGOgdbrHDKD+0B2X4uTfJ/FT1R09r9gTsjUjNJotuog==}
     engines: {node: '>=0.10.0'}
@@ -5316,13 +5320,16 @@ packages:
   robust-predicates@3.0.1:
     resolution: {integrity: sha512-ndEIpszUHiG4HtDsQLeIuMvRsDnn8c8rYStabochtUeCvfuvNptb5TUbVD68LRAILPX7p9nqQGh4xJgn3EHS/g==}
 
-  rollup-plugin-visualizer@5.12.0:
-    resolution: {integrity: sha512-8/NU9jXcHRs7Nnj07PF2o4gjxmm9lXIrZ8r175bT9dK8qoLlvKTwRMArRCMgpMGlq8CTLugRvEmyMeMXIU2pNQ==}
-    engines: {node: '>=14'}
+  rollup-plugin-visualizer@5.14.0:
+    resolution: {integrity: sha512-VlDXneTDaKsHIw8yzJAFWtrzguoJ/LnQ+lMpoVfYJ3jJF4Ihe5oYLAqLklIK/35lgUY+1yEzCkHyZ1j4A5w5fA==}
+    engines: {node: '>=18'}
     hasBin: true
     peerDependencies:
+      rolldown: 1.x
       rollup: 2.x || 3.x || 4.x
     peerDependenciesMeta:
+      rolldown:
+        optional: true
       rollup:
         optional: true
 
@@ -9421,7 +9428,9 @@ snapshots:
     dependencies:
       format: 0.2.2
 
-  fdir@6.3.0: {}
+  fdir@6.3.0(picomatch@4.0.2):
+    optionalDependencies:
+      picomatch: 4.0.2
 
   figgy-pudding@3.5.2: {}
 
@@ -11383,6 +11392,8 @@ snapshots:
 
   picomatch@2.3.1: {}
 
+  picomatch@4.0.2: {}
+
   pify@2.3.0: {}
 
   pify@4.0.1: {}
@@ -12018,10 +12029,10 @@ snapshots:
 
   robust-predicates@3.0.1: {}
 
-  rollup-plugin-visualizer@5.12.0(rollup@4.28.1):
+  rollup-plugin-visualizer@5.14.0(rollup@4.28.1):
     dependencies:
       open: 8.4.2
-      picomatch: 2.3.1
+      picomatch: 4.0.2
       source-map: 0.7.4
       yargs: 17.7.2
     optionalDependencies:
@@ -12386,11 +12397,11 @@ snapshots:
 
   supports-preserve-symlinks-flag@1.0.0: {}
 
-  svelte-check@4.1.1(svelte@5.16.0)(typescript@5.7.2):
+  svelte-check@4.1.1(picomatch@4.0.2)(svelte@5.16.0)(typescript@5.7.2):
     dependencies:
       '@jridgewell/trace-mapping': 0.3.25
       chokidar: 4.0.1
-      fdir: 6.3.0
+      fdir: 6.3.0(picomatch@4.0.2)
       picocolors: 1.1.1
       sade: 1.8.1
       svelte: 5.16.0
@@ -12398,11 +12409,11 @@ snapshots:
     transitivePeerDependencies:
       - picomatch
 
-  svelte-check@4.1.1(svelte@5.8.0)(typescript@5.7.2):
+  svelte-check@4.1.1(picomatch@4.0.2)(svelte@5.8.0)(typescript@5.7.2):
     dependencies:
       '@jridgewell/trace-mapping': 0.3.25
       chokidar: 4.0.1
-      fdir: 6.3.0
+      fdir: 6.3.0(picomatch@4.0.2)
       picocolors: 1.1.1
       sade: 1.8.1
       svelte: 5.8.0
