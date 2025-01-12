@@ -840,9 +840,10 @@ describe('run()', async () => {
       path_base: true,
     })
 
-    expect(read(generated_file_path)?.includes('import { base } from')).toBe(true)
-    expect(read(generated_file_path)?.includes('$app/paths')).toBe(true)
-    expect(read(generated_file_path)?.includes('${base}')).toBe(true)
+    const content = read(generated_file_path) ?? ''
+    expect(content.includes('import { base } from')).toBe(true)
+    expect(content.includes('$app/paths')).toBe(true)
+    expect(content.includes('${base}')).toBe(true)
   })
 
   it('with router hash', async () => {
