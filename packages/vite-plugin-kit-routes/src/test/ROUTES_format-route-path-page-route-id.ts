@@ -187,7 +187,7 @@ export const routes = [
 /**
  * To be used like this: 
  * ```ts
- * import { route } from '$lib/ROUTES'
+ * import { route } from './ROUTES'
  * 
  * route('site_id', { id: 1 })
  * ```
@@ -208,7 +208,7 @@ export function route<T extends keyof AllTypes>(key: T, ...params: any[]): strin
 *
 * Full example:
 * ```ts
-* import type { KIT_ROUTES } from '$_lib/ROUTES'
+* import type { KIT_ROUTES } from '$lib/ROUTES'
 * import { kitRoutes } from 'vite-plugin-kit-routes'
 *
 * kitRoutes<KIT_ROUTES>({
