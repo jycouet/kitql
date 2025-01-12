@@ -51,7 +51,11 @@ export default defineConfig({
           },
         },
         '/site/[id]': {
-          explicit_search_params: { limit: { type: 'number' }, demo: { type: 'string' } },
+          explicit_search_params: {
+            limit: { type: 'number' },
+            demo: { type: 'string' },
+            'da-sh': { type: 'string' },
+          },
           params: {
             id: { type: 'string', default: '"Vienna"' },
             lang: { type: "'fr' | 'hu' | undefined", default: '"fr"' },
