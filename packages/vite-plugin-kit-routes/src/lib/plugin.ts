@@ -782,8 +782,10 @@ const formatArg = (c: Param, o: Options) => {
     override_param = override_params[0][1]?.type
   }
 
+  const nameEscaped = c.name.includes('-') ? `'${c.name}'` : c.name
+
   return (
-    `'${c.name}'${c.optional ? '?' : ''}: ` +
+    `${nameEscaped}${c.optional ? '?' : ''}: ` +
     `(${c.type ?? override_param ?? options?.default_type ?? 'string | number'})` +
     `${c.isArray ? '[]' : ''}`
   )

@@ -12,43 +12,43 @@ const PAGES = {
   "_ROOT": `/`,
   "subGroup": `/subGroup`,
   "subGroup_user": `/subGroup/user`,
-  "subGroup2": (params: { 'first': (string | number) }) => {
+  "subGroup2": (params: { first: (string | number) }) => {
     return `/subGroup2${appendSp({ 'first': params['first'] })}`
   },
-  "contract": (params?: { 'lang'?: ('fr' | 'en' | 'hu' | 'at' | string) }, sp?: Record<string, string | number>) => {
+  "contract": (params?: { lang?: ('fr' | 'en' | 'hu' | 'at' | string) }, sp?: Record<string, string | number>) => {
     return `${params?.['lang'] ? `/${params?.['lang']}`: ''}/contract${appendSp(sp)}`
   },
-  "contract_id": (params: { 'id': (string | number), 'lang'?: ('fr' | 'en' | 'hu' | 'at' | string) }) => {
+  "contract_id": (params: { id: (string | number), lang?: ('fr' | 'en' | 'hu' | 'at' | string) }) => {
     return `${params?.['lang'] ? `/${params?.['lang']}`: ''}/contract/${params['id']}`
   },
-  "gp_one": (params?: { 'lang'?: ('fr' | 'en' | 'hu' | 'at' | string) }) => {
+  "gp_one": (params?: { lang?: ('fr' | 'en' | 'hu' | 'at' | string) }) => {
     return `${params?.['lang'] ? `/${params?.['lang']}`: ''}/gp/one`
   },
-  "gp_two": (params?: { 'lang'?: ('fr' | 'en' | 'hu' | 'at' | string) }) => {
+  "gp_two": (params?: { lang?: ('fr' | 'en' | 'hu' | 'at' | string) }) => {
     return `${params?.['lang'] ? `/${params?.['lang']}`: ''}/gp/two`
   },
-  "main": (params?: { 'lang'?: ('fr' | 'en' | 'hu' | 'at' | string) }) => {
+  "main": (params?: { lang?: ('fr' | 'en' | 'hu' | 'at' | string) }) => {
     return `${params?.['lang'] ? `/${params?.['lang']}`: ''}/main`
   },
-  "match_id_ab": (params: { 'id': (Parameters<typeof import('../params/ab.ts').match>[0]), 'lang'?: ('fr' | 'en' | 'hu' | 'at' | string) }) => {
+  "match_id_ab": (params: { id: (Parameters<typeof import('../params/ab.ts').match>[0]), lang?: ('fr' | 'en' | 'hu' | 'at' | string) }) => {
     return `${params?.['lang'] ? `/${params?.['lang']}`: ''}/match/${params['id']}`
   },
-  "match_id_int": (params: { 'id': (number), 'lang'?: ('fr' | 'en' | 'hu' | 'at' | string) }) => {
+  "match_id_int": (params: { id: (number), lang?: ('fr' | 'en' | 'hu' | 'at' | string) }) => {
     return `${params?.['lang'] ? `/${params?.['lang']}`: ''}/match/${params['id']}`
   },
-  "site": (params?: { 'lang'?: ('fr' | 'en' | 'hu' | 'at' | string), 'limit'?: (number) }, sp?: Record<string, string | number>) => {
+  "site": (params?: { lang?: ('fr' | 'en' | 'hu' | 'at' | string), limit?: (number) }, sp?: Record<string, string | number>) => {
     return `${params?.['lang'] ? `/${params?.['lang']}`: ''}/site${appendSp({ ...sp, 'limit': params?.['limit'] })}`
   },
-  "site_id": (params?: { 'lang'?: ('fr' | 'hu' | undefined), 'id'?: (string), 'limit'?: (number), 'demo'?: (string) }) => {
+  "site_id": (params?: { lang?: ('fr' | 'hu' | undefined), id?: (string), limit?: (number), demo?: (string), 'da-sh'?: (string) }) => {
     params = params ?? {}
     params['lang'] = params['lang'] ?? "fr"; 
     params['id'] = params['id'] ?? "Vienna"; 
-    return `${params?.['lang'] ? `/${params?.['lang']}`: ''}/site/${params['id']}${appendSp({ 'limit': params['limit'], 'demo': params['demo'] })}`
+    return `${params?.['lang'] ? `/${params?.['lang']}`: ''}/site/${params['id']}${appendSp({ 'limit': params['limit'], 'demo': params['demo'], 'da-sh': params['da-sh'] })}`
   },
-  "site_contract_siteId_contractId": (params: { 'siteId': (string | number), 'contractId': (string | number), 'lang'?: ('fr' | 'en' | 'hu' | 'at' | string), 'limit'?: (number) }) => {
+  "site_contract_siteId_contractId": (params: { siteId: (string | number), contractId: (string | number), lang?: ('fr' | 'en' | 'hu' | 'at' | string), limit?: (number) }) => {
     return `${params?.['lang'] ? `/${params?.['lang']}`: ''}/site_contract/${params['siteId']}-${params['contractId']}${appendSp({ 'limit': params['limit'] })}`
   },
-  "a_rest_z": (params: { 'rest': (string | number)[] }) => {
+  "a_rest_z": (params: { rest: (string | number)[] }) => {
     return `/a/${params['rest']?.join('/')}/z`
   },
   "lay_normal": `/lay/normal`,
@@ -66,18 +66,18 @@ const SERVERS = {
   "GET server_func_get": `/server_func_get`,
   "GET server_func_get_and": `/server_func_get_and_`,
   "POST server_func_post": `/server_func_post`,
-  "GET contract": (params?: { 'lang'?: ('fr' | 'en' | 'hu' | 'at' | string) }) => {
+  "GET contract": (params?: { lang?: ('fr' | 'en' | 'hu' | 'at' | string) }) => {
     return `${params?.['lang'] ? `/${params?.['lang']}`: ''}/contract`
   },
-  "POST contract": (params?: { 'lang'?: ('fr' | 'en' | 'hu' | 'at' | string) }) => {
+  "POST contract": (params?: { lang?: ('fr' | 'en' | 'hu' | 'at' | string) }) => {
     return `${params?.['lang'] ? `/${params?.['lang']}`: ''}/contract`
   },
-  "GET site": (params?: { 'lang'?: ('fr' | 'en' | 'hu' | 'at' | string) }) => {
+  "GET site": (params?: { lang?: ('fr' | 'en' | 'hu' | 'at' | string) }) => {
     return `${params?.['lang'] ? `/${params?.['lang']}`: ''}/site`
   },
   "GET api_graphql": `/api/graphql`,
   "POST api_graphql": `/api/graphql`,
-  "GET data_errors_locale_json": (params: { 'locale': (string | number) }) => {
+  "GET data_errors_locale_json": (params: { locale: (string | number) }) => {
     return `/data/errors/${params['locale']}.json`
   }
 }
@@ -86,22 +86,22 @@ const SERVERS = {
  * ACTIONS
  */
 const ACTIONS = {
-  "default contract_id": (params: { 'id': (string | number), 'lang'?: ('fr' | 'en' | 'hu' | 'at' | string), 'limit'?: (number) }) => {
+  "default contract_id": (params: { id: (string | number), lang?: ('fr' | 'en' | 'hu' | 'at' | string), limit?: (number) }) => {
     return `${params?.['lang'] ? `/${params?.['lang']}`: ''}/contract/${params['id']}${appendSp({ 'limit': params['limit'] })}`
   },
-  "create site": (params?: { 'lang'?: ('fr' | 'en' | 'hu' | 'at' | string) }) => {
+  "create site": (params?: { lang?: ('fr' | 'en' | 'hu' | 'at' | string) }) => {
     return `${params?.['lang'] ? `/${params?.['lang']}`: ''}/site?/create`
   },
-  "update site_id": (params: { 'id': (string | number), 'lang'?: ('fr' | 'en' | 'hu' | 'at' | string) }) => {
+  "update site_id": (params: { id: (string | number), lang?: ('fr' | 'en' | 'hu' | 'at' | string) }) => {
     return `${params?.['lang'] ? `/${params?.['lang']}`: ''}/site/${params['id']}?/update`
   },
-  "delete site_id": (params: { 'id': (string | number), 'lang'?: ('fr' | 'en' | 'hu' | 'at' | string) }) => {
+  "delete site_id": (params: { id: (string | number), lang?: ('fr' | 'en' | 'hu' | 'at' | string) }) => {
     return `${params?.['lang'] ? `/${params?.['lang']}`: ''}/site/${params['id']}?/delete`
   },
-  "noSatisfies site_contract": (params?: { 'lang'?: ('fr' | 'en' | 'hu' | 'at' | string) }) => {
+  "noSatisfies site_contract": (params?: { lang?: ('fr' | 'en' | 'hu' | 'at' | string) }) => {
     return `${params?.['lang'] ? `/${params?.['lang']}`: ''}/site_contract?/noSatisfies`
   },
-  "send site_contract_siteId_contractId": (params: { 'siteId': (string | number), 'contractId': (string | number), 'lang'?: ('fr' | 'en' | 'hu' | 'at' | string), 'extra'?: ('A' | 'B') }) => {
+  "send site_contract_siteId_contractId": (params: { siteId: (string | number), contractId: (string | number), lang?: ('fr' | 'en' | 'hu' | 'at' | string), extra?: ('A' | 'B') }) => {
     params['extra'] = params['extra'] ?? "A"; 
     return `${params?.['lang'] ? `/${params?.['lang']}`: ''}/site_contract/${params['siteId']}-${params['contractId']}?/send${appendSp({ 'extra': params['extra'] }, '&')}`
   }
@@ -112,10 +112,10 @@ const ACTIONS = {
  */
 const LINKS = {
   "twitter": `https://twitter.com/jycouet`,
-  "twitter_post": (params: { 'name': (string | number), 'id': (string | number) }) => {
+  "twitter_post": (params: { name: (string | number), id: (string | number) }) => {
     return `https://twitter.com/${params['name']}/status/${params['id']}`
   },
-  "gravatar": (params: { 'str': (string | number), 's'?: (number), 'd'?: ("retro" | "identicon") }) => {
+  "gravatar": (params: { str: (string | number), s?: (number), d?: ("retro" | "identicon") }) => {
     params['s'] = params['s'] ?? 75; 
     params['d'] = params['d'] ?? "identicon"; 
     return `https://www.gravatar.com/avatar/${params['str']}${appendSp({ 's': params['s'], 'd': params['d'] })}`
@@ -223,5 +223,5 @@ export type KIT_ROUTES = {
   SERVERS: { 'GET server_func_get': never, 'GET server_func_get_and': never, 'POST server_func_post': never, 'GET contract': 'lang', 'POST contract': 'lang', 'GET site': 'lang', 'GET api_graphql': never, 'POST api_graphql': never, 'GET data_errors_locale_json': 'locale' }
   ACTIONS: { 'default contract_id': 'id' | 'lang', 'create site': 'lang', 'update site_id': 'id' | 'lang', 'delete site_id': 'id' | 'lang', 'noSatisfies site_contract': 'lang', 'send site_contract_siteId_contractId': 'siteId' | 'contractId' | 'lang' }
   LINKS: { 'twitter': never, 'twitter_post': 'name' | 'id', 'gravatar': 'str' }
-  Params: { 'first': never, 'lang': never, 'id': never, 'limit': never, 'demo': never, 'siteId': never, 'contractId': never, 'rest': never, 'locale': never, 'extra': never, 'name': never, 'str': never, 's': never, 'd': never }
+  Params: { 'first': never, 'lang': never, 'id': never, 'limit': never, 'demo': never, 'da-sh': never, 'siteId': never, 'contractId': never, 'rest': never, 'locale': never, 'extra': never, 'name': never, 'str': never, 's': never, 'd': never }
 }

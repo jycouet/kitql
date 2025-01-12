@@ -178,7 +178,7 @@ describe('vite-plugin-kit-routes', () => {
               },
             ],
             "strDefault": "",
-            "strParams": "params?: { 'lang'?: (string | number) }",
+            "strParams": "params?: { lang?: (string | number) }",
             "strReturn": "\`\${params?.['lang'] ? \`/\${params?.['lang']}\`: '/'}\`",
           },
         ]
@@ -206,7 +206,7 @@ describe('vite-plugin-kit-routes', () => {
               },
             ],
             "strDefault": "",
-            "strParams": "params?: { 'lang'?: (string | number) }",
+            "strParams": "params?: { lang?: (string | number) }",
             "strReturn": "\`\${params?.['lang'] ? \`/\${params?.['lang']}\`: ''}/about\`",
           },
         ]
@@ -234,7 +234,7 @@ describe('vite-plugin-kit-routes', () => {
               },
             ],
             "strDefault": "",
-            "strParams": "params?: { 'lang'?: (string | number) }",
+            "strParams": "params?: { lang?: (string | number) }",
             "strReturn": "\`/prefix-\${params?.['lang'] ? \`\${params?.['lang']}\`: ''}/about\`",
           },
         ]
@@ -284,7 +284,7 @@ describe('vite-plugin-kit-routes', () => {
               },
             ],
             "strDefault": "",
-            "strParams": "params: { 'snapshot': (string | number), 'id': (string | number) }",
+            "strParams": "params: { snapshot: (string | number), id: (string | number) }",
             "strReturn": "\`/subscriptions/\${params['snapshot']}/\${params['id']}\`",
           },
         ]
@@ -338,7 +338,11 @@ describe('run()', async () => {
         extra_search_params: 'with',
       },
       site_id: {
-        explicit_search_params: { limit: { type: 'number' }, demo: { type: 'string' } },
+        explicit_search_params: {
+          limit: { type: 'number' },
+          demo: { type: 'string' },
+          'da-sh': { type: 'string' },
+        },
         params: {
           id: { type: 'string', default: '"Vienna"' },
           lang: { type: "'fr' | 'hu' | undefined", default: '"fr"' },
