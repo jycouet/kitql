@@ -47,7 +47,13 @@
     <a href={route('/site', { lang: $page.params.lang, limit: 2 })}>Sites (with Search Param)</a>
   </li>
   <li>
-    <a href={route('/site/[id]', { lang: getLang($page.params.lang), id: 'Paris' })}>Site Paris</a>
+    <a
+      href={route('/site/[id]', {
+        lang: getLang($page.params.lang),
+        id: 'Paris',
+        'da-sh': 'coucou',
+      })}>Site Paris</a
+    >
   </li>
   <li>
     <!-- 🤞 before, hardcoded string, error prone -->

@@ -179,7 +179,7 @@ describe('vite-plugin-kit-routes', () => {
             ],
             "strDefault": "",
             "strParams": "params?: { lang?: (string | number) }",
-            "strReturn": "\`\${params?.lang ? \`/\${params?.lang}\`: '/'}\`",
+            "strReturn": "\`\${params?.['lang'] ? \`/\${params?.['lang']}\`: '/'}\`",
           },
         ]
       `)
@@ -207,7 +207,7 @@ describe('vite-plugin-kit-routes', () => {
             ],
             "strDefault": "",
             "strParams": "params?: { lang?: (string | number) }",
-            "strReturn": "\`\${params?.lang ? \`/\${params?.lang}\`: ''}/about\`",
+            "strReturn": "\`\${params?.['lang'] ? \`/\${params?.['lang']}\`: ''}/about\`",
           },
         ]
       `)
@@ -235,7 +235,7 @@ describe('vite-plugin-kit-routes', () => {
             ],
             "strDefault": "",
             "strParams": "params?: { lang?: (string | number) }",
-            "strReturn": "\`/prefix-\${params?.lang ? \`\${params?.lang}\`: ''}/about\`",
+            "strReturn": "\`/prefix-\${params?.['lang'] ? \`\${params?.['lang']}\`: ''}/about\`",
           },
         ]
       `)
@@ -285,7 +285,7 @@ describe('vite-plugin-kit-routes', () => {
             ],
             "strDefault": "",
             "strParams": "params: { snapshot: (string | number), id: (string | number) }",
-            "strReturn": "\`/subscriptions/\${params.snapshot}/\${params.id}\`",
+            "strReturn": "\`/subscriptions/\${params['snapshot']}/\${params['id']}\`",
           },
         ]
       `)
@@ -338,7 +338,11 @@ describe('run()', async () => {
         extra_search_params: 'with',
       },
       site_id: {
-        explicit_search_params: { limit: { type: 'number' }, demo: { type: 'string' } },
+        explicit_search_params: {
+          limit: { type: 'number' },
+          demo: { type: 'string' },
+          'da-sh': { type: 'string' },
+        },
         params: {
           id: { type: 'string', default: '"Vienna"' },
           lang: { type: "'fr' | 'hu' | undefined", default: '"fr"' },
@@ -836,9 +840,11 @@ describe('run()', async () => {
       path_base: true,
     })
 
-    expect(read(generated_file_path)?.includes('import { base } from')).toBe(true)
-    expect(read(generated_file_path)?.includes('$app/paths')).toBe(true)
-    expect(read(generated_file_path)?.includes('${base}')).toBe(true)
+    const content = read(generated_file_path) ?? ''
+
+    expect(content.includes('import { base } from')).toBe(true)
+    expect(content.includes('$app/paths')).toBe(true)
+    expect(content.includes('${base}')).toBe(true)
   })
 
   it('with router hash', async () => {

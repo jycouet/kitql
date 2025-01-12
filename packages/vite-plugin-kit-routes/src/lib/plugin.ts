@@ -546,7 +546,7 @@ export function buildMetadata(
 
     // Very special case (only an optional param)
     if (toRet === `/[[${c.name + sMatcher}]]`) {
-      toRet = `\${params?.${c.name} ? \`/\${params?.${c.name}}\`: '/'}`
+      toRet = `\${params?.['${c.name}'] ? \`/\${params?.['${c.name}']}\`: '/'}`
     } else {
       // Always 2 cases, with "/" prefix and without
       const cases = ['/', '']
@@ -554,20 +554,23 @@ export function buildMetadata(
       cases.forEach((prefix) => {
         toRet = toRet.replaceAll(
           `${prefix}[[${c.name + sMatcher}]]`,
-          `\${params?.${c.name} ? \`${prefix}\${params?.${c.name}}\`: ''}`,
+          `\${params?.['${c.name}'] ? \`${prefix}\${params?.['${c.name}']}\`: ''}`,
         )
       })
 
       // Second -> params
       cases.forEach((prefix) => {
-        toRet = toRet.replaceAll(`${prefix}[${c.name + sMatcher}]`, `${prefix}\${params.${c.name}}`)
+        toRet = toRet.replaceAll(
+          `${prefix}[${c.name + sMatcher}]`,
+          `${prefix}\${params['${c.name}']}`,
+        )
       })
 
       // Third -> [...rest]
       cases.forEach((prefix) => {
         toRet = toRet.replaceAll(
           `${prefix}[...${c.name + sMatcher}]`,
-          `${prefix}\${params.${c.name}?.join('/')}`,
+          `${prefix}\${params['${c.name}']?.join('/')}`,
         )
       })
     }
@@ -612,7 +615,7 @@ export function buildMetadata(
     }
 
     Object.entries(customConf.explicit_search_params).forEach((sp) => {
-      const val = `params${paramsIsOptional ? '?' : ''}.${sp[0]}`
+      const val = paramsIsOptional ? `params?.['${sp[0]}']` : `params['${sp[0]}']`
 
       explicit_search_params_to_function.push([sp[0], getSpValue(val, sp[1])])
     })
@@ -635,14 +638,14 @@ export function buildMetadata(
         explicit_search_params_to_function[0][1] = getSpValue(paramsReq[0].name, sp)
       } else {
         // in params
-        toRet = toRet.replaceAll(`params.${paramsReq[0].name}`, paramsReq[0].name)
+        toRet = toRet.replaceAll(`params['${paramsReq[0].name}']`, paramsReq[0].name)
       }
     }
     params.push(`params${isAllOptional ? '?' : ''}: { ${formatArgs(paramsFromPath, options)} }`)
   }
 
   const explicit_search_params = explicit_search_params_to_function
-    .map(([param, val]) => (param === val ? param : `${param}: ${val}`))
+    .map(([param, val]) => (param === val ? param : `'${param}': ${val}`))
     .join(', ')
 
   let fullSP = ''
@@ -665,7 +668,7 @@ export function buildMetadata(
   let paramsDefaults = paramsFromPath
     .filter((c) => c.default !== undefined)
     .map((c) => {
-      return `params.${c.name} = params.${c.name} ?? ${c.default}; `
+      return `params['${c.name}'] = params['${c.name}'] ?? ${c.default}; `
     })
 
   if (paramsDefaults.length > 0 && isAllOptional) {
@@ -779,8 +782,10 @@ const formatArg = (c: Param, o: Options) => {
     override_param = override_params[0][1]?.type
   }
 
+  const nameEscaped = c.name.includes('-') ? `'${c.name}'` : c.name
+
   return (
-    `${c.name}${c.optional ? '?' : ''}: ` +
+    `${nameEscaped}${c.optional ? '?' : ''}: ` +
     `(${c.type ?? override_param ?? options?.default_type ?? 'string | number'})` +
     `${c.isArray ? '[]' : ''}`
   )
@@ -995,7 +1000,7 @@ ${objTypes
   Params${arrayToRecord([
     ...new Set(
       objTypes.flatMap((c) =>
-        c.files.flatMap((d) => d.paramsFromPath.map((e) => `${e.name}: never`)),
+        c.files.flatMap((d) => d.paramsFromPath.map((e) => `'${e.name}': never`)),
       ),
     ),
   ])}
@@ -1050,8 +1055,7 @@ ${objTypes
   return false
 }
 
-// const dolLib = ['$', 'lib'].join('')
-const dolLib = ['$', '_', 'lib'].join('')
+const dolLib = ['$', 'lib'].join('')
 
 function theEnd(
   atStart: boolean,
