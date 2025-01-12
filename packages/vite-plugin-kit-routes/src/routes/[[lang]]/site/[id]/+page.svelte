@@ -4,4 +4,5 @@
 
 <h2>site [id]</h2>
 
+<pre>id: {page.params.id}</pre>
 <pre>da-sh: {page.url.searchParams.get('da-sh')}</pre>

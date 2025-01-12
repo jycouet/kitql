@@ -178,8 +178,8 @@ describe('vite-plugin-kit-routes', () => {
               },
             ],
             "strDefault": "",
-            "strParams": "params?: { lang?: (string | number) }",
-            "strReturn": "\`\${params?.lang ? \`/\${params?.lang}\`: '/'}\`",
+            "strParams": "params?: { 'lang'?: (string | number) }",
+            "strReturn": "\`\${params?.['lang'] ? \`/\${params?.['lang']}\`: '/'}\`",
           },
         ]
       `)
@@ -206,8 +206,8 @@ describe('vite-plugin-kit-routes', () => {
               },
             ],
             "strDefault": "",
-            "strParams": "params?: { lang?: (string | number) }",
-            "strReturn": "\`\${params?.lang ? \`/\${params?.lang}\`: ''}/about\`",
+            "strParams": "params?: { 'lang'?: (string | number) }",
+            "strReturn": "\`\${params?.['lang'] ? \`/\${params?.['lang']}\`: ''}/about\`",
           },
         ]
       `)
@@ -234,8 +234,8 @@ describe('vite-plugin-kit-routes', () => {
               },
             ],
             "strDefault": "",
-            "strParams": "params?: { lang?: (string | number) }",
-            "strReturn": "\`/prefix-\${params?.lang ? \`\${params?.lang}\`: ''}/about\`",
+            "strParams": "params?: { 'lang'?: (string | number) }",
+            "strReturn": "\`/prefix-\${params?.['lang'] ? \`\${params?.['lang']}\`: ''}/about\`",
           },
         ]
       `)
@@ -284,8 +284,8 @@ describe('vite-plugin-kit-routes', () => {
               },
             ],
             "strDefault": "",
-            "strParams": "params: { snapshot: (string | number), id: (string | number) }",
-            "strReturn": "\`/subscriptions/\${params.snapshot}/\${params.id}\`",
+            "strParams": "params: { 'snapshot': (string | number), 'id': (string | number) }",
+            "strReturn": "\`/subscriptions/\${params['snapshot']}/\${params['id']}\`",
           },
         ]
       `)
