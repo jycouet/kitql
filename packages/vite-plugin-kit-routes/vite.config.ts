@@ -75,6 +75,18 @@ export default defineConfig({
         '/spArrayComma': {
           explicit_search_params: { ids: { type: 'number[]', required: true, arrayMode: 'join' } },
         },
+        '/anchors': {
+          explicit_search_params: {
+            anchor: {
+              type: '"section0" | "section1" | "section2" | "section3"',
+              required: true,
+              isAnchor: true,
+            },
+            anotherOne: {
+              type: 'string',
+            },
+          },
+        },
       },
       SERVERS: {
         // site: {

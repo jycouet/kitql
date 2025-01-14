@@ -362,6 +362,18 @@ describe('run()', async () => {
       spArrayComma: {
         explicit_search_params: { ids: { type: 'number[]', required: true, arrayMode: 'join' } },
       },
+      anchors: {
+        explicit_search_params: {
+          anchor: {
+            type: '"section0" | "section1" | "section2" | "section3"',
+            required: true,
+            isAnchor: true,
+          },
+          // anotherOne: {
+          //   type: 'string',
+          // },
+        },
+      },
     },
     SERVERS: {},
     ACTIONS: {
@@ -387,6 +399,7 @@ describe('run()', async () => {
       '/match/[id=int]': commonConfig_variables.PAGES?.match_id_int,
       '/site_contract/[siteId]-[contractId]':
         commonConfig_variables.PAGES?.site_contract_siteId_contractId,
+      '/anchors': commonConfig_variables.PAGES?.anchors,
     },
     SERVERS: {},
     ACTIONS: {
@@ -405,6 +418,7 @@ describe('run()', async () => {
       '/[[lang]]/match/[id=int]': commonConfig_variables.PAGES?.match_id_int,
       '/[[lang]]/site_contract/[siteId]-[contractId]':
         commonConfig_variables.PAGES?.site_contract_siteId_contractId,
+      '/anchors': commonConfig_variables.PAGES?.anchors,
     },
     SERVERS: {},
     ACTIONS: {
@@ -914,6 +928,7 @@ describe('rmv Helper', () => {
         "/site_contract/[siteId]-[contractId]/+page.server.ts",
         "/site_contract/[siteId]-[contractId]/+page.svelte",
         "a/[...rest]/z/+page.svelte",
+        "anchors/+page.svelte",
         "api/graphql/+server.ts",
         "data/errors/[locale].json/+server.ts",
         "lay/(layVerySpecial)/+layout.svelte",
@@ -963,6 +978,7 @@ describe('rmv Helper', () => {
         "[[lang]]/site_contract/[siteId]-[contractId]/+page.server.ts",
         "[[lang]]/site_contract/[siteId]-[contractId]/+page.svelte",
         "a/[...rest]/z/+page.svelte",
+        "anchors/+page.svelte",
         "api/graphql/+server.ts",
         "data/errors/[locale].json/+server.ts",
         "lay/(layVerySpecial)/+layout.svelte",
@@ -1005,6 +1021,7 @@ describe('rmv Helper', () => {
         "[[lang]]/site_contract/[siteId]-[contractId]/+page.server.ts",
         "[[lang]]/site_contract/[siteId]-[contractId]/+page.svelte",
         "a/[...rest]/z/+page.svelte",
+        "anchors/+page.svelte",
         "api/graphql/+server.ts",
         "data/errors/[locale].json/+server.ts",
         "lay/+layout.svelte",
@@ -1050,6 +1067,7 @@ describe('rmv Helper', () => {
         "/site_contract/[siteId]-[contractId]/+page.server.ts",
         "/site_contract/[siteId]-[contractId]/+page.svelte",
         "a/[...rest]/z/+page.svelte",
+        "anchors/+page.svelte",
         "api/graphql/+server.ts",
         "data/errors/[locale].json/+server.ts",
         "lay/+layout.svelte",

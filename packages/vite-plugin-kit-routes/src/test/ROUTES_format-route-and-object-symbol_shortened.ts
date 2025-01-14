@@ -51,6 +51,7 @@ export const PAGES = {
   "a_rest_z": (rest: (string | number)[], params?: {  }) => {
     return `/a/${rest?.join('/')}/z`
   },
+  "anchors": `/anchors`,
   "lay_normal": `/lay/normal`,
   "lay_root_layout": `/lay/root-layout`,
   "lay_skip": `/lay/skip`,
@@ -128,7 +129,10 @@ type ParamValue = string | number | undefined
 /**
  * Append search params to a string
  */
-export const appendSp = (sp?: Record<string, ParamValue | ParamValue[]>, prefix: '?' | '&' = '?') => {
+export const appendSp = (
+  sp?: Record<string, ParamValue | ParamValue[]>,
+  prefix: '?' | '&' = '?',
+) => {
   if (sp === undefined) return ''
 
   const params = new URLSearchParams()
@@ -138,7 +142,12 @@ export const appendSp = (sp?: Record<string, ParamValue | ParamValue[]>, prefix:
     }
   }
 
+  let anchor = ''
   for (const [name, val] of Object.entries(sp)) {
+    if (name === '__KIT_ROUTES_ANCHOR__') {
+      anchor = `#${val}`
+      continue
+    }
     if (Array.isArray(val)) {
       for (const v of val) {
         append(name, v)
@@ -149,8 +158,8 @@ export const appendSp = (sp?: Record<string, ParamValue | ParamValue[]>, prefix:
   }
 
   const formatted = params.toString()
-  if (formatted) {
-    return `${prefix}${formatted}`
+  if (formatted || anchor) {
+    return `${prefix}${formatted}${anchor}`
   }
   return ''
 }
@@ -220,7 +229,7 @@ export function route<T extends keyof AllTypes>(key: T, ...params: any[]): strin
 * ```
 */
 export type KIT_ROUTES = {
-  PAGES: { '_ROOT': never, 'subGroup': never, 'subGroup_user': never, 'subGroup2': never, 'contract': 'lang', 'contract_id': 'lang' | 'id', 'gp_one': 'lang', 'gp_two': 'lang', 'main': 'lang', 'match_id_ab': 'lang' | 'id', 'match_id_int': 'lang' | 'id', 'site': 'lang', 'site_id': 'lang' | 'id', 'site_contract_siteId_contractId': 'siteId' | 'contractId' | 'lang', 'a_rest_z': 'rest', 'lay_normal': never, 'lay_root_layout': never, 'lay_skip': never, 'sp': never, 'spArray': never, 'spArrayComma': never }
+  PAGES: { '_ROOT': never, 'subGroup': never, 'subGroup_user': never, 'subGroup2': never, 'contract': 'lang', 'contract_id': 'lang' | 'id', 'gp_one': 'lang', 'gp_two': 'lang', 'main': 'lang', 'match_id_ab': 'lang' | 'id', 'match_id_int': 'lang' | 'id', 'site': 'lang', 'site_id': 'lang' | 'id', 'site_contract_siteId_contractId': 'siteId' | 'contractId' | 'lang', 'a_rest_z': 'rest', 'anchors': never, 'lay_normal': never, 'lay_root_layout': never, 'lay_skip': never, 'sp': never, 'spArray': never, 'spArrayComma': never }
   SERVERS: { 'GET server_func_get': never, 'GET server_func_get_and': never, 'POST server_func_post': never, 'GET contract': 'lang', 'POST contract': 'lang', 'GET site': 'lang', 'GET api_graphql': never, 'POST api_graphql': never, 'GET data_errors_locale_json': 'locale' }
   ACTIONS: { 'default contract_id': 'lang' | 'id', 'create site': 'lang', 'update site_id': 'lang' | 'id', 'delete site_id': 'lang' | 'id', 'noSatisfies site_contract': 'lang', 'send site_contract_siteId_contractId': 'siteId' | 'contractId' | 'lang' }
   LINKS: { 'twitter': never, 'twitter_post': 'name' | 'id', 'gravatar': 'str' }
