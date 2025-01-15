@@ -288,6 +288,23 @@ export type ExplicitSearchParam = ExtendParam & {
    * @default 'split'
    */
   arrayMode?: 'join' | 'split'
+
+  /**
+   * If `true`, the key has no impact on the route.
+   * and one of the type will be used as the #hash.
+   * @example
+   * explicit_search_params: {
+   *   anchor: {
+   *     type: '"section1" | "section2" | "section3"',
+   *     required: true,
+   *     isAnchor: true
+   *   }
+   * }
+   * will result in something like : /anchors#section1
+   *
+   * @default false
+   */
+  isAnchor?: boolean
 }
 
 export const log = new Log('Kit Routes')
@@ -593,6 +610,7 @@ export function buildMetadata(
         type: sp[1].type,
         default: sp[1].default,
         isArray: false,
+        isAnchor: sp[1].isAnchor,
       }
 
       paramsFromPath.push(param)
@@ -617,7 +635,12 @@ export function buildMetadata(
     Object.entries(customConf.explicit_search_params).forEach((sp) => {
       const val = paramsIsOptional ? `params?.['${sp[0]}']` : `params['${sp[0]}']`
 
-      explicit_search_params_to_function.push([sp[0], getSpValue(val, sp[1])])
+      let key = sp[0]
+      if (sp[1].isAnchor) {
+        key = `__KIT_ROUTES_ANCHOR__`
+      }
+
+      explicit_search_params_to_function.push([key, getSpValue(val, sp[1])])
     })
   }
 
@@ -631,10 +654,10 @@ export function buildMetadata(
       // If it's in the explicite and it's THIS one, let's change the array...
       if (
         explicit_search_params_to_function.length === 1 &&
-        explicit_search_params_to_function[0][0] === paramsReq[0].name
+        (explicit_search_params_to_function[0][0] === paramsReq[0].name ||
+          explicit_search_params_to_function[0][0] === `__KIT_ROUTES_ANCHOR__`)
       ) {
         const sp = customConf.explicit_search_params![paramsReq[0].name]
-
         explicit_search_params_to_function[0][1] = getSpValue(paramsReq[0].name, sp)
       } else {
         // in params

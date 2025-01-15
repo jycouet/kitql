@@ -70,6 +70,12 @@ const PAGES = {
   '/a/[...rest]/z': (params: { rest: (string | number)[] }) => {
     return `/a/${params['rest']?.join('/')}/z`
   },
+  '/anchors': (params: {
+    anchor: 'section0' | 'section1' | 'section2' | 'section3'
+    anotherOne?: string
+  }) => {
+    return `/anchors${appendSp({ __KIT_ROUTES_ANCHOR__: params['anchor'], anotherOne: params['anotherOne'] })}`
+  },
   '/lay/normal': `/lay/normal`,
   '/lay/root-layout': `/lay/root-layout`,
   '/lay/skip': `/lay/skip`,
@@ -183,7 +189,12 @@ export const appendSp = (
     }
   }
 
+  let anchor = ''
   for (const [name, val] of Object.entries(sp)) {
+    if (name === '__KIT_ROUTES_ANCHOR__') {
+      anchor = `#${val}`
+      continue
+    }
     if (Array.isArray(val)) {
       for (const v of val) {
         append(name, v)
@@ -194,8 +205,8 @@ export const appendSp = (
   }
 
   const formatted = params.toString()
-  if (formatted) {
-    return `${prefix}${formatted}`
+  if (formatted || anchor) {
+    return `${prefix}${formatted}${anchor}`
   }
   return ''
 }
@@ -286,6 +297,7 @@ export type KIT_ROUTES = {
     '/site/[id]': 'lang' | 'id'
     '/site_contract/[siteId]-[contractId]': 'siteId' | 'contractId' | 'lang'
     '/a/[...rest]/z': 'rest'
+    '/anchors': never
     '/lay/normal': never
     '/lay/root-layout': never
     '/lay/skip': never
@@ -323,6 +335,8 @@ export type KIT_ROUTES = {
     siteId: never
     contractId: never
     rest: never
+    anchor: never
+    anotherOne: never
     ids: never
     locale: never
     redirectTo: never

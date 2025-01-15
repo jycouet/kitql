@@ -24,7 +24,10 @@ export const appendSp = `type ParamValue = string | number | undefined
 /**
  * Append search params to a string
  */
-export const appendSp = (sp?: Record<string, ParamValue | ParamValue[]>, prefix: '?' | '&' = '?') => {
+export const appendSp = (
+  sp?: Record<string, ParamValue | ParamValue[]>,
+  prefix: '?' | '&' = '?',
+) => {
   if (sp === undefined) return ''
 
   const params = new URLSearchParams()
@@ -34,7 +37,12 @@ export const appendSp = (sp?: Record<string, ParamValue | ParamValue[]>, prefix:
     }
   }
 
+  let anchor = ''
   for (const [name, val] of Object.entries(sp)) {
+    if (name === '__KIT_ROUTES_ANCHOR__') {
+      anchor = \`#\${val}\`
+      continue
+    }
     if (Array.isArray(val)) {
       for (const v of val) {
         append(name, v)
@@ -45,8 +53,8 @@ export const appendSp = (sp?: Record<string, ParamValue | ParamValue[]>, prefix:
   }
 
   const formatted = params.toString()
-  if (formatted) {
-    return \`\${prefix}\${formatted}\`
+  if (formatted || anchor) {
+    return \`\${prefix}\${formatted}\${anchor}\`
   }
   return ''
 }
