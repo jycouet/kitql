@@ -1,5 +1,13 @@
 # vite-plugin-kit-routes
 
+## 0.7.6-next.1
+
+### Patch Changes
+
+- [#834](https://github.com/jycouet/kitql/pull/834)
+  [`b8c5eab`](https://github.com/jycouet/kitql/commit/b8c5eabcb7bc9848a1b8255a8a05b4b2ac2a4d42)
+  Thanks [@jycouet](https://github.com/jycouet)! - add anchor support
+
 ## 0.7.6-next.0
 
 ### Patch Changes
