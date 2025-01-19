@@ -103,7 +103,12 @@
     <a href="/COUCOU-Yop">Unsafe Link</a>
   </li>
   <li>
-    <a href={route('/anchors', { hash: 'section0', anotherOne: 'coucou' })}>Anchors</a>
+    <a href={route('/anchors', { hash: 'section0' })}>Anchors</a> |
+    <a href={route('/anchors', { hash: 'section0', anotherOne: 'coucou' })}
+      >Anchors with second param</a
+    >
+    |
+    <a href={route('/anchors/[id]', { hash: 'section2', id: '123' })}>Anchors with second param</a>
   </li>
 </ul>
 
