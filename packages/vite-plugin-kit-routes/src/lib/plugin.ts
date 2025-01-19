@@ -241,6 +241,7 @@ export type CustomPath<Params extends string | never = string> = {
    * }
    */
   explicit_search_params?: Record<string, ExplicitSearchParam>
+
   /**
    * Specify for this route the type & a default.
    * @example
@@ -252,12 +253,27 @@ export type CustomPath<Params extends string | never = string> = {
    * }
    */
   params?: Partial<Record<Params, ExtendParam>>
+
   /**
    * If `with`, you can add extra search params to this route (without any typecheck!)
    *
    * ⚠️ **We don't recommend to use it, but it can be useful in some cases.**
    */
   extra_search_params?: 'default' | 'with' | 'without'
+
+  /**
+   * Specify the hash of the route (also named anchor sometimes).
+   * @example
+   * hash: {
+   *   type: '"section0" | "section1" | "section2" | "section3"',
+   *   required: true,
+   *   default: '"section0"',
+   * }
+   */
+  hash?: ExtendParam & {
+    required?: boolean
+    default?: string
+  }
 }
 
 export type OverrideParam = {
@@ -288,23 +304,6 @@ export type ExplicitSearchParam = ExtendParam & {
    * @default 'split'
    */
   arrayMode?: 'join' | 'split'
-
-  /**
-   * If `true`, the key has no impact on the route.
-   * and one of the type will be used as the #hash.
-   * @example
-   * explicit_search_params: {
-   *   anchor: {
-   *     type: '"section1" | "section2" | "section3"',
-   *     required: true,
-   *     isAnchor: true
-   *   }
-   * }
-   * will result in something like : /anchors#section1
-   *
-   * @default false
-   */
-  isAnchor?: boolean
 }
 
 export const log = new Log('Kit Routes')
@@ -598,6 +597,19 @@ export function buildMetadata(
   let isAllOptional = paramsFromPath.filter((c) => !c.optional).length === 0
   const paramsReq = paramsFromPath.filter((c) => !c.optional)
 
+  if (customConf.hash) {
+    customConf.explicit_search_params = {
+      ...customConf.explicit_search_params,
+      hash: {
+        type: customConf.hash.type,
+        required: customConf.hash.required,
+        default: customConf.hash.default,
+        // @ts-expect-error
+        isAnchor: true,
+      },
+    }
+  }
+
   // custom search Param?
   const explicit_search_params_to_function: [param: string, val: string][] = []
   if (customConf.explicit_search_params) {
@@ -610,6 +622,7 @@ export function buildMetadata(
         type: sp[1].type,
         default: sp[1].default,
         isArray: false,
+        // @ts-expect-error
         isAnchor: sp[1].isAnchor,
       }
 
@@ -636,6 +649,7 @@ export function buildMetadata(
       const val = paramsIsOptional ? `params?.['${sp[0]}']` : `params['${sp[0]}']`
 
       let key = sp[0]
+      // @ts-expect-error
       if (sp[1].isAnchor) {
         key = `__KIT_ROUTES_ANCHOR__`
       }
@@ -1121,20 +1135,35 @@ function theEnd(
 
     log.success(`${green('Stats:')} ${stats.join(' | ')}`)
     log.info(
-      `${gray(' Share on TwiX:')} ${cyan(
-        `https://twitter.com/intent/tweet?text=` +
-          `${encodeURI(`🚀 Check out my `)}%23${encodeURI(
-            `KitRoutes stats 🚀\n\n` +
-              `- Routes: ${nbRoutes} (${objTypes.map((c) => c.files.length).join(', ')})\n` +
-              `- Points: ${confgPoints}\n` +
-              `- Score: ${score}\n` +
-              `- Format: "${options?.format}${shortV}"\n` +
-              `- Version: ${version}\n\n` +
-              `👀 @jycouet`,
-          )}`,
+      `${gray(' Share on bluesky:')} ${cyan(
+        createBSkyIntent([
+          `🚀 Check out my #KitRoutes stats 🚀`,
+          '',
+          `- Routes: ${nbRoutes} (${objTypes.map((c) => c.files.length).join(', ')})`,
+          `- Points: ${confgPoints}`,
+          `- Score: ${score}`,
+          `- Format: "${options?.format}${shortV}"`,
+          `- Version: ${version}`,
+          '',
+          `@jyc.dev 👀`,
+        ]),
       )}`,
     )
   }
+}
+// TODO: fix this one day!
+// https://github.com/bluesky-social/social-app/issues/6133
+export function createBSkyIntent(msg: string[]) {
+  // const lowerCaseUserAgent = navigator.userAgent.toLowerCase()
+
+  // let lineBreak = '\r\n'
+
+  // if (lowerCaseUserAgent.includes('windows')) {
+  // }
+  const lineBreak = '<br />'
+  // console.log(`lowerCaseUserAgent`, { lowerCaseUserAgent, lineBreak })
+
+  return `https://bsky.app/intent/compose?text=${encodeURIComponent(msg.join(lineBreak))}`
 }
 
 /**

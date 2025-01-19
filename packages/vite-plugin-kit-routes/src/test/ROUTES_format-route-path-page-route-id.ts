@@ -51,8 +51,8 @@ const PAGES = {
   "/a/[...rest]/z": (params: { rest: (string | number)[] }) => {
     return `/a/${params['rest']?.join('/')}/z`
   },
-  "/anchors": (params: { anchor: ("section0" | "section1" | "section2" | "section3") }) => {
-    return `/anchors${appendSp({ '__KIT_ROUTES_ANCHOR__': params['anchor'] })}`
+  "/anchors": (params: { hash: ("section0" | "section1" | "section2" | "section3") }) => {
+    return `/anchors${appendSp({ '__KIT_ROUTES_ANCHOR__': params['hash'] })}`
   },
   "/lay/(layVerySpecial)/normal": `/lay/normal`,
   "/lay/(layVerySpecial)/root-layout": `/lay/root-layout`,
@@ -234,5 +234,5 @@ export type KIT_ROUTES = {
   SERVERS: { 'GET /(servers)/server_func_get': never, 'GET /(servers)/server_func_get_and_': never, 'POST /(servers)/server_func_post': never, 'GET /[[lang]]/contract': 'lang', 'POST /[[lang]]/contract': 'lang', 'GET /[[lang]]/site': 'lang', 'GET /api/graphql': never, 'POST /api/graphql': never, 'GET /data/errors/[locale].json': 'locale' }
   ACTIONS: { 'default /[[lang]]/contract/[id]': 'id' | 'lang', 'create /[[lang]]/site': 'lang', 'update /[[lang]]/site/[id]': 'id' | 'lang', 'delete /[[lang]]/site/[id]': 'id' | 'lang', 'noSatisfies /[[lang]]/site_contract': 'lang', 'send /[[lang]]/site_contract/[siteId]-[contractId]': 'siteId' | 'contractId' | 'lang' }
   LINKS: { 'twitter': never, 'twitter_post': 'name' | 'id', 'gravatar': 'str' }
-  Params: { 'first': never, 'lang': never, 'id': never, 'limit': never, 'demo': never, 'da-sh': never, 'siteId': never, 'contractId': never, 'rest': never, 'anchor': never, 'locale': never, 'extra': never, 'name': never, 'str': never, 's': never, 'd': never }
+  Params: { 'first': never, 'lang': never, 'id': never, 'limit': never, 'demo': never, 'da-sh': never, 'siteId': never, 'contractId': never, 'rest': never, 'hash': never, 'locale': never, 'extra': never, 'name': never, 'str': never, 's': never, 'd': never }
 }

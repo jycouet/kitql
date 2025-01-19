@@ -364,14 +364,13 @@ describe('run()', async () => {
       },
       anchors: {
         explicit_search_params: {
-          anchor: {
-            type: '"section0" | "section1" | "section2" | "section3"',
-            required: true,
-            isAnchor: true,
-          },
           // anotherOne: {
           //   type: 'string',
           // },
+        },
+        hash: {
+          type: '"section0" | "section1" | "section2" | "section3"',
+          required: true,
         },
       },
     },

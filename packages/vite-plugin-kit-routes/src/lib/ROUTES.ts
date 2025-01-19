@@ -71,10 +71,11 @@ const PAGES = {
     return `/a/${params['rest']?.join('/')}/z`
   },
   '/anchors': (params: {
-    anchor: 'section0' | 'section1' | 'section2' | 'section3'
+    hash: 'section0' | 'section1' | 'section2' | 'section3'
     anotherOne?: string
   }) => {
-    return `/anchors${appendSp({ __KIT_ROUTES_ANCHOR__: params['anchor'], anotherOne: params['anotherOne'] })}`
+    params['hash'] = params['hash'] ?? 'section0'
+    return `/anchors${appendSp({ anotherOne: params['anotherOne'], __KIT_ROUTES_ANCHOR__: params['hash'] })}`
   },
   '/lay/normal': `/lay/normal`,
   '/lay/root-layout': `/lay/root-layout`,
@@ -335,7 +336,7 @@ export type KIT_ROUTES = {
     siteId: never
     contractId: never
     rest: never
-    anchor: never
+    hash: never
     anotherOne: never
     ids: never
     locale: never
