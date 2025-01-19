@@ -1,5 +1,18 @@
 # vite-plugin-kit-routes
 
+## 0.7.6-next.2
+
+### Patch Changes
+
+- [#838](https://github.com/jycouet/kitql/pull/838)
+  [`2b253c0`](https://github.com/jycouet/kitql/commit/2b253c05dbf3dd43c12646f48e8208ba7371538e)
+  Thanks [@jycouet](https://github.com/jycouet)! - update stats link to bluesky
+
+- [#838](https://github.com/jycouet/kitql/pull/838)
+  [`2b253c0`](https://github.com/jycouet/kitql/commit/2b253c05dbf3dd43c12646f48e8208ba7371538e)
+  Thanks [@jycouet](https://github.com/jycouet)! - add hash option to path (to manage anchor of a
+  page)
+
 ## 0.7.6-next.1
 
 ### Patch Changes
