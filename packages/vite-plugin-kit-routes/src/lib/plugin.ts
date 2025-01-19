@@ -1160,7 +1160,7 @@ export function createBSkyIntent(msg: string[]) {
 
   // if (lowerCaseUserAgent.includes('windows')) {
   // }
-  let lineBreak = '<br />'
+  const lineBreak = '<br />'
   // console.log(`lowerCaseUserAgent`, { lowerCaseUserAgent, lineBreak })
 
   return `https://bsky.app/intent/compose?text=${encodeURIComponent(msg.join(lineBreak))}`
