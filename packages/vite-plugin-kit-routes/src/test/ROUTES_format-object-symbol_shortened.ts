@@ -51,8 +51,8 @@ export const PAGES = {
   "a_rest_z": (rest: (string | number)[], params?: {  }) => {
     return `/a/${rest?.join('/')}/z`
   },
-  "anchors": (anchor: ("section0" | "section1" | "section2" | "section3"), params?: {  }) => {
-    return `/anchors${appendSp({ '__KIT_ROUTES_ANCHOR__': anchor })}`
+  "anchors": (hash: ("section0" | "section1" | "section2" | "section3"), params?: {  }) => {
+    return `/anchors${appendSp({ '__KIT_ROUTES_ANCHOR__': hash })}`
   },
   "lay_normal": `/lay/normal`,
   "lay_root_layout": `/lay/root-layout`,
@@ -207,5 +207,5 @@ export type KIT_ROUTES = {
   SERVERS: { 'GET_server_func_get': never, 'GET_server_func_get_and': never, 'POST_server_func_post': never, 'GET_contract': 'lang', 'POST_contract': 'lang', 'GET_site': 'lang', 'GET_api_graphql': never, 'POST_api_graphql': never, 'GET_data_errors_locale_json': 'locale' }
   ACTIONS: { 'default_contract_id': 'lang' | 'id', 'create_site': 'lang', 'update_site_id': 'lang' | 'id', 'delete_site_id': 'lang' | 'id', 'noSatisfies_site_contract': 'lang', 'send_site_contract_siteId_contractId': 'siteId' | 'contractId' | 'lang' }
   LINKS: { 'twitter': never, 'twitter_post': 'name' | 'id', 'gravatar': 'str' }
-  Params: { 'first': never, 'lang': never, 'id': never, 'limit': never, 'demo': never, 'da-sh': never, 'siteId': never, 'contractId': never, 'rest': never, 'anchor': never, 'ids': never, 'locale': never, 'extra': never, 'name': never, 'str': never, 's': never, 'd': never }
+  Params: { 'first': never, 'lang': never, 'id': never, 'limit': never, 'demo': never, 'da-sh': never, 'siteId': never, 'contractId': never, 'rest': never, 'hash': never, 'ids': never, 'locale': never, 'extra': never, 'name': never, 'str': never, 's': never, 'd': never }
 }
