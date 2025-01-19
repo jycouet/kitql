@@ -54,7 +54,7 @@ export const appendSp = (
 
   const formatted = params.toString()
   if (formatted || anchor) {
-    return \`\${prefix}\${formatted}\${anchor}\`
+    return \`\${prefix}\${formatted}\${anchor}\`.replace('?#', '#')
   }
   return ''
 }

@@ -77,6 +77,12 @@ const PAGES = {
     params['hash'] = params['hash'] ?? 'section0'
     return `/anchors${appendSp({ anotherOne: params['anotherOne'], __KIT_ROUTES_ANCHOR__: params['hash'] })}`
   },
+  '/anchors/[id]': (params: {
+    id: string | number
+    hash: 'section0' | 'section1' | 'section2' | 'section3'
+  }) => {
+    return `/anchors/${params['id']}${appendSp({ __KIT_ROUTES_ANCHOR__: params['hash'] })}`
+  },
   '/lay/normal': `/lay/normal`,
   '/lay/root-layout': `/lay/root-layout`,
   '/lay/skip': `/lay/skip`,
@@ -207,7 +213,7 @@ export const appendSp = (
 
   const formatted = params.toString()
   if (formatted || anchor) {
-    return `${prefix}${formatted}${anchor}`
+    return `${prefix}${formatted}${anchor}`.replace('?#', '#')
   }
   return ''
 }
@@ -299,6 +305,7 @@ export type KIT_ROUTES = {
     '/site_contract/[siteId]-[contractId]': 'siteId' | 'contractId' | 'lang'
     '/a/[...rest]/z': 'rest'
     '/anchors': never
+    '/anchors/[id]': 'id'
     '/lay/normal': never
     '/lay/root-layout': never
     '/lay/skip': never
