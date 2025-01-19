@@ -1,5 +1,13 @@
 # vite-plugin-kit-routes
 
+## 0.7.6-next.3
+
+### Patch Changes
+
+- [#840](https://github.com/jycouet/kitql/pull/840)
+  [`a84566e`](https://github.com/jycouet/kitql/commit/a84566e7c3c0b9d9be24e2faf2bd9c987c5db48d)
+  Thanks [@jycouet](https://github.com/jycouet)! - fix hash url with param & without searchParam
+
 ## 0.7.6-next.2
 
 ### Patch Changes
