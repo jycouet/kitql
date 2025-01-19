@@ -1135,20 +1135,35 @@ function theEnd(
 
     log.success(`${green('Stats:')} ${stats.join(' | ')}`)
     log.info(
-      `${gray(' Share on TwiX:')} ${cyan(
-        `https://twitter.com/intent/tweet?text=` +
-          `${encodeURI(`🚀 Check out my `)}%23${encodeURI(
-            `KitRoutes stats 🚀\n\n` +
-              `- Routes: ${nbRoutes} (${objTypes.map((c) => c.files.length).join(', ')})\n` +
-              `- Points: ${confgPoints}\n` +
-              `- Score: ${score}\n` +
-              `- Format: "${options?.format}${shortV}"\n` +
-              `- Version: ${version}\n\n` +
-              `👀 @jycouet`,
-          )}`,
+      `${gray(' Share on bluesky:')} ${cyan(
+        createBSkyIntent([
+          `🚀 Check out my #KitRoutes stats 🚀`,
+          '',
+          `- Routes: ${nbRoutes} (${objTypes.map((c) => c.files.length).join(', ')})`,
+          `- Points: ${confgPoints}`,
+          `- Score: ${score}`,
+          `- Format: "${options?.format}${shortV}"`,
+          `- Version: ${version}`,
+          '',
+          `@jyc.dev 👀`,
+        ]),
       )}`,
     )
   }
+}
+// TODO: fix this one day!
+// https://github.com/bluesky-social/social-app/issues/6133
+export function createBSkyIntent(msg: string[]) {
+  // const lowerCaseUserAgent = navigator.userAgent.toLowerCase()
+
+  // let lineBreak = '\r\n'
+
+  // if (lowerCaseUserAgent.includes('windows')) {
+  // }
+  let lineBreak = '<br />'
+  // console.log(`lowerCaseUserAgent`, { lowerCaseUserAgent, lineBreak })
+
+  return `https://bsky.app/intent/compose?text=${encodeURIComponent(msg.join(lineBreak))}`
 }
 
 /**
