@@ -1,5 +1,12 @@
 # vite-plugin-kit-routes
 
+## 0.7.6-next.4
+
+### Patch Changes
+
+- [`50d234c`](https://github.com/jycouet/kitql/commit/50d234cf98e29f9348dbaf6ce1ecbfb6579e70ea)
+  Thanks [@jycouet](https://github.com/jycouet)! - fix: undefined hash is now well handled
+
 ## 0.7.6-next.3
 
 ### Patch Changes
