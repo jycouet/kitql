@@ -132,7 +132,7 @@ export const appendSp = (
 
   let anchor = ''
   for (const [name, val] of Object.entries(sp)) {
-    if (name === '__KIT_ROUTES_ANCHOR__') {
+    if (name === '__KIT_ROUTES_ANCHOR__' && val !== undefined) {
       anchor = `#${val}`
       continue
     }

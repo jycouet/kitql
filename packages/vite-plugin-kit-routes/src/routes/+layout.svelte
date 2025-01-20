@@ -109,6 +109,8 @@
     >
     |
     <a href={route('/anchors/[id]', { hash: 'section2', id: '123' })}>Anchors with second param</a>
+    |
+    <a href={route('/anchors/[id]', { id: '123' })}>Anchors no hash</a>
   </li>
 </ul>
 

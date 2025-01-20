@@ -88,7 +88,9 @@ export default defineConfig({
           },
         },
         '/anchors/[id]': {
-          hash: { type: '"section0" | "section1" | "section2" | "section3"', required: true },
+          hash: {
+            type: '"section0" | "section1" | "section2" | "section3"',
+          },
         },
       },
       SERVERS: {
