@@ -37,7 +37,7 @@ _\*Order by subjective usefulness_ 😉
 ## ✨ Contributors
 
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
-[![All Contributors](https://img.shields.io/badge/all_contributors-46-orange.svg?style=flat-square)](#contributors-)
+[![All Contributors](https://img.shields.io/badge/all_contributors-47-orange.svg?style=flat-square)](#contributors-)
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 
 Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/docs/en/emoji-key)):
@@ -106,6 +106,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/Tjomas"><img src="https://avatars.githubusercontent.com/u/813569?v=4?s=100" width="100px;" alt="Thomas Reufer"/><br /><sub><b>Thomas Reufer</b></sub></a><br /><a href="https://github.com/jycouet/kitql/issues?q=author%3ATjomas" title="Bug reports">🐛</a></td>
       <td align="center" valign="top" width="14.28%"><a href="http://oleh.wtf"><img src="https://avatars.githubusercontent.com/u/29802592?v=4?s=100" width="100px;" alt="oleh"/><br /><sub><b>oleh</b></sub></a><br /><a href="https://github.com/jycouet/kitql/issues?q=author%3Aolehmisar" title="Bug reports">🐛</a></td>
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/arkmech"><img src="https://avatars.githubusercontent.com/u/114366662?v=4?s=100" width="100px;" alt="arkmech"/><br /><sub><b>arkmech</b></sub></a><br /><a href="#ideas-arkmech" title="Ideas, Planning, & Feedback">🤔</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/OllieJT"><img src="https://avatars.githubusercontent.com/u/13766232?v=4?s=100" width="100px;" alt="Ollie Taylor"/><br /><sub><b>Ollie Taylor</b></sub></a><br /><a href="https://github.com/jycouet/kitql/issues?q=author%3AOllieJT" title="Bug reports">🐛</a></td>
     </tr>
   </tbody>
 </table>
