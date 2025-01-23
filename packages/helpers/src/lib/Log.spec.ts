@@ -1,4 +1,4 @@
-import { describe, expect, it, vi } from 'vitest'
+import { beforeEach, describe, expect, it, vi } from 'vitest'
 
 import {
   bgBlack,
@@ -47,6 +47,10 @@ import { Log } from './Log.js'
 import { stry0 } from './stry/stry.js'
 
 describe('kitql - helper - Log', () => {
+  beforeEach(() => {
+    vi.clearAllMocks()
+  })
+
   it('Minimal config', () => {
     const log = new Log('tool name')
     expect(log).to.have.property('toolName', 'tool name')
