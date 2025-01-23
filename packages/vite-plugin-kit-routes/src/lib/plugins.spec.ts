@@ -861,6 +861,7 @@ describe('run()', async () => {
     })
 
     const content = read(generated_file_path) ?? ''
+console.info(`content`, content)
 
     expect(content.includes('import { base } from')).toBe(true)
     expect(content.includes('$app/paths')).toBe(true)
