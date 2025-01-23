@@ -79,7 +79,7 @@ const PAGES = {
   },
   '/anchors/[id]': (params: {
     id: string | number
-    hash: 'section0' | 'section1' | 'section2' | 'section3'
+    hash?: 'section0' | 'section1' | 'section2' | 'section3'
   }) => {
     return `/anchors/${params['id']}${appendSp({ __KIT_ROUTES_ANCHOR__: params['hash'] })}`
   },
@@ -198,7 +198,7 @@ export const appendSp = (
 
   let anchor = ''
   for (const [name, val] of Object.entries(sp)) {
-    if (name === '__KIT_ROUTES_ANCHOR__') {
+    if (name === '__KIT_ROUTES_ANCHOR__' && val !== undefined) {
       anchor = `#${val}`
       continue
     }

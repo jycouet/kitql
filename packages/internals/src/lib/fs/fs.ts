@@ -1,5 +1,5 @@
 import { existsSync, mkdirSync, readdirSync, readFileSync, statSync, writeFileSync } from 'fs'
-import { dirname, join, relative, resolve } from 'path'
+import { dirname, join, posix, relative, resolve } from 'path'
 
 import { Log, red } from '@kitql/helpers'
 
@@ -33,17 +33,19 @@ export function getFilesUnder(rootFolder: string) {
   const files: string[] = []
 
   function traverseDirectory(dir: string) {
-    const entries = readdirSync(dir, { withFileTypes: true })
+    try {
+      const entries = readdirSync(dir, { withFileTypes: true })
 
-    for (const entry of entries) {
-      const fullPath = join(dir, entry.name)
-      if (entry.isDirectory()) {
-        traverseDirectory(fullPath)
-      } else {
-        const relativePath = relative(rootFolder, fullPath)
-        files.push(relativePath)
+      for (const entry of entries) {
+        const fullPath = join(dir, entry.name)
+        if (entry.isDirectory()) {
+          traverseDirectory(fullPath)
+        } else {
+          const relativePath = relative(rootFolder, fullPath)
+          files.push(relativePath)
+        }
       }
-    }
+    } catch (error) {}
   }
 
   traverseDirectory(rootFolder)
@@ -57,7 +59,7 @@ export function getFilesUnder(rootFolder: string) {
  */
 export function getRelativePackagePath(packageName: string) {
   for (let i = 0; i < 6; i++) {
-    const path = join(...Array.from({ length: i }, () => '..'), 'node_modules', packageName)
+    const path = posix.join(...Array.from({ length: i }, () => '..'), 'node_modules', packageName)
     if (existsSync(path)) {
       return path
     }

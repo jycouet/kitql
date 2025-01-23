@@ -2,7 +2,7 @@ import { describe, expect, it } from 'vitest'
 
 import { findFileOrUp, getFilesUnder, getRelativePackagePath, read, relative, write } from './fs.js'
 
-describe('fs', () => {
+describe('getRelativePackagePath', () => {
   it('should get package path single', async () => {
     const path = getRelativePackagePath('recast')
     expect(path).toMatchInlineSnapshot(`"node_modules/recast"`)
@@ -17,8 +17,10 @@ describe('fs', () => {
     const path = getRelativePackagePath('This_Package_doesnt_exist')
     expect(path).toBeNull()
   })
+})
 
-  it('getFilesUnder', async () => {
+describe('getFilesUnder', () => {
+  it('should get files under a directory', async () => {
     const location = relative(`${process.cwd()}`, 'src/routes/')
     expect(getFilesUnder(location)).toMatchInlineSnapshot(`
       [
@@ -28,6 +30,13 @@ describe('fs', () => {
     `)
   })
 
+  it('should get files under a directory', async () => {
+    const location = relative(`${process.cwd()}`, 'src/coucou/')
+    expect(getFilesUnder(location).length).toBe(0)
+  })
+})
+
+describe('read', () => {
   it('read a file', async () => {
     const data = read(`${process.cwd()}/src/routes/+page.svelte`)
     expect(data).toMatchInlineSnapshot(`
@@ -56,11 +65,15 @@ describe('fs', () => {
     const data = read(`${process.cwd()}/src/routes/+page-NOOO.svelte`)
     expect(data).toMatchInlineSnapshot('null')
   })
+})
 
+describe('write', () => {
   it('write file in a new place', async () => {
     const data = read(`${process.cwd()}/src/routes/+page.svelte`)
     if (data) {
-      const path = `${process.cwd()}/node_modules/routes/+page.svelte` + new Date().toISOString()
+      const path =
+        `${process.cwd()}/node_modules/routes/+page.svelte` +
+        new Date().toISOString().replace(':', '_')
       write(path, [data])
       const readAgainData = read(path)
       expect(readAgainData).toMatchInlineSnapshot(`
@@ -113,7 +126,9 @@ describe('fs', () => {
       `)
     }
   })
+})
 
+describe('findFileOrUp', () => {
   it('should find a file', async () => {
     const res = findFileOrUp('package.json')
     expect(res).toMatchInlineSnapshot(`"package.json"`)
