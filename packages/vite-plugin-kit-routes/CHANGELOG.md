@@ -1,5 +1,37 @@
 # vite-plugin-kit-routes
 
+## 0.7.6
+
+### Patch Changes
+
+- [`50d234c`](https://github.com/jycouet/kitql/commit/50d234cf98e29f9348dbaf6ce1ecbfb6579e70ea)
+  Thanks [@jycouet](https://github.com/jycouet)! - fix: undefined hash is now well handled
+
+- [#838](https://github.com/jycouet/kitql/pull/838)
+  [`2b253c0`](https://github.com/jycouet/kitql/commit/2b253c05dbf3dd43c12646f48e8208ba7371538e)
+  Thanks [@jycouet](https://github.com/jycouet)! - update stats link to bluesky
+
+- [#840](https://github.com/jycouet/kitql/pull/840)
+  [`a84566e`](https://github.com/jycouet/kitql/commit/a84566e7c3c0b9d9be24e2faf2bd9c987c5db48d)
+  Thanks [@jycouet](https://github.com/jycouet)! - fix hash url with param & without searchParam
+
+- [#838](https://github.com/jycouet/kitql/pull/838)
+  [`2b253c0`](https://github.com/jycouet/kitql/commit/2b253c05dbf3dd43c12646f48e8208ba7371538e)
+  Thanks [@jycouet](https://github.com/jycouet)! - add hash option to path (to manage anchor of a
+  page)
+
+- [#834](https://github.com/jycouet/kitql/pull/834)
+  [`b8c5eab`](https://github.com/jycouet/kitql/commit/b8c5eabcb7bc9848a1b8255a8a05b4b2ac2a4d42)
+  Thanks [@jycouet](https://github.com/jycouet)! - add anchor support
+
+- [#830](https://github.com/jycouet/kitql/pull/830)
+  [`b1d5a15`](https://github.com/jycouet/kitql/commit/b1d5a154969ad9aa6bf0b7310198fd63047094d4)
+  Thanks [@jycouet](https://github.com/jycouet)! - manage search-params with dash
+
+- Updated dependencies
+  [[`bb2dd0c`](https://github.com/jycouet/kitql/commit/bb2dd0c0bb95b9be44d5832457a56041372da70a)]:
+  - @kitql/internals@0.10.2
+
 ## 0.7.6-next.5
 
 ### Patch Changes

@@ -1,5 +1,14 @@
 # @kitql/internals
 
+## 0.10.2
+
+### Patch Changes
+
+- [#849](https://github.com/jycouet/kitql/pull/849)
+  [`bb2dd0c`](https://github.com/jycouet/kitql/commit/bb2dd0c0bb95b9be44d5832457a56041372da70a)
+  Thanks [@jycouet](https://github.com/jycouet)! - fix getFilesUnder that could fail "hard" on
+  windows
+
 ## 0.10.2-next.0
 
 ### Patch Changes
