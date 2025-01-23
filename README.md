@@ -37,9 +37,7 @@ _\*Order by subjective usefulness_ 😉
 ## ✨ Contributors
 
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
-
-[![All Contributors](https://img.shields.io/badge/all_contributors-43-orange.svg?style=flat-square)](#contributors-)
-
+[![All Contributors](https://img.shields.io/badge/all_contributors-44-orange.svg?style=flat-square)](#contributors-)
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 
 Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/docs/en/emoji-key)):
@@ -105,6 +103,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
     </tr>
     <tr>
       <td align="center" valign="top" width="14.28%"><a href="http://mathias.ninja"><img src="https://avatars.githubusercontent.com/u/78111467?v=4?s=100" width="100px;" alt="Mathias"/><br /><sub><b>Mathias</b></sub></a><br /><a href="https://github.com/jycouet/kitql/commits?author=matubu" title="Documentation">📖</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/Tjomas"><img src="https://avatars.githubusercontent.com/u/813569?v=4?s=100" width="100px;" alt="Thomas Reufer"/><br /><sub><b>Thomas Reufer</b></sub></a><br /><a href="https://github.com/jycouet/kitql/issues?q=author%3ATjomas" title="Bug reports">🐛</a></td>
     </tr>
   </tbody>
 </table>
