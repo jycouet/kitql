@@ -1,5 +1,20 @@
 # vite-plugin-kit-routes
 
+## 0.8.0
+
+### Minor Changes
+
+- [#861](https://github.com/jycouet/kitql/pull/861)
+  [`71557b5`](https://github.com/jycouet/kitql/commit/71557b5468acf60e6145a90e150cfeb89e1c1108)
+  Thanks [@jycouet](https://github.com/jycouet)! - BREAKING: kit-routes plugin is not running in
+  test mode (vitest)
+
+### Patch Changes
+
+- [#861](https://github.com/jycouet/kitql/pull/861)
+  [`71557b5`](https://github.com/jycouet/kitql/commit/71557b5468acf60e6145a90e150cfeb89e1c1108)
+  Thanks [@jycouet](https://github.com/jycouet)! - support kebab cased actions
+
 ## 0.7.6
 
 ### Patch Changes
