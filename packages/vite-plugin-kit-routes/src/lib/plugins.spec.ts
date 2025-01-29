@@ -1,3 +1,4 @@
+import fs from 'fs'
 import { describe, expect, it } from 'vitest'
 
 import { getFilesUnder, read } from '@kitql/internals'
@@ -511,9 +512,16 @@ describe('run()', async () => {
   for (let i = 0; i < runs.length; i++) {
     const toRun = runs[i]
     it(`run ${toRun.pathFile}`, async () => {
+      const generated_file_path = getPathROUTES(toRun.pathFile)
+
+      // Delete the file if it exists
+      if (fs.existsSync(generated_file_path)) {
+        fs.unlinkSync(generated_file_path)
+      }
+
       const ret = await run(false, {
         format: toRun.format,
-        generated_file_path: getPathROUTES(toRun.pathFile),
+        generated_file_path,
         ...toRun.extra,
         // post_update_run: `npm exec prettier ./src/lib/ROUTES.ts -- -w`,
       })
