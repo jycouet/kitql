@@ -19,7 +19,7 @@ import {
   type Options,
 } from './plugin.js'
 
-describe('vite-plugin-kit-routes', () => {
+describe('extractParamsFromPath', () => {
   it('get id', async () => {
     expect(extractParamsFromPath('/site/[id]', {})).toMatchInlineSnapshot(`
       [
@@ -124,7 +124,9 @@ describe('vite-plugin-kit-routes', () => {
       ]
     `)
   })
+})
 
+describe('formatKey', () => {
   it('formatKey default', async () => {
     expect(formatKey('/[param]site/[yop](group)/[id]', {})).toMatchInlineSnapshot(
       '"/[param]site/[yop]/[id]"',
@@ -160,7 +162,9 @@ describe('vite-plugin-kit-routes', () => {
   it('formatKey ROOT', async () => {
     expect(formatKey('/', { format: 'object[path]' })).toMatchInlineSnapshot('"/"')
   })
+})
 
+describe('fileToMetadata', () => {
   it('fileToMetadata optional only', async () => {
     const key = '/[[lang]]'
     const meta = transformToMetadata(key, key, 'PAGES', {}, undefined)
@@ -293,6 +297,220 @@ describe('vite-plugin-kit-routes', () => {
     } else {
       expect('I should never be').toBe('here')
     }
+  })
+})
+
+describe('getFilesUnder', () => {
+  it('Looking at another path (lib)', async () => {
+    const location = routes_path('/src/lib')
+    expect(getFilesUnder(location)).toMatchInlineSnapshot(`
+      [
+        "ROUTES.ts",
+        "ast.ts",
+        "format.ts",
+        "index.ts",
+        "plugin.ts",
+        "plugins.spec.ts",
+      ]
+    `)
+  })
+
+  it('Looking at another path (routes/api)', async () => {
+    const location = routes_path('/src/routes/api')
+    expect(getFilesUnder(location)).toMatchInlineSnapshot(`
+      [
+        "graphql/+server.ts",
+      ]
+    `)
+  })
+
+  it('rmvOptional', async () => {
+    const location = routes_path()
+    expect(getFilesUnder(location).map((c) => rmvOptional(c))).toMatchInlineSnapshot(`
+      [
+        "(rootGroup)/+page.svelte",
+        "(rootGroup)/subGroup/(anotherSub)/user/+page.svelte",
+        "(rootGroup)/subGroup/+page.svelte",
+        "(rootGroup)/subGroup2/+page.svelte",
+        "(servers)/server_func_get/+server.ts",
+        "(servers)/server_func_get_and_/+server.ts",
+        "(servers)/server_func_post/+server.ts",
+        "+layout.svelte",
+        "/contract/+page.svelte",
+        "/contract/+server.ts",
+        "/contract/[id]/+page.server.ts",
+        "/contract/[id]/+page.svelte",
+        "/gp/(logged)/one/+page.svelte",
+        "/gp/(public)/two/+page.svelte",
+        "/main/+page.svelte",
+        "/match/[id=ab]/+page.svelte",
+        "/match/[id=int]/+page.svelte",
+        "/site/+page.server.ts",
+        "/site/+page.svelte",
+        "/site/+server.ts",
+        "/site/[id]/+page.server.ts",
+        "/site/[id]/+page.svelte",
+        "/site_contract/+page.server.ts",
+        "/site_contract/[siteId]-[contractId]/+page.server.ts",
+        "/site_contract/[siteId]-[contractId]/+page.svelte",
+        "a/[...rest]/z/+page.svelte",
+        "anchors/+page.svelte",
+        "anchors/[id]/+page.svelte",
+        "api/graphql/+server.ts",
+        "data/errors/[locale].json/+server.ts",
+        "lay/(layVerySpecial)/+layout.svelte",
+        "lay/(layVerySpecial)/normal/+page.svelte",
+        "lay/(layVerySpecial)/root-layout/+page@.svelte",
+        "lay/(layVerySpecial)/skip/+page@lay.svelte",
+        "lay/+layout.svelte",
+        "page_server_woAction/+page.server.ts",
+        "sp/+page.svelte",
+        "spArray/+page.svelte",
+        "spArrayComma/+page.svelte",
+      ]
+    `)
+  })
+
+  it('rmvGroups with multi groups', async () => {
+    expect(rmvGroups('/(rootGroup)/subGroup/(anotherSub)/user')).toBe('/subGroup/user')
+  })
+
+  it('rmvGroups', async () => {
+    const location = routes_path()
+    expect(getFilesUnder(location)).toMatchInlineSnapshot(`
+      [
+        "(rootGroup)/+page.svelte",
+        "(rootGroup)/subGroup/(anotherSub)/user/+page.svelte",
+        "(rootGroup)/subGroup/+page.svelte",
+        "(rootGroup)/subGroup2/+page.svelte",
+        "(servers)/server_func_get/+server.ts",
+        "(servers)/server_func_get_and_/+server.ts",
+        "(servers)/server_func_post/+server.ts",
+        "+layout.svelte",
+        "[[lang]]/contract/+page.svelte",
+        "[[lang]]/contract/+server.ts",
+        "[[lang]]/contract/[id]/+page.server.ts",
+        "[[lang]]/contract/[id]/+page.svelte",
+        "[[lang]]/gp/(logged)/one/+page.svelte",
+        "[[lang]]/gp/(public)/two/+page.svelte",
+        "[[lang]]/main/+page.svelte",
+        "[[lang]]/match/[id=ab]/+page.svelte",
+        "[[lang]]/match/[id=int]/+page.svelte",
+        "[[lang]]/site/+page.server.ts",
+        "[[lang]]/site/+page.svelte",
+        "[[lang]]/site/+server.ts",
+        "[[lang]]/site/[id]/+page.server.ts",
+        "[[lang]]/site/[id]/+page.svelte",
+        "[[lang]]/site_contract/+page.server.ts",
+        "[[lang]]/site_contract/[siteId]-[contractId]/+page.server.ts",
+        "[[lang]]/site_contract/[siteId]-[contractId]/+page.svelte",
+        "a/[...rest]/z/+page.svelte",
+        "anchors/+page.svelte",
+        "anchors/[id]/+page.svelte",
+        "api/graphql/+server.ts",
+        "data/errors/[locale].json/+server.ts",
+        "lay/(layVerySpecial)/+layout.svelte",
+        "lay/(layVerySpecial)/normal/+page.svelte",
+        "lay/(layVerySpecial)/root-layout/+page@.svelte",
+        "lay/(layVerySpecial)/skip/+page@lay.svelte",
+        "lay/+layout.svelte",
+        "page_server_woAction/+page.server.ts",
+        "sp/+page.svelte",
+        "spArray/+page.svelte",
+        "spArrayComma/+page.svelte",
+      ]
+    `)
+
+    expect(getFilesUnder(location).map((c) => rmvGroups(c))).toMatchInlineSnapshot(`
+      [
+        "/+page.svelte",
+        "/subGroup/user/+page.svelte",
+        "/subGroup/+page.svelte",
+        "/subGroup2/+page.svelte",
+        "/server_func_get/+server.ts",
+        "/server_func_get_and_/+server.ts",
+        "/server_func_post/+server.ts",
+        "+layout.svelte",
+        "[[lang]]/contract/+page.svelte",
+        "[[lang]]/contract/+server.ts",
+        "[[lang]]/contract/[id]/+page.server.ts",
+        "[[lang]]/contract/[id]/+page.svelte",
+        "[[lang]]/gp/one/+page.svelte",
+        "[[lang]]/gp/two/+page.svelte",
+        "[[lang]]/main/+page.svelte",
+        "[[lang]]/match/[id=ab]/+page.svelte",
+        "[[lang]]/match/[id=int]/+page.svelte",
+        "[[lang]]/site/+page.server.ts",
+        "[[lang]]/site/+page.svelte",
+        "[[lang]]/site/+server.ts",
+        "[[lang]]/site/[id]/+page.server.ts",
+        "[[lang]]/site/[id]/+page.svelte",
+        "[[lang]]/site_contract/+page.server.ts",
+        "[[lang]]/site_contract/[siteId]-[contractId]/+page.server.ts",
+        "[[lang]]/site_contract/[siteId]-[contractId]/+page.svelte",
+        "a/[...rest]/z/+page.svelte",
+        "anchors/+page.svelte",
+        "anchors/[id]/+page.svelte",
+        "api/graphql/+server.ts",
+        "data/errors/[locale].json/+server.ts",
+        "lay/+layout.svelte",
+        "lay/normal/+page.svelte",
+        "lay/root-layout/+page@.svelte",
+        "lay/skip/+page@lay.svelte",
+        "lay/+layout.svelte",
+        "page_server_woAction/+page.server.ts",
+        "sp/+page.svelte",
+        "spArray/+page.svelte",
+        "spArrayComma/+page.svelte",
+      ]
+    `)
+  })
+
+  it('rmvGroups & Optional', async () => {
+    const location = routes_path()
+    expect(getFilesUnder(location).map((c) => rmvGroups(rmvOptional(c)))).toMatchInlineSnapshot(`
+      [
+        "/+page.svelte",
+        "/subGroup/user/+page.svelte",
+        "/subGroup/+page.svelte",
+        "/subGroup2/+page.svelte",
+        "/server_func_get/+server.ts",
+        "/server_func_get_and_/+server.ts",
+        "/server_func_post/+server.ts",
+        "+layout.svelte",
+        "/contract/+page.svelte",
+        "/contract/+server.ts",
+        "/contract/[id]/+page.server.ts",
+        "/contract/[id]/+page.svelte",
+        "/gp/one/+page.svelte",
+        "/gp/two/+page.svelte",
+        "/main/+page.svelte",
+        "/match/[id=ab]/+page.svelte",
+        "/match/[id=int]/+page.svelte",
+        "/site/+page.server.ts",
+        "/site/+page.svelte",
+        "/site/+server.ts",
+        "/site/[id]/+page.server.ts",
+        "/site/[id]/+page.svelte",
+        "/site_contract/+page.server.ts",
+        "/site_contract/[siteId]-[contractId]/+page.server.ts",
+        "/site_contract/[siteId]-[contractId]/+page.svelte",
+        "a/[...rest]/z/+page.svelte",
+        "anchors/+page.svelte",
+        "anchors/[id]/+page.svelte",
+        "api/graphql/+server.ts",
+        "data/errors/[locale].json/+server.ts",
+        "lay/+layout.svelte",
+        "lay/normal/+page.svelte",
+        "lay/root-layout/+page@.svelte",
+        "lay/skip/+page@lay.svelte",
+        "lay/+layout.svelte",
+        "page_server_woAction/+page.server.ts",
+        "sp/+page.svelte",
+        "spArray/+page.svelte",
+        "spArrayComma/+page.svelte",
+      ]
+    `)
   })
 })
 
@@ -456,6 +674,7 @@ describe('run()', async () => {
   const getPathROUTES = (f: string) => {
     return `src/test/ROUTES_${f}.ts`
   }
+
   const getToRunShortened = (info: any) => {
     return {
       ...info,
@@ -514,16 +733,10 @@ describe('run()', async () => {
     it(`run ${toRun.pathFile}`, async () => {
       const generated_file_path = getPathROUTES(toRun.pathFile)
 
-      // Delete the file if it exists
-      if (fs.existsSync(generated_file_path)) {
-        fs.unlinkSync(generated_file_path)
-      }
-
       const ret = await run(false, {
         format: toRun.format,
         generated_file_path,
         ...toRun.extra,
-        // post_update_run: `npm exec prettier ./src/lib/ROUTES.ts -- -w`,
       })
 
       expect(ret).toBe(true)
@@ -884,221 +1097,5 @@ describe('run()', async () => {
     })
 
     expect(read(generated_file_path)?.includes('#/')).toBe(true)
-  })
-})
-
-describe('options', () => {
-  it('Looking at another path (lib)', async () => {
-    const location = routes_path('/src/lib')
-    expect(getFilesUnder(location)).toMatchInlineSnapshot(`
-      [
-        "ROUTES.ts",
-        "ast.ts",
-        "format.ts",
-        "index.ts",
-        "plugin.ts",
-        "plugins.spec.ts",
-      ]
-    `)
-  })
-
-  it('Looking at another path (routes/api)', async () => {
-    const location = routes_path('/src/routes/api')
-    expect(getFilesUnder(location)).toMatchInlineSnapshot(`
-      [
-        "graphql/+server.ts",
-      ]
-    `)
-  })
-})
-
-describe('rmv Helper', () => {
-  it('rmvOptional', async () => {
-    const location = routes_path()
-    expect(getFilesUnder(location).map((c) => rmvOptional(c))).toMatchInlineSnapshot(`
-      [
-        "(rootGroup)/+page.svelte",
-        "(rootGroup)/subGroup/(anotherSub)/user/+page.svelte",
-        "(rootGroup)/subGroup/+page.svelte",
-        "(rootGroup)/subGroup2/+page.svelte",
-        "(servers)/server_func_get/+server.ts",
-        "(servers)/server_func_get_and_/+server.ts",
-        "(servers)/server_func_post/+server.ts",
-        "+layout.svelte",
-        "/contract/+page.svelte",
-        "/contract/+server.ts",
-        "/contract/[id]/+page.server.ts",
-        "/contract/[id]/+page.svelte",
-        "/gp/(logged)/one/+page.svelte",
-        "/gp/(public)/two/+page.svelte",
-        "/main/+page.svelte",
-        "/match/[id=ab]/+page.svelte",
-        "/match/[id=int]/+page.svelte",
-        "/site/+page.server.ts",
-        "/site/+page.svelte",
-        "/site/+server.ts",
-        "/site/[id]/+page.server.ts",
-        "/site/[id]/+page.svelte",
-        "/site_contract/+page.server.ts",
-        "/site_contract/[siteId]-[contractId]/+page.server.ts",
-        "/site_contract/[siteId]-[contractId]/+page.svelte",
-        "a/[...rest]/z/+page.svelte",
-        "anchors/+page.svelte",
-        "anchors/[id]/+page.svelte",
-        "api/graphql/+server.ts",
-        "data/errors/[locale].json/+server.ts",
-        "lay/(layVerySpecial)/+layout.svelte",
-        "lay/(layVerySpecial)/normal/+page.svelte",
-        "lay/(layVerySpecial)/root-layout/+page@.svelte",
-        "lay/(layVerySpecial)/skip/+page@lay.svelte",
-        "lay/+layout.svelte",
-        "page_server_woAction/+page.server.ts",
-        "sp/+page.svelte",
-        "spArray/+page.svelte",
-        "spArrayComma/+page.svelte",
-      ]
-    `)
-  })
-
-  it('rmvGroups with multi groups', async () => {
-    expect(rmvGroups('/(rootGroup)/subGroup/(anotherSub)/user')).toBe('/subGroup/user')
-  })
-
-  it('rmvGroups', async () => {
-    const location = routes_path()
-    expect(getFilesUnder(location)).toMatchInlineSnapshot(`
-      [
-        "(rootGroup)/+page.svelte",
-        "(rootGroup)/subGroup/(anotherSub)/user/+page.svelte",
-        "(rootGroup)/subGroup/+page.svelte",
-        "(rootGroup)/subGroup2/+page.svelte",
-        "(servers)/server_func_get/+server.ts",
-        "(servers)/server_func_get_and_/+server.ts",
-        "(servers)/server_func_post/+server.ts",
-        "+layout.svelte",
-        "[[lang]]/contract/+page.svelte",
-        "[[lang]]/contract/+server.ts",
-        "[[lang]]/contract/[id]/+page.server.ts",
-        "[[lang]]/contract/[id]/+page.svelte",
-        "[[lang]]/gp/(logged)/one/+page.svelte",
-        "[[lang]]/gp/(public)/two/+page.svelte",
-        "[[lang]]/main/+page.svelte",
-        "[[lang]]/match/[id=ab]/+page.svelte",
-        "[[lang]]/match/[id=int]/+page.svelte",
-        "[[lang]]/site/+page.server.ts",
-        "[[lang]]/site/+page.svelte",
-        "[[lang]]/site/+server.ts",
-        "[[lang]]/site/[id]/+page.server.ts",
-        "[[lang]]/site/[id]/+page.svelte",
-        "[[lang]]/site_contract/+page.server.ts",
-        "[[lang]]/site_contract/[siteId]-[contractId]/+page.server.ts",
-        "[[lang]]/site_contract/[siteId]-[contractId]/+page.svelte",
-        "a/[...rest]/z/+page.svelte",
-        "anchors/+page.svelte",
-        "anchors/[id]/+page.svelte",
-        "api/graphql/+server.ts",
-        "data/errors/[locale].json/+server.ts",
-        "lay/(layVerySpecial)/+layout.svelte",
-        "lay/(layVerySpecial)/normal/+page.svelte",
-        "lay/(layVerySpecial)/root-layout/+page@.svelte",
-        "lay/(layVerySpecial)/skip/+page@lay.svelte",
-        "lay/+layout.svelte",
-        "page_server_woAction/+page.server.ts",
-        "sp/+page.svelte",
-        "spArray/+page.svelte",
-        "spArrayComma/+page.svelte",
-      ]
-    `)
-
-    expect(getFilesUnder(location).map((c) => rmvGroups(c))).toMatchInlineSnapshot(`
-      [
-        "/+page.svelte",
-        "/subGroup/user/+page.svelte",
-        "/subGroup/+page.svelte",
-        "/subGroup2/+page.svelte",
-        "/server_func_get/+server.ts",
-        "/server_func_get_and_/+server.ts",
-        "/server_func_post/+server.ts",
-        "+layout.svelte",
-        "[[lang]]/contract/+page.svelte",
-        "[[lang]]/contract/+server.ts",
-        "[[lang]]/contract/[id]/+page.server.ts",
-        "[[lang]]/contract/[id]/+page.svelte",
-        "[[lang]]/gp/one/+page.svelte",
-        "[[lang]]/gp/two/+page.svelte",
-        "[[lang]]/main/+page.svelte",
-        "[[lang]]/match/[id=ab]/+page.svelte",
-        "[[lang]]/match/[id=int]/+page.svelte",
-        "[[lang]]/site/+page.server.ts",
-        "[[lang]]/site/+page.svelte",
-        "[[lang]]/site/+server.ts",
-        "[[lang]]/site/[id]/+page.server.ts",
-        "[[lang]]/site/[id]/+page.svelte",
-        "[[lang]]/site_contract/+page.server.ts",
-        "[[lang]]/site_contract/[siteId]-[contractId]/+page.server.ts",
-        "[[lang]]/site_contract/[siteId]-[contractId]/+page.svelte",
-        "a/[...rest]/z/+page.svelte",
-        "anchors/+page.svelte",
-        "anchors/[id]/+page.svelte",
-        "api/graphql/+server.ts",
-        "data/errors/[locale].json/+server.ts",
-        "lay/+layout.svelte",
-        "lay/normal/+page.svelte",
-        "lay/root-layout/+page@.svelte",
-        "lay/skip/+page@lay.svelte",
-        "lay/+layout.svelte",
-        "page_server_woAction/+page.server.ts",
-        "sp/+page.svelte",
-        "spArray/+page.svelte",
-        "spArrayComma/+page.svelte",
-      ]
-    `)
-  })
-
-  it('rmvGroups & Optional', async () => {
-    const location = routes_path()
-    expect(getFilesUnder(location).map((c) => rmvGroups(rmvOptional(c)))).toMatchInlineSnapshot(`
-      [
-        "/+page.svelte",
-        "/subGroup/user/+page.svelte",
-        "/subGroup/+page.svelte",
-        "/subGroup2/+page.svelte",
-        "/server_func_get/+server.ts",
-        "/server_func_get_and_/+server.ts",
-        "/server_func_post/+server.ts",
-        "+layout.svelte",
-        "/contract/+page.svelte",
-        "/contract/+server.ts",
-        "/contract/[id]/+page.server.ts",
-        "/contract/[id]/+page.svelte",
-        "/gp/one/+page.svelte",
-        "/gp/two/+page.svelte",
-        "/main/+page.svelte",
-        "/match/[id=ab]/+page.svelte",
-        "/match/[id=int]/+page.svelte",
-        "/site/+page.server.ts",
-        "/site/+page.svelte",
-        "/site/+server.ts",
-        "/site/[id]/+page.server.ts",
-        "/site/[id]/+page.svelte",
-        "/site_contract/+page.server.ts",
-        "/site_contract/[siteId]-[contractId]/+page.server.ts",
-        "/site_contract/[siteId]-[contractId]/+page.svelte",
-        "a/[...rest]/z/+page.svelte",
-        "anchors/+page.svelte",
-        "anchors/[id]/+page.svelte",
-        "api/graphql/+server.ts",
-        "data/errors/[locale].json/+server.ts",
-        "lay/+layout.svelte",
-        "lay/normal/+page.svelte",
-        "lay/root-layout/+page@.svelte",
-        "lay/skip/+page@lay.svelte",
-        "lay/+layout.svelte",
-        "page_server_woAction/+page.server.ts",
-        "sp/+page.svelte",
-        "spArray/+page.svelte",
-        "spArrayComma/+page.svelte",
-      ]
-    `)
   })
 })
