@@ -1,4 +1,3 @@
-import fs from 'fs'
 import { describe, expect, it } from 'vitest'
 
 import { getFilesUnder, read } from '@kitql/internals'
