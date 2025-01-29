@@ -1200,7 +1200,9 @@ export function kitRoutes<T extends RouteMappings = RouteMappings>(
     {
       name: 'kit-routes',
       async buildStart() {
-        await run(true, options)
+        if (this.environment.config.env.MODE !== 'test') {
+          await run(true, options)
+        }
       },
     },
 
