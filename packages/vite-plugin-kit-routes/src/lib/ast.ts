@@ -74,7 +74,11 @@ export const getActionsOfServerPages = (pathFile: string) => {
 
             if (properties) {
               properties.forEach((property: any) => {
-                actions.push(property.key.name)
+                if (property.key.name) {
+                  actions.push(property.key.name)
+                } else if (property.key.value) {
+                  actions.push(property.key.value)
+                }
               })
             }
           }
