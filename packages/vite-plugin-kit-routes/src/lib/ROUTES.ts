@@ -137,6 +137,9 @@ const ACTIONS = {
   }) => {
     return `${params?.['lang'] ? `/${params?.['lang']}` : ''}/site?/create${appendSp({ redirectTo: params?.['redirectTo'] }, '&')}`
   },
+  'u-p-d-a-t-e /site': (params?: { lang?: 'fr' | 'en' | 'hu' | 'at' | string }) => {
+    return `${params?.['lang'] ? `/${params?.['lang']}` : ''}/site?/u-p-d-a-t-e`
+  },
   'update /site/[id]': (params: {
     id: string | number
     lang?: 'fr' | 'en' | 'hu' | 'at' | string
@@ -327,6 +330,7 @@ export type KIT_ROUTES = {
   ACTIONS: {
     'default /contract/[id]': 'id' | 'lang'
     'create /site': 'lang'
+    'u-p-d-a-t-e /site': 'lang'
     'update /site/[id]': 'id' | 'lang'
     'delete /site/[id]': 'id' | 'lang'
     'noSatisfies /site_contract': 'lang'

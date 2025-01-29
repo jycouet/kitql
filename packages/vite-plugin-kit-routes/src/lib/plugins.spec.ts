@@ -515,6 +515,7 @@ describe('run()', async () => {
         format: toRun.format,
         generated_file_path: getPathROUTES(toRun.pathFile),
         ...toRun.extra,
+        // post_update_run: `npm exec prettier ./src/lib/ROUTES.ts -- -w`,
       })
 
       expect(ret).toBe(true)

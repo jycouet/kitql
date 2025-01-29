@@ -954,15 +954,21 @@ export const run = async (atStart: boolean, o?: Options) => {
               return `/**\n * ${c.type}\n */
 ${c.files
   .map((key) => {
+    let valiableName = `${c.type.slice(0, -1)}_${key.keyToUse}`
+    const invalidInVariable = ['-', ' ']
+    for (const invalid of invalidInVariable) {
+      valiableName = valiableName.replaceAll(invalid, '_')
+    }
+
     if (key.strParams) {
       return (
-        `export const ${c.type.slice(0, -1)}_${key.keyToUse} = (${key.strParams}) => {` +
+        `export const ${valiableName} = (${key.strParams}) => {` +
         `${format({ bottom: 0, top: 1, left: 2 }, key.strDefault)}
   return ${key.strReturn}
 }`
       )
     } else {
-      return `export const ${c.type.slice(0, -1)}_${key.keyToUse} = ${key.strReturn}`
+      return `export const ${valiableName} = ${key.strReturn}`
     }
   })
   .join('\n')}`
