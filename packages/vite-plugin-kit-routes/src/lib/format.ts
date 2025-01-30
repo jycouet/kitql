@@ -107,3 +107,7 @@ export function route<T extends keyof AllTypes>(key: T, ...params: any[]): strin
     return AllObjs[key] as string
   }
 }`
+
+export const paramType = `
+type ExtractFnPredicate<T> = T extends (param: any) => param is infer U ? U : never;
+type ExtractParamType<T extends (param: any) => any> = ExtractFnPredicate<T> extends never ? Parameters<T>[0] : ExtractFnPredicate<T>`

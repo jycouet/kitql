@@ -98,7 +98,7 @@ describe('extractParamsFromPath', () => {
           "matcher": "ab",
           "name": "tmp",
           "optional": false,
-          "type": "Parameters<typeof import('../params/ab.ts').match>[0]",
+          "type": "ExtractParamType<typeof import('../params/ab.ts').match>",
         },
       ]
     `)
@@ -118,7 +118,7 @@ describe('extractParamsFromPath', () => {
           "matcher": "ab",
           "name": "tmp",
           "optional": false,
-          "type": "Parameters<typeof import('../../my/custom/path/ab.ts').match>[0]",
+          "type": "ExtractParamType<typeof import('../../my/custom/path/ab.ts').match>",
         },
       ]
     `)

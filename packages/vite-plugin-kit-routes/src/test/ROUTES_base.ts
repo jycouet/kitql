@@ -6,6 +6,9 @@
  */
 import { base } from '$app/paths'
 
+
+type ExtractFnPredicate<T> = T extends (param: any) => param is infer U ? U : never;
+type ExtractParamType<T extends (param: any) => any> = ExtractFnPredicate<T> extends never ? Parameters<T>[0] : ExtractFnPredicate<T>
 /**
  * PAGES
  */
@@ -29,10 +32,10 @@ const PAGES = {
   "/main": (params?: { lang?: (string | number) }) => {
     return `${base}${params?.['lang'] ? `/${params?.['lang']}`: ''}/main`
   },
-  "/match/[id=ab]": (params: { id: (Parameters<typeof import('../params/ab.ts').match>[0]), lang?: (string | number) }) => {
+  "/match/[id=ab]": (params: { id: (ExtractParamType<typeof import('../params/ab.ts').match>), lang?: (string | number) }) => {
     return `${base}${params?.['lang'] ? `/${params?.['lang']}`: ''}/match/${params['id']}`
   },
-  "/match/[id=int]": (params: { id: (Parameters<typeof import('../params/int.ts').match>[0]), lang?: (string | number) }) => {
+  "/match/[id=int]": (params: { id: (ExtractParamType<typeof import('../params/int.ts').match>), lang?: (string | number) }) => {
     return `${base}${params?.['lang'] ? `/${params?.['lang']}`: ''}/match/${params['id']}`
   },
   "/site": (params?: { lang?: (string | number) }) => {
