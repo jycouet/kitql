@@ -1200,7 +1200,9 @@ export function kitRoutes<T extends RouteMappings = RouteMappings>(
     {
       name: 'kit-routes',
       async buildStart() {
-        if (this.environment.config.env.MODE !== 'test') {
+        if (this.environment?.config?.env?.MODE === 'test') {
+          // Don't run in test mode (vite v6)
+        } else {
           await run(true, options)
         }
       },
