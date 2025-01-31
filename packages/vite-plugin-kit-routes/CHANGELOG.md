@@ -1,5 +1,18 @@
 # vite-plugin-kit-routes
 
+## 0.8.1
+
+### Patch Changes
+
+- [`f77d74a`](https://github.com/jycouet/kitql/commit/f77d74ae34b41c0fb53d6944d20eceadab713d67)
+  Thanks [@jycouet](https://github.com/jycouet)! - fix: avoid runing in test mode (vite v6), keep
+  running in vite v5
+
+- [#865](https://github.com/jycouet/kitql/pull/865)
+  [`63f162d`](https://github.com/jycouet/kitql/commit/63f162dca1a7709b7140c3c1958209fe59ed8c67)
+  Thanks [@hmnd](https://github.com/hmnd)! - feat: support extracting param types from return type
+  predicates
+
 ## 0.8.0
 
 ### Minor Changes
