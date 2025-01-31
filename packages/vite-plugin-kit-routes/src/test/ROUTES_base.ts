@@ -6,9 +6,6 @@
  */
 import { base } from '$app/paths'
 
-
-type ExtractFnPredicate<T> = T extends (param: any) => param is infer U ? U : never;
-type ExtractParamType<T extends (param: any) => any> = ExtractFnPredicate<T> extends never ? Parameters<T>[0] : ExtractFnPredicate<T>
 /**
  * PAGES
  */
@@ -176,7 +173,7 @@ export const currentSp = () => {
   return record
 }
 
-// route function helpers
+/* type helpers for route function */
 type NonFunctionKeys<T> = { [K in keyof T]: T[K] extends Function ? never : K }[keyof T]
 type FunctionKeys<T> = { [K in keyof T]: T[K] extends Function ? K : never }[keyof T]
 type FunctionParams<T> = T extends (...args: infer P) => any ? P : never
@@ -207,6 +204,10 @@ export function route<T extends keyof AllTypes>(key: T, ...params: any[]): strin
     return AllObjs[key] as string
   }
 }
+
+/* type helpers param & predicate */
+type ExtractFnPredicate<T> = T extends (param: any) => param is infer U ? U : never;
+type ExtractParamType<T extends (param: any) => any> = ExtractFnPredicate<T> extends never ? Parameters<T>[0] : ExtractFnPredicate<T>
 
 /**
 * Add this type as a generic of the vite plugin `kitRoutes<KIT_ROUTES>`.
