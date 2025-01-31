@@ -29,10 +29,10 @@ const PAGES = {
   "/main": (params?: { lang?: (string | number) }) => {
     return `${base}${params?.['lang'] ? `/${params?.['lang']}`: ''}/main`
   },
-  "/match/[id=ab]": (params: { id: (Parameters<typeof import('../params/ab.ts').match>[0]), lang?: (string | number) }) => {
+  "/match/[id=ab]": (params: { id: (ExtractParamType<typeof import('../params/ab.ts').match>), lang?: (string | number) }) => {
     return `${base}${params?.['lang'] ? `/${params?.['lang']}`: ''}/match/${params['id']}`
   },
-  "/match/[id=int]": (params: { id: (Parameters<typeof import('../params/int.ts').match>[0]), lang?: (string | number) }) => {
+  "/match/[id=int]": (params: { id: (ExtractParamType<typeof import('../params/int.ts').match>), lang?: (string | number) }) => {
     return `${base}${params?.['lang'] ? `/${params?.['lang']}`: ''}/match/${params['id']}`
   },
   "/site": (params?: { lang?: (string | number) }) => {
@@ -173,7 +173,7 @@ export const currentSp = () => {
   return record
 }
 
-// route function helpers
+/* type helpers for route function */
 type NonFunctionKeys<T> = { [K in keyof T]: T[K] extends Function ? never : K }[keyof T]
 type FunctionKeys<T> = { [K in keyof T]: T[K] extends Function ? K : never }[keyof T]
 type FunctionParams<T> = T extends (...args: infer P) => any ? P : never
@@ -204,6 +204,10 @@ export function route<T extends keyof AllTypes>(key: T, ...params: any[]): strin
     return AllObjs[key] as string
   }
 }
+
+/* type helpers param & predicate */
+type ExtractFnPredicate<T> = T extends (param: any) => param is infer U ? U : never;
+type ExtractParamType<T extends (param: any) => any> = ExtractFnPredicate<T> extends never ? Parameters<T>[0] : ExtractFnPredicate<T>
 
 /**
 * Add this type as a generic of the vite plugin `kitRoutes<KIT_ROUTES>`.

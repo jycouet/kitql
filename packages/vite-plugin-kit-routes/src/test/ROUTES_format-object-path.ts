@@ -30,7 +30,7 @@ export const PAGES = {
   "/main": (params?: { lang?: ('fr' | 'en' | 'hu' | 'at' | string) }) => {
     return `${params?.['lang'] ? `/${params?.['lang']}`: ''}/main`
   },
-  "/match/[id=ab]": (params: { id: (Parameters<typeof import('../params/ab.ts').match>[0]), lang?: ('fr' | 'en' | 'hu' | 'at' | string) }) => {
+  "/match/[id=ab]": (params: { id: (ExtractParamType<typeof import('../params/ab.ts').match>), lang?: ('fr' | 'en' | 'hu' | 'at' | string) }) => {
     return `${params?.['lang'] ? `/${params?.['lang']}`: ''}/match/${params['id']}`
   },
   "/match/[id=int]": (params: { id: (number), lang?: ('fr' | 'en' | 'hu' | 'at' | string) }) => {
@@ -187,6 +187,10 @@ export const currentSp = () => {
   }
   return record
 }
+
+/* type helpers param & predicate */
+type ExtractFnPredicate<T> = T extends (param: any) => param is infer U ? U : never;
+type ExtractParamType<T extends (param: any) => any> = ExtractFnPredicate<T> extends never ? Parameters<T>[0] : ExtractFnPredicate<T>
 
 /**
 * Add this type as a generic of the vite plugin `kitRoutes<KIT_ROUTES>`.

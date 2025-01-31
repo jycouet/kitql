@@ -7,7 +7,7 @@ import { cyan, gray, green, italic, Log, red, stry0, yellow } from '@kitql/helpe
 import { dirname, getFilesUnder, read, write } from '@kitql/internals'
 
 import { getActionsOfServerPages, getMethodsOfServerFiles } from './ast.js'
-import { appendSp, format, routeFn } from './format.js'
+import { appendSp, format, paramType, routeFn } from './format.js'
 
 export type RouteMappings = {
   PAGES: Record<string, string>
@@ -418,6 +418,7 @@ type Param = {
   default?: any
   fromPath?: boolean
   isArray: boolean
+  needExtractParamType?: boolean
 }
 
 export const transformToMetadata = (
@@ -767,7 +768,8 @@ export function extractParamsFromPath(path: string, o: Options): Param[] {
         fromPath: true,
         isArray,
         // this will bring the type of the first arg of the function to to the match
-        type: `Parameters<typeof import('${relToParams}/${matcher[1]}.ts').match>[0]`,
+        type: `ExtractParamType<typeof import('${relToParams}/${matcher[1]}.ts').match>`,
+        needExtractParamType: true,
       })
     } else {
       params.push({
@@ -899,6 +901,15 @@ export const run = async (atStart: boolean, o?: Options) => {
     { type: 'LINKS', files: getMetadata(files, 'LINKS', options, false) },
   ]
 
+  let needExtractParamType = false
+  objTypes.forEach((c) => {
+    c.files.forEach((d) => {
+      if (d.paramsFromPath.some((e) => e.needExtractParamType)) {
+        needExtractParamType = true
+      }
+    })
+  })
+
   // Validate options
   const allOk = true
   objTypes
@@ -1004,6 +1015,8 @@ ${options?.exportObjects || options?.format?.includes('object') ? `export ` : ``
 
       // add appendSp
       ...(options?.format?.includes('route') ? [format({ left: 0 }, routeFn)] : []),
+
+      ...(needExtractParamType ? [format({ left: 0 }, paramType)] : []),
 
       // types
       `/**
