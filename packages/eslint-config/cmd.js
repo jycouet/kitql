@@ -122,7 +122,7 @@ const prettierCode = await prettierRun()
 if (prettierCode.status) {
   spinner.prefixText = bgRedBright(` kitql-lint `)
   spinner.fail(red(`prettier failed, check logs above.`))
-  process.exit(eslintCode.status)
+  process.exit(prettierCode.status)
 }
 
 spinner.prefixText = bgGreen(` kitql-lint `)

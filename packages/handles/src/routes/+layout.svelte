@@ -5,7 +5,7 @@
    */
 
   /** @type {Props} */
-  let { children } = $props();
+  let { children } = $props()
 </script>
 
 <svelte:head>
