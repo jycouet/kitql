@@ -1,5 +1,16 @@
 # eslint-config-kitql
 
+## 0.5.2
+
+### Patch Changes
+
+- [#875](https://github.com/jycouet/kitql/pull/875)
+  [`56932da`](https://github.com/jycouet/kitql/commit/56932da7c135ca06bf954392071880fba0d2273c)
+  Thanks [@jycouet](https://github.com/jycouet)! - fix: prettier exit code is now handled correctly
+
+- Updated dependencies []:
+  - @kitql/helpers@0.8.11
+
 ## 0.5.1
 
 ### Patch Changes
