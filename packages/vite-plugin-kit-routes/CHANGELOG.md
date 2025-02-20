@@ -1,5 +1,18 @@
 # vite-plugin-kit-routes
 
+## 0.8.2
+
+### Patch Changes
+
+- [#875](https://github.com/jycouet/kitql/pull/875)
+  [`56932da`](https://github.com/jycouet/kitql/commit/56932da7c135ca06bf954392071880fba0d2273c)
+  Thanks [@jycouet](https://github.com/jycouet)! - fix: don't kill dev server on syntax error
+
+- Updated dependencies []:
+  - @kitql/helpers@0.8.11
+  - @kitql/internals@0.10.2
+  - vite-plugin-watch-and-run@1.7.3
+
 ## 0.8.1
 
 ### Patch Changes
