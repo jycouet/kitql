@@ -1,17 +1,9 @@
 <script lang="ts">
-  import { SP } from '$lib/SP.svelte'
+  import { debounce, SP } from '$lib/index.js'
 
   // Define search parameters and their types
   const params = new SP({ name: 'plop', age: 25, active: true })
   const { sp } = params
-
-  const debounce = (fn: (...args: any[]) => void, delay: number) => {
-    let timeout: ReturnType<typeof setTimeout>
-    return (...args: any[]) => {
-      clearTimeout(timeout)
-      timeout = setTimeout(() => fn(...args), delay)
-    }
-  }
 </script>
 
 <div class="container mx-auto p-6">
@@ -27,7 +19,7 @@
         </label>
         <input
           type="text"
-          bind:value={() => sp.name, debounce((v) => (sp.name = v), 1000)}
+          bind:value={() => sp.name, debounce((v) => (sp.name = v))}
           placeholder="Enter your name"
           class="input input-bordered w-full max-w-xs"
         />

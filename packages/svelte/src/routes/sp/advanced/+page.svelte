@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { SP } from '$lib/SP.svelte'
+  import { SP } from '$lib/index.js'
 
   // Define more complex search parameters
   const params = new SP(

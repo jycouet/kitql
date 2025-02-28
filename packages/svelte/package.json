@@ -16,7 +16,7 @@
   },
   "scripts": {
     "dev": "vite dev",
-    "build": "vite build && npm run prepack && node ../../scripts/package.js",
+    "build": "vite build && svelte-package && node ../../scripts/package.js",
     "preview": "vite preview",
     "prepare": "svelte-kit sync || echo ''",
     "prepack": "svelte-kit sync && svelte-package && publint",
@@ -26,10 +26,11 @@
     "test": "npm run test:unit -- --run"
   },
   "peerDependencies": {
+    "@sveltejs/kit": "^2.16.0",
     "svelte": "^5.0.0"
   },
   "devDependencies": {
-    "@sveltejs/adapter-auto": "^4.0.0",
+    "@sveltejs/adapter-node": "5.2.12",
     "@sveltejs/kit": "^2.16.0",
     "@sveltejs/package": "^2.0.0",
     "@sveltejs/vite-plugin-svelte": "^5.0.0",
@@ -43,9 +44,7 @@
     "vite": "^6.0.0",
     "vitest": "^3.0.0"
   },
-  "sideEffects": [
-    "**/*.css"
-  ],
+  "sideEffects": false,
   "publishConfig": {
     "directory": "dist",
     "access": "public"
