@@ -5,5 +5,5 @@ export default {
   '03_vite-plugin-watch-and-run': 'Vite - Watch and Run',
   '07_vite-plugin-stripper': 'Vite - Stripper',
   '05_handles': 'SvelteKit - Handles',
-  '09_svelte': 'SvelteKit - Helpers',
+  '10_sveltekit': 'SvelteKit - Helpers',
 }
