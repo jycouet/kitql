@@ -1,5 +1,5 @@
-import fs from 'fs'
-import path from 'path'
+import fs from 'node:fs'
+import path from 'node:path'
 
 // Where are we?
 const packageDirPath = process.cwd()
@@ -30,7 +30,7 @@ fs.writeFileSync(
       peerDependencies: pkg.peerDependencies,
       devDependencies: pkg.devDependencies,
       dependencies: pkg.dependencies,
-      sideEffects: pkg.sideEffects ?? false, // Key for  tree shaking!
+      sideEffects: pkg.sideEffects ?? false, // Key for tree shaking!
       publishConfig: {
         directory: 'dist',
         access: 'public',
@@ -47,7 +47,7 @@ fs.writeFileSync(
         },
       },
       engines: {
-        node: pkg?.engines?.node ?? '^16.14 || >=18', // let's have the same default as SvelteKit
+        node: pkg?.engines?.node ?? '>=18', // let's have the same default as SvelteKit
       },
     },
     null,
