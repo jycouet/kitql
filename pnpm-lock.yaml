@@ -21,8 +21,8 @@ importers:
         specifier: 0.24.0
         version: 0.24.0
       prettier:
-        specifier: 3.4.2
-        version: 3.4.2
+        specifier: 3.5.2
+        version: 3.5.2
       rimraf:
         specifier: 6.0.1
         version: 6.0.1
@@ -42,7 +42,7 @@ importers:
         version: link:../helpers/dist
       '@theguild/prettier-config':
         specifier: 3.0.0
-        version: 3.0.0(@vue/compiler-sfc@3.4.7)(prettier@3.4.2)
+        version: 3.0.0(@vue/compiler-sfc@3.4.7)(prettier@3.5.2)
       '@types/eslint':
         specifier: 9.6.1
         version: 9.6.1
@@ -68,14 +68,14 @@ importers:
         specifier: ^8.1.0
         version: 8.1.0
       prettier:
-        specifier: 3.4.2
-        version: 3.4.2
+        specifier: 3.5.2
+        version: 3.5.2
       prettier-plugin-svelte:
         specifier: 3.3.2
-        version: 3.3.2(prettier@3.4.2)(svelte@5.20.5)
+        version: 3.3.2(prettier@3.5.2)(svelte@5.20.5)
       prettier-plugin-tailwindcss:
         specifier: 0.6.6
-        version: 0.6.6(@ianvs/prettier-plugin-sort-imports@4.4.0(@vue/compiler-sfc@3.4.7)(prettier@3.4.2))(prettier-plugin-svelte@3.3.2(prettier@3.4.2)(svelte@5.20.5))(prettier@3.4.2)
+        version: 0.6.6(@ianvs/prettier-plugin-sort-imports@4.4.0(@vue/compiler-sfc@3.4.7)(prettier@3.5.2))(prettier-plugin-svelte@3.3.2(prettier@3.5.2)(svelte@5.20.5))(prettier@3.5.2)
       typescript-eslint:
         specifier: 8.22.0
         version: 8.22.0(eslint@9.10.0(jiti@1.21.0))(typescript@5.7.2)
@@ -5183,8 +5183,8 @@ packages:
     engines: {node: '>=10.13.0'}
     hasBin: true
 
-  prettier@3.4.2:
-    resolution: {integrity: sha512-e9MewbtFo+Fevyuxn/4rrcDAaq0IYxPGLvObpQjiZBMAzB9IGmzlnG9RZy3FFas+eBMu2vA0CszMeduow5dIuQ==}
+  prettier@3.5.2:
+    resolution: {integrity: sha512-lc6npv5PH7hVqozBR7lkBNOGXV9vMwROAPlumdBkX0wTbbzPu/U1hk5yL8p2pt4Xoc+2mkT8t/sow2YrV/M5qg==}
     engines: {node: '>=14'}
     hasBin: true
 
@@ -6966,13 +6966,13 @@ snapshots:
 
   '@humanwhocodes/retry@0.3.0': {}
 
-  '@ianvs/prettier-plugin-sort-imports@4.4.0(@vue/compiler-sfc@3.4.7)(prettier@3.4.2)':
+  '@ianvs/prettier-plugin-sort-imports@4.4.0(@vue/compiler-sfc@3.4.7)(prettier@3.5.2)':
     dependencies:
       '@babel/generator': 7.26.2
       '@babel/parser': 7.26.2
       '@babel/traverse': 7.25.9
       '@babel/types': 7.26.0
-      prettier: 3.4.2
+      prettier: 3.5.2
       semver: 7.6.2
     optionalDependencies:
       '@vue/compiler-sfc': 3.4.7
@@ -7839,12 +7839,12 @@ snapshots:
       - utf-8-validate
       - webpack
 
-  '@theguild/prettier-config@3.0.0(@vue/compiler-sfc@3.4.7)(prettier@3.4.2)':
+  '@theguild/prettier-config@3.0.0(@vue/compiler-sfc@3.4.7)(prettier@3.5.2)':
     dependencies:
-      '@ianvs/prettier-plugin-sort-imports': 4.4.0(@vue/compiler-sfc@3.4.7)(prettier@3.4.2)
-      prettier: 3.4.2
-      prettier-plugin-pkg: 0.18.0(prettier@3.4.2)
-      prettier-plugin-sh: 0.14.0(prettier@3.4.2)
+      '@ianvs/prettier-plugin-sort-imports': 4.4.0(@vue/compiler-sfc@3.4.7)(prettier@3.5.2)
+      prettier: 3.5.2
+      prettier-plugin-pkg: 0.18.0(prettier@3.5.2)
+      prettier-plugin-sh: 0.14.0(prettier@3.5.2)
     transitivePeerDependencies:
       - '@vue/compiler-sfc'
       - supports-color
@@ -11868,31 +11868,31 @@ snapshots:
 
   prelude-ls@1.2.1: {}
 
-  prettier-plugin-pkg@0.18.0(prettier@3.4.2):
+  prettier-plugin-pkg@0.18.0(prettier@3.5.2):
     dependencies:
-      prettier: 3.4.2
+      prettier: 3.5.2
 
-  prettier-plugin-sh@0.14.0(prettier@3.4.2):
+  prettier-plugin-sh@0.14.0(prettier@3.5.2):
     dependencies:
       mvdan-sh: 0.10.1
-      prettier: 3.4.2
+      prettier: 3.5.2
       sh-syntax: 0.4.1
 
-  prettier-plugin-svelte@3.3.2(prettier@3.4.2)(svelte@5.20.5):
+  prettier-plugin-svelte@3.3.2(prettier@3.5.2)(svelte@5.20.5):
     dependencies:
-      prettier: 3.4.2
+      prettier: 3.5.2
       svelte: 5.20.5
 
-  prettier-plugin-tailwindcss@0.6.6(@ianvs/prettier-plugin-sort-imports@4.4.0(@vue/compiler-sfc@3.4.7)(prettier@3.4.2))(prettier-plugin-svelte@3.3.2(prettier@3.4.2)(svelte@5.20.5))(prettier@3.4.2):
+  prettier-plugin-tailwindcss@0.6.6(@ianvs/prettier-plugin-sort-imports@4.4.0(@vue/compiler-sfc@3.4.7)(prettier@3.5.2))(prettier-plugin-svelte@3.3.2(prettier@3.5.2)(svelte@5.20.5))(prettier@3.5.2):
     dependencies:
-      prettier: 3.4.2
+      prettier: 3.5.2
     optionalDependencies:
-      '@ianvs/prettier-plugin-sort-imports': 4.4.0(@vue/compiler-sfc@3.4.7)(prettier@3.4.2)
-      prettier-plugin-svelte: 3.3.2(prettier@3.4.2)(svelte@5.20.5)
+      '@ianvs/prettier-plugin-sort-imports': 4.4.0(@vue/compiler-sfc@3.4.7)(prettier@3.5.2)
+      prettier-plugin-svelte: 3.3.2(prettier@3.5.2)(svelte@5.20.5)
 
   prettier@2.8.8: {}
 
-  prettier@3.4.2: {}
+  prettier@3.5.2: {}
 
   process-nextick-args@2.0.1: {}
 
