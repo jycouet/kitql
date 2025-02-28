@@ -1,1 +1,0 @@
-# @kitql/svelte
