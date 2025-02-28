@@ -260,8 +260,8 @@ importers:
         specifier: ^26.0.0
         version: 26.0.0
       publint:
-        specifier: ^0.3.2
-        version: 0.3.7
+        specifier: 0.3.1
+        version: 0.3.1
       svelte:
         specifier: ^5.0.0
         version: 5.20.5
@@ -1476,10 +1476,6 @@ packages:
 
   '@polka/url@1.0.0-next.25':
     resolution: {integrity: sha512-j7P6Rgr3mmtdkeDGTe0E/aYyWEWVtc5yFXtHCRHs28/jptDEWfaVOc5T7cblqy1XKPPfCxJc/8DwQ5YgLOZOVQ==}
-
-  '@publint/pack@0.1.0':
-    resolution: {integrity: sha512-NvV5jPAQIMCoHvaJ0ZhfouBJ2woFYYf+o6B7dCHGh/tLKSPVoxhjffi35xPuMHgOv65aTOKUzML5XwQF9EkDAA==}
-    engines: {node: '>=18'}
 
   '@publint/pack@0.1.1':
     resolution: {integrity: sha512-TvCl79Y8v18ZhFGd5mjO1kYPovSBq3+4LVCi5Nfl1JI8fS8i8kXbgQFGwBJRXczim8GlW8c2LMBKTtExYXOy/A==}
@@ -4983,9 +4979,6 @@ packages:
   package-manager-detector@0.2.2:
     resolution: {integrity: sha512-VgXbyrSNsml4eHWIvxxG/nTL4wgybMTXCV2Un/+yEc3aDKKU6nQBZjbeP3Pl3qm9Qg92X/1ng4ffvCeD/zwHgg==}
 
-  package-manager-detector@0.2.8:
-    resolution: {integrity: sha512-ts9KSdroZisdvKMWVAVCXiKqnqNfXz4+IbrBG8/BWx/TR5le+jfenvoBuIZ6UWM9nz47W7AbD9qYfAwfWMIwzA==}
-
   pako@1.0.11:
     resolution: {integrity: sha512-4hLB8Py4zZce5s4yd9XzopqwVv/yGNhV1Bl8NTmCq1763HeK2+EwVTv+leGeL13Dnh2wfbqowVPXCIO0z4taYw==}
 
@@ -5505,11 +5498,6 @@ packages:
 
   publint@0.3.1:
     resolution: {integrity: sha512-kZo30Y7aRyF/KmXMiGjkQFuhqQ7+dS6msPUoMUhhCYpVd1bEO3LC2tYueJxzscFAM7P+ayJ5vWGUeoj1xDCmHw==}
-    engines: {node: '>=18'}
-    hasBin: true
-
-  publint@0.3.7:
-    resolution: {integrity: sha512-UJAdT3pHmhxGHfFadlZZnTZWNyagwPplW4YJ7kM0ysDs45otRnusonRxeWYQHrdryWxAntsjCuXcUHkbUHGk7g==}
     engines: {node: '>=18'}
     hasBin: true
 
@@ -7728,8 +7716,6 @@ snapshots:
       playwright: 1.50.0
 
   '@polka/url@1.0.0-next.25': {}
-
-  '@publint/pack@0.1.0': {}
 
   '@publint/pack@0.1.1': {}
 
@@ -12136,8 +12122,6 @@ snapshots:
 
   package-manager-detector@0.2.2: {}
 
-  package-manager-detector@0.2.8: {}
-
   pako@1.0.11: {}
 
   parallel-transform@1.2.0:
@@ -12581,13 +12565,6 @@ snapshots:
       safe-buffer: 5.2.1
 
   publint@0.3.1:
-    dependencies:
-      '@publint/pack': 0.1.0
-      package-manager-detector: 0.2.8
-      picocolors: 1.1.1
-      sade: 1.8.1
-
-  publint@0.3.7:
     dependencies:
       '@publint/pack': 0.1.1
       package-manager-detector: 0.2.10
