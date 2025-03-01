@@ -49,11 +49,11 @@ const logSQL = new Log(
   // { prefixEmoji: '⚡️' }
 )
 export const load = async () => {
-  logSQL.info(`Check out the ${yellow(`yellow`)} information`)
-  logSQL.info(`Or the ${green(`green`)} one!`)
-  logSQL.error(`Hooo no!`)
-  logSQL.infoO({ level: 3 }, `Working on something...`, { level: 3 })
-  logSQL.infoO({ level: 4 }, `Working on something else...`, { level: 4 })
+  logSQL.info(`Check out the ${yellow('yellow')} information`)
+  logSQL.info(`Or the ${green('green')} one!`)
+  logSQL.error('Hooo no!')
+  logSQL.infoO({ level: 3 }, 'Working on something...', { level: 3 })
+  logSQL.infoO({ level: 4 }, 'Working on something else...', { level: 4 })
   logSQL.success(`Perfect, it's fixed!`)
 
   const _msg = `with all colors: 

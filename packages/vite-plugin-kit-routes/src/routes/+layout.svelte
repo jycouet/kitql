@@ -1,31 +1,31 @@
 <script lang="ts">
-  import { page } from '$app/stores'
+import { page } from '$app/stores'
 
-  import { route } from '$lib/ROUTES.js'
+import { route } from '$lib/ROUTES.js'
 
-  interface Props {
-    children?: import('svelte').Snippet
+interface Props {
+  children?: import('svelte').Snippet
+}
+
+let { children }: Props = $props()
+
+const siteId = 'Paris'
+const contractId = 'abc'
+
+const getLang = (lang?: string) => {
+  if (lang === 'fr' || lang === 'hu') {
+    return lang as 'fr' | 'hu'
   }
+  return 'fr'
+}
 
-  let { children }: Props = $props()
-
-  const siteId = 'Paris'
-  const contractId = 'abc'
-
-  const getLang = (lang?: string) => {
-    if (lang === 'fr' || lang === 'hu') {
-      return lang as 'fr' | 'hu'
-    }
-    return 'fr'
-  }
-
-  // Example : route()
-  // console.log(`dd`, route('/subGroup2', { first: 2 }))
-  // console.log(`dd`, route('/'))
-  // console.log(
-  //   `dd`,
-  //   route('send /site_contract/[siteId]-[contractId]', { siteId: 'Paris', contractId: 'abc' }),
-  // )
+// Example : route()
+// console.log(`dd`, route('/subGroup2', { first: 2 }))
+// console.log(`dd`, route('/'))
+// console.log(
+//   `dd`,
+//   route('send /site_contract/[siteId]-[contractId]', { siteId: 'Paris', contractId: 'abc' }),
+// )
 </script>
 
 <svelte:head>

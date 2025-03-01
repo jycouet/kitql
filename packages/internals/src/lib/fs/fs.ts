@@ -1,5 +1,5 @@
-import { existsSync, mkdirSync, readdirSync, readFileSync, statSync, writeFileSync } from 'fs'
-import { dirname, join, posix, relative, resolve } from 'path'
+import { existsSync, mkdirSync, readdirSync, readFileSync, statSync, writeFileSync } from 'node:fs'
+import { dirname, join, posix, relative, resolve } from 'node:path'
 
 import { Log, red } from '@kitql/helpers'
 

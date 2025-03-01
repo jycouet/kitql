@@ -774,9 +774,8 @@ describe('run()', async () => {
     if (obj[key] instanceof Function) {
       const element = (obj as any)[key] as (...args: any[]) => string
       return element(...params)
-    } else {
-      return obj[key] as string
     }
+      return obj[key] as string
   }
 
   // Here is the list of tests... to run :)

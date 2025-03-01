@@ -37,7 +37,7 @@ test.describe('default behavior: requests with correct origin', () => {
     })
     expect(response.status()).toBe(200)
     const body = await response.json()
-    expect(body.headers['Host']).toBe('eu.httpbin.org')
+    expect(body.headers.Host).toBe('eu.httpbin.org')
   })
   test('proxies the query parameters', async ({ request, baseURL }) => {
     assertDefined(baseURL)
@@ -205,7 +205,7 @@ test.describe('custom requestHook behavior', () => {
     })
     expect(response.status()).toBe(200)
     const body = await response.json()
-    expect(body.headers['Authorization']).toBeUndefined()
+    expect(body.headers.Authorization).toBeUndefined()
     expect(body.headers['X-Api-Key']).toBe('sample-api-key')
   })
 })

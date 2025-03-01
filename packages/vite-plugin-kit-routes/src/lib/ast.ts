@@ -30,8 +30,7 @@ export const getMethodsOfServerFiles = (pathFile: string) => {
         // Check for function declarations
         if (declaration?.type === 'FunctionDeclaration') {
           if (
-            declaration.id &&
-            declaration.id.name &&
+            declaration.id?.name &&
             !String(declaration.id.name).startsWith('_')
           ) {
             exportedNames.push(String(declaration.id.name))
@@ -104,11 +103,7 @@ export const getActionsOfServerPages = (pathFile: string) => {
       // Let's remove the default action form our list, and say something
       actions = actions.filter((c) => c !== 'default')
       log.error(
-        `In file: ${yellow(pathToFile)}` +
-          `\n\t      When using named actions (${yellow(actions.join(', '))})` +
-          `, the ${red('default')} action cannot be used. ` +
-          `\n\t      See the docs for more info: ` +
-          `${cyan(`https://kit.svelte.dev/docs/form-actions#named-actions`)}`,
+        `In file: ${yellow(pathToFile)}\n\t      When using named actions (${yellow(actions.join(', '))}), the ${red('default')} action cannot be used. \n\t      See the docs for more info: ${cyan('https://kit.svelte.dev/docs/form-actions#named-actions')}`,
       )
     }
   } catch (error) {
@@ -123,7 +118,7 @@ const formatError = (error: unknown, fullPath: string) => {
   if (error instanceof Error) {
     if (error.message.includes('Unexpected token (')) {
       const pos = error.message.split('(')[1].replace(')', '')
-      log.error(`Unexpected token: ${yellow(fullPath + ':' + pos)}`)
+      log.error(`Unexpected token: ${yellow(`${fullPath}:${pos}`)}`)
     } else {
       log.error(`File: ${yellow(fullPath)}
                ${error.message}`)

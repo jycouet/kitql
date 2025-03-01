@@ -1,59 +1,59 @@
 <script lang="ts">
-  import { SP } from '$lib/index.js'
+import { SP } from '$lib/index.js'
 
-  // Define more complex search parameters
-  const params = new SP(
-    {
-      title: 'Advanced Example',
-      count: 0,
-      tags: ['svelte', 'typescript', 'url'],
-      filters: { sortBy: 'date', order: 'desc', limit: 10 },
-    },
-    {
-      config: {
-        // Basic types
-        title: { type: 'string' },
-        count: { type: 'number' },
+// Define more complex search parameters
+const params = new SP(
+  {
+    title: 'Advanced Example',
+    count: 0,
+    tags: ['svelte', 'typescript', 'url'],
+    filters: { sortBy: 'date', order: 'desc', limit: 10 },
+  },
+  {
+    config: {
+      // Basic types
+      title: { type: 'string' },
+      count: { type: 'number' },
 
-        // Array type examples
-        tags: {
-          type: 'array',
-        },
+      // Array type examples
+      tags: {
+        type: 'array',
+      },
 
-        // Object type example
-        filters: {
-          type: 'object',
-        },
+      // Object type example
+      filters: {
+        type: 'object',
       },
     },
-  )
+  },
+)
 
-  // Get direct access to parameters
-  const { sp } = params
+// Get direct access to parameters
+const { sp } = params
 
-  // New tag input
-  let newTag = $state('')
-  // Available sort options
-  const sortOptions = ['date', 'name', 'price', 'popularity']
-  const orderOptions = ['asc', 'desc']
+// New tag input
+let newTag = $state('')
+// Available sort options
+const sortOptions = ['date', 'name', 'price', 'popularity']
+const orderOptions = ['asc', 'desc']
 
-  // Add a new tag
-  function addTag() {
-    if (newTag && !sp.tags.includes(newTag)) {
-      sp.tags = [...sp.tags, newTag]
-      newTag = ''
-    }
+// Add a new tag
+function addTag() {
+  if (newTag && !sp.tags.includes(newTag)) {
+    sp.tags = [...sp.tags, newTag]
+    newTag = ''
   }
+}
 
-  // Remove a tag
-  function removeTag(tag: string) {
-    sp.tags = sp.tags.filter((t: string) => t !== tag)
-  }
+// Remove a tag
+function removeTag(tag: string) {
+  sp.tags = sp.tags.filter((t: string) => t !== tag)
+}
 
-  // Increment counter
-  function incrementCount() {
-    sp.count += 1
-  }
+// Increment counter
+function incrementCount() {
+  sp.count += 1
+}
 </script>
 
 <div class="container mx-auto p-6">

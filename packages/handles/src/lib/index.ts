@@ -6,7 +6,7 @@ export { handleProxies, type ProxyOptions } from './hooks/handle-proxies.js'
 export {
   type CorsOptions,
   type CorsWrapper,
-  createCorsWrapper as createCorsWrapper,
+  createCorsWrapper ,
 } from './utils/cors.js'
-export { type AllowedOrigin } from './utils/origins.js'
-export { type OptionsByPath, type OptionsByStringPath } from './utils/paths.js'
+export type { AllowedOrigin } from './utils/origins.js'
+export type { OptionsByPath, OptionsByStringPath } from './utils/paths.js'

@@ -2,5 +2,5 @@
 
 export const GET = async () => {
   throw 7
-  return new Response()
+  // return new Response()
 }

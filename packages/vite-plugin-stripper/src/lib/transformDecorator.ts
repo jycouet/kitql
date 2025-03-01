@@ -134,12 +134,12 @@ export const transformDecorator = async (
 
         let functionName: string
         // Check if the function is a standalone function or a method in a class
-        if (path.node.id && path.node.id.name) {
+        if (path.node.id?.name) {
           // Standalone function
           functionName =
             typeof path.node.id.name === 'string' ? path.node.id.name : 'IdentifierKind'
           // @ts-ignore
-        } else if (path.node.key && path.node.key.name) {
+        } else if (path.node.key?.name) {
           // @ts-ignore
           functionName = path.node.key.name
         }
@@ -171,7 +171,7 @@ export const transformDecorator = async (
 
           // Remove the return type of the function
           if (path.node.returnType) {
-            delete path.node.returnType
+            path.node.returnType = undefined
           }
 
           // Remove the types of all parameters
@@ -179,7 +179,7 @@ export const transformDecorator = async (
             // @ts-ignore
             if (param.typeAnnotation) {
               // @ts-ignore
-              delete param.typeAnnotation
+              param.typeAnnotation = undefined
             }
           })
         }

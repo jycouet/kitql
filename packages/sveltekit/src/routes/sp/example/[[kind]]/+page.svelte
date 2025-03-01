@@ -1,13 +1,34 @@
 <script lang="ts">
-  import { debounce, SP } from '$lib/index.js'
+import { page } from '$app/state'
 
-  // Define search parameters and their types
-  const params = new SP({ name: 'plop', age: 25, active: true })
-  const { sp } = params
+import { debounce, SP } from '$lib/index.js'
+
+import type { PageProps } from './$types.js'
+
+// let { data }: PageProps = $props()
+
+const params = new SP({ name: 'plop', age: 25, active: true })
+
+// const params = $derived.by(() => {
+//   const kindTracked = kind
+//   // return new SP({ name: kindTracked, age: 25, active: true })
+//   return untrack(() => new SP({ name: kindTracked, age: 25, active: true }))
+// })
+
+// const params = $derived(data.params)
 </script>
 
 <div class="container mx-auto p-6">
   <h1 class="mb-6 text-3xl font-bold">Search Parameters Example (Simplified)</h1>
+
+  <div>
+    <a href="/sp/example">undef</a>
+  </div>
+  <div>
+    <a href="/sp/example/k1">k1</a>
+  </div>
+  {page.params.kind ?? 'undef'}
+  <!-- {data.kind} -->
 
   <div class="card bg-base-200 mb-6 shadow-xl">
     <div class="card-body">
@@ -19,10 +40,11 @@
         </label>
         <input
           type="text"
-          bind:value={() => sp.name, debounce((v) => (sp.name = v))}
+          bind:value={() => params.sp.name, debounce((v) => (params.sp.name = v), 500)}
           placeholder="Enter your name"
           class="input input-bordered w-full max-w-xs"
         />
+        <!-- bind:value={sp.name} -->
       </div>
 
       <div class="form-control mb-4 w-full max-w-xs">
@@ -31,7 +53,7 @@
         </label>
         <input
           type="number"
-          bind:value={sp.age}
+          bind:value={params.sp.age}
           min="0"
           max="120"
           class="input input-bordered w-full max-w-xs"
@@ -41,7 +63,7 @@
       <div class="form-control mb-6">
         <label class="label cursor-pointer">
           <span class="label-text">Active Status</span>
-          <input type="checkbox" bind:checked={sp.active} class="toggle toggle-primary" />
+          <input type="checkbox" bind:checked={params.sp.active} class="toggle toggle-primary" />
         </label>
       </div>
 
@@ -55,7 +77,7 @@
     <div class="card-body">
       <h2 class="card-title">Current Values</h2>
       <pre class="bg-base-300 whitespace-pre-wrap rounded-lg p-4"><code>
-{JSON.stringify(sp, null, 2)}
+{JSON.stringify(params.sp, null, 2)}
 			</code></pre>
     </div>
   </div>

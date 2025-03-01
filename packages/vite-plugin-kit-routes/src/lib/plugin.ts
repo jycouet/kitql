@@ -1,5 +1,5 @@
-import { spawn } from 'child_process'
-import { posix } from 'path'
+import { spawn } from 'node:child_process'
+import { posix } from 'node:path'
 import type { PluginOption } from 'vite'
 import { watchAndRun } from 'vite-plugin-watch-and-run'
 
@@ -340,7 +340,7 @@ export function formatKey(key: string, o: Options) {
     toRet = '/'
   }
 
-  if (options.format!.includes('path')) {
+  if (options.format?.includes('path')) {
     return toRet
   }
 
@@ -402,7 +402,7 @@ const getMetadata = (files: string[], type: KindOfObject, o: Options, withAppend
 
   const toRet = files
     .filter((file) => file.endsWith(lookFor))
-    .map((file) => `/` + file.replace(`/${lookFor}`, '').replace(lookFor, ''))
+    .map((file) => `/${file.replace(`/${lookFor}`, '').replace(lookFor, '')}`)
     // Keep the sorting at this level, it will make more sense
     .sort()
     .flatMap((original) => transformToMetadata(original, original, type, options, useWithAppendSp))
@@ -434,7 +434,7 @@ export const transformToMetadata = (
   const list: MetadataToWrite[] = []
 
   const getSep = () => {
-    return options?.format?.includes('route') || options?.format?.includes('path') ? ` ` : `_`
+    return options?.format?.includes('route') || options?.format?.includes('path') ? ' ' : '_'
   }
 
   if (type === 'ACTIONS') {
@@ -446,7 +446,7 @@ export const transformToMetadata = (
         buildMetadata(
           type,
           originalValue,
-          'default' + getSep() + keyToUse,
+          `default${getSep()}${keyToUse}`,
           keyToUse,
 
           useWithAppendSp,
@@ -476,7 +476,7 @@ export const transformToMetadata = (
     const methods = getMethodsOfServerFiles(originalValue)
     if (methods.length === 0) {
       return []
-    } else {
+    }
       methods.map((method) => {
         list.push(
           buildMetadata(
@@ -486,13 +486,12 @@ export const transformToMetadata = (
             keyToUse,
 
             useWithAppendSp,
-            ``,
+            '',
             toRet,
             options,
           ),
         )
       })
-    }
   } else {
     list.push(
       buildMetadata(
@@ -528,7 +527,7 @@ export function buildMetadata(
   let customConf: CustomPath = {
     extra_search_params: 'default',
   }
-  if (viteCustomPathConfig && viteCustomPathConfig[keyToUse]) {
+  if (viteCustomPathConfig?.[keyToUse]) {
     // @ts-expect-error
     customConf = viteCustomPathConfig[keyToUse]
   }
@@ -540,7 +539,7 @@ export function buildMetadata(
     Object.entries(customConf.params).forEach((sp) => {
       for (let i = 0; i < paramsFromPath.length; i++) {
         if (paramsFromPath[i].name === sp[0]) {
-          if (sp[1] && sp[1].type) {
+          if (sp[1]?.type) {
             paramsFromPath[i].type = sp[1].type
           }
           if (sp[1] && sp[1].default !== undefined) {
@@ -555,7 +554,7 @@ export function buildMetadata(
 
   // If empty... (it's in a group for example). Let's add a `/`
   if (toRet === '') {
-    toRet = `/`
+    toRet = '/'
   }
 
   paramsFromPath.forEach((c) => {
@@ -652,7 +651,7 @@ export function buildMetadata(
       let key = sp[0]
       // @ts-expect-error
       if (sp[1].isAnchor) {
-        key = `__KIT_ROUTES_ANCHOR__`
+        key = '__KIT_ROUTES_ANCHOR__'
       }
 
       explicit_search_params_to_function.push([key, getSpValue(val, sp[1])])
@@ -670,9 +669,9 @@ export function buildMetadata(
       if (
         explicit_search_params_to_function.length === 1 &&
         (explicit_search_params_to_function[0][0] === paramsReq[0].name ||
-          explicit_search_params_to_function[0][0] === `__KIT_ROUTES_ANCHOR__`)
+          explicit_search_params_to_function[0][0] === '__KIT_ROUTES_ANCHOR__')
       ) {
-        const sp = customConf.explicit_search_params![paramsReq[0].name]
+        const sp = customConf.explicit_search_params?.[paramsReq[0].name]
         explicit_search_params_to_function[0][1] = getSpValue(paramsReq[0].name, sp)
       } else {
         // in params
@@ -693,10 +692,10 @@ export function buildMetadata(
 
   const appendSpPrefix = actionsFormat ? `, '&'` : ''
   if (wExtraSP && !customConf.explicit_search_params) {
-    params.push(`sp?: Record<string, string | number>`)
+    params.push('sp?: Record<string, string | number>')
     fullSP = `\${appendSp(sp${appendSpPrefix})}`
   } else if (wExtraSP && customConf.explicit_search_params) {
-    params.push(`sp?: Record<string, string | number>`)
+    params.push('sp?: Record<string, string | number>')
     // We want explicite to be stronger and override sp
     fullSP = `\${appendSp({ ...sp, ${explicit_search_params} }${appendSpPrefix})}`
   } else if (!wExtraSP && customConf.explicit_search_params) {
@@ -835,11 +834,11 @@ const shouldLog = (kind: LogKind, o: Options) => {
 
   if (options.logs.update && kind === 'update') {
     return true
-  } else if (options.logs.post_update_run && kind === 'post_update_run') {
+  }if (options.logs.post_update_run && kind === 'post_update_run') {
     return true
-  } else if (options.logs.errors && kind === 'errors') {
+  }if (options.logs.errors && kind === 'errors') {
     return true
-  } else if (options.logs.stats && kind === 'stats') {
+  }if (options.logs.stats && kind === 'stats') {
     return true
   }
   return false
@@ -866,7 +865,7 @@ const arrayToRecord = (arr?: string[]) => {
   if (arr && arr.length > 0) {
     return `: { ${arr.join(', ')} }`
   }
-  return `: Record<string, never>`
+  return ': Record<string, never>'
 }
 
 export const run = async (atStart: boolean, o?: Options) => {
@@ -978,19 +977,18 @@ ${c.files
   return ${key.strReturn}
 }`
       )
-    } else {
-      return `export const ${valiableName} = ${key.strReturn}`
     }
+      return `export const ${valiableName} = ${key.strReturn}`
   })
   .join('\n')}`
             })
-            .join(`\n\n`)
+            .join('\n\n')
         : // Format Others
           objTypes
             .map((c) => {
               return (
                 `/**\n * ${c.type}\n */
-${options?.exportObjects || options?.format?.includes('object') ? `export ` : ``}` +
+${options?.exportObjects || options?.format?.includes('object') ? 'export ' : ''}` +
                 `const ${c.type} = {
   ${c.files
     .map((key) => {
@@ -1001,15 +999,14 @@ ${options?.exportObjects || options?.format?.includes('object') ? `export ` : ``
     return ${key.strReturn}
   }`
         )
-      } else {
-        return `"${key.keyToUse}": ${key.strReturn}`
       }
+        return `"${key.keyToUse}": ${key.strReturn}`
     })
     .join(',\n  ')}
 }`
               )
             })
-            .join(`\n\n`),
+            .join('\n\n'),
 
       format({ top: 1, left: 0 }, appendSp),
 
@@ -1066,7 +1063,7 @@ ${objTypes
 
     if (options?.post_update_run) {
       if (shouldLog('post_update_run', options)) {
-        log.info(`${yellow(`post_update_run`)} "${green(options?.post_update_run)}" running...`)
+        log.info(`${yellow('post_update_run')} "${green(options?.post_update_run)}" running...`)
       }
 
       // do the stuff
@@ -1139,24 +1136,24 @@ function theEnd(
     const stats = []
     const nbRoutes = objTypes.flatMap((c) => c.files).length
     stats.push(
-      `Routes: ${yellow('' + nbRoutes)} ` +
+      `Routes: ${yellow(`${nbRoutes}`)} ` +
         `${italic(
-          `(${objTypes.map((c) => `${c.type}: ${yellow('' + c.files.length)}`).join(', ')})`,
+          `(${objTypes.map((c) => `${c.type}: ${yellow(`${c.files.length}`)}`).join(', ')})`,
         )}`,
     )
-    const confgPoints = stry0(Object.entries(options ?? {}))!.length
+    const confgPoints = stry0(Object.entries(options ?? {}))?.length
     const shortV = options.format_short ? ' short' : ''
 
-    stats.push(`Points: ${yellow('' + confgPoints)}`)
+    stats.push(`Points: ${yellow(`${confgPoints}`)}`)
     const score = (confgPoints / nbRoutes).toFixed(2)
     stats.push(`Score: ${yellow(score)}`)
-    stats.push(`Format: "${yellow('' + options?.format + shortV)}"`)
+    stats.push(`Format: "${yellow(`${options?.format}${shortV}`)}"`)
 
     log.success(`${green('Stats:')} ${stats.join(' | ')}`)
     log.info(
       `${gray(' Share on bluesky:')} ${cyan(
         createBSkyIntent([
-          `🚀 Check out my #KitRoutes stats 🚀`,
+          '🚀 Check out my #KitRoutes stats 🚀',
           '',
           `- Routes: ${nbRoutes} (${objTypes.map((c) => c.files.length).join(', ')})`,
           `- Points: ${confgPoints}`,
@@ -1164,7 +1161,7 @@ function theEnd(
           `- Format: "${options?.format}${shortV}"`,
           `- Version: ${version}`,
           '',
-          `@jyc.dev 👀`,
+          '@jyc.dev 👀',
         ]),
       )}`,
     )

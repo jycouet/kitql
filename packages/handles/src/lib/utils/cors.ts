@@ -144,7 +144,7 @@ function applyHeaders(headers: ConfiguredHeaders, response: Response): Response 
 }
 
 export function cors(
-  inputOptions: CorsOptions = {},
+  inputOptions: CorsOptions,
   request: Request,
   response: Response,
 ): Response {

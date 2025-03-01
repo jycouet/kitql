@@ -1,4 +1,4 @@
-import { spawn } from 'child_process'
+import { spawn } from 'node:child_process'
 import micromatch from 'micromatch'
 import type { PluginOption, ViteDevServer } from 'vite'
 
@@ -171,7 +171,7 @@ async function watcher(
       if (typeof info.run === 'string') {
         message.push(`and run ${green(info.run)}`)
       }
-      message.push(`${cyan(info.delay + 'ms')}`)
+      message.push(`${cyan(`${info.delay}ms`)}`)
 
       log.success(message.join(' '))
     }
@@ -214,7 +214,7 @@ async function watcher(
 
       child.on('close', (code) => {
         if (info.logs.includes('end')) {
-          const message = [`Finished`]
+          const message = ['Finished']
           if (info.name) {
             message.push(`${magenta(info.name)}`)
           }

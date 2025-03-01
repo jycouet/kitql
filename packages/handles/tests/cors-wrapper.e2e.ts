@@ -31,7 +31,7 @@ test.describe('CORS endpoint with no options', async () => {
     expect(response.headers()['access-control-allow-credentials']).toBeUndefined()
     expect(response.headers()['access-control-expose-headers']).toBeUndefined()
     expect(response.headers()['access-control-max-age']).toBeUndefined()
-    expect(response.headers()['vary']).toBe('Access-Control-Request-Headers')
+    expect(response.headers().vary).toBe('Access-Control-Request-Headers')
   })
   test('GET /api/cors-wrapper/default-options/basic', async ({ request }) => {
     const response = await request.get('/api/cors-wrapper/default-options/basic')
@@ -43,7 +43,7 @@ test.describe('CORS endpoint with no options', async () => {
     expect(response.headers()['access-control-allow-credentials']).toBeUndefined()
     expect(response.headers()['access-control-expose-headers']).toBeUndefined()
     expect(response.headers()['access-control-max-age']).toBeUndefined()
-    expect(response.headers()['vary']).toBeUndefined()
+    expect(response.headers().vary).toBeUndefined()
   })
   test('OPTIONS /api/cors-wrapper/default-options/with-response-headers', async ({ request }) => {
     const response = await request.fetch(
@@ -73,7 +73,7 @@ test.describe('CORS endpoint with no options', async () => {
     expect(response.headers()['access-control-allow-credentials']).toBeUndefined()
     expect(response.headers()['access-control-expose-headers']).toBeUndefined()
     expect(response.headers()['access-control-max-age']).toBeUndefined()
-    expect(response.headers()['vary']).toBeUndefined()
+    expect(response.headers().vary).toBeUndefined()
     // doesn't overwrite header values from the request handler
     expect(response.headers()['x-custom-header']).toBe('custom get value')
   })
@@ -99,7 +99,7 @@ test.describe('CORS endpoint with origin set to reflect', async () => {
     expect(response.headers()['access-control-allow-credentials']).toBeUndefined()
     expect(response.headers()['access-control-expose-headers']).toBeUndefined()
     expect(response.headers()['access-control-max-age']).toBeUndefined()
-    expect(response.headers()['vary']).toBe('Origin')
+    expect(response.headers().vary).toBe('Origin')
   })
   test('OPTIONS /api/cors-wrapper/reflect with origin', async ({ request }) => {
     const response = await request.fetch('/api/cors-wrapper/reflect', {
@@ -115,7 +115,7 @@ test.describe('CORS endpoint with origin set to reflect', async () => {
     expect(response.headers()['access-control-allow-credentials']).toBeUndefined()
     expect(response.headers()['access-control-expose-headers']).toBeUndefined()
     expect(response.headers()['access-control-max-age']).toBeUndefined()
-    expect(response.headers()['vary']).toBe('Origin')
+    expect(response.headers().vary).toBe('Origin')
   })
 })
 

@@ -48,7 +48,7 @@ export function extractHtmlElementAttr_Text(pathFile: string, elements: ElementA
         const hrefAttribute = node.attributes.find(
           (attr: { name: string }) => attr.name === element.attr,
         )
-        if (hrefAttribute && hrefAttribute.value.length && hrefAttribute.value[0].type === 'Text') {
+        if (hrefAttribute?.value.length && hrefAttribute.value[0].type === 'Text') {
           const { line, column } = getLineAndColumn(hrefAttribute.start + element.attr.length + 1)
           found.push({
             element,
