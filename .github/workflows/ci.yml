@@ -40,7 +40,7 @@ jobs:
         run: pnpm -F "!website" build
 
       - name: 🧹 Lint Check
-        run: pnpm -F ${{ matrix.prj }} lint
+        run: pnpm biome check
 
       - name: 👌 Run Tests
         run: pnpm -F ${{ matrix.prj }} test:ci

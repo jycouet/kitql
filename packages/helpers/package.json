@@ -20,9 +20,7 @@
     "check": "svelte-check --tsconfig ./tsconfig.json",
     "check:watch": "svelte-check --tsconfig ./tsconfig.json --watch",
     "test": "TZ=UTC vitest",
-    "test:ci": "TZ=UTC vitest run --coverage",
-    "lint": "kitql-lint",
-    "format": "kitql-lint --format"
+    "test:ci": "TZ=UTC vitest run --coverage"
   },
   "devDependencies": {
     "@sveltejs/adapter-auto": "4.0.0",

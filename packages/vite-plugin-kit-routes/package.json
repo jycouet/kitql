@@ -20,9 +20,7 @@
     "check": "svelte-check --tsconfig ./tsconfig.json",
     "check:watch": "svelte-check --tsconfig ./tsconfig.json --watch",
     "test": "vitest",
-    "test:ci": "vitest run --coverage",
-    "lint": "kitql-lint",
-    "format": "kitql-lint --format"
+    "test:ci": "vitest run --coverage"
   },
   "peerDependencies": {
     "@sveltejs/kit": "^2.4.0"
