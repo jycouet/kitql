@@ -1,14 +1,14 @@
 <script lang="ts">
-  import { route } from '$lib/ROUTES.js'
+import { route } from '$lib/ROUTES.js'
 
-  const list = [
-    { lang: 'fr', caption: 'Français' },
-    { lang: 'en', caption: 'English' },
-    { lang: 'hu', caption: 'Magyar' },
-    { lang: 'at', caption: 'Deutsch' },
-  ].map((c) => {
-    return { href: route('/main', { lang: c.lang }), ...c }
-  })
+const list = [
+  { lang: 'fr', caption: 'Français' },
+  { lang: 'en', caption: 'English' },
+  { lang: 'hu', caption: 'Magyar' },
+  { lang: 'at', caption: 'Deutsch' },
+].map((c) => {
+  return { href: route('/main', { lang: c.lang }), ...c }
+})
 </script>
 
 <h2>Home</h2>

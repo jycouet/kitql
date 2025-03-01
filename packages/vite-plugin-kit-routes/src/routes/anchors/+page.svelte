@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { goto } from '$app/navigation'
+import { goto } from '$app/navigation'
 </script>
 
 <div class="mx-auto max-w-3xl p-6">

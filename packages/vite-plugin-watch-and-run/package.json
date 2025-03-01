@@ -1,9 +1,7 @@
 {
   "name": "vite-plugin-watch-and-run",
   "description": "vite-plugin that will watch some files and run a package.json script on change",
-  "keywords": [
-    "vite"
-  ],
+  "keywords": ["vite"],
   "version": "1.7.3",
   "license": "MIT",
   "type": "module",
@@ -27,7 +25,6 @@
     "format": "kitql-lint --format"
   },
   "devDependencies": {
-    
     "@sveltejs/adapter-auto": "4.0.0",
     "@sveltejs/kit": "2.17.3",
     "@sveltejs/package": "2.3.7",
@@ -50,11 +47,7 @@
     "directory": "dist",
     "access": "public"
   },
-  "files": [
-    "dist",
-    "!dist/**/*.test.*",
-    "!dist/**/*.spec.*"
-  ],
+  "files": ["dist", "!dist/**/*.test.*", "!dist/**/*.spec.*"],
   "svelte": "./esm/index.js",
   "types": "./esm/index.d.ts",
   "exports": {

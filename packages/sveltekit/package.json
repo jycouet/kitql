@@ -1,10 +1,7 @@
 {
   "name": "@kitql/sveltekit",
   "description": "kitql sveltekit helpers",
-  "keywords": [
-    "kitql",
-    "svelte"
-  ],
+  "keywords": ["kitql", "svelte"],
   "version": "0.0.3",
   "license": "MIT",
   "type": "module",
@@ -49,11 +46,7 @@
     "directory": "dist",
     "access": "public"
   },
-  "files": [
-    "dist",
-    "!dist/**/*.test.*",
-    "!dist/**/*.spec.*"
-  ],
+  "files": ["dist", "!dist/**/*.test.*", "!dist/**/*.spec.*"],
   "svelte": "./esm/index.js",
   "types": "./esm/index.d.ts",
   "exports": {

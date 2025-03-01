@@ -1,14 +1,7 @@
 {
   "name": "@kitql/helpers",
   "description": "Some useful helpers (0 deps)",
-  "keywords": [
-    "svelte",
-    "terminal",
-    "styles",
-    "color",
-    "ansi",
-    "log"
-  ],
+  "keywords": ["svelte", "terminal", "styles", "color", "ansi", "log"],
   "version": "0.8.11",
   "license": "MIT",
   "type": "module",
@@ -35,7 +28,7 @@
     "@sveltejs/adapter-auto": "4.0.0",
     "@sveltejs/kit": "2.17.3",
     "@sveltejs/package": "2.3.7",
-    
+
     "@sveltejs/vite-plugin-svelte": "5.0.1",
     "publint": "0.3.1",
     "rollup-plugin-visualizer": "5.14.0",
@@ -54,11 +47,7 @@
     "directory": "dist",
     "access": "public"
   },
-  "files": [
-    "dist",
-    "!dist/**/*.test.*",
-    "!dist/**/*.spec.*"
-  ],
+  "files": ["dist", "!dist/**/*.test.*", "!dist/**/*.spec.*"],
   "svelte": "./esm/index.js",
   "types": "./esm/index.d.ts",
   "exports": {

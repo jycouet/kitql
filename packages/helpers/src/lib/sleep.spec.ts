@@ -1,5 +1,4 @@
 import { describe, expect, it } from 'vitest'
-
 import { sleep } from './sleep.js'
 
 describe('kitql - helper - sleep', () => {

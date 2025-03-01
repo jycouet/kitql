@@ -66,7 +66,7 @@ fs.renameSync(path.join(packageDirPath, tmpFolder), path.join(packageDirPath, 'd
 
 // now cjs
 try {
-  let entryPoints = listFiles(`${packageDirPath}/src/lib`).filter(c => !c.includes('.spec.'))
+  let entryPoints = listFiles(`${packageDirPath}/src/lib`).filter((c) => !c.includes('.spec.'))
 
   buildSync({
     entryPoints,
@@ -173,7 +173,7 @@ function listFiles(dir) {
   try {
     const items = fs.readdirSync(dir)
 
-    items.forEach(item => {
+    items.forEach((item) => {
       const fullPath = path.join(dir, item)
       if (fs.statSync(fullPath).isDirectory()) {
         files = files.concat(listFiles(fullPath))

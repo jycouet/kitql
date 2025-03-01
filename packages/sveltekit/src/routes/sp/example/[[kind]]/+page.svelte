@@ -1,21 +1,21 @@
 <script lang="ts">
-  import { page } from '$app/state'
+import { page } from '$app/state'
 
-  import { debounce, SP } from '$lib/index.js'
+import { debounce, SP } from '$lib/index.js'
 
-  import type { PageProps } from './$types.js'
+import type { PageProps } from './$types.js'
 
-  // let { data }: PageProps = $props()
+// let { data }: PageProps = $props()
 
-  const params = new SP({ name: 'plop', age: 25, active: true })
+const params = new SP({ name: 'plop', age: 25, active: true })
 
-  // const params = $derived.by(() => {
-  //   const kindTracked = kind
-  //   // return new SP({ name: kindTracked, age: 25, active: true })
-  //   return untrack(() => new SP({ name: kindTracked, age: 25, active: true }))
-  // })
+// const params = $derived.by(() => {
+//   const kindTracked = kind
+//   // return new SP({ name: kindTracked, age: 25, active: true })
+//   return untrack(() => new SP({ name: kindTracked, age: 25, active: true }))
+// })
 
-  // const params = $derived(data.params)
+// const params = $derived(data.params)
 </script>
 
 <div class="container mx-auto p-6">

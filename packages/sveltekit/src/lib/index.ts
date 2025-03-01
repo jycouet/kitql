@@ -1,5 +1,5 @@
 // classes
-export { SP } from "./class/SP.svelte.js"
+export { SP } from './class/SP.svelte.js'
 
 // helpers
-export { debounce } from "./helpers/debounce.js"
+export { debounce } from './helpers/debounce.js'

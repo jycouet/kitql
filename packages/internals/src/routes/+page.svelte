@@ -1,5 +1,5 @@
 <script lang="ts">
-  const strHref = 'www.google.com'
+const strHref = 'www.google.com'
 </script>
 
 <h2>Home</h2>

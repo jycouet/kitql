@@ -1,10 +1,7 @@
 {
   "name": "@kitql/internals",
   "description": "Some useful internals",
-  "keywords": [
-    "AST",
-    "fs"
-  ],
+  "keywords": ["AST", "fs"],
   "version": "0.10.2",
   "license": "MIT",
   "type": "module",
@@ -28,7 +25,6 @@
     "format": "kitql-lint --format"
   },
   "devDependencies": {
-    
     "@sveltejs/adapter-auto": "4.0.0",
     "@sveltejs/kit": "2.17.3",
     "@sveltejs/package": "2.3.7",
@@ -52,11 +48,7 @@
     "directory": "dist",
     "access": "public"
   },
-  "files": [
-    "dist",
-    "!dist/**/*.test.*",
-    "!dist/**/*.spec.*"
-  ],
+  "files": ["dist", "!dist/**/*.test.*", "!dist/**/*.spec.*"],
   "svelte": "./esm/index.js",
   "types": "./esm/index.d.ts",
   "exports": {
