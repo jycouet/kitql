@@ -1,11 +1,11 @@
-import { execSync } from 'child_process'
+import { execSync } from 'node:child_process'
 import { buildSync } from 'esbuild'
-import fs from 'fs'
-import path from 'path'
-import { exit } from 'process'
+import fs from 'node:fs'
+import path from 'node:path'
+import { exit } from 'node:process'
 
 // Will check the format of package.json
-execSync(`node ../../scripts/packageJsonFormat.js`)
+execSync('node ../../scripts/packageJsonFormat.js')
 
 // Some constants
 const toCopy = ['README.md', 'LICENSE', 'CHANGELOG.md']
@@ -31,10 +31,10 @@ for (let i = 0; i < packages.length; i++) {
 }
 
 // adjust pkg json however you like ...
-delete pkg.publishConfig
-delete pkg.scripts
-delete pkg.devDependencies
-delete pkg.files
+pkg.publishConfig = undefined
+pkg.scripts = undefined
+pkg.devDependencies = undefined
+pkg.files = undefined
 
 // It's not allowed to have an empty scripts object
 pkg.scripts = {
@@ -66,7 +66,7 @@ fs.renameSync(path.join(packageDirPath, tmpFolder), path.join(packageDirPath, 'd
 
 // now cjs
 try {
-  let entryPoints = listFiles(`${packageDirPath}/src/lib`).filter((c) => !c.includes('.spec.'))
+  const entryPoints = listFiles(`${packageDirPath}/src/lib`).filter((c) => !c.includes('.spec.'))
 
   buildSync({
     entryPoints,
@@ -74,7 +74,7 @@ try {
     outdir: 'dist/cjs',
   })
 } catch (error) {
-  console.log(`cjs error`, error)
+  console.log('cjs error', error)
 }
 fs.writeFileSync(
   path.join(packageDirPath, 'dist/cjs/package.json'),

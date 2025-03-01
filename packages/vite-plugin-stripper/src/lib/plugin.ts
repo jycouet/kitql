@@ -1,4 +1,4 @@
-import { readFileSync } from 'fs'
+import { readFileSync } from 'node:fs'
 import type { PluginOption } from 'vite'
 import { watchAndRun } from 'vite-plugin-watch-and-run'
 
@@ -78,7 +78,7 @@ export function stripper(options?: ViteStriperOptions): PluginOption {
   }
 
   const getProjectPath = () => {
-    return process.cwd() + '/src'
+    return `${process.cwd()}/src`
   }
 
   return [
@@ -91,7 +91,7 @@ export function stripper(options?: ViteStriperOptions): PluginOption {
           const files = getFilesUnder(getProjectPath())
           listOrThrow = []
           for (let i = 0; i < files.length; i++) {
-            const absolutePath = getProjectPath() + '/' + files[i]
+            const absolutePath = `${getProjectPath()}/${files[i]}`
             const code = readFileSync(absolutePath, { encoding: 'utf8' })
             const { list } = await transformWarningThrow(
               absolutePath,
@@ -117,7 +117,7 @@ export function stripper(options?: ViteStriperOptions): PluginOption {
 
         let infosNumber = 0
 
-        if (options && options?.decorators && options.decorators.length > 0) {
+        if (options?.decorators && options.decorators.length > 0) {
           const { info, ...rest } = await transformDecorator(
             code,
             options.decorators,
@@ -131,19 +131,12 @@ export function stripper(options?: ViteStriperOptions): PluginOption {
 
           if (options?.debug && info.length > 0) {
             log.info(
-              `` +
-                `${gray('File:')} ${yellow(filepath)}\n` +
-                `${green('-----')}\n` +
-                `${rest.code}` +
-                `\n${green(':::::')}\n` +
-                `${info.join('\n')}` +
-                `\n${green('-----')}` +
-                ``,
+              `${gray('File:')} ${yellow(filepath)}\n${green('-----')}\n${rest.code}\n${green(':::::')}\n${info.join('\n')}\n${green('-----')}`,
             )
           }
         }
 
-        if (options && options?.nullify && options.nullify.length > 0) {
+        if (options?.nullify && options.nullify.length > 0) {
           const { info, ...rest } = await removePackages(code, options.nullify)
 
           // Update the code for later transforms & return it
@@ -153,14 +146,7 @@ export function stripper(options?: ViteStriperOptions): PluginOption {
 
           if (options?.debug && info.length > 0) {
             log.info(
-              `` +
-                `${gray('File:')} ${yellow(filepath)}\n` +
-                `${green('-----')}\n` +
-                `${rest.code}` +
-                `\n${green(':::::')}\n` +
-                `${info.join('\n')}` +
-                `\n${green('-----')}` +
-                ``,
+              `${gray('File:')} ${yellow(filepath)}\n${green('-----')}\n${rest.code}\n${green(':::::')}\n${info.join('\n')}\n${green('-----')}`,
             )
           }
         }
@@ -182,7 +168,7 @@ export function stripper(options?: ViteStriperOptions): PluginOption {
         run: async (server, absolutePath) => {
           if (options?.log_on_throw_is_not_a_new_class) {
             // Only file in our project
-            if (absolutePath && absolutePath.startsWith(getProjectPath())) {
+            if (absolutePath?.startsWith(getProjectPath())) {
               const code = readFileSync(absolutePath, { encoding: 'utf8' })
 
               const { list } = await transformWarningThrow(

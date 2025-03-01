@@ -9,7 +9,7 @@ import { findFileOrUp } from './helper/findFileOrUp.js'
 
 const spinner = ora({
   // hideCursor: true,
-  prefixText: bgBlueBright(` kitql-lint `),
+  prefixText: bgBlueBright(' kitql-lint '),
   text: 'check config',
 })
 spinner.start()
@@ -53,12 +53,12 @@ async function customSpawn(cmd) {
   })
   // console.log(`child`, child)
 
-  let data = ''
+  const data = ''
   // for await (const chunk of child?.stdout) {
   //   console.log('stdout chunk: ' + chunk)
   //   data += chunk
   // }
-  let error = ''
+  const error = ''
   // for await (const chunk of child?.stderr) {
   //   console.error('stderr chunk: ' + chunk)
   //   error += chunk
@@ -76,14 +76,9 @@ async function customSpawn(cmd) {
 
 async function eslintRun() {
   const cmdEsLint =
-    preToUse +
-    `eslint` +
-    // format or not
-    `${format ? ' --fix' : ''}` +
-    // exec
-    ` ${glob}`
+    `${preToUse}eslint${format ? ' --fix' : ''} ${glob}`
 
-  spinner.text = verbose ? 'eslint ' + gray(`(${cmdEsLint})`) : 'eslint'
+  spinner.text = verbose ? `eslint ${gray(`(${cmdEsLint})`)}` : 'eslint'
 
   const result_eslint = await customSpawn(cmdEsLint)
 
@@ -92,19 +87,9 @@ async function eslintRun() {
 
 async function prettierRun() {
   const cmdPrettier =
-    preToUse +
-    `prettier` +
-    ` --list-different` +
-    // ignore?
-    ` --ignore-path ${pathPrettierIgnore}` +
-    // config
-    ` --config ${pathPrettierCjs}` +
-    // format or not
-    `${format ? ' --write' : ''}` +
-    // exec
-    ` ${glob}`
+    `${preToUse}prettier --list-different --ignore-path ${pathPrettierIgnore} --config ${pathPrettierCjs}${format ? ' --write' : ''} ${glob}`
 
-  spinner.text = verbose ? 'prettier ' + gray(`(${cmdPrettier})`) : 'prettier'
+  spinner.text = verbose ? `prettier ${gray(`(${cmdPrettier})`)}` : 'prettier'
 
   const result_prettier = await customSpawn(cmdPrettier)
 
@@ -113,19 +98,19 @@ async function prettierRun() {
 
 const eslintCode = await eslintRun()
 if (eslintCode.status) {
-  spinner.prefixText = bgRedBright(` kitql-lint `)
-  spinner.fail(red(`eslint failed, check logs above.`))
+  spinner.prefixText = bgRedBright(' kitql-lint ')
+  spinner.fail(red('eslint failed, check logs above.'))
   process.exit(eslintCode.status)
 }
 
 const prettierCode = await prettierRun()
 if (prettierCode.status) {
-  spinner.prefixText = bgRedBright(` kitql-lint `)
-  spinner.fail(red(`prettier failed, check logs above.`))
+  spinner.prefixText = bgRedBright(' kitql-lint ')
+  spinner.fail(red('prettier failed, check logs above.'))
   process.exit(prettierCode.status)
 }
 
-spinner.prefixText = bgGreen(` kitql-lint `)
-spinner.succeed(`All good, your files looks great!`)
+spinner.prefixText = bgGreen(' kitql-lint ')
+spinner.succeed('All good, your files looks great!')
 spinner.stop()
 process.exit(0)

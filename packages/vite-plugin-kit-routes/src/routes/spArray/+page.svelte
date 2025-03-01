@@ -2,7 +2,7 @@
 import { page } from '$app/stores'
 
 let raw = $derived($page.url.searchParams.getAll('ids'))
-let parsed = $derived(raw.map((id) => parseInt(id, 10)))
+let parsed = $derived(raw.map((id) => Number.parseInt(id, 10)))
 </script>
 
 <h2>Array Search Params</h2>

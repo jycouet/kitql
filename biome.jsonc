@@ -14,7 +14,8 @@
       "nix/store",
       ".changeset",
       ".next",
-      ".all-contributorsrc"
+      ".all-contributorsrc",
+      "safe-stable-stringify.ts"
     ]
   },
   "formatter": {
@@ -28,7 +29,21 @@
   "linter": {
     "enabled": true,
     "rules": {
-      "recommended": true
+      "recommended": true,
+      "style": {
+        "noParameterAssign": "off",
+        "noNonNullAssertion": "off"
+      },
+      "suspicious": {
+        "noExplicitAny": "off",
+        "noAssignInExpressions": "off",
+        "noImplicitAnyLet": "off"
+      },
+      "complexity": {
+        "noBannedTypes": "off",
+        "noForEach": "off",
+        "noStaticOnlyClass": "off"
+      }
     }
   },
   "javascript": {

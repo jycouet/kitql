@@ -22,7 +22,7 @@ fs.writeFileSync(
       repository: {
         type: 'git',
         url: pkg.repository?.url ?? 'https://github.com/jycouet/kitql',
-        directory: pkg.repository?.directory ?? 'packages/' + pkg.name,
+        directory: pkg.repository?.directory ?? `packages/${pkg.name}`,
         homepage:
           pkg.repository?.homepage ?? 'https://github.com/jycouet/kitql/tree/main/packages/???',
       },

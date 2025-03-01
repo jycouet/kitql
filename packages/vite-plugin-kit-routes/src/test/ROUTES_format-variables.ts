@@ -8,50 +8,50 @@
 /**
  * PAGES
  */
-export const PAGE__ROOT = `/`
-export const PAGE_subGroup = `/subGroup`
-export const PAGE_subGroup_user = `/subGroup/user`
+export const PAGE__ROOT = '/'
+export const PAGE_subGroup = '/subGroup'
+export const PAGE_subGroup_user = '/subGroup/user'
 export const PAGE_subGroup2 = (params: { first: string | number }) => {
-  return `/subGroup2${appendSp({ first: params['first'] })}`
+  return `/subGroup2${appendSp({ first: params.first })}`
 }
 export const PAGE_contract = (
   params?: { lang?: 'fr' | 'en' | 'hu' | 'at' | string },
   sp?: Record<string, string | number>,
 ) => {
-  return `${params?.['lang'] ? `/${params?.['lang']}` : ''}/contract${appendSp(sp)}`
+  return `${params?.lang ? `/${params?.lang}` : ''}/contract${appendSp(sp)}`
 }
 export const PAGE_contract_id = (params: {
   id: string | number
   lang?: 'fr' | 'en' | 'hu' | 'at' | string
 }) => {
-  return `${params?.['lang'] ? `/${params?.['lang']}` : ''}/contract/${params['id']}`
+  return `${params?.lang ? `/${params?.lang}` : ''}/contract/${params.id}`
 }
 export const PAGE_gp_one = (params?: { lang?: 'fr' | 'en' | 'hu' | 'at' | string }) => {
-  return `${params?.['lang'] ? `/${params?.['lang']}` : ''}/gp/one`
+  return `${params?.lang ? `/${params?.lang}` : ''}/gp/one`
 }
 export const PAGE_gp_two = (params?: { lang?: 'fr' | 'en' | 'hu' | 'at' | string }) => {
-  return `${params?.['lang'] ? `/${params?.['lang']}` : ''}/gp/two`
+  return `${params?.lang ? `/${params?.lang}` : ''}/gp/two`
 }
 export const PAGE_main = (params?: { lang?: 'fr' | 'en' | 'hu' | 'at' | string }) => {
-  return `${params?.['lang'] ? `/${params?.['lang']}` : ''}/main`
+  return `${params?.lang ? `/${params?.lang}` : ''}/main`
 }
 export const PAGE_match_id_ab = (params: {
   id: ExtractParamType<typeof import('../params/ab.ts').match>
   lang?: 'fr' | 'en' | 'hu' | 'at' | string
 }) => {
-  return `${params?.['lang'] ? `/${params?.['lang']}` : ''}/match/${params['id']}`
+  return `${params?.lang ? `/${params?.lang}` : ''}/match/${params.id}`
 }
 export const PAGE_match_id_int = (params: {
   id: number
   lang?: 'fr' | 'en' | 'hu' | 'at' | string
 }) => {
-  return `${params?.['lang'] ? `/${params?.['lang']}` : ''}/match/${params['id']}`
+  return `${params?.lang ? `/${params?.lang}` : ''}/match/${params.id}`
 }
 export const PAGE_site = (
   params?: { lang?: 'fr' | 'en' | 'hu' | 'at' | string; limit?: number },
   sp?: Record<string, string | number>,
 ) => {
-  return `${params?.['lang'] ? `/${params?.['lang']}` : ''}/site${appendSp({ ...sp, limit: params?.['limit'] })}`
+  return `${params?.lang ? `/${params?.lang}` : ''}/site${appendSp({ ...sp, limit: params?.limit })}`
 }
 export const PAGE_site_id = (params?: {
   lang?: 'fr' | 'hu' | undefined
@@ -61,9 +61,9 @@ export const PAGE_site_id = (params?: {
   'da-sh'?: string
 }) => {
   params = params ?? {}
-  params['lang'] = params['lang'] ?? 'fr'
-  params['id'] = params['id'] ?? 'Vienna'
-  return `${params?.['lang'] ? `/${params?.['lang']}` : ''}/site/${params['id']}${appendSp({ limit: params['limit'], demo: params['demo'], 'da-sh': params['da-sh'] })}`
+  params.lang = params.lang ?? 'fr'
+  params.id = params.id ?? 'Vienna'
+  return `${params?.lang ? `/${params?.lang}` : ''}/site/${params.id}${appendSp({ limit: params.limit, demo: params.demo, 'da-sh': params['da-sh'] })}`
 }
 export const PAGE_site_contract_siteId_contractId = (params: {
   siteId: string | number
@@ -71,52 +71,52 @@ export const PAGE_site_contract_siteId_contractId = (params: {
   lang?: 'fr' | 'en' | 'hu' | 'at' | string
   limit?: number
 }) => {
-  return `${params?.['lang'] ? `/${params?.['lang']}` : ''}/site_contract/${params['siteId']}-${params['contractId']}${appendSp({ limit: params['limit'] })}`
+  return `${params?.lang ? `/${params?.lang}` : ''}/site_contract/${params.siteId}-${params.contractId}${appendSp({ limit: params.limit })}`
 }
 export const PAGE_a_rest_z = (params: { rest: (string | number)[] }) => {
-  return `/a/${params['rest']?.join('/')}/z`
+  return `/a/${params.rest?.join('/')}/z`
 }
 export const PAGE_anchors = (params: {
   hash: 'section0' | 'section1' | 'section2' | 'section3'
 }) => {
-  return `/anchors${appendSp({ __KIT_ROUTES_ANCHOR__: params['hash'] })}`
+  return `/anchors${appendSp({ __KIT_ROUTES_ANCHOR__: params.hash })}`
 }
 export const PAGE_anchors_id = (params: {
   id: string | number
   hash: 'section0' | 'section1' | 'section2' | 'section3'
 }) => {
-  return `/anchors/${params['id']}${appendSp({ __KIT_ROUTES_ANCHOR__: params['hash'] })}`
+  return `/anchors/${params.id}${appendSp({ __KIT_ROUTES_ANCHOR__: params.hash })}`
 }
-export const PAGE_lay_normal = `/lay/normal`
-export const PAGE_lay_root_layout = `/lay/root-layout`
-export const PAGE_lay_skip = `/lay/skip`
-export const PAGE_sp = `/sp`
+export const PAGE_lay_normal = '/lay/normal'
+export const PAGE_lay_root_layout = '/lay/root-layout'
+export const PAGE_lay_skip = '/lay/skip'
+export const PAGE_sp = '/sp'
 export const PAGE_spArray = (params: { ids: number[] }) => {
-  return `/spArray${appendSp({ ids: params['ids'] })}`
+  return `/spArray${appendSp({ ids: params.ids })}`
 }
 export const PAGE_spArrayComma = (params: { ids: number[] }) => {
-  return `/spArrayComma${appendSp({ ids: String(params['ids']) })}`
+  return `/spArrayComma${appendSp({ ids: String(params.ids) })}`
 }
 
 /**
  * SERVERS
  */
-export const SERVER_GET_server_func_get = `/server_func_get`
-export const SERVER_GET_server_func_get_and = `/server_func_get_and_`
-export const SERVER_POST_server_func_post = `/server_func_post`
+export const SERVER_GET_server_func_get = '/server_func_get'
+export const SERVER_GET_server_func_get_and = '/server_func_get_and_'
+export const SERVER_POST_server_func_post = '/server_func_post'
 export const SERVER_GET_contract = (params?: { lang?: 'fr' | 'en' | 'hu' | 'at' | string }) => {
-  return `${params?.['lang'] ? `/${params?.['lang']}` : ''}/contract`
+  return `${params?.lang ? `/${params?.lang}` : ''}/contract`
 }
 export const SERVER_POST_contract = (params?: { lang?: 'fr' | 'en' | 'hu' | 'at' | string }) => {
-  return `${params?.['lang'] ? `/${params?.['lang']}` : ''}/contract`
+  return `${params?.lang ? `/${params?.lang}` : ''}/contract`
 }
 export const SERVER_GET_site = (params?: { lang?: 'fr' | 'en' | 'hu' | 'at' | string }) => {
-  return `${params?.['lang'] ? `/${params?.['lang']}` : ''}/site`
+  return `${params?.lang ? `/${params?.lang}` : ''}/site`
 }
-export const SERVER_GET_api_graphql = `/api/graphql`
-export const SERVER_POST_api_graphql = `/api/graphql`
+export const SERVER_GET_api_graphql = '/api/graphql'
+export const SERVER_POST_api_graphql = '/api/graphql'
 export const SERVER_GET_data_errors_locale_json = (params: { locale: string | number }) => {
-  return `/data/errors/${params['locale']}.json`
+  return `/data/errors/${params.locale}.json`
 }
 
 /**
@@ -127,30 +127,30 @@ export const ACTION_default_contract_id = (params: {
   lang?: 'fr' | 'en' | 'hu' | 'at' | string
   limit?: number
 }) => {
-  return `${params?.['lang'] ? `/${params?.['lang']}` : ''}/contract/${params['id']}${appendSp({ limit: params['limit'] })}`
+  return `${params?.lang ? `/${params?.lang}` : ''}/contract/${params.id}${appendSp({ limit: params.limit })}`
 }
 export const ACTION_create_site = (params?: { lang?: 'fr' | 'en' | 'hu' | 'at' | string }) => {
-  return `${params?.['lang'] ? `/${params?.['lang']}` : ''}/site?/create`
+  return `${params?.lang ? `/${params?.lang}` : ''}/site?/create`
 }
 export const ACTION_u_p_d_a_t_e_site = (params?: { lang?: 'fr' | 'en' | 'hu' | 'at' | string }) => {
-  return `${params?.['lang'] ? `/${params?.['lang']}` : ''}/site?/u-p-d-a-t-e`
+  return `${params?.lang ? `/${params?.lang}` : ''}/site?/u-p-d-a-t-e`
 }
 export const ACTION_update_site_id = (params: {
   id: string | number
   lang?: 'fr' | 'en' | 'hu' | 'at' | string
 }) => {
-  return `${params?.['lang'] ? `/${params?.['lang']}` : ''}/site/${params['id']}?/update`
+  return `${params?.lang ? `/${params?.lang}` : ''}/site/${params.id}?/update`
 }
 export const ACTION_delete_site_id = (params: {
   id: string | number
   lang?: 'fr' | 'en' | 'hu' | 'at' | string
 }) => {
-  return `${params?.['lang'] ? `/${params?.['lang']}` : ''}/site/${params['id']}?/delete`
+  return `${params?.lang ? `/${params?.lang}` : ''}/site/${params.id}?/delete`
 }
 export const ACTION_noSatisfies_site_contract = (params?: {
   lang?: 'fr' | 'en' | 'hu' | 'at' | string
 }) => {
-  return `${params?.['lang'] ? `/${params?.['lang']}` : ''}/site_contract?/noSatisfies`
+  return `${params?.lang ? `/${params?.lang}` : ''}/site_contract?/noSatisfies`
 }
 export const ACTION_send_site_contract_siteId_contractId = (params: {
   siteId: string | number
@@ -158,25 +158,25 @@ export const ACTION_send_site_contract_siteId_contractId = (params: {
   lang?: 'fr' | 'en' | 'hu' | 'at' | string
   extra?: 'A' | 'B'
 }) => {
-  params['extra'] = params['extra'] ?? 'A'
-  return `${params?.['lang'] ? `/${params?.['lang']}` : ''}/site_contract/${params['siteId']}-${params['contractId']}?/send${appendSp({ extra: params['extra'] }, '&')}`
+  params.extra = params.extra ?? 'A'
+  return `${params?.lang ? `/${params?.lang}` : ''}/site_contract/${params.siteId}-${params.contractId}?/send${appendSp({ extra: params.extra }, '&')}`
 }
 
 /**
  * LINKS
  */
-export const LINK_twitter = `https://twitter.com/jycouet`
+export const LINK_twitter = 'https://twitter.com/jycouet'
 export const LINK_twitter_post = (params: { name: string | number; id: string | number }) => {
-  return `https://twitter.com/${params['name']}/status/${params['id']}`
+  return `https://twitter.com/${params.name}/status/${params.id}`
 }
 export const LINK_gravatar = (params: {
   str: string | number
   s?: number
   d?: 'retro' | 'identicon'
 }) => {
-  params['s'] = params['s'] ?? 75
-  params['d'] = params['d'] ?? 'identicon'
-  return `https://www.gravatar.com/avatar/${params['str']}${appendSp({ s: params['s'], d: params['d'] })}`
+  params.s = params.s ?? 75
+  params.d = params.d ?? 'identicon'
+  return `https://www.gravatar.com/avatar/${params.str}${appendSp({ s: params.s, d: params.d })}`
 }
 
 type ParamValue = string | number | undefined

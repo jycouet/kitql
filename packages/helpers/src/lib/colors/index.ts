@@ -22,9 +22,9 @@ const colorNode = (style: Style, str: string) => {
   return `${getStyleNode(style)[0]}${str}${getStyleNode(style)[1]}`
 }
 
-const START1 = `$$KitQL_`
-const START2 = `_KitQL$$`
-const END = `$$KitQLEND$$`
+const START1 = '$$KitQL_'
+const START2 = '_KitQL$$'
+const END = '$$KitQLEND$$'
 const colorBrowser = (style: Style, str: string) => {
   return `${START1}${style}${START2}${str}${END}`
 }

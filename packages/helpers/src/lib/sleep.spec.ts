@@ -6,7 +6,7 @@ describe('kitql - helper - sleep', () => {
     const start = new Date()
     await sleep(0)
     const timestamp = new Date().getTime() - start.getTime()
-    console.info(`timestamp No time`, timestamp)
+    console.info('timestamp No time', timestamp)
     expect(timestamp).toBeLessThan(7)
   })
 
@@ -14,7 +14,7 @@ describe('kitql - helper - sleep', () => {
     const start = new Date()
     await sleep(1000)
     const timestamp = new Date().getTime() - start.getTime()
-    console.info(`timestamp 1000 ms`, timestamp)
+    console.info('timestamp 1000 ms', timestamp)
     expect(timestamp).toBeLessThan(1010)
     expect(990).toBeLessThan(timestamp)
   })

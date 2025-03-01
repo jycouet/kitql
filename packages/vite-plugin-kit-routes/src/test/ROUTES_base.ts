@@ -15,51 +15,51 @@ const PAGES = {
   '/subGroup/user': `${base}/subGroup/user`,
   '/subGroup2': `${base}/subGroup2`,
   '/contract': (params?: { lang?: string | number }) => {
-    return `${base}${params?.['lang'] ? `/${params?.['lang']}` : ''}/contract`
+    return `${base}${params?.lang ? `/${params?.lang}` : ''}/contract`
   },
   '/contract/[id]': (params: { id: string | number; lang?: string | number }) => {
-    return `${base}${params?.['lang'] ? `/${params?.['lang']}` : ''}/contract/${params['id']}`
+    return `${base}${params?.lang ? `/${params?.lang}` : ''}/contract/${params.id}`
   },
   '/gp/one': (params?: { lang?: string | number }) => {
-    return `${base}${params?.['lang'] ? `/${params?.['lang']}` : ''}/gp/one`
+    return `${base}${params?.lang ? `/${params?.lang}` : ''}/gp/one`
   },
   '/gp/two': (params?: { lang?: string | number }) => {
-    return `${base}${params?.['lang'] ? `/${params?.['lang']}` : ''}/gp/two`
+    return `${base}${params?.lang ? `/${params?.lang}` : ''}/gp/two`
   },
   '/main': (params?: { lang?: string | number }) => {
-    return `${base}${params?.['lang'] ? `/${params?.['lang']}` : ''}/main`
+    return `${base}${params?.lang ? `/${params?.lang}` : ''}/main`
   },
   '/match/[id=ab]': (params: {
     id: ExtractParamType<typeof import('../params/ab.ts').match>
     lang?: string | number
   }) => {
-    return `${base}${params?.['lang'] ? `/${params?.['lang']}` : ''}/match/${params['id']}`
+    return `${base}${params?.lang ? `/${params?.lang}` : ''}/match/${params.id}`
   },
   '/match/[id=int]': (params: {
     id: ExtractParamType<typeof import('../params/int.ts').match>
     lang?: string | number
   }) => {
-    return `${base}${params?.['lang'] ? `/${params?.['lang']}` : ''}/match/${params['id']}`
+    return `${base}${params?.lang ? `/${params?.lang}` : ''}/match/${params.id}`
   },
   '/site': (params?: { lang?: string | number }) => {
-    return `${base}${params?.['lang'] ? `/${params?.['lang']}` : ''}/site`
+    return `${base}${params?.lang ? `/${params?.lang}` : ''}/site`
   },
   '/site/[id]': (params: { id: string | number; lang?: string | number }) => {
-    return `${base}${params?.['lang'] ? `/${params?.['lang']}` : ''}/site/${params['id']}`
+    return `${base}${params?.lang ? `/${params?.lang}` : ''}/site/${params.id}`
   },
   '/site_contract/[siteId]-[contractId]': (params: {
     siteId: string | number
     contractId: string | number
     lang?: string | number
   }) => {
-    return `${base}${params?.['lang'] ? `/${params?.['lang']}` : ''}/site_contract/${params['siteId']}-${params['contractId']}`
+    return `${base}${params?.lang ? `/${params?.lang}` : ''}/site_contract/${params.siteId}-${params.contractId}`
   },
   '/a/[...rest]/z': (params: { rest: (string | number)[] }) => {
-    return `${base}/a/${params['rest']?.join('/')}/z`
+    return `${base}/a/${params.rest?.join('/')}/z`
   },
   '/anchors': `${base}/anchors`,
   '/anchors/[id]': (params: { id: string | number }) => {
-    return `${base}/anchors/${params['id']}`
+    return `${base}/anchors/${params.id}`
   },
   '/lay/normal': `${base}/lay/normal`,
   '/lay/root-layout': `${base}/lay/root-layout`,
@@ -77,18 +77,18 @@ const SERVERS = {
   'GET /server_func_get_and_': `${base}/server_func_get_and_`,
   'POST /server_func_post': `${base}/server_func_post`,
   'GET /contract': (params?: { lang?: string | number }) => {
-    return `${base}${params?.['lang'] ? `/${params?.['lang']}` : ''}/contract`
+    return `${base}${params?.lang ? `/${params?.lang}` : ''}/contract`
   },
   'POST /contract': (params?: { lang?: string | number }) => {
-    return `${base}${params?.['lang'] ? `/${params?.['lang']}` : ''}/contract`
+    return `${base}${params?.lang ? `/${params?.lang}` : ''}/contract`
   },
   'GET /site': (params?: { lang?: string | number }) => {
-    return `${base}${params?.['lang'] ? `/${params?.['lang']}` : ''}/site`
+    return `${base}${params?.lang ? `/${params?.lang}` : ''}/site`
   },
   'GET /api/graphql': `${base}/api/graphql`,
   'POST /api/graphql': `${base}/api/graphql`,
   'GET /data/errors/[locale].json': (params: { locale: string | number }) => {
-    return `${base}/data/errors/${params['locale']}.json`
+    return `${base}/data/errors/${params.locale}.json`
   },
 }
 
@@ -97,29 +97,29 @@ const SERVERS = {
  */
 const ACTIONS = {
   'default /contract/[id]': (params: { id: string | number; lang?: string | number }) => {
-    return `${base}${params?.['lang'] ? `/${params?.['lang']}` : ''}/contract/${params['id']}`
+    return `${base}${params?.lang ? `/${params?.lang}` : ''}/contract/${params.id}`
   },
   'create /site': (params?: { lang?: string | number }) => {
-    return `${base}${params?.['lang'] ? `/${params?.['lang']}` : ''}/site?/create`
+    return `${base}${params?.lang ? `/${params?.lang}` : ''}/site?/create`
   },
   'u-p-d-a-t-e /site': (params?: { lang?: string | number }) => {
-    return `${base}${params?.['lang'] ? `/${params?.['lang']}` : ''}/site?/u-p-d-a-t-e`
+    return `${base}${params?.lang ? `/${params?.lang}` : ''}/site?/u-p-d-a-t-e`
   },
   'update /site/[id]': (params: { id: string | number; lang?: string | number }) => {
-    return `${base}${params?.['lang'] ? `/${params?.['lang']}` : ''}/site/${params['id']}?/update`
+    return `${base}${params?.lang ? `/${params?.lang}` : ''}/site/${params.id}?/update`
   },
   'delete /site/[id]': (params: { id: string | number; lang?: string | number }) => {
-    return `${base}${params?.['lang'] ? `/${params?.['lang']}` : ''}/site/${params['id']}?/delete`
+    return `${base}${params?.lang ? `/${params?.lang}` : ''}/site/${params.id}?/delete`
   },
   'noSatisfies /site_contract': (params?: { lang?: string | number }) => {
-    return `${base}${params?.['lang'] ? `/${params?.['lang']}` : ''}/site_contract?/noSatisfies`
+    return `${base}${params?.lang ? `/${params?.lang}` : ''}/site_contract?/noSatisfies`
   },
   'send /site_contract/[siteId]-[contractId]': (params: {
     siteId: string | number
     contractId: string | number
     lang?: string | number
   }) => {
-    return `${base}${params?.['lang'] ? `/${params?.['lang']}` : ''}/site_contract/${params['siteId']}-${params['contractId']}?/send`
+    return `${base}${params?.lang ? `/${params?.lang}` : ''}/site_contract/${params.siteId}-${params.contractId}?/send`
   },
 }
 
@@ -217,9 +217,8 @@ export function route<T extends keyof AllTypes>(key: T, ...params: any[]): strin
   if ((AllObjs[key] as any) instanceof Function) {
     const element = (AllObjs as any)[key] as (...args: any[]) => string
     return element(...params)
-  } else {
-    return AllObjs[key] as string
   }
+    return AllObjs[key] as string
 }
 
 /* type helpers param & predicate */

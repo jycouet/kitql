@@ -14,6 +14,6 @@ export class ActionsController {
     b.hash('1234')
 
     console.info('AUTH_SECRET', AUTH_SECRET)
-    return AUTH_SECRET + ' ' + info
+    return `${AUTH_SECRET} ${info}`
   }
 }

@@ -72,8 +72,7 @@ describe('write', () => {
     const data = read(`${process.cwd()}/src/routes/+page.svelte`)
     if (data) {
       const path =
-        `${process.cwd()}/node_modules/routes/+page.svelte` +
-        new Date().toISOString().replace(':', '_')
+        `${process.cwd()}/node_modules/routes/+page.svelte${new Date().toISOString().replace(':', '_')}`
       write(path, [data])
       const readAgainData = read(path)
       expect(readAgainData).toMatchInlineSnapshot(`

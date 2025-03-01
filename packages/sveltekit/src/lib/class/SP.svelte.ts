@@ -126,12 +126,13 @@ export class SP<T extends Record<string, any>> {
 
         // Otherwise use default conversion based on type
         switch (def.type) {
-          case 'number':
-            const num = parseFloat(paramValue)
-            if (!isNaN(num)) {
+          case 'number': {
+            const num = Number.parseFloat(paramValue)
+            if (!Number.isNaN(num)) {
               this.paramValues[propKey] = num
             }
             break
+          }
           case 'boolean':
             this.paramValues[propKey] = paramValue === 'true'
             break
@@ -146,7 +147,6 @@ export class SP<T extends Record<string, any>> {
               // Keep default value on error
             }
             break
-          case 'string':
           default:
             this.paramValues[propKey] = paramValue
             break
@@ -202,7 +202,7 @@ export class SP<T extends Record<string, any>> {
       }
     }
 
-    const strSearch = params.toString() ? '?' + params.toString() : ''
+    const strSearch = params.toString() ? `?${params.toString()}` : ''
 
     // Don't do the goto if the search params haven't changed!
     if (strSearch === window.location.search) return

@@ -9,85 +9,85 @@
  * PAGES
  */
 const PAGES = {
-  '/': `/`,
-  '/subGroup': `/subGroup`,
-  '/subGroup/user': `/subGroup/user`,
-  '/subGroup2': `/subGroup2`,
+  '/': '/',
+  '/subGroup': '/subGroup',
+  '/subGroup/user': '/subGroup/user',
+  '/subGroup2': '/subGroup2',
   '/contract': (params?: { lang?: string | number }) => {
-    return `${params?.['lang'] ? `/${params?.['lang']}` : ''}/contract`
+    return `${params?.lang ? `/${params?.lang}` : ''}/contract`
   },
   '/contract/[id]': (params: { id: string | number; lang?: string | number }) => {
-    return `${params?.['lang'] ? `/${params?.['lang']}` : ''}/contract/${params['id']}`
+    return `${params?.lang ? `/${params?.lang}` : ''}/contract/${params.id}`
   },
   '/gp/one': (params?: { lang?: string | number }) => {
-    return `${params?.['lang'] ? `/${params?.['lang']}` : ''}/gp/one`
+    return `${params?.lang ? `/${params?.lang}` : ''}/gp/one`
   },
   '/gp/two': (params?: { lang?: string | number }) => {
-    return `${params?.['lang'] ? `/${params?.['lang']}` : ''}/gp/two`
+    return `${params?.lang ? `/${params?.lang}` : ''}/gp/two`
   },
   '/main': (params?: { lang?: string | number }) => {
-    return `${params?.['lang'] ? `/${params?.['lang']}` : ''}/main`
+    return `${params?.lang ? `/${params?.lang}` : ''}/main`
   },
   '/match/[id=ab]': (params: {
     id: ExtractParamType<typeof import('../params/ab.ts').match>
     lang?: string | number
   }) => {
-    return `${params?.['lang'] ? `/${params?.['lang']}` : ''}/match/${params['id']}`
+    return `${params?.lang ? `/${params?.lang}` : ''}/match/${params.id}`
   },
   '/match/[id=int]': (params: {
     id: ExtractParamType<typeof import('../params/int.ts').match>
     lang?: string | number
   }) => {
-    return `${params?.['lang'] ? `/${params?.['lang']}` : ''}/match/${params['id']}`
+    return `${params?.lang ? `/${params?.lang}` : ''}/match/${params.id}`
   },
   '/site': (params?: { lang?: string | number }) => {
-    return `${params?.['lang'] ? `/${params?.['lang']}` : ''}/site`
+    return `${params?.lang ? `/${params?.lang}` : ''}/site`
   },
   '/site/[id]': (params: { id: string | number; lang?: string | number }) => {
-    return `${params?.['lang'] ? `/${params?.['lang']}` : ''}/site/${params['id']}`
+    return `${params?.lang ? `/${params?.lang}` : ''}/site/${params.id}`
   },
   '/site_contract/[siteId]-[contractId]': (params: {
     siteId: string | number
     contractId: string | number
     lang?: string | number
   }) => {
-    return `${params?.['lang'] ? `/${params?.['lang']}` : ''}/site_contract/${params['siteId']}-${params['contractId']}`
+    return `${params?.lang ? `/${params?.lang}` : ''}/site_contract/${params.siteId}-${params.contractId}`
   },
   '/a/[...rest]/z': (params: { rest: (string | number)[] }) => {
-    return `/a/${params['rest']?.join('/')}/z`
+    return `/a/${params.rest?.join('/')}/z`
   },
-  '/anchors': `/anchors`,
+  '/anchors': '/anchors',
   '/anchors/[id]': (params: { id: string | number }) => {
-    return `/anchors/${params['id']}`
+    return `/anchors/${params.id}`
   },
-  '/lay/normal': `/lay/normal`,
-  '/lay/root-layout': `/lay/root-layout`,
-  '/lay/skip': `/lay/skip`,
-  '/sp': `/sp`,
-  '/spArray': `/spArray`,
-  '/spArrayComma': `/spArrayComma`,
+  '/lay/normal': '/lay/normal',
+  '/lay/root-layout': '/lay/root-layout',
+  '/lay/skip': '/lay/skip',
+  '/sp': '/sp',
+  '/spArray': '/spArray',
+  '/spArrayComma': '/spArrayComma',
 }
 
 /**
  * SERVERS
  */
 const SERVERS = {
-  'GET /server_func_get': `/server_func_get`,
-  'GET /server_func_get_and_': `/server_func_get_and_`,
-  'POST /server_func_post': `/server_func_post`,
+  'GET /server_func_get': '/server_func_get',
+  'GET /server_func_get_and_': '/server_func_get_and_',
+  'POST /server_func_post': '/server_func_post',
   'GET /contract': (params?: { lang?: string | number }) => {
-    return `${params?.['lang'] ? `/${params?.['lang']}` : ''}/contract`
+    return `${params?.lang ? `/${params?.lang}` : ''}/contract`
   },
   'POST /contract': (params?: { lang?: string | number }) => {
-    return `${params?.['lang'] ? `/${params?.['lang']}` : ''}/contract`
+    return `${params?.lang ? `/${params?.lang}` : ''}/contract`
   },
   'GET /site': (params?: { lang?: string | number }) => {
-    return `${params?.['lang'] ? `/${params?.['lang']}` : ''}/site`
+    return `${params?.lang ? `/${params?.lang}` : ''}/site`
   },
-  'GET /api/graphql': `/api/graphql`,
-  'POST /api/graphql': `/api/graphql`,
+  'GET /api/graphql': '/api/graphql',
+  'POST /api/graphql': '/api/graphql',
   'GET /data/errors/[locale].json': (params: { locale: string | number }) => {
-    return `/data/errors/${params['locale']}.json`
+    return `/data/errors/${params.locale}.json`
   },
 }
 
@@ -96,29 +96,29 @@ const SERVERS = {
  */
 const ACTIONS = {
   'default /contract/[id]': (params: { id: string | number; lang?: string | number }) => {
-    return `${params?.['lang'] ? `/${params?.['lang']}` : ''}/contract/${params['id']}`
+    return `${params?.lang ? `/${params?.lang}` : ''}/contract/${params.id}`
   },
   'create /site': (params?: { lang?: string | number }) => {
-    return `${params?.['lang'] ? `/${params?.['lang']}` : ''}/site?/create`
+    return `${params?.lang ? `/${params?.lang}` : ''}/site?/create`
   },
   'u-p-d-a-t-e /site': (params?: { lang?: string | number }) => {
-    return `${params?.['lang'] ? `/${params?.['lang']}` : ''}/site?/u-p-d-a-t-e`
+    return `${params?.lang ? `/${params?.lang}` : ''}/site?/u-p-d-a-t-e`
   },
   'update /site/[id]': (params: { id: string | number; lang?: string | number }) => {
-    return `${params?.['lang'] ? `/${params?.['lang']}` : ''}/site/${params['id']}?/update`
+    return `${params?.lang ? `/${params?.lang}` : ''}/site/${params.id}?/update`
   },
   'delete /site/[id]': (params: { id: string | number; lang?: string | number }) => {
-    return `${params?.['lang'] ? `/${params?.['lang']}` : ''}/site/${params['id']}?/delete`
+    return `${params?.lang ? `/${params?.lang}` : ''}/site/${params.id}?/delete`
   },
   'noSatisfies /site_contract': (params?: { lang?: string | number }) => {
-    return `${params?.['lang'] ? `/${params?.['lang']}` : ''}/site_contract?/noSatisfies`
+    return `${params?.lang ? `/${params?.lang}` : ''}/site_contract?/noSatisfies`
   },
   'send /site_contract/[siteId]-[contractId]': (params: {
     siteId: string | number
     contractId: string | number
     lang?: string | number
   }) => {
-    return `${params?.['lang'] ? `/${params?.['lang']}` : ''}/site_contract/${params['siteId']}-${params['contractId']}?/send`
+    return `${params?.lang ? `/${params?.lang}` : ''}/site_contract/${params.siteId}-${params.contractId}?/send`
   },
 }
 
@@ -216,9 +216,8 @@ export function route<T extends keyof AllTypes>(key: T, ...params: any[]): strin
   if ((AllObjs[key] as any) instanceof Function) {
     const element = (AllObjs as any)[key] as (...args: any[]) => string
     return element(...params)
-  } else {
-    return AllObjs[key] as string
   }
+    return AllObjs[key] as string
 }
 
 /* type helpers param & predicate */

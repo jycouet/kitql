@@ -172,7 +172,7 @@ describe('kitql - helper - Log', () => {
     expect(log).to.have.property('toolName', 'tool name')
 
     const spy = vi.spyOn(console, 'info')
-    log.info(`log with DateTime`)
+    log.info('log with DateTime')
     expect(spy).toHaveBeenCalledOnce()
   })
 
@@ -181,7 +181,7 @@ describe('kitql - helper - Log', () => {
     expect(log).to.have.property('toolName', 'tool name')
 
     const spy = vi.spyOn(console, 'info')
-    log.info(`log with time`)
+    log.info('log with time')
     expect(spy).toHaveBeenCalledOnce()
   })
 
@@ -189,7 +189,7 @@ describe('kitql - helper - Log', () => {
     const log = new Log('')
 
     const spy = vi.spyOn(console, 'info')
-    const result = log.info(`with no name`)
+    const result = log.info('with no name')
 
     expect(spy).toHaveBeenCalledOnce()
 

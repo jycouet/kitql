@@ -1,4 +1,4 @@
-export const debounce = (fn: (...args: any[]) => void, delay: number = 377) => {
+export const debounce = (fn: (...args: any[]) => void, delay = 377) => {
   let timeout: ReturnType<typeof setTimeout>
   return (...args: any[]) => {
     clearTimeout(timeout)

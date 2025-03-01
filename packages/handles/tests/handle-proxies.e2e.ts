@@ -37,7 +37,7 @@ test.describe('requests with correct origin', () => {
     })
     expect(response.status()).toBe(200)
     const body = await response.json()
-    expect(body.headers['Host']).toBe('eu.httpbin.org')
+    expect(body.headers.Host).toBe('eu.httpbin.org')
   })
   test('proxies the query parameters', async ({ request, baseURL }) => {
     assertDefined(baseURL)
