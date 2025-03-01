@@ -8,7 +8,7 @@
     "dev:w": "cd website && npm run dev",
     "build": "pnpm -F \"!website\" build",
     "release:version": "npm run changeset version",
-    "release": "npm run build && changeset publish",
+    "release": "npm run build && changeset publish --verbose",
     "reset": "git clean -xdf",
     "up-dep": "pnpm -r up --latest"
   },
