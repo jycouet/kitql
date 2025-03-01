@@ -2,4 +2,4 @@
 export { SP } from "./class/SP.svelte.js"
 
 // helpers
-export { debounce } from "./helpers/dedounce.js"
+export { debounce } from "./helpers/debounce.js"

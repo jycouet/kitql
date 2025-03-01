@@ -2,8 +2,10 @@
   import { debounce, SP } from '$lib/index.js'
 
   // Define search parameters and their types
-  const params = new SP({ name: 'plop', age: 25, active: true })
-  const { sp } = params
+  const params = new SP(
+    { name: 'plop', age: 25, active: true },
+    // { config: { name: { debounce: 2000 } } },
+  )
 </script>
 
 <div class="container mx-auto p-6">
@@ -19,10 +21,11 @@
         </label>
         <input
           type="text"
-          bind:value={() => sp.name, debounce((v) => (sp.name = v))}
+          bind:value={() => params.sp.name, debounce((v) => (params.sp.name = v), 500)}
           placeholder="Enter your name"
           class="input input-bordered w-full max-w-xs"
         />
+        <!-- bind:value={sp.name} -->
       </div>
 
       <div class="form-control mb-4 w-full max-w-xs">
@@ -31,7 +34,7 @@
         </label>
         <input
           type="number"
-          bind:value={sp.age}
+          bind:value={params.sp.age}
           min="0"
           max="120"
           class="input input-bordered w-full max-w-xs"
@@ -41,7 +44,7 @@
       <div class="form-control mb-6">
         <label class="label cursor-pointer">
           <span class="label-text">Active Status</span>
-          <input type="checkbox" bind:checked={sp.active} class="toggle toggle-primary" />
+          <input type="checkbox" bind:checked={params.sp.active} class="toggle toggle-primary" />
         </label>
       </div>
 
@@ -55,7 +58,7 @@
     <div class="card-body">
       <h2 class="card-title">Current Values</h2>
       <pre class="bg-base-300 whitespace-pre-wrap rounded-lg p-4"><code>
-{JSON.stringify(sp, null, 2)}
+{JSON.stringify(params.sp, null, 2)}
 			</code></pre>
     </div>
   </div>
