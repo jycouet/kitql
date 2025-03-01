@@ -3,13 +3,19 @@
 
   import { debounce, SP } from '$lib/index.js'
 
-  // Define search parameters and their types
-  const params = new SP(
-    { name: 'plop', age: 25, active: true },
-    // { config: { name: { debounce: 2000 } } },
-  )
+  import type { PageProps } from './$types.js'
 
-  const kind = $derived(page.params.kind ?? 'undef')
+  // let { data }: PageProps = $props()
+
+  const params = new SP({ name: 'plop', age: 25, active: true })
+
+  // const params = $derived.by(() => {
+  //   const kindTracked = kind
+  //   // return new SP({ name: kindTracked, age: 25, active: true })
+  //   return untrack(() => new SP({ name: kindTracked, age: 25, active: true }))
+  // })
+
+  // const params = $derived(data.params)
 </script>
 
 <div class="container mx-auto p-6">
@@ -21,7 +27,8 @@
   <div>
     <a href="/sp/example/k1">k1</a>
   </div>
-  {kind}
+  {page.params.kind ?? 'undef'}
+  <!-- {data.kind} -->
 
   <div class="card bg-base-200 mb-6 shadow-xl">
     <div class="card-body">

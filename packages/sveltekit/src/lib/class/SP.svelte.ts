@@ -112,7 +112,7 @@ export class SP<T extends Record<string, any>> {
 	 * Load parameter values from URL
 	 */
 	private fromURL(): void {
-		const params = page.url.searchParams;
+		const params = page.url.searchParams
 
 		for (const [propKey, tmpDef] of Object.entries(this.config)) {
 			const def = tmpDef as ParamDefinition<T[keyof T]>;
