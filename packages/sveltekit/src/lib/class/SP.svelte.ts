@@ -76,7 +76,7 @@ export class SP<T extends Record<string, any>> {
 			}
 		}
 
-		// Set default
+		// Set keyMap
 		for (const [key, def] of Object.entries(this.config)) {
 			// Build key mapping for URL params
 			this.keyMap[key] = def.key || key;
@@ -100,12 +100,11 @@ export class SP<T extends Record<string, any>> {
 
 		this.fromURL();
 
-		if (typeof window !== 'undefined') {
-			// Update URL when values change
-			$effect(() => {
-				this.toURL();
-			});
-		}
+		if (typeof window === 'undefined') return;
+
+		$effect(() => {
+			this.toURL();
+		});
 	}
 
 	/**
@@ -120,7 +119,6 @@ export class SP<T extends Record<string, any>> {
 			const paramValue = params.get(urlKey);
 
 			if (paramValue !== null) {
-				// Use custom fromURL function if provided
 				if (def.decode) {
 					this.paramValues[propKey] = def.decode(paramValue);
 					continue;
@@ -181,7 +179,6 @@ export class SP<T extends Record<string, any>> {
 
 			const urlKey = this.keyMap[propKey];
 
-			// Use custom toURL function if provided
 			if (def.encode) {
 				const toSet = def.encode(value);
 				if (toSet) {
