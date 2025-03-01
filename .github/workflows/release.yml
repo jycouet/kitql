@@ -9,7 +9,7 @@ jobs:
   release:
     name: Release
     runs-on: ubuntu-latest
-    timeout-minutes: 10
+    timeout-minutes: 5
     environment: Publishing
     steps:
       - name: Creating .npmrc
