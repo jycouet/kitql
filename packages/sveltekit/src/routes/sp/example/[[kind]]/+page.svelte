@@ -1,4 +1,6 @@
 <script lang="ts">
+  import { page } from '$app/state'
+
   import { debounce, SP } from '$lib/index.js'
 
   // Define search parameters and their types
@@ -6,10 +8,20 @@
     { name: 'plop', age: 25, active: true },
     // { config: { name: { debounce: 2000 } } },
   )
+
+  const kind = $derived(page.params.kind ?? 'undef')
 </script>
 
 <div class="container mx-auto p-6">
   <h1 class="mb-6 text-3xl font-bold">Search Parameters Example (Simplified)</h1>
+
+  <div>
+    <a href="/sp/example">undef</a>
+  </div>
+  <div>
+    <a href="/sp/example/k1">k1</a>
+  </div>
+  {kind}
 
   <div class="card bg-base-200 mb-6 shadow-xl">
     <div class="card-body">
