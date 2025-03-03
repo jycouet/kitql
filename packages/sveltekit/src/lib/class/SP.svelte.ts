@@ -93,6 +93,7 @@ export class SP<T extends Record<string, any>> {
 				get: () => this.paramValues[key],
 				set: (value) => {
 					this.paramValues[key] = value;
+					this.toURL();
 				},
 				enumerable: true
 			});
@@ -100,11 +101,11 @@ export class SP<T extends Record<string, any>> {
 
 		this.fromURL();
 
-		if (typeof window === 'undefined') return;
+		// if (typeof window === 'undefined') return;
 
-		$effect(() => {
-			this.toURL();
-		});
+		// $effect(() => {
+		// 	this.toURL();
+		// });
 	}
 
 	/**
@@ -219,7 +220,7 @@ export class SP<T extends Record<string, any>> {
 	 */
 	reset(): void {
 		for (const [key, def] of Object.entries(this.config)) {
-			this.paramValues[key] = this.defaults[key as keyof T];
+			this.sp[key as keyof T] = this.defaults[key as keyof T];
 		}
 	}
 }

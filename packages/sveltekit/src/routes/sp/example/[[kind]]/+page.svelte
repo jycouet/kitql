@@ -1,13 +1,26 @@
 <script lang="ts">
+  import { untrack } from 'svelte'
+
   import { page } from '$app/state'
 
   import { debounce, SP } from '$lib/index.js'
 
-  import type { PageProps } from './$types.js'
+  // import type { PageProps } from './$types.js'
 
   // let { data }: PageProps = $props()
+  const kind = $derived(page.params.kind ?? 'undef')
 
-  const params = new SP({ name: 'plop', age: 25, active: true })
+  const params = new SP(
+    {
+      // get name() {
+      //   return kind
+      // },
+      name: 'kind',
+      age: 25,
+      active: true,
+    },
+    { config: { name: {} } },
+  )
 
   // const params = $derived.by(() => {
   //   const kindTracked = kind
@@ -27,7 +40,7 @@
   <div>
     <a href="/sp/example/k1">k1</a>
   </div>
-  {page.params.kind ?? 'undef'}
+  {kind}
   <!-- {data.kind} -->
 
   <div class="card bg-base-200 mb-6 shadow-xl">
@@ -40,11 +53,11 @@
         </label>
         <input
           type="text"
-          bind:value={() => params.sp.name, debounce((v) => (params.sp.name = v), 500)}
+          bind:value={params.sp.name}
           placeholder="Enter your name"
           class="input input-bordered w-full max-w-xs"
         />
-        <!-- bind:value={sp.name} -->
+        <!-- bind:value={() => params.sp.name, debounce((v) => (params.sp.name = v), 500)} -->
       </div>
 
       <div class="form-control mb-4 w-full max-w-xs">
