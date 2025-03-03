@@ -59,6 +59,15 @@
   function incrementCount() {
     sp.obj.count += 1
   }
+
+  // Update filter properties
+  function updateFilter(key: string, value: any) {
+    // Create a new filter object with the updated property
+    sp.obj.filters = {
+      ...sp.obj.filters,
+      [key]: value,
+    }
+  }
 </script>
 
 <div class="container mx-auto p-6">
@@ -130,7 +139,11 @@
           <label for="sortBy" class="label">
             <span class="label-text">Sort By</span>
           </label>
-          <select class="select select-bordered w-full" bind:value={sp.obj.filters.sortBy}>
+          <select
+            class="select select-bordered w-full"
+            value={sp.obj.filters.sortBy}
+            onchange={(e: Event) => updateFilter('sortBy', (e.target as HTMLSelectElement).value)}
+          >
             {#each sortOptions as option}
               <option value={option}>{option}</option>
             {/each}
@@ -148,7 +161,7 @@
                 name="order"
                 value={option}
                 checked={sp.obj.filters.order === option}
-                onchange={() => (sp.obj.filters.order = option)}
+                onchange={() => updateFilter('order', option)}
                 class="join-item btn"
               />
               <label for={option} class="join-item btn">
@@ -167,7 +180,9 @@
             min="5"
             max="50"
             step="5"
-            bind:value={sp.obj.filters.limit}
+            value={sp.obj.filters.limit}
+            onchange={(e: Event) =>
+              updateFilter('limit', parseInt((e.target as HTMLInputElement).value))}
             class="range range-primary"
           />
           <div class="flex w-full justify-between px-2 text-xs">
