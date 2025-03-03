@@ -1,11 +1,7 @@
 <script lang="ts">
-  import { untrack } from 'svelte'
-
   import { page } from '$app/state'
 
-  import { debounce, SP } from '$lib/index.js'
-
-  // import type { PageProps } from './$types.js'
+  import { SP } from '$lib/index.js'
 
   const sel = [
     { id: 1, name: 'car' },
