@@ -30,7 +30,7 @@
       name2: 'kind2',
       age: 25,
       active: true,
-      sel: undefined,
+      sel: { id: 2 },
     },
     {
       config: {
@@ -39,9 +39,10 @@
         sel: {
           type: 'object',
           encode: (obj) => {
-            return obj?.id?.toString()
+            return obj?.id?.toString() || undefined
           },
           decode: (str) => {
+            if (!str) return undefined
             return sel.find((s) => s.id === Number(str))
           },
         },
@@ -122,6 +123,7 @@
 
       {sp.rawStr.sel}
       <select bind:value={sp.rawStr.sel}>
+        <option value="">-- Select an option --</option>
         {#each sel as item}
           <option value={String(item.id)}>{item.name}</option>
         {/each}
