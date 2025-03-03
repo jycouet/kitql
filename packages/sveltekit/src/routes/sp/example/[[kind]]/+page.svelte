@@ -39,11 +39,9 @@
         sel: {
           // type: 'object',
           encode: (v) => {
-            console.log('encode', v)
             return v?.id?.toString()
           },
           decode: (v) => {
-            console.log('decode', v)
             return sel.find((s) => s.id === Number(v)) ?? { id: 2 }
           },
         },
@@ -121,7 +119,7 @@
         </label>
       </div>
 
-      <select bind:value={sp.rawId.sel}>
+      <select bind:value={sp.raw.sel}>
         {#each sel as item}
           <option value={item.id}>{item.name}</option>
         {/each}

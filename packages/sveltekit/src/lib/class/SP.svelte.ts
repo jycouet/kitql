@@ -37,10 +37,10 @@ export class SP<T extends Record<string, any>> {
 	// Created proxy object for direct param access
 	private _obj: T & {
 		computed: T;
-		rawId: Record<keyof T, string | undefined>
+		raw: Record<keyof T, string | undefined>
 	} = {} as T & {
 		computed: T;
-		rawId: Record<keyof T, string | undefined>
+		raw: Record<keyof T, string | undefined>
 	};
 
 	// Expose public properties via getters
@@ -52,8 +52,8 @@ export class SP<T extends Record<string, any>> {
 		return this._obj.computed;
 	}
 
-	get rawId(): Record<keyof T, string | undefined> {
-		return this._obj.rawId;
+	get raw(): Record<keyof T, string | undefined> {
+		return this._obj.raw;
 	}
 
 	// Config for each param, with defaults applied
@@ -127,9 +127,9 @@ export class SP<T extends Record<string, any>> {
 			}
 		}
 
-		// Create the nested structure for obj.computed and obj.rawId
+		// Create the nested structure for obj.computed and obj.raw
 		this._obj.computed = {} as T;
-		this._obj.rawId = {} as Record<keyof T, string | undefined>;
+		this._obj.raw = {} as Record<keyof T, string | undefined>;
 
 		// Create proxy object for direct parameter access
 		for (const key of Object.keys(this.config)) {
@@ -159,18 +159,32 @@ export class SP<T extends Record<string, any>> {
 				enumerable: true
 			});
 
-			// Add ID accessor in the rawId object
-			Object.defineProperty(this._obj.rawId, key, {
+			// Add ID accessor in the raw object
+			Object.defineProperty(this._obj.raw, key, {
 				get: () => {
-					const value = this.paramValues[key];
-					// If the value has an id property, return that
-					if (value && typeof value === 'object' && 'id' in value) {
-						return value.id;
+					const value = this.debouncedValues[key];
+					const def = this.config[key as keyof T];
+
+					// Skip undefined or null values
+					if (value === undefined || value === null) {
+						return undefined;
 					}
-					// Otherwise return the raw value or undefined
-					return typeof value === 'string' || typeof value === 'number'
-						? value.toString()
-						: undefined;
+
+					// If there's a custom encode function, use it
+					if (def.encode) {
+						return def.encode(value);
+					}
+
+					// Otherwise use default conversion based on type
+					switch (def.type) {
+						case 'array':
+							return Array.isArray(value) ? value.join(CONFIG_DELIMITER) : String(value);
+						case 'object':
+							return JSON.stringify(value);
+						default:
+							// Handle primitives
+							return String(value);
+					}
 				},
 				set: (idValue) => {
 					const def = this.config[key as keyof T];
@@ -178,14 +192,8 @@ export class SP<T extends Record<string, any>> {
 					// If the ID is undefined, set the value to undefined
 					if (idValue === undefined) {
 						this.paramValues[key] = undefined;
-
-						// Update the URL if needed
-						if (def.debounce && this.debouncedToURL[key]) {
-							this.debouncedToURL[key]();
-						} else {
-							this.debouncedValues[key] = undefined;
-							this.toURL();
-						}
+						this.debouncedValues[key] = undefined;
+						this.toURL();
 						return;
 					}
 
@@ -195,25 +203,41 @@ export class SP<T extends Record<string, any>> {
 						// Use decode to convert from the string ID to the full object
 						const fullObject = def.decode(idValue.toString());
 						this.paramValues[key] = fullObject;
-
-						// Update the URL if needed
-						if (def.debounce && this.debouncedToURL[key]) {
-							this.debouncedToURL[key]();
-						} else {
-							this.debouncedValues[key] = fullObject;
-							this.toURL();
-						}
+						this.debouncedValues[key] = fullObject;
+						this.toURL();
 					} else {
 						// No decode function, just set the ID value directly
-						this.paramValues[key] = idValue;
+						let value: any = idValue;
 
-						// Update the URL if needed
-						if (def.debounce && this.debouncedToURL[key]) {
-							this.debouncedToURL[key]();
-						} else {
-							this.debouncedValues[key] = idValue;
-							this.toURL();
+						// Try to convert based on type
+						switch (def.type) {
+							case 'number':
+								value = parseFloat(idValue.toString());
+								if (isNaN(value)) value = idValue;
+								break;
+							case 'boolean':
+								value = idValue === 'true';
+								break;
+							case 'array':
+								if (typeof idValue === 'string') {
+									value = idValue.split(CONFIG_DELIMITER).filter(Boolean);
+								}
+								break;
+							case 'object':
+								if (typeof idValue === 'string') {
+									try {
+										value = JSON.parse(idValue);
+									} catch (e) {
+										console.error(`Error parsing JSON for param ${key}:`, e);
+										value = idValue;
+									}
+								}
+								break;
 						}
+
+						this.paramValues[key] = value;
+						this.debouncedValues[key] = value;
+						this.toURL();
 					}
 				},
 				enumerable: true
