@@ -1,13 +1,14 @@
 <script lang="ts">
   import { SP } from '$lib/index.js'
 
+  const defaultFilter = { sortBy: 'date', order: 'desc', limit: 10 }
   // Define more complex search parameters
-  const params = new SP(
+  const sp = new SP(
     {
       title: 'Advanced Example',
       count: 0,
       tags: ['svelte', 'typescript', 'url'],
-      filters: { sortBy: 'date', order: 'desc', limit: 10 },
+      filters: defaultFilter,
     },
     {
       config: {
@@ -23,13 +24,17 @@
         // Object type example
         filters: {
           type: 'object',
+          encode: (obj) => {
+            return JSON.stringify(obj)
+          },
+          decode: (str) => {
+            if (!str) return defaultFilter
+            return JSON.parse(str)
+          },
         },
       },
     },
   )
-
-  // Get direct access to parameters
-  const { sp } = params
 
   // New tag input
   let newTag = $state('')
@@ -39,25 +44,34 @@
 
   // Add a new tag
   function addTag() {
-    if (newTag && !sp.tags.includes(newTag)) {
-      sp.tags = [...sp.tags, newTag]
+    if (newTag && !sp.obj.tags.includes(newTag)) {
+      sp.obj.tags = [...sp.obj.tags, newTag]
       newTag = ''
     }
   }
 
   // Remove a tag
   function removeTag(tag: string) {
-    sp.tags = sp.tags.filter((t: string) => t !== tag)
+    sp.obj.tags = sp.obj.tags.filter((t: string) => t !== tag)
   }
 
   // Increment counter
   function incrementCount() {
-    sp.count += 1
+    sp.obj.count += 1
+  }
+
+  // Update filter properties
+  function updateFilter(key: string, value: any) {
+    // Create a new filter object with the updated property
+    sp.obj.filters = {
+      ...sp.obj.filters,
+      [key]: value,
+    }
   }
 </script>
 
 <div class="container mx-auto p-6">
-  <h1 class="mb-4 text-3xl font-bold">{sp.title}</h1>
+  <h1 class="mb-4 text-3xl font-bold">{sp.obj.title}</h1>
   <p class="text-base-content/70 mb-6">
     This example demonstrates the advanced features of the SP class, including array and object
     handling.
@@ -73,12 +87,12 @@
           <label for="title" class="label">
             <span class="label-text">Title</span>
           </label>
-          <input type="text" bind:value={sp.title} class="input input-bordered w-full" />
+          <input type="text" bind:value={sp.obj.title} class="input input-bordered w-full" />
         </div>
 
         <div class="form-control mb-4 w-full">
           <label for="count" class="label">
-            <span class="label-text">Counter: {sp.count}</span>
+            <span class="label-text">Counter: {sp.obj.count}</span>
           </label>
           <button class="btn btn-primary" onclick={incrementCount}> Increment </button>
         </div>
@@ -106,7 +120,7 @@
         </div>
 
         <div class="mb-4 flex flex-wrap gap-2">
-          {#each sp.tags as tag}
+          {#each sp.obj.tags as tag}
             <div class="badge badge-lg gap-1 p-3">
               {tag}
               <button class="btn btn-ghost btn-xs" onclick={() => removeTag(tag)}> ✕ </button>
@@ -125,7 +139,11 @@
           <label for="sortBy" class="label">
             <span class="label-text">Sort By</span>
           </label>
-          <select class="select select-bordered w-full" bind:value={sp.filters.sortBy}>
+          <select
+            class="select select-bordered w-full"
+            value={sp.obj.filters.sortBy}
+            onchange={(e: Event) => updateFilter('sortBy', (e.target as HTMLSelectElement).value)}
+          >
             {#each sortOptions as option}
               <option value={option}>{option}</option>
             {/each}
@@ -142,8 +160,8 @@
                 type="radio"
                 name="order"
                 value={option}
-                checked={sp.filters.order === option}
-                onchange={() => (sp.filters.order = option)}
+                checked={sp.obj.filters.order === option}
+                onchange={() => updateFilter('order', option)}
                 class="join-item btn"
               />
               <label for={option} class="join-item btn">
@@ -155,14 +173,16 @@
 
         <div class="form-control mb-4 w-full">
           <label for="limit" class="label">
-            <span class="label-text">Results Limit: {sp.filters.limit}</span>
+            <span class="label-text">Results Limit: {sp.obj.filters.limit}</span>
           </label>
           <input
             type="range"
             min="5"
             max="50"
             step="5"
-            bind:value={sp.filters.limit}
+            value={sp.obj.filters.limit}
+            onchange={(e: Event) =>
+              updateFilter('limit', parseInt((e.target as HTMLInputElement).value))}
             class="range range-primary"
           />
           <div class="flex w-full justify-between px-2 text-xs">
@@ -172,6 +192,7 @@
             <span>35</span>
             <span>45</span>
           </div>
+          {JSON.stringify(sp.obj.filters)}
         </div>
       </div>
     </div>
@@ -182,7 +203,7 @@
         <h2 class="card-title">URL and Actions</h2>
 
         <div class="card-actions justify-end">
-          <button class="btn btn-secondary" onclick={() => params.reset()}> Reset All </button>
+          <button class="btn btn-secondary" onclick={() => sp.reset()}> Reset All </button>
         </div>
       </div>
     </div>

@@ -1,5 +1,5 @@
-// classes
-export { SP } from "./class/SP.svelte.js"
+// states
+export { SP } from "./states/SP.svelte.js"
 
 // helpers
 export { debounce } from "./helpers/debounce.js"
