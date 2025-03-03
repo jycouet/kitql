@@ -8,14 +8,14 @@ const CONFIG_DELIMITER = ';';
 type ParamType = 'string' | 'number' | 'boolean' | 'array' | 'object';
 
 // Parameter definition interface with proper type support
-interface ParamDefinition<TValue> {
+export interface ParamDefinition<TValue> {
 	type?: ParamType;
 	/** Alternative key to use in URL search params */
 	key?: string;
-	/** Custom function to convert value to URL string */
-	encode?: (value: TValue) => string | undefined;
-	/** Custom function to parse URL value to the correct type */
-	decode?: (value: string | undefined) => TValue;
+	/** Custom function to convert value to URL string (for storage in URL only) */
+	encode?: (obj: TValue) => string | undefined;
+	/** Custom function to parse URL value to the correct type (for internal use) */
+	decode?: (str: string | undefined) => TValue;
 	/** Debounce the URL update for this parameter (milliseconds or true for default) */
 	debounce?: number | boolean;
 }
@@ -25,22 +25,41 @@ interface ParamDefinition<TValue> {
  * Provides automatic binding and URL updates
  */
 export class SP<T extends Record<string, any>> {
-	// Internal state container
+	// Internal state container - always stores decoded objects
 	private paramValues = $state<Record<string, any>>({});
 
-	// Track debounced values separately
+	// Track debounced values separately - also always decoded objects
 	private debouncedValues = $state<Record<string, any>>({});
 
 	// Store debounced toURL functions for each parameter
 	private debouncedToURL: Record<string, (...args: any[]) => void> = {};
 
 	// Created proxy object for direct param access
-	public sp: T & { _debounced: T } = {} as T & { _debounced: T };
+	private _obj: T & {
+		computed: T;
+		rawId: Record<keyof T, string | undefined>
+	} = {} as T & {
+		computed: T;
+		rawId: Record<keyof T, string | undefined>
+	};
 
-	// The definitions of parameters with proper typing for each key in T
+	// Expose public properties via getters
+	get obj(): T {
+		return this._obj;
+	}
+
+	get computed(): T {
+		return this._obj.computed;
+	}
+
+	get rawId(): Record<keyof T, string | undefined> {
+		return this._obj.rawId;
+	}
+
+	// Config for each param, with defaults applied
 	private config: { [K in keyof T]: ParamDefinition<T[K]> };
 
-	// Mapping between property names and URL parameter keys
+	// Maps from URL key to object key
 	private keyMap: Record<string, string> = {};
 
 	/**
@@ -91,14 +110,16 @@ export class SP<T extends Record<string, any>> {
 			this.keyMap[key] = def.key || key;
 		}
 
-		// Initialize values from definitions
-		for (const [key, def] of Object.entries(this.config)) {
+		// Initialize values from definitions with default values
+		// Always store the actual objects, not their string representations
+		for (const [key] of Object.entries(this.config)) {
 			this.paramValues[key] = defaults[key as keyof T];
 			this.debouncedValues[key] = defaults[key as keyof T];
 
 			// Create debounced functions for each parameter that needs it
+			const def = this.config[key as keyof T];
 			if (def.debounce) {
-				const delay = typeof def.debounce === 'number' ? def.debounce : 377;
+				const delay = typeof def.debounce === 'number' ? def.debounce : 444;
 				this.debouncedToURL[key] = debounce(() => {
 					this.debouncedValues[key] = this.paramValues[key];
 					this.toURL();
@@ -106,15 +127,17 @@ export class SP<T extends Record<string, any>> {
 			}
 		}
 
-		// Create the nested structure for sp._debounced
-		this.sp._debounced = {} as T;
+		// Create the nested structure for obj.computed and obj.rawId
+		this._obj.computed = {} as T;
+		this._obj.rawId = {} as Record<keyof T, string | undefined>;
 
 		// Create proxy object for direct parameter access
 		for (const key of Object.keys(this.config)) {
-			// Main parameter accessor
-			Object.defineProperty(this.sp, key, {
+			// Main parameter accessor - This always returns the decoded object
+			Object.defineProperty(this._obj, key, {
 				get: () => this.paramValues[key],
 				set: (value) => {
+					// Always store the actual object value
 					this.paramValues[key] = value;
 
 					const def = this.config[key as keyof T];
@@ -130,18 +153,80 @@ export class SP<T extends Record<string, any>> {
 				enumerable: true
 			});
 
-			// Add debounced value accessor in the _debounced object
-			Object.defineProperty(this.sp._debounced, key, {
+			// Add debounced value accessor in the computed object
+			Object.defineProperty(this._obj.computed, key, {
 				get: () => this.debouncedValues[key],
+				enumerable: true
+			});
+
+			// Add ID accessor in the rawId object
+			Object.defineProperty(this._obj.rawId, key, {
+				get: () => {
+					const value = this.paramValues[key];
+					// If the value has an id property, return that
+					if (value && typeof value === 'object' && 'id' in value) {
+						return value.id;
+					}
+					// Otherwise return the raw value or undefined
+					return typeof value === 'string' || typeof value === 'number'
+						? value.toString()
+						: undefined;
+				},
+				set: (idValue) => {
+					const def = this.config[key as keyof T];
+
+					// If the ID is undefined, set the value to undefined
+					if (idValue === undefined) {
+						this.paramValues[key] = undefined;
+
+						// Update the URL if needed
+						if (def.debounce && this.debouncedToURL[key]) {
+							this.debouncedToURL[key]();
+						} else {
+							this.debouncedValues[key] = undefined;
+							this.toURL();
+						}
+						return;
+					}
+
+					// We need to convert the ID to the full object
+					// If there's a decode function, we can use that
+					if (def.decode) {
+						// Use decode to convert from the string ID to the full object
+						const fullObject = def.decode(idValue.toString());
+						this.paramValues[key] = fullObject;
+
+						// Update the URL if needed
+						if (def.debounce && this.debouncedToURL[key]) {
+							this.debouncedToURL[key]();
+						} else {
+							this.debouncedValues[key] = fullObject;
+							this.toURL();
+						}
+					} else {
+						// No decode function, just set the ID value directly
+						this.paramValues[key] = idValue;
+
+						// Update the URL if needed
+						if (def.debounce && this.debouncedToURL[key]) {
+							this.debouncedToURL[key]();
+						} else {
+							this.debouncedValues[key] = idValue;
+							this.toURL();
+						}
+					}
+				},
 				enumerable: true
 			});
 		}
 
+		// Load values from URL after setting up the structure
 		this.fromURL();
 	}
 
 	/**
 	 * Load parameter values from URL
+	 * Always store the decoded objects, not the URL string representations
 	 */
 	private fromURL(): void {
 		const params = page.url.searchParams
@@ -152,21 +237,24 @@ export class SP<T extends Record<string, any>> {
 			const paramValue = params.get(urlKey);
 
 			if (paramValue !== null) {
+				// If there is a decode function, always use it to get the proper object
 				if (def.decode) {
-					this.paramValues[propKey] = def.decode(paramValue);
-					this.debouncedValues[propKey] = this.paramValues[propKey];
+					const decodedValue = def.decode(paramValue);
+					this.paramValues[propKey] = decodedValue;
+					this.debouncedValues[propKey] = decodedValue;
 					continue;
 				}
 
 				// Otherwise use default conversion based on type
 				switch (def.type) {
-					case 'number':
+					case 'number': {
 						const num = parseFloat(paramValue);
 						if (!isNaN(num)) {
 							this.paramValues[propKey] = num;
 							this.debouncedValues[propKey] = num;
 						}
 						break;
+					}
 					case 'boolean':
 						this.paramValues[propKey] = paramValue === 'true';
 						this.debouncedValues[propKey] = this.paramValues[propKey];
@@ -196,6 +284,7 @@ export class SP<T extends Record<string, any>> {
 
 	/**
 	 * Update URL with current parameter values
+	 * Only uses encoding for URL representation, doesn't modify internal state
 	 */
 	private toURL(): void {
 		if (typeof window === 'undefined') return;
@@ -204,7 +293,10 @@ export class SP<T extends Record<string, any>> {
 
 		for (const [propKey, value] of Object.entries(this.debouncedValues)) {
 			// Skip undefined or null values
-			if (value === undefined || value === null) continue;
+			if (value === undefined || value === null) {
+				params.delete(this.keyMap[propKey]);
+				continue;
+			}
 
 			// Skip values that match their defaults
 			if (JSON.stringify(value) === JSON.stringify(this.defaults[propKey as keyof T])) {
@@ -219,9 +311,13 @@ export class SP<T extends Record<string, any>> {
 			const urlKey = this.keyMap[propKey];
 
 			if (def.encode) {
+				// Encode is ONLY for URL representation
+				// This doesn't modify the internal state which stays as objects
 				const toSet = def.encode(value);
 				if (toSet) {
 					params.set(urlKey, toSet);
+				} else {
+					params.delete(urlKey);
 				}
 				continue;
 			}
@@ -258,7 +354,8 @@ export class SP<T extends Record<string, any>> {
 	 */
 	reset(): void {
 		// Reset both sets of values to defaults immediately
-		for (const [key, def] of Object.entries(this.config)) {
+		// Always use the raw object values, not encoded strings
+		for (const [key] of Object.entries(this.config)) {
 			this.paramValues[key] = this.defaults[key as keyof T];
 			this.debouncedValues[key] = this.defaults[key as keyof T];
 		}
