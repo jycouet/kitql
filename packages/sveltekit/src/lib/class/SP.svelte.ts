@@ -37,6 +37,30 @@ export class SP<T extends Record<string, any>> {
 	// Store debounced toURL functions for each parameter
 	private debouncedToURL: Record<string, (...args: any[]) => void> = {};
 
+	// Shared debounce mechanism for all parameters
+	private sharedDebouncePending = $state(false);
+	private activeDebounces = $state<Record<string, boolean>>({});
+	private longestDebounceTime = $state(0);
+
+	// This will be called after all individual debounces have completed
+	private finalizeDebounce = () => {
+		// Only proceed if all tracked debounces have completed
+		if (Object.values(this.activeDebounces).some(active => active)) {
+			return;
+		}
+
+		// Apply all pending changes
+		for (const key of Object.keys(this.paramValues)) {
+			this.debouncedValues[key] = this.paramValues[key];
+		}
+
+		// Update URL and reset flags
+		this.toURL();
+		this.sharedDebouncePending = false;
+		this.computing = false;
+		this.longestDebounceTime = 0;
+	};
+
 	// Created proxy object for direct param access
 	private _obj: T & {
 		computed: T;
@@ -118,14 +142,19 @@ export class SP<T extends Record<string, any>> {
 		for (const [key] of Object.entries(this.config)) {
 			this.paramValues[key] = defaults[key as keyof T];
 			this.debouncedValues[key] = defaults[key as keyof T];
+			this.activeDebounces[key] = false;
 
 			// Create debounced functions for each parameter that needs it
 			const def = this.config[key as keyof T];
 			if (def.debounce) {
 				const delay = typeof def.debounce === 'number' ? def.debounce : 444;
+
 				this.debouncedToURL[key] = debounce(() => {
-					this.debouncedValues[key] = this.paramValues[key];
-					this.toURL();
+					// Mark this specific debounce as complete
+					this.activeDebounces[key] = false;
+
+					// Check if this is the last active debounce
+					this.finalizeDebounce();
 				}, delay);
 			}
 		}
@@ -144,14 +173,32 @@ export class SP<T extends Record<string, any>> {
 					this.paramValues[key] = value;
 
 					const def = this.config[key as keyof T];
-					if (def.debounce && this.debouncedToURL[key]) {
-						// Use the debounced function
+					if (def.debounce) {
+						// Start computing
 						this.computing = true;
-						this.debouncedToURL[key]();
+
+						// Track this debounce
+						const delay = typeof def.debounce === 'number' ? def.debounce : 444;
+						this.activeDebounces[key] = true;
+						this.sharedDebouncePending = true;
+
+						// Track the longest debounce time
+						if (delay > this.longestDebounceTime) {
+							this.longestDebounceTime = delay;
+						}
+
+						// Trigger individual debounce
+						if (this.debouncedToURL[key]) {
+							this.debouncedToURL[key]();
+						}
 					} else {
-						// No debounce, update immediately
+						// No debounce for this parameter, update immediately
 						this.debouncedValues[key] = value;
-						this.toURL();
+
+						// If there are no active debounces, just update right away
+						if (!this.sharedDebouncePending) {
+							this.toURL();
+						}
 					}
 				},
 				enumerable: true
@@ -317,6 +364,11 @@ export class SP<T extends Record<string, any>> {
 	private toURL(): void {
 		if (typeof window === 'undefined') return;
 
+		// If there's a shared debounce pending, don't update URL yet
+		if (this.sharedDebouncePending) {
+			return;
+		}
+
 		const params = new URLSearchParams(window.location.search);
 
 		for (const [propKey, value] of Object.entries(this.debouncedValues)) {
@@ -407,11 +459,15 @@ export class SP<T extends Record<string, any>> {
 	 */
 	reset(): void {
 		// Reset both sets of values to defaults immediately
-		// Always use the rawStr object values, not encoded strings
 		for (const [key] of Object.entries(this.config)) {
 			this.paramValues[key] = this.defaults[key as keyof T];
 			this.debouncedValues[key] = this.defaults[key as keyof T];
+			this.activeDebounces[key] = false;
 		}
+
+		// Cancel any pending debounce
+		this.sharedDebouncePending = false;
+		this.longestDebounceTime = 0;
 
 		// Update URL immediately without debounce
 		this.computing = false;
