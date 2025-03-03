@@ -139,6 +139,7 @@
     <div class="card-body">
       <h2 class="card-title">Current Values</h2>
       <pre class="bg-base-300 whitespace-pre-wrap rounded-lg p-4"><code>
+{JSON.stringify(sp.computing, null, 2)}
 {JSON.stringify(sp.obj, null, 2)}
 			</code></pre>
     </div>

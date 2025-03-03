@@ -31,6 +31,9 @@ export class SP<T extends Record<string, any>> {
 	// Track debounced values separately - also always decoded objects
 	private debouncedValues = $state<Record<string, any>>({});
 
+	// Flag indicating when debouncing is active
+	computing = $state(false);
+
 	// Store debounced toURL functions for each parameter
 	private debouncedToURL: Record<string, (...args: any[]) => void> = {};
 
@@ -143,6 +146,7 @@ export class SP<T extends Record<string, any>> {
 					const def = this.config[key as keyof T];
 					if (def.debounce && this.debouncedToURL[key]) {
 						// Use the debounced function
+						this.computing = true;
 						this.debouncedToURL[key]();
 					} else {
 						// No debounce, update immediately
@@ -393,6 +397,9 @@ export class SP<T extends Record<string, any>> {
 			replaceState: true,
 			...this.options.gotoOpts
 		});
+
+		// Reset computing flag after URL update is complete
+		this.computing = false;
 	}
 
 	/**
@@ -407,6 +414,7 @@ export class SP<T extends Record<string, any>> {
 		}
 
 		// Update URL immediately without debounce
+		this.computing = false;
 		this.toURL();
 	}
 }
