@@ -37,10 +37,10 @@ export class SP<T extends Record<string, any>> {
 	// Created proxy object for direct param access
 	private _obj: T & {
 		computed: T;
-		raw: Record<keyof T, string | undefined>
+		rawStr: Record<keyof T, string | undefined>
 	} = {} as T & {
 		computed: T;
-		raw: Record<keyof T, string | undefined>
+		rawStr: Record<keyof T, string | undefined>
 	};
 
 	// Expose public properties via getters
@@ -52,8 +52,8 @@ export class SP<T extends Record<string, any>> {
 		return this._obj.computed;
 	}
 
-	get raw(): Record<keyof T, string | undefined> {
-		return this._obj.raw;
+	get rawStr(): Record<keyof T, string | undefined> {
+		return this._obj.rawStr;
 	}
 
 	// Config for each param, with defaults applied
@@ -127,9 +127,9 @@ export class SP<T extends Record<string, any>> {
 			}
 		}
 
-		// Create the nested structure for obj.computed and obj.raw
+		// Create the nested structure for obj.computed and obj.rawStr
 		this._obj.computed = {} as T;
-		this._obj.raw = {} as Record<keyof T, string | undefined>;
+		this._obj.rawStr = {} as Record<keyof T, string | undefined>;
 
 		// Create proxy object for direct parameter access
 		for (const key of Object.keys(this.config)) {
@@ -159,8 +159,8 @@ export class SP<T extends Record<string, any>> {
 				enumerable: true
 			});
 
-			// Add ID accessor in the raw object
-			Object.defineProperty(this._obj.raw, key, {
+			// Add ID accessor in the rawStr object
+			Object.defineProperty(this._obj.rawStr, key, {
 				get: () => {
 					const value = this.debouncedValues[key];
 					const def = this.config[key as keyof T];
@@ -378,7 +378,7 @@ export class SP<T extends Record<string, any>> {
 	 */
 	reset(): void {
 		// Reset both sets of values to defaults immediately
-		// Always use the raw object values, not encoded strings
+		// Always use the rawStr object values, not encoded strings
 		for (const [key] of Object.entries(this.config)) {
 			this.paramValues[key] = this.defaults[key as keyof T];
 			this.debouncedValues[key] = this.defaults[key as keyof T];

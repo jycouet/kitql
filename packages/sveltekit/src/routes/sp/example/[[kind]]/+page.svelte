@@ -30,19 +30,19 @@
       name2: 'kind2',
       age: 25,
       active: true,
-      sel: { id: 2 },
+      sel: undefined,
     },
     {
       config: {
         name: { debounce: true },
         name2: { debounce: 2777 },
         sel: {
-          // type: 'object',
-          encode: (v) => {
-            return v?.id?.toString()
+          type: 'object',
+          encode: (obj) => {
+            return obj?.id?.toString()
           },
-          decode: (v) => {
-            return sel.find((s) => s.id === Number(v)) ?? { id: 2 }
+          decode: (str) => {
+            return sel.find((s) => s.id === Number(str))
           },
         },
       },
@@ -56,6 +56,7 @@
   // })
 
   // const params = $derived(data.params)
+  // $inspect(sp.raw.sel)
 </script>
 
 <div class="container mx-auto p-6">
@@ -119,9 +120,10 @@
         </label>
       </div>
 
-      <select bind:value={sp.raw.sel}>
+      {sp.rawStr.sel}
+      <select bind:value={sp.rawStr.sel}>
         {#each sel as item}
-          <option value={item.id}>{item.name}</option>
+          <option value={String(item.id)}>{item.name}</option>
         {/each}
       </select>
 
