@@ -322,43 +322,65 @@ export class SP<T extends Record<string, any>> {
 				continue;
 			}
 
-			// Skip values that match their defaults
-			if (JSON.stringify(value) === JSON.stringify(this.defaults[propKey as keyof T])) {
-				params.delete(this.keyMap[propKey]);
-				continue;
-			}
-
 			// Get the definition and URL key
 			const def = this.config[propKey as keyof T];
 			if (!def) continue;
 
 			const urlKey = this.keyMap[propKey];
+			const defaultValue = this.defaults[propKey as keyof T];
 
+			// Encode the current value
+			let encodedValue: string | undefined;
 			if (def.encode) {
-				// Encode is ONLY for URL representation
-				// This doesn't modify the internal state which stays as objects
-				const toSet = def.encode(value);
-				if (toSet) {
-					params.set(urlKey, toSet);
-				} else {
+				encodedValue = def.encode(value);
+				if (!encodedValue) {
 					params.delete(urlKey);
+					continue;
 				}
+			} else {
+				// Otherwise use default conversion based on type
+				switch (def.type) {
+					case 'array':
+						encodedValue = Array.isArray(value) ? value.join(CONFIG_DELIMITER) : String(value);
+						break;
+					case 'object':
+						encodedValue = JSON.stringify(value);
+						break;
+					default:
+						// Handle primitives
+						encodedValue = String(value);
+						break;
+				}
+			}
+
+			// Encode the default value for comparison
+			let encodedDefault: string | undefined;
+			if (defaultValue !== undefined && defaultValue !== null) {
+				if (def.encode) {
+					encodedDefault = def.encode(defaultValue);
+				} else {
+					switch (def.type) {
+						case 'array':
+							encodedDefault = Array.isArray(defaultValue) ? defaultValue.join(CONFIG_DELIMITER) : String(defaultValue);
+							break;
+						case 'object':
+							encodedDefault = JSON.stringify(defaultValue);
+							break;
+						default:
+							encodedDefault = String(defaultValue);
+							break;
+					}
+				}
+			}
+
+			// Skip values that match their encoded defaults
+			if (encodedValue === encodedDefault) {
+				params.delete(urlKey);
 				continue;
 			}
 
-			// Otherwise use default conversion based on type
-			switch (def.type) {
-				case 'array':
-					params.set(urlKey, Array.isArray(value) ? value.join(CONFIG_DELIMITER) : String(value));
-					break;
-				case 'object':
-					params.set(urlKey, JSON.stringify(value));
-					break;
-				default:
-					// Handle primitives
-					params.set(urlKey, String(value));
-					break;
-			}
+			// Set the encoded value in URL
+			params.set(urlKey, encodedValue);
 		}
 
 		const strSearch = params.toString() ? '?' + params.toString() : '';
