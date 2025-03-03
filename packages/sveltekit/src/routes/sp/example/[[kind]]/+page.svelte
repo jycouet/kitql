@@ -19,7 +19,13 @@
       age: 25,
       active: true,
     },
-    { config: { name: {} } },
+    {
+      config: {
+        name: {
+          debounce: 777,
+        },
+      },
+    },
   )
 
   // const params = $derived.by(() => {

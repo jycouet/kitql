@@ -1,5 +1,6 @@
 import { goto } from '$app/navigation';
 import { page } from '$app/state';
+import { debounce } from '../helpers/debounce.js';
 
 const CONFIG_DELIMITER = ';';
 
@@ -15,6 +16,8 @@ interface ParamDefinition<TValue> {
 	encode?: (value: TValue) => string | undefined;
 	/** Custom function to parse URL value to the correct type */
 	decode?: (value: string | undefined) => TValue;
+	/** Debounce the URL update for this parameter (milliseconds or true for default) */
+	debounce?: number | boolean;
 }
 
 /**
@@ -25,8 +28,14 @@ export class SP<T extends Record<string, any>> {
 	// Internal state container
 	private paramValues = $state<Record<string, any>>({});
 
+	// Track debounced values separately
+	private debouncedValues = $state<Record<string, any>>({});
+
+	// Store debounced toURL functions for each parameter
+	private debouncedToURL: Record<string, (...args: any[]) => void> = {};
+
 	// Created proxy object for direct param access
-	public sp: T = {} as T;
+	public sp: T & { _debounced: T } = {} as T & { _debounced: T };
 
 	// The definitions of parameters with proper typing for each key in T
 	private config: { [K in keyof T]: ParamDefinition<T[K]> };
@@ -85,27 +94,50 @@ export class SP<T extends Record<string, any>> {
 		// Initialize values from definitions
 		for (const [key, def] of Object.entries(this.config)) {
 			this.paramValues[key] = defaults[key as keyof T];
+			this.debouncedValues[key] = defaults[key as keyof T];
+
+			// Create debounced functions for each parameter that needs it
+			if (def.debounce) {
+				const delay = typeof def.debounce === 'number' ? def.debounce : 377;
+				this.debouncedToURL[key] = debounce(() => {
+					this.debouncedValues[key] = this.paramValues[key];
+					this.toURL();
+				}, delay);
+			}
 		}
+
+		// Create the nested structure for sp._debounced
+		this.sp._debounced = {} as T;
 
 		// Create proxy object for direct parameter access
 		for (const key of Object.keys(this.config)) {
+			// Main parameter accessor
 			Object.defineProperty(this.sp, key, {
 				get: () => this.paramValues[key],
 				set: (value) => {
 					this.paramValues[key] = value;
-					this.toURL();
+
+					const def = this.config[key as keyof T];
+					if (def.debounce && this.debouncedToURL[key]) {
+						// Use the debounced function
+						this.debouncedToURL[key]();
+					} else {
+						// No debounce, update immediately
+						this.debouncedValues[key] = value;
+						this.toURL();
+					}
 				},
+				enumerable: true
+			});
+
+			// Add debounced value accessor in the _debounced object
+			Object.defineProperty(this.sp._debounced, key, {
+				get: () => this.debouncedValues[key],
 				enumerable: true
 			});
 		}
 
 		this.fromURL();
-
-		// if (typeof window === 'undefined') return;
-
-		// $effect(() => {
-		// 	this.toURL();
-		// });
 	}
 
 	/**
@@ -122,6 +154,7 @@ export class SP<T extends Record<string, any>> {
 			if (paramValue !== null) {
 				if (def.decode) {
 					this.paramValues[propKey] = def.decode(paramValue);
+					this.debouncedValues[propKey] = this.paramValues[propKey];
 					continue;
 				}
 
@@ -131,17 +164,21 @@ export class SP<T extends Record<string, any>> {
 						const num = parseFloat(paramValue);
 						if (!isNaN(num)) {
 							this.paramValues[propKey] = num;
+							this.debouncedValues[propKey] = num;
 						}
 						break;
 					case 'boolean':
 						this.paramValues[propKey] = paramValue === 'true';
+						this.debouncedValues[propKey] = this.paramValues[propKey];
 						break;
 					case 'array':
 						this.paramValues[propKey] = paramValue.split(CONFIG_DELIMITER).filter(Boolean);
+						this.debouncedValues[propKey] = this.paramValues[propKey];
 						break;
 					case 'object':
 						try {
 							this.paramValues[propKey] = JSON.parse(paramValue);
+							this.debouncedValues[propKey] = this.paramValues[propKey];
 						} catch (e) {
 							console.error(`Error parsing JSON for param ${propKey}:`, e);
 							// Keep default value on error
@@ -150,6 +187,7 @@ export class SP<T extends Record<string, any>> {
 					case 'string':
 					default:
 						this.paramValues[propKey] = paramValue;
+						this.debouncedValues[propKey] = paramValue;
 						break;
 				}
 			}
@@ -164,7 +202,7 @@ export class SP<T extends Record<string, any>> {
 
 		const params = new URLSearchParams(window.location.search);
 
-		for (const [propKey, value] of Object.entries(this.paramValues)) {
+		for (const [propKey, value] of Object.entries(this.debouncedValues)) {
 			// Skip undefined or null values
 			if (value === undefined || value === null) continue;
 
@@ -219,8 +257,13 @@ export class SP<T extends Record<string, any>> {
 	 * Reset all parameters to their default values
 	 */
 	reset(): void {
+		// Reset both sets of values to defaults immediately
 		for (const [key, def] of Object.entries(this.config)) {
-			this.sp[key as keyof T] = this.defaults[key as keyof T];
+			this.paramValues[key] = this.defaults[key as keyof T];
+			this.debouncedValues[key] = this.defaults[key as keyof T];
 		}
+
+		// Update URL immediately without debounce
+		this.toURL();
 	}
 }
