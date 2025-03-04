@@ -18,6 +18,8 @@ fs.writeFileSync(
       keywords: pkg.keywords ?? ['Missing!!!'],
       version: pkg.version,
       license: 'MIT',
+      funding: pkg.funding ?? 'https://github.com/sponsors/jycouet',
+      homepage: pkg.homepage ?? 'https://www.kitql.dev/',
       type: 'module',
       repository: {
         type: 'git',

@@ -2,6 +2,8 @@
   "name": "@kitql/eslint-config",
   "version": "0.5.2",
   "type": "module",
+  "funding": "https://github.com/sponsors/jycouet",
+  "homepage": "https://www.kitql.dev/",
   "description": "opinionated linting and formatting for projects",
   "repository": {
     "type": "git",
@@ -33,9 +35,6 @@
     "lint": "node ./cmd.js --verbose -p none",
     "lint:example": "kitql-lint",
     "inspector": "npx @eslint/config-inspector"
-  },
-  "peerDependencies": {
-    "prettier": "^3.3.3"
   },
   "dependencies": {
     "@eslint/compat": "^1.1.1",
