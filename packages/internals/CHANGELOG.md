@@ -1,5 +1,16 @@
 # @kitql/internals
 
+## 0.10.3
+
+### Patch Changes
+
+- [`bc9f819`](https://github.com/jycouet/kitql/commit/bc9f819766727c059e8436e10f6d7b142c55346b)
+  Thanks [@jycouet](https://github.com/jycouet)! - update package.json and publish it on npm (MIT)
+
+- Updated dependencies
+  [[`bc9f819`](https://github.com/jycouet/kitql/commit/bc9f819766727c059e8436e10f6d7b142c55346b)]:
+  - @kitql/helpers@0.8.12
+
 ## 0.10.2
 
 ### Patch Changes
