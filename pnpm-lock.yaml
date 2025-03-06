@@ -32,8 +32,8 @@ catalogs:
       specifier: 9.10.0
       version: 9.10.0
     eslint-plugin-pnpm-catalogs:
-      specifier: 0.0.2
-      version: 0.0.2
+      specifier: 0.1.0
+      version: 0.1.0
     eslint-plugin-svelte:
       specifier: 3.0.3
       version: 3.0.3
@@ -129,7 +129,7 @@ importers:
         version: 9.10.0(jiti@1.21.0)
       eslint-plugin-pnpm-catalogs:
         specifier: catalog:linting
-        version: 0.0.2(eslint@9.10.0(jiti@1.21.0))
+        version: 0.1.0(eslint@9.10.0(jiti@1.21.0))
       eslint-plugin-svelte:
         specifier: catalog:linting
         version: 3.0.3(eslint@9.10.0(jiti@1.21.0))(svelte@5.20.5)
@@ -3430,8 +3430,8 @@ packages:
     peerDependencies:
       eslint: '>=6.0.0'
 
-  eslint-plugin-pnpm-catalogs@0.0.2:
-    resolution: {integrity: sha512-i7YhlcsY+2yDnS4vg7+ta4uIM+6bbH3fbXnTKs+r2WGZWEQzA0KyzcFXvoJ/T99n2hV+vpet786xLAbeG4Z4kA==}
+  eslint-plugin-pnpm-catalogs@0.1.0:
+    resolution: {integrity: sha512-4FzIfTfr06U3ULStgSMSmpDsfhtxsbSAxKLvXLo+/i/z48v4+4WD0Yr5hTb6E37X/ch8isKiTl4bnnvSENTYFA==}
     peerDependencies:
       eslint: ^9.0.0
 
@@ -3490,6 +3490,10 @@ packages:
   espree@10.1.0:
     resolution: {integrity: sha512-M1M6CpiE6ffoigIOWYO9UDP8TMUw9kqb21tf+08IgDYjCsOvCuDt4jQcZmoYxx+w7zlKw9/N0KXfto+I8/FrXA==}
     engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
+
+  espree@9.6.1:
+    resolution: {integrity: sha512-oruZaFkjorTpF32kDSI5/75ViwGeZginGGy2NoOSg3Q9bnwlnmDm4HLnkl0RE3n+njDXR037aY1+x58Z/zFdwQ==}
+    engines: {node: ^12.22.0 || ^14.17.0 || >=16.0.0}
 
   esprima@4.0.1:
     resolution: {integrity: sha512-eGuFFw7Upda+g4p+QHvnW0RyTX/SVeJBDM/gCtMARO0cLuT2HcEKnTPvhjV6aGeqrCB/sbNop0Kszm0jsaWU4A==}
@@ -4299,6 +4303,10 @@ packages:
   json5@1.0.2:
     resolution: {integrity: sha512-g1MWMLBiz8FKi1e4w0UyVL3w+iJceWAFBAaBnnGKOpNa5f8TLktkbre1+s6oICydWAm+HRUGTmI+//xv2hvXYA==}
     hasBin: true
+
+  jsonc-eslint-parser@2.4.0:
+    resolution: {integrity: sha512-WYDyuc/uFcGp6YtM2H0uKmUwieOuzeE/5YocFJLnLfclZ4inf3mRn8ZVy1s7Hxji7Jxm6Ss8gqpexD/GlKoGgg==}
+    engines: {node: ^12.22.0 || ^14.17.0 || >=16.0.0}
 
   jsonfile@4.0.0:
     resolution: {integrity: sha512-m6F1R3z8jjlf2imQHS2Qez5sjKWQzbuuhuJ/FKYFRZvPE3PuHcSMVZzfsLhGVOkfd20obL5SWEBew5ShlquNxg==}
@@ -5176,8 +5184,8 @@ packages:
     engines: {node: '>=18'}
     hasBin: true
 
-  pnpm-catalogs-utils@0.0.2:
-    resolution: {integrity: sha512-VsGjOyqk7/DLx3E5mR0cjQyF5+5oo8KJ6cLfMDOlgmAfBJWRr6Ka0JrFGuNDqKbMbHWKtlqoyvC2ug6AssixZw==}
+  pnpm-catalogs-utils@0.1.0:
+    resolution: {integrity: sha512-avysWJc452htYTnae14ENYTI3fSzZ1U1xNrdSJ2kFgwDaDvdEKIM5Iu+WljP2cdr/HAKKQ1hnuvu3sQJ3Eq/zQ==}
 
   points-on-curve@0.2.0:
     resolution: {integrity: sha512-0mYKnYYe9ZcqMCWhUjItv/oHjvgEsfKvnUTg8sAtnHr3GVy7rGkXCb6d5cSyqrWqL4k81b9CPg3urd+T7aop3A==}
@@ -9974,11 +9982,12 @@ snapshots:
       eslint: 9.10.0(jiti@1.21.0)
       semver: 7.7.1
 
-  eslint-plugin-pnpm-catalogs@0.0.2(eslint@9.10.0(jiti@1.21.0)):
+  eslint-plugin-pnpm-catalogs@0.1.0(eslint@9.10.0(jiti@1.21.0)):
     dependencies:
       eslint: 9.10.0(jiti@1.21.0)
       find-up-simple: 1.0.1
-      pnpm-catalogs-utils: 0.0.2
+      jsonc-eslint-parser: 2.4.0
+      pnpm-catalogs-utils: 0.1.0
 
   eslint-plugin-svelte@3.0.3(eslint@9.10.0(jiti@1.21.0))(svelte@5.20.5):
     dependencies:
@@ -10068,6 +10077,12 @@ snapshots:
       acorn: 8.12.1
       acorn-jsx: 5.3.2(acorn@8.12.1)
       eslint-visitor-keys: 4.2.0
+
+  espree@9.6.1:
+    dependencies:
+      acorn: 8.12.1
+      acorn-jsx: 5.3.2(acorn@8.12.1)
+      eslint-visitor-keys: 3.4.3
 
   esprima@4.0.1: {}
 
@@ -10997,6 +11012,13 @@ snapshots:
   json5@1.0.2:
     dependencies:
       minimist: 1.2.8
+
+  jsonc-eslint-parser@2.4.0:
+    dependencies:
+      acorn: 8.12.1
+      eslint-visitor-keys: 3.4.3
+      espree: 9.6.1
+      semver: 7.7.1
 
   jsonfile@4.0.0:
     optionalDependencies:
@@ -12286,7 +12308,7 @@ snapshots:
     optionalDependencies:
       fsevents: 2.3.2
 
-  pnpm-catalogs-utils@0.0.2:
+  pnpm-catalogs-utils@0.1.0:
     dependencies:
       yaml: 2.7.0
 
