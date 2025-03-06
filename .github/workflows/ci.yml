@@ -37,7 +37,7 @@ jobs:
           nodeVersion: 22.11.0
 
       - name: 🚧 Build Packages
-        run: pnpm -F "!website" build
+        run: pnpm -F "!docs" build
 
       - name: 🧹 Lint Check
         run: pnpm -F ${{ matrix.prj }} lint
