@@ -30,7 +30,7 @@
     "check:watch": "svelte-check --tsconfig ./tsconfig.json --watch",
     "test": "TZ=UTC vitest",
     "test:ci": "TZ=UTC vitest run --coverage",
-    "lint": "kitql-lint",
+    "lint": "kitql-lint -d",
     "format": "kitql-lint --format"
   },
   "devDependencies": {

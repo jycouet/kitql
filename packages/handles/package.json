@@ -22,7 +22,7 @@
     "check:watch": "svelte-check",
     "dev": "vite dev",
     "format": "kitql-lint --format",
-    "lint": "kitql-lint",
+    "lint": "kitql-lint -d",
     "package": "npm run build && publint",
     "prepare": "svelte-kit sync",
     "preview": "vite preview",
