@@ -1,6 +1,6 @@
 packages:
   - 'packages/*'
-  - 'website'
+  - 'docs'
 
 catalogs:
   tooling:
@@ -10,6 +10,7 @@ catalogs:
     'commander': '13.1.0'
     'ora': '8.1.0'
     'recast': '^0.23.4' # to remove ?
+    '@types/node': '22.13.9'
 
   vite: 
     'vite': '6.1.1'
@@ -60,6 +61,7 @@ catalogs:
     '@sveltejs/vite-plugin-svelte': '5.0.1'
     '@sveltejs/adapter-auto': '4.0.0'
     '@sveltejs/adapter-node': '5.2.12'
+    "@sveltejs/adapter-static": "3.0.4"
 
   svelte:
     'svelte': '5.20.5'
@@ -71,3 +73,7 @@ catalogs:
 
   remult:
     'remult': '2.7.30'
+
+  sveltepress:
+    '@sveltepress/theme-default': '5.0.6'
+    '@sveltepress/vite': '1.1.3'

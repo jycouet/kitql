@@ -1,0 +1,22 @@
+{
+  "name": "docs",
+  "type": "module",
+  "version": "0.0.1",
+  "private": true,
+  "license": "MIT",
+  "scripts": {
+    "dev": "vite dev",
+    "build": "vite build"
+  },
+  "devDependencies": {
+    "@sveltejs/adapter-static": "catalog:sveltekit",
+    "@sveltejs/kit": "catalog:sveltekit",
+    "@sveltejs/vite-plugin-svelte": "catalog:sveltekit",
+    "@sveltepress/theme-default": "catalog:sveltepress",
+    "@sveltepress/vite": "catalog:sveltepress",
+    "@types/node": "catalog:tooling",
+    "svelte": "catalog:svelte",
+    "typescript": "catalog:tooling",
+    "vite": "catalog:vite"
+  }
+}
