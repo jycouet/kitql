@@ -27,23 +27,23 @@
     "test": "npm run test:unit -- --run"
   },
   "peerDependencies": {
-    "@sveltejs/kit": "^2.16.0",
-    "svelte": "^5.0.0"
+    "@sveltejs/kit": "catalog:svelte-dep",
+    "svelte": "catalog:svelte-dep"
   },
   "devDependencies": {
-    "@sveltejs/adapter-node": "5.2.12",
-    "@sveltejs/kit": "^2.16.0",
-    "@sveltejs/package": "^2.0.0",
-    "@sveltejs/vite-plugin-svelte": "^5.0.0",
-    "@testing-library/jest-dom": "^6.6.3",
-    "@testing-library/svelte": "^5.2.4",
-    "jsdom": "^26.0.0",
-    "publint": "0.3.1",
-    "svelte": "^5.0.0",
-    "svelte-check": "^4.0.0",
-    "typescript": "^5.0.0",
-    "vite": "^6.0.0",
-    "vitest": "^3.0.0"
+    "@sveltejs/adapter-node": "catalog:sveltekit",
+    "@sveltejs/kit": "catalog:sveltekit",
+    "@sveltejs/package": "catalog:sveltekit",
+    "@sveltejs/vite-plugin-svelte": "catalog:sveltekit",
+    "@testing-library/jest-dom": "catalog:testing",
+    "@testing-library/svelte": "catalog:testing",
+    "jsdom": "catalog:testing",
+    "publint": "catalog:lib-author-helper",
+    "svelte": "catalog:svelte",
+    "svelte-check": "catalog:svelte",
+    "typescript": "catalog:tooling",
+    "vite": "catalog:vite",
+    "vitest": "catalog:testing"
   },
   "sideEffects": false,
   "publishConfig": {
