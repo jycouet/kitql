@@ -1,5 +1,7 @@
 #!/usr/bin/env node
 import { spawn } from 'node:child_process'
+import fs from 'node:fs'
+import path from 'node:path'
 import { Option, program } from 'commander'
 import ora from 'ora'
 
@@ -86,6 +88,36 @@ async function customSpawn(cmd) {
 async function getDiffFiles() {
   spinner.text = verbose ? 'git diff ' + gray('(getting changed files against main)') : 'git diff'
 
+  // First, get the git repository root
+  let gitRootPath = ''
+  try {
+    const gitRootCmd = 'git rev-parse --show-toplevel'
+    const gitRootChild = spawn(gitRootCmd, {
+      shell: true,
+      cwd: process.cwd(),
+    })
+
+    let rootData = ''
+    for await (const chunk of gitRootChild.stdout) {
+      rootData += chunk
+    }
+
+    const gitRootExitCode = await new Promise((resolve) => {
+      gitRootChild.on('close', resolve)
+    })
+
+    if (gitRootExitCode === 0) {
+      gitRootPath = rootData.trim()
+    } else {
+      spinner.warn('Could not determine git repository root')
+      return null
+    }
+  } catch (error) {
+    spinner.warn(`Error getting git root: ${error.message}`)
+    return null
+  }
+
+  // Now get the changed files
   const cmd = 'git diff --name-only --diff-filter=ACMR main'
 
   try {
@@ -113,12 +145,35 @@ async function getDiffFiles() {
       return null
     }
 
-    const files = data.trim().split('\n').filter(Boolean)
+    // Get the current working directory
+    const cwd = process.cwd()
+
+    // Process the files to make them relative to the current working directory
+    const files = data
+      .trim()
+      .split('\n')
+      .filter(Boolean)
+      .map((file) => {
+        // Convert the git path (relative to git root) to an absolute path
+        const absolutePath = path.join(gitRootPath, file)
+
+        // Convert the absolute path to a path relative to the current working directory
+        const relativePath = path.relative(cwd, absolutePath)
+
+        // Check if the file exists and is at or below the current directory
+        if (fs.existsSync(relativePath) && !relativePath.startsWith('..')) {
+          return relativePath
+        }
+        return null
+      })
+      .filter(Boolean) // Remove null entries (files not at or below current directory)
+
     if (verbose) {
-      spinner.info(`Found ${files.length} changed files against main`)
+      spinner.info(`Found ${files.length} changed files at or below current directory`)
     }
 
-    return files.length > 0 ? `'${files.join(',')}'` : null
+    // Format the files for the command line, wrapping each in quotes and joining with commas
+    return files.length > 0 ? files.map((f) => `'${f}'`).join(' ') : null
   } catch (error) {
     spinner.warn(`Error getting changed files: ${error.message}`)
     return null
@@ -128,7 +183,7 @@ async function getDiffFiles() {
 async function eslintRun() {
   const cmdEsLint =
     preToUse +
-    `eslint` +
+    `eslint --no-warn-ignored` +
     // format or not
     `${format ? ' --fix' : ''}` +
     // exec
@@ -164,28 +219,26 @@ async function prettierRun() {
 
 const took = []
 
-
 // If changed-only flag is set, get the list of changed files
 if (diffOnly) {
   spinner.text = 'Checking for changed files'
   const changedFiles = await getDiffFiles()
-  
+
   if (changedFiles) {
     // Override the glob with the list of changed files
     glob = changedFiles
-    if(verbose){
+    if (verbose) {
       spinner.info(`Running checks only on changed files`)
     }
   } else {
-    if(verbose){
-      spinner.info(
-        `No changed files found or couldn't determine changes, using provided glob: ${glob}`,
-      )
+    glob = ''
+    if (verbose) {
+      spinner.info(`No changed files found we will end now.`)
     }
   }
 }
 
-if (!prettierOnly) {
+if (!prettierOnly && glob) {
   const esLintStart = Date.now()
   const eslintCode = await eslintRun()
   const esLintTook = Date.now() - esLintStart
@@ -197,7 +250,7 @@ if (!prettierOnly) {
   }
 }
 
-if (!eslintOnly) {
+if (!eslintOnly && glob) {
   const prettierStart = Date.now()
   const prettierCode = await prettierRun()
   const prettierTook = Date.now() - prettierStart
