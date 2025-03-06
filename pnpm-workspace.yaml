@@ -12,16 +12,16 @@ catalogs:
     'recast': '^0.23.4' # to remove ?
     '@types/node': '22.13.9'
 
-  vite: 
+  vite:
     'vite': '6.1.1'
 
   testing:
     # unit
     'vitest': '3.0.4'
     '@vitest/coverage-v8': '3.0.4'
-    "@testing-library/jest-dom": "6.6.3"
-    "@testing-library/svelte": "5.2.4"
-    "jsdom": "26.0.0"
+    '@testing-library/jest-dom': '6.6.3'
+    '@testing-library/svelte': '5.2.4'
+    'jsdom': '26.0.0'
     # e2e
     '@playwright/test': '1.50.0'
 
@@ -61,19 +61,15 @@ catalogs:
     '@sveltejs/vite-plugin-svelte': '5.0.1'
     '@sveltejs/adapter-auto': '4.0.0'
     '@sveltejs/adapter-node': '5.2.12'
-    "@sveltejs/adapter-static": "3.0.4"
+    '@sveltejs/adapter-static': '3.0.4'
 
   svelte:
     'svelte': '5.20.5'
     'svelte-check': '4.1.1'
 
   svelte-dep:
-    "@sveltejs/kit": "^2.16.0"      
-    'svelte': '^5.0.0'              
+    '@sveltejs/kit': '^2.16.0'
+    'svelte': '^5.0.0'
 
   remult:
     'remult': '2.7.30'
-
-  sveltepress:
-    '@sveltepress/theme-default': '5.0.6'
-    '@sveltepress/vite': '1.1.3'
