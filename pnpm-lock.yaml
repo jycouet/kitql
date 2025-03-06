@@ -4,27 +4,99 @@ settings:
   autoInstallPeers: true
   excludeLinksFromLockfile: false
 
+catalogs:
+  dep-helpers:
+    esm-env:
+      specifier: 1.2.2
+      version: 1.2.2
+    vary:
+      specifier: 1.1.2
+      version: 1.1.2
+  linting:
+    '@eslint/compat':
+      specifier: 1.1.1
+      version: 1.1.1
+    '@eslint/js':
+      specifier: 9.10.0
+      version: 9.10.0
+    '@theguild/prettier-config':
+      specifier: 3.0.0
+      version: 3.0.0
+    '@types/eslint':
+      specifier: 9.6.1
+      version: 9.6.1
+    '@typescript-eslint/parser':
+      specifier: 8.5.0
+      version: 8.5.0
+    eslint:
+      specifier: 9.10.0
+      version: 9.10.0
+    eslint-plugin-pnpm-catalogs:
+      specifier: 0.0.2
+      version: 0.0.2
+    eslint-plugin-svelte:
+      specifier: 3.0.3
+      version: 3.0.3
+    eslint-plugin-unused-imports:
+      specifier: 4.1.4
+      version: 4.1.4
+    globals:
+      specifier: 16.0.0
+      version: 16.0.0
+    prettier:
+      specifier: 3.5.3
+      version: 3.5.3
+    prettier-plugin-svelte:
+      specifier: 3.3.2
+      version: 3.3.2
+    prettier-plugin-tailwindcss:
+      specifier: 0.6.6
+      version: 0.6.6
+    typescript-eslint:
+      specifier: 8.26.0
+      version: 8.26.0
+  testing:
+    '@vitest/coverage-v8':
+      specifier: 3.0.4
+      version: 3.0.4
+  tooling:
+    '@changesets/changelog-github':
+      specifier: 0.5.1
+      version: 0.5.1
+    '@changesets/cli':
+      specifier: 2.28.1
+      version: 2.28.1
+    commander:
+      specifier: 13.1.0
+      version: 13.1.0
+    esbuild:
+      specifier: 0.24.0
+      version: 0.24.0
+    ora:
+      specifier: 8.1.0
+      version: 8.1.0
+    rimraf:
+      specifier: 6.0.1
+      version: 6.0.1
+
 importers:
 
   .:
     devDependencies:
       '@changesets/changelog-github':
-        specifier: 0.5.1
+        specifier: catalog:tooling
         version: 0.5.1
       '@changesets/cli':
-        specifier: 2.28.1
+        specifier: catalog:tooling
         version: 2.28.1
       '@vitest/coverage-v8':
-        specifier: 3.0.4
+        specifier: catalog:testing
         version: 3.0.4(vitest@3.0.4(@types/node@22.13.7)(jiti@1.21.0)(jsdom@26.0.0)(terser@5.30.3)(yaml@2.7.0))
       esbuild:
-        specifier: 0.24.0
+        specifier: catalog:tooling
         version: 0.24.0
-      prettier:
-        specifier: 3.5.3
-        version: 3.5.3
       rimraf:
-        specifier: 6.0.1
+        specifier: catalog:tooling
         version: 6.0.1
 
   packages/all-in: {}
@@ -32,55 +104,55 @@ importers:
   packages/eslint-config:
     dependencies:
       '@eslint/compat':
-        specifier: ^1.1.1
+        specifier: catalog:linting
         version: 1.1.1
       '@eslint/js':
-        specifier: ^9.10.0
+        specifier: catalog:linting
         version: 9.10.0
       '@kitql/helpers':
         specifier: workspace:*
         version: link:../helpers/dist
       '@theguild/prettier-config':
-        specifier: 3.0.0
+        specifier: catalog:linting
         version: 3.0.0(@vue/compiler-sfc@3.4.7)(prettier@3.5.3)
       '@types/eslint':
-        specifier: 9.6.1
+        specifier: catalog:linting
         version: 9.6.1
       '@typescript-eslint/parser':
-        specifier: 8.5.0
+        specifier: catalog:linting
         version: 8.5.0(eslint@9.10.0(jiti@1.21.0))(typescript@5.7.2)
       commander:
-        specifier: 13.1.0
+        specifier: catalog:tooling
         version: 13.1.0
       eslint:
-        specifier: ^9.10.0
+        specifier: catalog:linting
         version: 9.10.0(jiti@1.21.0)
       eslint-plugin-pnpm-catalogs:
-        specifier: 0.0.2
+        specifier: catalog:linting
         version: 0.0.2(eslint@9.10.0(jiti@1.21.0))
       eslint-plugin-svelte:
-        specifier: 3.0.3
+        specifier: catalog:linting
         version: 3.0.3(eslint@9.10.0(jiti@1.21.0))(svelte@5.20.5)
       eslint-plugin-unused-imports:
-        specifier: 4.1.4
+        specifier: catalog:linting
         version: 4.1.4(@typescript-eslint/eslint-plugin@8.26.0(@typescript-eslint/parser@8.5.0(eslint@9.10.0(jiti@1.21.0))(typescript@5.7.2))(eslint@9.10.0(jiti@1.21.0))(typescript@5.7.2))(eslint@9.10.0(jiti@1.21.0))
       globals:
-        specifier: 16.0.0
+        specifier: catalog:linting
         version: 16.0.0
       ora:
-        specifier: 8.1.0
+        specifier: catalog:tooling
         version: 8.1.0
       prettier:
-        specifier: 3.5.3
+        specifier: catalog:linting
         version: 3.5.3
       prettier-plugin-svelte:
-        specifier: 3.3.2
+        specifier: catalog:linting
         version: 3.3.2(prettier@3.5.3)(svelte@5.20.5)
       prettier-plugin-tailwindcss:
-        specifier: 0.6.6
+        specifier: catalog:linting
         version: 0.6.6(@ianvs/prettier-plugin-sort-imports@4.4.0(@vue/compiler-sfc@3.4.7)(prettier@3.5.3))(prettier-plugin-svelte@3.3.2(prettier@3.5.3)(svelte@5.20.5))(prettier@3.5.3)
       typescript-eslint:
-        specifier: 8.26.0
+        specifier: catalog:linting
         version: 8.26.0(eslint@9.10.0(jiti@1.21.0))(typescript@5.7.2)
 
   packages/handles:
@@ -89,10 +161,10 @@ importers:
         specifier: workspace:*
         version: link:../helpers/dist
       esm-env:
-        specifier: ^1.2.2
+        specifier: catalog:dep-helpers
         version: 1.2.2
       vary:
-        specifier: ^1.1.2
+        specifier: catalog:dep-helpers
         version: 1.1.2
     devDependencies:
       '@kitql/eslint-config':
@@ -994,12 +1066,6 @@ packages:
     engines: {node: '>=18'}
     cpu: [x64]
     os: [win32]
-
-  '@eslint-community/eslint-utils@4.4.0':
-    resolution: {integrity: sha512-1/sA4dwrzBAyeUoQ6oxahHKmrZvsnLCg4RfxW3ZFGGmQkSNQPFNLV9CUEFQP1x9EYXHTo5p6xdhZM1Ne9p/AfA==}
-    engines: {node: ^12.22.0 || ^14.17.0 || >=16.0.0}
-    peerDependencies:
-      eslint: ^6.0.0 || ^7.0.0 || >=8.0.0
 
   '@eslint-community/eslint-utils@4.4.1':
     resolution: {integrity: sha512-s3O3waFUrMV8P/XaF/+ZTp1X9XBZW1a4B97ZnjQF2KYWaFD2A8KyFBsrsfSjEmjn3RGWAIuvlneuZm3CUK3jbA==}
@@ -3391,10 +3457,6 @@ packages:
   eslint-scope@4.0.3:
     resolution: {integrity: sha512-p7VutNr1O/QrxysMo3E45FjYDTeXBy0iTltPFNSqKAIfjDSXC+4dj+qfyuD8bfAXrW/y6lW3O76VaYNPKfpKrg==}
     engines: {node: '>=4.0.0'}
-
-  eslint-scope@8.0.2:
-    resolution: {integrity: sha512-6E4xmrTw5wtxnLA5wYL3WDfhZ/1bUBGOXV0zQvVRDOtrR8D0p6W7fs3JweNYhwRYeGvd/1CKX2se0/2s7Q/nJA==}
-    engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
 
   eslint-scope@8.2.0:
     resolution: {integrity: sha512-PHlWUfG6lvPc3yvP5A4PNyBL1W8fkDUccmI21JUu/+GKZBoH/W5u6usENXUrWFRsyoW5ACUjFGgAFQp5gUlb/A==}
@@ -6885,7 +6947,7 @@ snapshots:
       '@babel/parser': 7.26.2
       '@babel/template': 7.25.9
       '@babel/types': 7.26.0
-      debug: 4.3.7
+      debug: 4.4.0
       globals: 11.12.0
     transitivePeerDependencies:
       - supports-color
@@ -6913,7 +6975,7 @@ snapshots:
       outdent: 0.5.0
       prettier: 2.8.8
       resolve-from: 5.0.0
-      semver: 7.6.2
+      semver: 7.7.1
 
   '@changesets/assemble-release-plan@6.0.6':
     dependencies:
@@ -6922,7 +6984,7 @@ snapshots:
       '@changesets/should-skip-package': 0.1.2
       '@changesets/types': 6.1.0
       '@manypkg/get-packages': 1.1.3
-      semver: 7.6.2
+      semver: 7.7.1
 
   '@changesets/changelog-git@0.2.1':
     dependencies:
@@ -6963,7 +7025,7 @@ snapshots:
       package-manager-detector: 0.2.10
       picocolors: 1.1.1
       resolve-from: 5.0.0
-      semver: 7.6.2
+      semver: 7.7.1
       spawndamnit: 3.0.1
       term-size: 2.2.1
 
@@ -6986,7 +7048,7 @@ snapshots:
       '@changesets/types': 6.1.0
       '@manypkg/get-packages': 1.1.3
       picocolors: 1.1.1
-      semver: 7.6.2
+      semver: 7.7.1
 
   '@changesets/get-github-info@0.6.0':
     dependencies:
@@ -7254,11 +7316,6 @@ snapshots:
   '@esbuild/win32-x64@0.24.2':
     optional: true
 
-  '@eslint-community/eslint-utils@4.4.0(eslint@9.10.0(jiti@1.21.0))':
-    dependencies:
-      eslint: 9.10.0(jiti@1.21.0)
-      eslint-visitor-keys: 3.4.3
-
   '@eslint-community/eslint-utils@4.4.1(eslint@9.10.0(jiti@1.21.0))':
     dependencies:
       eslint: 9.10.0(jiti@1.21.0)
@@ -7271,7 +7328,7 @@ snapshots:
   '@eslint/config-array@0.18.0':
     dependencies:
       '@eslint/object-schema': 2.1.4
-      debug: 4.3.7
+      debug: 4.4.0
       minimatch: 3.1.2
     transitivePeerDependencies:
       - supports-color
@@ -7279,7 +7336,7 @@ snapshots:
   '@eslint/eslintrc@3.1.0':
     dependencies:
       ajv: 6.12.6
-      debug: 4.3.7
+      debug: 4.4.0
       espree: 10.1.0
       globals: 14.0.0
       ignore: 5.3.1
@@ -7353,7 +7410,7 @@ snapshots:
       '@babel/traverse': 7.25.9
       '@babel/types': 7.26.0
       prettier: 3.5.3
-      semver: 7.6.2
+      semver: 7.7.1
     optionalDependencies:
       '@vue/compiler-sfc': 3.4.7
     transitivePeerDependencies:
@@ -8500,7 +8557,7 @@ snapshots:
       fast-glob: 3.3.2
       is-glob: 4.0.3
       minimatch: 9.0.5
-      semver: 7.6.2
+      semver: 7.7.1
       ts-api-utils: 2.0.1(typescript@5.7.2)
       typescript: 5.7.2
     transitivePeerDependencies:
@@ -8523,7 +8580,7 @@ snapshots:
 
   '@typescript-eslint/utils@8.26.0(eslint@9.10.0(jiti@1.21.0))(typescript@5.7.2)':
     dependencies:
-      '@eslint-community/eslint-utils': 4.4.0(eslint@9.10.0(jiti@1.21.0))
+      '@eslint-community/eslint-utils': 4.4.1(eslint@9.10.0(jiti@1.21.0))
       '@typescript-eslint/scope-manager': 8.26.0
       '@typescript-eslint/types': 8.26.0
       '@typescript-eslint/typescript-estree': 8.26.0(typescript@5.7.2)
@@ -9952,11 +10009,6 @@ snapshots:
       esrecurse: 4.3.0
       estraverse: 4.3.0
 
-  eslint-scope@8.0.2:
-    dependencies:
-      esrecurse: 4.3.0
-      estraverse: 5.3.0
-
   eslint-scope@8.2.0:
     dependencies:
       esrecurse: 4.3.0
@@ -9968,7 +10020,7 @@ snapshots:
 
   eslint@9.10.0(jiti@1.21.0):
     dependencies:
-      '@eslint-community/eslint-utils': 4.4.0(eslint@9.10.0(jiti@1.21.0))
+      '@eslint-community/eslint-utils': 4.4.1(eslint@9.10.0(jiti@1.21.0))
       '@eslint-community/regexpp': 4.11.0
       '@eslint/config-array': 0.18.0
       '@eslint/eslintrc': 3.1.0
@@ -9979,10 +10031,10 @@ snapshots:
       '@nodelib/fs.walk': 1.2.8
       ajv: 6.12.6
       chalk: 4.1.2
-      cross-spawn: 7.0.3
-      debug: 4.3.7
+      cross-spawn: 7.0.6
+      debug: 4.4.0
       escape-string-regexp: 4.0.0
-      eslint-scope: 8.0.2
+      eslint-scope: 8.2.0
       eslint-visitor-keys: 4.2.0
       espree: 10.1.0
       esquery: 1.5.0
@@ -11114,7 +11166,7 @@ snapshots:
 
   make-dir@4.0.0:
     dependencies:
-      semver: 7.6.2
+      semver: 7.7.1
 
   map-cache@0.2.2: {}
 

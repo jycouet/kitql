@@ -1,5 +1,5 @@
-import { indexToAlgolia } from '@theguild/algolia'
 import { resolve } from 'path'
+import { indexToAlgolia } from '@theguild/algolia'
 
 const CWD = process.cwd()
 

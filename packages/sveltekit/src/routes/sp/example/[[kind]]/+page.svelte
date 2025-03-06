@@ -120,7 +120,7 @@
       {sp.rawStr.sel}
       <select bind:value={sp.rawStr.sel}>
         <option value="">-- Select an option --</option>
-        {#each sel as item}
+        {#each sel as item (item.id)}
           <option value={String(item.id)}>{item.name}</option>
         {/each}
       </select>

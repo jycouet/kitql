@@ -10,15 +10,15 @@
     "release:version": "npm run changeset version",
     "release": "npm run build && changeset publish --verbose",
     "reset": "git clean -xdf",
+    "format": "kitql-lint --format",
     "up-dep": "pnpm -r up --latest"
   },
   "devDependencies": {
-    "@changesets/changelog-github": "0.5.1",
-    "@changesets/cli": "2.28.1",
-    "@vitest/coverage-v8": "3.0.4",
-    "esbuild": "0.24.0",
-    "prettier": "3.5.3",
-    "rimraf": "6.0.1"
+    "@changesets/changelog-github": "catalog:tooling",
+    "@changesets/cli": "catalog:tooling",
+    "@vitest/coverage-v8": "catalog:testing",
+    "esbuild": "catalog:tooling",
+    "rimraf": "catalog:tooling"
   },
   "pnpm": {
     "onlyBuiltDependencies": [

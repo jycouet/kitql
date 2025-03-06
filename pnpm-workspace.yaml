@@ -1,3 +1,35 @@
 packages:
   - 'packages/*'
   - 'website'
+
+catalogs:
+  tooling:
+    '@changesets/changelog-github': '0.5.1'
+    '@changesets/cli': '2.28.1'
+    'esbuild': '0.24.0'
+    'rimraf': '6.0.1'
+    'commander': '13.1.0'
+    'ora': '8.1.0'
+
+  testing:
+    '@vitest/coverage-v8': '3.0.4'
+
+  linting:
+    '@eslint/compat': '1.1.1'
+    '@eslint/js': '9.10.0'
+    '@theguild/prettier-config': '3.0.0'
+    '@types/eslint': '9.6.1'
+    '@typescript-eslint/parser': '8.5.0'
+    'eslint': '9.10.0'
+    'eslint-plugin-pnpm-catalogs': '0.0.2'
+    'eslint-plugin-svelte': '3.0.3'
+    'eslint-plugin-unused-imports': '4.1.4'
+    'globals': '16.0.0'
+    'prettier': '3.5.3'
+    'prettier-plugin-svelte': '3.3.2'
+    'prettier-plugin-tailwindcss': '0.6.6'
+    'typescript-eslint': '8.26.0'
+
+  dep-helpers:
+    'esm-env': '1.2.2'
+    'vary': '1.1.2'
