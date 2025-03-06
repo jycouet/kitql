@@ -42,6 +42,8 @@
   <input type="number" bind:value={take} onkeyup={updateUrl} min="0" />
 </label>
 
-{#each elves.filter((c) => c.name.toLowerCase().includes(search)).splice(skip, take) as elve}
+{#each elves
+  .filter((c) => c.name.toLowerCase().includes(search))
+  .splice(skip, take) as elve (elve.name)}
   <div>{elve.tally > 0 ? '✅' : '😳'} {elve.name}</div>
 {/each}

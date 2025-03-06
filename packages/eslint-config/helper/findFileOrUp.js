@@ -1,5 +1,5 @@
-import { statSync } from 'fs'
-import { resolve } from 'path'
+import { statSync } from 'node:fs'
+import { resolve } from 'node:path'
 
 export const findFileOrUp = (fileName, options) => {
   // Find file recursively 4 levels max up

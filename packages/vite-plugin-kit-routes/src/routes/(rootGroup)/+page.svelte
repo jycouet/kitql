@@ -14,7 +14,7 @@
 <h2>Home</h2>
 
 <ul>
-  {#each list as { href, caption }}
+  {#each list as { href, caption } (href)}
     <li>
       <a {href}>{caption}</a>
     </li>
