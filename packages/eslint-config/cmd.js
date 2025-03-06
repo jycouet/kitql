@@ -23,7 +23,10 @@ program.addOption(new Option('--eslint-only', 'only run eslint', false))
 program.addOption(new Option('--prettier-only', 'only run prettier', false))
 program.addOption(new Option('--verbose', 'add more logs', false))
 program.addOption(
-  new Option('-d, --diff-only', 'only check files changed against main branch', false),
+  new Option('-d, --diff-only', 'only check files changed against base branch', false),
+)
+program.addOption(
+  new Option('--base-branch <type>', 'base branch to compare against (default: main)', 'main'),
 )
 program.addOption(
   new Option(
@@ -46,6 +49,7 @@ const pre = options_cli.prefix ?? 'none'
 const eslintOnly = options_cli.eslintOnly ?? false
 const prettierOnly = options_cli.prettierOnly ?? false
 const diffOnly = options_cli.diffOnly ?? false
+const baseBranch = options_cli.baseBranch ?? 'main'
 
 let preToUse = ''
 if (pre === 'npm') {
@@ -85,8 +89,11 @@ async function customSpawn(cmd) {
   return data
 }
 
+let filesLength = -1
 async function getDiffFiles() {
-  spinner.text = verbose ? 'git diff ' + gray('(getting changed files against main)') : 'git diff'
+  spinner.text = verbose
+    ? 'git diff ' + gray(`(getting changed files against ${baseBranch})`)
+    : 'git diff'
 
   // First, get the git repository root
   let gitRootPath = ''
@@ -117,8 +124,56 @@ async function getDiffFiles() {
     return null
   }
 
+  // Try to find the best base branch to compare against
+  const possibleBranches = [baseBranch, 'main', 'HEAD~1']
+  let validBranch = null
+
+  for (const branch of possibleBranches) {
+    try {
+      // Check if the branch exists
+      const checkBranchCmd = `git rev-parse --verify ${branch}`
+      const checkBranchChild = spawn(checkBranchCmd, {
+        shell: true,
+        cwd: process.cwd(),
+      })
+
+      const branchExitCode = await new Promise((resolve) => {
+        checkBranchChild.on('close', resolve)
+      })
+
+      if (branchExitCode === 0) {
+        validBranch = branch
+        if (verbose && branch !== baseBranch) {
+          spinner.info(`Using '${branch}' as base branch instead of '${baseBranch}'`)
+        }
+        break
+      }
+    } catch (error) {
+      // Continue to next branch
+    }
+  }
+
+  if (!validBranch) {
+    // If in CI, try to use a different approach
+    if (process.env.CI) {
+      try {
+        // In CI, we can try to get all staged and unstaged changes
+        validBranch = 'HEAD'
+        if (verbose) {
+          spinner.info('In CI environment, checking all changes')
+        }
+      } catch (error) {
+        spinner.warn(`Could not find a valid base branch to compare against`)
+        return null
+      }
+    } else {
+      spinner.warn(`Could not find a valid base branch to compare against`)
+      return null
+    }
+  }
+
   // Now get the changed files
-  const cmd = 'git diff --name-only --diff-filter=ACMR main'
+  const cmd = `git diff --name-only --diff-filter=ACMR ${validBranch}`
 
   try {
     const child = spawn(cmd, {
@@ -141,8 +196,42 @@ async function getDiffFiles() {
     })
 
     if (exitCode) {
-      spinner.warn(`Could not get changed files: ${error}`)
-      return null
+      // If the diff command failed, try a fallback approach for CI environments
+      if (process.env.CI) {
+        try {
+          // In CI, we can try to get all tracked files that have changes
+          const fallbackCmd = 'git ls-files --modified --others --exclude-standard'
+          const fallbackChild = spawn(fallbackCmd, {
+            shell: true,
+            cwd: process.cwd(),
+          })
+
+          let fallbackData = ''
+          for await (const chunk of fallbackChild.stdout) {
+            fallbackData += chunk
+          }
+
+          const fallbackExitCode = await new Promise((resolve) => {
+            fallbackChild.on('close', resolve)
+          })
+
+          if (fallbackExitCode === 0 && fallbackData.trim()) {
+            data = fallbackData
+            if (verbose) {
+              spinner.info('Using fallback method to get changed files in CI')
+            }
+          } else {
+            spinner.warn(`Could not get changed files: ${error}`)
+            return null
+          }
+        } catch (fallbackError) {
+          spinner.warn(`Could not get changed files: ${error}`)
+          return null
+        }
+      } else {
+        spinner.warn(`Could not get changed files: ${error}`)
+        return null
+      }
     }
 
     // Get the current working directory
@@ -168,11 +257,12 @@ async function getDiffFiles() {
       })
       .filter(Boolean) // Remove null entries (files not at or below current directory)
 
+    filesLength = files.length
     if (verbose) {
-      spinner.info(`Found ${files.length} changed files at or below current directory`)
+      spinner.info(`Found ${filesLength} changed files at or below current directory`)
     }
 
-    // Format the files for the command line, wrapping each in quotes and joining with commas
+    // Format the files for the command line, wrapping each in quotes and joining with spaces
     return files.length > 0 ? files.map((f) => `'${f}'`).join(' ') : null
   } catch (error) {
     spinner.warn(`Error getting changed files: ${error.message}`)
@@ -264,7 +354,7 @@ if (!eslintOnly && glob) {
 
 spinner.prefixText = bgGreen(` kitql-lint `)
 spinner.succeed(
-  `All good, ${glob === '' ? 'nothing to do!' : 'your files looks great!'} ${gray('(')}${took.join(gray(', '))}${gray(')')}`,
+  `All good, ${glob === '' ? 'nothing to do!' : filesLength !== -1 ? `your ${filesLength} files looks great!` : 'your files looks great!'} ${gray('(')}${took.join(gray(', '))}${gray(')')}`,
 )
 spinner.stop()
 process.exit(0)
