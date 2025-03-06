@@ -2,10 +2,21 @@ packages:
   - 'packages/*'
   - 'docs'
 
+catalog:
+  '@astrojs/starlight': 0.32.2
+  '@babel/parser': ^7.23.0
+  accessible-astro-components: 4.0.3
+  astro: 5.4.2
+  astro-icon: 1.1.5
+  jsonc-eslint-parser: 2.4.0
+  prettier-plugin-astro: 0.14.1
+  sharp: 0.33.5
+
 catalogs:
   tooling:
     'typescript': '5.7.2'
     'esbuild': '0.24.0'
+    '@babel/parser': 7.23.0
     'rimraf': '6.0.1'
     'commander': '13.1.0'
     'ora': '8.1.0'
@@ -40,6 +51,7 @@ catalogs:
     'prettier-plugin-svelte': '3.3.2'
     'prettier-plugin-tailwindcss': '0.6.6'
     'typescript-eslint': '8.26.0'
+    jsonc-eslint-parser: 2.4.0
 
   lib-author-helper:
     '@changesets/changelog-github': '0.5.1'
@@ -73,3 +85,12 @@ catalogs:
 
   remult:
     'remult': '2.7.30'
+
+  docs:
+    '@astrojs/starlight': 0.32.2
+    accessible-astro-components: 4.0.3
+    astro: 5.4.2
+    astro-icon: 1.1.5
+
+    prettier-plugin-astro: 0.14.1
+    sharp: 0.33.5

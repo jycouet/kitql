@@ -2,8 +2,6 @@
   "name": "@kitql/eslint-config",
   "version": "0.5.4",
   "type": "module",
-  "funding": "https://github.com/sponsors/jycouet",
-  "homepage": "https://www.kitql.dev/",
   "description": "opinionated linting and formatting for projects",
   "repository": {
     "type": "git",
@@ -11,6 +9,8 @@
     "directory": "packages/eslint-config",
     "homepage": "https://github.com/jycouet/kitql/tree/main/packages/eslint-config"
   },
+  "homepage": "https://www.kitql.dev/",
+  "funding": "https://github.com/sponsors/jycouet",
   "license": "MIT",
   "bin": {
     "kitql-lint": "./cmd.js"
@@ -20,8 +20,8 @@
     ".prettierrc.mjs",
     "cmd.js",
     "cmd.sh",
-    "eslint.config.js",
     "eslint.config.d.ts",
+    "eslint.config.js",
     "helper/findFileOrUp.js"
   ],
   "keywords": [
@@ -32,9 +32,9 @@
   "scripts": {
     "format": "node ./cmd.js -f -d --verbose",
     "format:example": "kitql-lint --format",
+    "inspector": "npx @eslint/config-inspector",
     "lint": "node ./cmd.js --verbose -p none",
-    "lint:example": "kitql-lint",
-    "inspector": "npx @eslint/config-inspector"
+    "lint:example": "kitql-lint"
   },
   "dependencies": {
     "@eslint/compat": "catalog:linting",
@@ -49,7 +49,7 @@
     "eslint-plugin-svelte": "catalog:linting",
     "eslint-plugin-unused-imports": "catalog:linting",
     "globals": "catalog:linting",
-    "jsonc-eslint-parser": "2.4.0",
+    "jsonc-eslint-parser": "catalog:linting",
     "ora": "catalog:tooling",
     "prettier": "catalog:linting",
     "prettier-plugin-svelte": "catalog:linting",

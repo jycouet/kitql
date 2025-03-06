@@ -4,6 +4,7 @@ import pnpmCatalogs from 'eslint-plugin-pnpm-catalogs'
 import svelte from 'eslint-plugin-svelte'
 import unusedImports from 'eslint-plugin-unused-imports'
 import globals from 'globals'
+import * as jsoncParser from 'jsonc-eslint-parser'
 import ts from 'typescript-eslint'
 
 import { findFileOrUp } from './helper/findFileOrUp.js'
@@ -74,7 +75,7 @@ export const config = [
       parser: jsoncParser,
     },
     plugins: {
-      'pnpm-catalogs': plugin,
+      'pnpm-catalogs': pnpmCatalogs,
     },
     rules: {
       'pnpm-catalogs/enforce-catalog': 'error',
