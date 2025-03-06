@@ -154,6 +154,11 @@ catalogs:
       specifier: 6.1.1
       version: 6.1.1
 
+patchedDependencies:
+  '@sveltejs/package':
+    hash: 64eb09fa87c7076fb94521a2357792c8e07736ded7efb75cff91339e4fe9fd13
+    path: patches/@sveltejs__package.patch
+
 importers:
 
   .:
@@ -256,7 +261,7 @@ importers:
         version: 2.17.3(@sveltejs/vite-plugin-svelte@5.0.1(svelte@5.20.5)(vite@6.1.1(@types/node@22.13.7)(jiti@1.21.0)(terser@5.30.3)(yaml@2.7.0)))(svelte@5.20.5)(vite@6.1.1(@types/node@22.13.7)(jiti@1.21.0)(terser@5.30.3)(yaml@2.7.0))
       '@sveltejs/package':
         specifier: catalog:sveltekit
-        version: 2.3.7(svelte@5.20.5)(typescript@5.7.2)
+        version: 2.3.7(patch_hash=64eb09fa87c7076fb94521a2357792c8e07736ded7efb75cff91339e4fe9fd13)(svelte@5.20.5)(typescript@5.7.2)
       '@sveltejs/vite-plugin-svelte':
         specifier: catalog:sveltekit
         version: 5.0.1(svelte@5.20.5)(vite@6.1.1(@types/node@22.13.7)(jiti@1.21.0)(terser@5.30.3)(yaml@2.7.0))
@@ -303,7 +308,7 @@ importers:
         version: 2.17.3(@sveltejs/vite-plugin-svelte@5.0.1(svelte@5.20.5)(vite@6.1.1(@types/node@22.13.7)(jiti@1.21.0)(terser@5.30.3)(yaml@2.7.0)))(svelte@5.20.5)(vite@6.1.1(@types/node@22.13.7)(jiti@1.21.0)(terser@5.30.3)(yaml@2.7.0))
       '@sveltejs/package':
         specifier: catalog:sveltekit
-        version: 2.3.7(svelte@5.20.5)(typescript@5.7.2)
+        version: 2.3.7(patch_hash=64eb09fa87c7076fb94521a2357792c8e07736ded7efb75cff91339e4fe9fd13)(svelte@5.20.5)(typescript@5.7.2)
       '@sveltejs/vite-plugin-svelte':
         specifier: catalog:sveltekit
         version: 5.0.1(svelte@5.20.5)(vite@6.1.1(@types/node@22.13.7)(jiti@1.21.0)(terser@5.30.3)(yaml@2.7.0))
@@ -359,7 +364,7 @@ importers:
         version: 2.17.3(@sveltejs/vite-plugin-svelte@5.0.1(svelte@5.20.5)(vite@6.1.1(@types/node@22.13.7)(jiti@1.21.0)(terser@5.30.3)(yaml@2.7.0)))(svelte@5.20.5)(vite@6.1.1(@types/node@22.13.7)(jiti@1.21.0)(terser@5.30.3)(yaml@2.7.0))
       '@sveltejs/package':
         specifier: catalog:sveltekit
-        version: 2.3.7(svelte@5.20.5)(typescript@5.7.2)
+        version: 2.3.7(patch_hash=64eb09fa87c7076fb94521a2357792c8e07736ded7efb75cff91339e4fe9fd13)(svelte@5.20.5)(typescript@5.7.2)
       '@sveltejs/vite-plugin-svelte':
         specifier: catalog:sveltekit
         version: 5.0.1(svelte@5.20.5)(vite@6.1.1(@types/node@22.13.7)(jiti@1.21.0)(terser@5.30.3)(yaml@2.7.0))
@@ -396,7 +401,7 @@ importers:
         version: 2.17.3(@sveltejs/vite-plugin-svelte@5.0.1(svelte@5.20.5)(vite@6.1.1(@types/node@22.13.7)(jiti@1.21.0)(terser@5.30.3)(yaml@2.7.0)))(svelte@5.20.5)(vite@6.1.1(@types/node@22.13.7)(jiti@1.21.0)(terser@5.30.3)(yaml@2.7.0))
       '@sveltejs/package':
         specifier: catalog:sveltekit
-        version: 2.3.7(svelte@5.20.5)(typescript@5.7.2)
+        version: 2.3.7(patch_hash=64eb09fa87c7076fb94521a2357792c8e07736ded7efb75cff91339e4fe9fd13)(svelte@5.20.5)(typescript@5.7.2)
       '@sveltejs/vite-plugin-svelte':
         specifier: catalog:sveltekit
         version: 5.0.1(svelte@5.20.5)(vite@6.1.1(@types/node@22.13.7)(jiti@1.21.0)(terser@5.30.3)(yaml@2.7.0))
@@ -452,7 +457,7 @@ importers:
         version: 2.17.3(@sveltejs/vite-plugin-svelte@5.0.1(svelte@5.20.5)(vite@6.1.1(@types/node@22.13.7)(jiti@1.21.0)(terser@5.30.3)(yaml@2.7.0)))(svelte@5.20.5)(vite@6.1.1(@types/node@22.13.7)(jiti@1.21.0)(terser@5.30.3)(yaml@2.7.0))
       '@sveltejs/package':
         specifier: catalog:sveltekit
-        version: 2.3.7(svelte@5.20.5)(typescript@5.7.2)
+        version: 2.3.7(patch_hash=64eb09fa87c7076fb94521a2357792c8e07736ded7efb75cff91339e4fe9fd13)(svelte@5.20.5)(typescript@5.7.2)
       '@sveltejs/vite-plugin-svelte':
         specifier: catalog:sveltekit
         version: 5.0.1(svelte@5.20.5)(vite@6.1.1(@types/node@22.13.7)(jiti@1.21.0)(terser@5.30.3)(yaml@2.7.0))
@@ -502,7 +507,7 @@ importers:
         version: 2.17.3(@sveltejs/vite-plugin-svelte@5.0.1(svelte@5.20.5)(vite@6.1.1(@types/node@22.13.7)(jiti@1.21.0)(terser@5.30.3)(yaml@2.7.0)))(svelte@5.20.5)(vite@6.1.1(@types/node@22.13.7)(jiti@1.21.0)(terser@5.30.3)(yaml@2.7.0))
       '@sveltejs/package':
         specifier: catalog:sveltekit
-        version: 2.3.7(svelte@5.20.5)(typescript@5.7.2)
+        version: 2.3.7(patch_hash=64eb09fa87c7076fb94521a2357792c8e07736ded7efb75cff91339e4fe9fd13)(svelte@5.20.5)(typescript@5.7.2)
       '@sveltejs/vite-plugin-svelte':
         specifier: catalog:sveltekit
         version: 5.0.1(svelte@5.20.5)(vite@6.1.1(@types/node@22.13.7)(jiti@1.21.0)(terser@5.30.3)(yaml@2.7.0))
@@ -552,7 +557,7 @@ importers:
         version: 2.17.3(@sveltejs/vite-plugin-svelte@5.0.1(svelte@5.20.5)(vite@6.1.1(@types/node@22.13.7)(jiti@1.21.0)(terser@5.30.3)(yaml@2.7.0)))(svelte@5.20.5)(vite@6.1.1(@types/node@22.13.7)(jiti@1.21.0)(terser@5.30.3)(yaml@2.7.0))
       '@sveltejs/package':
         specifier: catalog:sveltekit
-        version: 2.3.7(svelte@5.20.5)(typescript@5.7.2)
+        version: 2.3.7(patch_hash=64eb09fa87c7076fb94521a2357792c8e07736ded7efb75cff91339e4fe9fd13)(svelte@5.20.5)(typescript@5.7.2)
       '@sveltejs/vite-plugin-svelte':
         specifier: catalog:sveltekit
         version: 5.0.1(svelte@5.20.5)(vite@6.1.1(@types/node@22.13.7)(jiti@1.21.0)(terser@5.30.3)(yaml@2.7.0))
@@ -7641,7 +7646,7 @@ snapshots:
       svelte: 5.20.5
       vite: 6.1.1(@types/node@22.13.7)(jiti@1.21.0)(terser@5.30.3)(yaml@2.7.0)
 
-  '@sveltejs/package@2.3.7(svelte@5.20.5)(typescript@5.7.2)':
+  '@sveltejs/package@2.3.7(patch_hash=64eb09fa87c7076fb94521a2357792c8e07736ded7efb75cff91339e4fe9fd13)(svelte@5.20.5)(typescript@5.7.2)':
     dependencies:
       chokidar: 4.0.1
       kleur: 4.1.5
