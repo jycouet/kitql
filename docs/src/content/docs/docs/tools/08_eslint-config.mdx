@@ -24,8 +24,7 @@ npm i -D @kitql/eslint-config
 add this to your `.npmrc`
 
 ```yml
-public-hoist-pattern[]=*eslint*
-public-hoist-pattern[]=*prettier*
+public-hoist-pattern[]=*eslint* public-hoist-pattern[]=*prettier*
 ```
 
 ### eslint config
@@ -41,8 +40,8 @@ export default [
     name: 'app:rules',
     rules: {
       // Some custom things?
-    },
-  },
+    }
+  }
 ]
 ```
 
@@ -59,7 +58,7 @@ npx @eslint/config-inspector
 import config from '@kitql/eslint-config/.prettierrc.mjs'
 
 export default {
-  ...config,
+  ...config
   // Some custom things?
 }
 ```

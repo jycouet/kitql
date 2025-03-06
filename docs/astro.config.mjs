@@ -1,7 +1,7 @@
 // @ts-check
-import { defineConfig } from 'astro/config'
 import starlight from '@astrojs/starlight'
 import icon from 'astro-icon'
+import { defineConfig } from 'astro/config'
 
 // import dotenv from 'dotenv'
 

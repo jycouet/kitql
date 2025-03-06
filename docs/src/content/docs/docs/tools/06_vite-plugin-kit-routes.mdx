@@ -79,12 +79,13 @@ import { Video } from 'accessible-astro-components'
 <script lang="ts">
   import { enhance } from '$app/forms'
   import { page } from '$app/stores'
+
   import { route } from '$lib/ROUTES'
 
   const id = $page.params.id
 
   // 🤞 before, hardcoded string, error prone
-  const action =  `/site/${id}?/send`
+  const action_hope = `/site/${id}?/send`
 
   // ✅ after, typechecked route, no more errors
   const action = route('send /site/[id]', { id })
@@ -150,8 +151,8 @@ export default config = {
   plugins: [
     sveltekit(),
     // ✅ Add the plugin
-    kitRoutes(),
-  ],
+    kitRoutes()
+  ]
 }
 ```
 
