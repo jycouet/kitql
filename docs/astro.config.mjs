@@ -3,7 +3,6 @@ import { defineConfig } from 'astro/config'
 import starlight from '@astrojs/starlight'
 import icon from 'astro-icon'
 
-import sentry from '@sentry/astro'
 import dotenv from 'dotenv'
 
 import vue from '@astrojs/vue'
@@ -15,11 +14,11 @@ export default defineConfig({
   vite: {},
   integrations: [
     starlight({
-      title: 'KitQL Documentation',
+      title: 'KitQL',
       logo: {
         light: './src/assets/logo.svg',
         dark: './src/assets/logo.svg',
-        replacesTitle: true,
+        // replacesTitle: true,
       },
       social: {
         blueSky: 'https://bsky.app/profile/jyc.dev',
@@ -82,14 +81,14 @@ export default defineConfig({
       customCss: ['./src/styles/custom.css'],
     }),
     icon(),
-    sentry({
-      dsn: process.env.SENTRY_DSN,
-      environment: process.env.SENTRY_ENVIRONMENT,
-      sourceMapsUploadOptions: {
-        project: process.env.SENTRY_PROJECT,
-        authToken: process.env.SENTRY_AUTH_TOKEN,
-      },
-    }),
+    // sentry({
+    //   dsn: process.env.SENTRY_DSN,
+    //   environment: process.env.SENTRY_ENVIRONMENT,
+    //   sourceMapsUploadOptions: {
+    //     project: process.env.SENTRY_PROJECT,
+    //     authToken: process.env.SENTRY_AUTH_TOKEN,
+    //   },
+    // }),
     vue(),
   ],
 })
