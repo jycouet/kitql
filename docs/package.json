@@ -1,0 +1,31 @@
+{
+  "name": "docs",
+  "type": "module",
+  "version": "0.0.1",
+  "scripts": {
+    "dev": "astro dev",
+    "start": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "astro": "astro"
+  },
+  "dependencies": {
+    "@astrojs/starlight": "0.30.6",
+    "@astrojs/tailwind": "5.1.5",
+    "@astrojs/vue": "5.0.6",
+    "@iconify-json/ion": "1.2.2",
+    "@iconify-json/mdi": "1.2.3",
+    "@iconify/vue": "4.3.0",
+    "@sentry/astro": "9.1.0",
+    "accessible-astro-components": "4.0.2",
+    "astro": "5.1.5",
+    "astro-icon": "1.1.5",
+    "dotenv": "16.4.7",
+    "sharp": "0.32.5",
+    "vue": "3.5.13"
+  },
+  "devDependencies": {
+    "prettier-plugin-astro": "^0.14.1"
+  },
+  "dotenv": true
+}

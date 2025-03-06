@@ -1,0 +1,45 @@
+---
+title: Introduction
+description: TODO
+---
+
+import { Aside } from '@astrojs/starlight/components'
+
+## Our approach to accessibility
+
+Accessibility isn't an afterthought in Accessible Astro—it's our foundation. We follow the WAI-ARIA guidelines and WCAG 2.2 standards to ensure our components and themes work for everyone, regardless of how they interact with the web.
+
+## Key principles
+
+### 1. Semantic HTML
+
+- Using proper HTML elements (`<button>`, `<nav>`, `<main>`, etc.)
+- Maintaining logical heading hierarchy
+- Providing meaningful landmarks
+- Using lists for navigation items
+
+<Aside type="tip" title="Color contrast">
+  All our components meet WCAG 2.2 Level AA contrast requirements by default, with many meeting the
+  stricter AAA level.
+</Aside>
+
+## User preferences
+
+We respect user preferences through:
+
+```css
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  /* Motion-based animations are disabled */
+}
+
+/* Color scheme */
+@media (prefers-color-scheme: dark) {
+  /* Dark mode styles */
+}
+
+/* Contrast (coming soon) */
+@media (prefers-contrast: more) {
+  /* High contrast styles */
+}
+```
