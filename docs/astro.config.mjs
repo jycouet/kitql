@@ -15,7 +15,7 @@ export default defineConfig({
   vite: {},
   integrations: [
     starlight({
-      title: 'Accessible Astro Documentation',
+      title: 'KitQL Documentation',
       logo: {
         light: './src/assets/logo.svg',
         dark: './src/assets/logo.svg',
@@ -23,7 +23,7 @@ export default defineConfig({
       },
       social: {
         blueSky: 'https://bsky.app/profile/jyc.dev',
-        github: 'https://github.com/jycouet',
+        github: 'https://github.com/jycouet/kitql',
       },
       editLink: {
         baseUrl: 'https://github.com/jycouet/kitql/edit/main/',
@@ -33,175 +33,48 @@ export default defineConfig({
       },
       sidebar: [
         {
-          label: 'Getting started',
+          label: 'Getting Started',
           items: [
             {
               label: 'Introduction',
               link: '/docs',
             },
             {
-              label: 'Why accessibility matters',
-              link: '/getting-started/accessibility',
-            },
-            {
-              label: 'Accessibility testing',
-              link: '/getting-started/accessibility-testing',
-              badge: {
-                text: 'tip',
-                variant: 'note',
-              },
-            },
-            {
-              label: 'Quick start guide',
-              link: '/getting-started/quick-start',
-            },
-            {
-              label: 'Installation options',
-              link: '/getting-started/installation',
+              label: 'FAQ',
+              link: '/docs/faq',
             },
           ],
         },
         {
-          label: 'Themes',
+          label: 'Tools',
           items: [
             {
-              label: 'Accessible Astro Starter',
-              link: '/themes/accessible-astro-starter',
+              label: 'Helpers',
+              link: '/docs/tools/04_helpers',
             },
             {
-              label: 'Accessible Astro Dashboard',
-              link: '/themes/accessible-astro-dashboard',
-            },
-          ],
-        },
-        {
-          label: 'Components',
-          items: [
-            {
-              label: 'Overview',
-              link: '/components/overview',
+              label: 'SvelteKit',
+              link: '/docs/tools/10_sveltekit',
             },
             {
-              label: 'Accordion',
-              link: '/components/accordion',
+              label: 'Handles',
+              link: '/docs/tools/05_handles',
             },
             {
-              label: 'Avatar',
-              link: '/components/avatar',
-              badge: {
-                text: 'next',
-                variant: 'tip',
-              },
+              label: 'vite-plugin-kit-routes',
+              link: '/docs/tools/06_vite-plugin-kit-routes',
             },
             {
-              label: 'Badge',
-              link: '/components/badge',
-              badge: {
-                text: 'next',
-                variant: 'tip',
-              },
+              label: 'vite-plugin-watch-and-run',
+              link: '/docs/tools/03_vite-plugin-watch-and-run',
             },
             {
-              label: 'Breadcrumbs',
-              link: '/components/breadcrumbs',
+              label: 'vite-plugin-stripper',
+              link: '/docs/tools/07_vite-plugin-stripper',
             },
             {
-              label: 'Card',
-              link: '/components/card',
-            },
-            {
-              label: 'DarkMode',
-              link: '/components/dark-mode',
-            },
-            {
-              label: 'Drawer',
-              link: '/components/drawer',
-              badge: {
-                text: 'soon',
-                variant: 'caution',
-              },
-            },
-            {
-              label: 'Forms',
-              link: '/components/forms',
-              badge: {
-                text: 'soon',
-                variant: 'caution',
-              },
-            },
-            {
-              label: 'Media',
-              link: '/components/media',
-            },
-            {
-              label: 'Modal',
-              link: '/components/modal',
-            },
-            {
-              label: 'Notification',
-              link: '/components/notification',
-            },
-            {
-              label: 'Pagination',
-              link: '/components/pagination',
-            },
-            {
-              label: 'SkipLink',
-              link: '/components/skip-link',
-            },
-            {
-              label: 'Tabs',
-              link: '/components/tabs',
-            },
-            {
-              label: 'Tooltip',
-              link: '/components/tooltip',
-              badge: {
-                text: 'soon',
-                variant: 'caution',
-              },
-            },
-            {
-              label: 'Video',
-              link: '/components/video',
-              badge: {
-                text: 'new!',
-                variant: 'success',
-              },
-            },
-          ],
-        },
-        {
-          label: 'Contributing',
-          items: [
-            {
-              label: 'How to contribute',
-              link: '/contributing/how-to',
-            },
-            {
-              label: 'Development setup',
-              link: '/contributing/development',
-            },
-            {
-              label: 'Code style guide',
-              link: '/contributing/style-guide',
-            },
-            {
-              label: 'Reporting issues',
-              link: '/contributing/issues',
-            },
-            {
-              label: '❤️ Supporting the project',
-              link: '/contributing/support-us',
-            },
-          ],
-        },
-        {
-          label: 'Resources',
-          items: [
-            {
-              label: 'Site showcases',
-              link: '/resources/showcases',
+              label: 'eslint-config & prettier',
+              link: '/docs/tools/08_eslint-config',
             },
           ],
         },

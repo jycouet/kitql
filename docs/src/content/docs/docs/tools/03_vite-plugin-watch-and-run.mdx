@@ -1,0 +1,78 @@
+---
+title: 👀 vite-plugin-watch-and-run
+description: Adding watch mode to any command / Tool!
+---
+
+import { Aside } from '@astrojs/starlight/components'
+
+<Aside type="tip">
+  _**KitQL** itself is not a library, it's "nothing" but a collection of standalone libraries._
+</Aside>
+
+Adding watch mode to any command / Tool!
+
+## Installation
+
+```sh
+npm i -D vite-plugin-watch-and-run
+```
+
+## Configuration
+
+Add `watchAndRun` plugin with the following configuration:
+
+- `watch`: a glob pattern to watch for changes. This will be matched against the **absolute path**
+  for altered files.
+- `run`: a command to trigger when a file change is detected (You can be very creative 🥳!)
+
+```js
+// vite.config.js
+import path from 'path'
+import { watchAndRun } from 'vite-plugin-watch-and-run'
+import { defineConfig } from 'vite'
+
+export default defineConfig({
+  plugins: [
+    watchAndRun([
+      {
+        name: 'gen',
+        watch: path.resolve('src/**/*.(gql|svelte)'),
+        run: 'npm run gen'
+        // watchKind: ['add', 'change', 'unlink'], // (default)
+        // delay: 300                              // (default)
+      }
+    ])
+  ]
+}
+```
+
+## Side Notes
+
+- Full list of `watchKind` can be found here: https://github.com/paulmillr/chokidar#api
+
+- `delay` is good in case you have 200 files added realy fast! Like this the cmd is executed only
+  once.
+
+- For the `run` command we recommend to use `npm run xxx` as it will work for `npm`, `yarn` and
+  `pnpm` 🙃
+
+- `watch` infos
+  - You can use glob patterns to watch for changes under the root directory.
+
+```js
+{
+  watch: path.resolve('**/*.ts')
+}
+```
+
+- You can use absolute path to watch for changes on a specific file on your machine. That's useful
+  if you want to watch for changes on a file that is in your monorepo for example!
+
+```js
+{
+  watch: path.resolve('../../README.md')
+}
+```
+
+- You can also go with `watchFile` that is a function that will be called with the filepath. Inside,
+  you can decide what to do.

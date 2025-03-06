@@ -1,45 +1,91 @@
 ---
 title: Introduction
-description: TODO
+description: Introduction to KitQL - A set of standalone tools to SpeedRun WebApps!
 ---
 
 import { Aside } from '@astrojs/starlight/components'
 
-## Our approach to accessibility
-
-Accessibility isn't an afterthought in Accessible Astro—it's our foundation. We follow the WAI-ARIA guidelines and WCAG 2.2 standards to ensure our components and themes work for everyone, regardless of how they interact with the web.
-
-## Key principles
-
-### 1. Semantic HTML
-
-- Using proper HTML elements (`<button>`, `<nav>`, `<main>`, etc.)
-- Maintaining logical heading hierarchy
-- Providing meaningful landmarks
-- Using lists for navigation items
-
-<Aside type="tip" title="Color contrast">
-  All our components meet WCAG 2.2 Level AA contrast requirements by default, with many meeting the
-  stricter AAA level.
+<Aside type="tip">
+  _**KitQL** itself is not a library, it's "nothing" but a collection of standalone libraries._
 </Aside>
 
-## User preferences
+Over the years, we have been building a lot of apps with Svelte & SvelteKit, and we keep repeating
+same things over and over again. So we decided to build libraries that will help us SpeedRun our
+WebApps development.
 
-We respect user preferences through:
+You have some general questions? We have some answers! 🤞 check out our [F.A.Q.](/docs/faq)
 
-```css
-/* Reduced motion */
-@media (prefers-reduced-motion: reduce) {
-  /* Motion-based animations are disabled */
-}
+<Aside type="note">Welcome to KitQL world!</Aside>
 
-/* Color scheme */
-@media (prefers-color-scheme: dark) {
-  /* Dark mode styles */
-}
+## KitQL packages
 
-/* Contrast (coming soon) */
-@media (prefers-contrast: more) {
-  /* High contrast styles */
-}
-```
+- For everywhere
+
+  - ⚡️ [@kitql/helpers](/docs/tools/helpers) - 0️⃣ dep, 🪶 lightweight helpers for `logs`,
+    `sleep`, `JSON`, ...
+  - 💄 [@kitql/eslint-config](/docs/tools/eslint-config) - Simplified eslint & prettier
+
+---
+
+- For SvelteKit
+
+  - 👌 [@kitql/sveltekit](/docs/tools/sveltekit) - SvelteKit utilities and helpers.
+  - 🪧 [vite-plugin-kit-routes](/docs/tools/vite-plugin-kit-routes) - Ensure all routes to be
+    up-to-date, saving time and preventing broken links.
+  - 🔀 [@kitql/handles](/docs/tools/handles) - Common handles and utilities to proxy requests,
+    enable CORS per-route, enable cross-site form posts per route in a safe way, etc.
+
+---
+
+- For vite
+  - 👀 [vite-plugin-watch-and-run](/docs/tools/vite-plugin-watch-and-run) - Adding watch mode to
+    any command / Tool!
+  - 🥶 [vite-plugin-stripper](/docs/tools/vite-plugin-stripper) - Remove some code on browser
+    build.
+
+## Synergies with KitQL
+
+Not directly related to KitQL, but we are using them a lot, and they are working great with KitQL!
+
+- 🟦 [Remult](https://remult.dev/) - No code / low code / full code. Why Choosing when you can get
+  everything? 🚧 WIP 🚧
+
+## Packages Showcase
+
+You will find here list of potential interesting
+videos.
+
+### **vite-plugin-kit-routes**
+
+#### 01/02/2024 Are you on the right route?
+
+<Video
+  src="https://www.youtube.com/watch?v=K8sKpMSCOiE"
+  title="KitQL - vite-plugin-kit-routes"
+  ratio="16:9"
+  allowfullscreen
+/>
+
+#### 01/12/2023 Showcase
+
+at this week in svelte
+
+import { Video } from 'accessible-astro-components'
+
+<Video
+  src="https://www.youtube.com/embed/GH5NxbdCZ74?start=489"
+  title="KitQL - vite-plugin-kit-routes"
+  ratio="16:9"
+  allowfullscreen
+/>
+
+### **Remult**
+
+#### 26/07/2023 Fullstack apps in minutes
+
+<Video
+  src="https://www.youtube.com/embed/N8d290fTzq8"
+  title="remult - Fullstack apps in minutes"
+  ratio="16:9"
+  allowfullscreen
+/>
