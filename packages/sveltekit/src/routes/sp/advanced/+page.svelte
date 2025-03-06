@@ -120,7 +120,7 @@
         </div>
 
         <div class="mb-4 flex flex-wrap gap-2">
-          {#each sp.obj.tags as tag}
+          {#each sp.obj.tags as tag (tag)}
             <div class="badge badge-lg gap-1 p-3">
               {tag}
               <button class="btn btn-ghost btn-xs" onclick={() => removeTag(tag)}> ✕ </button>
@@ -144,7 +144,7 @@
             value={sp.obj.filters.sortBy}
             onchange={(e: Event) => updateFilter('sortBy', (e.target as HTMLSelectElement).value)}
           >
-            {#each sortOptions as option}
+            {#each sortOptions as option (option)}
               <option value={option}>{option}</option>
             {/each}
           </select>
@@ -155,7 +155,7 @@
             <span class="label-text">Order</span>
           </label>
           <div class="join">
-            {#each orderOptions as option}
+            {#each orderOptions as option (option)}
               <input
                 type="radio"
                 name="order"

@@ -1,8 +1,8 @@
 import { execSync } from 'child_process'
-import { buildSync } from 'esbuild'
 import fs from 'fs'
 import path from 'path'
 import { exit } from 'process'
+import { buildSync } from 'esbuild'
 
 // Will check the format of package.json
 execSync(`node ../../scripts/packageJsonFormat.js`)
@@ -66,7 +66,7 @@ fs.renameSync(path.join(packageDirPath, tmpFolder), path.join(packageDirPath, 'd
 
 // now cjs
 try {
-  let entryPoints = listFiles(`${packageDirPath}/src/lib`).filter(c => !c.includes('.spec.'))
+  let entryPoints = listFiles(`${packageDirPath}/src/lib`).filter((c) => !c.includes('.spec.'))
 
   buildSync({
     entryPoints,
@@ -74,7 +74,7 @@ try {
     outdir: 'dist/cjs',
   })
 } catch (error) {
-  console.log(`cjs error`, error)
+  console.error(`cjs error`, error)
 }
 fs.writeFileSync(
   path.join(packageDirPath, 'dist/cjs/package.json'),
@@ -120,7 +120,7 @@ for (let i = 0; i < listOfFilesToRemove.length; i++) {
 //   fs.writeFileSync(pkgTemplatePath, JSON.stringify(pkgTemplateJson, null, 2))
 // })
 
-console.log(`✅ @kitql scripts/package "${pkg.name}" done`)
+console.info(`✅ @kitql scripts/package "${pkg.name}" done`)
 
 function copy(
   /** @type {string} */ sourceDir,
@@ -173,7 +173,7 @@ function listFiles(dir) {
   try {
     const items = fs.readdirSync(dir)
 
-    items.forEach(item => {
+    items.forEach((item) => {
       const fullPath = path.join(dir, item)
       if (fs.statSync(fullPath).isDirectory()) {
         files = files.concat(listFiles(fullPath))
