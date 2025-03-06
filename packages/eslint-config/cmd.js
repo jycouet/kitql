@@ -5,7 +5,7 @@ import path from 'node:path'
 import { Option, program } from 'commander'
 import ora from 'ora'
 
-import { bgBlueBright, bgGreen, bgRedBright, gray, red } from '@kitql/helpers'
+import { bgBlueBright, bgGreen, bgRedBright, gray, green, red } from '@kitql/helpers'
 
 import { findFileOrUp } from './helper/findFileOrUp.js'
 
@@ -219,30 +219,30 @@ async function prettierRun() {
 
 const took = []
 
+const display = (text, time) => {
+  return `${gray(text)} ${green((time / 1000).toFixed(3))}${gray('s')}`
+}
+
 // If changed-only flag is set, get the list of changed files
 if (diffOnly) {
   spinner.text = 'Checking for changed files'
+  const changedFilesStart = performance.now()
   const changedFiles = await getDiffFiles()
+  const changedFilesTook = performance.now() - changedFilesStart
+  took.push(display('diff', changedFilesTook))
 
   if (changedFiles) {
-    // Override the glob with the list of changed files
     glob = changedFiles
-    if (verbose) {
-      spinner.info(`Running checks only on changed files`)
-    }
   } else {
     glob = ''
-    if (verbose) {
-      spinner.info(`No changed files found we will end now.`)
-    }
   }
 }
 
 if (!prettierOnly && glob) {
-  const esLintStart = Date.now()
+  const esLintStart = performance.now()
   const eslintCode = await eslintRun()
-  const esLintTook = Date.now() - esLintStart
-  took.push(`eslint: ${esLintTook}ms`)
+  const esLintTook = performance.now() - esLintStart
+  took.push(display('eslint', esLintTook))
   if (eslintCode.status) {
     spinner.prefixText = bgRedBright(` kitql-lint `)
     spinner.fail(red(`eslint failed, check logs above.`))
@@ -251,10 +251,10 @@ if (!prettierOnly && glob) {
 }
 
 if (!eslintOnly && glob) {
-  const prettierStart = Date.now()
+  const prettierStart = performance.now()
   const prettierCode = await prettierRun()
-  const prettierTook = Date.now() - prettierStart
-  took.push(`prettier: ${prettierTook}ms`)
+  const prettierTook = performance.now() - prettierStart
+  took.push(display('prettier', prettierTook))
   if (prettierCode.status) {
     spinner.prefixText = bgRedBright(` kitql-lint `)
     spinner.fail(red(`prettier failed, check logs above.`))
@@ -263,6 +263,8 @@ if (!eslintOnly && glob) {
 }
 
 spinner.prefixText = bgGreen(` kitql-lint `)
-spinner.succeed(`All good, your files looks great! ${gray(`(${took.join(', ')})`)}`)
+spinner.succeed(
+  `All good, ${glob === '' ? 'nothing to do!' : 'your files looks great!'} ${gray('(')}${took.join(gray(', '))}${gray(')')}`,
+)
 spinner.stop()
 process.exit(0)
