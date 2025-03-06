@@ -89,8 +89,8 @@ importers:
         specifier: workspace:*
         version: link:../helpers/dist
       esm-env:
-        specifier: ^1.0.0
-        version: 1.2.1
+        specifier: ^1.2.2
+        version: 1.2.2
       vary:
         specifier: ^1.1.2
         version: 1.1.2
@@ -142,8 +142,8 @@ importers:
   packages/helpers:
     dependencies:
       esm-env:
-        specifier: ^1.0.0
-        version: 1.2.1
+        specifier: ^1.2.2
+        version: 1.2.2
     devDependencies:
       '@kitql/eslint-config':
         specifier: workspace:*
@@ -3417,9 +3417,6 @@ packages:
     peerDependenciesMeta:
       jiti:
         optional: true
-
-  esm-env@1.2.1:
-    resolution: {integrity: sha512-U9JedYYjCnadUlXk7e1Kr+aENQhtUaoaV9+gZm1T8LC/YBAPJx3NSPIAurFOC0U5vrdSevnUJS2/wUVxGwPhng==}
 
   esm-env@1.2.2:
     resolution: {integrity: sha512-Epxrv+Nr/CaL4ZcFGPJIYLWFom+YeV1DqMLHJoEd9SYRxNbaFruBwfEX/kkHUJf55j2+TUbmDcmuilbP1TmXHA==}
@@ -10010,8 +10007,6 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  esm-env@1.2.1: {}
-
   esm-env@1.2.2: {}
 
   esm@3.2.25: {}
@@ -13356,7 +13351,7 @@ snapshots:
       aria-query: 5.3.2
       axobject-query: 4.1.0
       clsx: 2.1.1
-      esm-env: 1.2.1
+      esm-env: 1.2.2
       esrap: 1.4.3
       is-reference: 3.0.3
       locate-character: 3.0.0
@@ -13372,7 +13367,7 @@ snapshots:
       acorn-typescript: 1.4.13(acorn@8.12.1)
       aria-query: 5.3.2
       axobject-query: 4.1.0
-      esm-env: 1.2.1
+      esm-env: 1.2.2
       esrap: 1.2.3
       is-reference: 3.0.3
       locate-character: 3.0.0
