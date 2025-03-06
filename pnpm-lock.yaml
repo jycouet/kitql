@@ -5,6 +5,13 @@ settings:
   excludeLinksFromLockfile: false
 
 catalogs:
+  dep-helpers:
+    esm-env:
+      specifier: 1.2.2
+      version: 1.2.2
+    vary:
+      specifier: 1.1.2
+      version: 1.1.2
   linting:
     '@eslint/compat':
       specifier: 1.1.1
@@ -154,10 +161,10 @@ importers:
         specifier: workspace:*
         version: link:../helpers/dist
       esm-env:
-        specifier: ^1.2.2
+        specifier: catalog:dep-helpers
         version: 1.2.2
       vary:
-        specifier: ^1.1.2
+        specifier: catalog:dep-helpers
         version: 1.1.2
     devDependencies:
       '@kitql/eslint-config':
