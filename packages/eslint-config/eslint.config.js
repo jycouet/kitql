@@ -97,8 +97,11 @@ export const config = [
 
       'no-undef': 'off',
       'no-inner-declarations': 'off',
+
       'svelte/no-at-html-tags': 'off',
       'svelte/no-inner-declarations': 'off',
+
+      'svelte/require-each-key': 'warn',
     },
   },
 ]

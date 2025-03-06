@@ -18,6 +18,13 @@ tune things)_
 npm i -D @kitql/eslint-config
 ```
 
+add this to your `.npmrc`
+
+```.npmrc
+public-hoist-pattern[]=*eslint*
+public-hoist-pattern[]=*prettier*
+```
+
 ### eslint config
 
 ```js filename="eslint.config.js"
