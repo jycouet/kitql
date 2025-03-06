@@ -1,5 +1,6 @@
 import { includeIgnoreFile } from '@eslint/compat'
 import js from '@eslint/js'
+import pnpmCatalogs from 'eslint-plugin-pnpm-catalogs'
 import svelte from 'eslint-plugin-svelte'
 import unusedImports from 'eslint-plugin-unused-imports'
 import globals from 'globals'
@@ -64,6 +65,16 @@ export const config = [
       //   },
       // ],
       'no-empty': ['error', { allowEmptyCatch: true }],
+    },
+  },
+  {
+    name: '@kitql:pnpmCatalogs',
+    plugins: {
+      pnpmCatalogs,
+    },
+    rules: {
+      'pnpmCatalogs/enforce-catalog': 'error',
+      'pnpmCatalogs/valid-catalog': 'error',
     },
   },
   {
