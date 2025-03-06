@@ -30,7 +30,7 @@
     "eslint-config"
   ],
   "scripts": {
-    "format": "node ./cmd.js -f",
+    "format": "node ./cmd.js -f -d --verbose",
     "format:example": "kitql-lint --format",
     "lint": "node ./cmd.js --verbose -p none",
     "lint:example": "kitql-lint",

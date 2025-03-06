@@ -7,6 +7,7 @@ import { bgBlueBright, bgGreen, bgRedBright, gray, red } from '@kitql/helpers'
 
 import { findFileOrUp } from './helper/findFileOrUp.js'
 
+// df
 const spinner = ora({
   // hideCursor: true,
   prefixText: bgBlueBright(` kitql-lint `),
@@ -19,6 +20,9 @@ program.addOption(new Option('-g, --glob <type>', 'file/dir/glob (. by default)'
 program.addOption(new Option('--eslint-only', 'only run eslint', false))
 program.addOption(new Option('--prettier-only', 'only run prettier', false))
 program.addOption(new Option('--verbose', 'add more logs', false))
+program.addOption(
+  new Option('-d, --diff-only', 'only check files changed against main branch', false),
+)
 program.addOption(
   new Option(
     '-p, --prefix <type>',
@@ -34,11 +38,12 @@ const pathPrettierIgnore = findFileOrUp('.prettierignore')
 const pathPrettierMjs = findFileOrUp('.prettierrc.mjs')
 
 const format = options_cli.format ?? false
-const glob = options_cli.glob ?? '.'
+let glob = options_cli.glob ?? '.'
 const verbose = options_cli.verbose ?? false
 const pre = options_cli.prefix ?? 'none'
 const eslintOnly = options_cli.eslintOnly ?? false
 const prettierOnly = options_cli.prettierOnly ?? false
+const diffOnly = options_cli.diffOnly ?? false
 
 let preToUse = ''
 if (pre === 'npm') {
@@ -76,6 +81,48 @@ async function customSpawn(cmd) {
     return { status: exitCode, error }
   }
   return data
+}
+
+async function getDiffFiles() {
+  spinner.text = verbose ? 'git diff ' + gray('(getting changed files against main)') : 'git diff'
+
+  const cmd = 'git diff --name-only --diff-filter=ACMR main'
+
+  try {
+    const child = spawn(cmd, {
+      shell: true,
+      cwd: process.cwd(),
+    })
+
+    let data = ''
+    for await (const chunk of child.stdout) {
+      data += chunk
+    }
+
+    let error = ''
+    for await (const chunk of child.stderr) {
+      error += chunk
+    }
+
+    const exitCode = await new Promise((resolve) => {
+      child.on('close', resolve)
+    })
+
+    if (exitCode) {
+      spinner.warn(`Could not get changed files: ${error}`)
+      return null
+    }
+
+    const files = data.trim().split('\n').filter(Boolean)
+    if (verbose) {
+      spinner.info(`Found ${files.length} changed files against main`)
+    }
+
+    return files.length > 0 ? `'${files.join(',')}'` : null
+  } catch (error) {
+    spinner.warn(`Error getting changed files: ${error.message}`)
+    return null
+  }
 }
 
 async function eslintRun() {
@@ -116,6 +163,28 @@ async function prettierRun() {
 }
 
 const took = []
+
+
+// If changed-only flag is set, get the list of changed files
+if (diffOnly) {
+  spinner.text = 'Checking for changed files'
+  const changedFiles = await getDiffFiles()
+  
+  if (changedFiles) {
+    // Override the glob with the list of changed files
+    glob = changedFiles
+    if(verbose){
+      spinner.info(`Running checks only on changed files`)
+    }
+  } else {
+    if(verbose){
+      spinner.info(
+        `No changed files found or couldn't determine changes, using provided glob: ${glob}`,
+      )
+    }
+  }
+}
+
 if (!prettierOnly) {
   const esLintStart = Date.now()
   const eslintCode = await eslintRun()
