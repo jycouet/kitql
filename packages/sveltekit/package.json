@@ -20,7 +20,7 @@
     "dev": "vite dev",
     "build": "vite build && svelte-package && node ../../scripts/package.js && publint ./dist --strict",
     "preview": "vite preview",
-    "prepare": "svelte-kit sync || echo ''",
+    "prepare": "svelte-kit sync",
     "check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
     "check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
     "test:unit": "vitest",

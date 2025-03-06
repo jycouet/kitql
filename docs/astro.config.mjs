@@ -3,15 +3,16 @@ import { defineConfig } from 'astro/config'
 import starlight from '@astrojs/starlight'
 import icon from 'astro-icon'
 
-import dotenv from 'dotenv'
+// import dotenv from 'dotenv'
 
-import vue from '@astrojs/vue'
+// import vue from '@astrojs/vue'
 
-dotenv.config()
+// dotenv.config()
 
 // https://astro.build/config
 export default defineConfig({
   vite: {},
+  site: 'https://kitql.dev',
   integrations: [
     starlight({
       title: 'KitQL',
@@ -89,6 +90,6 @@ export default defineConfig({
     //     authToken: process.env.SENTRY_AUTH_TOKEN,
     //   },
     // }),
-    vue(),
+    // vue(),
   ],
 })
