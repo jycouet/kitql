@@ -5,6 +5,11 @@
   --kitql-orange-dark: #d93500;
   --gradient-primary: linear-gradient(135deg, #ff3e00 0%, #ff7346 100%);
   --gradient-secondary: linear-gradient(135deg, #d93500 0%, #ff3e00 100%);
+
+  --sl-color-accent-high: hsl(195.51, 100%, 46.27%);
+  --sl-color-bg-nav: hsl(240, 1%, 19%);
+  --sl-color-bg-sidebar: hsl(240, 1%, 16%);
+  --sl-color-bg: hsl(240, 1%, 12%);
 }
 
 /* Elegant background pattern */
@@ -14,7 +19,7 @@
   z-index: -1;
   inset: 0;
 
-  /* Subtle hexagon pattern using SVG background */
+  /* Subtle hexagon pattern using SVG background - using KitQL orange */
   background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M30 5.5L55 20v30L30 64.5L5 50V20L30 5.5z' stroke='%23FF3E00' stroke-width='0.5' fill='none' /%3E%3C/svg%3E");
   background-size: 60px 60px;
   mask-image: radial-gradient(ellipse at center, black 0%, black 70%, transparent 100%);
