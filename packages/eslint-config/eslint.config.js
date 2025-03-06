@@ -68,13 +68,17 @@ export const config = [
     },
   },
   {
-    name: '@kitql:pnpmCatalogs',
+    name: 'pnpm-catalogs:package.json',
+    files: ['package.json', '**/package.json'],
+    languageOptions: {
+      parser: jsoncParser,
+    },
     plugins: {
-      pnpmCatalogs,
+      'pnpm-catalogs': plugin,
     },
     rules: {
-      'pnpmCatalogs/enforce-catalog': 'error',
-      'pnpmCatalogs/valid-catalog': 'error',
+      'pnpm-catalogs/enforce-catalog': 'error',
+      'pnpm-catalogs/valid-catalog': 'error',
     },
   },
   {
