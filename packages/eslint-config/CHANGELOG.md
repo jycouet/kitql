@@ -1,5 +1,17 @@
 # eslint-config-kitql
 
+## 0.5.5-next.0
+
+### Patch Changes
+
+- [#896](https://github.com/jycouet/kitql/pull/896)
+  [`9fe9484`](https://github.com/jycouet/kitql/commit/9fe94845762ace702e7e0f5771ba867902ebbb5f)
+  Thanks [@jycouet](https://github.com/jycouet)! - add a diff option (-d) to eslint & prettier only
+  diff against main!
+
+- Updated dependencies []:
+  - @kitql/helpers@0.8.12
+
 ## 0.5.4
 
 ### Patch Changes
