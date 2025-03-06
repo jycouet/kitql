@@ -38,7 +38,7 @@ jobs:
           nodeVersion: 22.11.0
 
       - name: 🚧 Build all Packages
-        run: pnpm -F ...${{ matrix.prj }} build
+        run: pnpm -r build
 
       - name: 🧹 Lint Check
         run: pnpm -F ${{ matrix.prj }} lint
