@@ -1,5 +1,21 @@
 # eslint-config-kitql
 
+## 0.5.4
+
+### Patch Changes
+
+- [#893](https://github.com/jycouet/kitql/pull/893)
+  [`6cc6ba6`](https://github.com/jycouet/kitql/commit/6cc6ba6d8769643562811d003f0ab6ca667d185f)
+  Thanks [@jycouet](https://github.com/jycouet)! - add eslint-plugin-pnpm-catalogs by default
+
+- [#893](https://github.com/jycouet/kitql/pull/893)
+  [`6cc6ba6`](https://github.com/jycouet/kitql/commit/6cc6ba6d8769643562811d003f0ab6ca667d185f)
+  Thanks [@jycouet](https://github.com/jycouet)! - add --eslint-only and --prettier-only options +
+  time it took in console
+
+- Updated dependencies []:
+  - @kitql/helpers@0.8.12
+
 ## 0.5.3
 
 ### Patch Changes
