@@ -1,0 +1,13 @@
+diff --git a/src/typescript.js b/src/typescript.js
+index 7608c86248807f1db6d6e05b026f8df90ca87ce0..dc6c5cfce091ba3592d20868afddedf8d265480f 100644
+--- a/src/typescript.js
++++ b/src/typescript.js
+@@ -27,7 +27,7 @@ export async function emit_dts(input, output, cwd, alias, files, tsconfig) {
+ 	const require = createRequire(import.meta.url);
+ 	const pkg = load_pkg_json(cwd);
+ 	const svelte_dep = pkg.peerDependencies?.svelte || pkg.dependencies?.svelte || '3.0';
+-	const no_svelte_3 = !semver.intersects(svelte_dep, '^3.0.0');
++	const no_svelte_3 = true // !semver.intersects(svelte_dep, '^3.0.0');
+ 	await emitDts({
+ 		libRoot: input,
+ 		svelteShimsPath: no_svelte_3
