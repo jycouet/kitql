@@ -3,8 +3,8 @@ import { describe, expect, it } from 'vitest'
 import { removePackages } from './transformPackage.js'
 
 describe('package', () => {
-  it('1 replace', async () => {
-    const code = `import { ObjectId } from 'mongodb'
+	it('1 replace', async () => {
+		const code = `import { ObjectId } from 'mongodb'
     @Entity('tasks', {
       allowApiCrud: true
     })
@@ -23,9 +23,9 @@ describe('package', () => {
     }
 	`
 
-    const transformed = await removePackages(code, ['mongodb'])
+		const transformed = await removePackages(code, ['mongodb'])
 
-    expect(transformed).toMatchInlineSnapshot(`
+		expect(transformed).toMatchInlineSnapshot(`
       {
         "code": "let ObjectId = null;
 
@@ -51,10 +51,10 @@ describe('package', () => {
         ],
       }
     `)
-  })
+	})
 
-  it('2 replaces', async () => {
-    const code = `import { ObjectId, demo } from 'mongodb'
+	it('2 replaces', async () => {
+		const code = `import { ObjectId, demo } from 'mongodb'
     @Entity('tasks', {
       allowApiCrud: true
     })
@@ -72,9 +72,9 @@ describe('package', () => {
     }
 	`
 
-    const transformed = await removePackages(code, ['mongodb'])
+		const transformed = await removePackages(code, ['mongodb'])
 
-    expect(transformed).toMatchInlineSnapshot(`
+		expect(transformed).toMatchInlineSnapshot(`
       {
         "code": "let ObjectId = null;
       let demo = null;
@@ -100,5 +100,5 @@ describe('package', () => {
         ],
       }
     `)
-  })
+	})
 })

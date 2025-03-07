@@ -1,169 +1,169 @@
 :root {
-  --kitql-orange: #ff3e00;
-  --kitql-orange-light: rgba(255, 62, 0, 0.1);
-  --kitql-orange-lighter: rgba(255, 62, 0, 0.05);
-  --kitql-orange-dark: #d93500;
-  --gradient-primary: linear-gradient(135deg, #ff3e00 0%, #ff7346 100%);
-  --gradient-secondary: linear-gradient(135deg, #d93500 0%, #ff3e00 100%);
+	--kitql-orange: #ff3e00;
+	--kitql-orange-light: rgba(255, 62, 0, 0.1);
+	--kitql-orange-lighter: rgba(255, 62, 0, 0.05);
+	--kitql-orange-dark: #d93500;
+	--gradient-primary: linear-gradient(135deg, #ff3e00 0%, #ff7346 100%);
+	--gradient-secondary: linear-gradient(135deg, #d93500 0%, #ff3e00 100%);
 
-  --sl-color-accent-high: hsl(195.51, 100%, 46.27%);
-  --sl-color-bg-nav: hsl(240, 1%, 19%);
-  --sl-color-bg-sidebar: hsl(240, 1%, 16%);
-  --sl-color-bg: hsl(240, 1%, 12%);
+	--sl-color-accent-high: hsl(195.51, 100%, 46.27%);
+	--sl-color-bg-nav: hsl(240, 1%, 19%);
+	--sl-color-bg-sidebar: hsl(240, 1%, 16%);
+	--sl-color-bg: hsl(240, 1%, 12%);
 }
 
 /* Elegant background pattern */
 .dot-pattern {
-  position: absolute;
-  opacity: 0.15;
-  z-index: -1;
-  inset: 0;
+	position: absolute;
+	opacity: 0.15;
+	z-index: -1;
+	inset: 0;
 
-  /* Subtle hexagon pattern using SVG background - using KitQL orange */
-  background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M30 5.5L55 20v30L30 64.5L5 50V20L30 5.5z' stroke='%23FF3E00' stroke-width='0.5' fill='none' /%3E%3C/svg%3E");
-  background-size: 60px 60px;
-  mask-image: radial-gradient(ellipse at center, black 0%, black 70%, transparent 100%);
-  pointer-events: none;
+	/* Subtle hexagon pattern using SVG background - using KitQL orange */
+	background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M30 5.5L55 20v30L30 64.5L5 50V20L30 5.5z' stroke='%23FF3E00' stroke-width='0.5' fill='none' /%3E%3C/svg%3E");
+	background-size: 60px 60px;
+	mask-image: radial-gradient(ellipse at center, black 0%, black 70%, transparent 100%);
+	pointer-events: none;
 }
 
 body:has(.dot-pattern) {
-  position: relative;
-  overflow-x: clip;
+	position: relative;
+	overflow-x: clip;
 
-  .page {
-    position: relative;
-    overflow-x: clip;
-    &::before,
-    &::after {
-      position: absolute;
-      opacity: 0.08;
-      z-index: -1;
-      filter: blur(100px);
-      will-change: transform;
-      content: '';
-      border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
-    }
+	.page {
+		position: relative;
+		overflow-x: clip;
+		&::before,
+		&::after {
+			position: absolute;
+			opacity: 0.08;
+			z-index: -1;
+			filter: blur(100px);
+			will-change: transform;
+			content: '';
+			border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
+		}
 
-    &::before {
-      inset-block-start: -10%;
-      inset-inline-end: -20%;
-      background: var(--gradient-secondary);
-      inline-size: 60vw;
-      block-size: 60vw;
-      max-inline-size: 800px;
-      max-block-size: 800px;
+		&::before {
+			inset-block-start: -10%;
+			inset-inline-end: -20%;
+			background: var(--gradient-secondary);
+			inline-size: 60vw;
+			block-size: 60vw;
+			max-inline-size: 800px;
+			max-block-size: 800px;
 
-      @media (min-width: 768px) {
-        inset-inline-end: -15%;
-      }
+			@media (min-width: 768px) {
+				inset-inline-end: -15%;
+			}
 
-      @media (min-width: 1024px) {
-        inset-block-start: -5%;
-        inset-inline-end: -10%;
-      }
-    }
+			@media (min-width: 1024px) {
+				inset-block-start: -5%;
+				inset-inline-end: -10%;
+			}
+		}
 
-    &::after {
-      inset-block-end: -10%;
-      inset-inline-start: -20%;
-      background: var(--gradient-primary);
-      inline-size: 60vw;
-      block-size: 60vw;
-      max-inline-size: 800px;
-      max-block-size: 800px;
-      border-radius: 70% 30% 30% 70% / 70% 70% 30% 30%;
+		&::after {
+			inset-block-end: -10%;
+			inset-inline-start: -20%;
+			background: var(--gradient-primary);
+			inline-size: 60vw;
+			block-size: 60vw;
+			max-inline-size: 800px;
+			max-block-size: 800px;
+			border-radius: 70% 30% 30% 70% / 70% 70% 30% 30%;
 
-      @media (min-width: 768px) {
-        inset-inline-start: -15%;
-      }
+			@media (min-width: 768px) {
+				inset-inline-start: -15%;
+			}
 
-      @media (min-width: 1024px) {
-        inset-block-end: -5%;
-        inset-inline-start: -10%;
-      }
-    }
-  }
+			@media (min-width: 1024px) {
+				inset-block-end: -5%;
+				inset-inline-start: -10%;
+			}
+		}
+	}
 }
 
 /* Clean, modern table styling */
 .props-wrapper {
-  position: relative;
-  min-inline-size: 100%;
-  border-radius: 12px;
-  overflow: hidden;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
-  border: 1px solid rgba(0, 0, 0, 0.05);
+	position: relative;
+	min-inline-size: 100%;
+	border-radius: 12px;
+	overflow: hidden;
+	box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
+	border: 1px solid rgba(0, 0, 0, 0.05);
 }
 
 /* Add subtle fade on the right when content is scrollable */
 .props-wrapper::after {
-  content: '';
-  position: absolute;
-  inset-inline-end: 0;
-  inset-block-start: 0;
-  inline-size: 2rem;
-  block-size: 100%;
-  background: linear-gradient(to right, transparent, var(--sl-color-bg) 90%);
-  pointer-events: none;
-  opacity: 1;
-  transition: opacity 0.2s;
+	content: '';
+	position: absolute;
+	inset-inline-end: 0;
+	inset-block-start: 0;
+	inline-size: 2rem;
+	block-size: 100%;
+	background: linear-gradient(to right, transparent, var(--sl-color-bg) 90%);
+	pointer-events: none;
+	opacity: 1;
+	transition: opacity 0.2s;
 }
 
 table {
-  font-size: 0.9375rem;
-  min-inline-size: 100%;
-  border-collapse: separate;
-  border-spacing: 0;
+	font-size: 0.9375rem;
+	min-inline-size: 100%;
+	border-collapse: separate;
+	border-spacing: 0;
 }
 
 table thead,
 table tbody,
 table tr {
-  min-inline-size: 100%;
+	min-inline-size: 100%;
 }
 
 table thead {
-  background-color: var(--kitql-orange-lighter);
+	background-color: var(--kitql-orange-lighter);
 }
 
 table th {
-  font-weight: 600;
-  text-align: left;
-  padding: 1rem;
-  border-bottom: 2px solid var(--kitql-orange-light);
-  color: var(--kitql-orange-dark);
+	font-weight: 600;
+	text-align: left;
+	padding: 1rem;
+	border-bottom: 2px solid var(--kitql-orange-light);
+	color: var(--kitql-orange-dark);
 }
 
 table td {
-  white-space: nowrap;
-  padding: 1rem;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.03);
+	white-space: nowrap;
+	padding: 1rem;
+	border-bottom: 1px solid rgba(0, 0, 0, 0.03);
 }
 
 table tr:last-child td {
-  border-bottom: none;
+	border-bottom: none;
 }
 
 table tr:hover {
-  background-color: var(--kitql-orange-lighter);
+	background-color: var(--kitql-orange-lighter);
 }
 
 .skip-link a {
-  position: relative;
-  display: inline-block;
-  inset-block-start: 0;
-  margin-block: 1rem;
-  color: var(--kitql-orange);
-  font-weight: 500;
-  text-decoration: none;
-  transition: all 0.2s ease;
-  padding: 0.5rem 1rem;
-  border-radius: 4px;
+	position: relative;
+	display: inline-block;
+	inset-block-start: 0;
+	margin-block: 1rem;
+	color: var(--kitql-orange);
+	font-weight: 500;
+	text-decoration: none;
+	transition: all 0.2s ease;
+	padding: 0.5rem 1rem;
+	border-radius: 4px;
 }
 
 .skip-link a:hover {
-  background-color: var(--kitql-orange-light);
-  color: var(--kitql-orange-dark);
-  transform: translateY(-1px);
-  box-shadow: 0 2px 8px rgba(255, 62, 0, 0.15);
+	background-color: var(--kitql-orange-light);
+	color: var(--kitql-orange-dark);
+	transform: translateY(-1px);
+	box-shadow: 0 2px 8px rgba(255, 62, 0, 0.15);
 }

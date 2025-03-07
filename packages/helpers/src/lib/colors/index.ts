@@ -5,225 +5,225 @@ import * as stylesNode from './stylesNode.js'
 import type { Style } from './types.js'
 
 const getStyleBrowser = (styleKey: string) => {
-  // @ts-ignore
-  return stylesBrowser[styleKey] ?? undefined
+	// @ts-ignore
+	return stylesBrowser[styleKey] ?? undefined
 }
 
 const getStyleNode = (styleKey: string) => {
-  // @ts-ignore
-  return stylesNode[styleKey] ?? undefined
+	// @ts-ignore
+	return stylesNode[styleKey] ?? undefined
 }
 
 export const color = (style: Style, str: string) => {
-  return BROWSER ? colorBrowser(style, str) : colorNode(style, str)
+	return BROWSER ? colorBrowser(style, str) : colorNode(style, str)
 }
 
 const colorNode = (style: Style, str: string) => {
-  return `${getStyleNode(style)[0]}${str}${getStyleNode(style)[1]}`
+	return `${getStyleNode(style)[0]}${str}${getStyleNode(style)[1]}`
 }
 
 const START1 = `$$KitQL_`
 const START2 = `_KitQL$$`
 const END = `$$KitQLEND$$`
 const colorBrowser = (style: Style, str: string) => {
-  return `${START1}${style}${START2}${str}${END}`
+	return `${START1}${style}${START2}${str}${END}`
 }
 
 function extractKitQLTags(str: string) {
-  const regex = /\$\$KitQL_(.*?)_KitQL\$\$/g
-  let match
-  const results = []
+	const regex = /\$\$KitQL_(.*?)_KitQL\$\$/g
+	let match
+	const results = []
 
-  while ((match = regex.exec(str)) !== null) {
-    results.push(match[1])
-  }
+	while ((match = regex.exec(str)) !== null) {
+		results.push(match[1])
+	}
 
-  return results
+	return results
 }
 
 const getAllIndexOf = (str: string, subStr: string) => {
-  let lastIndex = 0
-  const indexes = []
-  while (lastIndex !== -1) {
-    lastIndex = str.indexOf(subStr, lastIndex)
-    if (lastIndex !== -1) {
-      indexes.push(lastIndex)
-      lastIndex += subStr.length
-    }
-  }
-  return indexes
+	let lastIndex = 0
+	const indexes = []
+	while (lastIndex !== -1) {
+		lastIndex = str.indexOf(subStr, lastIndex)
+		if (lastIndex !== -1) {
+			indexes.push(lastIndex)
+			lastIndex += subStr.length
+		}
+	}
+	return indexes
 }
 
 export const colorProcess = (...msgs: any[]): any[] => {
-  if (!BROWSER) {
-    return [...msgs]
-  }
+	if (!BROWSER) {
+		return [...msgs]
+	}
 
-  const arr = [...msgs]
+	const arr = [...msgs]
 
-  const msgsTransformed: any[] = []
-  const colors: string[] = []
-  const additional: any[] = []
+	const msgsTransformed: any[] = []
+	const colors: string[] = []
+	const additional: any[] = []
 
-  for (let i = 0; i < arr.length; i++) {
-    let msg = arr[i]
-    if (typeof msg !== 'string') {
-      additional.push(msg)
-    } else {
-      const originalStr = msg
-      const posToReplace: { index: number; browser: string }[] = []
+	for (let i = 0; i < arr.length; i++) {
+		let msg = arr[i]
+		if (typeof msg !== 'string') {
+			additional.push(msg)
+		} else {
+			const originalStr = msg
+			const posToReplace: { index: number; browser: string }[] = []
 
-      // we need to make it unique
-      const tagsUsed = [...new Set(extractKitQLTags(originalStr))]
-      for (const key of tagsUsed) {
-        // check indexes
-        const indexesStarts = getAllIndexOf(originalStr, `${START1}${key}${START2}`)
-        for (const index of indexesStarts) {
-          posToReplace.push({ index, browser: getStyleBrowser(key) })
-        }
+			// we need to make it unique
+			const tagsUsed = [...new Set(extractKitQLTags(originalStr))]
+			for (const key of tagsUsed) {
+				// check indexes
+				const indexesStarts = getAllIndexOf(originalStr, `${START1}${key}${START2}`)
+				for (const index of indexesStarts) {
+					posToReplace.push({ index, browser: getStyleBrowser(key) })
+				}
 
-        // replace with %c in another str to make sure we don't change the order of indexes
-        msg = msg.replaceAll(`${START1}${key}${START2}`, '%c')
-      }
+				// replace with %c in another str to make sure we don't change the order of indexes
+				msg = msg.replaceAll(`${START1}${key}${START2}`, '%c')
+			}
 
-      const indexesEnd = getAllIndexOf(originalStr, END)
-      for (const index of indexesEnd) {
-        posToReplace.push({ index, browser: '' })
-      }
-      msg = msg.replaceAll(END, '%c')
+			const indexesEnd = getAllIndexOf(originalStr, END)
+			for (const index of indexesEnd) {
+				posToReplace.push({ index, browser: '' })
+			}
+			msg = msg.replaceAll(END, '%c')
 
-      for (const c of posToReplace.sort((a, b) => a.index - b.index)) {
-        colors.push(c.browser)
-      }
-      msgsTransformed.push(msg)
-    }
-  }
+			for (const c of posToReplace.sort((a, b) => a.index - b.index)) {
+				colors.push(c.browser)
+			}
+			msgsTransformed.push(msg)
+		}
+	}
 
-  return [msgsTransformed.join(' '), ...colors, ...additional]
+	return [msgsTransformed.join(' '), ...colors, ...additional]
 }
 
 //
 
 export const reset = (str: string) => {
-  return color('reset', str)
+	return color('reset', str)
 }
 export const bold = (str: string) => {
-  return color('bold', str)
+	return color('bold', str)
 }
 export const dim = (str: string) => {
-  return color('dim', str)
+	return color('dim', str)
 }
 export const italic = (str: string) => {
-  return color('italic', str)
+	return color('italic', str)
 }
 export const underline = (str: string) => {
-  return color('underline', str)
+	return color('underline', str)
 }
 export const inverse = (str: string) => {
-  return color('inverse', str)
+	return color('inverse', str)
 }
 export const hidden = (str: string) => {
-  return color('hidden', str)
+	return color('hidden', str)
 }
 export const strikethrough = (str: string) => {
-  return color('strikethrough', str)
+	return color('strikethrough', str)
 }
 export const black = (str: string) => {
-  return color('black', str)
+	return color('black', str)
 }
 export const red = (str: string) => {
-  return color('red', str)
+	return color('red', str)
 }
 export const green = (str: string) => {
-  return color('green', str)
+	return color('green', str)
 }
 export const yellow = (str: string) => {
-  return color('yellow', str)
+	return color('yellow', str)
 }
 export const blue = (str: string) => {
-  return color('blue', str)
+	return color('blue', str)
 }
 export const magenta = (str: string) => {
-  return color('magenta', str)
+	return color('magenta', str)
 }
 export const cyan = (str: string) => {
-  return color('cyan', str)
+	return color('cyan', str)
 }
 export const white = (str: string) => {
-  return color('white', str)
+	return color('white', str)
 }
 export const gray = (str: string) => {
-  return color('gray', str)
+	return color('gray', str)
 }
 export const bgBlack = (str: string) => {
-  return color('bgBlack', str)
+	return color('bgBlack', str)
 }
 export const bgRed = (str: string) => {
-  return color('bgRed', str)
+	return color('bgRed', str)
 }
 export const bgGreen = (str: string) => {
-  return color('bgGreen', str)
+	return color('bgGreen', str)
 }
 export const bgYellow = (str: string) => {
-  return color('bgYellow', str)
+	return color('bgYellow', str)
 }
 export const bgBlue = (str: string) => {
-  return color('bgBlue', str)
+	return color('bgBlue', str)
 }
 export const bgMagenta = (str: string) => {
-  return color('bgMagenta', str)
+	return color('bgMagenta', str)
 }
 export const bgCyan = (str: string) => {
-  return color('bgCyan', str)
+	return color('bgCyan', str)
 }
 export const bgWhite = (str: string) => {
-  return color('bgWhite', str)
+	return color('bgWhite', str)
 }
 export const blackBright = (str: string) => {
-  return color('blackBright', str)
+	return color('blackBright', str)
 }
 export const redBright = (str: string) => {
-  return color('redBright', str)
+	return color('redBright', str)
 }
 export const greenBright = (str: string) => {
-  return color('greenBright', str)
+	return color('greenBright', str)
 }
 export const yellowBright = (str: string) => {
-  return color('yellowBright', str)
+	return color('yellowBright', str)
 }
 export const blueBright = (str: string) => {
-  return color('blueBright', str)
+	return color('blueBright', str)
 }
 export const magentaBright = (str: string) => {
-  return color('magentaBright', str)
+	return color('magentaBright', str)
 }
 export const cyanBright = (str: string) => {
-  return color('cyanBright', str)
+	return color('cyanBright', str)
 }
 export const whiteBright = (str: string) => {
-  return color('whiteBright', str)
+	return color('whiteBright', str)
 }
 export const bgBlackBright = (str: string) => {
-  return color('bgBlackBright', str)
+	return color('bgBlackBright', str)
 }
 export const bgRedBright = (str: string) => {
-  return color('bgRedBright', str)
+	return color('bgRedBright', str)
 }
 export const bgGreenBright = (str: string) => {
-  return color('bgGreenBright', str)
+	return color('bgGreenBright', str)
 }
 export const bgYellowBright = (str: string) => {
-  return color('bgYellowBright', str)
+	return color('bgYellowBright', str)
 }
 export const bgBlueBright = (str: string) => {
-  return color('bgBlueBright', str)
+	return color('bgBlueBright', str)
 }
 export const bgMagentaBright = (str: string) => {
-  return color('bgMagentaBright', str)
+	return color('bgMagentaBright', str)
 }
 export const bgCyanBright = (str: string) => {
-  return color('bgCyanBright', str)
+	return color('bgCyanBright', str)
 }
 export const bgWhiteBright = (str: string) => {
-  return color('bgWhiteBright', str)
+	return color('bgWhiteBright', str)
 }

@@ -6,7 +6,7 @@ description: A set of handles and utilities for request handling customization i
 import { Aside } from '@astrojs/starlight/components'
 
 <Aside type="tip">
-  _**KitQL** itself is not a library, it's "nothing" but a collection of standalone libraries._
+	_**KitQL** itself is not a library, it's "nothing" but a collection of standalone libraries._
 </Aside>
 
 A set of handles and utilities for request handling customization in SvelteKit 🫵!
@@ -41,13 +41,13 @@ the behavior of the default CSRF blocking for any routes that are not specifical
 ```js
 // svelte.config.js
 const config = {
-  kit: {
-    // ... other kit options
-    // disable sveltekit built-in CSRF blocking - this is replaced by `handleCsrf`
-    csrf: {
-      checkOrigin: false
-    }
-  }
+	kit: {
+		// ... other kit options
+		// disable sveltekit built-in CSRF blocking - this is replaced by `handleCsrf`
+		csrf: {
+			checkOrigin: false
+		}
+	}
 }
 ```
 
@@ -68,19 +68,19 @@ config entries due to [a SvelteKit vite plugin issue](https://github.com/sveltej
 ```ts
 // vite.config.ts
 export default defineConfig({
-  // ... plugins, etc
-  // disable automatic CORS header addition in dev
-  server: {
-    cors: {
-      origin: false
-    }
-  },
-  // disable automatic CORS header addition in preview
-  preview: {
-    cors: {
-      origin: false
-    }
-  }
+	// ... plugins, etc
+	// disable automatic CORS header addition in dev
+	server: {
+		cors: {
+			origin: false
+		}
+	},
+	// disable automatic CORS header addition in preview
+	preview: {
+		cors: {
+			origin: false
+		}
+	}
 })
 ```
 
@@ -118,10 +118,10 @@ import { sequence } from '@sveltejs/kit/hooks'
 import { handleProxies } from '@kitql/handles'
 
 export const handle = sequence(
-  // Forwards all requests to paths beginning with `/proxy` to
-  // `http://my.super.website/graphql`. Subpaths are preserved, e.g. `/proxy/api/path` is
-  // forwarded to `http://my.super.website/graphql/api/path`.
-  handleProxies([['/proxy', { to: 'http://my.super.website/graphql' }]])
+	// Forwards all requests to paths beginning with `/proxy` to
+	// `http://my.super.website/graphql`. Subpaths are preserved, e.g. `/proxy/api/path` is
+	// forwarded to `http://my.super.website/graphql/api/path`.
+	handleProxies([['/proxy', { to: 'http://my.super.website/graphql' }]])
 )
 ```
 

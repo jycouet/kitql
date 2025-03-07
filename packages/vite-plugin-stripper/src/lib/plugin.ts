@@ -10,40 +10,40 @@ import { removePackages } from './transformPackage.js'
 import { transformWarningThrow, type WarningThrow } from './transformWarningThrow.js'
 
 export type ViteStriperOptions = {
-  /**
-   * for example: `['BackendMethod']`
-   */
-  decorators?: string[]
+	/**
+	 * for example: `['BackendMethod']`
+	 */
+	decorators?: string[]
 
-  /**
-   * If true, will empty almost all the file if a decorator is found. (experimental!)
-   */
-  hard?: boolean
+	/**
+	 * If true, will empty almost all the file if a decorator is found. (experimental!)
+	 */
+	hard?: boolean
 
-  /**
-   * For example if you set `nullify: ['mongodb']`
-   *
-   * ```ts
-   * // This line
-   * import { ObjectId } from 'mongodb'
-   *
-   * // We become
-   * let ObjectId = null;
-   * ```
-   */
-  nullify?: string[]
+	/**
+	 * For example if you set `nullify: ['mongodb']`
+	 *
+	 * ```ts
+	 * // This line
+	 * import { ObjectId } from 'mongodb'
+	 *
+	 * // We become
+	 * let ObjectId = null;
+	 * ```
+	 */
+	nullify?: string[]
 
-  /**
-   * If true, skip warnings if a throw is not a class.
-   *
-   * @default false
-   */
-  log_on_throw_is_not_a_new_class?: boolean
+	/**
+	 * If true, skip warnings if a throw is not a class.
+	 *
+	 * @default false
+	 */
+	log_on_throw_is_not_a_new_class?: boolean
 
-  /**
-   * internal usage ;-)
-   */
-  debug?: boolean
+	/**
+	 * internal usage ;-)
+	 */
+	debug?: boolean
 }
 
 /**
@@ -65,138 +65,138 @@ export type ViteStriperOptions = {
  * 
  */
 export function stripper(options?: ViteStriperOptions): PluginOption {
-  const log = new Log('stripper')
-  let listOrThrow: WarningThrow[] = []
+	const log = new Log('stripper')
+	let listOrThrow: WarningThrow[] = []
 
-  const display = () => {
-    listOrThrow.forEach((item) => {
-      log.error(
-        `Throw is not a new class in ${yellow(item.relativePathFile)}:${yellow(String(item.line))}`,
-      )
-    })
-    listOrThrow = []
-  }
+	const display = () => {
+		listOrThrow.forEach((item) => {
+			log.error(
+				`Throw is not a new class in ${yellow(item.relativePathFile)}:${yellow(String(item.line))}`,
+			)
+		})
+		listOrThrow = []
+	}
 
-  const getProjectPath = () => {
-    return process.cwd() + '/src'
-  }
+	const getProjectPath = () => {
+		return process.cwd() + '/src'
+	}
 
-  return [
-    {
-      name: 'vite-plugin-stripper',
-      enforce: 'pre',
+	return [
+		{
+			name: 'vite-plugin-stripper',
+			enforce: 'pre',
 
-      config: async () => {
-        if (options?.log_on_throw_is_not_a_new_class) {
-          const files = getFilesUnder(getProjectPath())
-          listOrThrow = []
-          for (let i = 0; i < files.length; i++) {
-            const absolutePath = getProjectPath() + '/' + files[i]
-            const code = readFileSync(absolutePath, { encoding: 'utf8' })
-            const { list } = await transformWarningThrow(
-              absolutePath,
-              getProjectPath(),
-              code,
-              options?.log_on_throw_is_not_a_new_class,
-            )
-            listOrThrow.push(...list)
-          }
-          display()
-        }
-      },
+			config: async () => {
+				if (options?.log_on_throw_is_not_a_new_class) {
+					const files = getFilesUnder(getProjectPath())
+					listOrThrow = []
+					for (let i = 0; i < files.length; i++) {
+						const absolutePath = getProjectPath() + '/' + files[i]
+						const code = readFileSync(absolutePath, { encoding: 'utf8' })
+						const { list } = await transformWarningThrow(
+							absolutePath,
+							getProjectPath(),
+							code,
+							options?.log_on_throw_is_not_a_new_class,
+						)
+						listOrThrow.push(...list)
+					}
+					display()
+				}
+			},
 
-      transform: async (code, filepath, option) => {
-        // Don't transform server-side code
-        if (option?.ssr) {
-          return
-        }
-        // files are only in ts
-        if (!filepath.endsWith('.ts')) {
-          return
-        }
+			transform: async (code, filepath, option) => {
+				// Don't transform server-side code
+				if (option?.ssr) {
+					return
+				}
+				// files are only in ts
+				if (!filepath.endsWith('.ts')) {
+					return
+				}
 
-        let infosNumber = 0
+				let infosNumber = 0
 
-        if (options && options?.decorators && options.decorators.length > 0) {
-          const { info, ...rest } = await transformDecorator(
-            code,
-            options.decorators,
-            options.hard ?? false,
-          )
+				if (options && options?.decorators && options.decorators.length > 0) {
+					const { info, ...rest } = await transformDecorator(
+						code,
+						options.decorators,
+						options.hard ?? false,
+					)
 
-          // Update the code for later transforms & return it
-          code = rest.code
+					// Update the code for later transforms & return it
+					code = rest.code
 
-          infosNumber += info.length
+					infosNumber += info.length
 
-          if (options?.debug && info.length > 0) {
-            log.info(
-              `` +
-                `${gray('File:')} ${yellow(filepath)}\n` +
-                `${green('-----')}\n` +
-                `${rest.code}` +
-                `\n${green(':::::')}\n` +
-                `${info.join('\n')}` +
-                `\n${green('-----')}` +
-                ``,
-            )
-          }
-        }
+					if (options?.debug && info.length > 0) {
+						log.info(
+							`` +
+								`${gray('File:')} ${yellow(filepath)}\n` +
+								`${green('-----')}\n` +
+								`${rest.code}` +
+								`\n${green(':::::')}\n` +
+								`${info.join('\n')}` +
+								`\n${green('-----')}` +
+								``,
+						)
+					}
+				}
 
-        if (options && options?.nullify && options.nullify.length > 0) {
-          const { info, ...rest } = await removePackages(code, options.nullify)
+				if (options && options?.nullify && options.nullify.length > 0) {
+					const { info, ...rest } = await removePackages(code, options.nullify)
 
-          // Update the code for later transforms & return it
-          code = rest.code
+					// Update the code for later transforms & return it
+					code = rest.code
 
-          infosNumber += info.length
+					infosNumber += info.length
 
-          if (options?.debug && info.length > 0) {
-            log.info(
-              `` +
-                `${gray('File:')} ${yellow(filepath)}\n` +
-                `${green('-----')}\n` +
-                `${rest.code}` +
-                `\n${green(':::::')}\n` +
-                `${info.join('\n')}` +
-                `\n${green('-----')}` +
-                ``,
-            )
-          }
-        }
+					if (options?.debug && info.length > 0) {
+						log.info(
+							`` +
+								`${gray('File:')} ${yellow(filepath)}\n` +
+								`${green('-----')}\n` +
+								`${rest.code}` +
+								`\n${green(':::::')}\n` +
+								`${info.join('\n')}` +
+								`\n${green('-----')}` +
+								``,
+						)
+					}
+				}
 
-        if (infosNumber > 0) {
-          return { code, map: null }
-        }
+				if (infosNumber > 0) {
+					return { code, map: null }
+				}
 
-        return
-      },
-    },
+				return
+			},
+		},
 
-    // Run the thing when any change in a +page.svelte (add, remove, ...)
-    watchAndRun([
-      {
-        name: 'kit-routes-watch',
-        logs: [],
-        watch: ['**'],
-        run: async (server, absolutePath) => {
-          if (options?.log_on_throw_is_not_a_new_class) {
-            // Only file in our project
-            if (absolutePath && absolutePath.startsWith(getProjectPath())) {
-              const code = readFileSync(absolutePath, { encoding: 'utf8' })
+		// Run the thing when any change in a +page.svelte (add, remove, ...)
+		watchAndRun([
+			{
+				name: 'kit-routes-watch',
+				logs: [],
+				watch: ['**'],
+				run: async (server, absolutePath) => {
+					if (options?.log_on_throw_is_not_a_new_class) {
+						// Only file in our project
+						if (absolutePath && absolutePath.startsWith(getProjectPath())) {
+							const code = readFileSync(absolutePath, { encoding: 'utf8' })
 
-              const { list } = await transformWarningThrow(
-                absolutePath,
-                getProjectPath(),
-                code,
-                options?.log_on_throw_is_not_a_new_class,
-              )
-              listOrThrow.push(...list)
-              display()
-            }
-          }
-        },
-      },
-    ]),
-  ]
+							const { list } = await transformWarningThrow(
+								absolutePath,
+								getProjectPath(),
+								code,
+								options?.log_on_throw_is_not_a_new_class,
+							)
+							listOrThrow.push(...list)
+							display()
+						}
+					}
+				},
+			},
+		]),
+	]
 }

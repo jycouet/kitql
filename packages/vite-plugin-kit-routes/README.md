@@ -23,11 +23,11 @@ import { kitRoutes } from 'vite-plugin-kit-routes'
 
 /** @type {import('vite').UserConfig} */
 export default config = {
-  plugins: [
-    sveltekit(),
-    // ✅ Add the plugin
-    kitRoutes()
-  ]
+	plugins: [
+		sveltekit(),
+		// ✅ Add the plugin
+		kitRoutes()
+	]
 }
 ```
 

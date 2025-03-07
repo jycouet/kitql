@@ -1,5 +1,5 @@
 <script>
-  let { children } = $props()
+	let { children } = $props()
 </script>
 
 <p class="cool">Nice Layout...</p>
@@ -7,7 +7,7 @@
 {@render children?.()}
 
 <style>
-  .cool {
-    color: green;
-  }
+	.cool {
+		color: green;
+	}
 </style>

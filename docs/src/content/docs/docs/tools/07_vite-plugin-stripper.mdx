@@ -6,7 +6,7 @@ description: Remove some code on browser build
 import { Aside } from '@astrojs/starlight/components'
 
 <Aside type="tip">
-  _**KitQL** itself is not a library, it's "nothing" but a collection of standalone libraries._
+	_**KitQL** itself is not a library, it's "nothing" but a collection of standalone libraries._
 </Aside>
 
 The first need was to remove `@BackendMethod` from your browser bundle for
@@ -21,11 +21,11 @@ import { defineConfig } from 'vite'
 import { stripper } from 'vite-plugin-stripper'
 
 export default defineConfig({
-  plugins: [
-    // To strip `@BackendMethod` from your browser bundle
-    stripper({ decorators: ['BackendMethod'] }),
-    sveltekit()
-  ]
+	plugins: [
+		// To strip `@BackendMethod` from your browser bundle
+		stripper({ decorators: ['BackendMethod'] }),
+		sveltekit()
+	]
 })
 ```
 

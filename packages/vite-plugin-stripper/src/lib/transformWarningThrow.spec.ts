@@ -3,25 +3,25 @@ import { describe, expect, it } from 'vitest'
 import { transformWarningThrow } from './transformWarningThrow.js'
 
 describe('warning on throw is not a class', () => {
-  it('should not warn', async () => {
-    const code = `import type { RequestHandler } from './$types'
+	it('should not warn', async () => {
+		const code = `import type { RequestHandler } from './$types'
 
     export const GET: RequestHandler = async () => {
       throw new Error('Not implemented')
       return new Response()
     }`
 
-    const transformed = await transformWarningThrow('myfile', '', code, true)
+		const transformed = await transformWarningThrow('myfile', '', code, true)
 
-    expect(transformed).toMatchInlineSnapshot(`
+		expect(transformed).toMatchInlineSnapshot(`
       {
         "list": [],
       }
     `)
-  })
+	})
 
-  it('should warn', async () => {
-    const code = `import type { RequestHandler } from './$types'
+	it('should warn', async () => {
+		const code = `import type { RequestHandler } from './$types'
 
     export const GET: RequestHandler = async () => {
       throw 7
@@ -29,9 +29,9 @@ describe('warning on throw is not a class', () => {
     }
     `
 
-    const transformed = await transformWarningThrow('myfile', '', code, true)
+		const transformed = await transformWarningThrow('myfile', '', code, true)
 
-    expect(transformed).toMatchInlineSnapshot(`
+		expect(transformed).toMatchInlineSnapshot(`
       {
         "list": [
           {
@@ -42,5 +42,5 @@ describe('warning on throw is not a class', () => {
         ],
       }
     `)
-  })
+	})
 })
