@@ -29,4 +29,13 @@ export default {
 		'',
 		'^[./]', // inside
 	],
+	overrides: [
+		{
+			files: ['README.md', 'packages/**/README.md'],
+			options: {
+				useTabs: false,
+				tabWidth: 2,
+			},
+		},
+	],
 }

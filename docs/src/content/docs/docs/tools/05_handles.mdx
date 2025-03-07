@@ -45,9 +45,9 @@ const config = {
 		// ... other kit options
 		// disable sveltekit built-in CSRF blocking - this is replaced by `handleCsrf`
 		csrf: {
-			checkOrigin: false
-		}
-	}
+			checkOrigin: false,
+		},
+	},
 }
 ```
 
@@ -72,15 +72,15 @@ export default defineConfig({
 	// disable automatic CORS header addition in dev
 	server: {
 		cors: {
-			origin: false
-		}
+			origin: false,
+		},
 	},
 	// disable automatic CORS header addition in preview
 	preview: {
 		cors: {
-			origin: false
-		}
-	}
+			origin: false,
+		},
+	},
 })
 ```
 
@@ -121,7 +121,7 @@ export const handle = sequence(
 	// Forwards all requests to paths beginning with `/proxy` to
 	// `http://my.super.website/graphql`. Subpaths are preserved, e.g. `/proxy/api/path` is
 	// forwarded to `http://my.super.website/graphql/api/path`.
-	handleProxies([['/proxy', { to: 'http://my.super.website/graphql' }]])
+	handleProxies([['/proxy', { to: 'http://my.super.website/graphql' }]]),
 )
 ```
 
