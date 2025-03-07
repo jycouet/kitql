@@ -1,29 +1,29 @@
 {
-  "compilerOptions": {
-    "baseUrl": ".",
-    "outDir": "dist",
-    "esModuleInterop": true,
-    "allowSyntheticDefaultImports": true,
-    "importHelpers": true,
-    "experimentalDecorators": true,
-    "module": "esnext",
-    "target": "es2018",
-    "lib": ["es6", "esnext", "es2015", "dom"],
-    "moduleResolution": "node",
-    "emitDecoratorMetadata": true,
-    "sourceMap": true,
-    "declaration": true,
-    "noImplicitThis": true,
-    "strict": true,
-    "alwaysStrict": true,
-    "noImplicitReturns": true,
-    "noUnusedLocals": false,
-    "resolveJsonModule": true,
-    "skipLibCheck": true,
-    "paths": {
-      "@kitql/helper": ["packages/helper/src/index"]
-    }
-  },
-  "include": ["packages"],
-  "exclude": ["**/dist", "**/temp"]
+	"compilerOptions": {
+		"baseUrl": ".",
+		"outDir": "dist",
+		"esModuleInterop": true,
+		"allowSyntheticDefaultImports": true,
+		"importHelpers": true,
+		"experimentalDecorators": true,
+		"module": "esnext",
+		"target": "es2018",
+		"lib": ["es6", "esnext", "es2015", "dom"],
+		"moduleResolution": "node",
+		"emitDecoratorMetadata": true,
+		"sourceMap": true,
+		"declaration": true,
+		"noImplicitThis": true,
+		"strict": true,
+		"alwaysStrict": true,
+		"noImplicitReturns": true,
+		"noUnusedLocals": false,
+		"resolveJsonModule": true,
+		"skipLibCheck": true,
+		"paths": {
+			"@kitql/helper": ["packages/helper/src/index"]
+		}
+	},
+	"include": ["packages"],
+	"exclude": ["**/dist", "**/temp"]
 }

@@ -3,7 +3,7 @@ import { expect, it } from 'vitest'
 import { color } from './index.js'
 
 it('color NOT in browser', () => {
-  const message = `with all options:
+	const message = `with all options:
 ${color('reset', 'reset')}
 ${color('bold', 'bold')}
 ${color('dim', 'dim')}
@@ -46,8 +46,8 @@ ${color('bgMagentaBright', 'bgMagentaBright')}
 ${color('bgCyanBright', 'bgCyanBright')}
 ${color('bgWhiteBright', 'bgWhiteBright')}
 `
-  // console.log(`msg`, message)
-  expect(message).toMatchInlineSnapshot(`
+	// console.log(`msg`, message)
+	expect(message).toMatchInlineSnapshot(`
     "with all options:
     [0mreset[0m
     [1mbold[22m

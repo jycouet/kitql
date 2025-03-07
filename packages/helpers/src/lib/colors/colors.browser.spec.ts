@@ -3,16 +3,16 @@ import { beforeEach, describe, expect, it, vi } from 'vitest'
 import { color, colorProcess, red } from './index.js'
 
 describe('browser', () => {
-  beforeEach(() => {
-    vi.mock('esm-env', () => ({
-      BROWSER: true,
-    }))
-  })
+	beforeEach(() => {
+		vi.mock('esm-env', () => ({
+			BROWSER: true,
+		}))
+	})
 
-  it('color in browser', () => {
-    import.meta.env.SSR = false
+	it('color in browser', () => {
+		import.meta.env.SSR = false
 
-    const message = `with all options:
+		const message = `with all options:
 ${color('reset', 'reset')}
 ${color('bold', 'bold')}
 ${color('dim', 'dim')}
@@ -55,8 +55,8 @@ ${color('bgMagentaBright', 'bgMagentaBright')}
 ${color('bgCyanBright', 'bgCyanBright')}
 ${color('bgWhiteBright', 'bgWhiteBright')}
 `
-    // console.log(`msg`, message)
-    expect(message).toMatchInlineSnapshot(`
+		// console.log(`msg`, message)
+		expect(message).toMatchInlineSnapshot(`
     "with all options:
     $$KitQL_reset_KitQL$$reset$$KitQLEND$$
     $$KitQL_bold_KitQL$$bold$$KitQLEND$$
@@ -102,7 +102,7 @@ ${color('bgWhiteBright', 'bgWhiteBright')}
     "
   `)
 
-    expect(colorProcess(message)).toMatchInlineSnapshot(`
+		expect(colorProcess(message)).toMatchInlineSnapshot(`
     [
       "with all options:
     %creset%c
@@ -231,16 +231,16 @@ ${color('bgWhiteBright', 'bgWhiteBright')}
       "",
     ]
   `)
-  })
+	})
 
-  it('2 color red browser', () => {
-    const msg = `with red: ${red('red')} and another ${red('red2')}`
+	it('2 color red browser', () => {
+		const msg = `with red: ${red('red')} and another ${red('red2')}`
 
-    expect(msg).toMatchInlineSnapshot(
-      '"with red: $$KitQL_red_KitQL$$red$$KitQLEND$$ and another $$KitQL_red_KitQL$$red2$$KitQLEND$$"',
-    )
+		expect(msg).toMatchInlineSnapshot(
+			'"with red: $$KitQL_red_KitQL$$red$$KitQLEND$$ and another $$KitQL_red_KitQL$$red2$$KitQLEND$$"',
+		)
 
-    expect(colorProcess(msg)).toMatchInlineSnapshot(`
+		expect(colorProcess(msg)).toMatchInlineSnapshot(`
       [
         "with red: %cred%c and another %cred2%c",
         "color: red",
@@ -249,5 +249,5 @@ ${color('bgWhiteBright', 'bgWhiteBright')}
         "",
       ]
     `)
-  })
+	})
 })

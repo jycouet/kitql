@@ -6,29 +6,29 @@ import { stripper } from './src/lib/plugin.js'
 const toRemove = ['oslo/password', 'oslo']
 
 export default defineConfig(() => ({
-  build: {
-    // THE ERROR:
-    // RollupError: Unexpected character '�' or Unexpected character '\u{7f}'
-    // This code (A) is to fix in `build` mode
-    rollupOptions: {
-      external: toRemove,
-    },
-  },
-  // This code (B) is to fix in `dev` mode
-  optimizeDeps: {
-    exclude: toRemove,
-  },
-  plugins: [
-    stripper({
-      // decorators: ['BackendMethod'],
-      debug: true,
-      log_on_throw_is_not_a_new_class: true,
-      hard: true,
-      nullify: ['$env/static/private', 'oslo/password'],
-    }),
-    sveltekit(),
-  ],
-  test: {
-    include: ['src/**/*.{test,spec}.{js,ts}'],
-  },
+	build: {
+		// THE ERROR:
+		// RollupError: Unexpected character '�' or Unexpected character '\u{7f}'
+		// This code (A) is to fix in `build` mode
+		rollupOptions: {
+			external: toRemove,
+		},
+	},
+	// This code (B) is to fix in `dev` mode
+	optimizeDeps: {
+		exclude: toRemove,
+	},
+	plugins: [
+		stripper({
+			// decorators: ['BackendMethod'],
+			debug: true,
+			log_on_throw_is_not_a_new_class: true,
+			hard: true,
+			nullify: ['$env/static/private', 'oslo/password'],
+		}),
+		sveltekit(),
+	],
+	test: {
+		include: ['src/**/*.{test,spec}.{js,ts}'],
+	},
 }))

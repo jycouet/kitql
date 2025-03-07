@@ -6,7 +6,7 @@ description: Automatically updates route references in SvelteKit projects
 import { Aside } from '@astrojs/starlight/components'
 
 <Aside type="tip">
-  _**KitQL** itself is not a library, it's "nothing" but a collection of standalone libraries._
+	_**KitQL** itself is not a library, it's "nothing" but a collection of standalone libraries._
 </Aside>
 
 `vite-plugin-kit-routes` automatically updates route references in SvelteKit projects, crucial for
@@ -26,17 +26,17 @@ please open an issue._
 import { Video } from 'accessible-astro-components'
 
 <Video
-  src="https://www.youtube.com/embed/GH5NxbdCZ74?start=489"
-  title="KitQL - vite-plugin-kit-routes"
-  ratio="16:9"
-  allowfullscreen
+	src="https://www.youtube.com/embed/GH5NxbdCZ74?start=489"
+	title="KitQL - vite-plugin-kit-routes"
+	ratio="16:9"
+	allowfullscreen
 />
 
 ## Examples
 
 ```svelte
 <script lang="ts">
-  import { route } from '$lib/ROUTES'
+	import { route } from '$lib/ROUTES'
 </script>
 
 <!-- 🤞 before, hardcoded string, error prone -->
@@ -53,7 +53,7 @@ import { Video } from 'accessible-astro-components'
 
 ```svelte
 <script lang="ts">
-  import { route } from '$lib/ROUTES'
+	import { route } from '$lib/ROUTES'
 </script>
 
 <!-- 🤞 before, hardcoded string, error prone -->
@@ -65,7 +65,7 @@ import { Video } from 'accessible-astro-components'
 
 ```svelte
 <script lang="ts">
-  import { route } from '$lib/ROUTES'
+	import { route } from '$lib/ROUTES'
 </script>
 
 <!-- 🤞 before, hardcoded string, error prone -->
@@ -77,28 +77,28 @@ import { Video } from 'accessible-astro-components'
 
 ```svelte
 <script lang="ts">
-  import { enhance } from '$app/forms'
-  import { page } from '$app/stores'
+	import { enhance } from '$app/forms'
+	import { page } from '$app/stores'
 
-  import { route } from '$lib/ROUTES'
+	import { route } from '$lib/ROUTES'
 
-  const id = $page.params.id
+	const id = $page.params.id
 
-  // 🤞 before, hardcoded string, error prone
-  const action_hope = `/site/${id}?/send`
+	// 🤞 before, hardcoded string, error prone
+	const action_hope = `/site/${id}?/send`
 
-  // ✅ after, typechecked route, no more errors
-  const action = route('send /site/[id]', { id })
+	// ✅ after, typechecked route, no more errors
+	const action = route('send /site/[id]', { id })
 </script>
 
 <form method="POST" use:enhance {action}>
-  <button>Check</button>
+	<button>Check</button>
 </form>
 ```
 
 ```svelte
 <script lang="ts">
-  import { route } from '$lib/ROUTES'
+	import { route } from '$lib/ROUTES'
 </script>
 
 <!-- 🤞 before, hardcoded string, error prone -->
@@ -110,7 +110,7 @@ import { Video } from 'accessible-astro-components'
 
 ```svelte
 <script lang="ts">
-  import { route } from '$lib/ROUTES'
+	import { route } from '$lib/ROUTES'
 </script>
 
 <!-- 🤞 before, hardcoded string, error prone -->
@@ -148,11 +148,11 @@ import { kitRoutes } from 'vite-plugin-kit-routes'
 
 /** @type {import('vite').UserConfig} */
 export default config = {
-  plugins: [
-    sveltekit(),
-    // ✅ Add the plugin
-    kitRoutes()
-  ]
+	plugins: [
+		sveltekit(),
+		// ✅ Add the plugin
+		kitRoutes(),
+	],
 }
 ```
 

@@ -3,7 +3,7 @@ import { underline } from '$lib/index.js'
 import { Log } from '$lib/Log.js'
 
 export const load = async () => {
-  const l = new Log('@kitql/helpers')
-  l.info(underline('load!'))
-  return {}
+	const l = new Log('@kitql/helpers')
+	l.info(underline('load!'))
+	return {}
 }

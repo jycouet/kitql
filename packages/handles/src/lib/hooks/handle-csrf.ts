@@ -8,7 +8,7 @@ import { getMatchingOptionForURL, type OptionsByPath } from '$lib/utils/paths.js
  * allowed. If set to `true`, all origins are allowed.
  */
 export interface CsrfOptions {
-  origin: AllowedOrigin
+	origin: AllowedOrigin
 }
 
 /**
@@ -33,40 +33,40 @@ export interface CsrfOptions {
  * - the content type is application/x-www-form-urlencoded, multipart/form-data, or text/plain
  */
 export function handleCsrf(options: OptionsByPath<CsrfOptions>): Handle {
-  return async ({ event, resolve }) => {
-    const { request, url } = event
-    const requestOrigin = request.headers.get('origin')
-    const allowedOrigin = getMatchingOptionForURL(url, options)?.origin
+	return async ({ event, resolve }) => {
+		const { request, url } = event
+		const requestOrigin = request.headers.get('origin')
+		const allowedOrigin = getMatchingOptionForURL(url, options)?.origin
 
-    const forbidden =
-      isFormContentType(request) &&
-      (request.method === 'POST' ||
-        request.method === 'PUT' ||
-        request.method === 'PATCH' ||
-        request.method === 'DELETE') &&
-      requestOrigin !== url.origin &&
-      allowedOrigin !== true &&
-      (requestOrigin == null ||
-        allowedOrigin == null ||
-        !isOriginAllowed(requestOrigin, allowedOrigin))
+		const forbidden =
+			isFormContentType(request) &&
+			(request.method === 'POST' ||
+				request.method === 'PUT' ||
+				request.method === 'PATCH' ||
+				request.method === 'DELETE') &&
+			requestOrigin !== url.origin &&
+			allowedOrigin !== true &&
+			(requestOrigin == null ||
+				allowedOrigin == null ||
+				!isOriginAllowed(requestOrigin, allowedOrigin))
 
-    if (forbidden) {
-      error(403, `Cross-site ${request.method} form submissions are forbidden`)
-    }
+		if (forbidden) {
+			error(403, `Cross-site ${request.method} form submissions are forbidden`)
+		}
 
-    return resolve(event)
-  }
+		return resolve(event)
+	}
 }
 
 function isContentType(request: Request, ...types: string[]) {
-  const type = request.headers.get('content-type')?.split(';', 1)[0].trim() ?? ''
-  return types.includes(type.toLowerCase())
+	const type = request.headers.get('content-type')?.split(';', 1)[0].trim() ?? ''
+	return types.includes(type.toLowerCase())
 }
 function isFormContentType(request: Request) {
-  return isContentType(
-    request,
-    'application/x-www-form-urlencoded',
-    'multipart/form-data',
-    'text/plain',
-  )
+	return isContentType(
+		request,
+		'application/x-www-form-urlencoded',
+		'multipart/form-data',
+		'text/plain',
+	)
 }

@@ -31,7 +31,7 @@ export default [...kitql]
 import config from './packages/eslint-config/.prettierrc.mjs'
 
 export default {
-  ...config
+  ...config,
   // Some custom things?
 }
 ```

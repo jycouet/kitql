@@ -16,22 +16,22 @@ import { getMatchingOptionForURL, type OptionsByPath } from '$lib/utils/paths.js
  * obviates the need for an explicit OPTIONS handler in `+server.ts` endpoints.
  */
 export function handleCors(options: OptionsByPath<CorsOptions>): Handle {
-  return async ({ event, resolve }) => {
-    const url = event.url
-    const corsOptions = getMatchingOptionForURL(url, options)
+	return async ({ event, resolve }) => {
+		const url = event.url
+		const corsOptions = getMatchingOptionForURL(url, options)
 
-    if (corsOptions) {
-      let response = await resolve(event)
-      if (event.request.method === 'OPTIONS' && response.status === 405) {
-        // This route exists, but the OPTIONS method is not allowed (likely because an explicit
-        // OPTIONS handler was not defined in `+server.ts`). Return an empty response with the
-        // appropriate status code.
-        response = new Response(null, { status: corsOptions.optionsStatusSuccess ?? 204 })
-      }
-      cors(corsOptions, event.request, response)
-      return response
-    }
+		if (corsOptions) {
+			let response = await resolve(event)
+			if (event.request.method === 'OPTIONS' && response.status === 405) {
+				// This route exists, but the OPTIONS method is not allowed (likely because an explicit
+				// OPTIONS handler was not defined in `+server.ts`). Return an empty response with the
+				// appropriate status code.
+				response = new Response(null, { status: corsOptions.optionsStatusSuccess ?? 204 })
+			}
+			cors(corsOptions, event.request, response)
+			return response
+		}
 
-    return resolve(event)
-  }
+		return resolve(event)
+	}
 }

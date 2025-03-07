@@ -1,5 +1,5 @@
 export async function GET() {
-  // ts parse issue
-  // [
-  return new Response()
+	// ts parse issue
+	// [
+	return new Response()
 }

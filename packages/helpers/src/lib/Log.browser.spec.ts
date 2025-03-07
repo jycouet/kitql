@@ -1,61 +1,61 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 
 import {
-  bgBlack,
-  bgBlackBright,
-  bgBlue,
-  bgBlueBright,
-  bgCyan,
-  bgCyanBright,
-  bgGreen,
-  bgGreenBright,
-  bgMagenta,
-  bgMagentaBright,
-  bgRed,
-  bgRedBright,
-  bgWhite,
-  bgWhiteBright,
-  bgYellow,
-  bgYellowBright,
-  black,
-  blackBright,
-  blue,
-  blueBright,
-  bold,
-  cyan,
-  cyanBright,
-  dim,
-  gray,
-  green,
-  greenBright,
-  hidden,
-  inverse,
-  italic,
-  magenta,
-  magentaBright,
-  red,
-  redBright,
-  reset,
-  strikethrough,
-  underline,
-  white,
-  whiteBright,
-  yellow,
-  yellowBright,
+	bgBlack,
+	bgBlackBright,
+	bgBlue,
+	bgBlueBright,
+	bgCyan,
+	bgCyanBright,
+	bgGreen,
+	bgGreenBright,
+	bgMagenta,
+	bgMagentaBright,
+	bgRed,
+	bgRedBright,
+	bgWhite,
+	bgWhiteBright,
+	bgYellow,
+	bgYellowBright,
+	black,
+	blackBright,
+	blue,
+	blueBright,
+	bold,
+	cyan,
+	cyanBright,
+	dim,
+	gray,
+	green,
+	greenBright,
+	hidden,
+	inverse,
+	italic,
+	magenta,
+	magentaBright,
+	red,
+	redBright,
+	reset,
+	strikethrough,
+	underline,
+	white,
+	whiteBright,
+	yellow,
+	yellowBright,
 } from './colors/index.js'
 import { Log } from './Log.js'
 
 describe('kitql - helper - Log', () => {
-  beforeEach(() => {
-    vi.mock('esm-env', () => ({
-      BROWSER: true,
-    }))
-  })
+	beforeEach(() => {
+		vi.mock('esm-env', () => ({
+			BROWSER: true,
+		}))
+	})
 
-  it('with all colors browser', () => {
-    const log = new Log('tool name')
+	it('with all colors browser', () => {
+		const log = new Log('tool name')
 
-    const msg = `with all colors: 
+		const msg = `with all colors: 
     ${bgBlack('bgBlack')}
     ${bgBlackBright('bgBlackBright')}
     ${bgBlue('bgBlue')}
@@ -99,10 +99,10 @@ describe('kitql - helper - Log', () => {
     ${yellowBright('yellowBright')}
   `
 
-    const result = log.info(msg)
+		const result = log.info(msg)
 
-    expect(result).toMatchInlineSnapshot(
-      `
+		expect(result).toMatchInlineSnapshot(
+			`
       [
         "%c tool name %c with all colors: 
           %cbgBlack%c
@@ -233,17 +233,17 @@ describe('kitql - helper - Log', () => {
         "",
       ]
     `,
-    )
-  })
+		)
+	})
 
-  it('with 2 red browser', () => {
-    const log = new Log('tool name')
+	it('with 2 red browser', () => {
+		const log = new Log('tool name')
 
-    const msg = `with red: ${red('red')} and another ${red('red2')}`
+		const msg = `with red: ${red('red')} and another ${red('red2')}`
 
-    const result = log.info(msg)
+		const result = log.info(msg)
 
-    expect(result).toMatchInlineSnapshot(`
+		expect(result).toMatchInlineSnapshot(`
       [
         "%c tool name %c with red: %cred%c and another %cred2%c",
         "background-color: #1e90ff",
@@ -254,16 +254,16 @@ describe('kitql - helper - Log', () => {
         "",
       ]
     `)
-  })
+	})
 
-  it('are we in the browser?', () => {
-    const log = new Log('tool name')
+	it('are we in the browser?', () => {
+		const log = new Log('tool name')
 
-    const msg = `with red: ${red('red')} and another ${red('red2')}`
-    // no need to put browser: true! it's detected with this.windows
-    const result = log.info(msg)
+		const msg = `with red: ${red('red')} and another ${red('red2')}`
+		// no need to put browser: true! it's detected with this.windows
+		const result = log.info(msg)
 
-    expect(result).toMatchInlineSnapshot(`
+		expect(result).toMatchInlineSnapshot(`
       [
         "%c tool name %c with red: %cred%c and another %cred2%c",
         "background-color: #1e90ff",
@@ -274,5 +274,5 @@ describe('kitql - helper - Log', () => {
         "",
       ]
     `)
-  })
+	})
 })

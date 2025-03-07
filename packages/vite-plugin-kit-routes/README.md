@@ -26,8 +26,8 @@ export default config = {
   plugins: [
     sveltekit(),
     // ✅ Add the plugin
-    kitRoutes()
-  ]
+    kitRoutes(),
+  ],
 }
 ```
 

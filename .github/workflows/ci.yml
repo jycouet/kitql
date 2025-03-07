@@ -1,47 +1,47 @@
 name: Tests
 
 on:
-  pull_request:
-    paths:
-      - '**'
+ pull_request:
+  paths:
+   - '**'
 
 jobs:
-  build:
-    name: Builds & Tests
-    runs-on: ubuntu-latest
-    timeout-minutes: 10
-    strategy:
-      matrix:
-        prj:
-          [
-            docs,
-            helpers,
-            internals,
-            sveltekit,
-            handles,
-            vite-plugin-kit-routes,
-            vite-plugin-watch-and-run,
-            vite-plugin-stripper,
-            eslint-config,
-          ]
-    steps:
-      - name: 🌐 Checkout Repository
-        uses: actions/checkout@v4
-        with:
-          # This makes Actions fetch all Git history so that Changesets can generate changelogs with the correct commits
-          fetch-depth: 0
+ build:
+  name: Builds & Tests
+  runs-on: ubuntu-latest
+  timeout-minutes: 10
+  strategy:
+   matrix:
+    prj:
+     [
+      docs,
+      helpers,
+      internals,
+      sveltekit,
+      handles,
+      vite-plugin-kit-routes,
+      vite-plugin-watch-and-run,
+      vite-plugin-stripper,
+      eslint-config,
+     ]
+  steps:
+   - name: 🌐 Checkout Repository
+     uses: actions/checkout@v4
+     with:
+      # This makes Actions fetch all Git history so that Changesets can generate changelogs with the correct commits
+      fetch-depth: 0
 
-      - name: 🧑‍💻 Setup env
-        uses: jycouet/jycouet/shared-config/setup@main
-        with:
-          pnpmVersion: 10.5.2
-          nodeVersion: 22.11.0
+   - name: 🧑‍💻 Setup env
+     uses: jycouet/jycouet/shared-config/setup@main
+     with:
+      pnpmVersion: 10.5.2
+      nodeVersion: 22.11.0
 
-      - name: 🚧 Build all Packages
-        run: pnpm -r build
+   - name: 🚧 Build all Packages
+     run: pnpm -r build
 
-      - name: 🧹 Lint Check
-        run: pnpm -F ${{ matrix.prj }} lint
+   - name: 🧹 Lint Check
+     run: pnpm -F ${{ matrix.prj }} lint
 
-      - name: 👌 Run Tests
-        run: pnpm -F ${{ matrix.prj }} test:ci
+   - name: 👌 Run Tests
+     run: pnpm -F ${{ matrix.prj }} test:ci
