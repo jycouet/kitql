@@ -9,30 +9,50 @@ import ts from 'typescript-eslint'
 
 import { findFileOrUp } from './helper/findFileOrUp.js'
 
-const rulePrettierIgnore = ({ pnpmCatalogs = true }) => {
+/**
+ * @typedef {Object} PnpmCatalogsConfig
+ * @property {boolean} [enable=true] - Whether to enable pnpm catalogs rules
+ * @property {string[]} [files] - Files to apply the rules to
+ * @property {Record<string, string>} [rules] - Rules configuration
+ */
+
+const rulePrettierIgnore = ({ pnpmCatalogsEnabled = true }) => {
 	const pathPrettierIgnore = findFileOrUp('.prettierignore', { absolute: true })
-	const rowIgnore = pathPrettierIgnore ? includeIgnoreFile(pathPrettierIgnore).ignores : []
-	const ignores = pnpmCatalogs ? rowIgnore.filter((c) => !c.includes('package.json')) : rowIgnore
+	const rowIgnore = pathPrettierIgnore ? (includeIgnoreFile(pathPrettierIgnore).ignores ?? []) : []
+	const ignores = pnpmCatalogsEnabled
+		? rowIgnore.filter((c) => !c.includes('package.json'))
+		: rowIgnore
 	return {
 		name: '@kitql:prettier:ignores',
 		ignores,
 	}
 }
 
-const rulePnpmCatalogs = () => {
+/**
+ * @param {PnpmCatalogsConfig} options
+ */
+const rulePnpmCatalogs = (options = {}) => {
+	const {
+		enable = true,
+		files = ['package.json', '**/package.json'],
+		rules = {
+			'pnpm-catalogs/enforce-catalog': 'error',
+			'pnpm-catalogs/valid-catalog': 'error',
+		},
+	} = options
+
+	if (!enable) return null
+
 	return {
 		name: 'pnpm-catalogs:package.json',
-		files: ['package.json'],
+		files,
 		languageOptions: {
 			parser: jsoncParser,
 		},
 		plugins: {
 			'pnpm-catalogs': pnpmCatalogs,
 		},
-		rules: {
-			'pnpm-catalogs/enforce-catalog': 'error',
-			'pnpm-catalogs/valid-catalog': 'error',
-		},
+		rules,
 	}
 }
 
@@ -122,7 +142,7 @@ const othersRules = () => {
 /** @type {import('eslint').Linter.Config[]} */
 const config = [
 	//
-	rulePrettierIgnore({ pnpmCatalogs: true }),
+	rulePrettierIgnore({ pnpmCatalogsEnabled: true }),
 	...othersRules(),
 	rulePnpmCatalogs(),
 ]
@@ -130,16 +150,22 @@ const config = [
 export default config
 
 /**
- * @param {Object} options
- * @param {boolean} options.pnpmCatalogs
+ * @typedef {Object} KitqlOptions
+ * @property {PnpmCatalogsConfig} [pnpmCatalogs] - Configuration object for pnpm catalogs
+ */
+
+/**
+ * @param {KitqlOptions} [options]
  * @returns {import('eslint').Linter.Config[]}
  */
-export const kitql = (options) => {
-	const pnpmCatalogs = options?.pnpmCatalogs ?? true
+export const kitql = (options = {}) => {
+	const pnpmCatalogsConfig = options?.pnpmCatalogs ?? { enable: true }
+	const pnpmCatalogsEnabled = pnpmCatalogsConfig.enable !== false
+
 	return [
 		//
-		rulePrettierIgnore({ pnpmCatalogs }),
+		rulePrettierIgnore({ pnpmCatalogsEnabled }),
 		...othersRules(),
-		...(pnpmCatalogs ? [rulePnpmCatalogs()] : []),
+		...(pnpmCatalogsEnabled ? [rulePnpmCatalogs(pnpmCatalogsConfig)] : []),
 	]
 }
