@@ -209,6 +209,9 @@ importers:
       '@astrojs/starlight':
         specifier: catalog:docs
         version: 0.32.2(astro@5.4.2(@types/node@22.13.9)(jiti@1.21.7)(lightningcss@1.28.2)(rollup@4.34.8)(sass@1.85.1)(terser@5.37.0)(tsx@4.19.3)(typescript@5.7.2)(yaml@2.7.0))
+      '@kitql/eslint-config':
+        specifier: workspace:*
+        version: link:../packages/eslint-config
       accessible-astro-components:
         specifier: catalog:docs
         version: 4.0.3
