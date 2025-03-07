@@ -41,4 +41,6 @@ const config = {
 }
 export default config
 
-export const kitql = () => config
+export const kitql = () => {
+	return config
+}
