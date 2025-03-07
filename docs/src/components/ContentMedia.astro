@@ -1,0 +1,131 @@
+---
+import { Media } from 'accessible-astro-components'
+
+interface Props {
+  imgSrc: string
+  reverseImg?: boolean
+}
+
+const { imgSrc, reverseImg = false } = Astro.props
+---
+
+<div class="content-media">
+  <div class="container">
+    <div class={`grid ${reverseImg ? 'reverse' : ''}`}>
+      <div class="image-container">
+        <Media src={imgSrc} />
+      </div>
+      <div class="content">
+        <slot />
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  .content-media {
+    padding-block: 2rem;
+  }
+
+  @media (min-width: 1024px) {
+    .content-media {
+      padding-block: 3rem;
+    }
+  }
+
+  .content-media .container .grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+
+  @media (min-width: 1024px) {
+    .content-media .container .grid {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 3rem;
+    }
+
+    .content-media .container .grid.reverse .image-container {
+      order: 2;
+    }
+
+    .content-media .container .grid.reverse .content {
+      order: 1;
+    }
+  }
+
+  .content-media .content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    gap: clamp(1rem, 1.0217rem + 0.1087vw, 1.125rem);
+    font-size: var(--sl-text-base);
+    line-height: var(--sl-line-height);
+  }
+
+  .content-media p {
+    font-weight: 300;
+    line-height: 1.5;
+    text-wrap: pretty;
+  }
+
+  .content-media :global(img) {
+    border-radius: 0.5rem;
+  }
+
+  .content-media .container .image-container:first-child {
+    rotate: -2deg;
+  }
+
+  .content-media .container .image-container:last-child {
+    rotate: 2deg;
+  }
+
+  .image-container {
+    position: relative;
+    padding: 1rem;
+    inline-size: calc(100% - 1rem);
+    block-size: fit-content;
+  }
+
+  @media (min-width: 1024px) {
+    .image-container {
+      inline-size: calc(100% - 0.5rem);
+    }
+  }
+
+  .image-container > * {
+    position: relative;
+    z-index: 2;
+  }
+
+  .image-container::before,
+  .image-container::after {
+    position: absolute;
+    content: '';
+  }
+
+  .image-container::before {
+    opacity: 0.8;
+    z-index: 1;
+    inset: 0;
+    border-radius: 0.5rem;
+    background-color: var(--sl-color-gray-1);
+  }
+
+  .image-container::after {
+    rotate: 2deg;
+    opacity: 0.2;
+    z-index: 0;
+    inset: 1rem -0.85rem -0.85rem 1rem;
+    border-radius: 0.5rem;
+    background-color: var(--sl-color-white);
+  }
+
+  .image-container img {
+    inline-size: 100%;
+    max-block-size: 400px;
+    object-fit: cover;
+  }
+</style>

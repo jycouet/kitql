@@ -36,24 +36,24 @@
   },
   "devDependencies": {
     "@kitql/eslint-config": "workspace:*",
-    "@playwright/test": "1.50.0",
-    "@sveltejs/adapter-node": "5.2.2",
-    "@sveltejs/kit": "2.17.3",
-    "@sveltejs/package": "2.3.7",
-    "@sveltejs/vite-plugin-svelte": "5.0.1",
-    "@types/vary": "1.1.3",
-    "publint": "0.3.1",
-    "svelte": "5.20.5",
-    "svelte-check": "4.1.1",
-    "tslib": "2.8.0",
-    "typescript": "5.7.2",
-    "vite": "6.1.1",
-    "vitest": "3.0.4"
+    "@playwright/test": "catalog:testing",  
+    "@sveltejs/adapter-node": "catalog:sveltekit",
+    "@sveltejs/kit": "catalog:sveltekit",
+    "@sveltejs/package": "catalog:sveltekit",
+    "@sveltejs/vite-plugin-svelte": "catalog:sveltekit",
+    "@types/vary": "catalog:lib-dep-publish",
+    "publint": "catalog:lib-author-helper",
+    "svelte": "catalog:svelte",
+    "svelte-check": "catalog:svelte",
+    "tslib": "catalog:lib-author-helper",
+    "typescript": "catalog:tooling",
+    "vite": "catalog:vite",
+    "vitest": "catalog:testing"
   },
   "dependencies": {
     "@kitql/helpers": "workspace:*",
-    "esm-env": "catalog:dep-helpers",
-    "vary": "catalog:dep-helpers"
+    "esm-env": "catalog:lib-dep-publish",
+    "vary": "catalog:lib-dep-publish"
   },
   "sideEffects": false,
   "publishConfig": {

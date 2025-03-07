@@ -34,22 +34,22 @@
     "format": "kitql-lint --format"
   },
   "devDependencies": {
-    "@sveltejs/adapter-auto": "4.0.0",
-    "@sveltejs/kit": "2.17.3",
-    "@sveltejs/package": "2.3.7",
+    "@sveltejs/adapter-auto": "catalog:sveltekit",
+    "@sveltejs/kit": "catalog:sveltekit",
+    "@sveltejs/package": "catalog:sveltekit",
     "@kitql/eslint-config": "workspace:*",
-    "@sveltejs/vite-plugin-svelte": "5.0.1",
-    "publint": "0.3.1",
-    "rollup-plugin-visualizer": "5.14.0",
-    "svelte": "5.20.5",
-    "svelte-check": "4.1.1",
-    "tslib": "2.8.0",
-    "typescript": "5.7.2",
-    "vite": "6.1.1",
-    "vitest": "3.0.4"
+    "@sveltejs/vite-plugin-svelte": "catalog:sveltekit",
+    "publint": "catalog:lib-author-helper",
+    "rollup-plugin-visualizer": "catalog:lib-author-helper",
+    "svelte": "catalog:svelte",
+    "svelte-check": "catalog:svelte",
+    "tslib": "catalog:lib-author-helper",
+    "typescript": "catalog:tooling",
+    "vite": "catalog:vite",
+    "vitest": "catalog:testing"
   },
   "dependencies": {
-    "esm-env": "^1.2.2"
+    "esm-env": "catalog:lib-dep-publish"
   },
   "sideEffects": false,
   "publishConfig": {

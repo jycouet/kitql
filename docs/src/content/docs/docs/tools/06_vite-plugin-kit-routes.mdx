@@ -1,0 +1,160 @@
+---
+title: 🪧 vite-plugin-kit-routes
+description: Automatically updates route references in SvelteKit projects
+---
+
+import { Aside } from '@astrojs/starlight/components'
+
+<Aside type="tip">
+  _**KitQL** itself is not a library, it's "nothing" but a collection of standalone libraries._
+</Aside>
+
+`vite-plugin-kit-routes` automatically updates route references in SvelteKit projects, crucial for
+large applications where manual tracking of route changes is error-prone. It simplifies development
+by ensuring all route links are consistent and up-to-date, saving time and preventing broken links.
+
+No more 🤞, now be **confident** ✅!
+
+By default, no Configuration is required. Just [Install](#installation) the plugin, and use
+objects/functions available in your `$lib/ROUTES.ts` generated file _(always in sync)_.
+
+_Note that this plugin is meant to be used with typescript today. If you want a JSDoc version of it,
+please open an issue._
+
+## Showcase
+
+import { Video } from 'accessible-astro-components'
+
+<Video
+  src="https://www.youtube.com/embed/GH5NxbdCZ74?start=489"
+  title="KitQL - vite-plugin-kit-routes"
+  ratio="16:9"
+  allowfullscreen
+/>
+
+## Examples
+
+```svelte
+<script lang="ts">
+  import { route } from '$lib/ROUTES'
+</script>
+
+<!-- 🤞 before, hardcoded string, error prone -->
+<a href="/terms-and-conditions">Terms</a>
+
+<!-- ✅ after, typechecked route, no more errors -->
+<a href={route('/terms-and-conditions')}>Terms</a>
+<!--
+   If you change location of `/terms-and-conditions/+page.svelte`:
+     - the key '/terms-and-conditions' will not exist
+     - `route` function will yell!
+-->
+```
+
+```svelte
+<script lang="ts">
+  import { route } from '$lib/ROUTES'
+</script>
+
+<!-- 🤞 before, hardcoded string, error prone -->
+<a href="/site/123">Go to site</a>
+
+<!-- ✅ after, typechecked route, no more errors -->
+<a href={route('/site/[id]', { id: 123 })}>Go to site</a>
+```
+
+```svelte
+<script lang="ts">
+  import { route } from '$lib/ROUTES'
+</script>
+
+<!-- 🤞 before, hardcoded string, error prone -->
+<a href="/site/123?limit=3">Go to site</a>
+
+<!-- ✅ after, typechecked route, no more errors -->
+<a href={route('/site/[id]', { id: 123, limit: 3 })}>Go to site</a>
+```
+
+```svelte
+<script lang="ts">
+  import { enhance } from '$app/forms'
+  import { page } from '$app/stores'
+
+  import { route } from '$lib/ROUTES'
+
+  const id = $page.params.id
+
+  // 🤞 before, hardcoded string, error prone
+  const action_hope = `/site/${id}?/send`
+
+  // ✅ after, typechecked route, no more errors
+  const action = route('send /site/[id]', { id })
+</script>
+
+<form method="POST" use:enhance {action}>
+  <button>Check</button>
+</form>
+```
+
+```svelte
+<script lang="ts">
+  import { route } from '$lib/ROUTES'
+</script>
+
+<!-- 🤞 before, hardcoded string, error prone -->
+<a href="https://twitter.com/jycouet">Twitter</a>
+
+<!-- ✅ after, typechecked route, no more errors -->
+<a href={route('twitter')}>Twitter</a>
+```
+
+```svelte
+<script lang="ts">
+  import { route } from '$lib/ROUTES'
+</script>
+
+<!-- 🤞 before, hardcoded string, error prone -->
+<img src="https://www.gravatar.com/avatar/jycouet?s=20&d=identicon" alt="logo" />
+
+<!-- ✅ after, typechecked route, no more errors -->
+<img src={route('gravatar', { str: 'jycouet', s: 20 })} alt="logo" />
+```
+
+<br />
+<em>* You can add a lot of configs to specify search params, types, ...</em>
+
+## Installation
+
+```sh
+npm i -D vite-plugin-kit-routes
+```
+
+## Demo
+
+### Local
+
+```bash
+npm create kitql@latest --template kit-routes
+```
+
+## Configuration
+
+Add the plugin like this:
+
+```js
+// vite.config.js
+import { sveltekit } from '@sveltejs/kit/vite'
+import { kitRoutes } from 'vite-plugin-kit-routes'
+
+/** @type {import('vite').UserConfig} */
+export default config = {
+  plugins: [
+    sveltekit(),
+    // ✅ Add the plugin
+    kitRoutes()
+  ]
+}
+```
+
+It will generate a file `./src/lib/ROUTES.ts` at the start of your dev server & any update of any of
+your `+page.svelte` | `+server.ts` | `+page.server.ts`.

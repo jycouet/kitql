@@ -1,0 +1,99 @@
+---
+title: 💄 @kitql/eslint-config
+description: Simplified eslint & prettier configuration for your projects
+---
+
+import { Aside } from '@astrojs/starlight/components'
+
+<Aside type="tip">
+  _**KitQL** itself is not a library, it's "nothing" but a collection of standalone libraries._
+</Aside>
+
+To have eslint & prettier in your project, you need 20 dep, files, ... and it's a pain to maintain
+in each project.
+
+Here the idea is to reduce as much as possible the config on your end. _(Of course, you can still
+tune things)_
+
+## Installation
+
+```sh
+npm i -D @kitql/eslint-config
+```
+
+add this to your `.npmrc`
+
+```yml
+public-hoist-pattern[]=*eslint* public-hoist-pattern[]=*prettier*
+```
+
+### eslint config
+
+```js
+// eslint.config.js
+import kitql from '@kitql/eslint-config'
+
+/** @type { import("eslint").Linter.Config } */
+export default [
+  ...kitql,
+  {
+    name: 'app:rules',
+    rules: {
+      // Some custom things?
+    }
+  }
+]
+```
+
+You can check your config running this [tool](https://github.com/eslint/config-inspector)
+
+```bash
+npx @eslint/config-inspector
+```
+
+### prettier config
+
+```js
+// .prettierrc.mjs
+import config from '@kitql/eslint-config/.prettierrc.mjs'
+
+export default {
+  ...config
+  // Some custom things?
+}
+```
+
+### ignore things with
+
+```bash
+# .prettierignore
+.DS_Store
+node_modules
+/build
+/.svelte-kit
+/package
+.env
+.env.*
+!.env.example
+
+# Ignore files for PNPM, NPM and YARN
+package.json
+pnpm-lock.yaml
+package-lock.json
+yarn.lock
+
+# Ignore files that are project specific
+/db
+/src/lib/ROUTES.ts
+```
+
+### Add this to your `package.json`
+
+```json
+// package.json
+scripts: {
+  "//// ---- BEST PRACTICES ---- ////": "",
+  "format": "kitql-lint -f",
+  "lint": "kitql-lint",
+}
+```

@@ -1,0 +1,128 @@
+---
+title: 🔀 @kitql/handles
+description: A set of handles and utilities for request handling customization in SvelteKit
+---
+
+import { Aside } from '@astrojs/starlight/components'
+
+<Aside type="tip">
+  _**KitQL** itself is not a library, it's "nothing" but a collection of standalone libraries._
+</Aside>
+
+A set of handles and utilities for request handling customization in SvelteKit 🫵!
+
+## Installation
+
+```sh
+npm i -D @kitql/handles
+```
+
+## Utilities
+
+- `handleProxies` - implements a reverse proxy that forwards from a path to a given external
+  service. Useful for hiding a backing service from clients.
+- `handleCors` - applies CORS headers to set of defined routes. The configuration options allowed
+  per route are a subset of those used by the
+  [cors](https://www.npmjs.com/package/cors#configuration-options) package, for easy migration.
+- `handleCsrf` - allows cross-site form submissions to a set of defined routes. The allowed origins
+  for submissions can be configured per route. For all other routes, implements the default CSRF
+  behavior of SvelteKit, where all cross-site form submissions are blocked.
+- `createCorsWrapper` - creates a wrapper around a `RequestHandler` that adds CORS headers to the
+  request. This allows enabling CORS on one specific route `+server.ts` without needing to modify
+  `hooks.server.ts`.
+
+## Required SvelteKit / Vite Configuration Changes
+
+### `handleCsrf`
+
+To use `handleCsrf`, disable SvelteKit's default CSRF blocking behavior. `handleCsrf` will duplicate
+the behavior of the default CSRF blocking for any routes that are not specifically configured.
+
+```js
+// svelte.config.js
+const config = {
+  kit: {
+    // ... other kit options
+    // disable sveltekit built-in CSRF blocking - this is replaced by `handleCsrf`
+    csrf: {
+      checkOrigin: false
+    }
+  }
+}
+```
+
+### `handleCors` and `createCorsWrapper`
+
+Not strictly necessary, but recommended: when using `handleCors` or `createCorsWrapper`, disable
+Vite's default addition of wildcard CORS headers in
+[development](https://vitejs.dev/config/server-options#server-cors) and
+[preview](https://vitejs.dev/config/preview-options#preview-cors) mode. This allows you to test your
+CORS configuration as it would behave in production.
+
+Note that you need to specify `cors: { origin: false }` rather than disabling cors entirely with
+`cors: false`, as the SvelteKit vite plugin
+[adds its own CORS configuration](https://github.com/sveltejs/kit/blob/2b19df3855b13737399a7173f25e4fecbd7f689a/packages/kit/src/exports/vite/index.js#L262)
+with `cors: { preflightContinue: true }`. This is not included in the warning logging for overriden
+config entries due to [a SvelteKit vite plugin issue](https://github.com/sveltejs/kit/issues/12574).
+
+```ts
+// vite.config.ts
+export default defineConfig({
+  // ... plugins, etc
+  // disable automatic CORS header addition in dev
+  server: {
+    cors: {
+      origin: false
+    }
+  },
+  // disable automatic CORS header addition in preview
+  preview: {
+    cors: {
+      origin: false
+    }
+  }
+})
+```
+
+## Usage
+
+### `handleProxies`
+
+Creates a handler which, for requests matching a given path prefix in the given options, proxies the
+request to the `to` URL in the corresponding `ProxyOptions`. Any path elements after the matching
+prefix are preserved, e.g. a request to `/from/some/other/path` will be proxied to
+`to/some/other/path`. The request method, body, and headers are preserved, with the exception of the
+`Host` header which is set to the proxy target hostname.
+
+If a `requestHook` is defined, it is called with the original request event before the returned
+request is proxied. This allows for modifying the request before it is sent, e.g. to add or remove
+authentication headers, api keys, etc. If the returned request is to a URL with the same origin as
+the initial request and a path that also starts with the current path prefix, that request path is
+proxied; otherwise, the returned request path is not modified before it is fetched. If the
+`requestHook` function throws, the request is not proxied and a response corresponding to the thrown
+object (matching Sveltekit endpoint behavior) is returned to the client instead.
+
+If multiple options entries would match a request, the first matching entry is used.
+
+For requests matching a path prefix in options that do not have an `Origin` header or that have an
+`Origin` header not matching the request's origin, a 403 Forbidden response is returned. This
+prevents use of the proxy by other browser applications, but (**IMPORTANT**) does not prevent abuse
+of the proxy by applications that can set the `Origin` header manually to match. To prevent this,
+you can require user authentication and authorization before allowing proxying, validating either in
+a preceding hook or directly in the `requestHook`.
+
+```ts
+// src/hooks.server.ts
+import { sequence } from '@sveltejs/kit/hooks'
+
+import { handleProxies } from '@kitql/handles'
+
+export const handle = sequence(
+  // Forwards all requests to paths beginning with `/proxy` to
+  // `http://my.super.website/graphql`. Subpaths are preserved, e.g. `/proxy/api/path` is
+  // forwarded to `http://my.super.website/graphql/api/path`.
+  handleProxies([['/proxy', { to: 'http://my.super.website/graphql' }]])
+)
+```
+
+This way, customers will never see the url `http://my.super.website/graphql`.

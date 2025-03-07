@@ -4,6 +4,7 @@ import pnpmCatalogs from 'eslint-plugin-pnpm-catalogs'
 import svelte from 'eslint-plugin-svelte'
 import unusedImports from 'eslint-plugin-unused-imports'
 import globals from 'globals'
+import * as jsoncParser from 'jsonc-eslint-parser'
 import ts from 'typescript-eslint'
 
 import { findFileOrUp } from './helper/findFileOrUp.js'
@@ -14,7 +15,9 @@ const pathPrettierIgnore = findFileOrUp('.prettierignore', { absolute: true })
 export const config = [
   {
     name: '@kitql:prettier:ignores',
-    ignores: pathPrettierIgnore ? includeIgnoreFile(pathPrettierIgnore).ignores : [],
+    ignores: pathPrettierIgnore
+      ? includeIgnoreFile(pathPrettierIgnore).ignores.filter((c) => !c.includes('package.json'))
+      : [],
   },
   {
     name: 'eslint/defaults/recommended',
@@ -68,13 +71,17 @@ export const config = [
     },
   },
   {
-    name: '@kitql:pnpmCatalogs',
+    name: 'pnpm-catalogs:package.json',
+    files: ['package.json'],
+    languageOptions: {
+      parser: jsoncParser,
+    },
     plugins: {
-      pnpmCatalogs,
+      'pnpm-catalogs': pnpmCatalogs,
     },
     rules: {
-      'pnpmCatalogs/enforce-catalog': 'error',
-      'pnpmCatalogs/valid-catalog': 'error',
+      'pnpm-catalogs/enforce-catalog': 'error',
+      'pnpm-catalogs/valid-catalog': 'error',
     },
   },
   {

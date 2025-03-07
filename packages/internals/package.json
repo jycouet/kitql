@@ -31,23 +31,23 @@
   },
   "devDependencies": {
     "@kitql/eslint-config": "workspace:*",
-    "@sveltejs/adapter-auto": "4.0.0",
-    "@sveltejs/kit": "2.17.3",
-    "@sveltejs/package": "2.3.7",
-    "@sveltejs/vite-plugin-svelte": "5.0.1",
-    "publint": "0.3.1",
-    "rollup-plugin-visualizer": "5.14.0",
-    "svelte-check": "4.1.1",
-    "tslib": "2.8.0",
-    "typescript": "5.7.2",
-    "vite": "6.1.1",
-    "vitest": "3.0.4"
+    "@sveltejs/adapter-auto": "catalog:sveltekit",
+    "@sveltejs/kit": "catalog:sveltekit",
+    "@sveltejs/package": "catalog:sveltekit",
+    "@sveltejs/vite-plugin-svelte": "catalog:sveltekit",
+    "publint": "catalog:lib-author-helper",
+    "rollup-plugin-visualizer": "catalog:lib-author-helper",
+    "svelte-check": "catalog:svelte",
+    "tslib": "catalog:lib-author-helper",
+    "typescript": "catalog:tooling",
+    "vite": "catalog:vite",
+    "vitest": "catalog:testing"
   },
   "dependencies": {
-    "@babel/parser": "^7.23.0",
+    "@babel/parser": "catalog:tooling",
     "@kitql/helpers": "workspace:*",
-    "recast": "^0.23.4",
-    "svelte": "^5.0.0"
+    "recast": "catalog:tooling",
+    "svelte": "catalog:svelte-dep"
   },
   "sideEffects": false,
   "publishConfig": {

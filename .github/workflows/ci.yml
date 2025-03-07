@@ -14,14 +14,15 @@ jobs:
       matrix:
         prj:
           [
-            eslint-config,
-            handles,
+            docs,
             helpers,
-            sveltekit,
             internals,
+            sveltekit,
+            handles,
             vite-plugin-kit-routes,
-            vite-plugin-stripper,
             vite-plugin-watch-and-run,
+            vite-plugin-stripper,
+            eslint-config,
           ]
     steps:
       - name: 🌐 Checkout Repository
@@ -36,8 +37,8 @@ jobs:
           pnpmVersion: 10.5.2
           nodeVersion: 22.11.0
 
-      - name: 🚧 Build Packages
-        run: pnpm -F "!website" build
+      - name: 🚧 Build all Packages
+        run: pnpm -r build
 
       - name: 🧹 Lint Check
         run: pnpm -F ${{ matrix.prj }} lint
