@@ -1,6 +1,6 @@
 import prettierConfig from '@theguild/prettier-config'
 
-export default {
+const config = {
 	...prettierConfig,
 	tabWidth: 1,
 	useTabs: true,
@@ -38,4 +38,9 @@ export default {
 			},
 		},
 	],
+}
+export default config
+
+export const kitql = () => {
+	return config
 }
