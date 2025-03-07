@@ -1,5 +1,16 @@
 # eslint-config-kitql
 
+## 0.5.8
+
+### Patch Changes
+
+- [#913](https://github.com/jycouet/kitql/pull/913)
+  [`df812ed`](https://github.com/jycouet/kitql/commit/df812ed944b66a02ea88992cf6cbd0a3b56c83e4)
+  Thanks [@jycouet](https://github.com/jycouet)! - pnpmCatalogs gets now a full config
+
+- Updated dependencies []:
+  - @kitql/helpers@0.8.12
+
 ## 0.5.7
 
 ### Patch Changes
