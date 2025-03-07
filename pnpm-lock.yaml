@@ -163,8 +163,8 @@ catalogs:
       specifier: 0.24.0
       version: 0.24.0
     ora:
-      specifier: 8.1.0
-      version: 8.1.0
+      specifier: 8.2.0
+      version: 8.2.0
     recast:
       specifier: ^0.23.4
       version: 0.23.4
@@ -178,11 +178,6 @@ catalogs:
     vite:
       specifier: 6.1.1
       version: 6.1.1
-
-patchedDependencies:
-  '@sveltejs/package':
-    hash: 64eb09fa87c7076fb94521a2357792c8e07736ded7efb75cff91339e4fe9fd13
-    path: patches/@sveltejs__package.patch
 
 importers:
 
@@ -271,7 +266,7 @@ importers:
         version: 2.4.0
       ora:
         specifier: catalog:tooling
-        version: 8.1.0
+        version: 8.2.0
       prettier:
         specifier: catalog:linting
         version: 3.5.3
@@ -311,7 +306,7 @@ importers:
         version: 2.17.3(@sveltejs/vite-plugin-svelte@5.0.1(svelte@5.20.5)(vite@6.1.1(@types/node@22.13.9)(jiti@1.21.7)(lightningcss@1.28.2)(sass@1.85.1)(terser@5.37.0)(tsx@4.19.3)(yaml@2.7.0)))(svelte@5.20.5)(vite@6.1.1(@types/node@22.13.9)(jiti@1.21.7)(lightningcss@1.28.2)(sass@1.85.1)(terser@5.37.0)(tsx@4.19.3)(yaml@2.7.0))
       '@sveltejs/package':
         specifier: catalog:sveltekit
-        version: 2.3.7(patch_hash=64eb09fa87c7076fb94521a2357792c8e07736ded7efb75cff91339e4fe9fd13)(svelte@5.20.5)(typescript@5.7.2)
+        version: 2.3.7(svelte@5.20.5)(typescript@5.7.2)
       '@sveltejs/vite-plugin-svelte':
         specifier: catalog:sveltekit
         version: 5.0.1(svelte@5.20.5)(vite@6.1.1(@types/node@22.13.9)(jiti@1.21.7)(lightningcss@1.28.2)(sass@1.85.1)(terser@5.37.0)(tsx@4.19.3)(yaml@2.7.0))
@@ -358,7 +353,7 @@ importers:
         version: 2.17.3(@sveltejs/vite-plugin-svelte@5.0.1(svelte@5.20.5)(vite@6.1.1(@types/node@22.13.9)(jiti@1.21.7)(lightningcss@1.28.2)(sass@1.85.1)(terser@5.37.0)(tsx@4.19.3)(yaml@2.7.0)))(svelte@5.20.5)(vite@6.1.1(@types/node@22.13.9)(jiti@1.21.7)(lightningcss@1.28.2)(sass@1.85.1)(terser@5.37.0)(tsx@4.19.3)(yaml@2.7.0))
       '@sveltejs/package':
         specifier: catalog:sveltekit
-        version: 2.3.7(patch_hash=64eb09fa87c7076fb94521a2357792c8e07736ded7efb75cff91339e4fe9fd13)(svelte@5.20.5)(typescript@5.7.2)
+        version: 2.3.7(svelte@5.20.5)(typescript@5.7.2)
       '@sveltejs/vite-plugin-svelte':
         specifier: catalog:sveltekit
         version: 5.0.1(svelte@5.20.5)(vite@6.1.1(@types/node@22.13.9)(jiti@1.21.7)(lightningcss@1.28.2)(sass@1.85.1)(terser@5.37.0)(tsx@4.19.3)(yaml@2.7.0))
@@ -414,7 +409,7 @@ importers:
         version: 2.17.3(@sveltejs/vite-plugin-svelte@5.0.1(svelte@5.20.5)(vite@6.1.1(@types/node@22.13.9)(jiti@1.21.7)(lightningcss@1.28.2)(sass@1.85.1)(terser@5.37.0)(tsx@4.19.3)(yaml@2.7.0)))(svelte@5.20.5)(vite@6.1.1(@types/node@22.13.9)(jiti@1.21.7)(lightningcss@1.28.2)(sass@1.85.1)(terser@5.37.0)(tsx@4.19.3)(yaml@2.7.0))
       '@sveltejs/package':
         specifier: catalog:sveltekit
-        version: 2.3.7(patch_hash=64eb09fa87c7076fb94521a2357792c8e07736ded7efb75cff91339e4fe9fd13)(svelte@5.20.5)(typescript@5.7.2)
+        version: 2.3.7(svelte@5.20.5)(typescript@5.7.2)
       '@sveltejs/vite-plugin-svelte':
         specifier: catalog:sveltekit
         version: 5.0.1(svelte@5.20.5)(vite@6.1.1(@types/node@22.13.9)(jiti@1.21.7)(lightningcss@1.28.2)(sass@1.85.1)(terser@5.37.0)(tsx@4.19.3)(yaml@2.7.0))
@@ -451,7 +446,7 @@ importers:
         version: 2.17.3(@sveltejs/vite-plugin-svelte@5.0.1(svelte@5.20.5)(vite@6.1.1(@types/node@22.13.9)(jiti@1.21.7)(lightningcss@1.28.2)(sass@1.85.1)(terser@5.37.0)(tsx@4.19.3)(yaml@2.7.0)))(svelte@5.20.5)(vite@6.1.1(@types/node@22.13.9)(jiti@1.21.7)(lightningcss@1.28.2)(sass@1.85.1)(terser@5.37.0)(tsx@4.19.3)(yaml@2.7.0))
       '@sveltejs/package':
         specifier: catalog:sveltekit
-        version: 2.3.7(patch_hash=64eb09fa87c7076fb94521a2357792c8e07736ded7efb75cff91339e4fe9fd13)(svelte@5.20.5)(typescript@5.7.2)
+        version: 2.3.7(svelte@5.20.5)(typescript@5.7.2)
       '@sveltejs/vite-plugin-svelte':
         specifier: catalog:sveltekit
         version: 5.0.1(svelte@5.20.5)(vite@6.1.1(@types/node@22.13.9)(jiti@1.21.7)(lightningcss@1.28.2)(sass@1.85.1)(terser@5.37.0)(tsx@4.19.3)(yaml@2.7.0))
@@ -507,7 +502,7 @@ importers:
         version: 2.17.3(@sveltejs/vite-plugin-svelte@5.0.1(svelte@5.20.5)(vite@6.1.1(@types/node@22.13.9)(jiti@1.21.7)(lightningcss@1.28.2)(sass@1.85.1)(terser@5.37.0)(tsx@4.19.3)(yaml@2.7.0)))(svelte@5.20.5)(vite@6.1.1(@types/node@22.13.9)(jiti@1.21.7)(lightningcss@1.28.2)(sass@1.85.1)(terser@5.37.0)(tsx@4.19.3)(yaml@2.7.0))
       '@sveltejs/package':
         specifier: catalog:sveltekit
-        version: 2.3.7(patch_hash=64eb09fa87c7076fb94521a2357792c8e07736ded7efb75cff91339e4fe9fd13)(svelte@5.20.5)(typescript@5.7.2)
+        version: 2.3.7(svelte@5.20.5)(typescript@5.7.2)
       '@sveltejs/vite-plugin-svelte':
         specifier: catalog:sveltekit
         version: 5.0.1(svelte@5.20.5)(vite@6.1.1(@types/node@22.13.9)(jiti@1.21.7)(lightningcss@1.28.2)(sass@1.85.1)(terser@5.37.0)(tsx@4.19.3)(yaml@2.7.0))
@@ -557,7 +552,7 @@ importers:
         version: 2.17.3(@sveltejs/vite-plugin-svelte@5.0.1(svelte@5.20.5)(vite@6.1.1(@types/node@22.13.9)(jiti@1.21.7)(lightningcss@1.28.2)(sass@1.85.1)(terser@5.37.0)(tsx@4.19.3)(yaml@2.7.0)))(svelte@5.20.5)(vite@6.1.1(@types/node@22.13.9)(jiti@1.21.7)(lightningcss@1.28.2)(sass@1.85.1)(terser@5.37.0)(tsx@4.19.3)(yaml@2.7.0))
       '@sveltejs/package':
         specifier: catalog:sveltekit
-        version: 2.3.7(patch_hash=64eb09fa87c7076fb94521a2357792c8e07736ded7efb75cff91339e4fe9fd13)(svelte@5.20.5)(typescript@5.7.2)
+        version: 2.3.7(svelte@5.20.5)(typescript@5.7.2)
       '@sveltejs/vite-plugin-svelte':
         specifier: catalog:sveltekit
         version: 5.0.1(svelte@5.20.5)(vite@6.1.1(@types/node@22.13.9)(jiti@1.21.7)(lightningcss@1.28.2)(sass@1.85.1)(terser@5.37.0)(tsx@4.19.3)(yaml@2.7.0))
@@ -607,7 +602,7 @@ importers:
         version: 2.17.3(@sveltejs/vite-plugin-svelte@5.0.1(svelte@5.20.5)(vite@6.1.1(@types/node@22.13.9)(jiti@1.21.7)(lightningcss@1.28.2)(sass@1.85.1)(terser@5.37.0)(tsx@4.19.3)(yaml@2.7.0)))(svelte@5.20.5)(vite@6.1.1(@types/node@22.13.9)(jiti@1.21.7)(lightningcss@1.28.2)(sass@1.85.1)(terser@5.37.0)(tsx@4.19.3)(yaml@2.7.0))
       '@sveltejs/package':
         specifier: catalog:sveltekit
-        version: 2.3.7(patch_hash=64eb09fa87c7076fb94521a2357792c8e07736ded7efb75cff91339e4fe9fd13)(svelte@5.20.5)(typescript@5.7.2)
+        version: 2.3.7(svelte@5.20.5)(typescript@5.7.2)
       '@sveltejs/vite-plugin-svelte':
         specifier: catalog:sveltekit
         version: 5.0.1(svelte@5.20.5)(vite@6.1.1(@types/node@22.13.9)(jiti@1.21.7)(lightningcss@1.28.2)(sass@1.85.1)(terser@5.37.0)(tsx@4.19.3)(yaml@2.7.0))
@@ -3861,8 +3856,8 @@ packages:
     resolution: {integrity: sha512-JjCoypp+jKn1ttEFExxhetCKeJt9zhAgAve5FXHixTvFDW/5aEktX9bufBKLRRMdU7bNtpLfcGu94B3cdEJgjg==}
     engines: {node: '>= 0.8.0'}
 
-  ora@8.1.0:
-    resolution: {integrity: sha512-GQEkNkH/GHOhPFXcqZs3IDahXEQcQxsSjEkK4KvEEST4t7eNzoMjxTzef+EZ+JluDEV+Raoi3WQ2CflnRdSVnQ==}
+  ora@8.2.0:
+    resolution: {integrity: sha512-weP+BZ8MVNnlCm8c0Qdc1WSWq4Qn7I+9CJGm7Qali6g44e/PUzbjNqJX5NJ9ljlNMosfJvg1fKEGILklK9cwnw==}
     engines: {node: '>=18'}
 
   os-tmpdir@1.0.2:
@@ -6280,7 +6275,7 @@ snapshots:
       svelte: 5.20.5
       vite: 6.1.1(@types/node@22.13.9)(jiti@1.21.7)(lightningcss@1.28.2)(sass@1.85.1)(terser@5.37.0)(tsx@4.19.3)(yaml@2.7.0)
 
-  '@sveltejs/package@2.3.7(patch_hash=64eb09fa87c7076fb94521a2357792c8e07736ded7efb75cff91339e4fe9fd13)(svelte@5.20.5)(typescript@5.7.2)':
+  '@sveltejs/package@2.3.7(svelte@5.20.5)(typescript@5.7.2)':
     dependencies:
       chokidar: 4.0.1
       kleur: 4.1.5
@@ -8992,7 +8987,7 @@ snapshots:
       prelude-ls: 1.2.1
       type-check: 0.4.0
 
-  ora@8.1.0:
+  ora@8.2.0:
     dependencies:
       chalk: 5.3.0
       cli-cursor: 5.0.0
