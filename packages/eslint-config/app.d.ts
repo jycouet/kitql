@@ -1,1 +1,1 @@
-declare module '@eslint/js';
+declare module '@eslint/js'
