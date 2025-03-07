@@ -40,25 +40,25 @@ describe('read', () => {
 	it('read a file', async () => {
 		const data = read(`${process.cwd()}/src/routes/+page.svelte`)
 		expect(data).toMatchInlineSnapshot(`
-      "<script lang="ts">
-        const strHref = 'www.google.com'
-      </script>
+			"<script lang="ts">
+				const strHref = 'www.google.com'
+			</script>
 
-      <h2>Home</h2>
+			<h2>Home</h2>
 
-      <div>Hello div</div>
+			<div>Hello div</div>
 
-      <a href="www.google.com">Google</a>
+			<a href="www.google.com">Google</a>
 
-      <a href={strHref}>Google</a>
+			<a href={strHref}>Google</a>
 
-      <img src="test" alt="test-1" />
+			<img src="test" alt="test-1" />
 
-      <p>
-        <a href="www.google.com">Google</a>
-      </p>
-      "
-    `)
+			<p>
+				<a href="www.google.com">Google</a>
+			</p>
+			"
+		`)
 	})
 
 	it('read no file', async () => {
@@ -76,25 +76,25 @@ describe('write', () => {
 			write(path, [data])
 			const readAgainData = read(path)
 			expect(readAgainData).toMatchInlineSnapshot(`
-        "<script lang="ts">
-          const strHref = 'www.google.com'
-        </script>
+				"<script lang="ts">
+					const strHref = 'www.google.com'
+				</script>
 
-        <h2>Home</h2>
+				<h2>Home</h2>
 
-        <div>Hello div</div>
+				<div>Hello div</div>
 
-        <a href="www.google.com">Google</a>
+				<a href="www.google.com">Google</a>
 
-        <a href={strHref}>Google</a>
+				<a href={strHref}>Google</a>
 
-        <img src="test" alt="test-1" />
+				<img src="test" alt="test-1" />
 
-        <p>
-          <a href="www.google.com">Google</a>
-        </p>
-        "
-      `)
+				<p>
+					<a href="www.google.com">Google</a>
+				</p>
+				"
+			`)
 		}
 	})
 
@@ -104,25 +104,25 @@ describe('write', () => {
 			write(`${process.cwd()}/src/routes/+page.svelte`, [data])
 			const readAgainData = read(`${process.cwd()}/src/routes/+page.svelte`)
 			expect(readAgainData).toMatchInlineSnapshot(`
-        "<script lang="ts">
-          const strHref = 'www.google.com'
-        </script>
+				"<script lang="ts">
+					const strHref = 'www.google.com'
+				</script>
 
-        <h2>Home</h2>
+				<h2>Home</h2>
 
-        <div>Hello div</div>
+				<div>Hello div</div>
 
-        <a href="www.google.com">Google</a>
+				<a href="www.google.com">Google</a>
 
-        <a href={strHref}>Google</a>
+				<a href={strHref}>Google</a>
 
-        <img src="test" alt="test-1" />
+				<img src="test" alt="test-1" />
 
-        <p>
-          <a href="www.google.com">Google</a>
-        </p>
-        "
-      `)
+				<p>
+					<a href="www.google.com">Google</a>
+				</p>
+				"
+			`)
 		}
 	})
 })

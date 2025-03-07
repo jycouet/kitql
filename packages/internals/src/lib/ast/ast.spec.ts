@@ -29,11 +29,11 @@ describe('parse', function () {
 		])
 
 		expect(list.map((c) => format(c))).toMatchInlineSnapshot(`
-      [
-        "/src/routes/+page.svelte:9:9 a href www.google.com",
-        "/src/routes/+page.svelte:13:10 img src test",
-        "/src/routes/+page.svelte:16:11 a href www.google.com",
-      ]
-    `)
+			[
+			  "/src/routes/+page.svelte:9:9 a href www.google.com",
+			  "/src/routes/+page.svelte:13:10 img src test",
+			  "/src/routes/+page.svelte:16:10 a href www.google.com",
+			]
+		`)
 	})
 })
