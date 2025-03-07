@@ -1,8 +1,8 @@
-import kitql from './packages/eslint-config/eslint.config.js'
+import { kitql } from './packages/eslint-config/eslint.config.js'
 
 /** @type { import("eslint").Linter.Config } */
 export default [
-	...kitql,
+	...kitql({ pnpmCatalogs: true }),
 	{
 		name: 'APP:ignores',
 		ignores: ['**/*.svelte.ts'],

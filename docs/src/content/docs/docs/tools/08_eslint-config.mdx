@@ -6,7 +6,7 @@ description: Simplified eslint & prettier configuration for your projects
 import { Aside } from '@astrojs/starlight/components'
 
 <Aside type="tip">
-	_**KitQL** itself is not a library, it's "nothing" but a collection of standalone libraries._
+  _**KitQL** itself is not a library, it's "nothing" but a collection of standalone libraries._
 </Aside>
 
 To have eslint & prettier in your project, you need 20 dep, files, ... and it's a pain to maintain
@@ -33,17 +33,17 @@ public-hoist-pattern[]=*globals*
 
 ```js
 // eslint.config.js
-import kitql from '@kitql/eslint-config'
+import { kitql } from '@kitql/eslint-config'
 
 /** @type { import("eslint").Linter.Config } */
 export default [
-	...kitql,
-	{
-		name: 'app:rules',
-		rules: {
-			// Some custom things?
-		},
-	},
+  ...kitql(),
+  {
+    name: 'app:rules',
+    rules: {
+      // Some custom things?
+    },
+  },
 ]
 ```
 
@@ -57,11 +57,11 @@ npx @eslint/config-inspector
 
 ```js
 // .prettierrc.mjs
-import config from '@kitql/eslint-config/.prettierrc.mjs'
+import { kitql } from '@kitql/eslint-config/.prettierrc.mjs'
 
 export default {
-	...config,
-	// Some custom things?
+  ...kitql(),
+  // Some custom things?
 }
 ```
 

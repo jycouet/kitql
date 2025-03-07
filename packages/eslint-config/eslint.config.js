@@ -120,14 +120,13 @@ const othersRules = () => {
 }
 
 /** @type {import('eslint').Linter.Config[]} */
-export const config = [
+const config = [
 	//
 	rulePrettierIgnore({ pnpmCatalogs: true }),
-	rulePnpmCatalogs(),
 	...othersRules(),
+	rulePnpmCatalogs(),
 ]
 
-/** @deprecated import { kitql } from '@kitql/eslint-config' */
 export default config
 
 /**
@@ -137,11 +136,10 @@ export default config
  */
 export const kitql = (options) => {
 	const pnpmCatalogs = options?.pnpmCatalogs ?? true
-
 	return [
 		//
 		rulePrettierIgnore({ pnpmCatalogs }),
-		pnpmCatalogs ? rulePnpmCatalogs() : [],
 		...othersRules(),
+		...(pnpmCatalogs ? [rulePnpmCatalogs()] : []),
 	]
 }
