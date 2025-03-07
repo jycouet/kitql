@@ -2,21 +2,11 @@ packages:
  - 'packages/*'
  - 'docs'
 
-catalog:
- '@astrojs/starlight': 0.32.2
- '@babel/parser': ^7.23.0
- accessible-astro-components: 4.0.3
- astro: 5.4.2
- astro-icon: 1.1.5
- jsonc-eslint-parser: 2.4.0
- prettier-plugin-astro: 0.14.1
- sharp: 0.33.5
-
 catalogs:
  tooling:
   'typescript': '5.7.2'
   'esbuild': '0.25.0'
-  '@babel/parser': 7.23.0
+  '@babel/parser': 7.26.9
   'rimraf': '6.0.1'
   'commander': '13.1.0'
   'ora': '8.2.0'
@@ -34,7 +24,7 @@ catalogs:
   '@testing-library/svelte': '5.2.4'
   'jsdom': '26.0.0'
   # e2e
-  '@playwright/test': '1.50.0'
+  '@playwright/test': '1.51.0'
 
  linting:
   '@eslint/compat': '1.2.7'
