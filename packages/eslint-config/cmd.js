@@ -356,7 +356,13 @@ if (!eslintOnly && glob) {
 spinner.prefixText = bgGreen(` kitql-lint `)
 spinner.succeed(
 	`All good, ` +
-		`${glob === '' ? 'nothing to do!' : filesLength !== -1 ? `your ${filesLength} files looks great!` : 'your files looks great!'} ` +
+		`${
+			glob === ''
+				? 'nothing to do!'
+				: filesLength !== -1
+					? `your ${filesLength === 1 ? 'single file' : `${filesLength} files`} looks great!`
+					: 'your files looks great!'
+		} ` +
 		displayTook(),
 )
 spinner.stop()
