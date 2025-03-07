@@ -312,6 +312,7 @@ const took = []
 const display = (text, time) => {
 	return `${gray(text)} ${green((time / 1000).toFixed(3))}${gray('s')}`
 }
+const displayTook = () => `${gray('(')}${took.join(gray(', '))}${gray(')')}`
 
 // If changed-only flag is set, get the list of changed files
 if (diffOnly) {
@@ -335,7 +336,7 @@ if (!prettierOnly && glob) {
 	took.push(display('eslint', esLintTook))
 	if (eslintCode.status) {
 		spinner.prefixText = bgRedBright(` kitql-lint `)
-		spinner.fail(red(`eslint failed, check logs above.`))
+		spinner.fail(red(`eslint failed, check logs above. ${displayTook()}`))
 		process.exit(eslintCode.status)
 	}
 }
@@ -347,14 +348,16 @@ if (!eslintOnly && glob) {
 	took.push(display('prettier', prettierTook))
 	if (prettierCode.status) {
 		spinner.prefixText = bgRedBright(` kitql-lint `)
-		spinner.fail(red(`prettier failed, check logs above.`))
+		spinner.fail(red(`prettier failed, check logs above. ${displayTook()}`))
 		process.exit(prettierCode.status)
 	}
 }
 
 spinner.prefixText = bgGreen(` kitql-lint `)
 spinner.succeed(
-	`All good, ${glob === '' ? 'nothing to do!' : filesLength !== -1 ? `your ${filesLength} files looks great!` : 'your files looks great!'} ${gray('(')}${took.join(gray(', '))}${gray(')')}`,
+	`All good, ` +
+		`${glob === '' ? 'nothing to do!' : filesLength !== -1 ? `your ${filesLength} files looks great!` : 'your files looks great!'} ` +
+		displayTook(),
 )
 spinner.stop()
 process.exit(0)
