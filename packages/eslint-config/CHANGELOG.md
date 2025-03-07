@@ -1,5 +1,15 @@
 # eslint-config-kitql
 
+## 0.5.7
+
+### Patch Changes
+
+- [`6c1cb48`](https://github.com/jycouet/kitql/commit/6c1cb48e0a7439480169350b984d2c82144f660e)
+  Thanks [@jycouet](https://github.com/jycouet)! - adding time took in fail mode as well
+
+- Updated dependencies []:
+  - @kitql/helpers@0.8.12
+
 ## 0.5.6
 
 ### Patch Changes
