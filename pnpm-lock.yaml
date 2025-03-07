@@ -168,9 +168,6 @@ catalogs:
     recast:
       specifier: ^0.23.4
       version: 0.23.4
-    rimraf:
-      specifier: 6.0.1
-      version: 6.0.1
     typescript:
       specifier: 5.7.2
       version: 5.7.2
@@ -201,7 +198,7 @@ importers:
         specifier: catalog:tooling
         version: 0.25.0
       rimraf:
-        specifier: catalog:tooling
+        specifier: 6.0.1
         version: 6.0.1
 
   docs:
