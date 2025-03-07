@@ -1,5 +1,25 @@
 # eslint-config-kitql
 
+## 0.5.5
+
+### Patch Changes
+
+- [#898](https://github.com/jycouet/kitql/pull/898)
+  [`b9449a7`](https://github.com/jycouet/kitql/commit/b9449a7e4752e9c2cf7a7693e1c19edb44d78465)
+  Thanks [@jycouet](https://github.com/jycouet)! - bump to eslint-plugin-pnpm-catalogs 0.1.0
+
+- [#907](https://github.com/jycouet/kitql/pull/907)
+  [`254ac81`](https://github.com/jycouet/kitql/commit/254ac81ba097d0a2c27bf5629ad835b0814cdd8c)
+  Thanks [@jycouet](https://github.com/jycouet)! - prettier switch default from space to tab
+
+- [#896](https://github.com/jycouet/kitql/pull/896)
+  [`9fe9484`](https://github.com/jycouet/kitql/commit/9fe94845762ace702e7e0f5771ba867902ebbb5f)
+  Thanks [@jycouet](https://github.com/jycouet)! - add a diff option (-d) to eslint & prettier only
+  diff against main!
+
+- Updated dependencies []:
+  - @kitql/helpers@0.8.12
+
 ## 0.5.5-next.0
 
 ### Patch Changes
