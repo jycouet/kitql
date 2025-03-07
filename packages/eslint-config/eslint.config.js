@@ -15,7 +15,9 @@ const pathPrettierIgnore = findFileOrUp('.prettierignore', { absolute: true })
 export const config = [
   {
     name: '@kitql:prettier:ignores',
-    ignores: pathPrettierIgnore ? includeIgnoreFile(pathPrettierIgnore).ignores : [],
+    ignores: pathPrettierIgnore
+      ? includeIgnoreFile(pathPrettierIgnore).ignores.filter((c) => !c.includes('package.json'))
+      : [],
   },
   {
     name: 'eslint/defaults/recommended',
@@ -70,7 +72,7 @@ export const config = [
   },
   {
     name: 'pnpm-catalogs:package.json',
-    files: ['package.json', '**/package.json'],
+    files: ['package.json'],
     languageOptions: {
       parser: jsoncParser,
     },
