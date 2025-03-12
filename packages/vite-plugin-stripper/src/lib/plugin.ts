@@ -6,7 +6,7 @@ import { gray, green, Log, yellow } from '@kitql/helpers'
 import { getFilesUnder } from '@kitql/internals'
 
 import { transformDecorator } from './transformDecorator.js'
-import { removePackages } from './transformPackage.js'
+import { nullifyImports } from './transformPackage.js'
 import { transformWarningThrow, type WarningThrow } from './transformWarningThrow.js'
 
 export type ViteStriperOptions = {
@@ -18,6 +18,17 @@ export type ViteStriperOptions = {
 	/**
 	 * For example if you set `nullify: ['mongodb']`
 	 *
+	 * @example 1
+	 * ```ts
+	 * // This line
+	 * import { AUTH_SECRET, AUTH_SECRET_NOT_USED } from '$env/static/private'
+	 * 
+	 * // We become
+	 * let AUTH_SECRET = null;
+	 * let AUTH_SECRET_NOT_USED = null;
+	 * ```
+	 * 
+	 * @example 2
 	 * ```ts
 	 * // This line
 	 * import { ObjectId } from 'mongodb'
@@ -30,7 +41,6 @@ export type ViteStriperOptions = {
 
 	/**
 	 * If true, skip warnings if a throw is not a class.
-	 *
 	 * @default false
 	 */
 	log_on_throw_is_not_a_new_class?: boolean
@@ -123,19 +133,19 @@ export function stripper(options?: ViteStriperOptions): PluginOption {
 					if (options?.debug && info.length > 0) {
 						log.info(
 							`` +
-								`${gray('File:')} ${yellow(filepath)}\n` +
-								`${green('-----')}\n` +
-								`${rest.code}` +
-								`\n${green(':::::')}\n` +
-								`${info.join('\n')}` +
-								`\n${green('-----')}` +
-								``,
+							`${gray('File:')} ${yellow(filepath)}\n` +
+							`${green('-----')}\n` +
+							`${rest.code}` +
+							`\n${green(':::::')}\n` +
+							`${info.join('\n')}` +
+							`\n${green('-----')}` +
+							``,
 						)
 					}
 				}
 
 				if (options && options?.nullify && options.nullify.length > 0) {
-					const { info, ...rest } = await removePackages(code, options.nullify)
+					const { info, ...rest } = await nullifyImports(code, options.nullify)
 
 					// Update the code for later transforms & return it
 					code = rest.code
@@ -145,13 +155,13 @@ export function stripper(options?: ViteStriperOptions): PluginOption {
 					if (options?.debug && info.length > 0) {
 						log.info(
 							`` +
-								`${gray('File:')} ${yellow(filepath)}\n` +
-								`${green('-----')}\n` +
-								`${rest.code}` +
-								`\n${green(':::::')}\n` +
-								`${info.join('\n')}` +
-								`\n${green('-----')}` +
-								``,
+							`${gray('File:')} ${yellow(filepath)}\n` +
+							`${green('-----')}\n` +
+							`${rest.code}` +
+							`\n${green(':::::')}\n` +
+							`${info.join('\n')}` +
+							`\n${green('-----')}` +
+							``,
 						)
 					}
 				}

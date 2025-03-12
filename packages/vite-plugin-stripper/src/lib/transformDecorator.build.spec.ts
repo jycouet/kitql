@@ -39,6 +39,8 @@ export class TasksController {
 			// Transform the code with our decorator transformer
 			const transformed = await transformDecorator(code, ['BackendMethod'])
 
+			console.info('Transformed code:', transformed.code)
+
 			// Write the transformed code to a temporary file
 			const inputFile = join(tempDir, 'src', 'input.ts')
 			writeFileSync(inputFile, transformed.code)
@@ -72,39 +74,57 @@ export class TasksController {
 				include: ["src/**/*.ts"]
 			}))
 
+			// Create a simple index.html
+			const indexHtmlFile = join(tempDir, 'index.html')
+			writeFileSync(indexHtmlFile, `
+				<!DOCTYPE html>
+				<html>
+					<head>
+						<meta charset="utf-8">
+						<title>Test</title>
+					</head>
+					<body>
+						<script type="module" src="/src/input.ts"></script>
+					</body>
+				</html>
+			`)
+
 			// Create a simple Vite config
 			const viteConfigFile = join(tempDir, 'vite.config.js')
 			writeFileSync(viteConfigFile, `
-        import { defineConfig } from 'vite';
-        export default defineConfig({
-          build: {
-            lib: {
-              entry: '${inputFile.replace(/\\/g, '\\\\')}',
-              formats: ['es'],
-              fileName: 'output'
-            },
-            outDir: '${join(tempDir, 'dist').replace(/\\/g, '\\\\')}',
-            emptyOutDir: true,
-            minify: false,
-            sourcemap: false,
-          }
-        });
-      `)
+				import { defineConfig } from 'vite';
+				
+				export default defineConfig({
+					define: {
+						'import.meta.env.SSR': false
+					},
+					build: {
+						outDir: 'dist',
+						minify: false,
+						rollupOptions: {
+							output: {
+								entryFileNames: 'bundle.js'
+							}
+						}
+					}
+				});
+			`)
 
 			// Run Vite build
 			await build({
 				configFile: viteConfigFile,
-				logLevel: 'silent',
-				root: tempDir
+				root: tempDir,
+				logLevel: 'info'
 			})
 
 			// Read the output file
-			const outputFile = join(tempDir, 'dist', 'output.js')
+			const outputFile = join(tempDir, 'dist', 'bundle.js')
 			const outputContent = readFileSync(outputFile, 'utf-8')
 
-			// console.info('Build output:', outputContent)
+			// console.info('Output:', outputContent)
+			// console.info('Output length:', outputContent.length)
 
-			// Verify the output
+			// Verify the output that should NOT be present
 			expect(outputContent).not.toContain('import.meta.env.SSR')
 			expect(outputContent).not.toContain('SECRET_123')
 			expect(outputContent).not.toContain('This should only run on the server')
