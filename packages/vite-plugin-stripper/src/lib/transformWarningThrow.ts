@@ -18,11 +18,11 @@ export const transformWarningThrow = async (
 		const list: WarningThrow[] = []
 
 		visit(codeParsed, {
-			visitFunction(path) {
+			visitFunction(path: any) {
 				// Existing code for processing functions...
 				this.traverse(path)
 			},
-			visitThrowStatement(path) {
+			visitThrowStatement(path: any) {
 				if (log_on_throw_is_not_a_new_class) {
 					const thrownExpr = path.node.argument
 					// Check if thrownExpr is not a class

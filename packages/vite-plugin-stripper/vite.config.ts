@@ -20,10 +20,9 @@ export default defineConfig(() => ({
 	},
 	plugins: [
 		stripper({
-			// decorators: ['BackendMethod'],
+			decorators: ['BackendMethod'],
 			debug: true,
 			log_on_throw_is_not_a_new_class: true,
-			hard: true,
 			nullify: ['$env/static/private', 'oslo/password'],
 		}),
 		sveltekit(),

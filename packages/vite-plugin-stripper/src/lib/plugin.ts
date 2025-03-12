@@ -16,11 +16,6 @@ export type ViteStriperOptions = {
 	decorators?: string[]
 
 	/**
-	 * If true, will empty almost all the file if a decorator is found. (experimental!)
-	 */
-	hard?: boolean
-
-	/**
 	 * For example if you set `nullify: ['mongodb']`
 	 *
 	 * ```ts
@@ -51,16 +46,16 @@ export type ViteStriperOptions = {
  * 
  * It should look like this:
  * ```ts
-  import { sveltekit } from "@sveltejs/kit/vite";
-  import { defineConfig } from "vite";
-  import { stripper } from "vite-plugin-stripper";   // 👈
+	import { sveltekit } from "@sveltejs/kit/vite";
+	import { defineConfig } from "vite";
+	import { stripper } from "vite-plugin-stripper";   // 👈
   
-  export default defineConfig({
-    plugins: [
-      stripper({ decorators: ['BackendMethod'] }),  // 👈
-      sveltekit()
-    ],
-  });
+	export default defineConfig({
+		plugins: [
+			stripper({ decorators: ['BackendMethod'] }),  // 👈
+			sveltekit()
+		],
+	});
  * ```
  * 
  */
@@ -120,8 +115,7 @@ export function stripper(options?: ViteStriperOptions): PluginOption {
 				if (options && options?.decorators && options.decorators.length > 0) {
 					const { info, ...rest } = await transformDecorator(
 						code,
-						options.decorators,
-						options.hard ?? false,
+						options.decorators
 					)
 
 					// Update the code for later transforms & return it
@@ -132,13 +126,13 @@ export function stripper(options?: ViteStriperOptions): PluginOption {
 					if (options?.debug && info.length > 0) {
 						log.info(
 							`` +
-								`${gray('File:')} ${yellow(filepath)}\n` +
-								`${green('-----')}\n` +
-								`${rest.code}` +
-								`\n${green(':::::')}\n` +
-								`${info.join('\n')}` +
-								`\n${green('-----')}` +
-								``,
+							`${gray('File:')} ${yellow(filepath)}\n` +
+							`${green('-----')}\n` +
+							`${rest.code}` +
+							`\n${green(':::::')}\n` +
+							`${info.join('\n')}` +
+							`\n${green('-----')}` +
+							``,
 						)
 					}
 				}
@@ -154,13 +148,13 @@ export function stripper(options?: ViteStriperOptions): PluginOption {
 					if (options?.debug && info.length > 0) {
 						log.info(
 							`` +
-								`${gray('File:')} ${yellow(filepath)}\n` +
-								`${green('-----')}\n` +
-								`${rest.code}` +
-								`\n${green(':::::')}\n` +
-								`${info.join('\n')}` +
-								`\n${green('-----')}` +
-								``,
+							`${gray('File:')} ${yellow(filepath)}\n` +
+							`${green('-----')}\n` +
+							`${rest.code}` +
+							`\n${green(':::::')}\n` +
+							`${info.join('\n')}` +
+							`\n${green('-----')}` +
+							``,
 						)
 					}
 				}
