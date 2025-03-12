@@ -113,10 +113,7 @@ export function stripper(options?: ViteStriperOptions): PluginOption {
 				let infosNumber = 0
 
 				if (options && options?.decorators && options.decorators.length > 0) {
-					const { info, ...rest } = await transformDecorator(
-						code,
-						options.decorators
-					)
+					const { info, ...rest } = await transformDecorator(code, options.decorators)
 
 					// Update the code for later transforms & return it
 					code = rest.code
@@ -126,13 +123,13 @@ export function stripper(options?: ViteStriperOptions): PluginOption {
 					if (options?.debug && info.length > 0) {
 						log.info(
 							`` +
-							`${gray('File:')} ${yellow(filepath)}\n` +
-							`${green('-----')}\n` +
-							`${rest.code}` +
-							`\n${green(':::::')}\n` +
-							`${info.join('\n')}` +
-							`\n${green('-----')}` +
-							``,
+								`${gray('File:')} ${yellow(filepath)}\n` +
+								`${green('-----')}\n` +
+								`${rest.code}` +
+								`\n${green(':::::')}\n` +
+								`${info.join('\n')}` +
+								`\n${green('-----')}` +
+								``,
 						)
 					}
 				}
@@ -148,13 +145,13 @@ export function stripper(options?: ViteStriperOptions): PluginOption {
 					if (options?.debug && info.length > 0) {
 						log.info(
 							`` +
-							`${gray('File:')} ${yellow(filepath)}\n` +
-							`${green('-----')}\n` +
-							`${rest.code}` +
-							`\n${green(':::::')}\n` +
-							`${info.join('\n')}` +
-							`\n${green('-----')}` +
-							``,
+								`${gray('File:')} ${yellow(filepath)}\n` +
+								`${green('-----')}\n` +
+								`${rest.code}` +
+								`\n${green(':::::')}\n` +
+								`${info.join('\n')}` +
+								`\n${green('-----')}` +
+								``,
 						)
 					}
 				}

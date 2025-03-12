@@ -1,9 +1,6 @@
 import { parseTs, prettyPrint, visit } from '@kitql/internals'
 
-export const transformDecorator = async (
-	code: string,
-	decorators_to_strip: string[]
-) => {
+export const transformDecorator = async (code: string, decorators_to_strip: string[]) => {
 	try {
 		const program = parseTs(code)
 
@@ -65,18 +62,18 @@ export const transformDecorator = async (
 									object: {
 										type: 'MetaProperty',
 										meta: { type: 'Identifier', name: 'import' },
-										property: { type: 'Identifier', name: 'meta' }
+										property: { type: 'Identifier', name: 'meta' },
 									},
-									property: { type: 'Identifier', name: 'env' }
+									property: { type: 'Identifier', name: 'env' },
 								},
-								property: { type: 'Identifier', name: 'SSR' }
+								property: { type: 'Identifier', name: 'SSR' },
 							},
 							consequent: {
 								type: 'BlockStatement',
-								body: originalBody
+								body: originalBody,
 							},
-							alternate: null
-						}
+							alternate: null,
+						},
 					]
 				}
 
@@ -86,7 +83,8 @@ export const transformDecorator = async (
 
 		const res = prettyPrint(program, {})
 		const info = decorators_wrapped.map(
-			(decorator) => `Wrapped with if(import.meta.env.SSR): ${JSON.stringify(Object.values(decorator))}`,
+			(decorator) =>
+				`Wrapped with if(import.meta.env.SSR): ${JSON.stringify(Object.values(decorator))}`,
 		)
 
 		return { ...res, info }
@@ -96,4 +94,3 @@ export const transformDecorator = async (
 		return { code, info: [] }
 	}
 }
-
