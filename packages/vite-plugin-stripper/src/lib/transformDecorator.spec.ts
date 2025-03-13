@@ -39,55 +39,55 @@ export class TasksController {
 		const transformed = await transformDecorator(code, [{ decorator: 'BackendMethod' }])
 
 		expect(transformed).toMatchInlineSnapshot(`
-      {
-        "code": "import { Allow, BackendMethod, remult } from "remult";
-      import { Task } from "./task";
-      import { AUTH_SECRET } from "$env/static/private";
+			{
+			  "code": "import { BackendMethod, Allow, remult } from "remult";
+			import { Task } from "./task";
+			import { AUTH_SECRET } from "$env/static/private";
 
-      export class TasksController {
-          static async yop1(completed: boolean) {
-              const taskRepo = remult.repo(Task);
-          }
+			export class TasksController {
+			    static async yop1(completed: boolean) {
+			        const taskRepo = remult.repo(Task);
+			    }
 
-          @BackendMethod({
-              allowed: Allow.authenticated
-          })
-          static async setAllCompleted(completed: boolean) {
-              if (import.meta.env.SSR) {
-                  console.log("AUTH_SECRET", AUTH_SECRET);
-                  const taskRepo = remult.repo(Task);
+			    @BackendMethod({
+			        allowed: Allow.authenticated
+			    })
+			    static async setAllCompleted(completed: boolean) {
+			        if (import.meta.env.SSR) {
+			            console.log("AUTH_SECRET", AUTH_SECRET);
+			            const taskRepo = remult.repo(Task);
 
-                  for (const task of await taskRepo.find()) {
-                      await taskRepo.save({
-                          ...task,
-                          completed
-                      });
-                  }
-              }
-          }
+			            for (const task of await taskRepo.find()) {
+			                await taskRepo.save({
+			                    ...task,
+			                    completed
+			                });
+			            }
+			        }
+			    }
 
-          @BackendMethod({
-              allowed: Allow.authenticated
-          })
-          static async Yop(completed: boolean) {
-              if (import.meta.env.SSR) {
-                  const taskRepo = remult.repo(Task);
+			    @BackendMethod({
+			        allowed: Allow.authenticated
+			    })
+			    static async Yop(completed: boolean) {
+			        if (import.meta.env.SSR) {
+			            const taskRepo = remult.repo(Task);
 
-                  for (const task of await taskRepo.find()) {
-                      await taskRepo.save({
-                          ...task,
-                          completed
-                      });
-                  }
-              }
-          }
-      }",
-        "info": [
-          "Wrapped with if(import.meta.env.SSR): ["TasksController","BackendMethod","setAllCompleted"]",
-          "Wrapped with if(import.meta.env.SSR): ["TasksController","BackendMethod","Yop"]",
-        ],
-      }
-    `)
+			            for (const task of await taskRepo.find()) {
+			                await taskRepo.save({
+			                    ...task,
+			                    completed
+			                });
+			            }
+			        }
+			    }
+			}",
+			  "info": [
+			    "Wrapped with if(import.meta.env.SSR): ["TasksController","BackendMethod","setAllCompleted"]",
+			    "Wrapped with if(import.meta.env.SSR): ["TasksController","BackendMethod","Yop"]",
+			  ],
+			}
+		`)
 	})
 
 	it('should not crash if there is an error in the original file', async () => {
@@ -147,31 +147,34 @@ export class TasksController {
 		const transformed = await transformDecorator(code, [{ decorator: 'BackendMethod' }])
 
 		expect(transformed).toMatchInlineSnapshot(`
-      {
-        "code": "import { Allow, BackendMethod, remult } from "remult";
-      import { Task } from "./task";
-      import { AUTH_SECRET } from "$env/static/private";
+			{
+			  "code": "import { remult } from "remult";
+			import { Task } from "./task";
+			import { AUTH_SECRET } from "$env/static/private";
 
-      export class TasksController {
-          static async yop1(completed: boolean) {
-              const taskRepo = remult.repo(Task);
-          }
+			export class TasksController {
+			    static async yop1(completed: boolean) {
+			        const taskRepo = remult.repo(Task);
+			    }
 
-          static async setAllCompleted(completed: boolean) {
-              console.log("AUTH_SECRET", AUTH_SECRET);
-              const taskRepo = remult.repo(Task);
+			    static async setAllCompleted(completed: boolean) {
+			        console.log("AUTH_SECRET", AUTH_SECRET);
+			        const taskRepo = remult.repo(Task);
 
-              for (const task of await taskRepo.find()) {
-                  await taskRepo.save({
-                      ...task,
-                      completed
-                  });
-              }
-          }
-      }",
-        "info": [],
-      }
-    `)
+			        for (const task of await taskRepo.find()) {
+			            await taskRepo.save({
+			                ...task,
+			                completed
+			            });
+			        }
+			    }
+			}",
+			  "info": [
+			    "Removed: 'Allow' from 'remult'",
+			    "Removed: 'BackendMethod' from 'remult'",
+			  ],
+			}
+		`)
 	})
 
 	it('should strip also unused methods', async () => {
@@ -206,38 +209,40 @@ export class TasksController {
 		const transformed = await transformDecorator(code, [{ decorator: 'BackendMethod' }])
 
 		expect(transformed).toMatchInlineSnapshot(`
-      {
-        "code": "import { TOP_SECRET, TOP_SECRET_NOT_USED } from "$env/static/private";
-      import { stry0 } from "@kitql/helper";
-      import { BackendMethod, Entity, Fields, remult } from "remult";
+			{
+			  "code": "import { Entity, Fields, BackendMethod } from "remult";
+			import { TOP_SECRET } from "$env/static/private";
 
-      @Entity<Ent>()
-      export class Ent {
-          @Fields.uuid()
-          id!: string;
-      }
+			@Entity<Ent>()
+			export class Ent {
+			    @Fields.uuid()
+			    id!: string;
+			}
 
-      const getInfo = () => {
-          const client = {};
-          console.log(TOP_SECRET);
-          return client;
-      };
+			const getInfo = () => {
+			    const client = {};
+			    console.log(TOP_SECRET);
+			    return client;
+			};
 
-      export class EntController {
-          @BackendMethod({
-              allowed: false
-          })
-          static async init(hello: string) {
-              if (import.meta.env.SSR) {
-                  const client = getInfo();
-              }
-          }
-      }",
-        "info": [
-          "Wrapped with if(import.meta.env.SSR): ["EntController","BackendMethod","init"]",
-        ],
-      }
-    `)
+			export class EntController {
+			    @BackendMethod({
+			        allowed: false
+			    })
+			    static async init(hello: string) {
+			        if (import.meta.env.SSR) {
+			            const client = getInfo();
+			        }
+			    }
+			}",
+			  "info": [
+			    "Wrapped with if(import.meta.env.SSR): ["EntController","BackendMethod","init"]",
+			    "Removed: 'TOP_SECRET_NOT_USED' from '$env/static/private'",
+			    "Removed: 'stry0' from '@kitql/helper'",
+			    "Removed: 'remult' from 'remult'",
+			  ],
+			}
+		`)
 	})
 
 	it('should strip just the right things', async () => {
@@ -265,35 +270,35 @@ export class TasksController {
 		const transformed = await transformDecorator(code, [{ decorator: 'BackendMethod' }])
 
 		expect(transformed).toMatchInlineSnapshot(`
-      {
-        "code": "import { Allow, BackendMethod, Entity, Fields, Validators } from "remult";
+			{
+			  "code": "import { Entity, Allow, Fields, Validators, BackendMethod } from "remult";
 
-      @Entity<User>("userstest", {
-          allowApiCrud: Allow.authenticated
-      })
-      export class User2 {
-          @Fields.uuid()
-          id = "";
+			@Entity<User>("userstest", {
+			    allowApiCrud: Allow.authenticated
+			})
+			export class User2 {
+			    @Fields.uuid()
+			    id = "";
 
-          @Fields.string({
-              validate: [Validators.required, Validators.uniqueOnBackend]
-          })
-          email = "";
+			    @Fields.string({
+			        validate: [Validators.required, Validators.uniqueOnBackend]
+			    })
+			    email = "";
 
-          @BackendMethod({
-              allowed: Allow.everyone
-          })
-          async testMethod() {
-              if (import.meta.env.SSR) {
-                  console.log("hello");
-              }
-          }
-      }",
-        "info": [
-          "Wrapped with if(import.meta.env.SSR): ["User2","BackendMethod","testMethod"]",
-        ],
-      }
-    `)
+			    @BackendMethod({
+			        allowed: Allow.everyone
+			    })
+			    async testMethod() {
+			        if (import.meta.env.SSR) {
+			            console.log("hello");
+			        }
+			    }
+			}",
+			  "info": [
+			    "Wrapped with if(import.meta.env.SSR): ["User2","BackendMethod","testMethod"]",
+			  ],
+			}
+		`)
 	})
 
 	it('should strip unused stuff when decorator', async () => {
@@ -319,33 +324,34 @@ export class TasksController {
 		const transformed = await transformDecorator(code, [{ decorator: 'BackendMethod' }])
 
 		expect(transformed).toMatchInlineSnapshot(`
-      {
-        "code": "import { Allow, BackendMethod, Entity, Fields, Validators } from "remult";
+			{
+			  "code": "import { Entity, Allow, Fields, BackendMethod } from "remult";
 
-      @Entity<User>("userstest", {
-          allowApiCrud: Allow.authenticated
-      })
-      export class User2 {
-          @Fields.uuid()
-          id = "";
+			@Entity<User>("userstest", {
+			    allowApiCrud: Allow.authenticated
+			})
+			export class User2 {
+			    @Fields.uuid()
+			    id = "";
 
-          @Fields.string({})
-          email = "";
+			    @Fields.string({})
+			    email = "";
 
-          @BackendMethod({
-              allowed: Allow.everyone
-          })
-          async testMethod() {
-              if (import.meta.env.SSR) {
-                  console.log("hello");
-              }
-          }
-      }",
-        "info": [
-          "Wrapped with if(import.meta.env.SSR): ["User2","BackendMethod","testMethod"]",
-        ],
-      }
-    `)
+			    @BackendMethod({
+			        allowed: Allow.everyone
+			    })
+			    async testMethod() {
+			        if (import.meta.env.SSR) {
+			            console.log("hello");
+			        }
+			    }
+			}",
+			  "info": [
+			    "Wrapped with if(import.meta.env.SSR): ["User2","BackendMethod","testMethod"]",
+			    "Removed: 'Validators' from 'remult'",
+			  ],
+			}
+		`)
 	})
 
 	it('should strip imports that are in the BackendMethod', async () => {
@@ -371,33 +377,33 @@ export class TasksController {
 		const transformed = await transformDecorator(code, [{ decorator: 'BackendMethod' }])
 
 		expect(transformed).toMatchInlineSnapshot(`
-      {
-        "code": "import { Allow, BackendMethod, Entity, Fields, Validators } from "remult";
+			{
+			  "code": "import { Entity, Allow, Fields, BackendMethod, Validators } from "remult";
 
-      @Entity<User>("userstest", {
-          allowApiCrud: Allow.authenticated
-      })
-      export class User2 {
-          @Fields.uuid()
-          id = "";
+			@Entity<User>("userstest", {
+			    allowApiCrud: Allow.authenticated
+			})
+			export class User2 {
+			    @Fields.uuid()
+			    id = "";
 
-          @Fields.string({})
-          email = "";
+			    @Fields.string({})
+			    email = "";
 
-          @BackendMethod({
-              allowed: Allow.everyone
-          })
-          async testMethod() {
-              if (import.meta.env.SSR) {
-                  console.log("hello", Validators.required);
-              }
-          }
-      }",
-        "info": [
-          "Wrapped with if(import.meta.env.SSR): ["User2","BackendMethod","testMethod"]",
-        ],
-      }
-    `)
+			    @BackendMethod({
+			        allowed: Allow.everyone
+			    })
+			    async testMethod() {
+			        if (import.meta.env.SSR) {
+			            console.log("hello", Validators.required);
+			        }
+			    }
+			}",
+			  "info": [
+			    "Wrapped with if(import.meta.env.SSR): ["User2","BackendMethod","testMethod"]",
+			  ],
+			}
+		`)
 	})
 
 	it('should NOT strip imports that are in both in BackendMethod and not in', async () => {
@@ -425,35 +431,35 @@ export class TasksController {
 		const transformed = await transformDecorator(code, [{ decorator: 'BackendMethod' }])
 
 		expect(transformed).toMatchInlineSnapshot(`
-      {
-        "code": "import { Allow, BackendMethod, Entity, Fields, Validators } from "remult";
+			{
+			  "code": "import { Entity, Allow, Fields, Validators, BackendMethod } from "remult";
 
-      @Entity<User>("userstest", {
-          allowApiCrud: Allow.authenticated
-      })
-      export class User2 {
-          @Fields.uuid()
-          id = "";
+			@Entity<User>("userstest", {
+			    allowApiCrud: Allow.authenticated
+			})
+			export class User2 {
+			    @Fields.uuid()
+			    id = "";
 
-          @Fields.string({
-              validate: [Validators.required, Validators.uniqueOnBackend]
-          })
-          email = "";
+			    @Fields.string({
+			        validate: [Validators.required, Validators.uniqueOnBackend]
+			    })
+			    email = "";
 
-          @BackendMethod({
-              allowed: Allow.everyone
-          })
-          async testMethod() {
-              if (import.meta.env.SSR) {
-                  console.log("hello", Validators.required);
-              }
-          }
-      }",
-        "info": [
-          "Wrapped with if(import.meta.env.SSR): ["User2","BackendMethod","testMethod"]",
-        ],
-      }
-    `)
+			    @BackendMethod({
+			        allowed: Allow.everyone
+			    })
+			    async testMethod() {
+			        if (import.meta.env.SSR) {
+			            console.log("hello", Validators.required);
+			        }
+			    }
+			}",
+			  "info": [
+			    "Wrapped with if(import.meta.env.SSR): ["User2","BackendMethod","testMethod"]",
+			  ],
+			}
+		`)
 	})
 
 	it('should strip import types', async () => {
@@ -476,26 +482,26 @@ export class TasksController {
 		const transformed = await transformDecorator(code, [{ decorator: 'BackendMethod' }])
 
 		expect(transformed).toMatchInlineSnapshot(`
-      {
-        "code": "import { AUTH_SECRET } from "$env/static/private";
-      import { BackendMethod, type Allowed, remult } from "remult";
+			{
+			  "code": "import { BackendMethod, Allowed, remult } from "remult";
+			import { AUTH_SECRET } from "$env/static/private";
 
-      export class ActionsController {
-          @BackendMethod({
-              allowed: () => remult.user === undefined
-          })
-          static async read(info: Allowed) {
-              if (import.meta.env.SSR) {
-                  console.log("AUTH_SECRET", AUTH_SECRET);
-                  return AUTH_SECRET + " " + info;
-              }
-          }
-      }",
-        "info": [
-          "Wrapped with if(import.meta.env.SSR): ["ActionsController","BackendMethod","read"]",
-        ],
-      }
-    `)
+			export class ActionsController {
+			    @BackendMethod({
+			        allowed: () => remult.user === undefined
+			    })
+			    static async read(info: Allowed) {
+			        if (import.meta.env.SSR) {
+			            console.log("AUTH_SECRET", AUTH_SECRET);
+			            return AUTH_SECRET + " " + info;
+			        }
+			    }
+			}",
+			  "info": [
+			    "Wrapped with if(import.meta.env.SSR): ["ActionsController","BackendMethod","read"]",
+			  ],
+			}
+		`)
 	})
 })
 
@@ -534,42 +540,42 @@ export class User {
 			{ decorator: 'Entity', args_1: [{ fn: 'backendPrefilter' }] },
 		])
 		expect(transformed).toMatchInlineSnapshot(`
-      {
-        "code": "let AUTH_SECRET = null;
-      let AUTH_SECRET_NOT_USED = null;
-      import { BackendMethod, Entity, Fields, remult, type Allowed } from "remult";
+			{
+			  "code": "import { Entity, Fields, BackendMethod, Allowed, remult } from "remult";
+			let AUTH_SECRET = null;
+			let AUTH_SECRET_NOT_USED = null;
 
-      @Entity("users", {
-          backendPrefilter: async () => {
-              if (import.meta.env.SSR) {
-                  console.log("backendPrefilter");
-                  return {};
-              }
-          }
-      })
-      export class User {
-          @Fields.uuid()
-          id = "";
+			@Entity("users", {
+			    backendPrefilter: async () => {
+			        if (import.meta.env.SSR) {
+			            console.log("backendPrefilter");
+			            return {};
+			        }
+			    }
+			})
+			export class User {
+			    @Fields.uuid()
+			    id = "";
 
-          @Fields.string()
-          name = "";
+			    @Fields.string()
+			    name = "";
 
-          @BackendMethod({
-              allowed: () => remult.user === undefined
-          })
-          static async hi(info: Allowed) {
-              if (import.meta.env.SSR) {
-                  console.info("AUTH_SECRET", AUTH_SECRET);
-                  return AUTH_SECRET + " " + info;
-              }
-          }
-      }",
-        "info": [
-          "Wrapped with if(import.meta.env.SSR): ["User","Entity","backendPrefilter"]",
-          "Wrapped with if(import.meta.env.SSR): ["User","BackendMethod","hi"]",
-        ],
-      }
-    `)
+			    @BackendMethod({
+			        allowed: () => remult.user === undefined
+			    })
+			    static async hi(info: Allowed) {
+			        if (import.meta.env.SSR) {
+			            console.info("AUTH_SECRET", AUTH_SECRET);
+			            return AUTH_SECRET + " " + info;
+			        }
+			    }
+			}",
+			  "info": [
+			    "Wrapped with if(import.meta.env.SSR): ["User","Entity","backendPrefilter"]",
+			    "Wrapped with if(import.meta.env.SSR): ["User","BackendMethod","hi"]",
+			  ],
+			}
+		`)
 	})
 
 	it('should strip @BackendMethod in @Entity with excludeEntityKeys', async () => {
@@ -614,38 +620,38 @@ export class User {
 			},
 		])
 		expect(transformed).toMatchInlineSnapshot(`
-      {
-        "code": "let AUTH_SECRET = null;
-      let AUTH_SECRET_NOT_USED = null;
-      import { BackendMethod, Entity, Fields, remult, type Allowed } from "remult";
+			{
+			  "code": "import { Entity, Fields, BackendMethod, Allowed, remult } from "remult";
+			let AUTH_SECRET = null;
+			let AUTH_SECRET_NOT_USED = null;
 
-      @Entity("users", {
-          backendPrefilter: () => {
-              console.log("backendPrefilter");
-              return {};
-          }
-      })
-      export class User {
-          @Fields.uuid()
-          id = "";
+			@Entity("users", {
+			    backendPrefilter: () => {
+			        console.log("backendPrefilter");
+			        return {};
+			    }
+			})
+			export class User {
+			    @Fields.uuid()
+			    id = "";
 
-          @Fields.string()
-          name = "";
+			    @Fields.string()
+			    name = "";
 
-          @BackendMethod({
-              allowed: () => remult.user === undefined
-          })
-          static async hi(info: Allowed) {
-              if (import.meta.env.SSR) {
-                  console.info("AUTH_SECRET", AUTH_SECRET);
-                  return AUTH_SECRET + " " + info;
-              }
-          }
-      }",
-        "info": [
-          "Wrapped with if(import.meta.env.SSR): ["User","BackendMethod","hi"]",
-        ],
-      }
-    `)
+			    @BackendMethod({
+			        allowed: () => remult.user === undefined
+			    })
+			    static async hi(info: Allowed) {
+			        if (import.meta.env.SSR) {
+			            console.info("AUTH_SECRET", AUTH_SECRET);
+			            return AUTH_SECRET + " " + info;
+			        }
+			    }
+			}",
+			  "info": [
+			    "Wrapped with if(import.meta.env.SSR): ["User","BackendMethod","hi"]",
+			  ],
+			}
+		`)
 	})
 })

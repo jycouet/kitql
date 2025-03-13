@@ -236,11 +236,18 @@ export const transformDecorator = async (code: string, decorators_config: Decora
 			},
 		})
 
-		const res = prettyPrint(program, {})
+		// Add here the removeUnusedImports
+		const unusedImportsResult = await removeUnusedImports(prettyPrint(program, {}).code);
+
+		// Use the code with unused imports removed
+		const res = unusedImportsResult;
+
+
+
 		const info = decorators_wrapped.map(
 			(decorator) =>
 				`Wrapped with if(import.meta.env.SSR): ${JSON.stringify(Object.values(decorator))}`,
-		)
+		).concat(unusedImportsResult.info || []);
 
 		return { ...res, info }
 	} catch (error) {
