@@ -237,22 +237,24 @@ export const transformDecorator = async (code: string, decorators_config: Decora
 		})
 
 		// Add here the removeUnusedImports
-		const unusedImportsResult = await removeUnusedImports(prettyPrint(program, {}).code);
+		const unusedImportsResult = await removeUnusedImports(prettyPrint(program, {}).code)
 
 		// Use the code with unused imports removed
-		const res = unusedImportsResult;
+		const res = unusedImportsResult
 
 		// Add here the removeSSRedImport
-		const ssrImportsResult = await removeSSRedImport(res.code);
+		const ssrImportsResult = await removeSSRedImport(res.code)
 
 		// Use the code with SSR-only imports removed
-		const finalRes = ssrImportsResult;
+		const finalRes = ssrImportsResult
 
-		const info = decorators_wrapped.map(
-			(decorator) =>
-				`Wrapped with if(import.meta.env.SSR): ${JSON.stringify(Object.values(decorator))}`,
-		).concat(unusedImportsResult.info || [])
-			.concat(ssrImportsResult.info || []);
+		const info = decorators_wrapped
+			.map(
+				(decorator) =>
+					`Wrapped with if(import.meta.env.SSR): ${JSON.stringify(Object.values(decorator))}`,
+			)
+			.concat(unusedImportsResult.info || [])
+			.concat(ssrImportsResult.info || [])
 
 		return { ...finalRes, info }
 	} catch (error) {
@@ -268,19 +270,34 @@ const removeUnusedImports = async (code: string) => {
 
 		const usedIdentifiers = new Set()
 		const originalImports = new Map()
+		const typeImports = new Set() // Track which imports had the 'type' keyword
+		const importOrder = new Map() // Track the original order of imports by source
 
 		// Step 1: Remove all global imports and store them
 		const newBody: Statement[] = []
+		let importIndex = 0 // Track the order of import sources
+
 		program.body.forEach((node) => {
 			if (node.type === 'ImportDeclaration') {
-				; (node.specifiers ?? []).forEach((specifier) => {
+				// Track the order of this import source if we haven't seen it yet
+				if (!importOrder.has(node.source.value)) {
+					importOrder.set(node.source.value, importIndex++)
+				}
+
+				;(node.specifiers ?? []).forEach((specifier) => {
 					if (specifier.type === 'ImportSpecifier') {
 						const name =
 							specifier.imported && specifier.imported.type === 'Identifier'
 								? specifier.imported.name
 								: specifier.local?.name
+
 						if (!originalImports.has(name)) {
 							originalImports.set(name, node.source.value)
+
+							// Check if this is a type import
+							if (specifier.importKind === 'type') {
+								typeImports.add(name)
+							}
 						}
 					}
 				})
@@ -305,7 +322,7 @@ const removeUnusedImports = async (code: string) => {
 			visitClassDeclaration(path: any) {
 				// Capture identifiers in class decorators
 				// @ts-ignore
-				; (path.node.decorators || []).forEach((decorator) => {
+				;(path.node.decorators || []).forEach((decorator) => {
 					extractIdentifiersFromExpression(decorator.expression, usedIdentifiers)
 				})
 
@@ -314,7 +331,7 @@ const removeUnusedImports = async (code: string) => {
 					if (element.type === 'ClassMethod' || element.type === 'ClassProperty') {
 						// Capture identifiers in element decorators
 						// @ts-ignore
-						; (element.decorators || []).forEach((decorator: any) => {
+						;(element.decorators || []).forEach((decorator: any) => {
 							extractIdentifiersFromExpression(decorator.expression, usedIdentifiers)
 						})
 					}
@@ -327,43 +344,48 @@ const removeUnusedImports = async (code: string) => {
 		let removed = Array.from(originalImports)
 
 		// Step 3: Add back necessary imports
-		const necessaryImports: Statement[] = []
+		const necessaryImportsBySource = new Map<string, any>()
+
 		usedIdentifiers.forEach((identifier) => {
 			if (originalImports.has(identifier)) {
 				const source = originalImports.get(identifier)
 				removed = removed.filter(([id, src]) => !(id === identifier && src === source))
-				// @ts-ignore
-				const found = necessaryImports.find((importDecl) => importDecl.source.value === source)
-				if (found) {
-					// @ts-ignore
-					found.specifiers.push({
-						type: 'ImportSpecifier',
-						imported: { type: 'Identifier', name: identifier },
-						local: { type: 'Identifier', name: identifier },
-					})
-				} else {
-					necessaryImports.push({
+
+				if (!necessaryImportsBySource.has(source)) {
+					necessaryImportsBySource.set(source, {
 						type: 'ImportDeclaration',
-						// @ts-ignore
-						specifiers: [
-							{
-								type: 'ImportSpecifier',
-								imported: { type: 'Identifier', name: identifier },
-								local: { type: 'Identifier', name: identifier },
-							},
-						],
+						specifiers: [],
 						source: { type: 'StringLiteral', value: source },
 					})
 				}
+
+				const importDecl = necessaryImportsBySource.get(source)
+
+				// Add the specifier with the correct importKind
+				importDecl.specifiers.push({
+					type: 'ImportSpecifier',
+					imported: { type: 'Identifier', name: identifier },
+					local: { type: 'Identifier', name: identifier },
+					importKind: typeImports.has(identifier) ? 'type' : 'value',
+				})
 			}
 		})
 
+		// Sort imports by their original order
+		const sortedImports = Array.from(necessaryImportsBySource.entries())
+			.sort((a, b) => {
+				const orderA = importOrder.get(a[0]) ?? Number.MAX_SAFE_INTEGER
+				const orderB = importOrder.get(b[0]) ?? Number.MAX_SAFE_INTEGER
+				return orderA - orderB
+			})
+			.map(([_, importDecl]) => importDecl)
+
 		// @ts-ignore
-		program.body.unshift(...necessaryImports)
+		program.body.unshift(...sortedImports)
 
 		return {
 			code: prettyPrint(program).code,
-			info: removed.map(([id, src]) => `Removed: '${id}' from '${src}'`),
+			info: removed.map(([id, src]) => `Removed unused import: '${id}' from '${src}'`),
 		}
 	} catch (error) {
 		return { code, info: [] }
@@ -385,9 +407,7 @@ function extractIdentifiersFromExpression(expression: any, identifierSet: Set) {
 			break
 		case 'CallExpression':
 			extractIdentifiersFromExpression(expression.callee, identifierSet)
-			expression.arguments.forEach((arg: any) =>
-				extractIdentifiersFromExpression(arg, identifierSet),
-			)
+			expression.arguments.forEach((arg: any) => extractIdentifiersFromExpression(arg, identifierSet))
 			break
 		case 'ArrayExpression':
 			expression.elements.forEach((element: any) =>
@@ -420,14 +440,24 @@ const removeSSRedImport = async (code: string) => {
 		const program = parseTs(code)
 
 		// Track identifiers used only in SSR blocks and those used outside SSR blocks
-		const ssrOnlyIdentifiers = new Set()
-		const nonSsrIdentifiers = new Set()
-		const originalImports = new Map()
+		const ssrOnlyIdentifiers = new Set<string>()
+		const nonSsrIdentifiers = new Set<string>()
+		const originalImports = new Map<string, string>()
+		const typeImports = new Set<string>() // Track which imports had the 'type' keyword
+		const importOrder = new Map<string, number>() // Track the original order of imports by source
+		const decoratorImports = new Set<string>() // Track imports used as decorators
 
 		// Step 1: Collect all imports
+		let importIndex = 0 // Track the order of import sources
+
 		program.body.forEach((node) => {
 			if (node.type === 'ImportDeclaration') {
-				; (node.specifiers ?? []).forEach((specifier) => {
+				// Track the order of this import source if we haven't seen it yet
+				if (!importOrder.has(node.source.value)) {
+					importOrder.set(node.source.value, importIndex++)
+				}
+
+				;(node.specifiers ?? []).forEach((specifier) => {
 					if (specifier.type === 'ImportSpecifier') {
 						const name =
 							specifier.imported && specifier.imported.type === 'Identifier'
@@ -435,13 +465,66 @@ const removeSSRedImport = async (code: string) => {
 								: specifier.local?.name
 						if (name && !originalImports.has(name)) {
 							originalImports.set(name, node.source.value)
+
+							// Check if this is a type import
+							if (specifier.importKind === 'type') {
+								typeImports.add(name)
+							}
 						}
 					}
 				})
 			}
 		})
 
-		// Step 2: Identify identifiers used in SSR blocks vs outside SSR blocks
+		// Step 2: Find all decorators and mark their imports as used outside SSR
+		visit(program, {
+			visitClassDeclaration(path: any) {
+				// Process class decorators
+				// @ts-ignore
+				;(path.node.decorators || []).forEach((decorator) => {
+					collectDecoratorImports(decorator.expression, decoratorImports)
+				})
+
+				// Process property and method decorators
+				if (path.node.body && path.node.body.body) {
+					path.node.body.body.forEach((element: any) => {
+						// @ts-ignore
+						;(element.decorators || []).forEach((decorator: any) => {
+							collectDecoratorImports(decorator.expression, decoratorImports)
+						})
+					})
+				}
+
+				this.traverse(path)
+			},
+			visitClassMethod(path: any) {
+				// Process method decorators
+				// @ts-ignore
+				;(path.node.decorators || []).forEach((decorator) => {
+					collectDecoratorImports(decorator.expression, decoratorImports)
+				})
+
+				this.traverse(path)
+			},
+			visitClassProperty(path: any) {
+				// Process property decorators
+				// @ts-ignore
+				;(path.node.decorators || []).forEach((decorator) => {
+					collectDecoratorImports(decorator.expression, decoratorImports)
+				})
+
+				this.traverse(path)
+			},
+		})
+
+		// Add all decorator imports to nonSsrIdentifiers
+		for (const id of decoratorImports) {
+			if (originalImports.has(id as string)) {
+				nonSsrIdentifiers.add(id as string)
+			}
+		}
+
+		// Step 3: Identify identifiers used in SSR blocks vs outside SSR blocks
 		visit(program, {
 			visitIfStatement(path: any) {
 				// Check if this is an import.meta.env.SSR condition
@@ -457,11 +540,11 @@ const removeSSRedImport = async (code: string) => {
 								ssrIdentifiers.add(innerPath.node.name)
 							}
 							this.traverse(innerPath)
-						}
+						},
 					})
 
 					// Add to SSR-only identifiers
-					ssrIdentifiers.forEach(id => {
+					ssrIdentifiers.forEach((id: any) => {
 						if (originalImports.has(id)) {
 							ssrOnlyIdentifiers.add(id)
 						}
@@ -478,9 +561,11 @@ const removeSSRedImport = async (code: string) => {
 					let currentPath = path
 
 					while (currentPath.parentPath) {
-						if (currentPath.parentPath.value.type === 'IfStatement' &&
+						if (
+							currentPath.parentPath.value.type === 'IfStatement' &&
 							isImportMetaEnvSSR(currentPath.parentPath.value.test) &&
-							currentPath.name === 'consequent') {
+							currentPath.name === 'consequent'
+						) {
 							isInSSRBlock = true
 							break
 						}
@@ -494,10 +579,10 @@ const removeSSRedImport = async (code: string) => {
 				}
 
 				this.traverse(path)
-			}
+			},
 		})
 
-		// Step 3: Remove all imports and store them
+		// Step 4: Remove all imports and store them
 		const newBody: Statement[] = []
 		program.body.forEach((node) => {
 			if (node.type !== 'ImportDeclaration') {
@@ -507,47 +592,50 @@ const removeSSRedImport = async (code: string) => {
 		// @ts-ignore
 		program.body = newBody
 
-		// Step 4: Determine which imports to keep (used outside SSR blocks)
+		// Step 5: Determine which imports to keep (used outside SSR blocks)
 		const importsToKeep = new Set([...nonSsrIdentifiers])
 
-		// Step 5: Add back necessary imports (those used outside SSR blocks)
-		const necessaryImports: Statement[] = []
+		// Step 6: Add back necessary imports (those used outside SSR blocks)
+		const necessaryImportsBySource = new Map<string, any>()
 		const removed: [string, string][] = []
 
 		originalImports.forEach((source, identifier) => {
 			if (importsToKeep.has(identifier)) {
 				// This import is used outside SSR blocks, so keep it
-				// @ts-ignore
-				const found = necessaryImports.find((importDecl) => importDecl.source.value === source)
-				if (found) {
-					// @ts-ignore
-					found.specifiers.push({
-						type: 'ImportSpecifier',
-						imported: { type: 'Identifier', name: identifier },
-						local: { type: 'Identifier', name: identifier },
-					})
-				} else {
-					necessaryImports.push({
+				if (!necessaryImportsBySource.has(source)) {
+					necessaryImportsBySource.set(source, {
 						type: 'ImportDeclaration',
-						// @ts-ignore
-						specifiers: [
-							{
-								type: 'ImportSpecifier',
-								imported: { type: 'Identifier', name: identifier },
-								local: { type: 'Identifier', name: identifier },
-							},
-						],
+						specifiers: [],
 						source: { type: 'StringLiteral', value: source },
 					})
 				}
-			} else if (ssrOnlyIdentifiers.has(identifier)) {
-				// This import is only used in SSR blocks, so remove it
+
+				const importDecl = necessaryImportsBySource.get(source)
+
+				// Add the specifier with the correct importKind
+				importDecl.specifiers.push({
+					type: 'ImportSpecifier',
+					imported: { type: 'Identifier', name: identifier },
+					local: { type: 'Identifier', name: identifier },
+					importKind: typeImports.has(identifier) ? 'type' : 'value',
+				})
+			} else if (ssrOnlyIdentifiers.has(identifier) && !decoratorImports.has(identifier)) {
+				// This import is only used in SSR blocks and not as a decorator, so remove it
 				removed.push([identifier, source])
 			}
 		})
 
+		// Sort imports by their original order
+		const sortedImports = Array.from(necessaryImportsBySource.entries())
+			.sort((a, b) => {
+				const orderA = importOrder.get(a[0]) ?? Number.MAX_SAFE_INTEGER
+				const orderB = importOrder.get(b[0]) ?? Number.MAX_SAFE_INTEGER
+				return orderA - orderB
+			})
+			.map(([_, importDecl]) => importDecl)
+
 		// @ts-ignore
-		program.body.unshift(...necessaryImports)
+		program.body.unshift(...sortedImports)
 
 		return {
 			code: prettyPrint(program).code,
@@ -556,6 +644,62 @@ const removeSSRedImport = async (code: string) => {
 	} catch (error) {
 		console.error('Error in removeSSRedImport:', error)
 		return { code, info: [] }
+	}
+}
+
+// Helper function to collect imports used in decorators
+function collectDecoratorImports(expression: any, importSet: Set<string>) {
+	if (!expression) return
+
+	// If it's a direct identifier (like @Entity), add it
+	if (expression.type === 'Identifier') {
+		importSet.add(expression.name as string)
+	}
+	// If it's a call expression (like @Entity('users')), add the callee
+	else if (expression.type === 'CallExpression') {
+		if (expression.callee.type === 'Identifier') {
+			importSet.add(expression.callee.name as string)
+		} else if (expression.callee.type === 'MemberExpression') {
+			// Handle cases like @Fields.uuid()
+			collectDecoratorImports(expression.callee, importSet)
+		}
+
+		// Also process arguments as they might contain identifiers
+		expression.arguments.forEach((arg: any) => {
+			if (arg.type === 'ObjectExpression') {
+				arg.properties.forEach((prop: any) => {
+					if (prop.value && prop.value.type === 'Identifier') {
+						importSet.add(prop.value.name as string)
+					} else if (prop.value && prop.value.type === 'ArrowFunctionExpression') {
+						// Handle function bodies in decorator options
+						visit(
+							{ type: 'Program', body: [prop.value] },
+							{
+								visitIdentifier(path: any) {
+									if (path.node.name) {
+										importSet.add(path.node.name as string)
+									}
+									this.traverse(path)
+								},
+							},
+						)
+					}
+				})
+			}
+		})
+	}
+	// If it's a member expression (like @Fields.uuid), process both parts
+	else if (expression.type === 'MemberExpression') {
+		if (expression.object.type === 'Identifier') {
+			importSet.add(expression.object.name as string)
+		} else {
+			collectDecoratorImports(expression.object, importSet)
+		}
+
+		if (expression.property.type === 'Identifier') {
+			// We don't add the property name as it's not an import
+			// But we might need to process it further in some cases
+		}
 	}
 }
 

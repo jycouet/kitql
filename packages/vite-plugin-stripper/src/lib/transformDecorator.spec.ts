@@ -170,8 +170,8 @@ export class TasksController {
 			    }
 			}",
 			  "info": [
-			    "Removed: 'Allow' from 'remult'",
-			    "Removed: 'BackendMethod' from 'remult'",
+			    "Removed unused import: 'Allow' from 'remult'",
+			    "Removed unused import: 'BackendMethod' from 'remult'",
 			  ],
 			}
 		`)
@@ -210,8 +210,8 @@ export class TasksController {
 
 		expect(transformed).toMatchInlineSnapshot(`
 			{
-			  "code": "import { BackendMethod } from "remult";
-			import { TOP_SECRET } from "$env/static/private";
+			  "code": "import { TOP_SECRET } from "$env/static/private";
+			import { Entity, Fields, BackendMethod } from "remult";
 
 			@Entity<Ent>()
 			export class Ent {
@@ -237,9 +237,9 @@ export class TasksController {
 			}",
 			  "info": [
 			    "Wrapped with if(import.meta.env.SSR): ["EntController","BackendMethod","init"]",
-			    "Removed: 'TOP_SECRET_NOT_USED' from '$env/static/private'",
-			    "Removed: 'stry0' from '@kitql/helper'",
-			    "Removed: 'remult' from 'remult'",
+			    "Removed unused import: 'TOP_SECRET_NOT_USED' from '$env/static/private'",
+			    "Removed unused import: 'stry0' from '@kitql/helper'",
+			    "Removed unused import: 'remult' from 'remult'",
 			  ],
 			}
 		`)
@@ -271,7 +271,7 @@ export class TasksController {
 
 		expect(transformed).toMatchInlineSnapshot(`
 			{
-			  "code": "import { Allow, BackendMethod } from "remult";
+			  "code": "import { Entity, Allow, Fields, BackendMethod } from "remult";
 
 			@Entity<User>("userstest", {
 			    allowApiCrud: Allow.authenticated
@@ -325,7 +325,7 @@ export class TasksController {
 
 		expect(transformed).toMatchInlineSnapshot(`
 			{
-			  "code": "import { Allow, BackendMethod } from "remult";
+			  "code": "import { Entity, Allow, Fields, BackendMethod } from "remult";
 
 			@Entity<User>("userstest", {
 			    allowApiCrud: Allow.authenticated
@@ -348,7 +348,7 @@ export class TasksController {
 			}",
 			  "info": [
 			    "Wrapped with if(import.meta.env.SSR): ["User2","BackendMethod","testMethod"]",
-			    "Removed: 'Validators' from 'remult'",
+			    "Removed unused import: 'Validators' from 'remult'",
 			  ],
 			}
 		`)
@@ -378,7 +378,7 @@ export class TasksController {
 
 		expect(transformed).toMatchInlineSnapshot(`
 			{
-			  "code": "import { Allow, BackendMethod } from "remult";
+			  "code": "import { Entity, Allow, Fields, BackendMethod } from "remult";
 
 			@Entity<User>("userstest", {
 			    allowApiCrud: Allow.authenticated
@@ -433,7 +433,7 @@ export class TasksController {
 
 		expect(transformed).toMatchInlineSnapshot(`
 			{
-			  "code": "import { Allow, BackendMethod } from "remult";
+			  "code": "import { Entity, Allow, Fields, BackendMethod } from "remult";
 
 			@Entity<User>("userstest", {
 			    allowApiCrud: Allow.authenticated
@@ -485,7 +485,7 @@ export class TasksController {
 
 		expect(transformed).toMatchInlineSnapshot(`
 			{
-			  "code": "import { BackendMethod, Allowed, remult } from "remult";
+			  "code": "import { BackendMethod, type Allowed, remult } from "remult";
 
 			export class ActionsController {
 			    @BackendMethod({
@@ -543,7 +543,7 @@ export class User {
 		])
 		expect(transformed).toMatchInlineSnapshot(`
 			{
-			  "code": "import { BackendMethod, Allowed, remult } from "remult";
+			  "code": "import { Entity, Fields, BackendMethod, type Allowed, remult } from "remult";
 			let AUTH_SECRET = null;
 			let AUTH_SECRET_NOT_USED = null;
 
@@ -623,7 +623,7 @@ export class User {
 		])
 		expect(transformed).toMatchInlineSnapshot(`
 			{
-			  "code": "import { BackendMethod, Allowed, remult } from "remult";
+			  "code": "import { Entity, Fields, BackendMethod, type Allowed, remult } from "remult";
 			let AUTH_SECRET = null;
 			let AUTH_SECRET_NOT_USED = null;
 
