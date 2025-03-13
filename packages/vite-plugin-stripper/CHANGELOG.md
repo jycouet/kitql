@@ -1,5 +1,34 @@
 # vite-plugin-stripper
 
+## 0.7.0
+
+### Minor Changes
+
+- [`329088d`](https://github.com/jycouet/kitql/commit/329088dfec259129af4d1bc87b92b4bac5b207ff)
+  Thanks [@jycouet](https://github.com/jycouet)! - [BREAKING] - decorators now takes a specific
+  object as config You should now do something like this:
+
+  ```ts
+  decorators: [
+  	{ decorator: 'BackendMethod' },
+  	{
+  		decorator: 'Entity',
+  		args_1: [
+  			{ fn: 'backendPrefilter' },
+  			{ fn: 'backendPreprocessFilter' },
+  			{ fn: 'sqlExpression' },
+  			{
+  				fn: 'dbName',
+  				// excludeEntityKeys: ['users']
+  			},
+  		],
+  	},
+  ]
+  ```
+
+- [`329088d`](https://github.com/jycouet/kitql/commit/329088dfec259129af4d1bc87b92b4bac5b207ff)
+  Thanks [@jycouet](https://github.com/jycouet)! - [BREAKING] - option `hard` is now removed
+
 ## 0.6.4
 
 ### Patch Changes
