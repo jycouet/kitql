@@ -40,7 +40,7 @@ export class TasksController {
 
 		expect(transformed).toMatchInlineSnapshot(`
 			{
-			  "code": "import { BackendMethod, Allow, remult } from "remult";
+			  "code": "import { Allow, BackendMethod, remult } from "remult";
 			import { Task } from "./task";
 
 			export class TasksController {
@@ -206,7 +206,7 @@ export class TasksController {
 		expect(transformed).toMatchInlineSnapshot(`
 			{
 			  "code": "import { TOP_SECRET } from "$env/static/private";
-			import { Entity, Fields, BackendMethod } from "remult";
+			import { BackendMethod, Entity, Fields } from "remult";
 
 			@Entity<Ent>()
 			export class Ent {
@@ -266,7 +266,7 @@ export class TasksController {
 
 		expect(transformed).toMatchInlineSnapshot(`
 			{
-			  "code": "import { Entity, Allow, Fields, BackendMethod } from "remult";
+			  "code": "import { Allow, BackendMethod, Entity, Fields } from "remult";
 
 			@Entity<User>("userstest", {
 			    allowApiCrud: Allow.authenticated
@@ -320,7 +320,7 @@ export class TasksController {
 
 		expect(transformed).toMatchInlineSnapshot(`
 			{
-			  "code": "import { Entity, Allow, Fields, BackendMethod } from "remult";
+			  "code": "import { Allow, BackendMethod, Entity, Fields } from "remult";
 
 			@Entity<User>("userstest", {
 			    allowApiCrud: Allow.authenticated
@@ -373,7 +373,7 @@ export class TasksController {
 
 		expect(transformed).toMatchInlineSnapshot(`
 			{
-			  "code": "import { Entity, Allow, Fields, BackendMethod } from "remult";
+			  "code": "import { Allow, BackendMethod, Entity, Fields } from "remult";
 
 			@Entity<User>("userstest", {
 			    allowApiCrud: Allow.authenticated
@@ -428,7 +428,7 @@ export class TasksController {
 
 		expect(transformed).toMatchInlineSnapshot(`
 			{
-			  "code": "import { Entity, Allow, Fields, BackendMethod } from "remult";
+			  "code": "import { Allow, BackendMethod, Entity, Fields } from "remult";
 
 			@Entity<User>("userstest", {
 			    allowApiCrud: Allow.authenticated
@@ -480,7 +480,7 @@ export class TasksController {
 
 		expect(transformed).toMatchInlineSnapshot(`
 			{
-			  "code": "import { BackendMethod, remult, type Allowed } from "remult";
+			  "code": "import { BackendMethod, type Allowed, remult } from "remult";
 
 			export class ActionsController {
 			    @BackendMethod({
@@ -538,7 +538,7 @@ export class User {
 		])
 		expect(transformed).toMatchInlineSnapshot(`
 			{
-			  "code": "import { Entity, Fields, BackendMethod, remult, type Allowed } from "remult";
+			  "code": "import { BackendMethod, Entity, Fields, remult, type Allowed } from "remult";
 			let AUTH_SECRET = null;
 			let AUTH_SECRET_NOT_USED = null;
 
@@ -618,7 +618,7 @@ export class User {
 		])
 		expect(transformed).toMatchInlineSnapshot(`
 			{
-			  "code": "import { Entity, Fields, BackendMethod, remult, type Allowed } from "remult";
+			  "code": "import { BackendMethod, Entity, Fields, remult, type Allowed } from "remult";
 			let AUTH_SECRET = null;
 			let AUTH_SECRET_NOT_USED = null;
 
@@ -699,7 +699,7 @@ export class User {
 		expect(transformed).toMatchInlineSnapshot(`
 			{
 			  "code": "import { default as MetaOg } from "./ui/MetaOg.svelte";
-			import { Entity, remult, Fields, BackendMethod, type Allowed } from "remult";
+			import { BackendMethod, Entity, Fields, remult, type Allowed } from "remult";
 			export { MetaOg };
 
 			@Entity("users", {

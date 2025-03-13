@@ -307,11 +307,13 @@ const removeUnusedImports = async (code: string) => {
 		const importAliases = new Map<string, string>() // Track aliases: local name -> imported name
 		const typeImports = new Set<string>() // Track which imports had the 'type' keyword
 		const importOrder = new Map<string, number>() // Track the original order of imports by source
+		const identifierOrder = new Map<string, number>() // Track the original order of identifiers within each import
 		const exportedIdentifiers = new Set<string>() // Track identifiers that are exported
 
 		// Step 1: Remove all global imports and store them
 		const newBody: Statement[] = []
 		let importIndex = 0 // Track the order of import sources
+		let identifierIndex = 0 // Track the order of identifiers overall
 
 		program.body.forEach((node) => {
 			if (node.type === 'ImportDeclaration') {
@@ -320,15 +322,19 @@ const removeUnusedImports = async (code: string) => {
 					importOrder.set(node.source.value, importIndex++)
 				}
 
-				; (node.specifiers ?? []).forEach((specifier) => {
+				;(node.specifiers ?? []).forEach((specifier) => {
 					if (specifier.type === 'ImportSpecifier') {
-						const importedName = specifier.imported && specifier.imported.type === 'Identifier'
-							? specifier.imported.name
-							: null
+						const importedName =
+							specifier.imported && specifier.imported.type === 'Identifier'
+								? specifier.imported.name
+								: null
 						const localName = specifier.local?.name
 
 						if (localName) {
 							originalImports.set(localName, node.source.value)
+
+							// Track the order of this identifier
+							identifierOrder.set(localName, identifierIndex++)
 
 							// Track the alias relationship if it exists
 							if (importedName && importedName !== localName) {
@@ -402,7 +408,7 @@ const removeUnusedImports = async (code: string) => {
 			visitClassDeclaration(path: any) {
 				// Capture identifiers in class decorators
 				// @ts-ignore
-				; (path.node.decorators || []).forEach((decorator) => {
+				;(path.node.decorators || []).forEach((decorator) => {
 					extractIdentifiersFromExpression(decorator.expression, usedIdentifiers)
 				})
 
@@ -411,7 +417,7 @@ const removeUnusedImports = async (code: string) => {
 					if (element.type === 'ClassMethod' || element.type === 'ClassProperty') {
 						// Capture identifiers in element decorators
 						// @ts-ignore
-						; (element.decorators || []).forEach((decorator: any) => {
+						;(element.decorators || []).forEach((decorator: any) => {
 							extractIdentifiersFromExpression(decorator.expression, usedIdentifiers)
 						})
 					}
@@ -430,6 +436,10 @@ const removeUnusedImports = async (code: string) => {
 
 		// Step 3: Add back necessary imports
 		const necessaryImportsBySource = new Map<string, any>()
+		const identifiersBySource = new Map<
+			string,
+			Array<{ name: string; importedName: string | undefined; isType: boolean }>
+		>()
 
 		usedIdentifiers.forEach((identifier) => {
 			if (originalImports.has(identifier)) {
@@ -437,37 +447,55 @@ const removeUnusedImports = async (code: string) => {
 				if (source) {
 					removed = removed.filter(([id, src]) => !(id === identifier && src === source))
 
-					if (!necessaryImportsBySource.has(source)) {
-						necessaryImportsBySource.set(source, {
-							type: 'ImportDeclaration',
-							specifiers: [],
-							source: { type: 'StringLiteral', value: source },
-						})
+					if (!identifiersBySource.has(source)) {
+						identifiersBySource.set(source, [])
 					}
 
-					const importDecl = necessaryImportsBySource.get(source)
-
-					// Add the specifier with the correct importKind and handle aliases
+					// Add the identifier to the list for this source
 					const importedName = importAliases.has(identifier) ? importAliases.get(identifier) : identifier
-
-					importDecl.specifiers.push({
-						type: 'ImportSpecifier',
-						imported: { type: 'Identifier', name: importedName },
-						local: { type: 'Identifier', name: identifier },
-						importKind: typeImports.has(identifier) ? 'type' : 'value',
+					identifiersBySource.get(source)?.push({
+						name: identifier,
+						importedName,
+						isType: typeImports.has(identifier),
 					})
 				}
 			}
 		})
 
 		// Sort imports by their original order
-		const sortedImports = Array.from(necessaryImportsBySource.entries())
-			.sort((a, b) => {
-				const orderA = importOrder.get(a[0]) ?? Number.MAX_SAFE_INTEGER
-				const orderB = importOrder.get(b[0]) ?? Number.MAX_SAFE_INTEGER
+		const sortedSources = Array.from(identifiersBySource.keys()).sort((a, b) => {
+			const orderA = importOrder.get(a) ?? Number.MAX_SAFE_INTEGER
+			const orderB = importOrder.get(b) ?? Number.MAX_SAFE_INTEGER
+			return orderA - orderB
+		})
+
+		// Create import declarations with identifiers sorted by their original order
+		sortedSources.forEach((source) => {
+			const identifiers = identifiersBySource.get(source) || []
+
+			// Sort identifiers by their original order
+			identifiers.sort((a, b) => {
+				const orderA = identifierOrder.get(a.name) ?? Number.MAX_SAFE_INTEGER
+				const orderB = identifierOrder.get(b.name) ?? Number.MAX_SAFE_INTEGER
 				return orderA - orderB
 			})
-			.map(([_, importDecl]) => importDecl)
+
+			const importDecl = {
+				type: 'ImportDeclaration',
+				specifiers: identifiers.map(({ name, importedName, isType }) => ({
+					type: 'ImportSpecifier',
+					imported: { type: 'Identifier', name: importedName },
+					local: { type: 'Identifier', name },
+					importKind: isType ? 'type' : 'value',
+				})),
+				source: { type: 'StringLiteral', value: source },
+			}
+
+			necessaryImportsBySource.set(source, importDecl)
+		})
+
+		// Add the imports back to the program
+		const sortedImports = Array.from(necessaryImportsBySource.values())
 
 		// @ts-ignore
 		program.body.unshift(...sortedImports)
@@ -567,11 +595,13 @@ const removeSSRedImport = async (code: string) => {
 		const importAliases = new Map<string, string>() // Track aliases: local name -> imported name
 		const typeImports = new Set<string>() // Track which imports had the 'type' keyword
 		const importOrder = new Map<string, number>() // Track the original order of imports by source
+		const identifierOrder = new Map<string, number>() // Track the original order of identifiers within each import
 		const decoratorImports = new Set<string>() // Track imports used as decorators
 		const exportedIdentifiers = new Set<string>() // Track identifiers that are exported
 
 		// Step 1: Collect all imports
 		let importIndex = 0 // Track the order of import sources
+		let identifierIndex = 0 // Track the order of identifiers overall
 
 		program.body.forEach((node) => {
 			if (node.type === 'ImportDeclaration') {
@@ -580,15 +610,19 @@ const removeSSRedImport = async (code: string) => {
 					importOrder.set(node.source.value, importIndex++)
 				}
 
-				; (node.specifiers ?? []).forEach((specifier) => {
+				;(node.specifiers ?? []).forEach((specifier) => {
 					if (specifier.type === 'ImportSpecifier') {
-						const importedName = specifier.imported && specifier.imported.type === 'Identifier'
-							? specifier.imported.name
-							: null
+						const importedName =
+							specifier.imported && specifier.imported.type === 'Identifier'
+								? specifier.imported.name
+								: null
 						const localName = specifier.local?.name
 
 						if (localName) {
 							originalImports.set(localName, node.source.value)
+
+							// Track the order of this identifier
+							identifierOrder.set(localName, identifierIndex++)
 
 							// Track the alias relationship if it exists
 							if (importedName && importedName !== localName) {
@@ -626,7 +660,7 @@ const removeSSRedImport = async (code: string) => {
 			visitClassDeclaration(path: any) {
 				// Process class decorators
 				// @ts-ignore
-				; (path.node.decorators || []).forEach((decorator) => {
+				;(path.node.decorators || []).forEach((decorator) => {
 					collectDecoratorImports(decorator.expression, decoratorImports)
 				})
 
@@ -634,7 +668,7 @@ const removeSSRedImport = async (code: string) => {
 				if (path.node.body && path.node.body.body) {
 					path.node.body.body.forEach((element: any) => {
 						// @ts-ignore
-						; (element.decorators || []).forEach((decorator: any) => {
+						;(element.decorators || []).forEach((decorator: any) => {
 							collectDecoratorImports(decorator.expression, decoratorImports)
 						})
 					})
@@ -645,7 +679,7 @@ const removeSSRedImport = async (code: string) => {
 			visitClassMethod(path: any) {
 				// Process method decorators
 				// @ts-ignore
-				; (path.node.decorators || []).forEach((decorator) => {
+				;(path.node.decorators || []).forEach((decorator) => {
 					collectDecoratorImports(decorator.expression, decoratorImports)
 				})
 
@@ -654,7 +688,7 @@ const removeSSRedImport = async (code: string) => {
 			visitClassProperty(path: any) {
 				// Process property decorators
 				// @ts-ignore
-				; (path.node.decorators || []).forEach((decorator) => {
+				;(path.node.decorators || []).forEach((decorator) => {
 					collectDecoratorImports(decorator.expression, decoratorImports)
 				})
 
@@ -845,7 +879,7 @@ const removeSSRedImport = async (code: string) => {
 		})
 
 		// Sort imports by their original order
-		const sortedImports = Array.from(necessaryImportsBySource.entries())
+		const sortedSources = Array.from(necessaryImportsBySource.entries())
 			.sort((a, b) => {
 				const orderA = importOrder.get(a[0]) ?? Number.MAX_SAFE_INTEGER
 				const orderB = importOrder.get(b[0]) ?? Number.MAX_SAFE_INTEGER
@@ -854,7 +888,7 @@ const removeSSRedImport = async (code: string) => {
 			.map(([_, importDecl]) => importDecl)
 
 		// @ts-ignore
-		program.body.unshift(...sortedImports)
+		program.body.unshift(...sortedSources)
 
 		return {
 			code: prettyPrint(program).code,
