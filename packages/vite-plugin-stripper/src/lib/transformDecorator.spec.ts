@@ -504,7 +504,12 @@ describe('decoratorEntity', () => {
     const code = `import { AUTH_SECRET, AUTH_SECRET_NOT_USED } from "$env/static/private";
 import { BackendMethod, Entity, Fields, remult, type Allowed } from "remult";
 
-@Entity('users')
+@Entity('users', {
+  backendPrefilter: () => {
+    console.log('backendPrefilter')
+    return {}
+  }
+})
 export class User {
 	@Fields.uuid()
 	id = ''
@@ -524,7 +529,7 @@ export class User {
 `
 
     const code1 = await nullifyImports(code, ['$env/static/private'])
-    const transformed = await transformDecorator(code1.code, [{ decorator: 'BackendMethod' }])
+    const transformed = await transformDecorator(code1.code, [{ decorator: 'BackendMethod' }, { decorator: 'Entity', args_2: ['backendPrefilter'] }])
     // const transformed = 
 
     expect(transformed).toMatchInlineSnapshot(`
@@ -533,7 +538,14 @@ export class User {
       let AUTH_SECRET_NOT_USED = null;
       import { BackendMethod, Entity, Fields, remult, type Allowed } from "remult";
 
-      @Entity("users")
+      @Entity("users", {
+          backendPrefilter: () => {
+              if (import.meta.env.SSR) {
+                  console.log("backendPrefilter");
+                  return {};
+              }
+          }
+      })
       export class User {
           @Fields.uuid()
           id = "";
@@ -552,6 +564,7 @@ export class User {
           }
       }",
         "info": [
+          "Wrapped with if(import.meta.env.SSR): ["User","Entity","backendPrefilter"]",
           "Wrapped with if(import.meta.env.SSR): ["User","BackendMethod","hi"]",
         ],
       }
