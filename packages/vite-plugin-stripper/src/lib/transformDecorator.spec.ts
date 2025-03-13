@@ -698,7 +698,7 @@ export class User {
 
 		expect(transformed).toMatchInlineSnapshot(`
 			{
-			  "code": "import { AUTH_SECRET } from "$env/static/private";
+			  "code": "import { default as MetaOg } from "./ui/MetaOg.svelte";
 			import { Entity, Fields, BackendMethod, type Allowed } from "remult";
 			export { MetaOg };
 
@@ -724,9 +724,9 @@ export class User {
 			}",
 			  "info": [
 			    "Wrapped with if(import.meta.env.SSR): ["User","BackendMethod","hi"]",
-			    "Removed unused import: 'default' from './ui/MetaOg.svelte'",
 			    "Removed unused import: 'AUTH_SECRET_NOT_USED' from '$env/static/private'",
 			    "Removed unused import: 'remult' from 'remult'",
+			    "Removed SSR-only import: 'AUTH_SECRET' from '$env/static/private'",
 			  ],
 			}
 		`)

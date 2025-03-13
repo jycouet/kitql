@@ -302,11 +302,12 @@ const removeUnusedImports = async (code: string) => {
 	try {
 		const program = parseTs(code)
 
-		const usedIdentifiers = new Set()
-		const originalImports = new Map()
-		const typeImports = new Set() // Track which imports had the 'type' keyword
-		const importOrder = new Map() // Track the original order of imports by source
-		const exportedIdentifiers = new Set() // Track identifiers that are exported
+		const usedIdentifiers = new Set<string>()
+		const originalImports = new Map<string, string>()
+		const importAliases = new Map<string, string>() // Track aliases: local name -> imported name
+		const typeImports = new Set<string>() // Track which imports had the 'type' keyword
+		const importOrder = new Map<string, number>() // Track the original order of imports by source
+		const exportedIdentifiers = new Set<string>() // Track identifiers that are exported
 
 		// Step 1: Remove all global imports and store them
 		const newBody: Statement[] = []
@@ -319,19 +320,24 @@ const removeUnusedImports = async (code: string) => {
 					importOrder.set(node.source.value, importIndex++)
 				}
 
-				;(node.specifiers ?? []).forEach((specifier) => {
+				; (node.specifiers ?? []).forEach((specifier) => {
 					if (specifier.type === 'ImportSpecifier') {
-						const name =
-							specifier.imported && specifier.imported.type === 'Identifier'
-								? specifier.imported.name
-								: specifier.local?.name
+						const importedName = specifier.imported && specifier.imported.type === 'Identifier'
+							? specifier.imported.name
+							: null
+						const localName = specifier.local?.name
 
-						if (!originalImports.has(name)) {
-							originalImports.set(name, node.source.value)
+						if (localName) {
+							originalImports.set(localName, node.source.value)
+
+							// Track the alias relationship if it exists
+							if (importedName && importedName !== localName) {
+								importAliases.set(localName, importedName)
+							}
 
 							// Check if this is a type import
 							if (specifier.importKind === 'type') {
-								typeImports.add(name)
+								typeImports.add(localName)
 							}
 						}
 					}
@@ -364,10 +370,18 @@ const removeUnusedImports = async (code: string) => {
 				this.traverse(path)
 			},
 
+			// Capture identifiers in expressions like console.log('backendPrefilter', remult)
+			visitMemberExpression(path: any) {
+				if (path.node.object && path.node.object.type === 'Identifier') {
+					usedIdentifiers.add(path.node.object.name)
+				}
+				this.traverse(path)
+			},
+
 			visitClassDeclaration(path: any) {
 				// Capture identifiers in class decorators
 				// @ts-ignore
-				;(path.node.decorators || []).forEach((decorator) => {
+				; (path.node.decorators || []).forEach((decorator) => {
 					extractIdentifiersFromExpression(decorator.expression, usedIdentifiers)
 				})
 
@@ -376,7 +390,7 @@ const removeUnusedImports = async (code: string) => {
 					if (element.type === 'ClassMethod' || element.type === 'ClassProperty') {
 						// Capture identifiers in element decorators
 						// @ts-ignore
-						;(element.decorators || []).forEach((decorator: any) => {
+						; (element.decorators || []).forEach((decorator: any) => {
 							extractIdentifiersFromExpression(decorator.expression, usedIdentifiers)
 						})
 					}
@@ -399,25 +413,29 @@ const removeUnusedImports = async (code: string) => {
 		usedIdentifiers.forEach((identifier) => {
 			if (originalImports.has(identifier)) {
 				const source = originalImports.get(identifier)
-				removed = removed.filter(([id, src]) => !(id === identifier && src === source))
+				if (source) {
+					removed = removed.filter(([id, src]) => !(id === identifier && src === source))
 
-				if (!necessaryImportsBySource.has(source)) {
-					necessaryImportsBySource.set(source, {
-						type: 'ImportDeclaration',
-						specifiers: [],
-						source: { type: 'StringLiteral', value: source },
+					if (!necessaryImportsBySource.has(source)) {
+						necessaryImportsBySource.set(source, {
+							type: 'ImportDeclaration',
+							specifiers: [],
+							source: { type: 'StringLiteral', value: source },
+						})
+					}
+
+					const importDecl = necessaryImportsBySource.get(source)
+
+					// Add the specifier with the correct importKind and handle aliases
+					const importedName = importAliases.has(identifier) ? importAliases.get(identifier) : identifier
+
+					importDecl.specifiers.push({
+						type: 'ImportSpecifier',
+						imported: { type: 'Identifier', name: importedName },
+						local: { type: 'Identifier', name: identifier },
+						importKind: typeImports.has(identifier) ? 'type' : 'value',
 					})
 				}
-
-				const importDecl = necessaryImportsBySource.get(source)
-
-				// Add the specifier with the correct importKind
-				importDecl.specifiers.push({
-					type: 'ImportSpecifier',
-					imported: { type: 'Identifier', name: identifier },
-					local: { type: 'Identifier', name: identifier },
-					importKind: typeImports.has(identifier) ? 'type' : 'value',
-				})
 			}
 		})
 
@@ -443,8 +461,7 @@ const removeUnusedImports = async (code: string) => {
 }
 
 // Helper function to extract identifiers from an expression
-// @ts-ignore
-function extractIdentifiersFromExpression(expression: any, identifierSet: Set) {
+function extractIdentifiersFromExpression(expression: any, identifierSet: Set<string>) {
 	if (!expression) return
 
 	switch (expression.type) {
@@ -468,7 +485,11 @@ function extractIdentifiersFromExpression(expression: any, identifierSet: Set) {
 			expression.properties.forEach((prop: any) => {
 				if (prop.type === 'SpreadElement') {
 					extractIdentifiersFromExpression(prop.argument, identifierSet)
-				} else if (prop.value) {
+				} else if (prop.key && prop.key.type === 'Identifier') {
+					// Also capture property keys
+					identifierSet.add(prop.key.name)
+				}
+				if (prop.value) {
 					extractIdentifiersFromExpression(prop.value, identifierSet)
 				}
 			})
@@ -480,6 +501,16 @@ function extractIdentifiersFromExpression(expression: any, identifierSet: Set) {
 			if (expression.init) {
 				extractIdentifiersFromExpression(expression.init, identifierSet)
 			}
+			break
+		case 'ExpressionStatement':
+			if (expression.expression) {
+				extractIdentifiersFromExpression(expression.expression, identifierSet)
+			}
+			break
+		case 'BinaryExpression':
+		case 'LogicalExpression':
+			extractIdentifiersFromExpression(expression.left, identifierSet)
+			extractIdentifiersFromExpression(expression.right, identifierSet)
 			break
 		// Add cases for other types as needed
 	}
@@ -493,6 +524,7 @@ const removeSSRedImport = async (code: string) => {
 		const ssrOnlyIdentifiers = new Set<string>()
 		const nonSsrIdentifiers = new Set<string>()
 		const originalImports = new Map<string, string>()
+		const importAliases = new Map<string, string>() // Track aliases: local name -> imported name
 		const typeImports = new Set<string>() // Track which imports had the 'type' keyword
 		const importOrder = new Map<string, number>() // Track the original order of imports by source
 		const decoratorImports = new Set<string>() // Track imports used as decorators
@@ -508,18 +540,24 @@ const removeSSRedImport = async (code: string) => {
 					importOrder.set(node.source.value, importIndex++)
 				}
 
-				;(node.specifiers ?? []).forEach((specifier) => {
+				; (node.specifiers ?? []).forEach((specifier) => {
 					if (specifier.type === 'ImportSpecifier') {
-						const name =
-							specifier.imported && specifier.imported.type === 'Identifier'
-								? specifier.imported.name
-								: specifier.local?.name
-						if (name && !originalImports.has(name)) {
-							originalImports.set(name, node.source.value)
+						const importedName = specifier.imported && specifier.imported.type === 'Identifier'
+							? specifier.imported.name
+							: null
+						const localName = specifier.local?.name
+
+						if (localName) {
+							originalImports.set(localName, node.source.value)
+
+							// Track the alias relationship if it exists
+							if (importedName && importedName !== localName) {
+								importAliases.set(localName, importedName)
+							}
 
 							// Check if this is a type import
 							if (specifier.importKind === 'type') {
-								typeImports.add(name)
+								typeImports.add(localName)
 							}
 						}
 					}
@@ -536,12 +574,19 @@ const removeSSRedImport = async (code: string) => {
 			}
 		})
 
+		// Add all exported identifiers to nonSsrIdentifiers
+		for (const id of exportedIdentifiers) {
+			if (originalImports.has(id)) {
+				nonSsrIdentifiers.add(id)
+			}
+		}
+
 		// Step 2: Find all decorators and mark their imports as used outside SSR
 		visit(program, {
 			visitClassDeclaration(path: any) {
 				// Process class decorators
 				// @ts-ignore
-				;(path.node.decorators || []).forEach((decorator) => {
+				; (path.node.decorators || []).forEach((decorator) => {
 					collectDecoratorImports(decorator.expression, decoratorImports)
 				})
 
@@ -549,7 +594,7 @@ const removeSSRedImport = async (code: string) => {
 				if (path.node.body && path.node.body.body) {
 					path.node.body.body.forEach((element: any) => {
 						// @ts-ignore
-						;(element.decorators || []).forEach((decorator: any) => {
+						; (element.decorators || []).forEach((decorator: any) => {
 							collectDecoratorImports(decorator.expression, decoratorImports)
 						})
 					})
@@ -560,7 +605,7 @@ const removeSSRedImport = async (code: string) => {
 			visitClassMethod(path: any) {
 				// Process method decorators
 				// @ts-ignore
-				;(path.node.decorators || []).forEach((decorator) => {
+				; (path.node.decorators || []).forEach((decorator) => {
 					collectDecoratorImports(decorator.expression, decoratorImports)
 				})
 
@@ -569,7 +614,7 @@ const removeSSRedImport = async (code: string) => {
 			visitClassProperty(path: any) {
 				// Process property decorators
 				// @ts-ignore
-				;(path.node.decorators || []).forEach((decorator) => {
+				; (path.node.decorators || []).forEach((decorator) => {
 					collectDecoratorImports(decorator.expression, decoratorImports)
 				})
 
@@ -581,13 +626,6 @@ const removeSSRedImport = async (code: string) => {
 		for (const id of decoratorImports) {
 			if (originalImports.has(id as string)) {
 				nonSsrIdentifiers.add(id as string)
-			}
-		}
-
-		// Add all exported identifiers to nonSsrIdentifiers
-		for (const id of exportedIdentifiers) {
-			if (originalImports.has(id)) {
-				nonSsrIdentifiers.add(id)
 			}
 		}
 
@@ -647,6 +685,35 @@ const removeSSRedImport = async (code: string) => {
 
 				this.traverse(path)
 			},
+			// Capture identifiers in expressions like console.log('backendPrefilter', remult)
+			visitMemberExpression(path: any) {
+				if (path.node.object && path.node.object.type === 'Identifier') {
+					const name = path.node.object.name
+					if (originalImports.has(name)) {
+						// Check if this identifier is within an SSR condition
+						let isInSSRBlock = false
+						let currentPath = path
+
+						while (currentPath.parentPath) {
+							if (
+								currentPath.parentPath.value.type === 'IfStatement' &&
+								isImportMetaEnvSSR(currentPath.parentPath.value.test) &&
+								currentPath.name === 'consequent'
+							) {
+								isInSSRBlock = true
+								break
+							}
+							currentPath = currentPath.parentPath
+						}
+
+						// If not in an SSR block, add to non-SSR identifiers
+						if (!isInSSRBlock) {
+							nonSsrIdentifiers.add(name)
+						}
+					}
+				}
+				this.traverse(path)
+			},
 		})
 
 		// Step 4: Remove all imports and store them
@@ -667,8 +734,8 @@ const removeSSRedImport = async (code: string) => {
 		const removed: [string, string][] = []
 
 		originalImports.forEach((source, identifier) => {
-			if (importsToKeep.has(identifier)) {
-				// This import is used outside SSR blocks, so keep it
+			if (importsToKeep.has(identifier) || exportedIdentifiers.has(identifier)) {
+				// This import is used outside SSR blocks or is exported, so keep it
 				if (!necessaryImportsBySource.has(source)) {
 					necessaryImportsBySource.set(source, {
 						type: 'ImportDeclaration',
@@ -679,10 +746,12 @@ const removeSSRedImport = async (code: string) => {
 
 				const importDecl = necessaryImportsBySource.get(source)
 
-				// Add the specifier with the correct importKind
+				// Add the specifier with the correct importKind and handle aliases
+				const importedName = importAliases.has(identifier) ? importAliases.get(identifier) : identifier
+
 				importDecl.specifiers.push({
 					type: 'ImportSpecifier',
-					imported: { type: 'Identifier', name: identifier },
+					imported: { type: 'Identifier', name: importedName },
 					local: { type: 'Identifier', name: identifier },
 					importKind: typeImports.has(identifier) ? 'type' : 'value',
 				})
