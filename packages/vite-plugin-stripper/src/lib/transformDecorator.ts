@@ -3,7 +3,7 @@ import { parseTs, prettyPrint, visit } from '@kitql/internals'
 // Define the type for the decorator config
 export type DecoratorConfig = {
 	decorator: string;
-	args_2?: { fn: string, excludeEntityKeys?: string[] }[]; // Array of objects with function name and optional entity keys to exclude
+	args_1?: { fn: string, excludeEntityKeys?: string[] }[]; // Array of objects with function name and optional entity keys to exclude
 }
 
 export const transformDecorator = async (code: string, decorators_config: (DecoratorConfig)[]) => {
@@ -30,15 +30,15 @@ export const transformDecorator = async (code: string, decorators_config: (Decor
 					// Find matching config for this decorator
 					const config = decorators_config.find(c => c.decorator === decoratorName);
 
-					// If this is an Entity decorator, store the entity name
-					if (decoratorName === 'Entity' && decorator.expression.arguments && decorator.expression.arguments.length >= 1) {
+					// If this is an Entity-like decorator, store the entity name
+					if (config && decorator.expression.arguments && decorator.expression.arguments.length >= 1) {
 						const entityNameArg = decorator.expression.arguments[0];
 						if (entityNameArg && entityNameArg.value) {
 							entityNameMap.set(className, entityNameArg.value);
 						}
 					}
 
-					if (config && config.args_2 &&
+					if (config && config.args_1 &&
 						decorator.expression.arguments &&
 						decorator.expression.arguments.length >= 2) {
 
@@ -46,7 +46,7 @@ export const transformDecorator = async (code: string, decorators_config: (Decor
 						const options = decorator.expression.arguments[1];
 						if (options && options.properties) {
 							const hasSpecialFilter = options.properties.some((prop: any) =>
-								config.args_2?.some(c => c.fn === prop.key.name)
+								config.args_1?.some(c => c.fn === prop.key.name)
 							);
 
 							if (hasSpecialFilter) {
@@ -54,12 +54,12 @@ export const transformDecorator = async (code: string, decorators_config: (Decor
 
 								// Wrap these special functions in if(import.meta.env.SSR)
 								options.properties.forEach((prop: any) => {
-									if (config.args_2?.some(c => c.fn === prop.key.name)) {
+									if (config.args_1?.some(c => c.fn === prop.key.name)) {
 										if (prop.value && prop.value.body && prop.value.body.body) {
 											const originalBody = prop.value.body.body;
 
 											// Find the matching config entry
-											const matchingConfig = config.args_2?.find(c => c.fn === prop.key.name);
+											const matchingConfig = config.args_1?.find(c => c.fn === prop.key.name);
 
 											// Get the entity name for this class
 											const entityName = entityNameMap.get(className);
@@ -163,7 +163,7 @@ export const transformDecorator = async (code: string, decorators_config: (Decor
 				const isInEntityClass = entityClassesWithSpecialFilters.includes(currentClassName);
 				const isSpecialFunction = functionName &&
 					decorators_config.some(config =>
-						config.args_2?.some(c => functionName.startsWith(c.fn))
+						config.args_1?.some(c => functionName.startsWith(c.fn))
 					);
 
 				// Get the entity name for this class
@@ -171,7 +171,7 @@ export const transformDecorator = async (code: string, decorators_config: (Decor
 
 				// Check if this entity should be excluded
 				const shouldExclude = entityName && decorators_config.some(config =>
-					config.args_2?.some(c =>
+					config.args_1?.some(c =>
 						functionName.startsWith(c.fn) && c.excludeEntityKeys?.includes(entityName)
 					)
 				);
@@ -207,9 +207,17 @@ export const transformDecorator = async (code: string, decorators_config: (Decor
 
 					// If it's a special function but not already recorded, add it to the list
 					if (isInEntityClass && isSpecialFunction && !foundDecorator) {
+						// Find the decorator config that has this special function
+						const matchingConfig = decorators_config.find(config =>
+							config.args_1?.some(c => functionName.startsWith(c.fn))
+						);
+
+						// Use the decorator name from the config instead of hardcoding "Entity"
+						const decoratorNameFromConfig = matchingConfig ? matchingConfig.decorator : 'Unknown';
+
 						decorators_wrapped.push({
 							className: currentClassName,
-							decorator: 'Entity',
+							decorator: decoratorNameFromConfig,
 							functionName,
 						});
 					}

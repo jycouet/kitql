@@ -19,7 +19,7 @@ export type ViteStriperOptions = {
 	 *   { decorator: 'BackendMethod' },
 	 *   { 
 	 *     decorator: 'Entity', 
-	 *     args_2: ['backendPrefilter', 'backendPreprocessFilter'] 
+	 *     args_1: ['backendPrefilter', 'backendPreprocessFilter'] 
 	 *   }
 	 * ]
 	 * ```
@@ -76,7 +76,7 @@ export type ViteStriperOptions = {
 			stripper({ 
 				decorators: [
 					'BackendMethod',
-					{ decorator: 'Entity', args_2: ['backendPrefilter', 'backendPreprocessFilter'] }
+					{ decorator: 'Entity', args_1: ['backendPrefilter', 'backendPreprocessFilter'] }
 				] 
 			}),  // 👈
 			sveltekit()

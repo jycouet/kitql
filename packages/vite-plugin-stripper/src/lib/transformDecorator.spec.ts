@@ -529,7 +529,7 @@ export class User {
 `
 
     const code1 = await nullifyImports(code, ['$env/static/private'])
-    const transformed = await transformDecorator(code1.code, [{ decorator: 'BackendMethod' }, { decorator: 'Entity', args_2: [{ fn: 'backendPrefilter' }] }])
+    const transformed = await transformDecorator(code1.code, [{ decorator: 'BackendMethod' }, { decorator: 'Entity', args_1: [{ fn: 'backendPrefilter' }] }])
     expect(transformed).toMatchInlineSnapshot(`
       {
         "code": "let AUTH_SECRET = null;
@@ -598,7 +598,10 @@ export class User {
 `
 
     const code1 = await nullifyImports(code, ['$env/static/private'])
-    const transformed = await transformDecorator(code1.code, [{ decorator: 'BackendMethod' }, { decorator: 'Entity', args_2: [{ fn: 'backendPrefilter', excludeEntityKeys: ['users'] }] }])
+    const transformed = await transformDecorator(code1.code, [{ decorator: 'BackendMethod' }, {
+      decorator: 'Entity',
+      args_1: [{ fn: 'backendPrefilter', excludeEntityKeys: ['users'] }]
+    }])
     expect(transformed).toMatchInlineSnapshot(`
       {
         "code": "let AUTH_SECRET = null;
