@@ -32,7 +32,7 @@ export const removeUnusedImports = async (code: string) => {
 
 		// Step 2: List all identifiers used in the code
 		visit(program, {
-			visitIdentifier(path) {
+			visitIdentifier(path: any) {
 				// Let's not add identifiers from import specifiers
 				if (path.parentPath.value.type !== 'ImportSpecifier') {
 					usedIdentifiers.add(path.node.name)
@@ -41,7 +41,7 @@ export const removeUnusedImports = async (code: string) => {
 				this.traverse(path)
 			},
 
-			visitClassDeclaration(path) {
+			visitClassDeclaration(path: any) {
 				// Capture identifiers in class decorators
 				// @ts-ignore
 				;(path.node.decorators || []).forEach((decorator) => {
@@ -49,11 +49,11 @@ export const removeUnusedImports = async (code: string) => {
 				})
 
 				// Capture identifiers in class methods and properties
-				path.node.body.body.forEach((element) => {
+				path.node.body.body.forEach((element: any) => {
 					if (element.type === 'ClassMethod' || element.type === 'ClassProperty') {
 						// Capture identifiers in element decorators
 						// @ts-ignore
-						;(element.decorators || []).forEach((decorator) => {
+						;(element.decorators || []).forEach((decorator: any) => {
 							extractIdentifiersFromExpression(decorator.expression, usedIdentifiers)
 						})
 					}
@@ -122,12 +122,12 @@ export const transformDecorator = async (
 
 		// Empty functions with one of the decorators. (ex @BackendMethod decorator)
 		visit(program, {
-			visitClassDeclaration(path) {
+			visitClassDeclaration(path: any) {
 				// @ts-ignore
 				currentClassName = path.node.id.name
 				this.traverse(path)
 			},
-			visitFunction(path) {
+			visitFunction(path: any) {
 				// @ts-ignore
 				const decorators: any[] = path.node.decorators || []
 				let foundDecorator = false
@@ -174,7 +174,7 @@ export const transformDecorator = async (
 					}
 
 					// Remove the types of all parameters
-					path.node.params.forEach((param) => {
+					path.node.params.forEach((param: any) => {
 						// @ts-ignore
 						if (param.typeAnnotation) {
 							// @ts-ignore

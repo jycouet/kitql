@@ -7,12 +7,12 @@ export const removePackages = async (code: string, packages_to_strip: string[]) 
 		const packages_striped: string[] = []
 
 		visit(ast, {
-			visitImportDeclaration(path) {
+			visitImportDeclaration(path: any) {
 				const packageName = path.node.source.value
 				if (packages_to_strip.includes(String(packageName))) {
 					const specifiers = path.node.specifiers!
 					const replacementNodes = specifiers
-						.map((specifier) => {
+						.map((specifier: any) => {
 							if (specifier.type === 'ImportSpecifier') {
 								return builders.variableDeclaration('let', [
 									builders.variableDeclarator(
