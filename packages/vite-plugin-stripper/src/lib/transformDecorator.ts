@@ -13,6 +13,7 @@ export const transformDecorator = async (code: string, decorators_config: (Decor
 		let currentClassName = '' // Variable to hold the current class name
 		const decorators_wrapped: { decorator: string; functionName: string; className: string }[] = []
 		const entityClassesWithSpecialFilters: string[] = [] // Track classes with Entity decorator and special filters
+		const entityNameMap = new Map<string, string>() // Map class names to their entity names
 
 		// First pass: identify classes with special decorators and filters
 		visit(program, {
@@ -28,6 +29,14 @@ export const transformDecorator = async (code: string, decorators_config: (Decor
 					const decoratorName = decorator.expression.callee.name;
 					// Find matching config for this decorator
 					const config = decorators_config.find(c => c.decorator === decoratorName);
+
+					// If this is an Entity decorator, store the entity name
+					if (decoratorName === 'Entity' && decorator.expression.arguments && decorator.expression.arguments.length >= 1) {
+						const entityNameArg = decorator.expression.arguments[0];
+						if (entityNameArg && entityNameArg.value) {
+							entityNameMap.set(className, entityNameArg.value);
+						}
+					}
 
 					if (config && config.args_2 &&
 						decorator.expression.arguments &&
@@ -52,8 +61,11 @@ export const transformDecorator = async (code: string, decorators_config: (Decor
 											// Find the matching config entry
 											const matchingConfig = config.args_2?.find(c => c.fn === prop.key.name);
 
-											// Check if we need to exclude this entity based on className
-											const shouldExclude = matchingConfig?.excludeEntityKeys?.includes(className) || false;
+											// Get the entity name for this class
+											const entityName = entityNameMap.get(className);
+
+											// Check if we need to exclude this entity based on entity name
+											const shouldExclude = entityName && matchingConfig?.excludeEntityKeys?.includes(entityName) || false;
 
 											// Only wrap if not excluded
 											if (!shouldExclude) {
@@ -154,10 +166,13 @@ export const transformDecorator = async (code: string, decorators_config: (Decor
 						config.args_2?.some(c => functionName.startsWith(c.fn))
 					);
 
+				// Get the entity name for this class
+				const entityName = entityNameMap.get(currentClassName);
+
 				// Check if this entity should be excluded
-				const shouldExclude = decorators_config.some(config =>
+				const shouldExclude = entityName && decorators_config.some(config =>
 					config.args_2?.some(c =>
-						functionName.startsWith(c.fn) && c.excludeEntityKeys?.includes(currentClassName)
+						functionName.startsWith(c.fn) && c.excludeEntityKeys?.includes(entityName)
 					)
 				);
 

@@ -607,10 +607,8 @@ export class User {
 
       @Entity("users", {
           backendPrefilter: () => {
-              if (import.meta.env.SSR) {
-                  console.log("backendPrefilter");
-                  return {};
-              }
+              console.log("backendPrefilter");
+              return {};
           }
       })
       export class User {
@@ -631,7 +629,6 @@ export class User {
           }
       }",
         "info": [
-          "Wrapped with if(import.meta.env.SSR): ["User","Entity","backendPrefilter"]",
           "Wrapped with if(import.meta.env.SSR): ["User","BackendMethod","hi"]",
         ],
       }
