@@ -25,17 +25,27 @@ jobs:
       eslint-config,
      ]
   steps:
-   - name: 🌐 Checkout Repository
+   - name: 🎉 Checkout Repository
      uses: actions/checkout@v4
      with:
       # This makes Actions fetch all Git history so that Changesets can generate changelogs with the correct commits
       fetch-depth: 0
+      submodules: recursive
 
-   - name: 🧑‍💻 Setup env
-     uses: jycouet/jycouet/shared-config/setup@main
+   - name: 🪛 pnpm setup
+     uses: pnpm/action-setup@v4
      with:
-      pnpmVersion: 10.5.2
-      nodeVersion: 22.11.0
+      version: 10.5.2
+      run_install: false
+
+   - name: 🛠️ node setup
+     uses: actions/setup-node@v4
+     with:
+      node-version: 22.11.0
+      cache: pnpm
+
+   - name: 🧑‍💻 install
+     run: pnpm i
 
    - name: 🚧 Build all Packages
      run: pnpm -r build
