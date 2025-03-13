@@ -5,15 +5,26 @@ import { watchAndRun } from 'vite-plugin-watch-and-run'
 import { gray, green, Log, yellow } from '@kitql/helpers'
 import { getFilesUnder } from '@kitql/internals'
 
-import { transformDecorator } from './transformDecorator.js'
+import { transformDecorator, type DecoratorConfig } from './transformDecorator.js'
 import { nullifyImports } from './transformPackage.js'
 import { transformWarningThrow, type WarningThrow } from './transformWarningThrow.js'
 
 export type ViteStriperOptions = {
 	/**
-	 * for example: `['BackendMethod']`
+	 * Configuration for decorators to strip or wrap with SSR conditions.
+	 * 
+	 * @example Advanced format
+	 * ```ts
+	 * decorators: [
+	 *   { decorator: 'BackendMethod' },
+	 *   { 
+	 *     decorator: 'Entity', 
+	 *     args_2: ['backendPrefilter', 'backendPreprocessFilter'] 
+	 *   }
+	 * ]
+	 * ```
 	 */
-	decorators?: string[]
+	decorators?: (DecoratorConfig)[]
 
 	/**
 	 * For example if you set `nullify: ['mongodb']`
@@ -62,7 +73,12 @@ export type ViteStriperOptions = {
   
 	export default defineConfig({
 		plugins: [
-			stripper({ decorators: ['BackendMethod'] }),  // 👈
+			stripper({ 
+				decorators: [
+					'BackendMethod',
+					{ decorator: 'Entity', args_2: ['backendPrefilter', 'backendPreprocessFilter'] }
+				] 
+			}),  // 👈
 			sveltekit()
 		],
 	});

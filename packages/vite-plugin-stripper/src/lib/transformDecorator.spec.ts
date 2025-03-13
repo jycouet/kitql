@@ -36,7 +36,7 @@ export class TasksController {
 }
 	`
 
-    const transformed = await transformDecorator(code, ['BackendMethod'])
+    const transformed = await transformDecorator(code, [{ decorator: 'BackendMethod' }])
 
     expect(transformed).toMatchInlineSnapshot(`
       {
@@ -103,7 +103,7 @@ export class TasksController {
 }
 	`
 
-    const transformed = await transformDecorator(code, ['BackendMethod'])
+    const transformed = await transformDecorator(code, [{ decorator: 'BackendMethod' }])
 
     expect(transformed).toMatchInlineSnapshot(`
       {
@@ -144,7 +144,7 @@ export class TasksController {
 }
 	`
 
-    const transformed = await transformDecorator(code, ['BackendMethod'])
+    const transformed = await transformDecorator(code, [{ decorator: 'BackendMethod' }])
 
     expect(transformed).toMatchInlineSnapshot(`
       {
@@ -203,7 +203,7 @@ export class TasksController {
   }  
 	`
 
-    const transformed = await transformDecorator(code, ['BackendMethod'])
+    const transformed = await transformDecorator(code, [{ decorator: 'BackendMethod' }])
 
     expect(transformed).toMatchInlineSnapshot(`
       {
@@ -262,7 +262,7 @@ export class TasksController {
     }
 	`
 
-    const transformed = await transformDecorator(code, ['BackendMethod'])
+    const transformed = await transformDecorator(code, [{ decorator: 'BackendMethod' }])
 
     expect(transformed).toMatchInlineSnapshot(`
       {
@@ -316,7 +316,7 @@ export class TasksController {
     }
 	`
 
-    const transformed = await transformDecorator(code, ['BackendMethod'])
+    const transformed = await transformDecorator(code, [{ decorator: 'BackendMethod' }])
 
     expect(transformed).toMatchInlineSnapshot(`
       {
@@ -368,7 +368,7 @@ export class TasksController {
     }
 	`
 
-    const transformed = await transformDecorator(code, ['BackendMethod'])
+    const transformed = await transformDecorator(code, [{ decorator: 'BackendMethod' }])
 
     expect(transformed).toMatchInlineSnapshot(`
       {
@@ -422,7 +422,7 @@ export class TasksController {
     }
 	`
 
-    const transformed = await transformDecorator(code, ['BackendMethod'])
+    const transformed = await transformDecorator(code, [{ decorator: 'BackendMethod' }])
 
     expect(transformed).toMatchInlineSnapshot(`
       {
@@ -473,7 +473,7 @@ export class TasksController {
     
 	`
 
-    const transformed = await transformDecorator(code, ['BackendMethod'])
+    const transformed = await transformDecorator(code, [{ decorator: 'BackendMethod' }])
 
     expect(transformed).toMatchInlineSnapshot(`
       {
@@ -523,8 +523,9 @@ export class User {
 }
 `
 
-    await transformDecorator(code, ['BackendMethod'])
-    const transformed = await nullifyImports(code, ['$env/static/private'])
+    const code1 = await nullifyImports(code, ['$env/static/private'])
+    const transformed = await transformDecorator(code1.code, [{ decorator: 'BackendMethod' }])
+    // const transformed = 
 
     expect(transformed).toMatchInlineSnapshot(`
       {
@@ -544,12 +545,14 @@ export class User {
               allowed: () => remult.user === undefined
           })
           static async hi(info: Allowed) {
-              console.info("AUTH_SECRET", AUTH_SECRET);
-              return AUTH_SECRET + " " + info;
+              if (import.meta.env.SSR) {
+                  console.info("AUTH_SECRET", AUTH_SECRET);
+                  return AUTH_SECRET + " " + info;
+              }
           }
       }",
         "info": [
-          "Replaced import from '$env/static/private'",
+          "Wrapped with if(import.meta.env.SSR): ["User","BackendMethod","hi"]",
         ],
       }
     `)

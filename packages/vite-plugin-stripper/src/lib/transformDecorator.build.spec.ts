@@ -8,7 +8,7 @@ import { nullifyImports } from './transformPackage.js'
 
 describe('decorator build output', () => {
 	// Helper function to set up test environment
-	async function setupTestEnvironment(code: string, decoratorsToStrip: string[], nullify: string[]) {
+	async function setupTestEnvironment(code: string, decoratorsConfig: any[], nullify: string[]) {
 		// Create a temporary directory for the test
 		const tempDir = join(process.cwd(), 'temp-test-build')
 
@@ -19,7 +19,7 @@ describe('decorator build output', () => {
 
 		// Transform the code with our decorator transformer
 		await nullifyImports(code, nullify)
-		const transformed = await transformDecorator(code, decoratorsToStrip)
+		const transformed = await transformDecorator(code, decoratorsConfig)
 		// console.info('Transformed code:', transformed.code)
 
 		// Write the transformed code to a temporary file
@@ -141,7 +141,11 @@ export class TasksController {
 }`
 
 		try {
-			const { outputContent } = await setupTestEnvironment(code, ['BackendMethod'], [])
+			const { outputContent } = await setupTestEnvironment(
+				code,
+				[{ decorator: 'BackendMethod' }],
+				[]
+			)
 
 			// Verify the output that should NOT be present
 			expect(outputContent).not.toContain('import.meta.env.SSR')
@@ -167,15 +171,18 @@ export class TasksController {
 		try {
 			const { outputContent } = await setupTestEnvironment(
 				code,
-				['BackendMethod'],
+				[
+					{ decorator: 'BackendMethod' },
+					{ decorator: 'Entity', args_2: ['backendPrefilter', 'backendPreprocessFilter'] }
+				],
 				['$env/static/private']
 			)
 
 			// Verify the output that should NOT be present
 			expect(outputContent).not.toContain('import.meta.env.SSR')
 			expect(outputContent).not.toContain('AUTH_SECRET')
-			// expect(outputContent).not.toContain('backendPrefilter_top_secret')
-			// expect(outputContent).not.toContain('backendPreprocessFilter_top_secret')
+			expect(outputContent).not.toContain('backendPrefilter_top_secret')
+			expect(outputContent).not.toContain('backendPreprocessFilter_top_secret')
 
 			// The Entity decorator and class structure should still be there
 			expect(outputContent).toContain('Entity')
