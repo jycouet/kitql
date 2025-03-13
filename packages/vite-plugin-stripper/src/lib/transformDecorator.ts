@@ -378,6 +378,27 @@ const removeUnusedImports = async (code: string) => {
 				this.traverse(path)
 			},
 
+			// Capture identifiers in function calls like console.log('backendPrefilter', remult)
+			visitCallExpression(path: any) {
+				// Process the function being called
+				if (path.node.callee) {
+					if (path.node.callee.type === 'Identifier') {
+						usedIdentifiers.add(path.node.callee.name)
+					}
+				}
+
+				// Process all arguments
+				if (path.node.arguments) {
+					path.node.arguments.forEach((arg: any) => {
+						if (arg.type === 'Identifier') {
+							usedIdentifiers.add(arg.name)
+						}
+					})
+				}
+
+				this.traverse(path)
+			},
+
 			visitClassDeclaration(path: any) {
 				// Capture identifiers in class decorators
 				// @ts-ignore
@@ -511,6 +532,25 @@ function extractIdentifiersFromExpression(expression: any, identifierSet: Set<st
 		case 'LogicalExpression':
 			extractIdentifiersFromExpression(expression.left, identifierSet)
 			extractIdentifiersFromExpression(expression.right, identifierSet)
+			break
+		case 'ArrowFunctionExpression':
+		case 'FunctionExpression':
+			// Process function body
+			if (expression.body) {
+				if (expression.body.type === 'BlockStatement') {
+					expression.body.body.forEach((stmt: any) => {
+						extractIdentifiersFromExpression(stmt, identifierSet)
+					})
+				} else {
+					// For arrow functions with implicit return
+					extractIdentifiersFromExpression(expression.body, identifierSet)
+				}
+			}
+			break
+		case 'ReturnStatement':
+			if (expression.argument) {
+				extractIdentifiersFromExpression(expression.argument, identifierSet)
+			}
 			break
 		// Add cases for other types as needed
 	}
@@ -712,6 +752,49 @@ const removeSSRedImport = async (code: string) => {
 						}
 					}
 				}
+				this.traverse(path)
+			},
+
+			// Capture identifiers in function calls like console.log('backendPrefilter', remult)
+			visitCallExpression(path: any) {
+				// Check if this call is within an SSR condition
+				let isInSSRBlock = false
+				let currentPath = path
+
+				while (currentPath.parentPath) {
+					if (
+						currentPath.parentPath.value.type === 'IfStatement' &&
+						isImportMetaEnvSSR(currentPath.parentPath.value.test) &&
+						currentPath.name === 'consequent'
+					) {
+						isInSSRBlock = true
+						break
+					}
+					currentPath = currentPath.parentPath
+				}
+
+				// Process the function being called
+				if (path.node.callee) {
+					if (path.node.callee.type === 'Identifier') {
+						const name = path.node.callee.name
+						if (originalImports.has(name) && !isInSSRBlock) {
+							nonSsrIdentifiers.add(name)
+						}
+					}
+				}
+
+				// Process all arguments
+				if (path.node.arguments) {
+					path.node.arguments.forEach((arg: any) => {
+						if (arg.type === 'Identifier') {
+							const name = arg.name
+							if (originalImports.has(name) && !isInSSRBlock) {
+								nonSsrIdentifiers.add(name)
+							}
+						}
+					})
+				}
+
 				this.traverse(path)
 			},
 		})

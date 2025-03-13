@@ -480,7 +480,7 @@ export class TasksController {
 
 		expect(transformed).toMatchInlineSnapshot(`
 			{
-			  "code": "import { BackendMethod, type Allowed, remult } from "remult";
+			  "code": "import { BackendMethod, remult, type Allowed } from "remult";
 
 			export class ActionsController {
 			    @BackendMethod({
@@ -538,7 +538,7 @@ export class User {
 		])
 		expect(transformed).toMatchInlineSnapshot(`
 			{
-			  "code": "import { Entity, Fields, BackendMethod, type Allowed, remult } from "remult";
+			  "code": "import { Entity, Fields, BackendMethod, remult, type Allowed } from "remult";
 			let AUTH_SECRET = null;
 			let AUTH_SECRET_NOT_USED = null;
 
@@ -618,7 +618,7 @@ export class User {
 		])
 		expect(transformed).toMatchInlineSnapshot(`
 			{
-			  "code": "import { Entity, Fields, BackendMethod, type Allowed, remult } from "remult";
+			  "code": "import { Entity, Fields, BackendMethod, remult, type Allowed } from "remult";
 			let AUTH_SECRET = null;
 			let AUTH_SECRET_NOT_USED = null;
 
@@ -699,7 +699,7 @@ export class User {
 		expect(transformed).toMatchInlineSnapshot(`
 			{
 			  "code": "import { default as MetaOg } from "./ui/MetaOg.svelte";
-			import { Entity, Fields, BackendMethod, type Allowed } from "remult";
+			import { Entity, remult, Fields, BackendMethod, type Allowed } from "remult";
 			export { MetaOg };
 
 			@Entity("users", {
@@ -725,7 +725,6 @@ export class User {
 			  "info": [
 			    "Wrapped with if(import.meta.env.SSR): ["User","BackendMethod","hi"]",
 			    "Removed unused import: 'AUTH_SECRET_NOT_USED' from '$env/static/private'",
-			    "Removed unused import: 'remult' from 'remult'",
 			    "Removed SSR-only import: 'AUTH_SECRET' from '$env/static/private'",
 			  ],
 			}
