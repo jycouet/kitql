@@ -5,24 +5,46 @@ import { watchAndRun } from 'vite-plugin-watch-and-run'
 import { gray, green, Log, yellow } from '@kitql/helpers'
 import { getFilesUnder } from '@kitql/internals'
 
-import { transformDecorator } from './transformDecorator.js'
-import { removePackages } from './transformPackage.js'
+import { transformDecorator, type DecoratorConfig } from './transformDecorator.js'
+import { nullifyImports } from './transformPackage.js'
 import { transformWarningThrow, type WarningThrow } from './transformWarningThrow.js'
 
 export type ViteStriperOptions = {
 	/**
-	 * for example: `['BackendMethod']`
+	 * Configuration for decorators to strip or wrap with SSR conditions.
+	 *
+	 * @example Advanced format
+	 * ```ts
+	 * decorators: [
+	 *   { decorator: 'BackendMethod' },
+	 *   {
+	 *     decorator: 'Entity',
+	 *     args_1: [
+	 *       { fn: 'backendPrefilter' },
+	 *       { fn: 'backendPreprocessFilter' },
+	 *       { fn: 'sqlExpression' },
+	 *       { fn: 'dbName', excludeEntityKeys: ['users'] }
+	 *     ]
+	 *   }
+	 * ]
+	 * ```
 	 */
-	decorators?: string[]
-
-	/**
-	 * If true, will empty almost all the file if a decorator is found. (experimental!)
-	 */
-	hard?: boolean
+	decorators?: DecoratorConfig[]
 
 	/**
 	 * For example if you set `nullify: ['mongodb']`
 	 *
+	 * @example 1
+	 * ```ts
+	 * // This line
+	 * import { AUTH_SECRET, AUTH_SECRET_NOT_USED } from '$env/static/private'
+	 *
+	 * // We become
+	 * let AUTH_SECRET = null;
+	 * let AUTH_SECRET_NOT_USED = null;
+	 * ```
+	 *
+	 * @example 2
 	 * ```ts
 	 * // This line
 	 * import { ObjectId } from 'mongodb'
@@ -35,7 +57,6 @@ export type ViteStriperOptions = {
 
 	/**
 	 * If true, skip warnings if a throw is not a class.
-	 *
 	 * @default false
 	 */
 	log_on_throw_is_not_a_new_class?: boolean
@@ -51,16 +72,21 @@ export type ViteStriperOptions = {
  * 
  * It should look like this:
  * ```ts
-  import { sveltekit } from "@sveltejs/kit/vite";
-  import { defineConfig } from "vite";
-  import { stripper } from "vite-plugin-stripper";   // 👈
+	import { sveltekit } from "@sveltejs/kit/vite";
+	import { defineConfig } from "vite";
+	import { stripper } from "vite-plugin-stripper";   // 👈
   
-  export default defineConfig({
-    plugins: [
-      stripper({ decorators: ['BackendMethod'] }),  // 👈
-      sveltekit()
-    ],
-  });
+	export default defineConfig({
+		plugins: [
+			stripper({ 
+				decorators: [
+					{ decorator: 'BackendMethod' },
+					{ decorator: 'Entity', args_1: [{ fn: 'backendPrefilter', excludeEntityKeys: ['users'] }] }
+				] 
+			}),  // 👈
+			sveltekit()
+		],
+	});
  * ```
  * 
  */
@@ -118,11 +144,7 @@ export function stripper(options?: ViteStriperOptions): PluginOption {
 				let infosNumber = 0
 
 				if (options && options?.decorators && options.decorators.length > 0) {
-					const { info, ...rest } = await transformDecorator(
-						code,
-						options.decorators,
-						options.hard ?? false,
-					)
+					const { info, ...rest } = await transformDecorator(code, options.decorators)
 
 					// Update the code for later transforms & return it
 					code = rest.code
@@ -144,7 +166,7 @@ export function stripper(options?: ViteStriperOptions): PluginOption {
 				}
 
 				if (options && options?.nullify && options.nullify.length > 0) {
-					const { info, ...rest } = await removePackages(code, options.nullify)
+					const { info, ...rest } = await nullifyImports(code, options.nullify)
 
 					// Update the code for later transforms & return it
 					code = rest.code
