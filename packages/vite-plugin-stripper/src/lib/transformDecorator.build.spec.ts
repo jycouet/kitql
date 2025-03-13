@@ -3,19 +3,123 @@ import { build } from 'vite'
 import { transformDecorator } from './transformDecorator.js'
 import { writeFileSync, mkdirSync, rmSync, readFileSync } from 'fs'
 import { join } from 'path'
+import { read } from '@kitql/internals'
+import { nullifyImports } from './transformPackage.js'
 
 describe('decorator build output', () => {
-	it('should verify that import.meta.env.SSR condition is removed in the build output', async () => {
+	// Helper function to set up test environment
+	async function setupTestEnvironment(code: string, decoratorsToStrip: string[], nullify: string[]) {
 		// Create a temporary directory for the test
 		const tempDir = join(process.cwd(), 'temp-test-build')
-		try {
-			// Clean up any previous test runs
-			rmSync(tempDir, { recursive: true, force: true })
-			mkdirSync(tempDir, { recursive: true })
-			mkdirSync(join(tempDir, 'src'), { recursive: true })
 
-			// Sample code with BackendMethod decorator
-			const code = `import { Allow, BackendMethod, remult } from "remult";
+		// Clean up any previous test runs
+		rmSync(tempDir, { recursive: true, force: true })
+		mkdirSync(tempDir, { recursive: true })
+		mkdirSync(join(tempDir, 'src'), { recursive: true })
+
+		// Transform the code with our decorator transformer
+		await nullifyImports(code, nullify)
+		const transformed = await transformDecorator(code, decoratorsToStrip)
+		// console.info('Transformed code:', transformed.code)
+
+		// Write the transformed code to a temporary file
+		const inputFile = join(tempDir, 'src', 'input.ts')
+		writeFileSync(inputFile, transformed.code)
+
+		// Create a simple package.json
+		const packageJsonFile = join(tempDir, 'package.json')
+		writeFileSync(packageJsonFile, JSON.stringify({
+			name: "test-build",
+			type: "module"
+		}))
+
+		// Create a tsconfig.json
+		const tsconfigFile = join(tempDir, 'tsconfig.json')
+		writeFileSync(tsconfigFile, JSON.stringify({
+			compilerOptions: {
+				target: "ESNext",
+				useDefineForClassFields: true,
+				module: "ESNext",
+				lib: ["ESNext", "DOM"],
+				moduleResolution: "Node",
+				strict: true,
+				resolveJsonModule: true,
+				isolatedModules: true,
+				esModuleInterop: true,
+				noEmit: true,
+				noUnusedLocals: true,
+				noUnusedParameters: true,
+				noImplicitReturns: true,
+				experimentalDecorators: true
+			},
+			include: ["src/**/*.ts"]
+		}))
+
+		// Create a simple index.html
+		const indexHtmlFile = join(tempDir, 'index.html')
+		writeFileSync(indexHtmlFile, `
+			<!DOCTYPE html>
+			<html>
+				<head>
+					<meta charset="utf-8">
+					<title>Test</title>
+				</head>
+				<body>
+					<script type="module" src="/src/input.ts"></script>
+				</body>
+			</html>
+		`)
+
+		// Create a simple Vite config
+		const viteConfigFile = join(tempDir, 'vite.config.js')
+		writeFileSync(viteConfigFile, `
+			import { defineConfig } from 'vite';
+			
+			export default defineConfig({
+				define: {
+					'import.meta.env.SSR': false,
+					'AUTH_SECRET': "'FAKE_SECRET_FOR_TEST'"
+				},
+				build: {
+					outDir: 'dist',
+					minify: false,
+					rollupOptions: {
+						output: {
+							entryFileNames: 'bundle.js'
+						},
+					}
+				},
+				resolve: {
+					alias: {
+						'$env/static/private': '${join(tempDir, 'src', 'env-mock.js')}'
+					}
+				}
+			});
+		`)
+
+		// Create a mock for $env/static/private
+		const envMockFile = join(tempDir, 'src', 'env-mock.js')
+		writeFileSync(envMockFile, `
+			export const AUTH_SECRET = 'FAKE_SECRET_FOR_TEST';
+		`)
+
+		// Run Vite build
+		await build({
+			configFile: viteConfigFile,
+			root: tempDir,
+			logLevel: 'info'
+		})
+
+		// Read the output file
+		const outputFile = join(tempDir, 'dist', 'bundle.js')
+		const outputContent = readFileSync(outputFile, 'utf-8')
+
+		return { outputContent, tempDir }
+	}
+
+	it('should verify that import.meta.env.SSR condition is removed in the build output for TasksController', async () => {
+		// Sample code with BackendMethod decorator
+		const code = `import { Allow, BackendMethod, remult } from "remult";
 
 export class TasksController {
   static async regularMethod(completed: boolean) {
@@ -36,93 +140,8 @@ export class TasksController {
   }
 }`
 
-			// Transform the code with our decorator transformer
-			const transformed = await transformDecorator(code, ['BackendMethod'])
-
-			console.info('Transformed code:', transformed.code)
-
-			// Write the transformed code to a temporary file
-			const inputFile = join(tempDir, 'src', 'input.ts')
-			writeFileSync(inputFile, transformed.code)
-
-			// Create a simple package.json
-			const packageJsonFile = join(tempDir, 'package.json')
-			writeFileSync(packageJsonFile, JSON.stringify({
-				name: "test-build",
-				type: "module"
-			}))
-
-			// Create a tsconfig.json
-			const tsconfigFile = join(tempDir, 'tsconfig.json')
-			writeFileSync(tsconfigFile, JSON.stringify({
-				compilerOptions: {
-					target: "ESNext",
-					useDefineForClassFields: true,
-					module: "ESNext",
-					lib: ["ESNext", "DOM"],
-					moduleResolution: "Node",
-					strict: true,
-					resolveJsonModule: true,
-					isolatedModules: true,
-					esModuleInterop: true,
-					noEmit: true,
-					noUnusedLocals: true,
-					noUnusedParameters: true,
-					noImplicitReturns: true,
-					experimentalDecorators: true
-				},
-				include: ["src/**/*.ts"]
-			}))
-
-			// Create a simple index.html
-			const indexHtmlFile = join(tempDir, 'index.html')
-			writeFileSync(indexHtmlFile, `
-				<!DOCTYPE html>
-				<html>
-					<head>
-						<meta charset="utf-8">
-						<title>Test</title>
-					</head>
-					<body>
-						<script type="module" src="/src/input.ts"></script>
-					</body>
-				</html>
-			`)
-
-			// Create a simple Vite config
-			const viteConfigFile = join(tempDir, 'vite.config.js')
-			writeFileSync(viteConfigFile, `
-				import { defineConfig } from 'vite';
-				
-				export default defineConfig({
-					define: {
-						'import.meta.env.SSR': false
-					},
-					build: {
-						outDir: 'dist',
-						minify: false,
-						rollupOptions: {
-							output: {
-								entryFileNames: 'bundle.js'
-							}
-						}
-					}
-				});
-			`)
-
-			// Run Vite build
-			await build({
-				configFile: viteConfigFile,
-				root: tempDir,
-				logLevel: 'info'
-			})
-
-			// Read the output file
-			const outputFile = join(tempDir, 'dist', 'bundle.js')
-			const outputContent = readFileSync(outputFile, 'utf-8')
-
-			// console.info('Output:', outputContent)
-			// console.info('Output length:', outputContent.length)
+		try {
+			const { outputContent } = await setupTestEnvironment(code, ['BackendMethod'], [])
 
 			// Verify the output that should NOT be present
 			expect(outputContent).not.toContain('import.meta.env.SSR')
@@ -137,7 +156,39 @@ export class TasksController {
 			expect(outputContent).toContain('backendMethod')
 		} finally {
 			// Clean up
-			rmSync(tempDir, { recursive: true, force: true })
+			rmSync(join(process.cwd(), 'temp-test-build'), { recursive: true, force: true })
+		}
+	})
+
+	it('should verify that BackendMethod is removed in the build output for User entity', async () => {
+		// Sample code based on User.ts
+		const code = read(join(process.cwd(), 'src', 'shared', 'User.ts')) ?? ""
+
+		try {
+			const { outputContent } = await setupTestEnvironment(
+				code,
+				['BackendMethod'],
+				['$env/static/private']
+			)
+
+			// Verify the output that should NOT be present
+			expect(outputContent).not.toContain('import.meta.env.SSR')
+			expect(outputContent).not.toContain('AUTH_SECRET')
+			// expect(outputContent).not.toContain('backendPrefilter_top_secret')
+			// expect(outputContent).not.toContain('backendPreprocessFilter_top_secret')
+
+			// The Entity decorator and class structure should still be there
+			expect(outputContent).toContain('Entity')
+			expect(outputContent).toContain('User')
+			expect(outputContent).toContain('Fields.uuid')
+			expect(outputContent).toContain('Fields.string')
+
+			// The BackendMethod decorator should still be there (but the method body should be empty)
+			expect(outputContent).toContain('BackendMethod')
+			expect(outputContent).toContain('hi')
+		} finally {
+			// Clean up
+			rmSync(join(process.cwd(), 'temp-test-build'), { recursive: true, force: true })
 		}
 	})
 }) 

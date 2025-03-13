@@ -1,7 +1,17 @@
 import { AUTH_SECRET } from "$env/static/private";
 import { BackendMethod, Entity, Fields, remult, type Allowed } from "remult";
 
-@Entity('users')
+@Entity('users', {
+	dbName: 'secret_db_name',
+	backendPrefilter: () => {
+		console.info("backendPrefilter_top_secret")
+		return {}
+	},
+	backendPreprocessFilter: () => {
+		console.info("backendPreprocessFilter_top_secret")
+		return {}
+	},
+})
 export class User {
 	@Fields.uuid()
 	id = ''
