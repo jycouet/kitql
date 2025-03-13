@@ -1,5 +1,13 @@
 # vite-plugin-stripper
 
+## 0.8.0
+
+### Minor Changes
+
+- [#924](https://github.com/jycouet/kitql/pull/924)
+  [`8e72e49`](https://github.com/jycouet/kitql/commit/8e72e4941869bce33a54d453d9d2de8039cf3dcc)
+  Thanks [@jycouet](https://github.com/jycouet)! - 0.7.0 deprecation! You should not use it.
+
 ## 0.6.4
 
 ### Patch Changes
