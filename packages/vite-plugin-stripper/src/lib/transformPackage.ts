@@ -1,18 +1,18 @@
 import { builders, parseTs, prettyPrint, visit } from '@kitql/internals'
 
-export const nullifyImports = async (code: string, to_nullify: string[]) => {
+export const removePackages = async (code: string, packages_to_strip: string[]) => {
 	try {
 		const ast = parseTs(code)
 
 		const packages_striped: string[] = []
 
 		visit(ast, {
-			visitImportDeclaration(path: any) {
+			visitImportDeclaration(path) {
 				const packageName = path.node.source.value
-				if (to_nullify.includes(String(packageName))) {
+				if (packages_to_strip.includes(String(packageName))) {
 					const specifiers = path.node.specifiers!
 					const replacementNodes = specifiers
-						.map((specifier: any) => {
+						.map((specifier) => {
 							if (specifier.type === 'ImportSpecifier') {
 								return builders.variableDeclaration('let', [
 									builders.variableDeclarator(

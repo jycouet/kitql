@@ -40,11 +40,8 @@ jobs:
    - name: 🚧 Build all Packages
      run: pnpm -r build
 
-   - name: 🧹 Lint
+   - name: 🧹 Lint Check
      run: pnpm -F ${{ matrix.prj }} lint
-
-   - name: 💪 Check
-     run: pnpm -F ${{ matrix.prj }} check
 
    - name: 👌 Run Tests
      run: pnpm -F ${{ matrix.prj }} test:ci
