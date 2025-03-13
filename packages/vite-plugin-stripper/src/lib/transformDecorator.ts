@@ -242,14 +242,19 @@ export const transformDecorator = async (code: string, decorators_config: Decora
 		// Use the code with unused imports removed
 		const res = unusedImportsResult;
 
+		// Add here the removeSSRedImport
+		const ssrImportsResult = await removeSSRedImport(res.code);
 
+		// Use the code with SSR-only imports removed
+		const finalRes = ssrImportsResult;
 
 		const info = decorators_wrapped.map(
 			(decorator) =>
 				`Wrapped with if(import.meta.env.SSR): ${JSON.stringify(Object.values(decorator))}`,
-		).concat(unusedImportsResult.info || []);
+		).concat(unusedImportsResult.info || [])
+			.concat(ssrImportsResult.info || []);
 
-		return { ...res, info }
+		return { ...finalRes, info }
 	} catch (error) {
 		// if anything happens, just return the original code
 		console.error('Error in transformDecorator:', error)
@@ -408,4 +413,163 @@ function extractIdentifiersFromExpression(expression: any, identifierSet: Set) {
 			break
 		// Add cases for other types as needed
 	}
+}
+
+const removeSSRedImport = async (code: string) => {
+	try {
+		const program = parseTs(code)
+
+		// Track identifiers used only in SSR blocks and those used outside SSR blocks
+		const ssrOnlyIdentifiers = new Set()
+		const nonSsrIdentifiers = new Set()
+		const originalImports = new Map()
+
+		// Step 1: Collect all imports
+		program.body.forEach((node) => {
+			if (node.type === 'ImportDeclaration') {
+				; (node.specifiers ?? []).forEach((specifier) => {
+					if (specifier.type === 'ImportSpecifier') {
+						const name =
+							specifier.imported && specifier.imported.type === 'Identifier'
+								? specifier.imported.name
+								: specifier.local?.name
+						if (name && !originalImports.has(name)) {
+							originalImports.set(name, node.source.value)
+						}
+					}
+				})
+			}
+		})
+
+		// Step 2: Identify identifiers used in SSR blocks vs outside SSR blocks
+		visit(program, {
+			visitIfStatement(path: any) {
+				// Check if this is an import.meta.env.SSR condition
+				const isSSRCondition = isImportMetaEnvSSR(path.node.test)
+
+				if (isSSRCondition && path.node.consequent) {
+					// Collect identifiers used only in SSR blocks
+					const ssrIdentifiers = new Set()
+					visit(path.node.consequent, {
+						visitIdentifier(innerPath: any) {
+							// Skip import specifiers
+							if (innerPath.parentPath.value.type !== 'ImportSpecifier') {
+								ssrIdentifiers.add(innerPath.node.name)
+							}
+							this.traverse(innerPath)
+						}
+					})
+
+					// Add to SSR-only identifiers
+					ssrIdentifiers.forEach(id => {
+						if (originalImports.has(id)) {
+							ssrOnlyIdentifiers.add(id)
+						}
+					})
+				}
+
+				this.traverse(path)
+			},
+			visitIdentifier(path: any) {
+				// Skip identifiers in import specifiers
+				if (path.parentPath.value.type !== 'ImportSpecifier') {
+					// Check if this identifier is within an SSR condition
+					let isInSSRBlock = false
+					let currentPath = path
+
+					while (currentPath.parentPath) {
+						if (currentPath.parentPath.value.type === 'IfStatement' &&
+							isImportMetaEnvSSR(currentPath.parentPath.value.test) &&
+							currentPath.name === 'consequent') {
+							isInSSRBlock = true
+							break
+						}
+						currentPath = currentPath.parentPath
+					}
+
+					// If not in an SSR block, add to non-SSR identifiers
+					if (!isInSSRBlock && originalImports.has(path.node.name)) {
+						nonSsrIdentifiers.add(path.node.name)
+					}
+				}
+
+				this.traverse(path)
+			}
+		})
+
+		// Step 3: Remove all imports and store them
+		const newBody: Statement[] = []
+		program.body.forEach((node) => {
+			if (node.type !== 'ImportDeclaration') {
+				newBody.push(node)
+			}
+		})
+		// @ts-ignore
+		program.body = newBody
+
+		// Step 4: Determine which imports to keep (used outside SSR blocks)
+		const importsToKeep = new Set([...nonSsrIdentifiers])
+
+		// Step 5: Add back necessary imports (those used outside SSR blocks)
+		const necessaryImports: Statement[] = []
+		const removed: [string, string][] = []
+
+		originalImports.forEach((source, identifier) => {
+			if (importsToKeep.has(identifier)) {
+				// This import is used outside SSR blocks, so keep it
+				// @ts-ignore
+				const found = necessaryImports.find((importDecl) => importDecl.source.value === source)
+				if (found) {
+					// @ts-ignore
+					found.specifiers.push({
+						type: 'ImportSpecifier',
+						imported: { type: 'Identifier', name: identifier },
+						local: { type: 'Identifier', name: identifier },
+					})
+				} else {
+					necessaryImports.push({
+						type: 'ImportDeclaration',
+						// @ts-ignore
+						specifiers: [
+							{
+								type: 'ImportSpecifier',
+								imported: { type: 'Identifier', name: identifier },
+								local: { type: 'Identifier', name: identifier },
+							},
+						],
+						source: { type: 'StringLiteral', value: source },
+					})
+				}
+			} else if (ssrOnlyIdentifiers.has(identifier)) {
+				// This import is only used in SSR blocks, so remove it
+				removed.push([identifier, source])
+			}
+		})
+
+		// @ts-ignore
+		program.body.unshift(...necessaryImports)
+
+		return {
+			code: prettyPrint(program).code,
+			info: removed.map(([id, src]) => `Removed SSR-only import: '${id}' from '${src}'`),
+		}
+	} catch (error) {
+		console.error('Error in removeSSRedImport:', error)
+		return { code, info: [] }
+	}
+}
+
+// Helper function to check if a node is the import.meta.env.SSR condition
+function isImportMetaEnvSSR(node: any): boolean {
+	if (!node) return false
+
+	return (
+		node.type === 'MemberExpression' &&
+		node.object?.type === 'MemberExpression' &&
+		node.object?.object?.type === 'MetaProperty' &&
+		node.object?.object?.meta?.name === 'import' &&
+		node.object?.object?.property?.name === 'meta' &&
+		node.object?.property?.name === 'env' &&
+		node.property?.name === 'SSR'
+	)
 }

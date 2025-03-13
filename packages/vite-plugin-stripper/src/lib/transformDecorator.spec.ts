@@ -42,7 +42,6 @@ export class TasksController {
 			{
 			  "code": "import { BackendMethod, Allow, remult } from "remult";
 			import { Task } from "./task";
-			import { AUTH_SECRET } from "$env/static/private";
 
 			export class TasksController {
 			    static async yop1(completed: boolean) {
@@ -85,6 +84,7 @@ export class TasksController {
 			  "info": [
 			    "Wrapped with if(import.meta.env.SSR): ["TasksController","BackendMethod","setAllCompleted"]",
 			    "Wrapped with if(import.meta.env.SSR): ["TasksController","BackendMethod","Yop"]",
+			    "Removed SSR-only import: 'AUTH_SECRET' from '$env/static/private'",
 			  ],
 			}
 		`)
@@ -210,7 +210,7 @@ export class TasksController {
 
 		expect(transformed).toMatchInlineSnapshot(`
 			{
-			  "code": "import { Entity, Fields, BackendMethod } from "remult";
+			  "code": "import { BackendMethod } from "remult";
 			import { TOP_SECRET } from "$env/static/private";
 
 			@Entity<Ent>()
@@ -271,7 +271,7 @@ export class TasksController {
 
 		expect(transformed).toMatchInlineSnapshot(`
 			{
-			  "code": "import { Entity, Allow, Fields, Validators, BackendMethod } from "remult";
+			  "code": "import { Allow, BackendMethod } from "remult";
 
 			@Entity<User>("userstest", {
 			    allowApiCrud: Allow.authenticated
@@ -325,7 +325,7 @@ export class TasksController {
 
 		expect(transformed).toMatchInlineSnapshot(`
 			{
-			  "code": "import { Entity, Allow, Fields, BackendMethod } from "remult";
+			  "code": "import { Allow, BackendMethod } from "remult";
 
 			@Entity<User>("userstest", {
 			    allowApiCrud: Allow.authenticated
@@ -378,7 +378,7 @@ export class TasksController {
 
 		expect(transformed).toMatchInlineSnapshot(`
 			{
-			  "code": "import { Entity, Allow, Fields, BackendMethod, Validators } from "remult";
+			  "code": "import { Allow, BackendMethod } from "remult";
 
 			@Entity<User>("userstest", {
 			    allowApiCrud: Allow.authenticated
@@ -401,6 +401,7 @@ export class TasksController {
 			}",
 			  "info": [
 			    "Wrapped with if(import.meta.env.SSR): ["User2","BackendMethod","testMethod"]",
+			    "Removed SSR-only import: 'Validators' from 'remult'",
 			  ],
 			}
 		`)
@@ -432,7 +433,7 @@ export class TasksController {
 
 		expect(transformed).toMatchInlineSnapshot(`
 			{
-			  "code": "import { Entity, Allow, Fields, Validators, BackendMethod } from "remult";
+			  "code": "import { Allow, BackendMethod } from "remult";
 
 			@Entity<User>("userstest", {
 			    allowApiCrud: Allow.authenticated
@@ -457,6 +458,7 @@ export class TasksController {
 			}",
 			  "info": [
 			    "Wrapped with if(import.meta.env.SSR): ["User2","BackendMethod","testMethod"]",
+			    "Removed SSR-only import: 'Validators' from 'remult'",
 			  ],
 			}
 		`)
@@ -484,7 +486,6 @@ export class TasksController {
 		expect(transformed).toMatchInlineSnapshot(`
 			{
 			  "code": "import { BackendMethod, Allowed, remult } from "remult";
-			import { AUTH_SECRET } from "$env/static/private";
 
 			export class ActionsController {
 			    @BackendMethod({
@@ -499,6 +500,7 @@ export class TasksController {
 			}",
 			  "info": [
 			    "Wrapped with if(import.meta.env.SSR): ["ActionsController","BackendMethod","read"]",
+			    "Removed SSR-only import: 'AUTH_SECRET' from '$env/static/private'",
 			  ],
 			}
 		`)
@@ -541,7 +543,7 @@ export class User {
 		])
 		expect(transformed).toMatchInlineSnapshot(`
 			{
-			  "code": "import { Entity, Fields, BackendMethod, Allowed, remult } from "remult";
+			  "code": "import { BackendMethod, Allowed, remult } from "remult";
 			let AUTH_SECRET = null;
 			let AUTH_SECRET_NOT_USED = null;
 
@@ -621,7 +623,7 @@ export class User {
 		])
 		expect(transformed).toMatchInlineSnapshot(`
 			{
-			  "code": "import { Entity, Fields, BackendMethod, Allowed, remult } from "remult";
+			  "code": "import { BackendMethod, Allowed, remult } from "remult";
 			let AUTH_SECRET = null;
 			let AUTH_SECRET_NOT_USED = null;
 
