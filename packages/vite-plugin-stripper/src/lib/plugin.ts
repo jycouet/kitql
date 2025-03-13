@@ -19,7 +19,12 @@ export type ViteStriperOptions = {
 	 *   { decorator: 'BackendMethod' },
 	 *   {
 	 *     decorator: 'Entity',
-	 *     args_1: ['backendPrefilter', 'backendPreprocessFilter', 'sqlExpression', 'dbName']
+	 *     args_1: [
+	 *       { fn: 'backendPrefilter' },
+	 *       { fn: 'backendPreprocessFilter' },
+	 *       { fn: 'sqlExpression' },
+	 *       { fn: 'dbName', excludeEntityKeys: ['users'] }
+	 *     ]
 	 *   }
 	 * ]
 	 * ```
@@ -75,8 +80,8 @@ export type ViteStriperOptions = {
 		plugins: [
 			stripper({ 
 				decorators: [
-					'BackendMethod',
-					{ decorator: 'Entity', args_1: ['backendPrefilter', 'backendPreprocessFilter'] }
+					{ decorator: 'BackendMethod' },
+					{ decorator: 'Entity', args_1: [{ fn: 'backendPrefilter', excludeEntityKeys: ['users'] }] }
 				] 
 			}),  // 👈
 			sveltekit()
