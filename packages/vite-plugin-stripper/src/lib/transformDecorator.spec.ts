@@ -505,7 +505,7 @@ describe('decoratorEntity', () => {
 import { BackendMethod, Entity, Fields, remult, type Allowed } from "remult";
 
 @Entity('users', {
-  backendPrefilter: () => {
+  backendPrefilter: async () => {
     console.log('backendPrefilter')
     return {}
   }
@@ -540,7 +540,7 @@ export class User {
       import { BackendMethod, Entity, Fields, remult, type Allowed } from "remult";
 
       @Entity("users", {
-          backendPrefilter: () => {
+          backendPrefilter: async () => {
               if (import.meta.env.SSR) {
                   console.log("backendPrefilter");
                   return {};
