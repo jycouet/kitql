@@ -1,14 +1,15 @@
-import { AUTH_SECRET } from "$env/static/private";
-import { BackendMethod, Entity, Fields, remult, type Allowed } from "remult";
+import { BackendMethod, Entity, Fields, remult, type Allowed } from 'remult'
+
+import { AUTH_SECRET } from '$env/static/private'
 
 @Entity('users', {
 	dbName: 'secret_db_name',
 	backendPrefilter: () => {
-		console.info("backendPrefilter_top_secret")
+		console.info('backendPrefilter_top_secret')
 		return {}
 	},
 	backendPreprocessFilter: () => {
-		console.info("backendPreprocessFilter_top_secret")
+		console.info('backendPreprocessFilter_top_secret')
 		return {}
 	},
 })

@@ -4,8 +4,8 @@ import { transformDecorator } from './transformDecorator.js'
 import { nullifyImports } from './transformPackage.js'
 
 describe('decorator', () => {
-  it('should empty @BackendMethod and clean imports', async () => {
-    const code = `import { Allow, BackendMethod, remult } from "remult";
+	it('should empty @BackendMethod and clean imports', async () => {
+		const code = `import { Allow, BackendMethod, remult } from "remult";
 import { Task } from "./task";
 import { AUTH_SECRET } from "$env/static/private";
 
@@ -36,9 +36,9 @@ export class TasksController {
 }
 	`
 
-    const transformed = await transformDecorator(code, [{ decorator: 'BackendMethod' }])
+		const transformed = await transformDecorator(code, [{ decorator: 'BackendMethod' }])
 
-    expect(transformed).toMatchInlineSnapshot(`
+		expect(transformed).toMatchInlineSnapshot(`
       {
         "code": "import { Allow, BackendMethod, remult } from "remult";
       import { Task } from "./task";
@@ -88,10 +88,10 @@ export class TasksController {
         ],
       }
     `)
-  })
+	})
 
-  it('should not crash if there is an error in the original file', async () => {
-    const code = `import { Allow, BackendMethod, remult } from "remult";
+	it('should not crash if there is an error in the original file', async () => {
+		const code = `import { Allow, BackendMethod, remult } from "remult";
 import { Task } from "./task";
 import { AUTH_SECRET } from "$env/static/private";
 
@@ -103,9 +103,9 @@ export class TasksController {
 }
 	`
 
-    const transformed = await transformDecorator(code, [{ decorator: 'BackendMethod' }])
+		const transformed = await transformDecorator(code, [{ decorator: 'BackendMethod' }])
 
-    expect(transformed).toMatchInlineSnapshot(`
+		expect(transformed).toMatchInlineSnapshot(`
       {
         "code": "import { Allow, BackendMethod, remult } from "remult";
       import { Task } from "./task";
@@ -121,10 +121,10 @@ export class TasksController {
         "info": [],
       }
     `)
-  })
+	})
 
-  it('should not do anything as there is no @BackendMethod', async () => {
-    const code = `import { Allow, BackendMethod, remult } from "remult";
+	it('should not do anything as there is no @BackendMethod', async () => {
+		const code = `import { Allow, BackendMethod, remult } from "remult";
 import { Task } from "./task";
 import { AUTH_SECRET } from "$env/static/private";
 
@@ -144,9 +144,9 @@ export class TasksController {
 }
 	`
 
-    const transformed = await transformDecorator(code, [{ decorator: 'BackendMethod' }])
+		const transformed = await transformDecorator(code, [{ decorator: 'BackendMethod' }])
 
-    expect(transformed).toMatchInlineSnapshot(`
+		expect(transformed).toMatchInlineSnapshot(`
       {
         "code": "import { Allow, BackendMethod, remult } from "remult";
       import { Task } from "./task";
@@ -172,10 +172,10 @@ export class TasksController {
         "info": [],
       }
     `)
-  })
+	})
 
-  it('should strip also unused methods', async () => {
-    const code = `import { TOP_SECRET, TOP_SECRET_NOT_USED } from '$env/static/private';
+	it('should strip also unused methods', async () => {
+		const code = `import { TOP_SECRET, TOP_SECRET_NOT_USED } from '$env/static/private';
   import { stry0 } from '@kitql/helper';
   import { BackendMethod, Entity, Fields, remult } from 'remult';
   
@@ -203,9 +203,9 @@ export class TasksController {
   }  
 	`
 
-    const transformed = await transformDecorator(code, [{ decorator: 'BackendMethod' }])
+		const transformed = await transformDecorator(code, [{ decorator: 'BackendMethod' }])
 
-    expect(transformed).toMatchInlineSnapshot(`
+		expect(transformed).toMatchInlineSnapshot(`
       {
         "code": "import { TOP_SECRET, TOP_SECRET_NOT_USED } from "$env/static/private";
       import { stry0 } from "@kitql/helper";
@@ -238,10 +238,10 @@ export class TasksController {
         ],
       }
     `)
-  })
+	})
 
-  it('should strip just the right things', async () => {
-    const code = `import { Allow, BackendMethod, Entity, Fields, Validators } from 'remult'
+	it('should strip just the right things', async () => {
+		const code = `import { Allow, BackendMethod, Entity, Fields, Validators } from 'remult'
 
     @Entity<User>('userstest', {
       allowApiCrud: Allow.authenticated,
@@ -262,9 +262,9 @@ export class TasksController {
     }
 	`
 
-    const transformed = await transformDecorator(code, [{ decorator: 'BackendMethod' }])
+		const transformed = await transformDecorator(code, [{ decorator: 'BackendMethod' }])
 
-    expect(transformed).toMatchInlineSnapshot(`
+		expect(transformed).toMatchInlineSnapshot(`
       {
         "code": "import { Allow, BackendMethod, Entity, Fields, Validators } from "remult";
 
@@ -294,10 +294,10 @@ export class TasksController {
         ],
       }
     `)
-  })
+	})
 
-  it('should strip unused stuff when decorator', async () => {
-    const code = `import { Allow, BackendMethod, Entity, Fields, Validators } from 'remult'
+	it('should strip unused stuff when decorator', async () => {
+		const code = `import { Allow, BackendMethod, Entity, Fields, Validators } from 'remult'
 
     @Entity<User>('userstest', {
       allowApiCrud: Allow.authenticated,
@@ -316,9 +316,9 @@ export class TasksController {
     }
 	`
 
-    const transformed = await transformDecorator(code, [{ decorator: 'BackendMethod' }])
+		const transformed = await transformDecorator(code, [{ decorator: 'BackendMethod' }])
 
-    expect(transformed).toMatchInlineSnapshot(`
+		expect(transformed).toMatchInlineSnapshot(`
       {
         "code": "import { Allow, BackendMethod, Entity, Fields, Validators } from "remult";
 
@@ -346,10 +346,10 @@ export class TasksController {
         ],
       }
     `)
-  })
+	})
 
-  it('should strip imports that are in the BackendMethod', async () => {
-    const code = `import { Allow, BackendMethod, Entity, Fields, Validators } from 'remult'
+	it('should strip imports that are in the BackendMethod', async () => {
+		const code = `import { Allow, BackendMethod, Entity, Fields, Validators } from 'remult'
 
     @Entity<User>('userstest', {
       allowApiCrud: Allow.authenticated,
@@ -368,9 +368,9 @@ export class TasksController {
     }
 	`
 
-    const transformed = await transformDecorator(code, [{ decorator: 'BackendMethod' }])
+		const transformed = await transformDecorator(code, [{ decorator: 'BackendMethod' }])
 
-    expect(transformed).toMatchInlineSnapshot(`
+		expect(transformed).toMatchInlineSnapshot(`
       {
         "code": "import { Allow, BackendMethod, Entity, Fields, Validators } from "remult";
 
@@ -398,10 +398,10 @@ export class TasksController {
         ],
       }
     `)
-  })
+	})
 
-  it('should NOT strip imports that are in both in BackendMethod and not in', async () => {
-    const code = `import { Allow, BackendMethod, Entity, Fields, Validators } from 'remult'
+	it('should NOT strip imports that are in both in BackendMethod and not in', async () => {
+		const code = `import { Allow, BackendMethod, Entity, Fields, Validators } from 'remult'
 
     @Entity<User>('userstest', {
       allowApiCrud: Allow.authenticated,
@@ -422,9 +422,9 @@ export class TasksController {
     }
 	`
 
-    const transformed = await transformDecorator(code, [{ decorator: 'BackendMethod' }])
+		const transformed = await transformDecorator(code, [{ decorator: 'BackendMethod' }])
 
-    expect(transformed).toMatchInlineSnapshot(`
+		expect(transformed).toMatchInlineSnapshot(`
       {
         "code": "import { Allow, BackendMethod, Entity, Fields, Validators } from "remult";
 
@@ -454,10 +454,10 @@ export class TasksController {
         ],
       }
     `)
-  })
+	})
 
-  it('should strip import types', async () => {
-    const code = `import { AUTH_SECRET } from '$env/static/private'
+	it('should strip import types', async () => {
+		const code = `import { AUTH_SECRET } from '$env/static/private'
     import { BackendMethod, type Allowed, remult } from 'remult'
     
     export class ActionsController {
@@ -473,9 +473,9 @@ export class TasksController {
     
 	`
 
-    const transformed = await transformDecorator(code, [{ decorator: 'BackendMethod' }])
+		const transformed = await transformDecorator(code, [{ decorator: 'BackendMethod' }])
 
-    expect(transformed).toMatchInlineSnapshot(`
+		expect(transformed).toMatchInlineSnapshot(`
       {
         "code": "import { AUTH_SECRET } from "$env/static/private";
       import { BackendMethod, type Allowed, remult } from "remult";
@@ -496,12 +496,12 @@ export class TasksController {
         ],
       }
     `)
-  })
+	})
 })
 
 describe('decoratorEntity', () => {
-  it('should strip @BackendMethod in @Entity', async () => {
-    const code = `import { AUTH_SECRET, AUTH_SECRET_NOT_USED } from "$env/static/private";
+	it('should strip @BackendMethod in @Entity', async () => {
+		const code = `import { AUTH_SECRET, AUTH_SECRET_NOT_USED } from "$env/static/private";
 import { BackendMethod, Entity, Fields, remult, type Allowed } from "remult";
 
 @Entity('users', {
@@ -528,9 +528,12 @@ export class User {
 }
 `
 
-    const code1 = await nullifyImports(code, ['$env/static/private'])
-    const transformed = await transformDecorator(code1.code, [{ decorator: 'BackendMethod' }, { decorator: 'Entity', args_1: [{ fn: 'backendPrefilter' }] }])
-    expect(transformed).toMatchInlineSnapshot(`
+		const code1 = await nullifyImports(code, ['$env/static/private'])
+		const transformed = await transformDecorator(code1.code, [
+			{ decorator: 'BackendMethod' },
+			{ decorator: 'Entity', args_1: [{ fn: 'backendPrefilter' }] },
+		])
+		expect(transformed).toMatchInlineSnapshot(`
       {
         "code": "let AUTH_SECRET = null;
       let AUTH_SECRET_NOT_USED = null;
@@ -567,10 +570,10 @@ export class User {
         ],
       }
     `)
-  })
+	})
 
-  it('should strip @BackendMethod in @Entity with excludeEntityKeys', async () => {
-    const code = `import { AUTH_SECRET, AUTH_SECRET_NOT_USED } from "$env/static/private";
+	it('should strip @BackendMethod in @Entity with excludeEntityKeys', async () => {
+		const code = `import { AUTH_SECRET, AUTH_SECRET_NOT_USED } from "$env/static/private";
 import { BackendMethod, Entity, Fields, remult, type Allowed } from "remult";
 
 @Entity('users', {
@@ -597,12 +600,20 @@ export class User {
 }
 `
 
-    const code1 = await nullifyImports(code, ['$env/static/private'])
-    const transformed = await transformDecorator(code1.code, [{ decorator: 'BackendMethod' }, {
-      decorator: 'Entity',
-      args_1: [{ fn: 'backendPrefilter', excludeEntityKeys: ['users'] }]
-    }])
-    expect(transformed).toMatchInlineSnapshot(`
+		const code1 = await nullifyImports(code, ['$env/static/private'])
+		const transformed = await transformDecorator(code1.code, [
+			{ decorator: 'BackendMethod' },
+			{
+				decorator: 'Entity',
+				args_1: [
+					{
+						fn: 'backendPrefilter',
+						excludeEntityKeys: ['users'],
+					},
+				],
+			},
+		])
+		expect(transformed).toMatchInlineSnapshot(`
       {
         "code": "let AUTH_SECRET = null;
       let AUTH_SECRET_NOT_USED = null;
@@ -636,5 +647,5 @@ export class User {
         ],
       }
     `)
-  })
+	})
 })

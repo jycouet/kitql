@@ -12,19 +12,19 @@ import { transformWarningThrow, type WarningThrow } from './transformWarningThro
 export type ViteStriperOptions = {
 	/**
 	 * Configuration for decorators to strip or wrap with SSR conditions.
-	 * 
+	 *
 	 * @example Advanced format
 	 * ```ts
 	 * decorators: [
 	 *   { decorator: 'BackendMethod' },
-	 *   { 
-	 *     decorator: 'Entity', 
-	 *     args_1: ['backendPrefilter', 'backendPreprocessFilter'] 
+	 *   {
+	 *     decorator: 'Entity',
+	 *     args_1: ['backendPrefilter', 'backendPreprocessFilter', 'sqlExpression', 'dbName']
 	 *   }
 	 * ]
 	 * ```
 	 */
-	decorators?: (DecoratorConfig)[]
+	decorators?: DecoratorConfig[]
 
 	/**
 	 * For example if you set `nullify: ['mongodb']`
@@ -33,12 +33,12 @@ export type ViteStriperOptions = {
 	 * ```ts
 	 * // This line
 	 * import { AUTH_SECRET, AUTH_SECRET_NOT_USED } from '$env/static/private'
-	 * 
+	 *
 	 * // We become
 	 * let AUTH_SECRET = null;
 	 * let AUTH_SECRET_NOT_USED = null;
 	 * ```
-	 * 
+	 *
 	 * @example 2
 	 * ```ts
 	 * // This line
@@ -149,13 +149,13 @@ export function stripper(options?: ViteStriperOptions): PluginOption {
 					if (options?.debug && info.length > 0) {
 						log.info(
 							`` +
-							`${gray('File:')} ${yellow(filepath)}\n` +
-							`${green('-----')}\n` +
-							`${rest.code}` +
-							`\n${green(':::::')}\n` +
-							`${info.join('\n')}` +
-							`\n${green('-----')}` +
-							``,
+								`${gray('File:')} ${yellow(filepath)}\n` +
+								`${green('-----')}\n` +
+								`${rest.code}` +
+								`\n${green(':::::')}\n` +
+								`${info.join('\n')}` +
+								`\n${green('-----')}` +
+								``,
 						)
 					}
 				}
@@ -171,13 +171,13 @@ export function stripper(options?: ViteStriperOptions): PluginOption {
 					if (options?.debug && info.length > 0) {
 						log.info(
 							`` +
-							`${gray('File:')} ${yellow(filepath)}\n` +
-							`${green('-----')}\n` +
-							`${rest.code}` +
-							`\n${green(':::::')}\n` +
-							`${info.join('\n')}` +
-							`\n${green('-----')}` +
-							``,
+								`${gray('File:')} ${yellow(filepath)}\n` +
+								`${green('-----')}\n` +
+								`${rest.code}` +
+								`\n${green(':::::')}\n` +
+								`${info.join('\n')}` +
+								`\n${green('-----')}` +
+								``,
 						)
 					}
 				}

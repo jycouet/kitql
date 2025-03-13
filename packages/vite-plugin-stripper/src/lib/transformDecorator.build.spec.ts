@@ -1,9 +1,11 @@
-import { describe, expect, it } from 'vitest'
-import { build } from 'vite'
-import { transformDecorator } from './transformDecorator.js'
-import { writeFileSync, mkdirSync, rmSync, readFileSync } from 'fs'
+import { mkdirSync, readFileSync, rmSync, writeFileSync } from 'fs'
 import { join } from 'path'
+import { build } from 'vite'
+import { describe, expect, it } from 'vitest'
+
 import { read } from '@kitql/internals'
+
+import { transformDecorator } from './transformDecorator.js'
 import { nullifyImports } from './transformPackage.js'
 
 describe('decorator build output', () => {
@@ -28,36 +30,44 @@ describe('decorator build output', () => {
 
 		// Create a simple package.json
 		const packageJsonFile = join(tempDir, 'package.json')
-		writeFileSync(packageJsonFile, JSON.stringify({
-			name: "test-build",
-			type: "module"
-		}))
+		writeFileSync(
+			packageJsonFile,
+			JSON.stringify({
+				name: 'test-build',
+				type: 'module',
+			}),
+		)
 
 		// Create a tsconfig.json
 		const tsconfigFile = join(tempDir, 'tsconfig.json')
-		writeFileSync(tsconfigFile, JSON.stringify({
-			compilerOptions: {
-				target: "ESNext",
-				useDefineForClassFields: true,
-				module: "ESNext",
-				lib: ["ESNext", "DOM"],
-				moduleResolution: "Node",
-				strict: true,
-				resolveJsonModule: true,
-				isolatedModules: true,
-				esModuleInterop: true,
-				noEmit: true,
-				noUnusedLocals: true,
-				noUnusedParameters: true,
-				noImplicitReturns: true,
-				experimentalDecorators: true
-			},
-			include: ["src/**/*.ts"]
-		}))
+		writeFileSync(
+			tsconfigFile,
+			JSON.stringify({
+				compilerOptions: {
+					target: 'ESNext',
+					useDefineForClassFields: true,
+					module: 'ESNext',
+					lib: ['ESNext', 'DOM'],
+					moduleResolution: 'Node',
+					strict: true,
+					resolveJsonModule: true,
+					isolatedModules: true,
+					esModuleInterop: true,
+					noEmit: true,
+					noUnusedLocals: true,
+					noUnusedParameters: true,
+					noImplicitReturns: true,
+					experimentalDecorators: true,
+				},
+				include: ['src/**/*.ts'],
+			}),
+		)
 
 		// Create a simple index.html
 		const indexHtmlFile = join(tempDir, 'index.html')
-		writeFileSync(indexHtmlFile, `
+		writeFileSync(
+			indexHtmlFile,
+			`
 			<!DOCTYPE html>
 			<html>
 				<head>
@@ -68,11 +78,14 @@ describe('decorator build output', () => {
 					<script type="module" src="/src/input.ts"></script>
 				</body>
 			</html>
-		`)
+		`,
+		)
 
 		// Create a simple Vite config
 		const viteConfigFile = join(tempDir, 'vite.config.js')
-		writeFileSync(viteConfigFile, `
+		writeFileSync(
+			viteConfigFile,
+			`
 			import { defineConfig } from 'vite';
 			
 			export default defineConfig({
@@ -95,19 +108,23 @@ describe('decorator build output', () => {
 					}
 				}
 			});
-		`)
+		`,
+		)
 
 		// Create a mock for $env/static/private
 		const envMockFile = join(tempDir, 'src', 'env-mock.js')
-		writeFileSync(envMockFile, `
+		writeFileSync(
+			envMockFile,
+			`
 			export const AUTH_SECRET = 'FAKE_SECRET_FOR_TEST';
-		`)
+		`,
+		)
 
 		// Run Vite build
 		await build({
 			configFile: viteConfigFile,
 			root: tempDir,
-			logLevel: 'info'
+			logLevel: 'info',
 		})
 
 		// Read the output file
@@ -141,11 +158,7 @@ export class TasksController {
 }`
 
 		try {
-			const { outputContent } = await setupTestEnvironment(
-				code,
-				[{ decorator: 'BackendMethod' }],
-				[]
-			)
+			const { outputContent } = await setupTestEnvironment(code, [{ decorator: 'BackendMethod' }], [])
 
 			// Verify the output that should NOT be present
 			expect(outputContent).not.toContain('import.meta.env.SSR')
@@ -166,7 +179,7 @@ export class TasksController {
 
 	it('should verify that BackendMethod is removed in the build output for User entity', async () => {
 		// Sample code based on User.ts
-		const code = read(join(process.cwd(), 'src', 'shared', 'User.ts')) ?? ""
+		const code = read(join(process.cwd(), 'src', 'shared', 'User.ts')) ?? ''
 
 		try {
 			const { outputContent } = await setupTestEnvironment(
@@ -174,13 +187,11 @@ export class TasksController {
 				[
 					{ decorator: 'BackendMethod' },
 					{
-						decorator: 'Entity', args_1: [
-							{ fn: 'backendPrefilter' },
-							{ fn: 'backendPreprocessFilter' }
-						]
-					}
+						decorator: 'Entity',
+						args_1: [{ fn: 'backendPrefilter' }, { fn: 'backendPreprocessFilter' }],
+					},
 				],
-				['$env/static/private']
+				['$env/static/private'],
 			)
 
 			// Verify the output that should NOT be present
@@ -203,4 +214,4 @@ export class TasksController {
 			rmSync(join(process.cwd(), 'temp-test-build'), { recursive: true, force: true })
 		}
 	})
-}) 
+})
