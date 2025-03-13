@@ -16,6 +16,35 @@ export const transformDecorator = async (code: string, decorators_config: Decora
 		const entityClassesWithSpecialFilters: string[] = [] // Track classes with Entity decorator and special filters
 		const entityNameMap = new Map<string, string>() // Map class names to their entity names
 
+		// Check if there are any decorators in the code
+		let hasDecorators = false
+		visit(program, {
+			visitDecorator(path: any) {
+				hasDecorators = true
+				return false // Stop traversal once we find a decorator
+			},
+		})
+
+		// If there are no decorators and the code contains exports, just return the original code
+		if (!hasDecorators) {
+			// Check if the code contains exports
+			let hasExports = false
+			visit(program, {
+				visitExportNamedDeclaration(path: any) {
+					hasExports = true
+					return false
+				},
+				visitExportDefaultDeclaration(path: any) {
+					hasExports = true
+					return false
+				},
+			})
+
+			if (hasExports) {
+				return { code, info: [] }
+			}
+		}
+
 		// First pass: identify classes with special decorators and filters
 		visit(program, {
 			visitClassDeclaration(path: any) {
@@ -236,6 +265,11 @@ export const transformDecorator = async (code: string, decorators_config: Decora
 			},
 		})
 
+		// If we didn't wrap any decorators, just return the original code
+		if (decorators_wrapped.length === 0) {
+			return { code, info: [] }
+		}
+
 		// Add here the removeUnusedImports
 		const unusedImportsResult = await removeUnusedImports(prettyPrint(program, {}).code)
 
@@ -272,6 +306,7 @@ const removeUnusedImports = async (code: string) => {
 		const originalImports = new Map()
 		const typeImports = new Set() // Track which imports had the 'type' keyword
 		const importOrder = new Map() // Track the original order of imports by source
+		const exportedIdentifiers = new Set() // Track identifiers that are exported
 
 		// Step 1: Remove all global imports and store them
 		const newBody: Statement[] = []
@@ -301,6 +336,16 @@ const removeUnusedImports = async (code: string) => {
 						}
 					}
 				})
+			} else if (node.type === 'ExportNamedDeclaration') {
+				// Track exported identifiers
+				if (node.specifiers) {
+					node.specifiers.forEach((specifier) => {
+						if (specifier.type === 'ExportSpecifier' && specifier.local && specifier.local.name) {
+							exportedIdentifiers.add(specifier.local.name)
+						}
+					})
+				}
+				newBody.push(node)
 			} else {
 				newBody.push(node)
 			}
@@ -339,6 +384,11 @@ const removeUnusedImports = async (code: string) => {
 
 				this.traverse(path)
 			},
+		})
+
+		// Add exported identifiers to used identifiers
+		exportedIdentifiers.forEach((id) => {
+			usedIdentifiers.add(id)
 		})
 
 		let removed = Array.from(originalImports)
@@ -446,6 +496,7 @@ const removeSSRedImport = async (code: string) => {
 		const typeImports = new Set<string>() // Track which imports had the 'type' keyword
 		const importOrder = new Map<string, number>() // Track the original order of imports by source
 		const decoratorImports = new Set<string>() // Track imports used as decorators
+		const exportedIdentifiers = new Set<string>() // Track identifiers that are exported
 
 		// Step 1: Collect all imports
 		let importIndex = 0 // Track the order of import sources
@@ -473,6 +524,15 @@ const removeSSRedImport = async (code: string) => {
 						}
 					}
 				})
+			} else if (node.type === 'ExportNamedDeclaration') {
+				// Track exported identifiers
+				if (node.specifiers) {
+					node.specifiers.forEach((specifier) => {
+						if (specifier.type === 'ExportSpecifier' && specifier.local && specifier.local.name) {
+							exportedIdentifiers.add(specifier.local.name)
+						}
+					})
+				}
 			}
 		})
 
@@ -521,6 +581,13 @@ const removeSSRedImport = async (code: string) => {
 		for (const id of decoratorImports) {
 			if (originalImports.has(id as string)) {
 				nonSsrIdentifiers.add(id as string)
+			}
+		}
+
+		// Add all exported identifiers to nonSsrIdentifiers
+		for (const id of exportedIdentifiers) {
+			if (originalImports.has(id)) {
+				nonSsrIdentifiers.add(id)
 			}
 		}
 

@@ -148,31 +148,26 @@ export class TasksController {
 
 		expect(transformed).toMatchInlineSnapshot(`
 			{
-			  "code": "import { remult } from "remult";
+			  "code": "import { Allow, BackendMethod, remult } from "remult";
 			import { Task } from "./task";
 			import { AUTH_SECRET } from "$env/static/private";
 
 			export class TasksController {
-			    static async yop1(completed: boolean) {
-			        const taskRepo = remult.repo(Task);
-			    }
+				static async yop1(completed: boolean) {
+					const taskRepo = remult.repo(Task);
+				}
 
-			    static async setAllCompleted(completed: boolean) {
-			        console.log("AUTH_SECRET", AUTH_SECRET);
-			        const taskRepo = remult.repo(Task);
+				static async setAllCompleted(completed: boolean) {
+					console.log("AUTH_SECRET", AUTH_SECRET);
 
-			        for (const task of await taskRepo.find()) {
-			            await taskRepo.save({
-			                ...task,
-			                completed
-			            });
-			        }
-			    }
-			}",
-			  "info": [
-			    "Removed unused import: 'Allow' from 'remult'",
-			    "Removed unused import: 'BackendMethod' from 'remult'",
-			  ],
+					const taskRepo = remult.repo(Task);
+					for (const task of await taskRepo.find()) {
+						await taskRepo.save({ ...task, completed });
+					}
+				}
+			}
+				",
+			  "info": [],
 			}
 		`)
 	})
@@ -652,6 +647,86 @@ export class User {
 			}",
 			  "info": [
 			    "Wrapped with if(import.meta.env.SSR): ["User","BackendMethod","hi"]",
+			  ],
+			}
+		`)
+	})
+})
+
+describe('other', () => {
+	it('should NOT strip imports that are used in exports', async () => {
+		const code = `import { default as MetaOg } from './ui/MetaOg.svelte'
+export { MetaOg }`
+
+		const transformed = await transformDecorator(code, [{ decorator: 'BackendMethod' }])
+
+		expect(transformed).toMatchInlineSnapshot(`
+			{
+			  "code": "import { default as MetaOg } from './ui/MetaOg.svelte'
+			export { MetaOg }",
+			  "info": [],
+			}
+		`)
+	})
+
+	it('should NOT strip imports that are used in exports even is there is another thing stripped', async () => {
+		const code = `import { default as MetaOg } from './ui/MetaOg.svelte'
+import { AUTH_SECRET, AUTH_SECRET_NOT_USED } from "$env/static/private";
+import { BackendMethod, Entity, Fields, remult, type Allowed } from "remult";
+
+export { MetaOg }
+
+@Entity('users', {
+  backendPrefilter: () => {
+    console.log('backendPrefilter', remult)
+    return {}
+  }
+})
+export class User {
+	@Fields.uuid()
+	id = ''
+
+	@BackendMethod({ allowed: true })
+	static async hi(info: Allowed) {
+		console.info('AUTH_SECRET', AUTH_SECRET)
+		return AUTH_SECRET + ' ' + info
+	}
+}
+`
+
+		const transformed = await transformDecorator(code, [{ decorator: 'BackendMethod' }])
+
+		expect(transformed).toMatchInlineSnapshot(`
+			{
+			  "code": "import { AUTH_SECRET } from "$env/static/private";
+			import { Entity, Fields, BackendMethod, type Allowed } from "remult";
+			export { MetaOg };
+
+			@Entity("users", {
+			    backendPrefilter: () => {
+			        console.log("backendPrefilter", remult);
+			        return {};
+			    }
+			})
+			export class User {
+			    @Fields.uuid()
+			    id = "";
+
+			    @BackendMethod({
+			        allowed: true
+			    })
+			    static async hi(info: Allowed) {
+			        if (import.meta.env.SSR) {
+			            console.info("AUTH_SECRET", AUTH_SECRET);
+			            return AUTH_SECRET + " " + info;
+			        }
+			    }
+			}",
+			  "info": [
+			    "Wrapped with if(import.meta.env.SSR): ["User","BackendMethod","hi"]",
+			    "Removed unused import: 'default' from './ui/MetaOg.svelte'",
+			    "Removed unused import: 'AUTH_SECRET_NOT_USED' from '$env/static/private'",
+			    "Removed unused import: 'remult' from 'remult'",
 			  ],
 			}
 		`)
