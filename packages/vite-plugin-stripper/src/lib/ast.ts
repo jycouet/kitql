@@ -7,8 +7,12 @@ export type ImportInfo = {
 	source: string;
 }
 
-export const imports = (code: string): { program: ReturnType<typeof parseTs>, importsList: ImportInfo[] } => {
-	const program = parseTs(code);
+export type UserInfo = {
+	used: boolean;
+}
+
+export const imports = (code_or_program: string | ReturnType<typeof parseTs>): { program: ReturnType<typeof parseTs>, importsList: ImportInfo[] } => {
+	const program = typeof code_or_program === 'string' ? parseTs(code_or_program) : code_or_program;
 	const importsList: ImportInfo[] = [];
 
 	visit(program, {
@@ -67,4 +71,13 @@ export const imports = (code: string): { program: ReturnType<typeof parseTs>, im
 	});
 
 	return { program, importsList };
+}
+
+export const usage = (code_or_program: string | ReturnType<typeof parseTs>, importsList: ImportInfo[]): { program: ReturnType<typeof parseTs>, importsList: ImportInfo[] } => {
+	const program = typeof code_or_program === 'string' ? parseTs(code_or_program) : code_or_program;
+	if (importsList.length === 0) return { program, importsList: [] }
+
+	const usageList: (ImportInfo & UserInfo)[] = [];
+
+	return { program, importsList: [] };
 }

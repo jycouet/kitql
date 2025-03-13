@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { imports } from './ast.js'
+import { imports, usage } from './ast.js'
 
 describe('imports', () => {
 	it('should return an import a', () => {
@@ -155,4 +155,16 @@ describe('imports', () => {
 		`)
 	})
 
+})
+
+describe('usage', () => {
+	it('should return an usage', () => {
+		const code = `import { a } from "lib"
+									const b = a`
+
+		const importsData = imports(code)
+		const usageData = usage(code, importsData.importsList)
+
+		expect(usageData.importsList).toMatchInlineSnapshot(`[]`)
+	})
 })
