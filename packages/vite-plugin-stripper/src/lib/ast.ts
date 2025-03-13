@@ -2,12 +2,12 @@ import { parseTs, visit } from "@kitql/internals";
 
 export type ImportInfo = {
 	name: string;
-	type: 'default' | 'namespace' | 'named' | 'type' | 'typeof';
+	type: 'default' | 'namespace' | 'named' | 'type';
 	localName?: string;
 	source: string;
 }
 
-export const imports = (code: string): ImportInfo[] => {
+export const imports = (code: string): { program: ReturnType<typeof parseTs>, importsList: ImportInfo[] } => {
 	const program = parseTs(code);
 	const importsList: ImportInfo[] = [];
 
@@ -51,9 +51,7 @@ export const imports = (code: string): ImportInfo[] => {
 					// Handle type imports
 					const importType = isTypeOnly || specifier.importKind === 'type'
 						? 'type'
-						: specifier.importKind === 'typeof'
-							? 'typeof'
-							: 'named';
+						: 'named';
 
 					importsList.push({
 						name: importedName,
@@ -68,5 +66,5 @@ export const imports = (code: string): ImportInfo[] => {
 		}
 	});
 
-	return importsList;
+	return { program, importsList };
 }

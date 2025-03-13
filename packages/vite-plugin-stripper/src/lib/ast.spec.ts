@@ -4,7 +4,7 @@ import { imports } from './ast.js'
 describe('imports', () => {
 	it('should return an import a', () => {
 		const data = imports('import { a } from "lib"')
-		expect(data).toMatchInlineSnapshot(`
+		expect(data.importsList).toMatchInlineSnapshot(`
 			[
 			  {
 			    "localName": undefined,
@@ -18,7 +18,7 @@ describe('imports', () => {
 
 	it('should return an import a and b', () => {
 		const data = imports('import { a, b } from "lib"')
-		expect(data).toMatchInlineSnapshot(`
+		expect(data.importsList).toMatchInlineSnapshot(`
 			[
 			  {
 			    "localName": undefined,
@@ -38,7 +38,7 @@ describe('imports', () => {
 
 	it('should return an import a and b and c as d', () => {
 		const data = imports('import { a, b, c as d } from "lib"')
-		expect(data).toMatchInlineSnapshot(`
+		expect(data.importsList).toMatchInlineSnapshot(`
 			[
 			  {
 			    "localName": undefined,
@@ -64,7 +64,7 @@ describe('imports', () => {
 
 	it('should return an import a and type b', () => {
 		const data = imports('import { a, type b } from "lib"')
-		expect(data).toMatchInlineSnapshot(`
+		expect(data.importsList).toMatchInlineSnapshot(`
 			[
 			  {
 			    "localName": undefined,
@@ -84,7 +84,7 @@ describe('imports', () => {
 
 	it('should return an import types a and b', () => {
 		const data = imports('import type { a, b } from "lib"')
-		expect(data).toMatchInlineSnapshot(`
+		expect(data.importsList).toMatchInlineSnapshot(`
 			[
 			  {
 			    "localName": undefined,
@@ -104,7 +104,7 @@ describe('imports', () => {
 
 	it('should return * stuff as toto', () => {
 		const data = imports('import * as toto from "lib"')
-		expect(data).toMatchInlineSnapshot(`
+		expect(data.importsList).toMatchInlineSnapshot(`
 			[
 			  {
 			    "name": "toto",
@@ -117,7 +117,7 @@ describe('imports', () => {
 
 	it('should handle bare imports', () => {
 		const data = imports('import "lib"')
-		expect(data).toMatchInlineSnapshot(`
+		expect(data.importsList).toMatchInlineSnapshot(`
 			[
 			  {
 			    "name": "default",
@@ -126,6 +126,33 @@ describe('imports', () => {
 			  },
 			]
 		`)
-
 	})
+
+	it('should handle named imports', () => {
+		const data = imports(`import { default as Icon } from './ui/Icon.svelte'`)
+		expect(data.importsList).toMatchInlineSnapshot(`
+			[
+			  {
+			    "localName": "Icon",
+			    "name": "default",
+			    "source": "./ui/Icon.svelte",
+			    "type": "named",
+			  },
+			]
+		`)
+	})
+
+	it('should handle default imports', () => {
+		const data = imports('import DefaultExport from "lib"')
+		expect(data.importsList).toMatchInlineSnapshot(`
+			[
+			  {
+			    "name": "DefaultExport",
+			    "source": "lib",
+			    "type": "default",
+			  },
+			]
+		`)
+	})
+
 })
