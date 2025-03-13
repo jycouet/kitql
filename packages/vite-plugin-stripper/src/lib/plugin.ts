@@ -6,7 +6,7 @@ import { gray, green, Log, yellow } from '@kitql/helpers'
 import { getFilesUnder } from '@kitql/internals'
 
 import { transformDecorator } from './transformDecorator.js'
-import { removePackages } from './transformPackage.js'
+import { nullifyImports } from './nullifyImports.js'
 import { transformWarningThrow, type WarningThrow } from './transformWarningThrow.js'
 
 export type ViteStriperOptions = {
@@ -51,16 +51,16 @@ export type ViteStriperOptions = {
  * 
  * It should look like this:
  * ```ts
-  import { sveltekit } from "@sveltejs/kit/vite";
-  import { defineConfig } from "vite";
-  import { stripper } from "vite-plugin-stripper";   // 👈
+	import { sveltekit } from "@sveltejs/kit/vite";
+	import { defineConfig } from "vite";
+	import { stripper } from "vite-plugin-stripper";   // 👈
   
-  export default defineConfig({
-    plugins: [
-      stripper({ decorators: ['BackendMethod'] }),  // 👈
-      sveltekit()
-    ],
-  });
+	export default defineConfig({
+		plugins: [
+			stripper({ decorators: ['BackendMethod'] }),  // 👈
+			sveltekit()
+		],
+	});
  * ```
  * 
  */
@@ -132,19 +132,19 @@ export function stripper(options?: ViteStriperOptions): PluginOption {
 					if (options?.debug && info.length > 0) {
 						log.info(
 							`` +
-								`${gray('File:')} ${yellow(filepath)}\n` +
-								`${green('-----')}\n` +
-								`${rest.code}` +
-								`\n${green(':::::')}\n` +
-								`${info.join('\n')}` +
-								`\n${green('-----')}` +
-								``,
+							`${gray('File:')} ${yellow(filepath)}\n` +
+							`${green('-----')}\n` +
+							`${rest.code}` +
+							`\n${green(':::::')}\n` +
+							`${info.join('\n')}` +
+							`\n${green('-----')}` +
+							``,
 						)
 					}
 				}
 
 				if (options && options?.nullify && options.nullify.length > 0) {
-					const { info, ...rest } = await removePackages(code, options.nullify)
+					const { info, ...rest } = await nullifyImports(code, options.nullify)
 
 					// Update the code for later transforms & return it
 					code = rest.code
@@ -154,13 +154,13 @@ export function stripper(options?: ViteStriperOptions): PluginOption {
 					if (options?.debug && info.length > 0) {
 						log.info(
 							`` +
-								`${gray('File:')} ${yellow(filepath)}\n` +
-								`${green('-----')}\n` +
-								`${rest.code}` +
-								`\n${green(':::::')}\n` +
-								`${info.join('\n')}` +
-								`\n${green('-----')}` +
-								``,
+							`${gray('File:')} ${yellow(filepath)}\n` +
+							`${green('-----')}\n` +
+							`${rest.code}` +
+							`\n${green(':::::')}\n` +
+							`${info.join('\n')}` +
+							`\n${green('-----')}` +
+							``,
 						)
 					}
 				}

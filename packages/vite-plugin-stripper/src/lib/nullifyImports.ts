@@ -1,6 +1,6 @@
 import { builders, parseTs, prettyPrint, visit } from '@kitql/internals'
 
-export const removePackages = async (code: string, packages_to_strip: string[]) => {
+export const nullifyImports = async (code: string, packages_to_strip: string[]) => {
 	try {
 		const ast = parseTs(code)
 
