@@ -529,9 +529,76 @@ export class User {
 `
 
     const code1 = await nullifyImports(code, ['$env/static/private'])
-    const transformed = await transformDecorator(code1.code, [{ decorator: 'BackendMethod' }, { decorator: 'Entity', args_2: ['backendPrefilter'] }])
-    // const transformed = 
+    const transformed = await transformDecorator(code1.code, [{ decorator: 'BackendMethod' }, { decorator: 'Entity', args_2: [{ fn: 'backendPrefilter' }] }])
+    expect(transformed).toMatchInlineSnapshot(`
+      {
+        "code": "let AUTH_SECRET = null;
+      let AUTH_SECRET_NOT_USED = null;
+      import { BackendMethod, Entity, Fields, remult, type Allowed } from "remult";
 
+      @Entity("users", {
+          backendPrefilter: () => {
+              if (import.meta.env.SSR) {
+                  console.log("backendPrefilter");
+                  return {};
+              }
+          }
+      })
+      export class User {
+          @Fields.uuid()
+          id = "";
+
+          @Fields.string()
+          name = "";
+
+          @BackendMethod({
+              allowed: () => remult.user === undefined
+          })
+          static async hi(info: Allowed) {
+              if (import.meta.env.SSR) {
+                  console.info("AUTH_SECRET", AUTH_SECRET);
+                  return AUTH_SECRET + " " + info;
+              }
+          }
+      }",
+        "info": [
+          "Wrapped with if(import.meta.env.SSR): ["User","Entity","backendPrefilter"]",
+          "Wrapped with if(import.meta.env.SSR): ["User","BackendMethod","hi"]",
+        ],
+      }
+    `)
+  })
+
+  it('should strip @BackendMethod in @Entity with excludeEntityKeys', async () => {
+    const code = `import { AUTH_SECRET, AUTH_SECRET_NOT_USED } from "$env/static/private";
+import { BackendMethod, Entity, Fields, remult, type Allowed } from "remult";
+
+@Entity('users', {
+  backendPrefilter: () => {
+    console.log('backendPrefilter')
+    return {}
+  }
+})
+export class User {
+	@Fields.uuid()
+	id = ''
+
+	@Fields.string()
+	name = ''
+
+	@BackendMethod({
+		// Only unauthenticated users can call this method
+		allowed: () => remult.user === undefined,
+	})
+	static async hi(info: Allowed) {
+		console.info('AUTH_SECRET', AUTH_SECRET)
+		return AUTH_SECRET + ' ' + info
+	}
+}
+`
+
+    const code1 = await nullifyImports(code, ['$env/static/private'])
+    const transformed = await transformDecorator(code1.code, [{ decorator: 'BackendMethod' }, { decorator: 'Entity', args_2: [{ fn: 'backendPrefilter', excludeEntityKeys: ['users'] }] }])
     expect(transformed).toMatchInlineSnapshot(`
       {
         "code": "let AUTH_SECRET = null;

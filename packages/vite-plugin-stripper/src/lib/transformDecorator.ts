@@ -3,7 +3,7 @@ import { parseTs, prettyPrint, visit } from '@kitql/internals'
 // Define the type for the decorator config
 export type DecoratorConfig = {
 	decorator: string;
-	args_2?: string[]; // Optional array of function names to check in the second argument
+	args_2?: { fn: string, excludeEntityKeys?: string[] }[]; // Array of objects with function name and optional entity keys to exclude
 }
 
 export const transformDecorator = async (code: string, decorators_config: (DecoratorConfig)[]) => {
@@ -37,7 +37,7 @@ export const transformDecorator = async (code: string, decorators_config: (Decor
 						const options = decorator.expression.arguments[1];
 						if (options && options.properties) {
 							const hasSpecialFilter = options.properties.some((prop: any) =>
-								config.args_2?.includes(prop.key.name)
+								config.args_2?.some(c => c.fn === prop.key.name)
 							);
 
 							if (hasSpecialFilter) {
@@ -45,41 +45,50 @@ export const transformDecorator = async (code: string, decorators_config: (Decor
 
 								// Wrap these special functions in if(import.meta.env.SSR)
 								options.properties.forEach((prop: any) => {
-									if (config.args_2?.includes(prop.key.name)) {
+									if (config.args_2?.some(c => c.fn === prop.key.name)) {
 										if (prop.value && prop.value.body && prop.value.body.body) {
 											const originalBody = prop.value.body.body;
 
-											// Create the if statement wrapping the original body
-											prop.value.body.body = [
-												{
-													type: 'IfStatement',
-													test: {
-														type: 'MemberExpression',
-														object: {
+											// Find the matching config entry
+											const matchingConfig = config.args_2?.find(c => c.fn === prop.key.name);
+
+											// Check if we need to exclude this entity based on className
+											const shouldExclude = matchingConfig?.excludeEntityKeys?.includes(className) || false;
+
+											// Only wrap if not excluded
+											if (!shouldExclude) {
+												// Create the if statement wrapping the original body
+												prop.value.body.body = [
+													{
+														type: 'IfStatement',
+														test: {
 															type: 'MemberExpression',
 															object: {
-																type: 'MetaProperty',
-																meta: { type: 'Identifier', name: 'import' },
-																property: { type: 'Identifier', name: 'meta' },
+																type: 'MemberExpression',
+																object: {
+																	type: 'MetaProperty',
+																	meta: { type: 'Identifier', name: 'import' },
+																	property: { type: 'Identifier', name: 'meta' },
+																},
+																property: { type: 'Identifier', name: 'env' },
 															},
-															property: { type: 'Identifier', name: 'env' },
+															property: { type: 'Identifier', name: 'SSR' },
 														},
-														property: { type: 'Identifier', name: 'SSR' },
+														consequent: {
+															type: 'BlockStatement',
+															body: originalBody,
+														},
+														alternate: null,
 													},
-													consequent: {
-														type: 'BlockStatement',
-														body: originalBody,
-													},
-													alternate: null,
-												},
-											];
+												];
 
-											// Record that we wrapped this function
-											decorators_wrapped.push({
-												className,
-												decorator: decoratorName,
-												functionName: prop.key.name,
-											});
+												// Record that we wrapped this function
+												decorators_wrapped.push({
+													className,
+													decorator: decoratorName,
+													functionName: prop.key.name,
+												});
+											}
 										}
 									}
 								});
@@ -142,11 +151,18 @@ export const transformDecorator = async (code: string, decorators_config: (Decor
 				const isInEntityClass = entityClassesWithSpecialFilters.includes(currentClassName);
 				const isSpecialFunction = functionName &&
 					decorators_config.some(config =>
-						config.args_2?.some(arg => functionName.startsWith(arg))
+						config.args_2?.some(c => functionName.startsWith(c.fn))
 					);
 
+				// Check if this entity should be excluded
+				const shouldExclude = decorators_config.some(config =>
+					config.args_2?.some(c =>
+						functionName.startsWith(c.fn) && c.excludeEntityKeys?.includes(currentClassName)
+					)
+				);
+
 				// If one of the decorators was found OR it's a special function in a tracked class, wrap the function body in if(import.meta.env.SSR)
-				if ((foundDecorator || (isInEntityClass && isSpecialFunction)) && path.node.body && path.node.body.body) {
+				if ((foundDecorator || (isInEntityClass && isSpecialFunction && !shouldExclude)) && path.node.body && path.node.body.body) {
 					const originalBody = path.node.body.body;
 
 					// Create the if statement wrapping the original body

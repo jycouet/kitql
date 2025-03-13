@@ -173,7 +173,12 @@ export class TasksController {
 				code,
 				[
 					{ decorator: 'BackendMethod' },
-					{ decorator: 'Entity', args_2: ['backendPrefilter', 'backendPreprocessFilter'] }
+					{
+						decorator: 'Entity', args_2: [
+							{ fn: 'backendPrefilter' },
+							{ fn: 'backendPreprocessFilter' }
+						]
+					}
 				],
 				['$env/static/private']
 			)
