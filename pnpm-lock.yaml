@@ -10,8 +10,8 @@ catalogs:
       specifier: 0.32.2
       version: 0.32.2
     accessible-astro-components:
-      specifier: 4.0.3
-      version: 4.0.3
+      specifier: 4.1.0
+      version: 4.1.0
     astro:
       specifier: 5.4.2
       version: 5.4.2
@@ -214,7 +214,7 @@ importers:
         version: link:../packages/eslint-config
       accessible-astro-components:
         specifier: catalog:docs
-        version: 4.0.3
+        version: 4.1.0
       astro:
         specifier: catalog:docs
         version: 5.4.2(@types/node@22.13.9)(jiti@1.21.7)(lightningcss@1.28.2)(rollup@4.34.8)(sass@1.85.1)(terser@5.37.0)(tsx@4.19.3)(typescript@5.8.2)(yaml@2.7.0)
@@ -1797,8 +1797,8 @@ packages:
   '@vue/shared@3.5.13':
     resolution: {integrity: sha512-/hnE/qP5ZoGpol0a5mDi45bOd7t3tjYJBjsgCsivow7D48cJeV5l05RD82lPqi7gRiphZM37rnhW1l6ZoCNNnQ==}
 
-  accessible-astro-components@4.0.3:
-    resolution: {integrity: sha512-Lz5owW3TRgQfns6XN3ShxhorrQsLTIARPafkZFMXJhGrGe/NMNe6RqgQ0CVokW91HC0z/qzxgCGRp+11Q1bcwg==}
+  accessible-astro-components@4.1.0:
+    resolution: {integrity: sha512-R1Xrq7n61denF/VxCTxSJdOnCA4nhK/NvsYAe1WXnF1CYJbj4K4J9YwS+GPpJ6pONN3x/qp+bVCMgexRkY8EzQ==}
 
   acorn-jsx@5.3.2:
     resolution: {integrity: sha512-rq9s+JNhf0IChjtDXxllJ7g41oZk5SlXtp0LHwyA5cejwn7vKmKp4pPri6YEePv2PU65sAsegbXtIinmDFDXgQ==}
@@ -6225,7 +6225,7 @@ snapshots:
   '@vue/shared@3.5.13':
     optional: true
 
-  accessible-astro-components@4.0.3: {}
+  accessible-astro-components@4.1.0: {}
 
   acorn-jsx@5.3.2(acorn@8.14.1):
     dependencies:
