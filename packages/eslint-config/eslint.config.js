@@ -50,7 +50,7 @@ const rulePnpmCatalogs = (options = {}) => {
 		},
 	} = options
 
-	if (!enable) return null
+	if (!enable) return []
 
 	return [
 		{
@@ -166,7 +166,7 @@ const config = [
 	//
 	rulePrettierIgnore({ pnpmCatalogsEnabled: true }),
 	...othersRules(),
-	rulePnpmCatalogs(),
+	...rulePnpmCatalogs(),
 ]
 
 export default config
@@ -188,6 +188,6 @@ export const kitql = (options = {}) => {
 		//
 		rulePrettierIgnore({ pnpmCatalogsEnabled }),
 		...othersRules(),
-		...(pnpmCatalogsEnabled ? [rulePnpmCatalogs(pnpmCatalogsConfig)] : []),
+		...(pnpmCatalogsEnabled ? rulePnpmCatalogs(pnpmCatalogsConfig) : []),
 	]
 }
