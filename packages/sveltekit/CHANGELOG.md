@@ -1,5 +1,13 @@
 # @kitql/sveltekit
 
+## 0.0.5-next.0
+
+### Patch Changes
+
+- [#926](https://github.com/jycouet/kitql/pull/926)
+  [`85c2b46`](https://github.com/jycouet/kitql/commit/85c2b46020ec9ea0f38bb95aec0fa958ec254331)
+  Thanks [@jycouet](https://github.com/jycouet)! - goto default to no scroll
+
 ## 0.0.4
 
 ### Patch Changes
