@@ -1,19 +1,22 @@
 import { includeIgnoreFile } from '@eslint/compat'
 import js from '@eslint/js'
-import pnpmCatalogs from 'eslint-plugin-pnpm-catalogs'
+import pluginPnpm from 'eslint-plugin-pnpm'
 import svelte from 'eslint-plugin-svelte'
 import unusedImports from 'eslint-plugin-unused-imports'
 import globals from 'globals'
 import * as jsoncParser from 'jsonc-eslint-parser'
 import ts from 'typescript-eslint'
+import * as yamlParser from 'yaml-eslint-parser'
 
 import { findFileOrUp } from './helper/findFileOrUp.js'
 
 /**
  * @typedef {Object} PnpmCatalogsConfig
  * @property {boolean} [enable=true] - Whether to enable pnpm catalogs rules
- * @property {string[]} [files] - Files to apply the rules to
- * @property {Record<string, string>} [rules] - Rules configuration
+ * @property {string[]} [json_files] - Files to apply the rules to
+ * @property {Record<string, string>} [json_rules] - Rules configuration
+ * @property {string[]} [yaml_files] - Files to apply the rules to
+ * @property {Record<string, string>} [yaml_rules] - Rules configuration
  */
 
 const rulePrettierIgnore = ({ pnpmCatalogsEnabled = true }) => {
@@ -34,26 +37,45 @@ const rulePrettierIgnore = ({ pnpmCatalogsEnabled = true }) => {
 const rulePnpmCatalogs = (options = {}) => {
 	const {
 		enable = true,
-		files = ['package.json', '**/package.json'],
-		rules = {
-			'pnpm-catalogs/enforce-catalog': 'error',
-			'pnpm-catalogs/valid-catalog': 'error',
+		json_files = ['package.json', '**/package.json'],
+		json_rules = {
+			'pnpm/json-enforce-catalog': 'error',
+			'pnpm/json-valid-catalog': 'error',
+			'pnpm/json-prefer-workspace-settings': 'error',
+		},
+		yaml_files = ['pnpm-workspace.yaml'],
+		yaml_rules = {
+			'pnpm/yaml-no-unused-catalog-item': 'error',
+			'pnpm/yaml-no-duplicate-catalog-item': 'error',
 		},
 	} = options
 
 	if (!enable) return null
 
-	return {
-		name: 'pnpm-catalogs:package.json',
-		files,
-		languageOptions: {
-			parser: jsoncParser,
+	return [
+		{
+			name: 'pnpm/package.json',
+			files: json_files,
+			languageOptions: {
+				parser: jsoncParser,
+			},
+			plugins: {
+				pnpm: pluginPnpm,
+			},
+			rules: json_rules,
 		},
-		plugins: {
-			'pnpm-catalogs': pnpmCatalogs,
+		{
+			name: 'pnpm/pnpm-workspace-yaml',
+			files: yaml_files,
+			languageOptions: {
+				parser: yamlParser,
+			},
+			plugins: {
+				pnpm: pluginPnpm,
+			},
+			rules: yaml_rules,
 		},
-		rules,
-	}
+	]
 }
 
 const othersRules = () => {
