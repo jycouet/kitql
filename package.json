@@ -9,6 +9,7 @@
     "release:version": "npm run changeset version",
     "release": "npm run build && changeset publish --verbose",
     "reset": "git clean -xdf",
+    "lint": "kitql-lint",
     "format": "kitql-lint --format",
     "up-dep": "pnpm -r up --latest"
   },
@@ -19,13 +20,5 @@
     "esbuild": "catalog:tooling",
     "prettier": "catalog:linting",
     "rimraf": "catalog:tooling"
-  },
-  "pnpm": {
-    "onlyBuiltDependencies": [
-      "esbuild"
-    ],
-    "patchedDependencies": {
-      "@sveltejs/package": "patches/@sveltejs__package.patch"
-    }
   }
 }
