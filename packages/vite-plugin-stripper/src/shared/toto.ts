@@ -1,5 +1,5 @@
-console.info("plop")
+console.info('plop')
 export const plop = () => {
-	console.info("plop fn")
-	return "plop"
+	console.info('plop fn')
+	return 'plop'
 }

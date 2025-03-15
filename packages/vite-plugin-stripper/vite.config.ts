@@ -33,17 +33,17 @@ export default defineConfig(() => ({
 						{ fn: 'backendPrefilter' },
 						{ fn: 'backendPreprocessFilter' },
 						{ fn: 'sqlExpression' },
-						{ fn: 'dbName', excludeEntityKeys: ['users'] }
-					]
-				}
-			]
+						{ fn: 'dbName', excludeEntityKeys: ['users'] },
+					],
+				},
+			],
 		}),
 		sveltekit(),
 	],
 	test: {
 		include: ['src/**/*.{test,spec}.{js,ts}'],
 		coverage: {
-			reporter: ['html']
-		}
+			reporter: ['html'],
+		},
 	},
 }))

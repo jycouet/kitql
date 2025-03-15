@@ -1,4 +1,5 @@
 import { describe, expect, it } from 'vitest'
+
 import { imports, usage } from './ast.js'
 
 describe('imports', () => {
@@ -154,7 +155,6 @@ describe('imports', () => {
 			]
 		`)
 	})
-
 })
 
 describe('usage', () => {
