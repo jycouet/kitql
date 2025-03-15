@@ -45,13 +45,11 @@
   },
   "dependencies": {
     "@kitql/helpers": "workspace:*",
-    "esrap": "^1.4.5",
-    "estree-walker": "^3.0.3",
+    "esrap": "catalog:tooling",
     "oxc-parser": "catalog:tooling",
-    "oxc-walker": "^0.2.2",
+    "oxc-walker": "catalog:tooling",
     "recast": "catalog:tooling",
-    "svelte": "catalog:svelte-dep",
-    "zimmerframe": "^1.1.2"
+    "svelte": "catalog:svelte-dep"
   },
   "sideEffects": false,
   "publishConfig": {

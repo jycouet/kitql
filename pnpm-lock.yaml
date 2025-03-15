@@ -165,12 +165,18 @@ catalogs:
     esbuild:
       specifier: 0.25.0
       version: 0.25.0
+    esrap:
+      specifier: 1.4.5
+      version: 1.4.5
     ora:
       specifier: 8.2.0
       version: 8.2.0
     oxc-parser:
       specifier: 0.58.1
       version: 0.58.1
+    oxc-walker:
+      specifier: 0.2.2
+      version: 0.2.2
     recast:
       specifier: ^0.23.4
       version: 0.23.4
@@ -409,16 +415,13 @@ importers:
         specifier: workspace:*
         version: link:../helpers/dist
       esrap:
-        specifier: ^1.4.5
+        specifier: catalog:tooling
         version: 1.4.5
-      estree-walker:
-        specifier: ^3.0.3
-        version: 3.0.3
       oxc-parser:
         specifier: catalog:tooling
         version: 0.58.1
       oxc-walker:
-        specifier: ^0.2.2
+        specifier: catalog:tooling
         version: 0.2.2(oxc-parser@0.58.1)
       recast:
         specifier: catalog:tooling
@@ -426,9 +429,6 @@ importers:
       svelte:
         specifier: catalog:svelte-dep
         version: 5.20.5
-      zimmerframe:
-        specifier: ^1.1.2
-        version: 1.1.2
     devDependencies:
       '@kitql/eslint-config':
         specifier: workspace:*

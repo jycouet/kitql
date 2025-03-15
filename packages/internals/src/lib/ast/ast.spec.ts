@@ -17,9 +17,7 @@ describe('parse', function () {
 	})
 
 	it('parse with top level await', async function () {
-		const ast = parse(
-			`await fetch('https://www.google.com')`,
-		)
+		const ast = parse(`await fetch('https://www.google.com')`)
 		expect(ast.program.body.length).toBe(1)
 		expect(ast.program.body[0].type).toBe('ExpressionStatement')
 	})
@@ -27,11 +25,9 @@ describe('parse', function () {
 
 describe('print', function () {
 	it('simple', function () {
-
 		const code = `const a = 1;
 const b = "hello"
 		`
-
 
 		const ast = parse(code)
 		expect(print(ast.program).code).toMatchInlineSnapshot(`

@@ -1,6 +1,7 @@
-import { parse, type ParseOptions } from "./ast.js"
-import type { ParseResult } from "oxc-parser"
+import type { ParseResult } from 'oxc-parser'
 import { walk } from 'oxc-walker'
+
+import { parse, type ParseOptions } from './ast.js'
 
 export type ImportInfo = {
 	name: string
@@ -15,9 +16,10 @@ export type UserInfo = {
 
 export const imports = (
 	sourceText_or_ast: string | ParseResult,
-	opts?: ParseOptions
+	opts?: ParseOptions,
 ): { ast: ReturnType<typeof parse>; importsList: ImportInfo[] } => {
-	const ast = typeof sourceText_or_ast === 'string' ? parse(sourceText_or_ast, opts) : sourceText_or_ast
+	const ast =
+		typeof sourceText_or_ast === 'string' ? parse(sourceText_or_ast, opts) : sourceText_or_ast
 	const importsList: ImportInfo[] = []
 
 	walk(ast.program, {
@@ -72,7 +74,7 @@ export const imports = (
 
 				return false
 			}
-		}
+		},
 	})
 
 	return { ast, importsList }
