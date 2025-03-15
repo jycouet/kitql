@@ -1,4 +1,4 @@
-import { parseTs, visit } from '@kitql/internals'
+import { parse, walk } from '@kitql/internals'
 
 export type WarningThrow = {
 	relativePathFile: string
@@ -13,28 +13,25 @@ export const transformWarningThrow = async (
 	log_on_throw_is_not_a_new_class: boolean,
 ) => {
 	try {
-		const codeParsed = parseTs(code)
+		const ast = parse(code)
 
 		const list: WarningThrow[] = []
 
-		visit(codeParsed, {
-			visitFunction(path: any) {
-				// Existing code for processing functions...
-				this.traverse(path)
-			},
-			visitThrowStatement(path: any) {
-				if (log_on_throw_is_not_a_new_class) {
-					const thrownExpr = path.node.argument
-					// Check if thrownExpr is not a class
-					if (thrownExpr && thrownExpr.type !== 'NewExpression') {
-						list.push({
-							relativePathFile: pathFile.replace(prjPath, ''),
-							pathFile,
-							line: path.node.loc?.start.line ?? 0,
-						})
+		walk(ast, {
+			enter(node, parent) {
+				if (node.type === 'ThrowStatement') {
+					if (log_on_throw_is_not_a_new_class) {
+						const thrownExpr = node.argument
+						// Check if thrownExpr is not a class
+						if (thrownExpr && thrownExpr.type !== 'NewExpression') {
+							list.push({
+								relativePathFile: pathFile.replace(prjPath, ''),
+								pathFile,
+								line: node.start ?? 0,
+							})
+						}
 					}
 				}
-				this.traverse(path)
 			},
 		})
 
