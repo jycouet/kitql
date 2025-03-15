@@ -7,5 +7,9 @@ export {
 	getRelativePackagePath,
 	findFileOrUp,
 } from './fs/fs.js'
-export { parseTs, extractHtmlElementAttr_Text, visit, prettyPrint, builders } from './ast/ast.js'
-export type { Statement } from './ast/ast.js'
+
+export { parse, print } from './ast/ast.js'
+export type { Statement } from 'oxc-parser'
+export { walk } from 'oxc-walker'
+
+export { extractHtmlElementAttr_Text } from './ast/astHtml.js'

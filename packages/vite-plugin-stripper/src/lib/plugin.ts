@@ -6,23 +6,10 @@ import { gray, green, Log, yellow } from '@kitql/helpers'
 import { getFilesUnder } from '@kitql/internals'
 
 import { nullifyImports } from './nullifyImports.js'
-import { transformDecorator } from './transformDecorator.js'
 import { transformStrip, type StripConfig } from './transformStrip.js'
 import { transformWarningThrow, type WarningThrow } from './transformWarningThrow.js'
 
 export type ViteStripperOptions = {
-	/**
-	 * for example: `['BackendMethod']`
-	 * @deprecated, you should use `strip` instead
-	 */
-	decorators?: string[]
-
-	/**
-	 * If true, will empty almost all the file if a decorator is found. (experimental!)
-	 * @deprecated, you should use `strip` instead
-	 */
-	hard?: boolean
-
 	/**
 	 * Wrap the code in an if(import.meta.env.SSR) condition if it's belongs a match of the config.
 	 *
@@ -106,7 +93,7 @@ export function stripper(options?: ViteStripperOptions): PluginOption {
 	const display = () => {
 		listOrThrow.forEach((item) => {
 			log.error(
-				`Throw is not a new class in ${yellow(item.relativePathFile)}:${yellow(String(item.line))}`,
+				`Throw is not a new class in ${yellow(item.relativePathFile)}:${yellow(String(item.position.line))}:${yellow(String(item.position.column))}`,
 			)
 		})
 		listOrThrow = []
@@ -151,18 +138,6 @@ export function stripper(options?: ViteStripperOptions): PluginOption {
 				}
 
 				const allInfos: string[] = []
-
-				if (options && options?.decorators && options.decorators.length > 0) {
-					const { info, ...rest } = await transformDecorator(
-						code,
-						options.decorators,
-						options.hard ?? false,
-					)
-
-					// Update the code for later transforms & return it
-					code = rest.code
-					allInfos.push(...info)
-				}
 
 				if (options && options?.nullify && options.nullify.length > 0) {
 					const { info, ...rest } = await nullifyImports(code, options.nullify)

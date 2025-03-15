@@ -26,31 +26,17 @@ describe('package', () => {
 		const transformed = await nullifyImports(code, ['mongodb'])
 
 		expect(transformed).toMatchInlineSnapshot(`
-      {
-        "code": "let ObjectId = null;
+			{
+			  "code": "let ObjectId = null;
 
-      @Entity("tasks", {
-          allowApiCrud: true
-      })
-      export class Task {
-          @Fields.string({
-              valueConverter: {
-                  fromDb: x => x?.toString(),
-
-                  toDb: x => {
-                      const r = new ObjectId(x);
-                      console.log(r);
-                      return r;
-                  }
-              }
-          })
-          aMongoDbIdField = "";
-      }",
-        "info": [
-          "Nullify import from 'mongodb'",
-        ],
-      }
-    `)
+			export class Task {
+				aMongoDbIdField = '';
+			}",
+			  "info": [
+			    "Nullify 'ObjectId' from 'mongodb'",
+			  ],
+			}
+		`)
 	})
 
 	it('2 replaces', async () => {
@@ -75,30 +61,18 @@ describe('package', () => {
 		const transformed = await nullifyImports(code, ['mongodb'])
 
 		expect(transformed).toMatchInlineSnapshot(`
-      {
-        "code": "let ObjectId = null;
-      let demo = null;
+			{
+			  "code": "let ObjectId = null;
+			let demo = null;
 
-      @Entity("tasks", {
-          allowApiCrud: true
-      })
-      export class Task {
-          @Fields.string({
-              valueConverter: {
-                  fromDb: x => x?.toString(),
-
-                  toDb: x => {
-                      const r = new ObjectId(x);
-                      const u = demo;
-                  }
-              }
-          })
-          aMongoDbIdField = "";
-      }",
-        "info": [
-          "Nullify import from 'mongodb'",
-        ],
-      }
-    `)
+			export class Task {
+				aMongoDbIdField = '';
+			}",
+			  "info": [
+			    "Nullify 'ObjectId' from 'mongodb'",
+			    "Nullify 'demo' from 'mongodb'",
+			  ],
+			}
+		`)
 	})
 })
