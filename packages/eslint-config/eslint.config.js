@@ -14,9 +14,9 @@ import { findFileOrUp } from './helper/findFileOrUp.js'
  * @typedef {Object} PnpmCatalogsConfig
  * @property {boolean} [enable=true] - Whether to enable pnpm catalogs rules
  * @property {string[]} [json_files] - Files to apply the rules to
- * @property {Record<string, string>} [json_rules] - Rules configuration
+ * @property {Record<string, any>} [json_rules] - Rules configuration
  * @property {string[]} [yaml_files] - Files to apply the rules to
- * @property {Record<string, string>} [yaml_rules] - Rules configuration
+ * @property {Record<string, any>} [yaml_rules] - Rules configuration
  */
 
 const rulePrettierIgnore = ({ pnpmCatalogsEnabled = true }) => {
@@ -42,11 +42,13 @@ const rulePnpmCatalogs = (options = {}) => {
 			'pnpm/json-enforce-catalog': 'error',
 			'pnpm/json-valid-catalog': 'error',
 			'pnpm/json-prefer-workspace-settings': 'error',
+			...options.json_rules,
 		},
 		yaml_files = ['pnpm-workspace.yaml'],
 		yaml_rules = {
 			'pnpm/yaml-no-unused-catalog-item': 'error',
-			'pnpm/yaml-no-duplicate-catalog-item': 'error',
+			'pnpm/yaml-no-duplicate-catalog-item': 'off',
+			...options.yaml_rules,
 		},
 	} = options
 

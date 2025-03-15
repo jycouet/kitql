@@ -20,13 +20,5 @@
     "esbuild": "catalog:tooling",
     "prettier": "catalog:linting",
     "rimraf": "catalog:tooling"
-  },
-  "pnpm": {
-    "onlyBuiltDependencies": [
-      "esbuild"
-    ],
-    "patchedDependencies": {
-      "@sveltejs/package": "patches/@sveltejs__package.patch"
-    }
   }
 }
