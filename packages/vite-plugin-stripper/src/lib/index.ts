@@ -1,3 +1,2 @@
-import { stripper } from './plugin.js'
-
-export { stripper }
+export type { ViteStripperOptions } from './plugin.js'
+export { stripper } from './plugin.js'
