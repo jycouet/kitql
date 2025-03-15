@@ -33,7 +33,6 @@ export default defineConfig(() => ({
 						{ fn: 'backendPrefilter' },
 						{ fn: 'backendPreprocessFilter' },
 						{ fn: 'sqlExpression' },
-						{ fn: 'dbName', excludeEntityKeys: ['users'] },
 					],
 				},
 			],

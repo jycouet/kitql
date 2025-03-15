@@ -10,7 +10,8 @@
 <a href="/">Home</a> |
 <a href="/demoThrowClass">ThrowClass</a> |
 <a href="/demoThrowClass">ThrowRandom</a> |
-<a href="/decorators">decorators</a>
+<a href="/decorators">decorators</a> |
+<a href="/decoratorsEntity">decoratorsEntity</a>
 
 <hr />
 

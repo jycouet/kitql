@@ -3,15 +3,22 @@ import { BackendMethod, Entity, Fields, remult, type Allowed } from 'remult'
 import { AUTH_SECRET } from '$env/static/private'
 
 @Entity('users', {
-	dbName: 'secret_db_name',
+	allowApiCrud: true,
 	backendPrefilter: () => {
+		console.info('AUTH_SECRET_backendPrefilter', AUTH_SECRET)
 		console.info('backendPrefilter_top_secret')
 		return {}
 	},
-	backendPreprocessFilter: () => {
+	backendPreprocessFilter: (f) => {
+		console.info('AUTH_SECRET_backendPreprocessFilter', AUTH_SECRET)
 		console.info('backendPreprocessFilter_top_secret')
-		return {}
+		return f
 	},
+	sqlExpression: () => {
+		console.info('AUTH_SECRET_sqlExpression', AUTH_SECRET)
+		console.info('sqlExpression_top_secret')
+		return "users"
+	}
 })
 export class User {
 	@Fields.uuid()

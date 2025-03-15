@@ -202,15 +202,20 @@ describe('Plugin build output', () => {
 	})
 
 	describe('Entity + BackendMethod, methods', async () => {
-		;[
+		[
 			{
+
 				name: 'no strip',
 				strip: [],
 				expects: (outputContent: string) => {
 					expect(outputContent).not.toContain('import.meta.env.SSR')
 					expect(outputContent).toContain('AUTH_SECRET')
 					expect(outputContent).toContain('backendPrefilter_top_secret')
+					expect(outputContent).toContain('AUTH_SECRET_backendPrefilter')
 					expect(outputContent).toContain('backendPreprocessFilter_top_secret')
+					expect(outputContent).toContain('AUTH_SECRET_backendPreprocessFilter')
+					expect(outputContent).toContain('sqlExpression_top_secret')
+					expect(outputContent).toContain('AUTH_SECRET_sqlExpression')
 				},
 			},
 			{
@@ -219,14 +224,19 @@ describe('Plugin build output', () => {
 					{ decorator: 'BackendMethod' },
 					{
 						decorator: 'Entity',
-						args_1: [{ fn: 'backendPrefilter' }, { fn: 'backendPreprocessFilter' }],
+						args_1: [{ fn: 'backendPrefilter' }, { fn: 'backendPreprocessFilter' }, { fn: "sqlExpression" }],
 					},
+
 				],
 				expects: (outputContent: string) => {
 					expect(outputContent).not.toContain('import.meta.env.SSR')
 					expect(outputContent).not.toContain('AUTH_SECRET')
 					expect(outputContent).not.toContain('backendPrefilter_top_secret')
+					expect(outputContent).not.toContain('AUTH_SECRET_backendPrefilter')
 					expect(outputContent).not.toContain('backendPreprocessFilter_top_secret')
+					expect(outputContent).not.toContain('AUTH_SECRET_backendPreprocessFilter')
+					expect(outputContent).not.toContain('sqlExpression_top_secret')
+					expect(outputContent).not.toContain('AUTH_SECRET_sqlExpression')
 				},
 			},
 		].forEach(async (input) => {

@@ -36,7 +36,7 @@ export type ViteStripperOptions = {
 	 *				{ fn: 'backendPrefilter' },
 	 *				{ fn: 'backendPreprocessFilter' },
 	 *				{ fn: 'sqlExpression' },
-	 *				{ fn: 'dbName', excludeEntityKeys: ['users'] }
+	 *				{ fn: 'saved', excludeEntityKeys: ['users'] }
 	 *			]
 	 *		}
 	 *	]
@@ -183,13 +183,13 @@ export function stripper(options?: ViteStripperOptions): PluginOption {
 				if (options?.debug && allInfos.length > 0) {
 					log.info(
 						`` +
-							`${gray('File:')} ${yellow(filepath)}\n` +
-							`${green('-----')}\n` +
-							`${code}` +
-							`\n${green(':::::')}\n` +
-							`${allInfos.join('\n')}` +
-							`\n${green('-----')}` +
-							``,
+						`${gray('File:')} ${yellow(filepath)}\n` +
+						`${green('-----')}\n` +
+						`${code}` +
+						`\n${green(':::::')}\n` +
+						`${allInfos.join('\n')}` +
+						`\n${green('-----')}` +
+						``,
 					)
 				}
 
