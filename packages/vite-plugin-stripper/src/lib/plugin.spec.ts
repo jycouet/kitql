@@ -202,9 +202,8 @@ describe('Plugin build output', () => {
 	})
 
 	describe('Entity + BackendMethod, methods', async () => {
-		[
+		;[
 			{
-
 				name: 'no strip',
 				strip: [],
 				expects: (outputContent: string) => {
@@ -224,9 +223,12 @@ describe('Plugin build output', () => {
 					{ decorator: 'BackendMethod' },
 					{
 						decorator: 'Entity',
-						args_1: [{ fn: 'backendPrefilter' }, { fn: 'backendPreprocessFilter' }, { fn: "sqlExpression" }],
+						args_1: [
+							{ fn: 'backendPrefilter' },
+							{ fn: 'backendPreprocessFilter' },
+							{ fn: 'sqlExpression' },
+						],
 					},
-
 				],
 				expects: (outputContent: string) => {
 					expect(outputContent).not.toContain('import.meta.env.SSR')

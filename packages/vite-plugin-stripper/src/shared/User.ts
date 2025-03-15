@@ -17,8 +17,8 @@ import { AUTH_SECRET } from '$env/static/private'
 	sqlExpression: () => {
 		console.info('AUTH_SECRET_sqlExpression', AUTH_SECRET)
 		console.info('sqlExpression_top_secret')
-		return "users"
-	}
+		return 'users'
+	},
 })
 export class User {
 	@Fields.uuid()
