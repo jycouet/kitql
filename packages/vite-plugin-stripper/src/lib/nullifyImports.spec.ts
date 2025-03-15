@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 
-import { removePackages } from './transformPackage.js'
+import { nullifyImports } from './nullifyImports.js'
 
 describe('package', () => {
 	it('1 replace', async () => {
@@ -23,7 +23,7 @@ describe('package', () => {
     }
 	`
 
-		const transformed = await removePackages(code, ['mongodb'])
+		const transformed = await nullifyImports(code, ['mongodb'])
 
 		expect(transformed).toMatchInlineSnapshot(`
       {
@@ -47,7 +47,7 @@ describe('package', () => {
           aMongoDbIdField = "";
       }",
         "info": [
-          "Replaced import from 'mongodb'",
+          "Nullify import from 'mongodb'",
         ],
       }
     `)
@@ -72,7 +72,7 @@ describe('package', () => {
     }
 	`
 
-		const transformed = await removePackages(code, ['mongodb'])
+		const transformed = await nullifyImports(code, ['mongodb'])
 
 		expect(transformed).toMatchInlineSnapshot(`
       {
@@ -96,7 +96,7 @@ describe('package', () => {
           aMongoDbIdField = "";
       }",
         "info": [
-          "Replaced import from 'mongodb'",
+          "Nullify import from 'mongodb'",
         ],
       }
     `)

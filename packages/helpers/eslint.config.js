@@ -1,3 +1,3 @@
-import kitql from '@kitql/eslint-config'
+import { kitql } from '@kitql/eslint-config'
 
-export default [...kitql]
+export default [...kitql()]
