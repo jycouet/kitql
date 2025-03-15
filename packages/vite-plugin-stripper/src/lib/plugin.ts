@@ -93,7 +93,7 @@ export function stripper(options?: ViteStripperOptions): PluginOption {
 	const display = () => {
 		listOrThrow.forEach((item) => {
 			log.error(
-				`Throw is not a new class in ${yellow(item.relativePathFile)}:${yellow(String(item.line))}`,
+				`Throw is not a new class in ${yellow(item.relativePathFile)}:${yellow(String(item.position.line))}:${yellow(String(item.position.column))}`,
 			)
 		})
 		listOrThrow = []
@@ -158,13 +158,13 @@ export function stripper(options?: ViteStripperOptions): PluginOption {
 				if (options?.debug && allInfos.length > 0) {
 					log.info(
 						`` +
-						`${gray('File:')} ${yellow(filepath)}\n` +
-						`${green('-----')}\n` +
-						`${code}` +
-						`\n${green(':::::')}\n` +
-						`${allInfos.join('\n')}` +
-						`\n${green('-----')}` +
-						``,
+							`${gray('File:')} ${yellow(filepath)}\n` +
+							`${green('-----')}\n` +
+							`${code}` +
+							`\n${green(':::::')}\n` +
+							`${allInfos.join('\n')}` +
+							`\n${green('-----')}` +
+							``,
 					)
 				}
 

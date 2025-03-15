@@ -32,15 +32,18 @@ describe('warning on throw is not a class', () => {
 		const transformed = await transformWarningThrow('myfile', '', code, true)
 
 		expect(transformed).toMatchInlineSnapshot(`
-      {
-        "list": [
-          {
-            "line": 4,
-            "pathFile": "myfile",
-            "relativePathFile": "myfile",
-          },
-        ],
-      }
-    `)
+			{
+			  "list": [
+			    {
+			      "pathFile": "myfile",
+			      "position": {
+			        "column": 7,
+			        "line": 4,
+			      },
+			      "relativePathFile": "myfile",
+			    },
+			  ],
+			}
+		`)
 	})
 })
