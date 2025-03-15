@@ -32,7 +32,7 @@ secretContent: {secretContent}
 	}}>Add</button
 >
 
-{#each users as user}
+{#each users as user (user.id)}
 	<div>
 		{user.name}
 		<button

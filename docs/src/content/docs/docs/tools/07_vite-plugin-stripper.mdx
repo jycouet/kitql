@@ -23,7 +23,7 @@ import { stripper } from 'vite-plugin-stripper'
 export default defineConfig({
 	plugins: [
 		// To strip `@BackendMethod` from your browser bundle
-		stripper({ decorators: ['BackendMethod'] }),
+		stripper({ strip: ['BackendMethod'] }),
 		sveltekit(),
 	],
 })
@@ -35,6 +35,24 @@ export default defineConfig({
 npm i -D vite-plugin-stripper
 ```
 
-## Configuration
+## Advanced configuration
 
-🚧🚧🚧
+```ts
+stripper({
+	strip: [
+		{ decorator: 'BackendMethod' },
+		{
+			decorator: 'Entity',
+			args_1: [
+				{ fn: 'backendPrefilter' },
+				{ fn: 'backendPreprocessFilter' },
+				{ fn: 'sqlExpression' },
+				// {
+				// 	fn: 'saved',
+				// 	excludeEntityKeys: ['users']
+				// }
+			],
+		},
+	],
+})
+```
