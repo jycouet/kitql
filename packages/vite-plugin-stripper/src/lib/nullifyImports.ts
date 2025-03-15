@@ -37,7 +37,7 @@ export const nullifyImports = async (code: string, packages_to_strip: string[]) 
 
 		return {
 			code: prettyPrint(ast).code,
-			info: packages_striped.map((pkg) => `Replaced import from '${pkg}'`),
+			info: packages_striped.map((pkg) => `Nullify import from '${pkg}'`),
 		}
 	} catch (error) {
 		return { code, info: [] }

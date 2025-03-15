@@ -13,7 +13,7 @@ import {
 } from "./transformWarningThrow.js";
 import { transformStrip, type StripConfig } from "./transformStrip.js";
 
-export type ViteStriperOptions = {
+export type ViteStripperOptions = {
 	/**
 	 * for example: `['BackendMethod']`
 	 * @deprecated, you should use `strip` instead
@@ -102,7 +102,7 @@ export type ViteStriperOptions = {
  * ```
  * 
  */
-export function stripper(options?: ViteStriperOptions): PluginOption {
+export function stripper(options?: ViteStripperOptions): PluginOption {
 	const log = new Log("stripper");
 	let listOrThrow: WarningThrow[] = [];
 

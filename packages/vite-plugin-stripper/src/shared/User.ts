@@ -1,5 +1,4 @@
 import { BackendMethod, Entity, Fields, remult, type Allowed } from 'remult'
-
 import { AUTH_SECRET } from '$env/static/private'
 
 @Entity('users', {

@@ -47,7 +47,7 @@ describe('package', () => {
           aMongoDbIdField = "";
       }",
         "info": [
-          "Replaced import from 'mongodb'",
+          "Nullify import from 'mongodb'",
         ],
       }
     `)
@@ -96,7 +96,7 @@ describe('package', () => {
           aMongoDbIdField = "";
       }",
         "info": [
-          "Replaced import from 'mongodb'",
+          "Nullify import from 'mongodb'",
         ],
       }
     `)
