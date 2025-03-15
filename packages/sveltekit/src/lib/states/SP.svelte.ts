@@ -450,6 +450,7 @@ export class SP<T extends Record<string, any>> {
 		goto(`${window.location.pathname}${strSearch}`, {
 			keepFocus: true,
 			replaceState: true,
+			noScroll: true,
 			...this.options.gotoOpts,
 		})
 
