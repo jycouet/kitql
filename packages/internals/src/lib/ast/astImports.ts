@@ -18,8 +18,8 @@ export const imports = (
 	sourceText_or_ast: string | ParseResult,
 	opts?: ParseOptions,
 ): { ast: ReturnType<typeof parse>; importsList: ImportInfo[] } => {
-	const ast =
-		typeof sourceText_or_ast === 'string' ? parse(sourceText_or_ast, opts) : sourceText_or_ast
+	const ast = parse(sourceText_or_ast, opts)
+
 	const importsList: ImportInfo[] = []
 
 	walk(ast.program, {

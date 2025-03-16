@@ -1,7 +1,5 @@
 import { describe, expect, it } from 'vitest'
 
-import { print } from '@kitql/internals'
-
 import { nullifyImports } from './nullifyImports.js'
 import { toInfoCode } from './testHelper.js'
 
@@ -31,9 +29,21 @@ describe('package', () => {
 		expect(transformed).toMatchInlineSnapshot(`
 			{
 			  "code": "let ObjectId = null;
-
+			@Entity('tasks', {
+			  allowApiCrud: true
+			})
 			export class Task {
-				aMongoDbIdField = '';
+			  @Fields.string({
+			    valueConverter: {
+			      fromDb: (x) => x?.toString(),
+			      toDb: (x) => {
+			        const r = new ObjectId(x)
+			        console.log(r)
+			        return r
+			      }
+			    }
+			  })
+			  aMongoDbIdField = ''
 			}",
 			  "info": [
 			    "Nullify 'ObjectId' from 'mongodb'",
@@ -67,9 +77,20 @@ describe('package', () => {
 			{
 			  "code": "let ObjectId = null;
 			let demo = null;
-
+			@Entity('tasks', {
+			  allowApiCrud: true
+			})
 			export class Task {
-				aMongoDbIdField = '';
+			  @Fields.string({
+			    valueConverter: {
+			      fromDb: (x) => x?.toString(),
+			      toDb: (x) => {
+			        const r = new ObjectId(x)
+			        const u = demo
+			      }
+			    }
+			  })
+			  aMongoDbIdField = ''
 			}",
 			  "info": [
 			    "Nullify 'ObjectId' from 'mongodb'",

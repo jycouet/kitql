@@ -159,18 +159,12 @@ catalogs:
       specifier: 3.0.4
       version: 3.0.4
   tooling:
-    astring:
-      specifier: ^1.9.0
-      version: 1.9.0
     commander:
       specifier: 13.1.0
       version: 13.1.0
     esbuild:
       specifier: 0.25.0
       version: 0.25.0
-    esrap:
-      specifier: 1.4.5
-      version: 1.4.5
     ora:
       specifier: 8.2.0
       version: 8.2.0
@@ -180,6 +174,9 @@ catalogs:
     oxc-walker:
       specifier: 0.2.2
       version: 0.2.2
+    recast:
+      specifier: 0.23.11
+      version: 0.23.11
     rimraf:
       specifier: 6.0.1
       version: 6.0.1
@@ -414,23 +411,14 @@ importers:
       '@kitql/helpers':
         specifier: workspace:*
         version: link:../helpers/dist
-      astring:
-        specifier: catalog:tooling
-        version: 1.9.0
-      esrap:
-        specifier: catalog:tooling
-        version: 1.4.5
       oxc-parser:
         specifier: catalog:tooling
         version: 0.58.1
       oxc-walker:
         specifier: catalog:tooling
         version: 0.2.2(oxc-parser@0.58.1)
-      prettier:
-        specifier: ^3.5.3
-        version: 3.5.3
       recast:
-        specifier: ^0.23.11
+        specifier: catalog:tooling
         version: 0.23.11
       svelte:
         specifier: catalog:svelte-dep
