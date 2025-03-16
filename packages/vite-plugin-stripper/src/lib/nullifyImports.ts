@@ -1,9 +1,10 @@
-import { parse, print, walk } from '@kitql/internals'
-import type { Statement } from '@kitql/internals'
+import { parse, walk } from '@kitql/internals'
+import type { Statement, ParseResult, ParseOptions } from '@kitql/internals'
 
-export const nullifyImports = async (code: string, packages_to_strip: string[]) => {
+export const nullifyImports = async (sourceText_or_ast: string | ParseResult, packages_to_strip: string[], opts?: ParseOptions) => {
 	try {
-		const ast = parse(code)
+		const ast =
+			typeof sourceText_or_ast === 'string' ? parse(sourceText_or_ast, opts) : sourceText_or_ast
 
 		const nullifyed: string[] = []
 
@@ -79,10 +80,11 @@ export const nullifyImports = async (code: string, packages_to_strip: string[]) 
 		})
 
 		return {
-			code: print(ast.program).code,
+			sourceText_or_ast,
+			ast,
 			info: nullifyed,
 		}
 	} catch (error) {
-		return { code, info: [] }
+		return { sourceText_or_ast, ast: null, info: [] }
 	}
 }

@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest'
 
 import { nullifyImports } from './nullifyImports.js'
+import { print } from '@kitql/internals'
 
 describe('package', () => {
 	it('1 replace', async () => {
@@ -25,17 +26,17 @@ describe('package', () => {
 
 		const transformed = await nullifyImports(code, ['mongodb'])
 
-		expect(transformed).toMatchInlineSnapshot(`
-			{
-			  "code": "let ObjectId = null;
+		expect(transformed.info).toMatchInlineSnapshot(`
+			[
+			  "Nullify 'ObjectId' from 'mongodb'",
+			]
+		`)
+		expect(print(transformed.ast!.program).code).toMatchInlineSnapshot(`
+			"let ObjectId = null;
 
 			export class Task {
 				aMongoDbIdField = '';
-			}",
-			  "info": [
-			    "Nullify 'ObjectId' from 'mongodb'",
-			  ],
-			}
+			}"
 		`)
 	})
 
@@ -60,19 +61,19 @@ describe('package', () => {
 
 		const transformed = await nullifyImports(code, ['mongodb'])
 
-		expect(transformed).toMatchInlineSnapshot(`
-			{
-			  "code": "let ObjectId = null;
+		expect(transformed.info).toMatchInlineSnapshot(`
+			[
+			  "Nullify 'ObjectId' from 'mongodb'",
+			  "Nullify 'demo' from 'mongodb'",
+			]
+		`)
+		expect(print(transformed.ast!.program).code).toMatchInlineSnapshot(`
+			"let ObjectId = null;
 			let demo = null;
 
 			export class Task {
 				aMongoDbIdField = '';
-			}",
-			  "info": [
-			    "Nullify 'ObjectId' from 'mongodb'",
-			    "Nullify 'demo' from 'mongodb'",
-			  ],
-			}
+			}"
 		`)
 	})
 })

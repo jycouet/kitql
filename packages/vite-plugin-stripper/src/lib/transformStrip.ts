@@ -1,4 +1,4 @@
-import { parse, print, walk } from '@kitql/internals'
+import { parse, walk, type ParseResult } from '@kitql/internals'
 
 // Define the type for the decorator config
 export type StripConfig = {
@@ -6,9 +6,11 @@ export type StripConfig = {
 	args_1?: { fn: string; excludeEntityKeys?: string[] }[] // Array of objects with function name and optional entity keys to exclude
 }
 
-export const transformStrip = async (code: string, decorators_config: StripConfig[]) => {
+export const transformStrip = async (sourceText_or_ast: string | ParseResult, decorators_config: StripConfig[], opts?: ParseOptions) => {
 	try {
-		const ast = parse(code)
+		const ast =
+			typeof sourceText_or_ast === 'string' ? parse(sourceText_or_ast, opts) : sourceText_or_ast
+
 
 		let currentClassName = '' // Variable to hold the current class name
 		const decorators_wrapped: { decorator: string; functionName: string; className: string }[] = []
@@ -19,10 +21,8 @@ export const transformStrip = async (code: string, decorators_config: StripConfi
 		walk(ast, {
 			enter(node) {
 				if (node.type === 'ClassDeclaration') {
-					// @ts-ignore
-					const className = path.node.id.name
-					// @ts-ignore
-					const decorators: any[] = path.node.decorators || []
+					const className = node.id?.name || ''
+					const decorators: any[] = node.decorators || []
 
 					decorators.forEach((decorator) => {
 						if (!decorator.expression.callee) return
@@ -83,18 +83,28 @@ export const transformStrip = async (code: string, decorators_config: StripConfi
 																	type: 'MemberExpression',
 																	object: {
 																		type: 'MetaProperty',
-																		meta: { type: 'Identifier', name: 'import' },
-																		property: { type: 'Identifier', name: 'meta' },
+																		meta: { type: 'Identifier', name: 'import', start: 0, end: 0 },
+																		property: { type: 'Identifier', name: 'meta', start: 0, end: 0 },
+																		start: 0,
+																		end: 0
 																	},
-																	property: { type: 'Identifier', name: 'env' },
+																	property: { type: 'Identifier', name: 'env', start: 0, end: 0 },
+																	start: 0,
+																	end: 0
 																},
-																property: { type: 'Identifier', name: 'SSR' },
-															},
+																property: { type: 'Identifier', name: 'SSR', start: 0, end: 0 },
+																start: 0,
+																end: 0
+															} as any,
 															consequent: {
 																type: 'BlockStatement',
 																body: originalBody,
-															},
+																start: 0,
+																end: 0
+															} as any,
 															alternate: null,
+															start: 0,
+															end: 0
 														},
 													]
 
@@ -114,33 +124,24 @@ export const transformStrip = async (code: string, decorators_config: StripConfi
 					})
 				}
 			},
-
 		})
 
 		// Second pass: wrap functions with decorators in if(import.meta.env.SSR) condition
 		walk(ast, {
 			enter(node) {
 				if (node.type === 'ClassDeclaration') {
-					// @ts-ignore
-					currentClassName = node.id.name
+					currentClassName = node.id?.name || ''
 				}
-				if (node.type === "FunctionDeclaration") {
-					// @ts-ignore
-					const decorators: any[] = path.node.decorators || []
+				if (node.type === "MethodDefinition") {
+					const decorators: any[] = node.decorators || []
 					let foundDecorator = false
-					let decoratorName = ''
 
 					// Initialize functionName with a default value
 					let functionName = '???'
 
-					// Check if the function is a standalone function or a method in a class
-					if (node.id && node.id.name) {
-						// Standalone function
-						functionName = typeof path.node.id.name === 'string' ? path.node.id.name : 'IdentifierKind'
-						// @ts-ignore
-					} else if (path.node.key && path.node.key.name) {
-						// @ts-ignore
-						functionName = path.node.key.name
+					// Check if the method has a name
+					if (node.key && node.key.type === 'Identifier') {
+						functionName = node.key.name
 					}
 
 					// Check if any of the decorators match our list
@@ -151,7 +152,6 @@ export const transformStrip = async (code: string, decorators_config: StripConfi
 
 							if (matchingConfig) {
 								foundDecorator = true
-								decoratorName = name
 
 								// Push both the decorator name and the associated function name
 								decorators_wrapped.push({
@@ -184,13 +184,14 @@ export const transformStrip = async (code: string, decorators_config: StripConfi
 					// If one of the decorators was found OR it's a special function in a tracked class, wrap the function body in if(import.meta.env.SSR)
 					if (
 						(foundDecorator || (isInEntityClass && isSpecialFunction && !shouldExclude)) &&
-						node.body &&
-						node.body.body
+						node.value &&
+						node.value.body &&
+						node.value.body.body
 					) {
-						const originalBody = node.body.body
+						const originalBody = node.value.body.body
 
 						// Create the if statement wrapping the original body
-						node.body.body = [
+						node.value.body.body = [
 							{
 								type: 'IfStatement',
 								test: {
@@ -199,18 +200,28 @@ export const transformStrip = async (code: string, decorators_config: StripConfi
 										type: 'MemberExpression',
 										object: {
 											type: 'MetaProperty',
-											meta: { type: 'Identifier', name: 'import' },
-											property: { type: 'Identifier', name: 'meta' },
+											meta: { type: 'Identifier', name: 'import', start: 0, end: 0 },
+											property: { type: 'Identifier', name: 'meta', start: 0, end: 0 },
+											start: 0,
+											end: 0
 										},
-										property: { type: 'Identifier', name: 'env' },
+										property: { type: 'Identifier', name: 'env', start: 0, end: 0 },
+										start: 0,
+										end: 0
 									},
-									property: { type: 'Identifier', name: 'SSR' },
-								},
+									property: { type: 'Identifier', name: 'SSR', start: 0, end: 0 },
+									start: 0,
+									end: 0
+								} as any,
 								consequent: {
 									type: 'BlockStatement',
 									body: originalBody,
-								},
+									start: 0,
+									end: 0
+								} as any,
 								alternate: null,
+								start: 0,
+								end: 0
 							},
 						]
 
@@ -231,22 +242,23 @@ export const transformStrip = async (code: string, decorators_config: StripConfi
 							})
 						}
 					}
-
 				}
 			},
-
 		})
 
-		const res = print(ast.program)
 		const info = decorators_wrapped.map(
 			(decorator) =>
 				`Wrapped with if(import.meta.env.SSR): ${JSON.stringify(Object.values(decorator))}`,
 		)
 
-		return { ...res, info }
+		return {
+			sourceText_or_ast,
+			ast,
+			info,
+		}
 	} catch (error) {
 		// if anything happens, just return the original code
 		console.error('Error in transformDecorator:', error)
 	}
-	return { code, info: [] }
+	return { sourceText_or_ast, ast: null, info: [] }
 }

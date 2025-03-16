@@ -209,6 +209,8 @@ describe('Plugin build output', () => {
 				expects: (outputContent: string) => {
 					expect(outputContent).not.toContain('import.meta.env.SSR')
 					expect(outputContent).toContain('AUTH_SECRET')
+					expect(outputContent).toContain('AUTH_SECRET_saved')
+					expect(outputContent).toContain('saved_top_secret')
 					expect(outputContent).toContain('backendPrefilter_top_secret')
 					expect(outputContent).toContain('AUTH_SECRET_backendPrefilter')
 					expect(outputContent).toContain('backendPreprocessFilter_top_secret')
@@ -233,12 +235,15 @@ describe('Plugin build output', () => {
 				expects: (outputContent: string) => {
 					expect(outputContent).not.toContain('import.meta.env.SSR')
 					expect(outputContent).not.toContain('AUTH_SECRET')
+					expect(outputContent).not.toContain('AUTH_SECRET_saved')
+					expect(outputContent).not.toContain('saved_top_secret')
 					expect(outputContent).not.toContain('backendPrefilter_top_secret')
 					expect(outputContent).not.toContain('AUTH_SECRET_backendPrefilter')
 					expect(outputContent).not.toContain('backendPreprocessFilter_top_secret')
 					expect(outputContent).not.toContain('AUTH_SECRET_backendPreprocessFilter')
 					expect(outputContent).not.toContain('sqlExpression_top_secret')
 					expect(outputContent).not.toContain('AUTH_SECRET_sqlExpression')
+
 				},
 			},
 		].forEach(async (input) => {

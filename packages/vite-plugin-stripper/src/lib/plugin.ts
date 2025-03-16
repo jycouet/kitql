@@ -3,7 +3,7 @@ import type { PluginOption } from 'vite'
 import { watchAndRun } from 'vite-plugin-watch-and-run'
 
 import { gray, green, Log, yellow } from '@kitql/helpers'
-import { getFilesUnder } from '@kitql/internals'
+import { getFilesUnder, print, type ParseResult } from '@kitql/internals'
 
 import { nullifyImports } from './nullifyImports.js'
 import { transformStrip, type StripConfig } from './transformStrip.js'
@@ -139,40 +139,43 @@ export function stripper(options?: ViteStripperOptions): PluginOption {
 
 				const allInfos: string[] = []
 
-				if (options && options?.nullify && options.nullify.length > 0) {
-					const { info, ...rest } = await nullifyImports(code, options.nullify)
+				let sourceText_or_ast: string | ParseResult = code
 
-					// Update the code for later transforms & return it
-					code = rest.code
+				if (options && options?.nullify && options.nullify.length > 0) {
+					const { info, ast } = await nullifyImports(sourceText_or_ast, options.nullify)
+					sourceText_or_ast = ast ?? sourceText_or_ast
 					allInfos.push(...info)
 				}
 
 				if (options && options?.strip && options.strip.length > 0) {
-					const { info, ...rest } = await transformStrip(code, options.strip)
-
-					// Update the code for later transforms & return it
-					code = rest.code
+					const { info, ast } = await transformStrip(sourceText_or_ast, options.strip)
+					sourceText_or_ast = ast ?? sourceText_or_ast
 					allInfos.push(...info)
 				}
 
-				if (options?.debug && allInfos.length > 0) {
-					log.info(
-						`` +
-							`${gray('File:')} ${yellow(filepath)}\n` +
-							`${green('-----')}\n` +
-							`${code}` +
-							`\n${green(':::::')}\n` +
-							`${allInfos.join('\n')}` +
-							`\n${green('-----')}` +
-							``,
-					)
-				}
-
 				if (allInfos.length > 0) {
-					return { code, map: null }
-				}
+					if (typeof sourceText_or_ast !== 'string') {
+						const toRet = {
+							code: print(sourceText_or_ast.program).code,
+							map: null,
+						}
 
-				return
+						if (options?.debug) {
+							log.info(
+								`` +
+								`${gray('File:')} ${yellow(filepath)}\n` +
+								`${green('-----')}\n` +
+								`${toRet.code}` +
+								`\n${green(':::::')}\n` +
+								`${allInfos.join('\n')}` +
+								`\n${green('-----')}` +
+								``,
+							)
+						}
+
+						return toRet
+					}
+				}
 			},
 		},
 
