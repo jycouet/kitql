@@ -1,6 +1,8 @@
 import { print as esrap_print, type PrintOptions } from 'esrap'
 import oxc from 'oxc-parser'
-
+import { generate } from 'astring'
+import prettier from 'prettier'
+import { prettyPrint } from "recast"
 export type ParseOptions = oxc.ParserOptions & { filename: string }
 
 export function parse(sourceText: string, options?: ParseOptions | null | undefined) {
@@ -15,8 +17,10 @@ export function print(
 		[key: string]: any
 	},
 	opts?: PrintOptions,
-): { code: string; map: any } {
-	return esrap_print(node, {
-		...opts,
-	})
+) {
+	return prettyPrint(node)
+	// return generate(node)
+	// return esrap_print(node, {
+	// 	...opts,
+	// })
 }
