@@ -2,7 +2,6 @@ import { describe, expect, it } from 'vitest'
 
 import { nullifyImports } from './nullifyImports.js'
 import { transformStrip } from './transformStrip.js'
-import { print } from '@kitql/internals'
 import { toInfoCode } from './testHelper.js'
 
 describe('transformStrip (init)', () => {
@@ -563,7 +562,7 @@ export class User {
 `
 
 		const code1 = await nullifyImports(code, ['$env/static/private'])
-		const transformed = toInfoCode(await transformStrip(code1.ast ?? code1.sourceText_or_ast, [
+		const transformed = toInfoCode(await transformStrip(code1.sourceText_or_ast, [
 			{ decorator: 'BackendMethod' },
 			{ decorator: 'Entity', args_1: [{ fn: 'backendPrefilter' }] },
 		]))
@@ -629,7 +628,7 @@ export class User {
 `
 
 		const code1 = await nullifyImports(code, ['$env/static/private'])
-		const transformed = await transformStrip(code1.code, [
+		const transformed = toInfoCode(await transformStrip(code1.sourceText_or_ast, [
 			{ decorator: 'BackendMethod' },
 			{
 				decorator: 'Entity',
@@ -640,12 +639,35 @@ export class User {
 					},
 				],
 			},
-		])
+		]))
 		expect(transformed).toMatchInlineSnapshot(`
 			{
-			  "ast": null,
-			  "info": [],
-			  "sourceText_or_ast": undefined,
+			  "code": "let AUTH_SECRET = null;
+			let AUTH_SECRET_NOT_USED = null;
+
+			import {
+				BackendMethod,
+				Entity,
+				Fields,
+				remult,
+				type Allowed
+			} from "remult";
+
+			export class User {
+				id = '';
+				name = '';
+
+				@BackendMethod({ allowed: () => remult.user === undefined })
+				static async hi(info: Allowed) {
+					if (import.meta.env.SSR) {
+						console.info('AUTH_SECRET', AUTH_SECRET);
+						return AUTH_SECRET + ' ' + info;
+					}
+				}
+			}",
+			  "info": [
+			    "Wrapped with if(import.meta.env.SSR): ["User","BackendMethod","hi"]",
+			  ],
 			}
 		`)
 	})

@@ -1,4 +1,4 @@
-import { parse, walk, type ParseResult } from '@kitql/internals'
+import { parse, walk, type ParseOptions, type ParseResult } from '@kitql/internals'
 
 // Define the type for the decorator config
 export type StripConfig = {
@@ -6,11 +6,14 @@ export type StripConfig = {
 	args_1?: { fn: string; excludeEntityKeys?: string[] }[] // Array of objects with function name and optional entity keys to exclude
 }
 
-export const transformStrip = async (sourceText_or_ast: string | ParseResult, decorators_config: StripConfig[], opts?: ParseOptions) => {
+export const transformStrip = async (
+	sourceText_or_ast: string | ParseResult,
+	decorators_config: StripConfig[],
+	opts?: ParseOptions,
+) => {
 	try {
 		const ast =
 			typeof sourceText_or_ast === 'string' ? parse(sourceText_or_ast, opts) : sourceText_or_ast
-
 
 		let currentClassName = '' // Variable to hold the current class name
 		const decorators_wrapped: { decorator: string; functionName: string; className: string }[] = []
@@ -86,25 +89,25 @@ export const transformStrip = async (sourceText_or_ast: string | ParseResult, de
 																		meta: { type: 'Identifier', name: 'import', start: 0, end: 0 },
 																		property: { type: 'Identifier', name: 'meta', start: 0, end: 0 },
 																		start: 0,
-																		end: 0
+																		end: 0,
 																	},
 																	property: { type: 'Identifier', name: 'env', start: 0, end: 0 },
 																	start: 0,
-																	end: 0
+																	end: 0,
 																},
 																property: { type: 'Identifier', name: 'SSR', start: 0, end: 0 },
 																start: 0,
-																end: 0
+																end: 0,
 															} as any,
 															consequent: {
 																type: 'BlockStatement',
 																body: originalBody,
 																start: 0,
-																end: 0
+																end: 0,
 															} as any,
 															alternate: null,
 															start: 0,
-															end: 0
+															end: 0,
 														},
 													]
 
@@ -132,7 +135,7 @@ export const transformStrip = async (sourceText_or_ast: string | ParseResult, de
 				if (node.type === 'ClassDeclaration') {
 					currentClassName = node.id?.name || ''
 				}
-				if (node.type === "MethodDefinition") {
+				if (node.type === 'MethodDefinition') {
 					const decorators: any[] = node.decorators || []
 					let foundDecorator = false
 
@@ -203,25 +206,25 @@ export const transformStrip = async (sourceText_or_ast: string | ParseResult, de
 											meta: { type: 'Identifier', name: 'import', start: 0, end: 0 },
 											property: { type: 'Identifier', name: 'meta', start: 0, end: 0 },
 											start: 0,
-											end: 0
+											end: 0,
 										},
 										property: { type: 'Identifier', name: 'env', start: 0, end: 0 },
 										start: 0,
-										end: 0
+										end: 0,
 									},
 									property: { type: 'Identifier', name: 'SSR', start: 0, end: 0 },
 									start: 0,
-									end: 0
+									end: 0,
 								} as any,
 								consequent: {
 									type: 'BlockStatement',
 									body: originalBody,
 									start: 0,
-									end: 0
+									end: 0,
 								} as any,
 								alternate: null,
 								start: 0,
-								end: 0
+								end: 0,
 							},
 						]
 
@@ -252,13 +255,12 @@ export const transformStrip = async (sourceText_or_ast: string | ParseResult, de
 		)
 
 		return {
-			sourceText_or_ast,
-			ast,
+			sourceText_or_ast: ast,
 			info,
 		}
 	} catch (error) {
 		// if anything happens, just return the original code
 		console.error('Error in transformDecorator:', error)
 	}
-	return { sourceText_or_ast, ast: null, info: [] }
+	return { sourceText_or_ast, info: [] }
 }

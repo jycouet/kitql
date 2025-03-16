@@ -80,11 +80,10 @@ export const nullifyImports = async (sourceText_or_ast: string | ParseResult, pa
 		})
 
 		return {
-			sourceText_or_ast,
-			ast,
+			sourceText_or_ast: ast,
 			info: nullifyed,
 		}
 	} catch (error) {
-		return { sourceText_or_ast, ast: null, info: [] }
+		return { sourceText_or_ast, info: [] }
 	}
 }
