@@ -1,5 +1,14 @@
 # @kitql/internals
 
+## 0.10.4-next.0
+
+### Patch Changes
+
+- [#936](https://github.com/jycouet/kitql/pull/936)
+  [`6645614`](https://github.com/jycouet/kitql/commit/6645614e38ce3e144b0f98359a219c39341577d3)
+  Thanks [@jycouet](https://github.com/jycouet)! - improve perf ast pasting & deprecate parseTs in
+  favor of parse
+
 ## 0.10.3
 
 ### Patch Changes
