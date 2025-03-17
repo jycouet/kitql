@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest'
 
 import { nullifyImports } from './nullifyImports.js'
+import { toInfoCode } from './testHelper.js'
 
 describe('package', () => {
 	it('1 replace', async () => {
@@ -25,7 +26,7 @@ describe('package', () => {
 
 		const transformed = await nullifyImports(code, ['mongodb'])
 
-		expect(transformed).toMatchInlineSnapshot(`
+		expect(toInfoCode(transformed)).toMatchInlineSnapshot(`
       {
         "code": "let ObjectId = null;
 
@@ -74,7 +75,7 @@ describe('package', () => {
 
 		const transformed = await nullifyImports(code, ['mongodb'])
 
-		expect(transformed).toMatchInlineSnapshot(`
+		expect(toInfoCode(transformed)).toMatchInlineSnapshot(`
       {
         "code": "let ObjectId = null;
       let demo = null;
