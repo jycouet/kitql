@@ -12,8 +12,7 @@ export const transformStrip = async (
 	opts?: ParseOptions,
 ) => {
 	try {
-		const ast =
-			typeof sourceText_or_ast === 'string' ? parse(sourceText_or_ast, opts) : sourceText_or_ast
+		const ast = parse(sourceText_or_ast, opts)
 
 		let currentClassName = '' // Variable to hold the current class name
 		const decorators_wrapped: { decorator: string; functionName: string; className: string }[] = []
@@ -256,11 +255,12 @@ export const transformStrip = async (
 
 		return {
 			sourceText_or_ast: ast,
+			ast,
 			info,
 		}
 	} catch (error) {
 		// if anything happens, just return the original code
 		console.error('Error in transformDecorator:', error)
 	}
-	return { sourceText_or_ast, info: [] }
+	return { sourceText_or_ast, ast: null, info: [] }
 }

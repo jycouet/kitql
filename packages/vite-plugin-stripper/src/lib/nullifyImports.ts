@@ -3,14 +3,14 @@ import type { Statement, ParseResult, ParseOptions } from '@kitql/internals'
 
 export const nullifyImports = async (sourceText_or_ast: string | ParseResult, packages_to_strip: string[], opts?: ParseOptions) => {
 	try {
-		const ast =
-			typeof sourceText_or_ast === 'string' ? parse(sourceText_or_ast, opts) : sourceText_or_ast
+		const ast = parse(sourceText_or_ast, opts)
 
 		const nullifyed: string[] = []
 
 		walk(ast, {
 			enter(node, parent) {
 				if (node.type === 'ImportDeclaration') {
+
 					const packageName = node.source.value
 					if (packages_to_strip.includes(String(packageName))) {
 						const specifiers = node.specifiers
@@ -81,9 +81,10 @@ export const nullifyImports = async (sourceText_or_ast: string | ParseResult, pa
 
 		return {
 			sourceText_or_ast: ast,
+			ast,
 			info: nullifyed,
 		}
 	} catch (error) {
-		return { sourceText_or_ast, info: [] }
 	}
+	return { sourceText_or_ast, ast: null, info: [] }
 }
