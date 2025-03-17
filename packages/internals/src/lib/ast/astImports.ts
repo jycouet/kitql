@@ -1,4 +1,4 @@
-import { parseTs, visit } from '@kitql/internals'
+import { parse, visit, type ParseResult } from './ast.js'
 
 export type ImportInfo = {
 	name: string
@@ -12,9 +12,9 @@ export type UserInfo = {
 }
 
 export const imports = (
-	code_or_program: string | ReturnType<typeof parseTs>,
-): { program: ReturnType<typeof parseTs>; importsList: ImportInfo[] } => {
-	const program = typeof code_or_program === 'string' ? parseTs(code_or_program) : code_or_program
+	code_or_program: string | ParseResult,
+): { program: ParseResult; importsList: ImportInfo[] } => {
+	const program = parse(code_or_program)
 	const importsList: ImportInfo[] = []
 
 	visit(program, {
@@ -71,16 +71,4 @@ export const imports = (
 	})
 
 	return { program, importsList }
-}
-
-export const usage = (
-	code_or_program: string | ReturnType<typeof parseTs>,
-	importsList: ImportInfo[],
-): { program: ReturnType<typeof parseTs>; importsList: ImportInfo[] } => {
-	const program = typeof code_or_program === 'string' ? parseTs(code_or_program) : code_or_program
-	if (importsList.length === 0) return { program, importsList: [] }
-
-	const usageList: (ImportInfo & UserInfo)[] = []
-
-	return { program, importsList: [] }
 }

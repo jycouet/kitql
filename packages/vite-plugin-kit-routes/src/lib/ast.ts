@@ -1,5 +1,5 @@
 import { cyan, red, yellow } from '@kitql/helpers'
-import { parseTs, read, visit } from '@kitql/internals'
+import { parse, read, visit } from '@kitql/internals'
 
 import { log, routes_path } from './plugin.js'
 
@@ -9,7 +9,7 @@ export const getMethodsOfServerFiles = (pathFile: string) => {
 
 	const exportedNames: string[] = []
 	try {
-		const codeParsed = parseTs(code)
+		const codeParsed = parse(code)
 		visit(codeParsed, {
 			visitExportNamedDeclaration(path) {
 				const declaration = path.node.declaration
@@ -63,7 +63,7 @@ export const getActionsOfServerPages = (pathFile: string) => {
 
 	let actions: string[] = []
 	try {
-		const codeParsed = parseTs(code)
+		const codeParsed = parse(code)
 		visit(codeParsed, {
 			visitExportNamedDeclaration(path) {
 				// @ts-ignore

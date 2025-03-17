@@ -3,10 +3,9 @@ import type { PluginOption } from 'vite'
 import { watchAndRun } from 'vite-plugin-watch-and-run'
 
 import { gray, green, Log, yellow } from '@kitql/helpers'
-import { getFilesUnder } from '@kitql/internals'
+import { getFilesUnder, print, type ParseResult } from '@kitql/internals'
 
 import { nullifyImports } from './nullifyImports.js'
-import { transformDecorator } from './transformDecorator.js'
 import { transformStrip, type StripConfig } from './transformStrip.js'
 import { transformWarningThrow, type WarningThrow } from './transformWarningThrow.js'
 
@@ -151,53 +150,40 @@ export function stripper(options?: ViteStripperOptions): PluginOption {
 				}
 
 				const allInfos: string[] = []
-
-				if (options && options?.decorators && options.decorators.length > 0) {
-					const { info, ...rest } = await transformDecorator(
-						code,
-						options.decorators,
-						options.hard ?? false,
-					)
-
-					// Update the code for later transforms & return it
-					code = rest.code
-					allInfos.push(...info)
-				}
+				let code_ast: string | ParseResult = code
 
 				if (options && options?.nullify && options.nullify.length > 0) {
-					const { info, ...rest } = await nullifyImports(code, options.nullify)
+					const { info, code_ast: transformed } = await nullifyImports(code_ast, options.nullify)
 
 					// Update the code for later transforms & return it
-					code = rest.code
+					code_ast = transformed
 					allInfos.push(...info)
 				}
 
 				if (options && options?.strip && options.strip.length > 0) {
-					const { info, ...rest } = await transformStrip(code, options.strip)
+					const { info, code_ast: transformed } = await transformStrip(code_ast, options.strip)
 
 					// Update the code for later transforms & return it
-					code = rest.code
+					code_ast = transformed
 					allInfos.push(...info)
 				}
 
-				if (options?.debug && allInfos.length > 0) {
-					log.info(
-						`` +
-							`${gray('File:')} ${yellow(filepath)}\n` +
-							`${green('-----')}\n` +
-							`${code}` +
-							`\n${green(':::::')}\n` +
-							`${allInfos.join('\n')}` +
-							`\n${green('-----')}` +
-							``,
-					)
-				}
-
 				if (allInfos.length > 0) {
-					return { code, map: null }
-				}
+					const toRet = print(code_ast)
 
-				return
+					if (options?.debug) {
+						log.info(
+							`${gray('File:')} ${yellow(filepath)}\n` +
+								`${green('-----')}\n` +
+								`${toRet.code}` +
+								`\n${green(':::::')}\n` +
+								`${allInfos.join('\n')}` +
+								`\n${green('-----')}\n`,
+						)
+					}
+
+					return toRet
+				}
 			},
 		},
 

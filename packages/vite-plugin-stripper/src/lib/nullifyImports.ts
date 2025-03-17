@@ -1,8 +1,12 @@
-import { builders, parseTs, prettyPrint, visit } from '@kitql/internals'
+import { builders, parse, visit } from '@kitql/internals'
+import type { ParseResult } from '@kitql/internals'
 
-export const nullifyImports = async (code: string, packages_to_strip: string[]) => {
+export const nullifyImports = async (
+	code_ast: string | ParseResult,
+	packages_to_strip: string[],
+) => {
 	try {
-		const ast = parseTs(code)
+		const ast = parse(code_ast)
 
 		const packages_striped: string[] = []
 
@@ -36,10 +40,10 @@ export const nullifyImports = async (code: string, packages_to_strip: string[]) 
 		})
 
 		return {
-			code: prettyPrint(ast).code,
+			code_ast: ast,
 			info: packages_striped.map((pkg) => `Nullify import from '${pkg}'`),
 		}
 	} catch (error) {
-		return { code, info: [] }
+		return { code_ast, info: [] }
 	}
 }

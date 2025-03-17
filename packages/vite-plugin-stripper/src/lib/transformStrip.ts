@@ -1,4 +1,4 @@
-import { parseTs, prettyPrint, visit } from '@kitql/internals'
+import { parse, visit, type ParseResult } from '@kitql/internals'
 
 // Define the type for the decorator config
 export type StripConfig = {
@@ -6,9 +6,12 @@ export type StripConfig = {
 	args_1?: { fn: string; excludeEntityKeys?: string[] }[] // Array of objects with function name and optional entity keys to exclude
 }
 
-export const transformStrip = async (code: string, decorators_config: StripConfig[]) => {
+export const transformStrip = async (
+	code_ast: string | ParseResult,
+	decorators_config: StripConfig[],
+) => {
 	try {
-		const program = parseTs(code)
+		const ast = parse(code_ast)
 
 		let currentClassName = '' // Variable to hold the current class name
 		const decorators_wrapped: { decorator: string; functionName: string; className: string }[] = []
@@ -16,7 +19,7 @@ export const transformStrip = async (code: string, decorators_config: StripConfi
 		const entityNameMap = new Map<string, string>() // Map class names to their entity names
 
 		// First pass: identify classes with special decorators and filters
-		visit(program, {
+		visit(ast, {
 			visitClassDeclaration(path: any) {
 				// @ts-ignore
 				const className = path.node.id.name
@@ -117,7 +120,7 @@ export const transformStrip = async (code: string, decorators_config: StripConfi
 		})
 
 		// Second pass: wrap functions with decorators in if(import.meta.env.SSR) condition
-		visit(program, {
+		visit(ast, {
 			visitClassDeclaration(path: any) {
 				// @ts-ignore
 				currentClassName = path.node.id.name
@@ -235,16 +238,15 @@ export const transformStrip = async (code: string, decorators_config: StripConfi
 			},
 		})
 
-		const res = prettyPrint(program, {})
 		const info = decorators_wrapped.map(
 			(decorator) =>
 				`Wrapped with if(import.meta.env.SSR): ${JSON.stringify(Object.values(decorator))}`,
 		)
 
-		return { ...res, info }
+		return { code_ast: ast, info }
 	} catch (error) {
 		// if anything happens, just return the original code
 		console.error('Error in transformDecorator:', error)
-		return { code, info: [] }
+		return { code_ast, info: [] }
 	}
 }

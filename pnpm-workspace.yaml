@@ -12,11 +12,12 @@ catalogs:
  tooling:
   'typescript': '5.8.2'
   'esbuild': '0.25.0'
-  '@babel/parser': 7.26.9
+  '@babel/parser': 7.26.10
+  '@babel/types': 7.26.10
   'rimraf': '6.0.1'
   'commander': '13.1.0'
   'ora': '8.2.0'
-  'recast': '^0.23.4' # to remove ?
+  'recast': '^0.23.4'
 
  vite:
   'vite': '6.2.1'
@@ -24,6 +25,7 @@ catalogs:
  testing:
   # unit
   'vitest': '3.0.4'
+  '@vitest/ui': 3.0.4
   '@vitest/coverage-v8': '3.0.4'
   '@testing-library/jest-dom': '6.6.3'
   '@testing-library/svelte': '5.2.4'
@@ -88,5 +90,3 @@ catalogs:
   astro-icon: 1.1.5
   sharp: 0.33.5
   prettier-plugin-astro: 0.14.1
-catalog:
- '@vitest/ui': 3.0.4
