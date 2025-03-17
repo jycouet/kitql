@@ -1,4 +1,4 @@
-import { parseTs, visit } from '@kitql/internals'
+import { parse, visit } from '@kitql/internals'
 
 export type WarningThrow = {
 	relativePathFile: string
@@ -13,7 +13,7 @@ export const transformWarningThrow = async (
 	log_on_throw_is_not_a_new_class: boolean,
 ) => {
 	try {
-		const codeParsed = parseTs(code)
+		const codeParsed = parse(code)
 
 		const list: WarningThrow[] = []
 
