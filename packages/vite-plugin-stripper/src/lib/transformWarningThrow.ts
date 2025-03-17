@@ -1,9 +1,12 @@
-import { parseTs, visit } from '@kitql/internals'
+import { parse, walk } from '@kitql/internals'
 
 export type WarningThrow = {
 	relativePathFile: string
 	pathFile: string
-	line: number
+	position: {
+		line: number
+		column: number
+	}
 }
 
 export const transformWarningThrow = async (
@@ -13,28 +16,36 @@ export const transformWarningThrow = async (
 	log_on_throw_is_not_a_new_class: boolean,
 ) => {
 	try {
-		const codeParsed = parseTs(code)
+		const ast = parse(code)
 
 		const list: WarningThrow[] = []
 
-		visit(codeParsed, {
-			visitFunction(path: any) {
-				// Existing code for processing functions...
-				this.traverse(path)
-			},
-			visitThrowStatement(path: any) {
-				if (log_on_throw_is_not_a_new_class) {
-					const thrownExpr = path.node.argument
-					// Check if thrownExpr is not a class
-					if (thrownExpr && thrownExpr.type !== 'NewExpression') {
-						list.push({
-							relativePathFile: pathFile.replace(prjPath, ''),
-							pathFile,
-							line: path.node.loc?.start.line ?? 0,
-						})
+		// Helper function to calculate line and column from character position
+		function getLineAndColumn(position: number): { line: number; column: number } {
+			const textBeforePosition = code.substring(0, position)
+			const lines = textBeforePosition.split('\n')
+			return {
+				line: lines.length,
+				column: lines[lines.length - 1].length + 1,
+			}
+		}
+
+		walk(ast, {
+			enter(node) {
+				if (node.type === 'ThrowStatement') {
+					if (log_on_throw_is_not_a_new_class) {
+						const thrownExpr = node.argument
+						// Check if thrownExpr is not a class
+						if (thrownExpr && thrownExpr.type !== 'NewExpression') {
+							const position = getLineAndColumn(node.start)
+							list.push({
+								relativePathFile: pathFile.replace(prjPath, ''),
+								pathFile,
+								position,
+							})
+						}
 					}
 				}
-				this.traverse(path)
 			},
 		})
 

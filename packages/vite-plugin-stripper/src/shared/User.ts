@@ -4,6 +4,11 @@ import { AUTH_SECRET } from '$env/static/private'
 
 @Entity('users', {
 	allowApiCrud: true,
+	saved: () => {
+		console.info('AUTH_SECRET_saved', AUTH_SECRET)
+		console.info('saved_top_secret')
+		return {}
+	},
 	backendPrefilter: () => {
 		console.info('AUTH_SECRET_backendPrefilter', AUTH_SECRET)
 		console.info('backendPrefilter_top_secret')

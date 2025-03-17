@@ -3,26 +3,13 @@ import type { PluginOption } from 'vite'
 import { watchAndRun } from 'vite-plugin-watch-and-run'
 
 import { gray, green, Log, yellow } from '@kitql/helpers'
-import { getFilesUnder } from '@kitql/internals'
+import { getFilesUnder, print, type ParseResult } from '@kitql/internals'
 
 import { nullifyImports } from './nullifyImports.js'
-import { transformDecorator } from './transformDecorator.js'
 import { transformStrip, type StripConfig } from './transformStrip.js'
 import { transformWarningThrow, type WarningThrow } from './transformWarningThrow.js'
 
 export type ViteStripperOptions = {
-	/**
-	 * for example: `['BackendMethod']`
-	 * @deprecated, you should use `strip` instead
-	 */
-	decorators?: string[]
-
-	/**
-	 * If true, will empty almost all the file if a decorator is found. (experimental!)
-	 * @deprecated, you should use `strip` instead
-	 */
-	hard?: boolean
-
 	/**
 	 * Wrap the code in an if(import.meta.env.SSR) condition if it's belongs a match of the config.
 	 *
@@ -106,7 +93,7 @@ export function stripper(options?: ViteStripperOptions): PluginOption {
 	const display = () => {
 		listOrThrow.forEach((item) => {
 			log.error(
-				`Throw is not a new class in ${yellow(item.relativePathFile)}:${yellow(String(item.line))}`,
+				`Throw is not a new class in ${yellow(item.relativePathFile)}:${yellow(String(item.position.line))}:${yellow(String(item.position.column))}`,
 			)
 		})
 		listOrThrow = []
@@ -152,52 +139,43 @@ export function stripper(options?: ViteStripperOptions): PluginOption {
 
 				const allInfos: string[] = []
 
-				if (options && options?.decorators && options.decorators.length > 0) {
-					const { info, ...rest } = await transformDecorator(
-						code,
-						options.decorators,
-						options.hard ?? false,
-					)
-
-					// Update the code for later transforms & return it
-					code = rest.code
-					allInfos.push(...info)
-				}
+				let sourceText_or_ast: string | ParseResult = code
 
 				if (options && options?.nullify && options.nullify.length > 0) {
-					const { info, ...rest } = await nullifyImports(code, options.nullify)
-
-					// Update the code for later transforms & return it
-					code = rest.code
+					const { info, ast } = await nullifyImports(sourceText_or_ast, options.nullify)
+					sourceText_or_ast = ast ?? sourceText_or_ast
 					allInfos.push(...info)
 				}
 
 				if (options && options?.strip && options.strip.length > 0) {
-					const { info, ...rest } = await transformStrip(code, options.strip)
-
-					// Update the code for later transforms & return it
-					code = rest.code
+					const { info, ast } = await transformStrip(sourceText_or_ast, options.strip)
+					sourceText_or_ast = ast ?? sourceText_or_ast
 					allInfos.push(...info)
 				}
 
-				if (options?.debug && allInfos.length > 0) {
-					log.info(
-						`` +
-							`${gray('File:')} ${yellow(filepath)}\n` +
-							`${green('-----')}\n` +
-							`${code}` +
-							`\n${green(':::::')}\n` +
-							`${allInfos.join('\n')}` +
-							`\n${green('-----')}` +
-							``,
-					)
-				}
-
 				if (allInfos.length > 0) {
-					return { code, map: null }
-				}
+					if (typeof sourceText_or_ast !== 'string') {
+						const toRet = {
+							code: print(sourceText_or_ast.program).code,
+							map: null,
+						}
 
-				return
+						if (options?.debug) {
+							log.info(
+								`` +
+								`${gray('File:')} ${yellow(filepath)}\n` +
+								`${green('-----')}\n` +
+								`${toRet.code}` +
+								`\n${green(':::::')}\n` +
+								`${allInfos.join('\n')}` +
+								`\n${green('-----')}` +
+								``,
+							)
+						}
+
+						return toRet
+					}
+				}
 			},
 		},
 
