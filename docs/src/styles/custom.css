@@ -12,6 +12,11 @@
 	--sl-color-bg: hsl(240, 1%, 12%);
 }
 
+/* Light mode colors */
+html[data-theme='light'] {
+	--sl-color-bg: hsl(50, 5%, 90%);
+}
+
 /* Elegant background pattern */
 .dot-pattern {
 	position: absolute;

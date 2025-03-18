@@ -24,7 +24,8 @@ const config = {
 		'^(\\$env)(.*)$', // special sveltekit
 		'^(\\$app)(.*)$', // special sveltekit
 		'',
-		'^(@app/common)(.*)$', // Aliases
+		'^(\\$server)(.*)$', // special firstly
+		'^(\\$modules)(.*)$', // special firstly
 		'^(\\$)(.*)$', // Aliases
 		'',
 		'^[./]', // inside
