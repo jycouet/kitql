@@ -1,5 +1,22 @@
 # eslint-config-kitql
 
+## 0.6.0
+
+### Minor Changes
+
+- [#933](https://github.com/jycouet/kitql/pull/933)
+  [`7454ebe`](https://github.com/jycouet/kitql/commit/7454ebe227238f602468bbbd2166add47fb3da52)
+  Thanks [@jycouet](https://github.com/jycouet)! - BREAKING - new eslint-plugin-pnpm config (check
+  https://www.npmjs.com/package/eslint-plugin-pnpm if you want custom things)
+
+### Patch Changes
+
+- [`f43abdf`](https://github.com/jycouet/kitql/commit/f43abdf6667c226b1a5b568d95c702c261a2addf)
+  Thanks [@jycouet](https://github.com/jycouet)! - update kitql pref with import order aliases
+
+- Updated dependencies []:
+  - @kitql/helpers@0.8.12
+
 ## 0.6.0-next.0
 
 ### Minor Changes
