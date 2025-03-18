@@ -1,5 +1,39 @@
 # vite-plugin-stripper
 
+## 0.9.0
+
+### Minor Changes
+
+- [#931](https://github.com/jycouet/kitql/pull/931)
+  [`fd3dcb3`](https://github.com/jycouet/kitql/commit/fd3dcb3283708f47155e637138f397ba0339d6ae)
+  Thanks [@jycouet](https://github.com/jycouet)! - You should STOP using `decorators` and `hard` in
+  favor of using the new `strip` config!
+  ```ts
+  strip: [
+  	{ decorator: 'BackendMethod' },
+  	{
+  		decorator: 'Entity',
+  		args_1: [
+  			{ fn: 'backendPrefilter' },
+  			{ fn: 'backendPreprocessFilter' },
+  			{ fn: 'sqlExpression' },
+  			// {
+  			// 	fn: 'saved',
+  			// 	excludeEntityKeys: ['users']
+  			// }
+  		],
+  	},
+  ]
+  ```
+
+### Patch Changes
+
+- Updated dependencies
+  [[`6645614`](https://github.com/jycouet/kitql/commit/6645614e38ce3e144b0f98359a219c39341577d3)]:
+  - @kitql/internals@0.10.4
+  - @kitql/helpers@0.8.12
+  - vite-plugin-watch-and-run@1.7.4
+
 ## 0.9.0-next.1
 
 ### Patch Changes
