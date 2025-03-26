@@ -26,7 +26,7 @@ export default defineConfig({
 				github: 'https://github.com/jycouet/kitql',
 			},
 			editLink: {
-				baseUrl: 'https://github.com/jycouet/kitql/edit/main/',
+				baseUrl: 'https://github.com/jycouet/kitql/tree/main/docs',
 			},
 			components: {
 				Head: './src/components/Head.astro',
