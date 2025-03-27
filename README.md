@@ -38,9 +38,7 @@ _\*Order by subjective usefulness_ 😉
 ## ✨ Contributors
 
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
-
-[![All Contributors](https://img.shields.io/badge/all_contributors-48-orange.svg?style=flat-square)](#contributors-)
-
+[![All Contributors](https://img.shields.io/badge/all_contributors-49-orange.svg?style=flat-square)](#contributors-)
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 
 Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/docs/en/emoji-key)):
@@ -111,6 +109,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/arkmech"><img src="https://avatars.githubusercontent.com/u/114366662?v=4?s=100" width="100px;" alt="arkmech"/><br /><sub><b>arkmech</b></sub></a><br /><a href="#ideas-arkmech" title="Ideas, Planning, & Feedback">🤔</a></td>
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/OllieJT"><img src="https://avatars.githubusercontent.com/u/13766232?v=4?s=100" width="100px;" alt="Ollie Taylor"/><br /><sub><b>Ollie Taylor</b></sub></a><br /><a href="https://github.com/jycouet/kitql/issues?q=author%3AOllieJT" title="Bug reports">🐛</a></td>
       <td align="center" valign="top" width="14.28%"><a href="http://siidorow.com"><img src="https://avatars.githubusercontent.com/u/87767032?v=4?s=100" width="100px;" alt="Mikael Siidorow"/><br /><sub><b>Mikael Siidorow</b></sub></a><br /><a href="https://github.com/jycouet/kitql/issues?q=author%3AMikaelSiidorow" title="Bug reports">🐛</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/thethomaswagner"><img src="https://avatars.githubusercontent.com/u/190964637?v=4?s=100" width="100px;" alt="Thomas Wagner"/><br /><sub><b>Thomas Wagner</b></sub></a><br /><a href="#ideas-thethomaswagner" title="Ideas, Planning, & Feedback">🤔</a></td>
     </tr>
   </tbody>
 </table>
