@@ -1,5 +1,14 @@
 # vite-plugin-kit-routes
 
+## 0.8.5-next.0
+
+### Patch Changes
+
+- [#948](https://github.com/jycouet/kitql/pull/948)
+  [`e8ed929`](https://github.com/jycouet/kitql/commit/e8ed929efd4beb4623d5edcdef706f8eb9b5e662)
+  Thanks [@jycouet](https://github.com/jycouet)! - add mdsvex support and create a route for
+  `+page.md`
+
 ## 0.8.4
 
 ### Patch Changes
