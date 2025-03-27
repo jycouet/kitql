@@ -53,6 +53,7 @@ const PAGES = {
   "/lay/normal": `/lay/normal`,
   "/lay/root-layout": `/lay/root-layout`,
   "/lay/skip": `/lay/skip`,
+  "/md": `/md`,
   "/sp": `/sp`,
   "/spArray": `/spArray`,
   "/spArrayComma": `/spArrayComma`
@@ -224,7 +225,7 @@ type ExtractParamType<T extends (param: any) => any> = ExtractFnPredicate<T> ext
 * ```
 */
 export type KIT_ROUTES = {
-  PAGES: { '/': never, '/subGroup': never, '/subGroup/user': never, '/subGroup2': never, '/contract': 'lang', '/contract/[id]': 'id' | 'lang', '/gp/one': 'lang', '/gp/two': 'lang', '/main': 'lang', '/match/[id=ab]': 'id' | 'lang', '/match/[id=int]': 'id' | 'lang', '/site': 'lang', '/site/[id]': 'id' | 'lang', '/site_contract/[siteId]-[contractId]': 'siteId' | 'contractId' | 'lang', '/a/[...rest]/z': 'rest', '/anchors': never, '/anchors/[id]': 'id', '/lay/normal': never, '/lay/root-layout': never, '/lay/skip': never, '/sp': never, '/spArray': never, '/spArrayComma': never }
+  PAGES: { '/': never, '/subGroup': never, '/subGroup/user': never, '/subGroup2': never, '/contract': 'lang', '/contract/[id]': 'id' | 'lang', '/gp/one': 'lang', '/gp/two': 'lang', '/main': 'lang', '/match/[id=ab]': 'id' | 'lang', '/match/[id=int]': 'id' | 'lang', '/site': 'lang', '/site/[id]': 'id' | 'lang', '/site_contract/[siteId]-[contractId]': 'siteId' | 'contractId' | 'lang', '/a/[...rest]/z': 'rest', '/anchors': never, '/anchors/[id]': 'id', '/lay/normal': never, '/lay/root-layout': never, '/lay/skip': never, '/md': never, '/sp': never, '/spArray': never, '/spArrayComma': never }
   SERVERS: { 'GET /server_func_get': never, 'GET /server_func_get_and_': never, 'POST /server_func_post': never, 'GET /contract': 'lang', 'POST /contract': 'lang', 'GET /site': 'lang', 'GET /api/graphql': never, 'POST /api/graphql': never, 'GET /data/errors/[locale].json': 'locale' }
   ACTIONS: { 'default /contract/[id]': 'id' | 'lang', 'create /site': 'lang', 'u-p-d-a-t-e /site': 'lang', 'update /site/[id]': 'id' | 'lang', 'delete /site/[id]': 'id' | 'lang', 'noSatisfies /site_contract': 'lang', 'send /site_contract/[siteId]-[contractId]': 'siteId' | 'contractId' | 'lang' }
   LINKS: Record<string, never>

@@ -392,7 +392,11 @@ const getMetadata = (files: string[], type: KindOfObject, o: Options, withAppend
 	}
 
 	const lookFor =
-		type === 'PAGES' ? '+page.svelte' : type === 'SERVERS' ? '+server.ts' : '+page.server.ts'
+		type === 'PAGES'
+			? ['+page.svelte', '+page.md']
+			: type === 'SERVERS'
+				? ['+server.ts']
+				: ['+page.server.ts']
 
 	// For windows
 	files = files.map((c) => c.replaceAll('\\', '/'))
@@ -401,8 +405,11 @@ const getMetadata = (files: string[], type: KindOfObject, o: Options, withAppend
 	files = files.map((c) => c.replace(/@[^.]*\./, '.'))
 
 	const toRet = files
-		.filter((file) => file.endsWith(lookFor))
-		.map((file) => `/` + file.replace(`/${lookFor}`, '').replace(lookFor, ''))
+		.filter((file) => lookFor.some((l) => file.endsWith(l)))
+		.map((file) => {
+			const matchedFile = lookFor.find((l) => file.endsWith(l)) ?? lookFor[0]
+			return `/` + file.replace(`/${matchedFile}`, '').replace(matchedFile, '')
+		})
 		// Keep the sorting at this level, it will make more sense
 		.sort()
 		.flatMap((original) => transformToMetadata(original, original, type, options, useWithAppendSp))
