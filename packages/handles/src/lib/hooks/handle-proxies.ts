@@ -11,6 +11,20 @@ const log = new Log('handleProxies')
 export interface ProxyOptions {
 	to: string
 	requestHook?: (event: RequestEvent) => MaybePromise<Request>
+	/**
+	 * @example
+	 * ```ts
+	 * tweakResponseHeaders(defaultResponseHeaders) {
+	 *   defaultResponseHeaders.delete('content-encoding')
+	 *   defaultResponseHeaders.delete('content-length')
+	 *   return defaultResponseHeaders
+	 * }
+	 * ```
+	 */
+	tweakResponseHeaders?: (
+		defaultResponseHeaders: Headers,
+		options: { request: Request; proxiedUrl?: string },
+	) => Headers
 }
 
 /**
@@ -24,8 +38,12 @@ export interface ProxyOptions {
 async function fetchMaybeProxiedRequest(
 	fetch: RequestEvent['fetch'],
 	request: Request,
-	proxiedUrl?: string,
+	options?: {
+		proxiedUrl?: string
+		tweakResponseHeaders?: ProxyOptions['tweakResponseHeaders']
+	},
 ): Promise<Response> {
+	const proxiedUrl = options?.proxiedUrl
 	const url = proxiedUrl ?? request.url
 	const requestHeaders = new Headers(request.headers)
 	if (proxiedUrl != null) {
@@ -46,15 +64,21 @@ async function fetchMaybeProxiedRequest(
 	})
 
 	// Create a new response with modified headers
-	const newHeaders = new Headers(response.headers)
-
-	// Remove the Content-Encoding header to prevent decoding issues
-	newHeaders.delete('Content-Encoding')
+	// let defaultResponseHeaders = new Headers(response.headers)
+	// if (options?.tweakResponseHeaders) {
+	// 	defaultResponseHeaders = options.tweakResponseHeaders(defaultResponseHeaders, { request, proxiedUrl })
+	// } else {
+	// 	// By default, remove content-encoding and content-length headers (to prevent decoding issues)
+	// 	defaultResponseHeaders.delete('content-encoding')
+	// 	defaultResponseHeaders.delete("content-length")
+	// }
 
 	return new Response(response.body, {
 		status: response.status,
 		statusText: response.statusText,
-		headers: newHeaders,
+		headers:
+			options?.tweakResponseHeaders?.(new Headers(response.headers), { request, proxiedUrl }) ??
+			response.headers,
 	})
 }
 
@@ -90,7 +114,7 @@ export function handleProxies(options: OptionsByStringPath<ProxyOptions>): Handl
 			return resolve(event)
 		}
 
-		const [from, { to, requestHook }] = matchingPathAndOptions
+		const [from, { to, requestHook, tweakResponseHeaders }] = matchingPathAndOptions
 		const origin = event.request.headers.get('Origin')
 		// reject requests that don't come from the webapp, to avoid your proxy being abused.
 		if (!origin || new URL(origin).origin !== event.url.origin) {
@@ -108,7 +132,7 @@ export function handleProxies(options: OptionsByStringPath<ProxyOptions>): Handl
 		// If the requestHook returns a request with a different origin or a path not from this
 		// working prefix, perform the request as-is
 		if (url.origin !== event.url.origin || !url.pathname.startsWith(from)) {
-			return fetchMaybeProxiedRequest(event.fetch, request)
+			return fetchMaybeProxiedRequest(event.fetch, request, { tweakResponseHeaders })
 		}
 
 		// strip "from" from the request path
@@ -116,6 +140,6 @@ export function handleProxies(options: OptionsByStringPath<ProxyOptions>): Handl
 		// build the new URL and request
 		const urlPath = `${to}${strippedPath}${url.search}`
 		const proxiedUrl = new URL(urlPath).toString()
-		return fetchMaybeProxiedRequest(event.fetch, request, proxiedUrl)
+		return fetchMaybeProxiedRequest(event.fetch, request, { proxiedUrl, tweakResponseHeaders })
 	}
 }
