@@ -83,6 +83,7 @@ const PAGES = {
 	'/lay/normal': `/lay/normal`,
 	'/lay/root-layout': `/lay/root-layout`,
 	'/lay/skip': `/lay/skip`,
+	'/md': `/md`,
 	'/sp': (sp?: Record<string, string | number>) => {
 		return `/sp${appendSp(sp)}`
 	},
@@ -314,6 +315,7 @@ export type KIT_ROUTES = {
 		'/lay/normal': never
 		'/lay/root-layout': never
 		'/lay/skip': never
+		'/md': never
 		'/sp': never
 		'/spArray': never
 		'/spArrayComma': never
