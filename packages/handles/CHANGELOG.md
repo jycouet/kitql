@@ -1,5 +1,25 @@
 # @kitql/handles
 
+## 0.3.0-next.0
+
+### Minor Changes
+
+- [#957](https://github.com/jycouet/kitql/pull/957)
+  [`bbaf93d`](https://github.com/jycouet/kitql/commit/bbaf93dd95ff31dad4cbfbb25fd7261fb8d0c6ec)
+  Thanks [@jycouet](https://github.com/jycouet)! - [BREAKING] - By default, don't remove
+  "content-encoding" from response header. But you can pass a config function `tweakResponseHeaders`
+  that can change any headers
+
+  You can do something like this for example:
+
+  ```ts
+  tweakResponseHeaders(defaultResponseHeaders) {
+    defaultResponseHeaders.delete('content-encoding')
+    defaultResponseHeaders.delete('content-length')
+    return defaultResponseHeaders
+  }
+  ```
+
 ## 0.2.4
 
 ### Patch Changes
