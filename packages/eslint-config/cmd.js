@@ -40,7 +40,7 @@ program.parse(process.argv)
 const options_cli = program.opts()
 
 const pathPrettierIgnore = findFileOrUp('.prettierignore')
-const pathPrettierMjs = findFileOrUp('.prettierrc.mjs')
+const pathPrettier_js = findFileOrUp('.prettierrc.js')
 
 const format = options_cli.format ?? false
 let glob = options_cli.glob ?? '.'
@@ -294,7 +294,7 @@ async function prettierRun() {
 		// ignore?
 		` --ignore-path ${pathPrettierIgnore}` +
 		// config
-		` --config ${pathPrettierMjs}` +
+		` --config ${pathPrettier_js}` +
 		// format or not
 		`${format ? ' --write' : ''}` +
 		// exec
