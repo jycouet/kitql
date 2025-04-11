@@ -516,6 +516,9 @@ importers:
       '@kitql/internals':
         specifier: workspace:*
         version: link:../internals/dist
+      commander:
+        specifier: catalog:tooling
+        version: 13.1.0
       vite-plugin-watch-and-run:
         specifier: workspace:*
         version: link:../vite-plugin-watch-and-run/dist
