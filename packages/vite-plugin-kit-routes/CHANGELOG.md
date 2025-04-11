@@ -1,5 +1,20 @@
 # vite-plugin-kit-routes
 
+## 0.8.5-next.1
+
+### Patch Changes
+
+- [#965](https://github.com/jycouet/kitql/pull/965)
+  [`26e0322`](https://github.com/jycouet/kitql/commit/26e0322b9dfb53002fbc9e2cfe22c38a4409cffd)
+  Thanks [@jycouet](https://github.com/jycouet)! - add cli `kit-routes sync` to generate routes
+  without a full build
+
+- Updated dependencies
+  [[`26e0322`](https://github.com/jycouet/kitql/commit/26e0322b9dfb53002fbc9e2cfe22c38a4409cffd)]:
+  - @kitql/helpers@0.8.13-next.0
+  - @kitql/internals@0.10.5-next.0
+  - vite-plugin-watch-and-run@1.7.5-next.0
+
 ## 0.8.5-next.0
 
 ### Patch Changes
