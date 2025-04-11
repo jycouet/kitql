@@ -18,7 +18,7 @@
   "scripts": {
     "prepare": "svelte-kit sync",
     "dev": "vite dev",
-    "dev-bin": "node ./src/lib/bin.ts",
+    "dev-bin": "tsx --tsconfig .svelte-kit/tsconfig.json ./src/lib/bin.ts",
     "build": "vite build && svelte-package && rm -rf src/params/ab.d.ts && rm -rf src/test/*.d.ts && pnpm check && node ../../scripts/package.js",
     "preview": "vite preview",
     "package": "svelte-package && publint",
@@ -45,6 +45,7 @@
     "svelte": "catalog:svelte",
     "svelte-check": "catalog:svelte",
     "tslib": "catalog:lib-author-helper",
+    "tsx": "catalog:tooling",
     "typescript": "catalog:tooling",
     "vite": "catalog:vite",
     "vitest": "catalog:testing"
