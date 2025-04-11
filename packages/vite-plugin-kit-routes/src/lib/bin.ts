@@ -58,7 +58,7 @@ try {
 		const pkg = JSON.parse(read(path.resolve(pPath, 'package.json')) ?? '{}')
 		version = pkg.version
 	}
-} catch (error) { }
+} catch (error) {}
 
 program.name('kit-routes').description('CLI for kit-routes plugin').version(version)
 
