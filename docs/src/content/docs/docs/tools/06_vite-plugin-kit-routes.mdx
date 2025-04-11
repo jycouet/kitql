@@ -158,3 +158,42 @@ export default config = {
 
 It will generate a file `./src/lib/ROUTES.ts` at the start of your dev server & any update of any of
 your `+page.svelte` | `+server.ts` | `+page.server.ts`.
+
+## CLI Command
+
+The plugin provides a CLI command to check and sync routes configuration without running a Vite
+build:
+
+```bash
+npm exec kit-routes sync
+```
+
+This is particularly useful for:
+
+- CI/CD pipelines where you want to verify routes without:
+  - a full vite build
+  - commiting `./src/lib/ROUTES.ts`
+- Pre-commit hooks to ensure route integrity
+- Quick route validation during development
+
+You can specify a custom config file using the `--config` option:
+
+```bash
+npm exec kit-routes sync --config ./path/to/config.ts#named_export
+```
+
+If no named export is specified, it will use the default export. The config object should follow
+this structure:
+
+```ts
+import { kitRoutes, type Options } from 'vite-plugin-kit-routes'
+
+import type { KIT_ROUTES } from '$lib/ROUTES'
+
+export const _kitRoutesConfig: Options<KIT_ROUTES> = {
+	// ...
+}
+```
+
+This command provides a lightweight way to validate your routes configuration without the overhead
+of a full Vite build process.

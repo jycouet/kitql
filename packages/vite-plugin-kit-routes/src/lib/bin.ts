@@ -2,13 +2,13 @@
 import path from 'node:path'
 import { Command } from 'commander'
 
-import { Log } from '@kitql/helpers'
+import { green, Log } from '@kitql/helpers'
 import { getRelativePackagePath, read } from '@kitql/internals'
 
 import { run } from './plugin.js'
 
 const program = new Command()
-const log = new Log('Kit Routes')
+const log = new Log('kit-routes')
 
 async function loadConfigFromFile(filePath: string, exportName?: string) {
 	try {
@@ -36,7 +36,8 @@ async function loadConfigFromFile(filePath: string, exportName?: string) {
 async function loadConfig(configPath?: string) {
 	if (configPath) {
 		const [filePath, exportName] = configPath.split('#')
-		return loadConfigFromFile(filePath, exportName)
+		const userConfig = await loadConfigFromFile(filePath, exportName)
+		if (userConfig) return userConfig
 	}
 
 	// Try vite.config.ts with _kitRoutesConfig
@@ -47,18 +48,6 @@ async function loadConfig(configPath?: string) {
 	const jsConfig = await loadConfigFromFile('vite.config.js', '_kitRoutesConfig')
 	if (jsConfig) return jsConfig
 
-	// Try vite.config.ts with default export
-	const tsDefaultConfig = await loadConfigFromFile('vite.config.ts')
-	if (tsDefaultConfig) return tsDefaultConfig
-
-	// Try vite.config.js with default export
-	const jsDefaultConfig = await loadConfigFromFile('vite.config.js')
-	if (jsDefaultConfig) return jsDefaultConfig
-
-	log.error('No configuration found in vite.config.ts or vite.config.js')
-	log.info('You can specify a custom config file using --config with the following format:')
-	log.info('  --config ./path/to/config.ts#named_export')
-	log.info('  If no named export is specified, it will use the default export')
 	return null
 }
 
@@ -80,6 +69,22 @@ program
 	.action(async (options) => {
 		const config = await loadConfig(options.config)
 		if (!config) {
+			log.info('')
+			log.info(`  Config object should look like this:
+
+               ${green(`import { kitRoutes, type Options } from 'vite-plugin-kit-routes'
+               import type { KIT_ROUTES } from '$lib/ROUTES'
+
+               export const _kitRoutesConfig: Options<KIT_ROUTES> = {
+                 // ...
+               }`)}
+`)
+			log.info('')
+			log.info('You can specify a custom config file using --config with the following format:')
+			log.info('  --config ./path/to/config.ts#named_export')
+			log.info('  If no named export is specified, it will use the default export')
+			log.info('')
+
 			process.exit(1)
 		}
 
