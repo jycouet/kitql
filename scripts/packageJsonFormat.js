@@ -28,6 +28,7 @@ fs.writeFileSync(
 				homepage: pkg.repository?.homepage ?? 'https://github.com/jycouet/kitql/tree/main/packages/???',
 			},
 			scripts: pkg.scripts,
+			bin: pkg.bin,
 			peerDependencies: pkg.peerDependencies,
 			devDependencies: pkg.devDependencies,
 			dependencies: pkg.dependencies,

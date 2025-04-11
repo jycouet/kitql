@@ -305,15 +305,16 @@ describe('getFilesUnder', () => {
 	it('Looking at another path (lib)', async () => {
 		const location = routes_path('/src/lib')
 		expect(getFilesUnder(location)).toMatchInlineSnapshot(`
-      [
-        "ROUTES.ts",
-        "ast.ts",
-        "format.ts",
-        "index.ts",
-        "plugin.ts",
-        "plugins.spec.ts",
-      ]
-    `)
+			[
+			  "ROUTES.ts",
+			  "ast.ts",
+			  "bin.ts",
+			  "format.ts",
+			  "index.ts",
+			  "plugin.ts",
+			  "plugins.spec.ts",
+			]
+		`)
 	})
 
 	it('Looking at another path (routes/api)', async () => {
