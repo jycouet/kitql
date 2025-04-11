@@ -21,10 +21,10 @@ export default defineConfig({
 				dark: './src/assets/logo.svg',
 				// replacesTitle: true,
 			},
-			social: {
-				blueSky: 'https://bsky.app/profile/jyc.dev',
-				github: 'https://github.com/jycouet/kitql',
-			},
+			social: [
+				{ icon: 'blueSky', label: 'BlueSky', href: 'https://bsky.app/profile/jyc.dev' },
+				{ icon: 'github', label: 'GitHub', href: 'https://github.com/jycouet/kitql' },
+			],
 			editLink: {
 				baseUrl: 'https://github.com/jycouet/kitql/tree/main/docs',
 			},

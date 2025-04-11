@@ -19,6 +19,7 @@ const config = {
 		'^(\\$houdini)(.*)$', // special
 		'^(remult)(.*)$', // special
 		'^(firstly)(.*)$', // special
+		'^(firstly/)(.*)$', // special
 		'^(@kitql)(.*)$', // special
 		'',
 		'^(\\$env)(.*)$', // special sveltekit

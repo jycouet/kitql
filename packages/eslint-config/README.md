@@ -18,20 +18,20 @@ npm install @kitql/eslint-config --D
 `.eslint.config.js`
 
 ```js
-import kitql from '@kitql/eslint-config'
+import { kitql } from '@kitql/eslint-config'
 
-export default [...kitql]
+export default [...kitql()]
 ```
 
 ### prettier config
 
-`.prettierrc.mjs`
+`.prettierrc.cjs`
 
 ```js
-import config from './packages/eslint-config/.prettierrc.mjs'
+import { kitql } from './packages/eslint-config/.prettierrc.cjs'
 
 export default {
-  ...config,
+  ...kitql(),
   // Some custom things?
 }
 ```
