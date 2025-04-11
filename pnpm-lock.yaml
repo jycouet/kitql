@@ -7,8 +7,8 @@ settings:
 catalogs:
   docs:
     '@astrojs/starlight':
-      specifier: 0.32.2
-      version: 0.32.2
+      specifier: 0.33.1
+      version: 0.33.1
     accessible-astro-components:
       specifier: 4.1.0
       version: 4.1.0
@@ -223,7 +223,7 @@ importers:
     dependencies:
       '@astrojs/starlight':
         specifier: catalog:docs
-        version: 0.32.2(astro@5.5.2(@types/node@22.13.9)(jiti@1.21.7)(lightningcss@1.28.2)(rollup@4.34.8)(sass@1.85.1)(terser@5.37.0)(tsx@4.19.3)(typescript@5.8.2)(yaml@2.7.0))
+        version: 0.33.1(astro@5.5.2(@types/node@22.13.9)(jiti@1.21.7)(lightningcss@1.28.2)(rollup@4.34.8)(sass@1.85.1)(terser@5.37.0)(tsx@4.19.3)(typescript@5.8.2)(yaml@2.7.0))
       '@kitql/eslint-config':
         specifier: workspace:*
         version: link:../packages/eslint-config
@@ -720,8 +720,8 @@ packages:
   '@astrojs/sitemap@3.2.1':
     resolution: {integrity: sha512-uxMfO8f7pALq0ADL6Lk68UV6dNYjJ2xGUzyjjVj60JLBs5a6smtlkBYv3tQ0DzoqwS7c9n4FUx5lgv0yPo/fgA==}
 
-  '@astrojs/starlight@0.32.2':
-    resolution: {integrity: sha512-FLz8Y8R+GsD0jD/G64bYijwwVsAq99Ugk2bJYRmH2k1reYMh83GRma2IaKGgSI2fLNEu7tdyG4cpkwrwP3W02A==}
+  '@astrojs/starlight@0.33.1':
+    resolution: {integrity: sha512-YBu9tDOBoEmRZWLoI8jAfO+pON2lEFOcViZrxwv8kpbLn3CDRkcDoP+UeO/Utwb+XVpDGrvjgmyEsqcsq54b2g==}
     peerDependencies:
       astro: ^5.1.5
 
@@ -4914,7 +4914,7 @@ snapshots:
       stream-replace-string: 2.0.0
       zod: 3.24.2
 
-  '@astrojs/starlight@0.32.2(astro@5.5.2(@types/node@22.13.9)(jiti@1.21.7)(lightningcss@1.28.2)(rollup@4.34.8)(sass@1.85.1)(terser@5.37.0)(tsx@4.19.3)(typescript@5.8.2)(yaml@2.7.0))':
+  '@astrojs/starlight@0.33.1(astro@5.5.2(@types/node@22.13.9)(jiti@1.21.7)(lightningcss@1.28.2)(rollup@4.34.8)(sass@1.85.1)(terser@5.37.0)(tsx@4.19.3)(typescript@5.8.2)(yaml@2.7.0))':
     dependencies:
       '@astrojs/mdx': 4.1.0(astro@5.5.2(@types/node@22.13.9)(jiti@1.21.7)(lightningcss@1.28.2)(rollup@4.34.8)(sass@1.85.1)(terser@5.37.0)(tsx@4.19.3)(typescript@5.8.2)(yaml@2.7.0))
       '@astrojs/sitemap': 3.2.1
