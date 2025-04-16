@@ -38,6 +38,8 @@ async function loadConfig(configPath?: string) {
 		const [filePath, exportName] = configPath.split('#')
 		const userConfig = await loadConfigFromFile(filePath, exportName)
 		if (userConfig) return userConfig
+		// If config set, but not found, return null
+		return null
 	}
 
 	// Try vite.config.ts with _kitRoutesConfig
@@ -58,7 +60,7 @@ try {
 		const pkg = JSON.parse(read(path.resolve(pPath, 'package.json')) ?? '{}')
 		version = pkg.version
 	}
-} catch (error) {}
+} catch (error) { }
 
 program.name('kit-routes').description('CLI for kit-routes plugin').version(version)
 
