@@ -1,5 +1,14 @@
 # vite-plugin-kit-routes
 
+## 0.8.5-next.2
+
+### Patch Changes
+
+- [#976](https://github.com/jycouet/kitql/pull/976)
+  [`70aa137`](https://github.com/jycouet/kitql/commit/70aa137cff21fed82935aebde512139e58eec25e)
+  Thanks [@jycouet](https://github.com/jycouet)! - manage kit-route cli for vite.config.ts config
+  file
+
 ## 0.8.5-next.1
 
 ### Patch Changes
