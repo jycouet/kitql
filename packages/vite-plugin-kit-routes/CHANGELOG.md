@@ -1,5 +1,14 @@
 # vite-plugin-kit-routes
 
+## 0.8.5-next.3
+
+### Patch Changes
+
+- [#978](https://github.com/jycouet/kitql/pull/978)
+  [`7461320`](https://github.com/jycouet/kitql/commit/74613204f2d07505f12ca884a91810229989b495)
+  Thanks [@jycouet](https://github.com/jycouet)! - manage "simple" multiple matches with optional
+  param (first step)
+
 ## 0.8.5-next.2
 
 ### Patch Changes
