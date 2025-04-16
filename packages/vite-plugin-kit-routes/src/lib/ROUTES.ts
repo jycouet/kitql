@@ -9,6 +9,9 @@
  */
 const PAGES = {
 	'/': `/`,
+	'/base': (params?: { all?: string | number }) => {
+		return `/base${params?.['all'] ? `/${params?.['all']}` : ''}`
+	},
 	'/subGroup': `/subGroup`,
 	'/subGroup/user': `/subGroup/user`,
 	'/subGroup2': (params: { first: string | number }) => {
@@ -296,6 +299,7 @@ type ExtractParamType<T extends (param: any) => any> =
 export type KIT_ROUTES = {
 	PAGES: {
 		'/': never
+		'/base': 'all'
 		'/subGroup': never
 		'/subGroup/user': never
 		'/subGroup2': never
@@ -342,6 +346,7 @@ export type KIT_ROUTES = {
 	}
 	LINKS: { twitter: never; twitter_post: 'name' | 'id'; gravatar: 'str' }
 	Params: {
+		all: never
 		first: never
 		lang: never
 		id: never

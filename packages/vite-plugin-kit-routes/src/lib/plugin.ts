@@ -414,7 +414,38 @@ const getMetadata = (files: string[], type: KindOfObject, o: Options, withAppend
 		.sort()
 		.flatMap((original) => transformToMetadata(original, original, type, options, useWithAppendSp))
 
-	return toRet.filter((c) => c !== null) as MetadataToWrite[]
+	// First find all duplicates
+	const duplicates = toRet.filter(
+		(c, index, self) => self.findIndex((t) => t.keyToUse === c.keyToUse) !== index,
+	)
+
+	// If we have duplicates, remove the ones with empty strParams
+	if (duplicates.length > 0) {
+		const toRetFiltered = toRet.filter((item) => {
+			const isDuplicate = duplicates.some((d) => d.keyToUse === item.keyToUse)
+			if (!isDuplicate) return true
+			return item.strParams !== ''
+		})
+
+		// Check if we still have duplicates after filtering
+		const remainingDuplicates = toRetFiltered.filter(
+			(c, index, self) => self.findIndex((t) => t.keyToUse === c.keyToUse) !== index,
+		)
+
+		if (remainingDuplicates.length > 0) {
+			log.info(
+				`Found duplicate routes with the same keyToUse after filtering: ${remainingDuplicates
+					.map((d) => d.keyToUse)
+					.join(
+						', ',
+					)} you can reopen https://github.com/jycouet/kitql/issues/665 as you have a more complcated use case`,
+			)
+		}
+
+		return toRetFiltered
+	}
+
+	return toRet
 }
 
 type Param = {
