@@ -115,6 +115,54 @@ export const getActionsOfServerPages = (pathFile: string) => {
 	return { actions, withLoad }
 }
 
+export const getExportsFromFile = (code: string, exportName?: string) => {
+	try {
+		const codeParsed = parse(code)
+		let result: any = null
+
+		visit(codeParsed, {
+			visitExportNamedDeclaration(path) {
+				if (exportName) {
+					// Looking for a specific named export
+					const specifiers = path.node.specifiers
+					if (specifiers) {
+						specifiers.forEach((specifier) => {
+							if (specifier.exported.name === exportName && specifier.local) {
+								result = specifier.local.name
+							}
+						})
+					}
+
+					const declaration = path.node.declaration
+					if (declaration?.type === 'VariableDeclaration') {
+						declaration.declarations.forEach((declaration) => {
+							if (
+								declaration.type === 'VariableDeclarator' &&
+								declaration.id.type === 'Identifier' &&
+								declaration.id.name === exportName
+							) {
+								result = declaration.init
+							}
+						})
+					}
+				}
+				return false
+			},
+			visitExportDefaultDeclaration(path) {
+				if (!exportName) {
+					result = path.node.declaration
+				}
+				return false
+			},
+		})
+
+		return result
+	} catch (error) {
+		formatError(error, 'config file')
+		return null
+	}
+}
+
 const formatError = (error: unknown, fullPath: string) => {
 	if (error instanceof Error) {
 		if (error.message.includes('Unexpected token (')) {

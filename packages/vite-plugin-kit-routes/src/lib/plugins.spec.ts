@@ -307,6 +307,7 @@ describe('getFilesUnder', () => {
 		expect(getFilesUnder(location)).toMatchInlineSnapshot(`
 			[
 			  "ROUTES.ts",
+			  "ast.spec.ts",
 			  "ast.ts",
 			  "bin.ts",
 			  "format.ts",

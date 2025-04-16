@@ -5,6 +5,7 @@ import { Command } from 'commander'
 import { green, Log } from '@kitql/helpers'
 import { getRelativePackagePath, read } from '@kitql/internals'
 
+import { getExportsFromFile } from './ast.js'
 import { run } from './plugin.js'
 
 const program = new Command()
@@ -13,21 +14,23 @@ const log = new Log('kit-routes')
 async function loadConfigFromFile(filePath: string, exportName?: string) {
 	try {
 		const resolvedPath = path.resolve(process.cwd(), filePath)
-		const configModule = await import(resolvedPath)
-
-		if (exportName) {
-			if (!configModule[exportName]) {
-				log.error(`There is no 'export const ${exportName}' in '${filePath}'`)
-				return null
-			}
-			return configModule[exportName]
-		}
-
-		if (!configModule.default) {
-			log.error(`There is no default export in '${resolvedPath}'`)
+		const code = read(resolvedPath)
+		if (!code) {
+			log.error(`Could not read file: ${resolvedPath}`)
 			return null
 		}
-		return configModule.default
+
+		const result = getExportsFromFile(code, exportName)
+		if (!result) {
+			if (exportName) {
+				log.error(`There is no 'export const ${exportName}' in '${filePath}'`)
+			} else {
+				log.error(`There is no default export in '${resolvedPath}'`)
+			}
+			return null
+		}
+
+		return result
 	} catch (error) {
 		return null
 	}
@@ -60,7 +63,7 @@ try {
 		const pkg = JSON.parse(read(path.resolve(pPath, 'package.json')) ?? '{}')
 		version = pkg.version
 	}
-} catch (error) { }
+} catch (error) {}
 
 program.name('kit-routes').description('CLI for kit-routes plugin').version(version)
 
@@ -75,9 +78,8 @@ program
 			log.info(`  Config object should look like this:
 
                ${green(`import { kitRoutes, type Options } from 'vite-plugin-kit-routes'
-               import type { KIT_ROUTES } from '$lib/ROUTES'
-
-               export const _kitRoutesConfig: Options<KIT_ROUTES> = {
+               
+               export const _kitRoutesConfig: Options = {
                  // ...
                }`)}
 `)
