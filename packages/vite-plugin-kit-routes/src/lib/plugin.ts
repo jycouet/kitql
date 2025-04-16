@@ -993,56 +993,56 @@ export const run = async (atStart: boolean, o?: Options) => {
 			// consts
 			options?.format === 'variables'
 				? // Format variables
-				objTypes
-					.map((c) => {
-						return `/**\n * ${c.type}\n */
+					objTypes
+						.map((c) => {
+							return `/**\n * ${c.type}\n */
 ${c.files
-								.map((key) => {
-									let valiableName = `${c.type.slice(0, -1)}_${key.keyToUse}`
-									const invalidInVariable = ['-', ' ']
-									for (const invalid of invalidInVariable) {
-										valiableName = valiableName.replaceAll(invalid, '_')
-									}
+	.map((key) => {
+		let valiableName = `${c.type.slice(0, -1)}_${key.keyToUse}`
+		const invalidInVariable = ['-', ' ']
+		for (const invalid of invalidInVariable) {
+			valiableName = valiableName.replaceAll(invalid, '_')
+		}
 
-									if (key.strParams) {
-										return (
-											`export const ${valiableName} = (${key.strParams}) => {` +
-											`${format({ bottom: 0, top: 1, left: 2 }, key.strDefault)}
+		if (key.strParams) {
+			return (
+				`export const ${valiableName} = (${key.strParams}) => {` +
+				`${format({ bottom: 0, top: 1, left: 2 }, key.strDefault)}
   return ${key.strReturn}
 }`
-										)
-									} else {
-										return `export const ${valiableName} = ${key.strReturn}`
-									}
-								})
-								.join('\n')}`
-					})
-					.join(`\n\n`)
+			)
+		} else {
+			return `export const ${valiableName} = ${key.strReturn}`
+		}
+	})
+	.join('\n')}`
+						})
+						.join(`\n\n`)
 				: // Format Others
-				objTypes
-					.map((c) => {
-						return (
-							`/**\n * ${c.type}\n */
+					objTypes
+						.map((c) => {
+							return (
+								`/**\n * ${c.type}\n */
 ${options?.exportObjects || options?.format?.includes('object') ? `export ` : ``}` +
-							`const ${c.type} = {
+								`const ${c.type} = {
   ${c.files
-								.map((key) => {
-									if (key.strParams) {
-										return (
-											`"${key.keyToUse}": (${key.strParams}) => {` +
-											`${format({ bottom: 0, top: 1, left: 4 }, key.strDefault)}
+			.map((key) => {
+				if (key.strParams) {
+					return (
+						`"${key.keyToUse}": (${key.strParams}) => {` +
+						`${format({ bottom: 0, top: 1, left: 4 }, key.strDefault)}
     return ${key.strReturn}
   }`
-										)
-									} else {
-										return `"${key.keyToUse}": ${key.strReturn}`
-									}
-								})
-								.join(',\n  ')}
+					)
+				} else {
+					return `"${key.keyToUse}": ${key.strReturn}`
+				}
+			})
+			.join(',\n  ')}
 }`
-						)
-					})
-					.join(`\n\n`),
+							)
+						})
+						.join(`\n\n`),
 
 			format({ top: 1, left: 0 }, appendSp),
 
@@ -1069,29 +1069,30 @@ ${options?.exportObjects || options?.format?.includes('object') ? `export ` : ``
 */
 export type KIT_ROUTES = {
 ${objTypes
-				.map((c) => {
-					return `  ${c.type}${arrayToRecord(
-						c.files.map((d) => {
-							return `'${d.keyToUse}': ${d.paramsFromPath.filter((e) => e.fromPath === true).length === 0
-									? 'never'
-									: d.paramsFromPath
-										.filter((e) => e.fromPath === true)
-										.map((e) => {
-											return `'${e.name}'`
-										})
-										.join(' | ')
-								}`
-						}),
-					)}`
-				})
-				.join('\n')}
+	.map((c) => {
+		return `  ${c.type}${arrayToRecord(
+			c.files.map((d) => {
+				return `'${d.keyToUse}': ${
+					d.paramsFromPath.filter((e) => e.fromPath === true).length === 0
+						? 'never'
+						: d.paramsFromPath
+								.filter((e) => e.fromPath === true)
+								.map((e) => {
+									return `'${e.name}'`
+								})
+								.join(' | ')
+				}`
+			}),
+		)}`
+	})
+	.join('\n')}
   Params${arrayToRecord([
-					...new Set(
-						objTypes.flatMap((c) =>
-							c.files.flatMap((d) => d.paramsFromPath.map((e) => `'${e.name}': never`)),
-						),
-					),
-				])}
+			...new Set(
+				objTypes.flatMap((c) =>
+					c.files.flatMap((d) => d.paramsFromPath.map((e) => `'${e.name}': never`)),
+				),
+			),
+		])}
 }
 `,
 		])
@@ -1172,7 +1173,7 @@ function theEnd(
 		const nbRoutes = objTypes.flatMap((c) => c.files).length
 		stats.push(
 			`Routes: ${yellow('' + nbRoutes)} ` +
-			`${italic(`(${objTypes.map((c) => `${c.type}: ${yellow('' + c.files.length)}`).join(', ')})`)}`,
+				`${italic(`(${objTypes.map((c) => `${c.type}: ${yellow('' + c.files.length)}`).join(', ')})`)}`,
 		)
 		const confgPoints = stry0(Object.entries(options ?? {}))!.length
 		const shortV = options.format_short ? ' short' : ''
