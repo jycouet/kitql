@@ -9,15 +9,8 @@
  */
 const PAGES = {
 	'/': `/`,
-	'/base': `/base`,
 	'/base': (params?: { all?: string | number }) => {
 		return `/base${params?.['all'] ? `/${params?.['all']}` : ''}`
-	},
-	'/base': (params?: { type?: ExtractParamType<typeof import('../params/ab.ts').match> }) => {
-		return `/base${params?.['type'] ? `/${params?.['type']}` : ''}`
-	},
-	'/base': (params?: { type?: ExtractParamType<typeof import('../params/int.ts').match> }) => {
-		return `/base${params?.['type'] ? `/${params?.['type']}` : ''}`
 	},
 	'/subGroup': `/subGroup`,
 	'/subGroup/user': `/subGroup/user`,
@@ -306,10 +299,7 @@ type ExtractParamType<T extends (param: any) => any> =
 export type KIT_ROUTES = {
 	PAGES: {
 		'/': never
-		'/base': never
 		'/base': 'all'
-		'/base': 'type'
-		'/base': 'type'
 		'/subGroup': never
 		'/subGroup/user': never
 		'/subGroup2': never
@@ -357,7 +347,6 @@ export type KIT_ROUTES = {
 	LINKS: { twitter: never; twitter_post: 'name' | 'id'; gravatar: 'str' }
 	Params: {
 		all: never
-		type: never
 		first: never
 		lang: never
 		id: never

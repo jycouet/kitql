@@ -332,6 +332,8 @@ describe('getFilesUnder', () => {
 		expect(getFilesUnder(location).map((c) => rmvOptional(c))).toMatchInlineSnapshot(`
 			[
 			  "(rootGroup)/+page.svelte",
+			  "(rootGroup)/base/(group-optional)/+page.svelte",
+			  "(rootGroup)/base/+page.svelte",
 			  "(rootGroup)/subGroup/(anotherSub)/user/+page.svelte",
 			  "(rootGroup)/subGroup/+page.svelte",
 			  "(rootGroup)/subGroup2/+page.svelte",
@@ -384,6 +386,8 @@ describe('getFilesUnder', () => {
 		expect(getFilesUnder(location)).toMatchInlineSnapshot(`
 			[
 			  "(rootGroup)/+page.svelte",
+			  "(rootGroup)/base/(group-optional)/[[all]]/+page.svelte",
+			  "(rootGroup)/base/+page.svelte",
 			  "(rootGroup)/subGroup/(anotherSub)/user/+page.svelte",
 			  "(rootGroup)/subGroup/+page.svelte",
 			  "(rootGroup)/subGroup2/+page.svelte",
@@ -429,6 +433,8 @@ describe('getFilesUnder', () => {
 		expect(getFilesUnder(location).map((c) => rmvGroups(c))).toMatchInlineSnapshot(`
 			[
 			  "/+page.svelte",
+			  "/base/[[all]]/+page.svelte",
+			  "/base/+page.svelte",
 			  "/subGroup/user/+page.svelte",
 			  "/subGroup/+page.svelte",
 			  "/subGroup2/+page.svelte",
@@ -477,6 +483,8 @@ describe('getFilesUnder', () => {
 		expect(getFilesUnder(location).map((c) => rmvGroups(rmvOptional(c)))).toMatchInlineSnapshot(`
 			[
 			  "/+page.svelte",
+			  "/base/+page.svelte",
+			  "/base/+page.svelte",
 			  "/subGroup/user/+page.svelte",
 			  "/subGroup/+page.svelte",
 			  "/subGroup2/+page.svelte",
