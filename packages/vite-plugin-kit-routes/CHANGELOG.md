@@ -1,5 +1,13 @@
 # vite-plugin-kit-routes
 
+## 0.8.5-next.4
+
+### Patch Changes
+
+- [#984](https://github.com/jycouet/kitql/pull/984)
+  [`63674a8`](https://github.com/jycouet/kitql/commit/63674a8e01792a17a5a878d9786beab06a8af9bc)
+  Thanks [@jycouet](https://github.com/jycouet)! - Read well the config for cli
+
 ## 0.8.5-next.3
 
 ### Patch Changes
