@@ -5,7 +5,7 @@ import { Command } from 'commander'
 import { green, Log } from '@kitql/helpers'
 import { getRelativePackagePath, read } from '@kitql/internals'
 
-import { getExportsFromFile } from './ast.js'
+import { evaluateNode, getExportsFromFile } from './ast.js'
 import { run } from './plugin.js'
 
 const program = new Command()
@@ -20,7 +20,7 @@ async function loadConfigFromFile(filePath: string, exportName?: string) {
 			return null
 		}
 
-		const result = getExportsFromFile(code, exportName)
+		const result = evaluateNode(getExportsFromFile(code, exportName))
 		if (!result) {
 			if (exportName) {
 				log.error(`There is no 'export const ${exportName}' in '${filePath}'`)
@@ -36,27 +36,30 @@ async function loadConfigFromFile(filePath: string, exportName?: string) {
 	}
 }
 
+let exportName = '_kitRoutesConfig'
+
 async function loadConfig(configPath?: string) {
 	if (configPath) {
-		const [filePath, exportName] = configPath.split('#')
-		const userConfig = await loadConfigFromFile(filePath, exportName)
+		const [filePath, local_exportName] = configPath.split('#')
+		const userConfig = await loadConfigFromFile(filePath, local_exportName)
+		exportName = local_exportName
 		if (userConfig) return userConfig
 		// If config set, but not found, return null
 		return null
 	}
 
 	// Try vite.config.ts with _kitRoutesConfig
-	const tsConfig = await loadConfigFromFile('vite.config.ts', '_kitRoutesConfig')
+	const tsConfig = await loadConfigFromFile('vite.config.ts', exportName)
 	if (tsConfig) return tsConfig
 
 	// Try vite.config.js with _kitRoutesConfig
-	const jsConfig = await loadConfigFromFile('vite.config.js', '_kitRoutesConfig')
+	const jsConfig = await loadConfigFromFile('vite.config.js', exportName)
 	if (jsConfig) return jsConfig
 
 	return null
 }
 
-let version = '0.8.5-next.0'
+let version = 'dev'
 try {
 	const pPath = getRelativePackagePath('vite-plugin-kit-routes')
 	if (pPath) {
@@ -79,7 +82,7 @@ program
 
                ${green(`import { kitRoutes, type Options } from 'vite-plugin-kit-routes'
                
-               export const _kitRoutesConfig: Options = {
+               export const ${exportName}: Options = {
                  // ...
                }`)}
 `)
