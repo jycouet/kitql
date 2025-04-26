@@ -12,21 +12,13 @@ describe('bin', () => {
 			try {
 				execSync(`tsx --tsconfig .svelte-kit/tsconfig.json ${binPath}`, {})
 			} catch (error) {
-				expect(error).toMatchInlineSnapshot(`
-				[Error: Command failed: tsx --tsconfig .svelte-kit/tsconfig.json /home/jycouet/udev/gh/lib/kitql/packages/vite-plugin-kit-routes/src/lib/bin.ts
-				Usage: kit-routes [options] [command]
-
-				CLI for kit-routes plugin
-
-				Options:
-				  -V, --version   output the version number
-				  -h, --help      display help for command
-
-				Commands:
-				  sync [options]  Sync routes configuration
-				  help [command]  display help for command
-				]
-			`)
+				if (error instanceof Error) {
+					expect(error.message).toContain('Command failed')
+					expect(error.message).toContain('Usage: kit-routes [options] [command]')
+					expect(error.message).toContain('CLI for kit-routes plugin')
+				} else {
+					expect('To never').toBe('be here')
+				}
 			}
 		})
 

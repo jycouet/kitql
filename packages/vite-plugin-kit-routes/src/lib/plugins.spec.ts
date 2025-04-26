@@ -309,6 +309,7 @@ describe('getFilesUnder', () => {
 			  "ROUTES.ts",
 			  "ast.spec.ts",
 			  "ast.ts",
+			  "bin.spec.ts",
 			  "bin.ts",
 			  "format.ts",
 			  "index.ts",
