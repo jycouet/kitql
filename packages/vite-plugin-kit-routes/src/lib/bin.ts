@@ -11,28 +11,44 @@ import { run } from './plugin.js'
 const program = new Command()
 const log = new Log('kit-routes')
 
-async function loadConfigFromFile(filePath: string, exportName?: string) {
+async function loadConfigFromFile(
+	filePath: string,
+	exportName?: string,
+): Promise<{ status: 'NoFile' | 'NoExport' | 'Invalid' | 'InvalidObject' | 'Valid'; result: any }> {
 	try {
 		const resolvedPath = path.resolve(process.cwd(), filePath)
 		const code = read(resolvedPath)
 		if (!code) {
 			log.error(`Could not read file: ${resolvedPath}`)
-			return null
+			return { status: 'NoFile', result: null }
 		}
 
-		const result = evaluateNode(getExportsFromFile(code, exportName))
-		if (!result) {
+		const exported = getExportsFromFile(code, exportName)
+		if (!exported) {
+			log.error(`There is no 'export const ${exportName}' in '${filePath}'`)
+			return { status: 'NoExport', result: null }
+		}
+
+		const result = evaluateNode(exported)
+
+		let isValidResult = true
+		if (result['callee']) {
+			isValidResult = false
+		}
+
+		if (!result || !isValidResult) {
 			if (exportName) {
 				log.error(`There is no 'export const ${exportName}' in '${filePath}'`)
 			} else {
-				log.error(`There is no default export in '${resolvedPath}'`)
+				log.error(`There is no default export in '${resolvedPath}' 
+(or it's not a valid kit-routes config object)`)
 			}
-			return null
+			return { status: 'InvalidObject', result: null }
 		}
 
-		return result
+		return { status: 'Valid', result }
 	} catch (error) {
-		return null
+		return { status: 'Invalid', result: null }
 	}
 }
 
@@ -43,14 +59,14 @@ async function loadConfig(configPath?: string) {
 		const [filePath, local_exportName] = configPath.split('#')
 		const userConfig = await loadConfigFromFile(filePath, local_exportName)
 		exportName = local_exportName
-		if (userConfig) return userConfig
-		// If config set, but not found, return null
+		if (userConfig.status === 'Valid') return userConfig.result
 		return null
 	}
 
 	// Try vite.config.ts with _kitRoutesConfig
 	const tsConfig = await loadConfigFromFile('vite.config.ts', exportName)
-	if (tsConfig) return tsConfig
+	if (tsConfig.status === 'Valid') return tsConfig.result
+	if (tsConfig.status === 'NoExport') return null
 
 	// Try vite.config.js with _kitRoutesConfig
 	const jsConfig = await loadConfigFromFile('vite.config.js', exportName)
@@ -66,7 +82,7 @@ try {
 		const pkg = JSON.parse(read(path.resolve(pPath, 'package.json')) ?? '{}')
 		version = pkg.version
 	}
-} catch (error) {}
+} catch (error) { }
 
 program.name('kit-routes').description('CLI for kit-routes plugin').version(version)
 
