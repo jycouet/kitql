@@ -2,7 +2,7 @@
 import path from 'node:path'
 import { Command } from 'commander'
 
-import { green, Log } from '@kitql/helpers'
+import { cyan, gray, green, Log, red } from '@kitql/helpers'
 import { getRelativePackagePath, read } from '@kitql/internals'
 
 import { evaluateNode, getExportsFromFile } from './ast.js'
@@ -17,6 +17,16 @@ async function loadConfigFromFile(
 ): Promise<{ status: 'NoFile' | 'NoExport' | 'Invalid' | 'InvalidObject' | 'Valid'; result: any }> {
 	try {
 		const resolvedPath = path.resolve(process.cwd(), filePath)
+
+		const logError = () => {
+			if (exportName) {
+				log.error(`Missing "${red(`export const ${exportName}`)}" in '${cyan(resolvedPath)}'`)
+			} else {
+				log.error(`Missing "${red(`export default { ... }`)}" in '${cyan(resolvedPath)}' 
+${gray("(or it's not a valid kit-routes config object)")}`)
+			}
+		}
+
 		const code = read(resolvedPath)
 		if (!code) {
 			log.error(`Could not read file: ${resolvedPath}`)
@@ -25,7 +35,7 @@ async function loadConfigFromFile(
 
 		const exported = getExportsFromFile(code, exportName)
 		if (!exported) {
-			log.error(`There is no 'export const ${exportName}' in '${filePath}'`)
+			logError()
 			return { status: 'NoExport', result: null }
 		}
 
@@ -37,12 +47,7 @@ async function loadConfigFromFile(
 		}
 
 		if (!result || !isValidResult) {
-			if (exportName) {
-				log.error(`There is no 'export const ${exportName}' in '${filePath}'`)
-			} else {
-				log.error(`There is no default export in '${resolvedPath}' 
-(or it's not a valid kit-routes config object)`)
-			}
+			logError()
 			return { status: 'InvalidObject', result: null }
 		}
 
@@ -82,7 +87,7 @@ try {
 		const pkg = JSON.parse(read(path.resolve(pPath, 'package.json')) ?? '{}')
 		version = pkg.version
 	}
-} catch (error) { }
+} catch (error) {}
 
 program.name('kit-routes').description('CLI for kit-routes plugin').version(version)
 
