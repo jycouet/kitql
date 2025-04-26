@@ -2,7 +2,7 @@
 import path from 'node:path'
 import { Command } from 'commander'
 
-import { green, Log } from '@kitql/helpers'
+import { cyan, gray, green, Log, red } from '@kitql/helpers'
 import { getRelativePackagePath, read } from '@kitql/internals'
 
 import { evaluateNode, getExportsFromFile } from './ast.js'
@@ -11,28 +11,49 @@ import { run } from './plugin.js'
 const program = new Command()
 const log = new Log('kit-routes')
 
-async function loadConfigFromFile(filePath: string, exportName?: string) {
+async function loadConfigFromFile(
+	filePath: string,
+	exportName?: string,
+): Promise<{ status: 'NoFile' | 'NoExport' | 'Invalid' | 'InvalidObject' | 'Valid'; result: any }> {
 	try {
 		const resolvedPath = path.resolve(process.cwd(), filePath)
+
+		const logError = () => {
+			if (exportName) {
+				log.error(`Missing "${red(`export const ${exportName}`)}" in '${cyan(resolvedPath)}'`)
+			} else {
+				log.error(`Missing "${red(`export default { ... }`)}" in '${cyan(resolvedPath)}' 
+${gray("(or it's not a valid kit-routes config object)")}`)
+			}
+		}
+
 		const code = read(resolvedPath)
 		if (!code) {
 			log.error(`Could not read file: ${resolvedPath}`)
-			return null
+			return { status: 'NoFile', result: null }
 		}
 
-		const result = evaluateNode(getExportsFromFile(code, exportName))
-		if (!result) {
-			if (exportName) {
-				log.error(`There is no 'export const ${exportName}' in '${filePath}'`)
-			} else {
-				log.error(`There is no default export in '${resolvedPath}'`)
-			}
-			return null
+		const exported = getExportsFromFile(code, exportName)
+		if (!exported) {
+			logError()
+			return { status: 'NoExport', result: null }
 		}
 
-		return result
+		const result = evaluateNode(exported)
+
+		let isValidResult = true
+		if (result['callee']) {
+			isValidResult = false
+		}
+
+		if (!result || !isValidResult) {
+			logError()
+			return { status: 'InvalidObject', result: null }
+		}
+
+		return { status: 'Valid', result }
 	} catch (error) {
-		return null
+		return { status: 'Invalid', result: null }
 	}
 }
 
@@ -43,14 +64,14 @@ async function loadConfig(configPath?: string) {
 		const [filePath, local_exportName] = configPath.split('#')
 		const userConfig = await loadConfigFromFile(filePath, local_exportName)
 		exportName = local_exportName
-		if (userConfig) return userConfig
-		// If config set, but not found, return null
+		if (userConfig.status === 'Valid') return userConfig.result
 		return null
 	}
 
 	// Try vite.config.ts with _kitRoutesConfig
 	const tsConfig = await loadConfigFromFile('vite.config.ts', exportName)
-	if (tsConfig) return tsConfig
+	if (tsConfig.status === 'Valid') return tsConfig.result
+	if (tsConfig.status === 'NoExport') return null
 
 	// Try vite.config.js with _kitRoutesConfig
 	const jsConfig = await loadConfigFromFile('vite.config.js', exportName)
