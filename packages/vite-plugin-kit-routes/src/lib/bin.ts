@@ -99,7 +99,8 @@ program
 		const config = await loadConfig(options.config)
 		if (!config) {
 			log.info('')
-			log.info(`  Config object should look like this:
+			if (exportName) {
+				log.info(`  Config object should look like this:
 
                ${green(`import { kitRoutes, type Options } from 'vite-plugin-kit-routes'
                
@@ -107,6 +108,16 @@ program
                  // ...
                }`)}
 `)
+			} else {
+				log.info(`  Config object should look like this:
+
+               ${green(`import { kitRoutes, type Options } from 'vite-plugin-kit-routes'
+	
+               export default {
+                 // ...
+               } satisfies Options`)}
+`)
+			}
 			log.info('')
 			log.info('You can specify a custom config file using --config with the following format:')
 			log.info('  --config ./path/to/config.ts#named_export')
