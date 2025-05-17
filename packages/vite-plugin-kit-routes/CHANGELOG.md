@@ -1,5 +1,18 @@
 # vite-plugin-kit-routes
 
+## 0.8.5-next.6
+
+### Patch Changes
+
+- [#1001](https://github.com/jycouet/kitql/pull/1001)
+  [`5cbf094`](https://github.com/jycouet/kitql/commit/5cbf09434b0108f69a4338d406aae443c116e7f4)
+  Thanks [@jycouet](https://github.com/jycouet)! - improve cli log helper
+
+- Updated dependencies []:
+  - @kitql/helpers@0.8.13-next.0
+  - @kitql/internals@0.10.5-next.0
+  - vite-plugin-watch-and-run@1.7.5-next.0
+
 ## 0.8.5-next.5
 
 ### Patch Changes
