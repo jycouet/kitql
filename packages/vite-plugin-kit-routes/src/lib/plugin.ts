@@ -284,12 +284,12 @@ export type OverrideParam = {
 export type ExtendParam = {
 	type?: string
 	/**
-	 * You have to double escape strings.
+	 * Default value for the param
 	 *
 	 * @example
 	 * { type: 'number', default: 75 }
-	 * of
-	 * { type: 'string', default: '"jycouet"' }
+	 * or
+	 * { type: 'string', default: 'jycouet' }
 	 */
 	default?: any
 }
