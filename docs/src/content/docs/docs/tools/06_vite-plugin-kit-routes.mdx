@@ -34,6 +34,8 @@ import { Video } from 'accessible-astro-components'
 
 ## Examples
 
+### Simple route
+
 ```svelte
 <script lang="ts">
 	import { route } from '$lib/ROUTES'
@@ -51,6 +53,8 @@ import { Video } from 'accessible-astro-components'
 -->
 ```
 
+### Route with params
+
 ```svelte
 <script lang="ts">
 	import { route } from '$lib/ROUTES'
@@ -63,6 +67,8 @@ import { Video } from 'accessible-astro-components'
 <a href={route('/site/[id]', { id: 123 })}>Go to site</a>
 ```
 
+### Route with params & search params
+
 ```svelte
 <script lang="ts">
 	import { route } from '$lib/ROUTES'
@@ -74,6 +80,8 @@ import { Video } from 'accessible-astro-components'
 <!-- ✅ after, typechecked route, no more errors -->
 <a href={route('/site/[id]', { id: 123, limit: 3 })}>Go to site</a>
 ```
+
+### Actions
 
 ```svelte
 <script lang="ts">
@@ -96,17 +104,36 @@ import { Video } from 'accessible-astro-components'
 </form>
 ```
 
+### External links
+
 ```svelte
 <script lang="ts">
 	import { route } from '$lib/ROUTES'
 </script>
 
 <!-- 🤞 before, hardcoded string, error prone -->
-<a href="https://twitter.com/jycouet">Twitter</a>
+<a href="https://bsky.app/profile/jyc.dev">Bluesky</a>
 
 <!-- ✅ after, typechecked route, no more errors -->
-<a href={route('twitter')}>Twitter</a>
+<a href={route('bluesky')}>Bluesky</a>
 ```
+
+Here is the `vite.config.ts` config for it:
+
+```ts
+plugins: [
+		// ...
+		kitRoutes({
+			LINKs: {
+				bluesky: 'https://bsky.app/profile/jyc.dev',
+			}
+		}),
+],
+```
+
+Like this, you are able to have a central place to manage all your external links.
+
+### External links with params
 
 ```svelte
 <script lang="ts">
@@ -118,6 +145,28 @@ import { Video } from 'accessible-astro-components'
 
 <!-- ✅ after, typechecked route, no more errors -->
 <img src={route('gravatar', { str: 'jycouet', s: 20 })} alt="logo" />
+```
+
+Here is the `vite.config.ts` config for it:
+
+```ts
+plugins: [
+		// ...
+		kitRoutes({
+			LINKs: {
+				gravatar: {
+					href: 'https://www.gravatar.com/avatar/[str]',
+					params: {
+						str: { type: 'string' },
+					},
+					explicit_search_params: {
+						s: { type: 'number', default: 75 },
+						d: { type: '"retro" | "identicon"', default: '"identicon"' },
+					},
+				},
+			}
+		}),
+],
 ```
 
 <br />
