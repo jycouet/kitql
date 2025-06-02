@@ -74,7 +74,7 @@ const PAGES = {
 		hash: 'section0' | 'section1' | 'section2' | 'section3'
 		anotherOne?: string
 	}) => {
-		params['hash'] = params['hash'] ?? 'section0'
+		params['hash'] = params['hash'] ?? '"section0"'
 		return `/anchors${appendSp({ anotherOne: params['anotherOne'], __KIT_ROUTES_ANCHOR__: params['hash'] })}`
 	},
 	'/anchors/[id]': (params: {

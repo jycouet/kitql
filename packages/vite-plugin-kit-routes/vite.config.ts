@@ -49,8 +49,8 @@ export const _kitRoutesConfig: Options<KIT_ROUTES> = {
 				'da-sh': { type: 'string' },
 			},
 			params: {
-				id: { type: 'string', default: '"Vienna"' },
-				lang: { type: "'fr' | 'hu' | undefined", default: '"fr"' },
+				id: { type: 'string', default: 'Vienna' },
+				lang: { type: "'fr' | 'hu' | undefined", default: 'fr' },
 			},
 		},
 		'/match/[id=int]': {
@@ -76,7 +76,7 @@ export const _kitRoutesConfig: Options<KIT_ROUTES> = {
 			hash: {
 				type: '"section0" | "section1" | "section2" | "section3"',
 				required: true,
-				default: '"section0"',
+				default: 'section0',
 			},
 		},
 		'/anchors/[id]': {
@@ -99,7 +99,7 @@ export const _kitRoutesConfig: Options<KIT_ROUTES> = {
 		},
 		'send /site_contract/[siteId]-[contractId]': {
 			explicit_search_params: {
-				extra: { type: "'A' | 'B'", default: '"A"' },
+				extra: { type: "'A' | 'B'", default: 'A' },
 			},
 		},
 		'create /site': {
@@ -123,7 +123,7 @@ export const _kitRoutesConfig: Options<KIT_ROUTES> = {
 			},
 			explicit_search_params: {
 				s: { type: 'number', default: 75 },
-				d: { type: '"retro" | "identicon"', default: '"identicon"' },
+				d: { type: '"retro" | "identicon"', default: 'identicon' },
 			},
 		},
 	},
