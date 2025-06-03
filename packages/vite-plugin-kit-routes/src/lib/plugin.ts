@@ -639,7 +639,7 @@ export function buildMetadata(
 			hash: {
 				type: customConf.hash.type,
 				required: customConf.hash.required,
-				default: customConf.hash.default && JSON.stringify(customConf.hash.default),
+				default: customConf.hash.default,
 				// @ts-expect-error
 				isAnchor: true,
 			},
