@@ -1,5 +1,47 @@
 # vite-plugin-kit-routes
 
+## 0.8.5
+
+### Patch Changes
+
+- [#988](https://github.com/jycouet/kitql/pull/988)
+  [`da7dfc3`](https://github.com/jycouet/kitql/commit/da7dfc3601d48e542772e05a38f362c2ebe37f46)
+  Thanks [@jycouet](https://github.com/jycouet)! - update logs on wrong config
+
+- [#978](https://github.com/jycouet/kitql/pull/978)
+  [`7461320`](https://github.com/jycouet/kitql/commit/74613204f2d07505f12ca884a91810229989b495)
+  Thanks [@jycouet](https://github.com/jycouet)! - manage "simple" multiple matches with optional
+  param (first step)
+
+- [#984](https://github.com/jycouet/kitql/pull/984)
+  [`63674a8`](https://github.com/jycouet/kitql/commit/63674a8e01792a17a5a878d9786beab06a8af9bc)
+  Thanks [@jycouet](https://github.com/jycouet)! - Read well the config for cli
+
+- [#976](https://github.com/jycouet/kitql/pull/976)
+  [`70aa137`](https://github.com/jycouet/kitql/commit/70aa137cff21fed82935aebde512139e58eec25e)
+  Thanks [@jycouet](https://github.com/jycouet)! - manage kit-route cli for vite.config.ts config
+  file
+
+- [#948](https://github.com/jycouet/kitql/pull/948)
+  [`e8ed929`](https://github.com/jycouet/kitql/commit/e8ed929efd4beb4623d5edcdef706f8eb9b5e662)
+  Thanks [@jycouet](https://github.com/jycouet)! - add mdsvex support and create a route for
+  `+page.md`
+
+- [#965](https://github.com/jycouet/kitql/pull/965)
+  [`26e0322`](https://github.com/jycouet/kitql/commit/26e0322b9dfb53002fbc9e2cfe22c38a4409cffd)
+  Thanks [@jycouet](https://github.com/jycouet)! - add cli `kit-routes sync` to generate routes
+  without a full build
+
+- [#1001](https://github.com/jycouet/kitql/pull/1001)
+  [`5cbf094`](https://github.com/jycouet/kitql/commit/5cbf09434b0108f69a4338d406aae443c116e7f4)
+  Thanks [@jycouet](https://github.com/jycouet)! - improve cli log helper
+
+- Updated dependencies
+  [[`26e0322`](https://github.com/jycouet/kitql/commit/26e0322b9dfb53002fbc9e2cfe22c38a4409cffd)]:
+  - @kitql/helpers@0.8.13
+  - @kitql/internals@0.10.5
+  - vite-plugin-watch-and-run@1.7.5
+
 ## 0.8.5-next.6
 
 ### Patch Changes
