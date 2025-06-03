@@ -85,8 +85,8 @@ catalogs:
       specifier: 4.1.4
       version: 4.1.4
     globals:
-      specifier: 16.1.0
-      version: 16.1.0
+      specifier: 16.2.0
+      version: 16.2.0
     jsonc-eslint-parser:
       specifier: 2.4.0
       version: 2.4.0
@@ -283,7 +283,7 @@ importers:
         version: 4.1.4(@typescript-eslint/eslint-plugin@8.33.1(@typescript-eslint/parser@8.33.1(eslint@9.28.0(jiti@1.21.7))(typescript@5.8.2))(eslint@9.28.0(jiti@1.21.7))(typescript@5.8.2))(eslint@9.28.0(jiti@1.21.7))
       globals:
         specifier: catalog:linting
-        version: 16.1.0
+        version: 16.2.0
       jsonc-eslint-parser:
         specifier: catalog:linting
         version: 2.4.0
@@ -2874,8 +2874,8 @@ packages:
     resolution: {integrity: sha512-7ACyT3wmyp3I61S4fG682L0VA2RGD9otkqGJIwNUMF1SWUombIIk+af1unuDYgMm082aHYwD+mzJvv9Iu8dsgg==}
     engines: {node: '>=18'}
 
-  globals@16.1.0:
-    resolution: {integrity: sha512-aibexHNbb/jiUSObBgpHLj+sIuUmJnYcgXBlrfsiDZ9rt4aF2TFRbyLgZ2iFQuVZ1K5Mx3FVkbKRSgKrbK3K2g==}
+  globals@16.2.0:
+    resolution: {integrity: sha512-O+7l9tPdHCU320IigZZPj5zmRCFG9xHmx9cU8FqU2Rp+JN714seHV+2S9+JslCpY4gJwU2vOGox0wzgae/MCEg==}
     engines: {node: '>=18'}
 
   globby@11.1.0:
@@ -7172,7 +7172,7 @@ snapshots:
       '@jridgewell/sourcemap-codec': 1.5.0
       eslint: 9.28.0(jiti@1.21.7)
       esutils: 2.0.3
-      globals: 16.1.0
+      globals: 16.2.0
       known-css-properties: 0.36.0
       postcss: 8.5.3
       postcss-load-config: 3.1.4(postcss@8.5.3)(ts-node@10.9.2(@types/node@22.13.9)(typescript@5.8.2))
@@ -7516,7 +7516,7 @@ snapshots:
 
   globals@15.15.0: {}
 
-  globals@16.1.0: {}
+  globals@16.2.0: {}
 
   globby@11.1.0:
     dependencies:
