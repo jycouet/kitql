@@ -1,5 +1,34 @@
 # eslint-config-kitql
 
+## 0.7.0
+
+### Minor Changes
+
+- [#969](https://github.com/jycouet/kitql/pull/969)
+  [`7893d79`](https://github.com/jycouet/kitql/commit/7893d7981017869cd6ee559904946889acbfee86)
+  Thanks [@jycouet](https://github.com/jycouet)! - [BREAKING] switch .prettierrc.mjs to
+  .prettierrc.js
+
+### Patch Changes
+
+- [`2b8b163`](https://github.com/jycouet/kitql/commit/2b8b163d28e5aeb99e36a1592601af51ff484bdd)
+  Thanks [@jycouet](https://github.com/jycouet)! - bump packages
+
+- [`ca9c377`](https://github.com/jycouet/kitql/commit/ca9c377f305f96e1217dad395ac30a7e53f27a9c)
+  Thanks [@jycouet](https://github.com/jycouet)! - bump (eslint & prettier)
+
+- [#950](https://github.com/jycouet/kitql/pull/950)
+  [`4411443`](https://github.com/jycouet/kitql/commit/44114438a83bbc3d6dec8f45d7b0b443727c1d05)
+  Thanks [@github-actions](https://github.com/apps/github-actions)! - bump eslint deps
+
+- [#1025](https://github.com/jycouet/kitql/pull/1025)
+  [`ed4bab3`](https://github.com/jycouet/kitql/commit/ed4bab3a2e632f6a76e61f515d048307543243f5)
+  Thanks [@jycouet](https://github.com/jycouet)! - linting bumps
+
+- Updated dependencies
+  [[`26e0322`](https://github.com/jycouet/kitql/commit/26e0322b9dfb53002fbc9e2cfe22c38a4409cffd)]:
+  - @kitql/helpers@0.8.13
+
 ## 0.7.0-next.5
 
 ### Patch Changes

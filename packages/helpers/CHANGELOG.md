@@ -1,5 +1,13 @@
 # @kitql/helpers
 
+## 0.8.13
+
+### Patch Changes
+
+- [#965](https://github.com/jycouet/kitql/pull/965)
+  [`26e0322`](https://github.com/jycouet/kitql/commit/26e0322b9dfb53002fbc9e2cfe22c38a4409cffd)
+  Thanks [@jycouet](https://github.com/jycouet)! - fix typo in redirect directory
+
 ## 0.8.13-next.0
 
 ### Patch Changes
