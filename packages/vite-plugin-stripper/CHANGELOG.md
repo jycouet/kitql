@@ -1,5 +1,13 @@
 # vite-plugin-stripper
 
+## 0.9.2-next.0
+
+### Patch Changes
+
+- [#1027](https://github.com/jycouet/kitql/pull/1027)
+  [`0be03a2`](https://github.com/jycouet/kitql/commit/0be03a27a6d88a12c81a80a82fcc22ee7f837a4c)
+  Thanks [@jycouet](https://github.com/jycouet)! - using vite Plugin hook filters (rolldown opti)
+
 ## 0.9.1
 
 ### Patch Changes
