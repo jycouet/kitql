@@ -139,7 +139,7 @@ export const _kitRoutesConfig: Options<KIT_ROUTES> = {
 			explicit_search_params: {
 				sNumber: { type: 'number', default: 75 },
 				sBoolean: { type: 'boolean', default: false },
-				sBooleanRequired: { type: 'boolean', default: "mooo", required: true },
+				sBooleanRequired: { type: 'boolean', default: 'mooo', required: true },
 				sArray: {
 					type: 'Array<boolean | string | number | null>',
 					default: [true, 'p2', 3, null],
