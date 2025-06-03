@@ -1,5 +1,19 @@
 # vite-plugin-stripper
 
+## 0.9.1-next.1
+
+### Patch Changes
+
+- [#1023](https://github.com/jycouet/kitql/pull/1023)
+  [`4197212`](https://github.com/jycouet/kitql/commit/419721263e785a84309ccb5514162baa70cc64aa)
+  Thanks [@jycouet](https://github.com/jycouet)! - remove watchAndRun when
+  log_on_throw_is_not_a_new_class is not enabled
+
+- Updated dependencies []:
+  - @kitql/helpers@0.8.13-next.0
+  - @kitql/internals@0.10.5-next.0
+  - vite-plugin-watch-and-run@1.7.5-next.0
+
 ## 0.9.1-next.0
 
 ### Patch Changes
