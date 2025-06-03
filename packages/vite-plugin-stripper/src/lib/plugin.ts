@@ -139,52 +139,63 @@ export function stripper(options?: ViteStripperOptions): PluginOption {
 				}
 			},
 
-			transform: async (code, filepath, option) => {
-				// Don't transform server-side code
-				if (option?.ssr) {
-					return
-				}
-				// files are only in ts
-				if (!filepath.endsWith('.ts')) {
-					return
-				}
-
-				const allInfos: string[] = []
-				let code_ast: string | ParseResult = code
-
-				if (options && options?.nullify && options.nullify.length > 0) {
-					const { info, code_ast: transformed } = await nullifyImports(code_ast, options.nullify)
-
-					// Update the code for later transforms & return it
-					code_ast = transformed
-					allInfos.push(...info)
-				}
-
-				if (options && options?.strip && options.strip.length > 0) {
-					const { info, code_ast: transformed } = await transformStrip(code_ast, options.strip)
-
-					// Update the code for later transforms & return it
-					code_ast = transformed
-					allInfos.push(...info)
-				}
-
-				if (allInfos.length > 0) {
-					const toRet = print(code_ast)
-
-					if (options?.debug) {
-						log.info(
-							`${gray('File:')} ${yellow(filepath)}\n` +
-								`${green('-----')}\n` +
-								`${toRet.code}` +
-								`\n${green(':::::')}\n` +
-								`${allInfos.join('\n')}` +
-								`\n${green('-----')}\n`,
-						)
+			transform: {
+				filter: {
+					id: /\.ts$/,
+				},
+				async handler(code, id, option) {
+					// Don't transform server-side code
+					if (option?.ssr) {
+						return
+					}
+					// files are only in ts
+					// https://vite.dev/guide/rolldown#hook-filter-feature
+					// To make your plugin backward compatible with the older versions, make sure to also run the filter inside the hook handlers.
+					if (!id.endsWith('.ts')) {
+						return
 					}
 
-					return toRet
-				}
+					const allInfos: string[] = []
+					let code_ast: string | ParseResult = code
+
+					if (options && options?.nullify && options.nullify.length > 0) {
+						const { info, code_ast: transformed } = await nullifyImports(code_ast, options.nullify)
+
+						// Update the code for later transforms & return it
+						code_ast = transformed
+						allInfos.push(...info)
+					}
+
+					if (options && options?.strip && options.strip.length > 0) {
+						const { info, code_ast: transformed } = await transformStrip(code_ast, options.strip)
+
+						// Update the code for later transforms & return it
+						code_ast = transformed
+						allInfos.push(...info)
+					}
+
+					if (allInfos.length > 0) {
+						const toRet = print(code_ast)
+
+						if (options?.debug) {
+							log.info(
+								`${gray('File:')} ${yellow(id)}\n` +
+									`${green('-----')}\n` +
+									`${toRet.code}` +
+									`\n${green(':::::')}\n` +
+									`${allInfos.join('\n')}` +
+									`\n${green('-----')}\n`,
+							)
+						}
+
+						return toRet
+					}
+				},
 			},
+
+			// transform: async (code, id, option) => {
+
+			// },
 		},
 	]
 
