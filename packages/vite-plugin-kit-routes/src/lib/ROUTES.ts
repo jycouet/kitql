@@ -180,9 +180,27 @@ const LINKS = {
 		params['d'] = params['d'] ?? 'identicon'
 		return `https://www.gravatar.com/avatar/${params['str']}${appendSp({ s: params['s'], d: params['d'] })}`
 	},
+	default_values_site: (params: {
+		sBooleanRequired: boolean
+		sArrayRequired: Array<boolean | string | number | null>
+		bool?: boolean
+		arr?: Array<boolean | string | number | null>
+		sNumber?: number
+		sBoolean?: boolean
+		sArray?: Array<boolean | string | number | null>
+	}) => {
+		params['sBooleanRequired'] = params['sBooleanRequired'] ?? 'mooo'
+		params['sArrayRequired'] = params['sArrayRequired'] ?? [true, 'p2', 3, null]
+		params['bool'] = params['bool'] ?? true
+		params['arr'] = params['arr'] ?? [true, 'p2', 3, null]
+		params['sNumber'] = params['sNumber'] ?? 75
+		params['sBoolean'] = params['sBoolean'] ?? false
+		params['sArray'] = params['sArray'] ?? [true, 'p2', 3, null]
+		return `https://sommepage.com/${params['bool']}/${params['arr']}${appendSp({ sNumber: params['sNumber'], sBoolean: params['sBoolean'], sBooleanRequired: params['sBooleanRequired'], sArray: params['sArray'], sArrayRequired: params['sArrayRequired'] })}`
+	},
 }
 
-type ParamValue = string | number | undefined
+type ParamValue = string | number | boolean | null | undefined
 
 /**
  * Append search params to a string
@@ -344,7 +362,12 @@ export type KIT_ROUTES = {
 		'noSatisfies /site_contract': 'lang'
 		'send /site_contract/[siteId]-[contractId]': 'siteId' | 'contractId' | 'lang'
 	}
-	LINKS: { twitter: never; twitter_post: 'name' | 'id'; gravatar: 'str' }
+	LINKS: {
+		twitter: never
+		twitter_post: 'name' | 'id'
+		gravatar: 'str'
+		default_values_site: 'bool' | 'arr'
+	}
 	Params: {
 		all: never
 		first: never
@@ -366,5 +389,12 @@ export type KIT_ROUTES = {
 		str: never
 		s: never
 		d: never
+		sBooleanRequired: never
+		sArrayRequired: never
+		bool: never
+		arr: never
+		sNumber: never
+		sBoolean: never
+		sArray: never
 	}
 }

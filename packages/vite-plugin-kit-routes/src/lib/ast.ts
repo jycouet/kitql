@@ -124,6 +124,8 @@ export function evaluateNode(node: any): any {
 		return node.value
 	} else if (node.type === 'NumericLiteral') {
 		return node.value
+	} else if (node.type === 'NullLiteral') {
+		return node.value
 	} else if (node.type === 'ObjectExpression') {
 		const result: any = {}
 		node.properties.forEach((prop: any) => {

@@ -19,7 +19,7 @@ export const format = (margin: { left?: number; top?: number; bottom?: number },
 	)
 }
 
-export const appendSp = `type ParamValue = string | number | undefined
+export const appendSp = `type ParamValue = string | number | boolean | null | undefined
 
 /**
  * Append search params to a string

@@ -136,7 +136,7 @@ export const LINKS = {
   }
 }
 
-type ParamValue = string | number | undefined
+type ParamValue = string | number | boolean | null | undefined
 
 /**
  * Append search params to a string

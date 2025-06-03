@@ -126,6 +126,31 @@ export const _kitRoutesConfig: Options<KIT_ROUTES> = {
 				d: { type: '"retro" | "identicon"', default: '"identicon"' },
 			},
 		},
+
+		default_values_site: {
+			href: 'https://sommepage.com/[bool]/[arr]',
+			params: {
+				bool: { type: 'boolean', default: true },
+				arr: {
+					type: 'Array<boolean | string | number | null>',
+					default: "[true, 'p2', 3, null]",
+				},
+			},
+			explicit_search_params: {
+				sNumber: { type: 'number', default: 75 },
+				sBoolean: { type: 'boolean', default: false },
+				sBooleanRequired: { type: 'boolean', default: "'mooo'", required: true },
+				sArray: {
+					type: 'Array<boolean | string | number | null>',
+					default: "[true, 'p2', 3, null]",
+				},
+				sArrayRequired: {
+					type: 'Array<boolean | string | number | null>',
+					default: "[true, 'p2', 3, null]",
+					required: true,
+				},
+			},
+		},
 	},
 
 	override_params: {
