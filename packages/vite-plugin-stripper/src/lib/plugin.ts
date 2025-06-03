@@ -141,7 +141,7 @@ export function stripper(options?: ViteStripperOptions): PluginOption {
 
 			transform: {
 				filter: {
-					id: /\.ts$/
+					id: /\.ts$/,
 				},
 				async handler(code, id, option) {
 					// Don't transform server-side code
@@ -180,17 +180,17 @@ export function stripper(options?: ViteStripperOptions): PluginOption {
 						if (options?.debug) {
 							log.info(
 								`${gray('File:')} ${yellow(id)}\n` +
-								`${green('-----')}\n` +
-								`${toRet.code}` +
-								`\n${green(':::::')}\n` +
-								`${allInfos.join('\n')}` +
-								`\n${green('-----')}\n`,
+									`${green('-----')}\n` +
+									`${toRet.code}` +
+									`\n${green(':::::')}\n` +
+									`${allInfos.join('\n')}` +
+									`\n${green('-----')}\n`,
 							)
 						}
 
 						return toRet
 					}
-				}
+				},
 			},
 
 			// transform: async (code, id, option) => {
