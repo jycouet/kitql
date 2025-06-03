@@ -38,7 +38,7 @@ _\*Order by subjective usefulness_ 😉
 ## ✨ Contributors
 
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
-[![All Contributors](https://img.shields.io/badge/all_contributors-50-orange.svg?style=flat-square)](#contributors-)
+[![All Contributors](https://img.shields.io/badge/all_contributors-51-orange.svg?style=flat-square)](#contributors-)
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 
 Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/docs/en/emoji-key)):
@@ -113,6 +113,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
     </tr>
     <tr>
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/ccremer"><img src="https://avatars.githubusercontent.com/u/12159026?v=4?s=100" width="100px;" alt="Chris"/><br /><sub><b>Chris</b></sub></a><br /><a href="#tool-ccremer" title="Tools">🔧</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://tinyurl.com/ICSFramework"><img src="https://avatars.githubusercontent.com/u/25040219?v=4?s=100" width="100px;" alt="Jackson Hall"/><br /><sub><b>Jackson Hall</b></sub></a><br /><a href="https://github.com/jycouet/kitql/commits?author=jacksonthall22" title="Documentation">📖</a></td>
     </tr>
   </tbody>
 </table>
