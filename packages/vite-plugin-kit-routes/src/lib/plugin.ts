@@ -284,12 +284,12 @@ export type OverrideParam = {
 export type ExtendParam = {
 	type?: string
 	/**
-	 * You have to double escape strings.
+	 * Default value for the param
 	 *
 	 * @example
 	 * { type: 'number', default: 75 }
-	 * of
-	 * { type: 'string', default: '"jycouet"' }
+	 * or
+	 * { type: 'string', default: 'jycouet' }
 	 */
 	default?: any
 }
@@ -582,7 +582,7 @@ export function buildMetadata(
 						paramsFromPath[i].type = sp[1].type
 					}
 					if (sp[1] && sp[1].default !== undefined) {
-						paramsFromPath[i].default = sp[1].default
+						paramsFromPath[i].default = JSON.stringify(sp[1].default)
 						// It's becoming optional because it has a default
 						paramsFromPath[i].optional = true
 					}
@@ -656,7 +656,7 @@ export function buildMetadata(
 				name: sp[0],
 				optional: !sp[1].required,
 				type: sp[1].type,
-				default: sp[1].default,
+				default: sp[1].default && JSON.stringify(sp[1].default),
 				isArray: false,
 				// @ts-expect-error
 				isAnchor: sp[1].isAnchor,

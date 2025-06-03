@@ -261,8 +261,8 @@ describe('fileToMetadata', () => {
 					subscriptions_snapshot_id: {
 						explicit_search_params: { limit: { type: 'number' } },
 						params: {
-							snapshot: { type: 'string', default: '"snapshot"' },
-							id: { type: 'string', default: '"id"' },
+							snapshot: { type: 'string', default: 'snapshot' },
+							id: { type: 'string', default: 'id' },
 						},
 					},
 				},
@@ -544,7 +544,7 @@ describe('run()', async () => {
 				href: 'https://www.gravatar.com/avatar/[str]',
 				explicit_search_params: {
 					s: { type: 'number', default: 75 },
-					d: { type: '"retro" | "identicon"', default: '"identicon"' },
+					d: { type: '"retro" | "identicon"', default: 'identicon' },
 				},
 			},
 		},
@@ -579,8 +579,8 @@ describe('run()', async () => {
 					'da-sh': { type: 'string' },
 				},
 				params: {
-					id: { type: 'string', default: '"Vienna"' },
-					lang: { type: "'fr' | 'hu' | undefined", default: '"fr"' },
+					id: { type: 'string', default: 'Vienna' },
+					lang: { type: "'fr' | 'hu' | undefined", default: 'fr' },
 				},
 			},
 			match_id_int: {
@@ -621,7 +621,7 @@ describe('run()', async () => {
 			},
 			send_site_contract_siteId_contractId: {
 				explicit_search_params: {
-					extra: { type: "'A' | 'B'", default: '"A"' },
+					extra: { type: "'A' | 'B'", default: 'A' },
 				},
 			},
 		},
