@@ -12,7 +12,7 @@ describe('parse', function () {
   		@annotation
   		class Test {}
   	`)
-		expect(parsed.type).toMatchInlineSnapshot(`"File"`)
+		expect(parsed.program.type).toMatchInlineSnapshot(`"Program"`)
 	})
 
 	it('parse with top level await', async function () {
@@ -46,15 +46,7 @@ const b = "hello"
 
 		const ast = parse(code)
 		expect(print(ast).code).toMatchInlineSnapshot(`
-			"// import { performance } from 'perf_hooks'
-			// import { AUTH_SECRET } from "$env/static/private"
-			// const helpers = async () => {
-			//    const { AUTH_SECRET } = await import('$env/static/private')
-			//    return { AUTH_SECRET }
-			// }
-			// if (import.meta.env.SSR) {
-			// }
-			import { BackendMethod, remult, type Allowed } from "remult";
+			"import { BackendMethod, remult, type Allowed } from "remult";
 
 			export class ActionsController {
 			    @BackendMethod({
@@ -87,10 +79,14 @@ const b = "hello"
 	it('@Entity file', function () {
 		const code = read('../vite-plugin-stripper/src/shared/User.ts') ?? ''
 
+
+
+
+
+
 		const ast = parse(code)
 		expect(print(ast).code).toMatchInlineSnapshot(`
-			"// Only unauthenticated users can call this method
-			import { BackendMethod, Entity, Fields, remult, type Allowed } from "remult";
+			"import { BackendMethod, Entity, Fields, remult, type Allowed } from "remult";
 			import { AUTH_SECRET } from "$env/static/private";
 
 			@Entity("users", {

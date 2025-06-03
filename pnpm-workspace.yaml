@@ -10,6 +10,9 @@ packages:
 
 catalogs:
  tooling:
+  oxc-parser: 0.72.2
+  oxc-walker: 0.3.0
+  astring: 1.9.0
   'typescript': '5.8.2'
   'esbuild': '0.25.0'
   '@babel/parser': 7.27.0
@@ -17,7 +20,7 @@ catalogs:
   'rimraf': '6.0.1'
   'commander': '14.0.0'
   'ora': '8.2.0'
-  'recast': '^0.23.4'
+  'recast': '0.23.11'
   'tsx': '4.19.3'
 
  vite:
@@ -104,5 +107,6 @@ catalogs:
  conflicts_tooling_cata:
   tsx: cata
 catalog:
+ astring: ^1.9.0
  ts-node: ^10.9.2
  tsx: ^4.19.3
