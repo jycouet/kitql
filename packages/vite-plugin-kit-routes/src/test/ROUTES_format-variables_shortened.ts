@@ -132,7 +132,7 @@ export const LINK_gravatar = (str: (string | number), params?: { s?: (number), d
   return `https://www.gravatar.com/avatar/${str}${appendSp({ 's': params['s'], 'd': params['d'] })}`
 }
 
-type ParamValue = string | number | undefined
+type ParamValue = string | number | boolean | null | undefined
 
 /**
  * Append search params to a string
