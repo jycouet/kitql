@@ -115,7 +115,7 @@ export function stripper(options?: ViteStripperOptions): PluginOption {
 		return process.cwd() + '/src'
 	}
 
-	return [
+	const plugins: PluginOption = [
 		{
 			name: 'vite-plugin-stripper',
 			enforce: 'pre',
@@ -186,31 +186,37 @@ export function stripper(options?: ViteStripperOptions): PluginOption {
 				}
 			},
 		},
-
-		// Run the thing when any change in a +page.svelte (add, remove, ...)
-		watchAndRun([
-			{
-				name: 'kit-routes-watch',
-				logs: [],
-				watch: ['**'],
-				run: async (server, absolutePath) => {
-					if (options?.log_on_throw_is_not_a_new_class) {
-						// Only file in our project
-						if (absolutePath && absolutePath.startsWith(getProjectPath())) {
-							const code = readFileSync(absolutePath, { encoding: 'utf8' })
-
-							const { list } = await transformWarningThrow(
-								absolutePath,
-								getProjectPath(),
-								code,
-								options?.log_on_throw_is_not_a_new_class,
-							)
-							listOrThrow.push(...list)
-							display()
-						}
-					}
-				},
-			},
-		]),
 	]
+
+	if (options?.log_on_throw_is_not_a_new_class) {
+		plugins.push(
+			// Run the thing when any changes happens in the project
+			watchAndRun([
+				{
+					name: 'vite-plugin-stripper-throw-not-new-class',
+					logs: [],
+					watch: ['**'],
+					run: async (server, absolutePath) => {
+						if (options?.log_on_throw_is_not_a_new_class) {
+							// Only file in our project
+							if (absolutePath && absolutePath.startsWith(getProjectPath())) {
+								const code = readFileSync(absolutePath, { encoding: 'utf8' })
+
+								const { list } = await transformWarningThrow(
+									absolutePath,
+									getProjectPath(),
+									code,
+									options?.log_on_throw_is_not_a_new_class,
+								)
+								listOrThrow.push(...list)
+								display()
+							}
+						}
+					},
+				},
+			]),
+		)
+	}
+
+	return plugins
 }
