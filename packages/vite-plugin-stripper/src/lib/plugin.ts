@@ -115,102 +115,105 @@ export function stripper(options?: ViteStripperOptions): PluginOption {
 		return process.cwd() + '/src'
 	}
 
-	return [
-		{
-			name: 'vite-plugin-stripper',
-			enforce: 'pre',
+	const plugins: PluginOption = [{
+		name: 'vite-plugin-stripper',
+		enforce: 'pre',
 
-			config: async () => {
-				if (options?.log_on_throw_is_not_a_new_class) {
-					const files = getFilesUnder(getProjectPath())
-					listOrThrow = []
-					for (let i = 0; i < files.length; i++) {
-						const absolutePath = getProjectPath() + '/' + files[i]
-						const code = readFileSync(absolutePath, { encoding: 'utf8' })
-						const { list } = await transformWarningThrow(
-							absolutePath,
-							getProjectPath(),
-							code,
-							options?.log_on_throw_is_not_a_new_class,
-						)
-						listOrThrow.push(...list)
-					}
-					display()
+		config: async () => {
+			if (options?.log_on_throw_is_not_a_new_class) {
+				const files = getFilesUnder(getProjectPath())
+				listOrThrow = []
+				for (let i = 0; i < files.length; i++) {
+					const absolutePath = getProjectPath() + '/' + files[i]
+					const code = readFileSync(absolutePath, { encoding: 'utf8' })
+					const { list } = await transformWarningThrow(
+						absolutePath,
+						getProjectPath(),
+						code,
+						options?.log_on_throw_is_not_a_new_class,
+					)
+					listOrThrow.push(...list)
 				}
-			},
-
-			transform: async (code, filepath, option) => {
-				// Don't transform server-side code
-				if (option?.ssr) {
-					return
-				}
-				// files are only in ts
-				if (!filepath.endsWith('.ts')) {
-					return
-				}
-
-				const allInfos: string[] = []
-				let code_ast: string | ParseResult = code
-
-				if (options && options?.nullify && options.nullify.length > 0) {
-					const { info, code_ast: transformed } = await nullifyImports(code_ast, options.nullify)
-
-					// Update the code for later transforms & return it
-					code_ast = transformed
-					allInfos.push(...info)
-				}
-
-				if (options && options?.strip && options.strip.length > 0) {
-					const { info, code_ast: transformed } = await transformStrip(code_ast, options.strip)
-
-					// Update the code for later transforms & return it
-					code_ast = transformed
-					allInfos.push(...info)
-				}
-
-				if (allInfos.length > 0) {
-					const toRet = print(code_ast)
-
-					if (options?.debug) {
-						log.info(
-							`${gray('File:')} ${yellow(filepath)}\n` +
-								`${green('-----')}\n` +
-								`${toRet.code}` +
-								`\n${green(':::::')}\n` +
-								`${allInfos.join('\n')}` +
-								`\n${green('-----')}\n`,
-						)
-					}
-
-					return toRet
-				}
-			},
+				display()
+			}
 		},
 
-		// Run the thing when any change in a +page.svelte (add, remove, ...)
-		watchAndRun([
-			{
-				name: 'kit-routes-watch',
-				logs: [],
-				watch: ['**'],
-				run: async (server, absolutePath) => {
-					if (options?.log_on_throw_is_not_a_new_class) {
-						// Only file in our project
-						if (absolutePath && absolutePath.startsWith(getProjectPath())) {
-							const code = readFileSync(absolutePath, { encoding: 'utf8' })
+		transform: async (code, filepath, option) => {
+			// Don't transform server-side code
+			if (option?.ssr) {
+				return
+			}
+			// files are only in ts
+			if (!filepath.endsWith('.ts')) {
+				return
+			}
 
-							const { list } = await transformWarningThrow(
-								absolutePath,
-								getProjectPath(),
-								code,
-								options?.log_on_throw_is_not_a_new_class,
-							)
-							listOrThrow.push(...list)
-							display()
+			const allInfos: string[] = []
+			let code_ast: string | ParseResult = code
+
+			if (options && options?.nullify && options.nullify.length > 0) {
+				const { info, code_ast: transformed } = await nullifyImports(code_ast, options.nullify)
+
+				// Update the code for later transforms & return it
+				code_ast = transformed
+				allInfos.push(...info)
+			}
+
+			if (options && options?.strip && options.strip.length > 0) {
+				const { info, code_ast: transformed } = await transformStrip(code_ast, options.strip)
+
+				// Update the code for later transforms & return it
+				code_ast = transformed
+				allInfos.push(...info)
+			}
+
+			if (allInfos.length > 0) {
+				const toRet = print(code_ast)
+
+				if (options?.debug) {
+					log.info(
+						`${gray('File:')} ${yellow(filepath)}\n` +
+						`${green('-----')}\n` +
+						`${toRet.code}` +
+						`\n${green(':::::')}\n` +
+						`${allInfos.join('\n')}` +
+						`\n${green('-----')}\n`,
+					)
+				}
+
+				return toRet
+			}
+		},
+	}]
+
+	if (options?.log_on_throw_is_not_a_new_class) {
+		plugins.push(
+			// Run the thing when any changes happens in the project
+			watchAndRun([
+				{
+					name: 'vite-plugin-stripper-throw-not-new-class',
+					logs: [],
+					watch: ['**'],
+					run: async (server, absolutePath) => {
+						if (options?.log_on_throw_is_not_a_new_class) {
+							// Only file in our project
+							if (absolutePath && absolutePath.startsWith(getProjectPath())) {
+								const code = readFileSync(absolutePath, { encoding: 'utf8' })
+
+								const { list } = await transformWarningThrow(
+									absolutePath,
+									getProjectPath(),
+									code,
+									options?.log_on_throw_is_not_a_new_class,
+								)
+								listOrThrow.push(...list)
+								display()
+							}
 						}
-					}
+					},
 				},
-			},
-		]),
-	]
+			]))
+	}
+
+	return plugins
 }
