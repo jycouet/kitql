@@ -139,18 +139,26 @@ export function stripper(options?: ViteStripperOptions): PluginOption {
 				}
 			},
 
+			applyToEnvironment(environment) {
+				return environment.name === 'client'
+			},
+
 			transform: {
 				filter: {
 					id: /\.ts$/,
 				},
 				async handler(code, id, option) {
 					// Don't transform server-side code
+					// https://vite.dev/changes/this-environment-in-hooks.html
+					// To make your plugin backward compatible with the older versions, I keep this for now.
+					// For vite >= 6.x, applyToEnvironment is doing the job.
 					if (option?.ssr) {
 						return
 					}
 					// files are only in ts
 					// https://vite.dev/guide/rolldown#hook-filter-feature
 					// To make your plugin backward compatible with the older versions, make sure to also run the filter inside the hook handlers.
+					// For vite >= 6.3.x, filter is doing the job.
 					if (!id.endsWith('.ts')) {
 						return
 					}
@@ -192,10 +200,6 @@ export function stripper(options?: ViteStripperOptions): PluginOption {
 					}
 				},
 			},
-
-			// transform: async (code, id, option) => {
-
-			// },
 		},
 	]
 
