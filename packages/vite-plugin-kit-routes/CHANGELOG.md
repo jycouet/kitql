@@ -1,5 +1,43 @@
 # vite-plugin-kit-routes
 
+## 1.0.0
+
+### Major Changes
+
+- [#1016](https://github.com/jycouet/kitql/pull/1016)
+  [`b0eb9b8`](https://github.com/jycouet/kitql/commit/b0eb9b8f5de9cf279b5075a82fb7454d2569be38)
+  Thanks [@Lms24](https://github.com/Lms24)! - feat(kit-routes)!: Avoid escaping string and array
+  default values
+
+  This change simplifies setting default values for path and search parameters. Previously, you had
+  to douple-escape a default string or array value. Now, you can simply set the default values like
+  any other data type:
+
+  ```diff
+   kitRoutes({
+     PAGES: {
+       '/[org]/[project]/sessions': {
+         explicit_search_params: {
+  -         timeFrame: { type: 'string', default: "'1d'" }
+  -         userId: { type: 'Array<string>', default: "['123', 'abc']" }
+  +         timeFrame: { type: 'string', default: '1d' }
+  +         userId: { type: 'Array<string>', default: ['123', 'abc'] }
+         }
+       }
+     }
+   })
+  ```
+
+  This is a breaking change! To migrate to the new version, remove the quotes to escape string and
+  array values as shown in the example above.
+
+### Patch Changes
+
+- [#1028](https://github.com/jycouet/kitql/pull/1028)
+  [`c7f3c90`](https://github.com/jycouet/kitql/commit/c7f3c90c44e498f14211c770b74bb0a681f8dcfa)
+  Thanks [@Lms24](https://github.com/Lms24)! - fix(kit-routes): Allow setting `boolean` and `null`
+  default values
+
 ## 1.0.0-next.0
 
 ### Major Changes
