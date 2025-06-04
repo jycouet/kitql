@@ -1,5 +1,13 @@
 # vite-plugin-stripper
 
+## 0.9.2-next.1
+
+### Patch Changes
+
+- [#1030](https://github.com/jycouet/kitql/pull/1030)
+  [`7566ce4`](https://github.com/jycouet/kitql/commit/7566ce4b70bc667f39cb1255101aec42b30d62ce)
+  Thanks [@jycouet](https://github.com/jycouet)! - using internaly the environement api
+
 ## 0.9.2-next.0
 
 ### Patch Changes
