@@ -51,6 +51,11 @@ export const PAGES = {
   "site_contract_siteId_contractId": (params: { siteId: (string | number), contractId: (string | number), lang?: ('fr' | 'en' | 'hu' | 'at' | string), limit?: (number) }) => {
     return `${params?.['lang'] ? `/${params?.['lang']}`: ''}/site_contract/${params['siteId']}-${params['contractId']}${appendSp({ 'limit': params['limit'] })}`
   },
+  "u+d83e_u+dd2a": `/🤪`,
+  "u+d83e_u+dd2a_emoji_u+2b50": (params: { emoji: (string | number) }) => {
+    return `/🤪/${params['emoji']}/⭐`
+  },
+  "x+2e_well_known": `/.well-known`,
   "a_rest_z": (params: { rest: (string | number)[] }) => {
     return `/a/${params['rest']?.join('/')}/z`
   },
@@ -85,6 +90,7 @@ export const SERVERS = {
   "GET site": (params?: { lang?: ('fr' | 'en' | 'hu' | 'at' | string) }) => {
     return `${params?.['lang'] ? `/${params?.['lang']}`: ''}/site`
   },
+  "GET x+2e_well_known": `/.well-known`,
   "GET api_graphql": `/api/graphql`,
   "POST api_graphql": `/api/graphql`,
   "GET data_errors_locale_json": (params: { locale: (string | number) }) => {
@@ -124,9 +130,9 @@ export const ACTIONS = {
  * LINKS
  */
 export const LINKS = {
-  "twitter": `https://twitter.com/jycouet`,
-  "twitter_post": (params: { name: (string | number), id: (string | number) }) => {
-    return `https://twitter.com/${params['name']}/status/${params['id']}`
+  "bluesky": `https://bsky.app/profile/jyc.dev`,
+  "bluesky_post": (params: { did: (string | number), post_id: (string | number) }) => {
+    return `https://bsky.app/profile/${params['did']}/post/${params['post_id']}`
   },
   "gravatar": (params: { str: (string | number), s?: (number), d?: ("retro" | "identicon") }) => {
     params['s'] = params['s'] ?? 75; 
@@ -244,9 +250,9 @@ type ExtractParamType<T extends (param: any) => any> = ExtractFnPredicate<T> ext
 * ```
 */
 export type KIT_ROUTES = {
-  PAGES: { '_ROOT': never, 'base': 'all', 'subGroup': never, 'subGroup_user': never, 'subGroup2': never, 'contract': 'lang', 'contract_id': 'id' | 'lang', 'gp_one': 'lang', 'gp_two': 'lang', 'main': 'lang', 'match_id_ab': 'id' | 'lang', 'match_id_int': 'id' | 'lang', 'site': 'lang', 'site_id': 'lang' | 'id', 'site_contract_siteId_contractId': 'siteId' | 'contractId' | 'lang', 'a_rest_z': 'rest', 'anchors': never, 'anchors_id': 'id', 'lay_normal': never, 'lay_root_layout': never, 'lay_skip': never, 'md': never, 'sp': never, 'spArray': never, 'spArrayComma': never }
-  SERVERS: { 'GET server_func_get': never, 'GET server_func_get_and': never, 'POST server_func_post': never, 'GET contract': 'lang', 'POST contract': 'lang', 'GET site': 'lang', 'GET api_graphql': never, 'POST api_graphql': never, 'GET data_errors_locale_json': 'locale' }
+  PAGES: { '_ROOT': never, 'base': 'all', 'subGroup': never, 'subGroup_user': never, 'subGroup2': never, 'contract': 'lang', 'contract_id': 'id' | 'lang', 'gp_one': 'lang', 'gp_two': 'lang', 'main': 'lang', 'match_id_ab': 'id' | 'lang', 'match_id_int': 'id' | 'lang', 'site': 'lang', 'site_id': 'lang' | 'id', 'site_contract_siteId_contractId': 'siteId' | 'contractId' | 'lang', 'u+d83e_u+dd2a': never, 'u+d83e_u+dd2a_emoji_u+2b50': 'emoji', 'x+2e_well_known': never, 'a_rest_z': 'rest', 'anchors': never, 'anchors_id': 'id', 'lay_normal': never, 'lay_root_layout': never, 'lay_skip': never, 'md': never, 'sp': never, 'spArray': never, 'spArrayComma': never }
+  SERVERS: { 'GET server_func_get': never, 'GET server_func_get_and': never, 'POST server_func_post': never, 'GET contract': 'lang', 'POST contract': 'lang', 'GET site': 'lang', 'GET x+2e_well_known': never, 'GET api_graphql': never, 'POST api_graphql': never, 'GET data_errors_locale_json': 'locale' }
   ACTIONS: { 'default contract_id': 'id' | 'lang', 'create site': 'lang', 'u-p-d-a-t-e site': 'lang', 'update site_id': 'id' | 'lang', 'delete site_id': 'id' | 'lang', 'noSatisfies site_contract': 'lang', 'send site_contract_siteId_contractId': 'siteId' | 'contractId' | 'lang' }
-  LINKS: { 'twitter': never, 'twitter_post': 'name' | 'id', 'gravatar': 'str' }
-  Params: { 'all': never, 'first': never, 'lang': never, 'id': never, 'limit': never, 'demo': never, 'da-sh': never, 'siteId': never, 'contractId': never, 'rest': never, 'hash': never, 'locale': never, 'extra': never, 'name': never, 'str': never, 's': never, 'd': never }
+  LINKS: { 'bluesky': never, 'bluesky_post': 'did' | 'post_id', 'gravatar': 'str' }
+  Params: { 'all': never, 'first': never, 'lang': never, 'id': never, 'limit': never, 'demo': never, 'da-sh': never, 'siteId': never, 'contractId': never, 'emoji': never, 'rest': never, 'hash': never, 'locale': never, 'extra': never, 'did': never, 'post_id': never, 'str': never, 's': never, 'd': never }
 }

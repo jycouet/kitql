@@ -200,12 +200,12 @@ export type Options<T extends RouteMappings = RouteMappings> = {
 	 *   // ... Example ...
 	 *   LINKS: {
 	 *    // reference to a hardcoded link
-	 *    twitter: 'https://twitter.com/jycouet',
-	 *    // ✅ <a href={LINKS.twitter}>Twitter</a>
+	 *    bluesky: 'https://bsky.app/profile/jyc.dev',
+	 *    // ✅ <a href={LINKS.bluesky}>Bluesky</a>
 	 *
 	 *    // reference to link with params! (Like svelteKit routes add [ ] to specify params)
-	 *    twitter_post: 'https://twitter.com/[name]/status/[id]',
-	 *    // ✅ <a href={LINKS.twitter_post({ name: 'jycouet', id: '1727089217707159569' })}>Twitter Post</a>
+	 *    bluesky_post: 'https://bsky.app/profile/[did]/post/[post_id]',
+	 *    // ✅ <a href={LINKS.bluesky_post({ did: 'did:plc:dacfxuonkf2qtqft22sc23tu', post_id: '3lqso76o7wc2p' })}>Bluesky Post</a>
 	 *
 	 *    // reference to link with params & search params!
 	 *    gravatar: {
@@ -457,6 +457,8 @@ type Param = {
 	fromPath?: boolean
 	isArray: boolean
 	needExtractParamType?: boolean
+	isEncoded?: 'x+' | 'u+'
+	decoded?: string
 }
 
 export const transformToMetadata = (
@@ -571,7 +573,9 @@ export function buildMetadata(
 		customConf = viteCustomPathConfig[keyToUse]
 	}
 
-	const paramsFromPath = extractParamsFromPath(originalValue, options)
+	const rawParamsFromPath = extractParamsFromPath(originalValue, options)
+	const paramsFromPath = rawParamsFromPath.filter((c) => c.isEncoded === undefined)
+	const specialNoParams = rawParamsFromPath.filter((c) => c.isEncoded !== undefined)
 
 	// custom Param?
 	if (customConf.params) {
@@ -754,7 +758,10 @@ export function buildMetadata(
 	const completeToRet = `${pathBaesStr}${toRet}`
 	const trailingSlashToUse = o.trailingSlash === 'always' && !completeToRet.endsWith('/') ? '/' : ''
 
-	const strReturn = `\`${completeToRet}${trailingSlashToUse}${actionsFormat}${fullSP}\``
+	let strReturn = `\`${completeToRet}${trailingSlashToUse}${actionsFormat}${fullSP}\``
+	for (let i = 0; i < specialNoParams.length; i++) {
+		strReturn = strReturn.replace(specialNoParams[i].name, specialNoParams[i].decoded!)
+	}
 	const strParams = params.join(', ')
 
 	const baseToReturn: MetadataToWrite = {
@@ -785,7 +792,7 @@ function getSpValue(rawValue: string, param: ExplicitSearchParam) {
 export function extractParamsFromPath(path: string, o: Options): Param[] {
 	const options = getDefaultOption(o)
 	const paramPattern = /\[+([^\]]+)]+/g
-	const params: Param[] = []
+	let params: Param[] = []
 
 	const relToParams = posix.relative(dirname(options.generated_file_path), options.path_params)
 
@@ -813,6 +820,54 @@ export function extractParamsFromPath(path: string, o: Options): Param[] {
 				fromPath: true,
 				isArray,
 			})
+		}
+	}
+
+	params = params.map((p) => {
+		if (p.name.startsWith('x+')) {
+			const [, hex] = p.name.split('+')
+			p.isEncoded = 'x+'
+			p.decoded = String.fromCharCode(parseInt(hex, 16))
+			p.name = `[${p.name}]`
+		} else if (p.name.startsWith('u+')) {
+			const [, hex] = p.name.split('+')
+			p.isEncoded = 'u+'
+			p.decoded = String.fromCharCode(parseInt(hex, 16))
+			p.name = `[${p.name}]`
+		}
+		return p
+	})
+
+	// if decoded is 1 char, it's already done. No need to combine it.
+	const paramsU = params.filter((c) => c.isEncoded === 'u+' && c.decoded?.length !== 1)
+	params = params.filter(
+		(c) => c.isEncoded !== 'u+' || (c.isEncoded === 'u+' && c.decoded?.length === 1),
+	)
+
+	// Find consecutive pairs of u+ encoded parameters
+	for (let i = 0; i < paramsU.length - 1; i++) {
+		const currentParam = paramsU[i]
+		const nextParam = paramsU[i + 1]
+		const combinedName = `${currentParam.name}${nextParam.name}`
+
+		// Check if the combined name exists in relToParams
+		if (path.includes(combinedName)) {
+			// Create a new parameter combining both
+			const combinedParam: Param = {
+				name: combinedName,
+				optional: currentParam.optional && nextParam.optional,
+				fromPath: true,
+				isArray: false,
+				isEncoded: 'u+',
+				decoded: currentParam.decoded! + nextParam.decoded!,
+			}
+
+			// Remove the two original parameters and add the combined one
+			params = params.filter((p) => p !== currentParam && p !== nextParam)
+			params.push(combinedParam)
+
+			// Skip the next parameter since we've already processed it
+			i++
 		}
 	}
 
@@ -999,7 +1054,7 @@ export const run = async (atStart: boolean, o?: Options) => {
 ${c.files
 	.map((key) => {
 		let valiableName = `${c.type.slice(0, -1)}_${key.keyToUse}`
-		const invalidInVariable = ['-', ' ']
+		const invalidInVariable = ['-', ' ', '+']
 		for (const invalid of invalidInVariable) {
 			valiableName = valiableName.replaceAll(invalid, '_')
 		}

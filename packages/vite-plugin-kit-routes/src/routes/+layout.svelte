@@ -112,14 +112,21 @@
 		|
 		<a href={route('/anchors/[id]', { id: '123' })}>Anchors no hash</a>
 	</li>
+	<li>
+		<a href={route('/[x+2e]well-known')}>Well Known</a> | <a href={route('/[u+d83e][u+dd2a]')}>🤪</a>
+		| <a href={route('/[u+d83e][u+dd2a]/[emoji]/[u+2b50]', { emoji: '🚀' })}>🤪🚀⭐</a>
+	</li>
 </ul>
 
 <hr />
 
 <span> LINKS: </span>
-<a href={route('twitter')} target="_blank">TwiX</a> |
-<a href={route('twitter_post', { name: 'jycouet', id: '1727089217707159569' })} target="_blank">
-	TwiX Post
+<a href={route('bluesky')} target="_blank">Bluesky</a> |
+<a
+	href={route('bluesky_post', { did: 'did:plc:dacfxuonkf2qtqft22sc23tu', post_id: '3lqso76o7wc2p' })}
+	target="_blank"
+>
+	Bluesky Post
 </a>
 |
 <img alt="CORS issue?" src={route('gravatar', { str: 'jycouet', s: 50 })} />

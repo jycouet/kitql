@@ -67,6 +67,11 @@ const PAGES = {
 	}) => {
 		return `${params?.['lang'] ? `/${params?.['lang']}` : ''}/site_contract/${params['siteId']}-${params['contractId']}${appendSp({ limit: params['limit'] })}`
 	},
+	'/[u+d83e][u+dd2a]': `/🤪`,
+	'/[u+d83e][u+dd2a]/[emoji]/[u+2b50]': (params: { emoji: string | number }) => {
+		return `/🤪/${params['emoji']}/⭐`
+	},
+	'/[x+2e]well-known': `/.well-known`,
 	'/a/[...rest]/z': (params: { rest: (string | number)[] }) => {
 		return `/a/${params['rest']?.join('/')}/z`
 	},
@@ -114,6 +119,7 @@ const SERVERS = {
 	'GET /site': (params?: { lang?: 'fr' | 'en' | 'hu' | 'at' | string }) => {
 		return `${params?.['lang'] ? `/${params?.['lang']}` : ''}/site`
 	},
+	'GET /[x+2e]well-known': `/.well-known`,
 	'GET /api/graphql': `/api/graphql`,
 	'POST /api/graphql': `/api/graphql`,
 	'GET /data/errors/[locale].json': (params: { locale: string | number }) => {
@@ -171,9 +177,9 @@ const ACTIONS = {
  * LINKS
  */
 const LINKS = {
-	twitter: `https://twitter.com/jycouet`,
-	twitter_post: (params: { name: string | number; id: string | number }) => {
-		return `https://twitter.com/${params['name']}/status/${params['id']}`
+	bluesky: `https://bsky.app/profile/jyc.dev`,
+	bluesky_post: (params: { did: string | number; post_id: string | number }) => {
+		return `https://bsky.app/profile/${params['did']}/post/${params['post_id']}`
 	},
 	gravatar: (params: { str: string; s?: number; d?: 'retro' | 'identicon' }) => {
 		params['s'] = params['s'] ?? 75
@@ -331,6 +337,9 @@ export type KIT_ROUTES = {
 		'/site': 'lang'
 		'/site/[id]': 'lang' | 'id'
 		'/site_contract/[siteId]-[contractId]': 'siteId' | 'contractId' | 'lang'
+		'/[u+d83e][u+dd2a]': never
+		'/[u+d83e][u+dd2a]/[emoji]/[u+2b50]': 'emoji'
+		'/[x+2e]well-known': never
 		'/a/[...rest]/z': 'rest'
 		'/anchors': never
 		'/anchors/[id]': 'id'
@@ -349,6 +358,7 @@ export type KIT_ROUTES = {
 		'GET /contract': 'lang'
 		'POST /contract': 'lang'
 		'GET /site': 'lang'
+		'GET /[x+2e]well-known': never
 		'GET /api/graphql': never
 		'POST /api/graphql': never
 		'GET /data/errors/[locale].json': 'locale'
@@ -363,8 +373,8 @@ export type KIT_ROUTES = {
 		'send /site_contract/[siteId]-[contractId]': 'siteId' | 'contractId' | 'lang'
 	}
 	LINKS: {
-		twitter: never
-		twitter_post: 'name' | 'id'
+		bluesky: never
+		bluesky_post: 'did' | 'post_id'
 		gravatar: 'str'
 		default_values_site: 'bool' | 'arr'
 	}
@@ -378,6 +388,7 @@ export type KIT_ROUTES = {
 		'da-sh': never
 		siteId: never
 		contractId: never
+		emoji: never
 		rest: never
 		hash: never
 		anotherOne: never
@@ -385,7 +396,8 @@ export type KIT_ROUTES = {
 		locale: never
 		redirectTo: never
 		extra: never
-		name: never
+		did: never
+		post_id: never
 		str: never
 		s: never
 		d: never

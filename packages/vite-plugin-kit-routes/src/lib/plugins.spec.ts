@@ -359,6 +359,10 @@ describe('getFilesUnder', () => {
 			  "/site_contract/+page.server.ts",
 			  "/site_contract/[siteId]-[contractId]/+page.server.ts",
 			  "/site_contract/[siteId]-[contractId]/+page.svelte",
+			  "[u+d83e][u+dd2a]/+page.svelte",
+			  "[u+d83e][u+dd2a]/[emoji]/[u+2b50]/+page.svelte",
+			  "[x+2e]well-known/+page.svelte",
+			  "[x+2e]well-known/+server.ts",
 			  "a/[...rest]/z/+page.svelte",
 			  "anchors/+page.svelte",
 			  "anchors/[id]/+page.svelte",
@@ -413,6 +417,10 @@ describe('getFilesUnder', () => {
 			  "[[lang]]/site_contract/+page.server.ts",
 			  "[[lang]]/site_contract/[siteId]-[contractId]/+page.server.ts",
 			  "[[lang]]/site_contract/[siteId]-[contractId]/+page.svelte",
+			  "[u+d83e][u+dd2a]/+page.svelte",
+			  "[u+d83e][u+dd2a]/[emoji]/[u+2b50]/+page.svelte",
+			  "[x+2e]well-known/+page.svelte",
+			  "[x+2e]well-known/+server.ts",
 			  "a/[...rest]/z/+page.svelte",
 			  "anchors/+page.svelte",
 			  "anchors/[id]/+page.svelte",
@@ -460,6 +468,10 @@ describe('getFilesUnder', () => {
 			  "[[lang]]/site_contract/+page.server.ts",
 			  "[[lang]]/site_contract/[siteId]-[contractId]/+page.server.ts",
 			  "[[lang]]/site_contract/[siteId]-[contractId]/+page.svelte",
+			  "[u+d83e][u+dd2a]/+page.svelte",
+			  "[u+d83e][u+dd2a]/[emoji]/[u+2b50]/+page.svelte",
+			  "[x+2e]well-known/+page.svelte",
+			  "[x+2e]well-known/+server.ts",
 			  "a/[...rest]/z/+page.svelte",
 			  "anchors/+page.svelte",
 			  "anchors/[id]/+page.svelte",
@@ -510,6 +522,10 @@ describe('getFilesUnder', () => {
 			  "/site_contract/+page.server.ts",
 			  "/site_contract/[siteId]-[contractId]/+page.server.ts",
 			  "/site_contract/[siteId]-[contractId]/+page.svelte",
+			  "[u+d83e][u+dd2a]/+page.svelte",
+			  "[u+d83e][u+dd2a]/[emoji]/[u+2b50]/+page.svelte",
+			  "[x+2e]well-known/+page.svelte",
+			  "[x+2e]well-known/+server.ts",
 			  "a/[...rest]/z/+page.svelte",
 			  "anchors/+page.svelte",
 			  "anchors/[id]/+page.svelte",
@@ -534,10 +550,10 @@ describe('run()', async () => {
 	const commonConfig: Options = {
 		LINKS: {
 			// reference to a hardcoded link
-			twitter: 'https://twitter.com/jycouet',
+			bluesky: 'https://bsky.app/profile/jyc.dev',
 
 			// reference to link with params!
-			twitter_post: 'https://twitter.com/[name]/status/[id]',
+			bluesky_post: 'https://bsky.app/profile/[did]/post/[post_id]',
 
 			// reference to link with params & search params!
 			gravatar: {
@@ -858,10 +874,10 @@ describe('run()', async () => {
 		{
 			name: 'direct link',
 			kind: 'LINKS',
-			results: 'https://twitter.com/jycouet',
-			key_path: 'twitter',
-			key_path_routeId: 'twitter',
-			key_symbol: 'twitter',
+			results: 'https://bsky.app/profile/jyc.dev',
+			key_path: 'bluesky',
+			key_path_routeId: 'bluesky',
+			key_symbol: 'bluesky',
 			params: [],
 			params_shortened: [],
 		},
@@ -1033,8 +1049,8 @@ describe('run()', async () => {
 				}
 				//
 				else if (element.name === 'direct link') {
-					expect(vars___not.LINK_twitter, element.name).toBe(element.results)
-					expect(vars_short.LINK_twitter, element.name).toBe(element.results)
+					expect(vars___not.LINK_bluesky, element.name).toBe(element.results)
+					expect(vars_short.LINK_bluesky, element.name).toBe(element.results)
 				}
 				//
 				else if (element.name === 'multi params') {
