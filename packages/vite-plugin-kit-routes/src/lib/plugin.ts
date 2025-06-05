@@ -575,7 +575,7 @@ export function buildMetadata(
 
 	const rawParamsFromPath = extractParamsFromPath(originalValue, options)
 	const paramsFromPath = rawParamsFromPath.filter((c) => c.isEncoded === undefined)
-	const specialParams = rawParamsFromPath.filter((c) => c.isEncoded !== undefined)
+	const specialNoParams = rawParamsFromPath.filter((c) => c.isEncoded !== undefined)
 
 	// custom Param?
 	if (customConf.params) {
@@ -758,7 +758,10 @@ export function buildMetadata(
 	const completeToRet = `${pathBaesStr}${toRet}`
 	const trailingSlashToUse = o.trailingSlash === 'always' && !completeToRet.endsWith('/') ? '/' : ''
 
-	const strReturn = `\`${completeToRet}${trailingSlashToUse}${actionsFormat}${fullSP}\``
+	let strReturn = `\`${completeToRet}${trailingSlashToUse}${actionsFormat}${fullSP}\``
+	for (let i = 0; i < specialNoParams.length; i++) {
+		strReturn = strReturn.replace(specialNoParams[i].name, specialNoParams[i].decoded!)
+	}
 	const strParams = params.join(', ')
 
 	const baseToReturn: MetadataToWrite = {

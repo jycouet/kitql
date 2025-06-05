@@ -67,8 +67,8 @@ const PAGES = {
 	}) => {
 		return `${params?.['lang'] ? `/${params?.['lang']}` : ''}/site_contract/${params['siteId']}-${params['contractId']}${appendSp({ limit: params['limit'] })}`
 	},
-	'/[u+d83e][u+dd2a]': `/[u+d83e][u+dd2a]`,
-	'/[x+2e]well-known': `/[x+2e]well-known`,
+	'/[u+d83e][u+dd2a]': `/🤪`,
+	'/[x+2e]well-known': `/.well-known`,
 	'/a/[...rest]/z': (params: { rest: (string | number)[] }) => {
 		return `/a/${params['rest']?.join('/')}/z`
 	},
@@ -116,7 +116,7 @@ const SERVERS = {
 	'GET /site': (params?: { lang?: 'fr' | 'en' | 'hu' | 'at' | string }) => {
 		return `${params?.['lang'] ? `/${params?.['lang']}` : ''}/site`
 	},
-	'GET /[x+2e]well-known': `/[x+2e]well-known`,
+	'GET /[x+2e]well-known': `/.well-known`,
 	'GET /api/graphql': `/api/graphql`,
 	'POST /api/graphql': `/api/graphql`,
 	'GET /data/errors/[locale].json': (params: { locale: string | number }) => {
