@@ -51,6 +51,11 @@ export const PAGES = {
   "/site_contract/[siteId]-[contractId]": (params: { siteId: (string | number), contractId: (string | number), lang?: ('fr' | 'en' | 'hu' | 'at' | string), limit?: (number) }) => {
     return `${params?.['lang'] ? `/${params?.['lang']}`: ''}/site_contract/${params['siteId']}-${params['contractId']}${appendSp({ 'limit': params['limit'] })}`
   },
+  "/[u+d83e][u+dd2a]": `/🤪`,
+  "/[u+d83e][u+dd2a]/[emoji]/[u+2b50]": (params: { emoji: (string | number) }) => {
+    return `/🤪/${params['emoji']}/⭐`
+  },
+  "/[x+2e]well-known": `/.well-known`,
   "/a/[...rest]/z": (params: { rest: (string | number)[] }) => {
     return `/a/${params['rest']?.join('/')}/z`
   },
@@ -85,6 +90,7 @@ export const SERVERS = {
   "GET /site": (params?: { lang?: ('fr' | 'en' | 'hu' | 'at' | string) }) => {
     return `${params?.['lang'] ? `/${params?.['lang']}`: ''}/site`
   },
+  "GET /[x+2e]well-known": `/.well-known`,
   "GET /api/graphql": `/api/graphql`,
   "POST /api/graphql": `/api/graphql`,
   "GET /data/errors/[locale].json": (params: { locale: (string | number) }) => {
@@ -212,9 +218,9 @@ type ExtractParamType<T extends (param: any) => any> = ExtractFnPredicate<T> ext
 * ```
 */
 export type KIT_ROUTES = {
-  PAGES: { '/': never, '/base': 'all', '/subGroup': never, '/subGroup/user': never, '/subGroup2': never, '/contract': 'lang', '/contract/[id]': 'id' | 'lang', '/gp/one': 'lang', '/gp/two': 'lang', '/main': 'lang', '/match/[id=ab]': 'id' | 'lang', '/match/[id=int]': 'id' | 'lang', '/site': 'lang', '/site/[id]': 'lang' | 'id', '/site_contract/[siteId]-[contractId]': 'siteId' | 'contractId' | 'lang', '/a/[...rest]/z': 'rest', '/anchors': never, '/anchors/[id]': 'id', '/lay/normal': never, '/lay/root-layout': never, '/lay/skip': never, '/md': never, '/sp': never, '/spArray': never, '/spArrayComma': never }
-  SERVERS: { 'GET /server_func_get': never, 'GET /server_func_get_and_': never, 'POST /server_func_post': never, 'GET /contract': 'lang', 'POST /contract': 'lang', 'GET /site': 'lang', 'GET /api/graphql': never, 'POST /api/graphql': never, 'GET /data/errors/[locale].json': 'locale' }
+  PAGES: { '/': never, '/base': 'all', '/subGroup': never, '/subGroup/user': never, '/subGroup2': never, '/contract': 'lang', '/contract/[id]': 'id' | 'lang', '/gp/one': 'lang', '/gp/two': 'lang', '/main': 'lang', '/match/[id=ab]': 'id' | 'lang', '/match/[id=int]': 'id' | 'lang', '/site': 'lang', '/site/[id]': 'lang' | 'id', '/site_contract/[siteId]-[contractId]': 'siteId' | 'contractId' | 'lang', '/[u+d83e][u+dd2a]': never, '/[u+d83e][u+dd2a]/[emoji]/[u+2b50]': 'emoji', '/[x+2e]well-known': never, '/a/[...rest]/z': 'rest', '/anchors': never, '/anchors/[id]': 'id', '/lay/normal': never, '/lay/root-layout': never, '/lay/skip': never, '/md': never, '/sp': never, '/spArray': never, '/spArrayComma': never }
+  SERVERS: { 'GET /server_func_get': never, 'GET /server_func_get_and_': never, 'POST /server_func_post': never, 'GET /contract': 'lang', 'POST /contract': 'lang', 'GET /site': 'lang', 'GET /[x+2e]well-known': never, 'GET /api/graphql': never, 'POST /api/graphql': never, 'GET /data/errors/[locale].json': 'locale' }
   ACTIONS: { 'default /contract/[id]': 'id' | 'lang', 'create /site': 'lang', 'u-p-d-a-t-e /site': 'lang', 'update /site/[id]': 'id' | 'lang', 'delete /site/[id]': 'id' | 'lang', 'noSatisfies /site_contract': 'lang', 'send /site_contract/[siteId]-[contractId]': 'siteId' | 'contractId' | 'lang' }
   LINKS: { 'twitter': never, 'twitter_post': 'name' | 'id', 'gravatar': 'str' }
-  Params: { 'all': never, 'first': never, 'lang': never, 'id': never, 'limit': never, 'demo': never, 'da-sh': never, 'siteId': never, 'contractId': never, 'rest': never, 'hash': never, 'locale': never, 'extra': never, 'name': never, 'str': never, 's': never, 'd': never }
+  Params: { 'all': never, 'first': never, 'lang': never, 'id': never, 'limit': never, 'demo': never, 'da-sh': never, 'siteId': never, 'contractId': never, 'emoji': never, 'rest': never, 'hash': never, 'locale': never, 'extra': never, 'name': never, 'str': never, 's': never, 'd': never }
 }

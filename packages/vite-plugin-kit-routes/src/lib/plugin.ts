@@ -1054,7 +1054,7 @@ export const run = async (atStart: boolean, o?: Options) => {
 ${c.files
 	.map((key) => {
 		let valiableName = `${c.type.slice(0, -1)}_${key.keyToUse}`
-		const invalidInVariable = ['-', ' ']
+		const invalidInVariable = ['-', ' ', '+']
 		for (const invalid of invalidInVariable) {
 			valiableName = valiableName.replaceAll(invalid, '_')
 		}
