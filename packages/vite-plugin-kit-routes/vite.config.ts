@@ -110,10 +110,10 @@ export const _kitRoutesConfig: Options<KIT_ROUTES> = {
 	},
 	LINKS: {
 		// reference to a hardcoded link
-		twitter: 'https://twitter.com/jycouet',
+		bluesky: 'https://bsky.app/profile/jyc.dev',
 
 		// reference to link with params!
-		twitter_post: 'https://twitter.com/[name]/status/[id]',
+		bluesky_post: 'https://bsky.app/profile/[did]/post/[post_id]',
 
 		// reference to link with params & search params!
 		gravatar: {

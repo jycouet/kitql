@@ -177,9 +177,9 @@ const ACTIONS = {
  * LINKS
  */
 const LINKS = {
-	twitter: `https://twitter.com/jycouet`,
-	twitter_post: (params: { name: string | number; id: string | number }) => {
-		return `https://twitter.com/${params['name']}/status/${params['id']}`
+	bluesky: `https://bsky.app/profile/jyc.dev`,
+	bluesky_post: (params: { did: string | number; post_id: string | number }) => {
+		return `https://bsky.app/profile/${params['did']}/post/${params['post_id']}`
 	},
 	gravatar: (params: { str: string; s?: number; d?: 'retro' | 'identicon' }) => {
 		params['s'] = params['s'] ?? 75
@@ -373,8 +373,8 @@ export type KIT_ROUTES = {
 		'send /site_contract/[siteId]-[contractId]': 'siteId' | 'contractId' | 'lang'
 	}
 	LINKS: {
-		twitter: never
-		twitter_post: 'name' | 'id'
+		bluesky: never
+		bluesky_post: 'did' | 'post_id'
 		gravatar: 'str'
 		default_values_site: 'bool' | 'arr'
 	}
@@ -396,7 +396,8 @@ export type KIT_ROUTES = {
 		locale: never
 		redirectTo: never
 		extra: never
-		name: never
+		did: never
+		post_id: never
 		str: never
 		s: never
 		d: never
