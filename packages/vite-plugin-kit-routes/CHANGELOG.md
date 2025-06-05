@@ -1,5 +1,14 @@
 # vite-plugin-kit-routes
 
+## 1.0.1
+
+### Patch Changes
+
+- [#1034](https://github.com/jycouet/kitql/pull/1034)
+  [`9e79199`](https://github.com/jycouet/kitql/commit/9e791996278a7668be4b37c6263c5eaabbf4efd9)
+  Thanks [@jycouet](https://github.com/jycouet)! - fix: manage well escape sequences
+  (https://svelte.dev/docs/kit/advanced-routing#Encoding)
+
 ## 1.0.0
 
 ### Major Changes
