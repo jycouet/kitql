@@ -68,6 +68,9 @@ const PAGES = {
 		return `${params?.['lang'] ? `/${params?.['lang']}` : ''}/site_contract/${params['siteId']}-${params['contractId']}${appendSp({ limit: params['limit'] })}`
 	},
 	'/[u+d83e][u+dd2a]': `/🤪`,
+	'/[u+d83e][u+dd2a]/[emoji]/[u+2b50]': (params: { emoji: string | number }) => {
+		return `/🤪/${params['emoji']}/⭐`
+	},
 	'/[x+2e]well-known': `/.well-known`,
 	'/a/[...rest]/z': (params: { rest: (string | number)[] }) => {
 		return `/a/${params['rest']?.join('/')}/z`
@@ -335,6 +338,7 @@ export type KIT_ROUTES = {
 		'/site/[id]': 'lang' | 'id'
 		'/site_contract/[siteId]-[contractId]': 'siteId' | 'contractId' | 'lang'
 		'/[u+d83e][u+dd2a]': never
+		'/[u+d83e][u+dd2a]/[emoji]/[u+2b50]': 'emoji'
 		'/[x+2e]well-known': never
 		'/a/[...rest]/z': 'rest'
 		'/anchors': never
@@ -384,6 +388,7 @@ export type KIT_ROUTES = {
 		'da-sh': never
 		siteId: never
 		contractId: never
+		emoji: never
 		rest: never
 		hash: never
 		anotherOne: never

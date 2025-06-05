@@ -838,8 +838,11 @@ export function extractParamsFromPath(path: string, o: Options): Param[] {
 		return p
 	})
 
-	const paramsU = params.filter((c) => c.isEncoded === 'u+')
-	params = params.filter((c) => c.isEncoded !== 'u+')
+	// if decoded is 1 char, it's already done. No need to combine it.
+	const paramsU = params.filter((c) => c.isEncoded === 'u+' && c.decoded?.length !== 1)
+	params = params.filter(
+		(c) => c.isEncoded !== 'u+' || (c.isEncoded === 'u+' && c.decoded?.length === 1),
+	)
 
 	// Find consecutive pairs of u+ encoded parameters
 	for (let i = 0; i < paramsU.length - 1; i++) {

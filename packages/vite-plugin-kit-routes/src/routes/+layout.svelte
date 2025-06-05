@@ -114,6 +114,7 @@
 	</li>
 	<li>
 		<a href={route('/[x+2e]well-known')}>Well Known</a> | <a href={route('/[u+d83e][u+dd2a]')}>🤪</a>
+		| <a href={route('/[u+d83e][u+dd2a]/[emoji]/[u+2b50]', { emoji: '🚀' })}>🤪🚀⭐</a>
 	</li>
 </ul>
 
