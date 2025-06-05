@@ -67,6 +67,8 @@ const PAGES = {
 	}) => {
 		return `${params?.['lang'] ? `/${params?.['lang']}` : ''}/site_contract/${params['siteId']}-${params['contractId']}${appendSp({ limit: params['limit'] })}`
 	},
+	'/[u+d83e][u+dd2a]': `/[u+d83e][u+dd2a]`,
+	'/[x+2e]well-known': `/[x+2e]well-known`,
 	'/a/[...rest]/z': (params: { rest: (string | number)[] }) => {
 		return `/a/${params['rest']?.join('/')}/z`
 	},
@@ -114,6 +116,7 @@ const SERVERS = {
 	'GET /site': (params?: { lang?: 'fr' | 'en' | 'hu' | 'at' | string }) => {
 		return `${params?.['lang'] ? `/${params?.['lang']}` : ''}/site`
 	},
+	'GET /[x+2e]well-known': `/[x+2e]well-known`,
 	'GET /api/graphql': `/api/graphql`,
 	'POST /api/graphql': `/api/graphql`,
 	'GET /data/errors/[locale].json': (params: { locale: string | number }) => {
@@ -331,6 +334,8 @@ export type KIT_ROUTES = {
 		'/site': 'lang'
 		'/site/[id]': 'lang' | 'id'
 		'/site_contract/[siteId]-[contractId]': 'siteId' | 'contractId' | 'lang'
+		'/[u+d83e][u+dd2a]': never
+		'/[x+2e]well-known': never
 		'/a/[...rest]/z': 'rest'
 		'/anchors': never
 		'/anchors/[id]': 'id'
@@ -349,6 +354,7 @@ export type KIT_ROUTES = {
 		'GET /contract': 'lang'
 		'POST /contract': 'lang'
 		'GET /site': 'lang'
+		'GET /[x+2e]well-known': never
 		'GET /api/graphql': never
 		'POST /api/graphql': never
 		'GET /data/errors/[locale].json': 'locale'

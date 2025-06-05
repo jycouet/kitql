@@ -457,6 +457,8 @@ type Param = {
 	fromPath?: boolean
 	isArray: boolean
 	needExtractParamType?: boolean
+	isEncoded?: 'x+' | 'u+'
+	decoded?: string
 }
 
 export const transformToMetadata = (
@@ -571,7 +573,9 @@ export function buildMetadata(
 		customConf = viteCustomPathConfig[keyToUse]
 	}
 
-	const paramsFromPath = extractParamsFromPath(originalValue, options)
+	const rawParamsFromPath = extractParamsFromPath(originalValue, options)
+	const paramsFromPath = rawParamsFromPath.filter((c) => c.isEncoded === undefined)
+	const specialParams = rawParamsFromPath.filter((c) => c.isEncoded !== undefined)
 
 	// custom Param?
 	if (customConf.params) {
@@ -785,7 +789,7 @@ function getSpValue(rawValue: string, param: ExplicitSearchParam) {
 export function extractParamsFromPath(path: string, o: Options): Param[] {
 	const options = getDefaultOption(o)
 	const paramPattern = /\[+([^\]]+)]+/g
-	const params: Param[] = []
+	let params: Param[] = []
 
 	const relToParams = posix.relative(dirname(options.generated_file_path), options.path_params)
 
@@ -813,6 +817,51 @@ export function extractParamsFromPath(path: string, o: Options): Param[] {
 				fromPath: true,
 				isArray,
 			})
+		}
+	}
+
+	params = params.map((p) => {
+		if (p.name.startsWith('x+')) {
+			const [, hex] = p.name.split('+')
+			p.isEncoded = 'x+'
+			p.decoded = String.fromCharCode(parseInt(hex, 16))
+			p.name = `[${p.name}]`
+		} else if (p.name.startsWith('u+')) {
+			const [, hex] = p.name.split('+')
+			p.isEncoded = 'u+'
+			p.decoded = String.fromCharCode(parseInt(hex, 16))
+			p.name = `[${p.name}]`
+		}
+		return p
+	})
+
+	const paramsU = params.filter((c) => c.isEncoded === 'u+')
+	params = params.filter((c) => c.isEncoded !== 'u+')
+
+	// Find consecutive pairs of u+ encoded parameters
+	for (let i = 0; i < paramsU.length - 1; i++) {
+		const currentParam = paramsU[i]
+		const nextParam = paramsU[i + 1]
+		const combinedName = `${currentParam.name}${nextParam.name}`
+
+		// Check if the combined name exists in relToParams
+		if (path.includes(combinedName)) {
+			// Create a new parameter combining both
+			const combinedParam: Param = {
+				name: combinedName,
+				optional: currentParam.optional && nextParam.optional,
+				fromPath: true,
+				isArray: false,
+				isEncoded: 'u+',
+				decoded: currentParam.decoded! + nextParam.decoded!,
+			}
+
+			// Remove the two original parameters and add the combined one
+			params = params.filter((p) => p !== currentParam && p !== nextParam)
+			params.push(combinedParam)
+
+			// Skip the next parameter since we've already processed it
+			i++
 		}
 	}
 

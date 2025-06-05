@@ -112,6 +112,9 @@
 		|
 		<a href={route('/anchors/[id]', { id: '123' })}>Anchors no hash</a>
 	</li>
+	<li>
+		<a href={route('/[x+2e]well-known')}>Well Known</a> | <a href={route('/[u+d83e][u+dd2a]')}>🤪</a>
+	</li>
 </ul>
 
 <hr />
