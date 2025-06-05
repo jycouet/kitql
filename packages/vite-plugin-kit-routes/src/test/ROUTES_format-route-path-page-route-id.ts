@@ -131,9 +131,9 @@ const ACTIONS = {
  * LINKS
  */
 const LINKS = {
-  "twitter": `https://twitter.com/jycouet`,
-  "twitter_post": (params: { name: (string | number), id: (string | number) }) => {
-    return `https://twitter.com/${params['name']}/status/${params['id']}`
+  "bluesky": `https://bsky.app/profile/jyc.dev`,
+  "bluesky_post": (params: { did: (string | number), post_id: (string | number) }) => {
+    return `https://bsky.app/profile/${params['did']}/post/${params['post_id']}`
   },
   "gravatar": (params: { str: (string | number), s?: (number), d?: ("retro" | "identicon") }) => {
     params['s'] = params['s'] ?? 75; 
@@ -254,6 +254,6 @@ export type KIT_ROUTES = {
   PAGES: { '/(rootGroup)': never, '/(rootGroup)/base': never, '/(rootGroup)/base/(group-optional)/[[all]]': 'all', '/(rootGroup)/subGroup': never, '/(rootGroup)/subGroup/(anotherSub)/user': never, '/(rootGroup)/subGroup2': never, '/[[lang]]/contract': 'lang', '/[[lang]]/contract/[id]': 'id' | 'lang', '/[[lang]]/gp/(logged)/one': 'lang', '/[[lang]]/gp/(public)/two': 'lang', '/[[lang]]/main': 'lang', '/[[lang]]/match/[id=ab]': 'id' | 'lang', '/[[lang]]/match/[id=int]': 'id' | 'lang', '/[[lang]]/site': 'lang', '/[[lang]]/site/[id]': 'lang' | 'id', '/[[lang]]/site_contract/[siteId]-[contractId]': 'siteId' | 'contractId' | 'lang', '/[u+d83e][u+dd2a]': never, '/[u+d83e][u+dd2a]/[emoji]/[u+2b50]': 'emoji', '/[x+2e]well-known': never, '/a/[...rest]/z': 'rest', '/anchors': never, '/anchors/[id]': 'id', '/lay/(layVerySpecial)/normal': never, '/lay/(layVerySpecial)/root-layout': never, '/lay/(layVerySpecial)/skip': never, '/md': never, '/sp': never, '/spArray': never, '/spArrayComma': never }
   SERVERS: { 'GET /(servers)/server_func_get': never, 'GET /(servers)/server_func_get_and_': never, 'POST /(servers)/server_func_post': never, 'GET /[[lang]]/contract': 'lang', 'POST /[[lang]]/contract': 'lang', 'GET /[[lang]]/site': 'lang', 'GET /[x+2e]well-known': never, 'GET /api/graphql': never, 'POST /api/graphql': never, 'GET /data/errors/[locale].json': 'locale' }
   ACTIONS: { 'default /[[lang]]/contract/[id]': 'id' | 'lang', 'create /[[lang]]/site': 'lang', 'u-p-d-a-t-e /[[lang]]/site': 'lang', 'update /[[lang]]/site/[id]': 'id' | 'lang', 'delete /[[lang]]/site/[id]': 'id' | 'lang', 'noSatisfies /[[lang]]/site_contract': 'lang', 'send /[[lang]]/site_contract/[siteId]-[contractId]': 'siteId' | 'contractId' | 'lang' }
-  LINKS: { 'twitter': never, 'twitter_post': 'name' | 'id', 'gravatar': 'str' }
-  Params: { 'all': never, 'first': never, 'lang': never, 'id': never, 'limit': never, 'demo': never, 'da-sh': never, 'siteId': never, 'contractId': never, 'emoji': never, 'rest': never, 'hash': never, 'locale': never, 'extra': never, 'name': never, 'str': never, 's': never, 'd': never }
+  LINKS: { 'bluesky': never, 'bluesky_post': 'did' | 'post_id', 'gravatar': 'str' }
+  Params: { 'all': never, 'first': never, 'lang': never, 'id': never, 'limit': never, 'demo': never, 'da-sh': never, 'siteId': never, 'contractId': never, 'emoji': never, 'rest': never, 'hash': never, 'locale': never, 'extra': never, 'did': never, 'post_id': never, 'str': never, 's': never, 'd': never }
 }

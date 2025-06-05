@@ -200,12 +200,12 @@ export type Options<T extends RouteMappings = RouteMappings> = {
 	 *   // ... Example ...
 	 *   LINKS: {
 	 *    // reference to a hardcoded link
-	 *    twitter: 'https://twitter.com/jycouet',
-	 *    // ✅ <a href={LINKS.twitter}>Twitter</a>
+	 *    bluesky: 'https://bsky.app/profile/jyc.dev',
+	 *    // ✅ <a href={LINKS.bluesky}>Bluesky</a>
 	 *
 	 *    // reference to link with params! (Like svelteKit routes add [ ] to specify params)
-	 *    twitter_post: 'https://twitter.com/[name]/status/[id]',
-	 *    // ✅ <a href={LINKS.twitter_post({ name: 'jycouet', id: '1727089217707159569' })}>Twitter Post</a>
+	 *    bluesky_post: 'https://bsky.app/profile/[did]/post/[post_id]',
+	 *    // ✅ <a href={LINKS.bluesky_post({ did: 'did:plc:dacfxuonkf2qtqft22sc23tu', post_id: '3lqso76o7wc2p' })}>Bluesky Post</a>
 	 *
 	 *    // reference to link with params & search params!
 	 *    gravatar: {
