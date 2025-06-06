@@ -91,18 +91,18 @@ describe('extractParamsFromPath', () => {
 
 	it('get matcher simple', async () => {
 		expect(extractParamsFromPath('/[tmp=ab]', {})).toMatchInlineSnapshot(`
-      [
-        {
-          "fromPath": true,
-          "isArray": false,
-          "matcher": "ab",
-          "name": "tmp",
-          "needExtractParamType": true,
-          "optional": false,
-          "type": "ExtractParamType<typeof import('../params/ab.ts').match>",
-        },
-      ]
-    `)
+			[
+			  {
+			    "fromPath": true,
+			    "isArray": false,
+			    "matcher": "ab",
+			    "name": "tmp",
+			    "needExtractParamType": true,
+			    "optional": false,
+			    "type": "ExtractParamType<typeof import('../params/ab.js').match>",
+			  },
+			]
+		`)
 	})
 
 	it('get matcher custom path', async () => {
@@ -112,18 +112,18 @@ describe('extractParamsFromPath', () => {
 				generated_file_path: './src/lib/dep/routes.ts',
 			}),
 		).toMatchInlineSnapshot(`
-      [
-        {
-          "fromPath": true,
-          "isArray": false,
-          "matcher": "ab",
-          "name": "tmp",
-          "needExtractParamType": true,
-          "optional": false,
-          "type": "ExtractParamType<typeof import('../../my/custom/path/ab.ts').match>",
-        },
-      ]
-    `)
+			[
+			  {
+			    "fromPath": true,
+			    "isArray": false,
+			    "matcher": "ab",
+			    "name": "tmp",
+			    "needExtractParamType": true,
+			    "optional": false,
+			    "type": "ExtractParamType<typeof import('../../my/custom/path/ab.js').match>",
+			  },
+			]
+		`)
 	})
 })
 
@@ -351,6 +351,8 @@ describe('getFilesUnder', () => {
 			  "/main/+page.svelte",
 			  "/match/[id=ab]/+page.svelte",
 			  "/match/[id=int]/+page.svelte",
+			  "/match/[num=intJSDoc]/+page.svelte",
+			  "/match/another/[id=int]/+page.svelte",
 			  "/site/+page.server.ts",
 			  "/site/+page.svelte",
 			  "/site/+server.ts",
@@ -410,6 +412,8 @@ describe('getFilesUnder', () => {
 			  "[[lang]]/main/+page.svelte",
 			  "[[lang]]/match/[id=ab]/+page.svelte",
 			  "[[lang]]/match/[id=int]/+page.svelte",
+			  "[[lang]]/match/[num=intJSDoc]/+page.svelte",
+			  "[[lang]]/match/another/[id=int]/+page.svelte",
 			  "[[lang]]/site/+page.server.ts",
 			  "[[lang]]/site/+page.svelte",
 			  "[[lang]]/site/+server.ts",
@@ -462,6 +466,8 @@ describe('getFilesUnder', () => {
 			  "[[lang]]/main/+page.svelte",
 			  "[[lang]]/match/[id=ab]/+page.svelte",
 			  "[[lang]]/match/[id=int]/+page.svelte",
+			  "[[lang]]/match/[num=intJSDoc]/+page.svelte",
+			  "[[lang]]/match/another/[id=int]/+page.svelte",
 			  "[[lang]]/site/+page.server.ts",
 			  "[[lang]]/site/+page.svelte",
 			  "[[lang]]/site/+server.ts",
@@ -517,6 +523,8 @@ describe('getFilesUnder', () => {
 			  "/main/+page.svelte",
 			  "/match/[id=ab]/+page.svelte",
 			  "/match/[id=int]/+page.svelte",
+			  "/match/[num=intJSDoc]/+page.svelte",
+			  "/match/another/[id=int]/+page.svelte",
 			  "/site/+page.server.ts",
 			  "/site/+page.svelte",
 			  "/site/+server.ts",

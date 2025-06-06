@@ -33,13 +33,25 @@ const PAGES = {
 		return `${params?.['lang'] ? `/${params?.['lang']}` : ''}/main`
 	},
 	'/match/[id=ab]': (params: {
-		id: ExtractParamType<typeof import('../params/ab.ts').match>
+		id: ExtractParamType<typeof import('../params/ab.js').match>
 		lang?: 'fr' | 'en' | 'hu' | 'at' | string
 	}) => {
 		return `${params?.['lang'] ? `/${params?.['lang']}` : ''}/match/${params['id']}`
 	},
 	'/match/[id=int]': (params: { id: number; lang?: 'fr' | 'en' | 'hu' | 'at' | string }) => {
 		return `${params?.['lang'] ? `/${params?.['lang']}` : ''}/match/${params['id']}`
+	},
+	'/match/[num=intJSDoc]': (params: {
+		num: ExtractParamType<typeof import('../params/intJSDoc.js').match>
+		lang?: 'fr' | 'en' | 'hu' | 'at' | string
+	}) => {
+		return `${params?.['lang'] ? `/${params?.['lang']}` : ''}/match/${params['num']}`
+	},
+	'/match/another/[id=int]': (params: {
+		id: ExtractParamType<typeof import('../params/int.js').match>
+		lang?: 'fr' | 'en' | 'hu' | 'at' | string
+	}) => {
+		return `${params?.['lang'] ? `/${params?.['lang']}` : ''}/match/another/${params['id']}`
 	},
 	'/site': (
 		params?: { lang?: 'fr' | 'en' | 'hu' | 'at' | string; limit?: number },
@@ -335,6 +347,8 @@ export type KIT_ROUTES = {
 		'/main': 'lang'
 		'/match/[id=ab]': 'id' | 'lang'
 		'/match/[id=int]': 'id' | 'lang'
+		'/match/[num=intJSDoc]': 'num' | 'lang'
+		'/match/another/[id=int]': 'id' | 'lang'
 		'/site': 'lang'
 		'/site/[id]': 'lang' | 'id'
 		'/site_contract/[siteId]-[contractId]': 'siteId' | 'contractId' | 'lang'
@@ -385,6 +399,7 @@ export type KIT_ROUTES = {
 		first: never
 		lang: never
 		id: never
+		num: never
 		limit: never
 		demo: never
 		'da-sh': never
