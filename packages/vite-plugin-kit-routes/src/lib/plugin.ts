@@ -393,7 +393,7 @@ const getMetadata = (files: string[], type: KindOfObject, o: Options, withAppend
 
 	const lookFor =
 		type === 'PAGES'
-			? ['+page.svelte', '+page.md']
+			? ['+page.svelte', '+page.md', '+page.mdsvex']
 			: type === 'SERVERS'
 				? ['+server.ts']
 				: ['+page.server.ts']
@@ -1313,7 +1313,7 @@ export function kitRoutes<T extends RouteMappings = RouteMappings>(
 				name: 'kit-routes-watch-svelte-files',
 				logs: [],
 				watchKind: ['add', 'unlink'],
-				watch: ['**/+page.svelte'],
+				watch: ['**/+page.svelte', '**/+page.md', '**/+page.mdsvex'],
 				run: async () => {
 					await run(false, options)
 				},
