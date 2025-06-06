@@ -1,5 +1,13 @@
 # vite-plugin-kit-routes
 
+## 1.0.2
+
+### Patch Changes
+
+- [#1037](https://github.com/jycouet/kitql/pull/1037)
+  [`0909a66`](https://github.com/jycouet/kitql/commit/0909a6611d997c8c322465e38b1694d4199e9dcf)
+  Thanks [@jycouet](https://github.com/jycouet)! - add +page.mdsvex support
+
 ## 1.0.1
 
 ### Patch Changes
