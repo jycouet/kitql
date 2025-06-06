@@ -810,7 +810,7 @@ export function extractParamsFromPath(path: string, o: Options): Param[] {
 				fromPath: true,
 				isArray,
 				// this will bring the type of the first arg of the function to to the match
-				type: `ExtractParamType<typeof import('${relToParams}/${matcher[1]}.ts').match>`,
+				type: `ExtractParamType<typeof import('${relToParams}/${matcher[1]}.js').match>`,
 				needExtractParamType: true,
 			})
 		} else {

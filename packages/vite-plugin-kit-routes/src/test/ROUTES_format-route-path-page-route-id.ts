@@ -34,11 +34,17 @@ const PAGES = {
   "/[[lang]]/main": (params?: { lang?: ('fr' | 'en' | 'hu' | 'at' | string) }) => {
     return `${params?.['lang'] ? `/${params?.['lang']}`: ''}/main`
   },
-  "/[[lang]]/match/[id=ab]": (params: { id: (ExtractParamType<typeof import('../params/ab.ts').match>), lang?: ('fr' | 'en' | 'hu' | 'at' | string) }) => {
+  "/[[lang]]/match/[id=ab]": (params: { id: (ExtractParamType<typeof import('../params/ab.js').match>), lang?: ('fr' | 'en' | 'hu' | 'at' | string) }) => {
     return `${params?.['lang'] ? `/${params?.['lang']}`: ''}/match/${params['id']}`
   },
   "/[[lang]]/match/[id=int]": (params: { id: (number), lang?: ('fr' | 'en' | 'hu' | 'at' | string) }) => {
     return `${params?.['lang'] ? `/${params?.['lang']}`: ''}/match/${params['id']}`
+  },
+  "/[[lang]]/match/[num=intJSDoc]": (params: { num: (ExtractParamType<typeof import('../params/intJSDoc.js').match>), lang?: ('fr' | 'en' | 'hu' | 'at' | string) }) => {
+    return `${params?.['lang'] ? `/${params?.['lang']}`: ''}/match/${params['num']}`
+  },
+  "/[[lang]]/match/another/[id=int]": (params: { id: (ExtractParamType<typeof import('../params/int.js').match>), lang?: ('fr' | 'en' | 'hu' | 'at' | string) }) => {
+    return `${params?.['lang'] ? `/${params?.['lang']}`: ''}/match/another/${params['id']}`
   },
   "/[[lang]]/site": (params?: { lang?: ('fr' | 'en' | 'hu' | 'at' | string), limit?: (number) }, sp?: Record<string, string | number>) => {
     return `${params?.['lang'] ? `/${params?.['lang']}`: ''}/site${appendSp({ ...sp, 'limit': params?.['limit'] })}`
@@ -252,9 +258,9 @@ type ExtractParamType<T extends (param: any) => any> = ExtractFnPredicate<T> ext
 * ```
 */
 export type KIT_ROUTES = {
-  PAGES: { '/(rootGroup)': never, '/(rootGroup)/base': never, '/(rootGroup)/base/(group-optional)/[[all]]': 'all', '/(rootGroup)/subGroup': never, '/(rootGroup)/subGroup/(anotherSub)/user': never, '/(rootGroup)/subGroup2': never, '/[[lang]]/contract': 'lang', '/[[lang]]/contract/[id]': 'id' | 'lang', '/[[lang]]/gp/(logged)/one': 'lang', '/[[lang]]/gp/(public)/two': 'lang', '/[[lang]]/main': 'lang', '/[[lang]]/match/[id=ab]': 'id' | 'lang', '/[[lang]]/match/[id=int]': 'id' | 'lang', '/[[lang]]/site': 'lang', '/[[lang]]/site/[id]': 'lang' | 'id', '/[[lang]]/site_contract/[siteId]-[contractId]': 'siteId' | 'contractId' | 'lang', '/[u+d83e][u+dd2a]': never, '/[u+d83e][u+dd2a]/[emoji]/[u+2b50]': 'emoji', '/[x+2e]well-known': never, '/a/[...rest]/z': 'rest', '/anchors': never, '/anchors/[id]': 'id', '/lay/(layVerySpecial)/normal': never, '/lay/(layVerySpecial)/root-layout': never, '/lay/(layVerySpecial)/skip': never, '/md': never, '/mdsvex': never, '/sp': never, '/spArray': never, '/spArrayComma': never }
+  PAGES: { '/(rootGroup)': never, '/(rootGroup)/base': never, '/(rootGroup)/base/(group-optional)/[[all]]': 'all', '/(rootGroup)/subGroup': never, '/(rootGroup)/subGroup/(anotherSub)/user': never, '/(rootGroup)/subGroup2': never, '/[[lang]]/contract': 'lang', '/[[lang]]/contract/[id]': 'id' | 'lang', '/[[lang]]/gp/(logged)/one': 'lang', '/[[lang]]/gp/(public)/two': 'lang', '/[[lang]]/main': 'lang', '/[[lang]]/match/[id=ab]': 'id' | 'lang', '/[[lang]]/match/[id=int]': 'id' | 'lang', '/[[lang]]/match/[num=intJSDoc]': 'num' | 'lang', '/[[lang]]/match/another/[id=int]': 'id' | 'lang', '/[[lang]]/site': 'lang', '/[[lang]]/site/[id]': 'lang' | 'id', '/[[lang]]/site_contract/[siteId]-[contractId]': 'siteId' | 'contractId' | 'lang', '/[u+d83e][u+dd2a]': never, '/[u+d83e][u+dd2a]/[emoji]/[u+2b50]': 'emoji', '/[x+2e]well-known': never, '/a/[...rest]/z': 'rest', '/anchors': never, '/anchors/[id]': 'id', '/lay/(layVerySpecial)/normal': never, '/lay/(layVerySpecial)/root-layout': never, '/lay/(layVerySpecial)/skip': never, '/md': never, '/mdsvex': never, '/sp': never, '/spArray': never, '/spArrayComma': never }
   SERVERS: { 'GET /(servers)/server_func_get': never, 'GET /(servers)/server_func_get_and_': never, 'POST /(servers)/server_func_post': never, 'GET /[[lang]]/contract': 'lang', 'POST /[[lang]]/contract': 'lang', 'GET /[[lang]]/site': 'lang', 'GET /[x+2e]well-known': never, 'GET /api/graphql': never, 'POST /api/graphql': never, 'GET /data/errors/[locale].json': 'locale' }
   ACTIONS: { 'default /[[lang]]/contract/[id]': 'id' | 'lang', 'create /[[lang]]/site': 'lang', 'u-p-d-a-t-e /[[lang]]/site': 'lang', 'update /[[lang]]/site/[id]': 'id' | 'lang', 'delete /[[lang]]/site/[id]': 'id' | 'lang', 'noSatisfies /[[lang]]/site_contract': 'lang', 'send /[[lang]]/site_contract/[siteId]-[contractId]': 'siteId' | 'contractId' | 'lang' }
   LINKS: { 'bluesky': never, 'bluesky_post': 'did' | 'post_id', 'gravatar': 'str' }
-  Params: { 'all': never, 'first': never, 'lang': never, 'id': never, 'limit': never, 'demo': never, 'da-sh': never, 'siteId': never, 'contractId': never, 'emoji': never, 'rest': never, 'hash': never, 'locale': never, 'extra': never, 'did': never, 'post_id': never, 'str': never, 's': never, 'd': never }
+  Params: { 'all': never, 'first': never, 'lang': never, 'id': never, 'num': never, 'limit': never, 'demo': never, 'da-sh': never, 'siteId': never, 'contractId': never, 'emoji': never, 'rest': never, 'hash': never, 'locale': never, 'extra': never, 'did': never, 'post_id': never, 'str': never, 's': never, 'd': never }
 }

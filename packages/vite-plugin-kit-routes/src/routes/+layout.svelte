@@ -75,7 +75,8 @@
 	</li>
 	<li>
 		<a href={route('/match/[id=int]', { lang: $page.params.lang, id: 1 })}>match int 1</a> |
-		<a href={route('/match/[id=ab]', { lang: $page.params.lang, id: 'a' })}>match int a</a>
+		<a href={route('/match/[id=ab]', { lang: $page.params.lang, id: 'a' })}>match int a</a> |
+		<a href={route('/match/[num=intJSDoc]', { lang: $page.params.lang, num: '2' })}>match intJSDoc</a>
 		<!--
       We can't do this because the type is not good
       <a href={PAGES.match_id_int({ lang: $page.params.lang, id: 'c' })}>match int c (expect 404)</a> -->
