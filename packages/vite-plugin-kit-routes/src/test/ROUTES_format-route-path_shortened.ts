@@ -69,6 +69,7 @@ const PAGES = {
   "/lay/root-layout": `/lay/root-layout`,
   "/lay/skip": `/lay/skip`,
   "/md": `/md`,
+  "/mdsvex": `/mdsvex`,
   "/sp": `/sp`,
   "/spArray": `/spArray`,
   "/spArrayComma": `/spArrayComma`
@@ -251,7 +252,7 @@ type ExtractParamType<T extends (param: any) => any> = ExtractFnPredicate<T> ext
 * ```
 */
 export type KIT_ROUTES = {
-  PAGES: { '/': never, '/base': 'all', '/subGroup': never, '/subGroup/user': never, '/subGroup2': never, '/contract': 'lang', '/contract/[id]': 'lang' | 'id', '/gp/one': 'lang', '/gp/two': 'lang', '/main': 'lang', '/match/[id=ab]': 'lang' | 'id', '/match/[id=int]': 'lang' | 'id', '/site': 'lang', '/site/[id]': 'lang' | 'id', '/site_contract/[siteId]-[contractId]': 'siteId' | 'contractId' | 'lang', '/[u+d83e][u+dd2a]': never, '/[u+d83e][u+dd2a]/[emoji]/[u+2b50]': 'emoji', '/[x+2e]well-known': never, '/a/[...rest]/z': 'rest', '/anchors': never, '/anchors/[id]': 'id', '/lay/normal': never, '/lay/root-layout': never, '/lay/skip': never, '/md': never, '/sp': never, '/spArray': never, '/spArrayComma': never }
+  PAGES: { '/': never, '/base': 'all', '/subGroup': never, '/subGroup/user': never, '/subGroup2': never, '/contract': 'lang', '/contract/[id]': 'lang' | 'id', '/gp/one': 'lang', '/gp/two': 'lang', '/main': 'lang', '/match/[id=ab]': 'lang' | 'id', '/match/[id=int]': 'lang' | 'id', '/site': 'lang', '/site/[id]': 'lang' | 'id', '/site_contract/[siteId]-[contractId]': 'siteId' | 'contractId' | 'lang', '/[u+d83e][u+dd2a]': never, '/[u+d83e][u+dd2a]/[emoji]/[u+2b50]': 'emoji', '/[x+2e]well-known': never, '/a/[...rest]/z': 'rest', '/anchors': never, '/anchors/[id]': 'id', '/lay/normal': never, '/lay/root-layout': never, '/lay/skip': never, '/md': never, '/mdsvex': never, '/sp': never, '/spArray': never, '/spArrayComma': never }
   SERVERS: { 'GET /server_func_get': never, 'GET /server_func_get_and_': never, 'POST /server_func_post': never, 'GET /contract': 'lang', 'POST /contract': 'lang', 'GET /site': 'lang', 'GET /[x+2e]well-known': never, 'GET /api/graphql': never, 'POST /api/graphql': never, 'GET /data/errors/[locale].json': 'locale' }
   ACTIONS: { 'default /contract/[id]': 'lang' | 'id', 'create /site': 'lang', 'u-p-d-a-t-e /site': 'lang', 'update /site/[id]': 'lang' | 'id', 'delete /site/[id]': 'lang' | 'id', 'noSatisfies /site_contract': 'lang', 'send /site_contract/[siteId]-[contractId]': 'siteId' | 'contractId' | 'lang' }
   LINKS: { 'bluesky': never, 'bluesky_post': 'did' | 'post_id', 'gravatar': 'str' }
