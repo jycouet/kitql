@@ -212,7 +212,7 @@ export type Options<T extends RouteMappings = RouteMappings> = {
 	 *      href: 'https://www.gravatar.com/avatar/[str]',
 	 *      explicit_search_params: {
 	 *        s: { type: 'number', default: 75 },
-	 *        d: { type: '"retro" | "identicon"', default: '"identicon"' },
+	 *        d: { type: '"retro" | "identicon"', default: 'identicon' },
 	 *      },
 	 *    },
 	 *    // ✅ <img src={LINKS.gravatar({ str: 'jycouet', s: 20 })} alt="logo" />
@@ -267,7 +267,7 @@ export type CustomPath<Params extends string | never = string> = {
 	 * hash: {
 	 *   type: '"section0" | "section1" | "section2" | "section3"',
 	 *   required: true,
-	 *   default: '"section0"',
+	 *   default: 'section0',
 	 * }
 	 */
 	hash?: ExtendParam & {
