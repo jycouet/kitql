@@ -91,8 +91,8 @@ catalogs:
       specifier: 2.4.0
       version: 2.4.0
     prettier:
-      specifier: ^3.5.3
-      version: 3.5.3
+      specifier: ^3.6.1
+      version: 3.6.1
     prettier-plugin-svelte:
       specifier: 3.4.0
       version: 3.4.0
@@ -214,7 +214,7 @@ importers:
         version: 0.25.0
       prettier:
         specifier: catalog:linting
-        version: 3.5.3
+        version: 3.6.1
       rimraf:
         specifier: catalog:tooling
         version: 6.0.1
@@ -259,7 +259,7 @@ importers:
         version: link:../helpers/dist
       '@theguild/prettier-config':
         specifier: catalog:linting
-        version: 3.0.0(@vue/compiler-sfc@3.5.13)(prettier@3.5.3)
+        version: 3.0.0(@vue/compiler-sfc@3.5.13)(prettier@3.6.1)
       '@types/eslint':
         specifier: catalog:linting
         version: 9.6.1
@@ -292,13 +292,13 @@ importers:
         version: 8.2.0
       prettier:
         specifier: catalog:linting
-        version: 3.5.3
+        version: 3.6.1
       prettier-plugin-svelte:
         specifier: catalog:linting
-        version: 3.4.0(prettier@3.5.3)(svelte@5.34.8)
+        version: 3.4.0(prettier@3.6.1)(svelte@5.34.8)
       prettier-plugin-tailwindcss:
         specifier: catalog:linting
-        version: 0.6.6(@ianvs/prettier-plugin-sort-imports@4.4.0(@vue/compiler-sfc@3.5.13)(prettier@3.5.3))(prettier-plugin-astro@0.14.1)(prettier-plugin-css-order@2.1.2(postcss@8.5.3)(prettier@3.5.3))(prettier-plugin-svelte@3.4.0(prettier@3.5.3)(svelte@5.34.8))(prettier@3.5.3)
+        version: 0.6.6(@ianvs/prettier-plugin-sort-imports@4.4.0(@vue/compiler-sfc@3.5.13)(prettier@3.6.1))(prettier-plugin-astro@0.14.1)(prettier-plugin-css-order@2.1.2(postcss@8.5.3)(prettier@3.6.1))(prettier-plugin-svelte@3.4.0(prettier@3.6.1)(svelte@5.34.8))(prettier@3.6.1)
       typescript-eslint:
         specifier: catalog:linting
         version: 8.35.0(eslint@9.29.0(jiti@1.21.7))(typescript@5.8.2)
@@ -4082,6 +4082,11 @@ packages:
     engines: {node: '>=14'}
     hasBin: true
 
+  prettier@3.6.1:
+    resolution: {integrity: sha512-5xGWRa90Sp2+x1dQtNpIpeOQpTDBs9cZDmA/qs2vDNN2i18PdapqY7CmBeyLlMuGqXJRIOPaCaVZTLNQRWUH/A==}
+    engines: {node: '>=14'}
+    hasBin: true
+
   pretty-format@27.5.1:
     resolution: {integrity: sha512-Qb1gy5OrP5+zDf2Bvnzdl3jsTf1qXVMazbvCoKhtKqVs4/YK4ozX4gKQJJVyNe+cajNPn0KoC0MC3FUmaHWEmQ==}
     engines: {node: ^10.13.0 || ^12.13.0 || ^14.15.0 || >=15.0.0}
@@ -5602,13 +5607,13 @@ snapshots:
 
   '@humanwhocodes/retry@0.4.2': {}
 
-  '@ianvs/prettier-plugin-sort-imports@4.4.0(@vue/compiler-sfc@3.5.13)(prettier@3.5.3)':
+  '@ianvs/prettier-plugin-sort-imports@4.4.0(@vue/compiler-sfc@3.5.13)(prettier@3.6.1)':
     dependencies:
       '@babel/generator': 7.26.2
       '@babel/parser': 7.27.0
       '@babel/traverse': 7.25.9
       '@babel/types': 7.27.0
-      prettier: 3.5.3
+      prettier: 3.6.1
       semver: 7.7.1
     optionalDependencies:
       '@vue/compiler-sfc': 3.5.13
@@ -6283,12 +6288,12 @@ snapshots:
       vite: 6.3.5(@types/node@22.13.9)(jiti@1.21.7)(lightningcss@1.28.2)(sass@1.85.1)(terser@5.37.0)(tsx@4.20.3)(yaml@2.7.0)
       vitest: 3.2.0(@types/debug@4.1.12)(@types/node@22.13.9)(@vitest/ui@3.2.0)(jiti@1.21.7)(jsdom@26.1.0)(lightningcss@1.28.2)(sass@1.85.1)(terser@5.37.0)(tsx@4.20.3)(yaml@2.7.0)
 
-  '@theguild/prettier-config@3.0.0(@vue/compiler-sfc@3.5.13)(prettier@3.5.3)':
+  '@theguild/prettier-config@3.0.0(@vue/compiler-sfc@3.5.13)(prettier@3.6.1)':
     dependencies:
-      '@ianvs/prettier-plugin-sort-imports': 4.4.0(@vue/compiler-sfc@3.5.13)(prettier@3.5.3)
-      prettier: 3.5.3
-      prettier-plugin-pkg: 0.18.0(prettier@3.5.3)
-      prettier-plugin-sh: 0.14.0(prettier@3.5.3)
+      '@ianvs/prettier-plugin-sort-imports': 4.4.0(@vue/compiler-sfc@3.5.13)(prettier@3.6.1)
+      prettier: 3.6.1
+      prettier-plugin-pkg: 0.18.0(prettier@3.6.1)
+      prettier-plugin-sh: 0.14.0(prettier@3.6.1)
     transitivePeerDependencies:
       - '@vue/compiler-sfc'
       - supports-color
@@ -6612,7 +6617,7 @@ snapshots:
 
   acorn-walk@8.3.4:
     dependencies:
-      acorn: 8.14.1
+      acorn: 8.15.0
     optional: true
 
   acorn@8.14.1: {}
@@ -9139,43 +9144,45 @@ snapshots:
       prettier: 3.5.3
       sass-formatter: 0.7.9
 
-  prettier-plugin-css-order@2.1.2(postcss@8.5.3)(prettier@3.5.3):
+  prettier-plugin-css-order@2.1.2(postcss@8.5.3)(prettier@3.6.1):
     dependencies:
       css-declaration-sorter: 7.2.0(postcss@8.5.3)
       postcss-less: 6.0.0(postcss@8.5.3)
       postcss-scss: 4.0.9(postcss@8.5.3)
-      prettier: 3.5.3
+      prettier: 3.6.1
     transitivePeerDependencies:
       - postcss
     optional: true
 
-  prettier-plugin-pkg@0.18.0(prettier@3.5.3):
+  prettier-plugin-pkg@0.18.0(prettier@3.6.1):
     dependencies:
-      prettier: 3.5.3
+      prettier: 3.6.1
 
-  prettier-plugin-sh@0.14.0(prettier@3.5.3):
+  prettier-plugin-sh@0.14.0(prettier@3.6.1):
     dependencies:
       mvdan-sh: 0.10.1
-      prettier: 3.5.3
+      prettier: 3.6.1
       sh-syntax: 0.4.1
 
-  prettier-plugin-svelte@3.4.0(prettier@3.5.3)(svelte@5.34.8):
+  prettier-plugin-svelte@3.4.0(prettier@3.6.1)(svelte@5.34.8):
     dependencies:
-      prettier: 3.5.3
+      prettier: 3.6.1
       svelte: 5.34.8
 
-  prettier-plugin-tailwindcss@0.6.6(@ianvs/prettier-plugin-sort-imports@4.4.0(@vue/compiler-sfc@3.5.13)(prettier@3.5.3))(prettier-plugin-astro@0.14.1)(prettier-plugin-css-order@2.1.2(postcss@8.5.3)(prettier@3.5.3))(prettier-plugin-svelte@3.4.0(prettier@3.5.3)(svelte@5.34.8))(prettier@3.5.3):
+  prettier-plugin-tailwindcss@0.6.6(@ianvs/prettier-plugin-sort-imports@4.4.0(@vue/compiler-sfc@3.5.13)(prettier@3.6.1))(prettier-plugin-astro@0.14.1)(prettier-plugin-css-order@2.1.2(postcss@8.5.3)(prettier@3.6.1))(prettier-plugin-svelte@3.4.0(prettier@3.6.1)(svelte@5.34.8))(prettier@3.6.1):
     dependencies:
-      prettier: 3.5.3
+      prettier: 3.6.1
     optionalDependencies:
-      '@ianvs/prettier-plugin-sort-imports': 4.4.0(@vue/compiler-sfc@3.5.13)(prettier@3.5.3)
+      '@ianvs/prettier-plugin-sort-imports': 4.4.0(@vue/compiler-sfc@3.5.13)(prettier@3.6.1)
       prettier-plugin-astro: 0.14.1
-      prettier-plugin-css-order: 2.1.2(postcss@8.5.3)(prettier@3.5.3)
-      prettier-plugin-svelte: 3.4.0(prettier@3.5.3)(svelte@5.34.8)
+      prettier-plugin-css-order: 2.1.2(postcss@8.5.3)(prettier@3.6.1)
+      prettier-plugin-svelte: 3.4.0(prettier@3.6.1)(svelte@5.34.8)
 
   prettier@2.8.8: {}
 
   prettier@3.5.3: {}
+
+  prettier@3.6.1: {}
 
   pretty-format@27.5.1:
     dependencies:
@@ -9821,7 +9828,7 @@ snapshots:
   terser@5.37.0:
     dependencies:
       '@jridgewell/source-map': 0.3.6
-      acorn: 8.14.1
+      acorn: 8.15.0
       commander: 2.20.3
       source-map-support: 0.5.21
     optional: true
@@ -9891,7 +9898,7 @@ snapshots:
       '@tsconfig/node14': 1.0.3
       '@tsconfig/node16': 1.0.4
       '@types/node': 22.13.9
-      acorn: 8.14.1
+      acorn: 8.15.0
       acorn-walk: 8.3.4
       arg: 4.1.3
       create-require: 1.1.1

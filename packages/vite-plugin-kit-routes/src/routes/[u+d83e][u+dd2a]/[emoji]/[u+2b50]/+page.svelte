@@ -19,7 +19,7 @@
 			)
 		}}
 	>
-		{#each emojis as emoji}
+		{#each emojis as emoji (emoji)}
 			<option value={emoji}>{emoji}</option>
 		{/each}
 	</select>
