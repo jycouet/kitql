@@ -1,5 +1,5 @@
 import { cyan, red, yellow } from '@kitql/helpers'
-import { parse, read, visit } from '@kitql/internals'
+import { parse, read, walk } from '@kitql/internals'
 
 import { log, routes_path } from './plugin.js'
 
@@ -10,41 +10,43 @@ export const getMethodsOfServerFiles = (pathFile: string) => {
 	const exportedNames: string[] = []
 	try {
 		const codeParsed = parse(code)
-		visit(codeParsed, {
-			visitExportNamedDeclaration(path) {
-				const declaration = path.node.declaration
+		walk(codeParsed.program, {
+			enter(node) {
+				if (node.type === 'ExportNamedDeclaration') {
+					const declaration = node.declaration
 
-				// Check for variable declarations
-				if (declaration?.type === 'VariableDeclaration') {
-					declaration.declarations.forEach((declaration) => {
-						if (
-							declaration.type === 'VariableDeclarator' &&
-							declaration.id.type === 'Identifier' &&
-							declaration.id.name
-						) {
-							exportedNames.push(declaration.id.name)
-						}
-					})
-				}
-
-				// Check for function declarations
-				if (declaration?.type === 'FunctionDeclaration') {
-					if (declaration.id && declaration.id.name && !String(declaration.id.name).startsWith('_')) {
-						exportedNames.push(String(declaration.id.name))
+					// Check for variable declarations
+					if (declaration?.type === 'VariableDeclaration') {
+						declaration.declarations.forEach((declaration) => {
+							if (
+								declaration.type === 'VariableDeclarator' &&
+								declaration.id.type === 'Identifier' &&
+								declaration.id.name
+							) {
+								exportedNames.push(declaration.id.name)
+							}
+						})
 					}
-				}
 
-				// Check for export specifiers (for aliased exports)
-				const specifiers = path.node.specifiers
-				if (specifiers) {
-					specifiers.forEach((specifier) => {
-						if (specifier.exported.name) {
-							exportedNames.push(String(specifier.exported.name))
+					// Check for function declarations
+					if (declaration?.type === 'FunctionDeclaration') {
+						if (declaration.id && declaration.id.name && !String(declaration.id.name).startsWith('_')) {
+							exportedNames.push(String(declaration.id.name))
 						}
-					})
-				}
+					}
 
-				return false
+					// Check for export specifiers (for aliased exports)
+					const specifiers = node.specifiers
+					if (specifiers) {
+						specifiers.forEach((specifier) => {
+							if (specifier.exported.type === 'Identifier' && specifier.exported.name) {
+								exportedNames.push(String(specifier.exported.name))
+							}
+						})
+					}
+
+					return false
+				}
 			},
 		})
 	} catch (error) {
@@ -64,35 +66,37 @@ export const getActionsOfServerPages = (pathFile: string) => {
 	let actions: string[] = []
 	try {
 		const codeParsed = parse(code)
-		visit(codeParsed, {
-			visitExportNamedDeclaration(path) {
-				// @ts-ignore
-				const declarations = path.node.declaration?.declarations
-				if (declarations) {
-					declarations.forEach((declaration: any) => {
-						if (declaration.id.name === 'actions') {
-							const properties =
-								// if } satisfies Actions
-								declaration.init.expression?.properties ??
-								// if no satisfies Actions
-								declaration.init.properties
+		walk(codeParsed.program, {
+			enter(node) {
+				if (node.type === 'ExportNamedDeclaration') {
+					// @ts-expect-error
+					const declarations = node.declaration?.declarations
+					if (declarations) {
+						declarations.forEach((declaration: any) => {
+							if (declaration.id.name === 'actions') {
+								const properties =
+									// if } satisfies Actions
+									declaration.init.expression?.properties ??
+									// if no satisfies Actions
+									declaration.init.properties
 
-							if (properties) {
-								properties.forEach((property: any) => {
-									if (property.key.name) {
-										actions.push(property.key.name)
-									} else if (property.key.value) {
-										actions.push(property.key.value)
-									}
-								})
+								if (properties) {
+									properties.forEach((property: any) => {
+										if (property.key.name) {
+											actions.push(property.key.name)
+										} else if (property.key.value) {
+											actions.push(property.key.value)
+										}
+									})
+								}
 							}
-						}
-						if (declaration.id.name === 'load') {
-							withLoad = true
-						}
-					})
+							if (declaration.id.name === 'load') {
+								withLoad = true
+							}
+						})
+					}
+					return false
 				}
-				return false
 			},
 		})
 
@@ -266,39 +270,45 @@ export const getExportsFromFile = (code: string, exportName?: string) => {
 		const codeParsed = parse(code)
 		let result: any = null
 
-		visit(codeParsed, {
-			visitExportNamedDeclaration(path) {
-				if (exportName) {
-					// Looking for a specific named export
-					const specifiers = path.node.specifiers
-					if (specifiers) {
-						specifiers.forEach((specifier) => {
-							if (specifier.exported.name === exportName && specifier.local) {
-								result = specifier.local.name
-							}
-						})
-					}
+		walk(codeParsed.program, {
+			enter(node) {
+				if (node.type === 'ExportNamedDeclaration') {
+					if (exportName) {
+						// Looking for a specific named export
+						const specifiers = node.specifiers
+						if (specifiers) {
+							specifiers.forEach((specifier) => {
+								if (
+									specifier.exported.type === 'Identifier' &&
+									specifier.exported.name === exportName &&
+									specifier.local.type === 'Identifier'
+								) {
+									result = specifier.local.name
+								}
+							})
+						}
 
-					const declaration = path.node.declaration
-					if (declaration?.type === 'VariableDeclaration') {
-						declaration.declarations.forEach((declaration) => {
-							if (
-								declaration.type === 'VariableDeclarator' &&
-								declaration.id.type === 'Identifier' &&
-								declaration.id.name === exportName
-							) {
-								result = declaration.init
-							}
-						})
+						const declaration = node.declaration
+						if (declaration?.type === 'VariableDeclaration') {
+							declaration.declarations.forEach((declaration) => {
+								if (
+									declaration.type === 'VariableDeclarator' &&
+									declaration.id.type === 'Identifier' &&
+									declaration.id.name === exportName
+								) {
+									result = declaration.init
+								}
+							})
+						}
 					}
+					return false
 				}
-				return false
-			},
-			visitExportDefaultDeclaration(path) {
-				if (!exportName) {
-					result = path.node.declaration
+				if (node.type === 'ExportDefaultDeclaration') {
+					if (!exportName) {
+						result = node.declaration
+					}
+					return false
 				}
-				return false
 			},
 		})
 

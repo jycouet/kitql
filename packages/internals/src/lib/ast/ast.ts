@@ -1,25 +1,19 @@
-import babel from '@babel/parser'
-import * as recast from 'recast'
+import { print as esrap_print } from 'esrap'
+import ts from 'esrap/languages/ts'
+import { parseSync } from 'oxc-parser'
+import type { ParseResult } from 'oxc-parser'
+import { walk } from 'oxc-walker'
 
-export type Statement = recast.types.namedTypes.Statement
-export type ParseResult = babel.ParseResult
-export const { visit, builders } = recast.types
+export { walk }
+export type { ParseResult }
 
-/** @deprecated Use `parse` instead */
-export function parseTs(source: string | null) {
-	const parsed = babel.parse(source ?? '', {
-		sourceType: 'module',
-		plugins: ['typescript', 'importAssertions', 'decorators-legacy'],
-	})
+export type ParseOptions = { filename?: string; lang?: 'ts' }
 
-	return parsed.program as ParseResult['program']
-}
-
-export function parse(code_ast: string | ParseResult) {
+export function parse(code_ast: string | ParseResult | null, options?: ParseOptions) {
 	if (code_ast === null || typeof code_ast === 'string') {
-		const parsed = babel.parse(code_ast ?? '', {
+		const parsed = parseSync(options?.filename ?? 'default.ts', code_ast ?? '', {
 			sourceType: 'module',
-			plugins: ['typescript', 'importAssertions', 'decorators-legacy'],
+			lang: options?.lang ?? 'ts',
 		})
 
 		return parsed
@@ -28,6 +22,13 @@ export function parse(code_ast: string | ParseResult) {
 	return code_ast
 }
 
-export function print(node: recast.types.namedTypes.Program, options?: recast.Options) {
-	return recast.prettyPrint(node, options)
+export function print(ast: ParseResult, options?: {}) {
+	try {
+		// @ts-expect-error
+		return esrap_print(ast.program, ts())
+	} catch (error) {
+		console.dir(error, { depth: null })
+		// console.dir(ast.program, { depth: null })
+		throw error
+	}
 }
