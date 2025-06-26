@@ -49,8 +49,8 @@ export const _kitRoutesConfig: Options<KIT_ROUTES> = {
 				'da-sh': { type: 'string' },
 			},
 			params: {
-				id: { type: 'string', default: '"Vienna"' },
-				lang: { type: "'fr' | 'hu' | undefined", default: '"fr"' },
+				id: { type: 'string', default: 'Vienna' },
+				lang: { type: "'fr' | 'hu' | undefined", default: 'fr' },
 			},
 		},
 		'/match/[id=int]': {
@@ -76,7 +76,7 @@ export const _kitRoutesConfig: Options<KIT_ROUTES> = {
 			hash: {
 				type: '"section0" | "section1" | "section2" | "section3"',
 				required: true,
-				default: '"section0"',
+				default: 'section0',
 			},
 		},
 		'/anchors/[id]': {
@@ -99,7 +99,7 @@ export const _kitRoutesConfig: Options<KIT_ROUTES> = {
 		},
 		'send /site_contract/[siteId]-[contractId]': {
 			explicit_search_params: {
-				extra: { type: "'A' | 'B'", default: '"A"' },
+				extra: { type: "'A' | 'B'", default: 'A' },
 			},
 		},
 		'create /site': {
@@ -110,10 +110,10 @@ export const _kitRoutesConfig: Options<KIT_ROUTES> = {
 	},
 	LINKS: {
 		// reference to a hardcoded link
-		twitter: 'https://twitter.com/jycouet',
+		bluesky: 'https://bsky.app/profile/jyc.dev',
 
 		// reference to link with params!
-		twitter_post: 'https://twitter.com/[name]/status/[id]',
+		bluesky_post: 'https://bsky.app/profile/[did]/post/[post_id]',
 
 		// reference to link with params & search params!
 		gravatar: {
@@ -123,7 +123,32 @@ export const _kitRoutesConfig: Options<KIT_ROUTES> = {
 			},
 			explicit_search_params: {
 				s: { type: 'number', default: 75 },
-				d: { type: '"retro" | "identicon"', default: '"identicon"' },
+				d: { type: '"retro" | "identicon"', default: 'identicon' },
+			},
+		},
+
+		default_values_site: {
+			href: 'https://sommepage.com/[bool]/[arr]',
+			params: {
+				bool: { type: 'boolean', default: true },
+				arr: {
+					type: 'Array<boolean | string | number | null>',
+					default: [true, 'p2', 3, null],
+				},
+			},
+			explicit_search_params: {
+				sNumber: { type: 'number', default: 75 },
+				sBoolean: { type: 'boolean', default: false },
+				sBooleanRequired: { type: 'boolean', default: 'mooo', required: true },
+				sArray: {
+					type: 'Array<boolean | string | number | null>',
+					default: [true, 'p2', 3, null],
+				},
+				sArrayRequired: {
+					type: 'Array<boolean | string | number | null>',
+					default: [true, 'p2', 3, null],
+					required: true,
+				},
 			},
 		},
 	},

@@ -1,5 +1,98 @@
 # vite-plugin-kit-routes
 
+## 1.0.2
+
+### Patch Changes
+
+- [#1037](https://github.com/jycouet/kitql/pull/1037)
+  [`0909a66`](https://github.com/jycouet/kitql/commit/0909a6611d997c8c322465e38b1694d4199e9dcf)
+  Thanks [@jycouet](https://github.com/jycouet)! - add +page.mdsvex support
+
+## 1.0.1
+
+### Patch Changes
+
+- [#1034](https://github.com/jycouet/kitql/pull/1034)
+  [`9e79199`](https://github.com/jycouet/kitql/commit/9e791996278a7668be4b37c6263c5eaabbf4efd9)
+  Thanks [@jycouet](https://github.com/jycouet)! - fix: manage well escape sequences
+  (https://svelte.dev/docs/kit/advanced-routing#Encoding)
+
+## 1.0.0
+
+### Major Changes
+
+- [#1016](https://github.com/jycouet/kitql/pull/1016)
+  [`b0eb9b8`](https://github.com/jycouet/kitql/commit/b0eb9b8f5de9cf279b5075a82fb7454d2569be38)
+  Thanks [@Lms24](https://github.com/Lms24)! - feat(kit-routes)!: Avoid escaping string and array
+  default values
+
+  This change simplifies setting default values for path and search parameters. Previously, you had
+  to douple-escape a default string or array value. Now, you can simply set the default values like
+  any other data type:
+
+  ```diff
+   kitRoutes({
+     PAGES: {
+       '/[org]/[project]/sessions': {
+         explicit_search_params: {
+  -         timeFrame: { type: 'string', default: "'1d'" }
+  -         userId: { type: 'Array<string>', default: "['123', 'abc']" }
+  +         timeFrame: { type: 'string', default: '1d' }
+  +         userId: { type: 'Array<string>', default: ['123', 'abc'] }
+         }
+       }
+     }
+   })
+  ```
+
+  This is a breaking change! To migrate to the new version, remove the quotes to escape string and
+  array values as shown in the example above.
+
+### Patch Changes
+
+- [#1028](https://github.com/jycouet/kitql/pull/1028)
+  [`c7f3c90`](https://github.com/jycouet/kitql/commit/c7f3c90c44e498f14211c770b74bb0a681f8dcfa)
+  Thanks [@Lms24](https://github.com/Lms24)! - fix(kit-routes): Allow setting `boolean` and `null`
+  default values
+
+## 1.0.0-next.0
+
+### Major Changes
+
+- [#1016](https://github.com/jycouet/kitql/pull/1016)
+  [`b0eb9b8`](https://github.com/jycouet/kitql/commit/b0eb9b8f5de9cf279b5075a82fb7454d2569be38)
+  Thanks [@Lms24](https://github.com/Lms24)! - feat(kit-routes)!: Avoid escaping string and array
+  default values
+
+  This change simplifies setting default values for path and search parameters. Previously, you had
+  to douple-escape a default string or array value. Now, you can simply set the default values like
+  any other data type:
+
+  ```diff
+   kitRoutes({
+     PAGES: {
+       '/[org]/[project]/sessions': {
+         explicit_search_params: {
+  -         timeFrame: { type: 'string', default: "'1d'" }
+  -         userId: { type: 'Array<string>', default: "['123', 'abc']" }
+  +         timeFrame: { type: 'string', default: '1d' }
+  +         userId: { type: 'Array<string>', default: ['123', 'abc'] }
+         }
+       }
+     }
+   })
+  ```
+
+  This is a breaking change! To migrate to the new version, remove the quotes to escape string and
+  array values as shown in the example above.
+
+### Patch Changes
+
+- [#1028](https://github.com/jycouet/kitql/pull/1028)
+  [`c7f3c90`](https://github.com/jycouet/kitql/commit/c7f3c90c44e498f14211c770b74bb0a681f8dcfa)
+  Thanks [@Lms24](https://github.com/Lms24)! - fix(kit-routes): Allow setting `boolean` and `null`
+  default values
+
 ## 0.8.5
 
 ### Patch Changes

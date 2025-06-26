@@ -38,7 +38,7 @@ _\*Order by subjective usefulness_ 😉
 ## ✨ Contributors
 
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
-[![All Contributors](https://img.shields.io/badge/all_contributors-52-orange.svg?style=flat-square)](#contributors-)
+[![All Contributors](https://img.shields.io/badge/all_contributors-54-orange.svg?style=flat-square)](#contributors-)
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 
 Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/docs/en/emoji-key)):
@@ -115,6 +115,8 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/ccremer"><img src="https://avatars.githubusercontent.com/u/12159026?v=4?s=100" width="100px;" alt="Chris"/><br /><sub><b>Chris</b></sub></a><br /><a href="#tool-ccremer" title="Tools">🔧</a></td>
       <td align="center" valign="top" width="14.28%"><a href="https://tinyurl.com/ICSFramework"><img src="https://avatars.githubusercontent.com/u/25040219?v=4?s=100" width="100px;" alt="Jackson Hall"/><br /><sub><b>Jackson Hall</b></sub></a><br /><a href="https://github.com/jycouet/kitql/commits?author=jacksonthall22" title="Documentation">📖</a></td>
       <td align="center" valign="top" width="14.28%"><a href="http://stracke.tech"><img src="https://avatars.githubusercontent.com/u/8420481?v=4?s=100" width="100px;" alt="Lukas Stracke"/><br /><sub><b>Lukas Stracke</b></sub></a><br /><a href="https://github.com/jycouet/kitql/commits?author=Lms24" title="Code">💻</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://fubits.dev"><img src="https://avatars.githubusercontent.com/u/13749354?v=4?s=100" width="100px;" alt="Ilja"/><br /><sub><b>Ilja</b></sub></a><br /><a href="#ideas-fubits1" title="Ideas, Planning, & Feedback">🤔</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/philschleier"><img src="https://avatars.githubusercontent.com/u/9532061?v=4?s=100" width="100px;" alt="Philipp Schleier"/><br /><sub><b>Philipp Schleier</b></sub></a><br /><a href="https://github.com/jycouet/kitql/issues?q=author%3Aphilschleier" title="Bug reports">🐛</a></td>
     </tr>
   </tbody>
 </table>
