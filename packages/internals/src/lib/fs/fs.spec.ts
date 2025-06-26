@@ -4,8 +4,8 @@ import { findFileOrUp, getFilesUnder, getRelativePackagePath, read, relative, wr
 
 describe('getRelativePackagePath', () => {
 	it('should get package path single', async () => {
-		const path = getRelativePackagePath('recast')
-		expect(path).toMatchInlineSnapshot(`"node_modules/recast"`)
+		const path = getRelativePackagePath('esrap')
+		expect(path).toMatchInlineSnapshot(`"node_modules/esrap"`)
 	})
 
 	it('should get package path with / and in root', async () => {
