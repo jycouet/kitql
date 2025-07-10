@@ -83,7 +83,7 @@ import { Video } from 'accessible-astro-components'
 
 As we can't guess `search_params` from the route, you must explicitly specify them like this:
 
-```ts {10-12}
+```ts {11-13}
 // vite.config.ts
 import { kitRoutes } from 'vite-plugin-kit-routes'
 
@@ -92,9 +92,11 @@ import type { KIT_ROUTES } from '$lib/ROUTES.js'
 export default defineConfig({
 	plugins: [
 		kitRoutes<KIT_ROUTES>({
-			'/site/[id]': {
-				explicit_search_params: {
-					limit: { type: 'number' },
+			PAGES: {
+				'/site/[id]': {
+					explicit_search_params: {
+						limit: { type: 'number' },
+					},
 				},
 			},
 		}),
