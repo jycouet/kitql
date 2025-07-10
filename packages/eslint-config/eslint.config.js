@@ -1,5 +1,6 @@
 import { includeIgnoreFile } from '@eslint/compat'
 import js from '@eslint/js'
+import prettier from 'eslint-config-prettier'
 import pluginPnpm from 'eslint-plugin-pnpm'
 import svelte from 'eslint-plugin-svelte'
 import unusedImports from 'eslint-plugin-unused-imports'
@@ -7,7 +8,6 @@ import globals from 'globals'
 import * as jsoncParser from 'jsonc-eslint-parser'
 import ts from 'typescript-eslint'
 import * as yamlParser from 'yaml-eslint-parser'
-import prettier from 'eslint-config-prettier';
 
 import { findFileOrUp } from './helper/findFileOrUp.js'
 
@@ -108,8 +108,8 @@ const othersRules = () => {
 					projectService: true,
 					extraFileExtensions: ['.svelte'],
 					parser: ts.parser,
-				}
-			}
+				},
+			},
 		},
 		{
 			name: '@kitql:ignores',
