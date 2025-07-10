@@ -242,7 +242,6 @@ export const watchAndRun = (
 	params: Options[],
 ): PluginOption & {
 	getCheckedConf: () => StateDetail[]
-	configureServer: (server: ViteDevServer) => void
 } => {
 	return {
 		name: 'watch-and-run',
