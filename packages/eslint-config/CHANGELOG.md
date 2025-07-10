@@ -1,5 +1,21 @@
 # eslint-config-kitql
 
+## 0.7.2
+
+### Patch Changes
+
+- [#1068](https://github.com/jycouet/kitql/pull/1068)
+  [`02c8d43`](https://github.com/jycouet/kitql/commit/02c8d43753ee670262fecc63304a5a281c7e3f1d)
+  Thanks [@jycouet](https://github.com/jycouet)! - switch new default to =>
+  `pnpmCatalogs.enable: false`
+
+- [#1068](https://github.com/jycouet/kitql/pull/1068)
+  [`02c8d43`](https://github.com/jycouet/kitql/commit/02c8d43753ee670262fecc63304a5a281c7e3f1d)
+  Thanks [@jycouet](https://github.com/jycouet)! - update svelte config
+
+- Updated dependencies []:
+  - @kitql/helpers@0.8.13
+
 ## 0.7.1
 
 ### Patch Changes
