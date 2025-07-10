@@ -7,6 +7,7 @@ import globals from 'globals'
 import * as jsoncParser from 'jsonc-eslint-parser'
 import ts from 'typescript-eslint'
 import * as yamlParser from 'yaml-eslint-parser'
+import prettier from 'eslint-config-prettier';
 
 import { findFileOrUp } from './helper/findFileOrUp.js'
 
@@ -87,7 +88,9 @@ const othersRules = () => {
 			...js.configs.recommended, // TODO, would be nice to have a name by default?
 		},
 		...ts.configs.recommended,
-		...svelte.configs['flat/recommended'],
+		...svelte.configs.recommended,
+		prettier,
+		...svelte.configs.prettier,
 		{
 			name: '@kitql:languages',
 			languageOptions: {
@@ -99,12 +102,14 @@ const othersRules = () => {
 		},
 		{
 			name: '@kitql:svelte:languages',
-			files: ['**/*.svelte'],
+			files: ['**/*.svelte', '**/*.svelte.ts', '**/*.svelte.js'],
 			languageOptions: {
 				parserOptions: {
+					projectService: true,
+					extraFileExtensions: ['.svelte'],
 					parser: ts.parser,
-				},
-			},
+				}
+			}
 		},
 		{
 			name: '@kitql:ignores',
@@ -183,7 +188,7 @@ export default config
  * @returns {import('eslint').Linter.Config[]}
  */
 export const kitql = (options = {}) => {
-	const pnpmCatalogsConfig = options?.pnpmCatalogs ?? { enable: true }
+	const pnpmCatalogsConfig = options?.pnpmCatalogs ?? { enable: false }
 	const pnpmCatalogsEnabled = pnpmCatalogsConfig.enable !== false
 
 	return [

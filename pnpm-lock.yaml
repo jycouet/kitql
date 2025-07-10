@@ -75,6 +75,9 @@ catalogs:
     eslint:
       specifier: 9.30.1
       version: 9.30.1
+    eslint-config-prettier:
+      specifier: 10.1.5
+      version: 10.1.5
     eslint-plugin-pnpm:
       specifier: 1.0.0
       version: 1.0.0
@@ -272,6 +275,9 @@ importers:
       eslint:
         specifier: catalog:linting
         version: 9.30.1(jiti@1.21.7)
+      eslint-config-prettier:
+        specifier: catalog:linting
+        version: 10.1.5(eslint@9.30.1(jiti@1.21.7))
       eslint-plugin-pnpm:
         specifier: catalog:linting
         version: 1.0.0(eslint@9.30.1(jiti@1.21.7))
@@ -2596,6 +2602,12 @@ packages:
   escape-string-regexp@5.0.0:
     resolution: {integrity: sha512-/veY75JbMK4j1yjvuUxuVsiS/hr/4iHs9FTT6cgTexxdE0Ly/glccBAkloH/DofkjRbZU3bnoj38mOmhkZ0lHw==}
     engines: {node: '>=12'}
+
+  eslint-config-prettier@10.1.5:
+    resolution: {integrity: sha512-zc1UmCpNltmVY34vuLRV61r1K27sWuX39E+uyUnY8xS2Bex88VV9cugG+UZbRSRGtGyFboj+D8JODyme1plMpw==}
+    hasBin: true
+    peerDependencies:
+      eslint: '>=7.0.0'
 
   eslint-plugin-pnpm@1.0.0:
     resolution: {integrity: sha512-tyEA10k7psB9HFCx8R4/bU4JS2tSKfXaCnrCcis+1R4FucfMIc6HgcFl4msZbwY2I0D9Vec3xAEkXV0aPechhQ==}
@@ -7305,6 +7317,10 @@ snapshots:
   escape-string-regexp@4.0.0: {}
 
   escape-string-regexp@5.0.0: {}
+
+  eslint-config-prettier@10.1.5(eslint@9.30.1(jiti@1.21.7)):
+    dependencies:
+      eslint: 9.30.1(jiti@1.21.7)
 
   eslint-plugin-pnpm@1.0.0(eslint@9.30.1(jiti@1.21.7)):
     dependencies:
