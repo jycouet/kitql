@@ -99,7 +99,8 @@ describe('configureServer', () => {
 			},
 		])
 
-		await p.configureServer(mockServer)
+		const pl = p as any
+		await pl.configureServer(mockServer)
 
 		expect(mockServer.watcher.add).toHaveBeenCalledWith(watchPattern)
 	})
@@ -112,7 +113,8 @@ describe('configureServer', () => {
 			},
 		])
 
-		await p.configureServer(mockServer)
+		const pl = p as any
+		await pl.configureServer(mockServer)
 
 		// Should set up watchers for add, addDir, change, unlink, unlinkDir
 		expect(mockServer.watcher.on).toHaveBeenCalledWith('add', expect.any(Function))
@@ -130,7 +132,8 @@ describe('configureServer', () => {
 			},
 		])
 
-		await p.configureServer(mockServer)
+		const pl = p as any
+		await pl.configureServer(mockServer)
 
 		// Should set up watchers for all, error, raw, ready
 		expect(mockServer.watcher.on).toHaveBeenCalledWith('all', expect.any(Function))
@@ -148,7 +151,8 @@ describe('configureServer', () => {
 			},
 		])
 
-		await p.configureServer(mockServer)
+		const pl = p as any
+		await pl.configureServer(mockServer)
 
 		expect(mockServer.watcher.add).toHaveBeenCalledWith(watchPatterns)
 	})
@@ -161,7 +165,8 @@ describe('configureServer', () => {
 			},
 		])
 
-		await p.configureServer(mockServer)
+		const pl = p as any
+		await pl.configureServer(mockServer)
 
 		expect(mockServer.watcher.add).not.toHaveBeenCalled()
 	})
@@ -180,7 +185,8 @@ describe('configureServer', () => {
 			},
 		])
 
-		await p.configureServer(mockServer)
+		const pl = p as any
+		await pl.configureServer(mockServer)
 
 		// Should add both watch pattern arrays
 		expect(mockServer.watcher.add).toHaveBeenCalledTimes(2)
@@ -208,7 +214,8 @@ describe('configureServer', () => {
 			},
 		])
 
-		await p.configureServer(mockServer)
+		const pl = p as any
+		await pl.configureServer(mockServer)
 
 		// Verify that external patterns are added to the watcher
 		expect(mockServer.watcher.add).toHaveBeenCalledWith(watchPatterns)
