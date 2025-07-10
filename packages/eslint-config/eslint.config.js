@@ -1,5 +1,6 @@
 import { includeIgnoreFile } from '@eslint/compat'
 import js from '@eslint/js'
+import prettier from 'eslint-config-prettier'
 import pluginPnpm from 'eslint-plugin-pnpm'
 import svelte from 'eslint-plugin-svelte'
 import unusedImports from 'eslint-plugin-unused-imports'
@@ -87,7 +88,9 @@ const othersRules = () => {
 			...js.configs.recommended, // TODO, would be nice to have a name by default?
 		},
 		...ts.configs.recommended,
-		...svelte.configs['flat/recommended'],
+		...svelte.configs.recommended,
+		prettier,
+		...svelte.configs.prettier,
 		{
 			name: '@kitql:languages',
 			languageOptions: {
@@ -99,9 +102,11 @@ const othersRules = () => {
 		},
 		{
 			name: '@kitql:svelte:languages',
-			files: ['**/*.svelte'],
+			files: ['**/*.svelte', '**/*.svelte.ts', '**/*.svelte.js'],
 			languageOptions: {
 				parserOptions: {
+					projectService: true,
+					extraFileExtensions: ['.svelte'],
 					parser: ts.parser,
 				},
 			},
@@ -183,7 +188,7 @@ export default config
  * @returns {import('eslint').Linter.Config[]}
  */
 export const kitql = (options = {}) => {
-	const pnpmCatalogsConfig = options?.pnpmCatalogs ?? { enable: true }
+	const pnpmCatalogsConfig = options?.pnpmCatalogs ?? { enable: false }
 	const pnpmCatalogsEnabled = pnpmCatalogsConfig.enable !== false
 
 	return [
