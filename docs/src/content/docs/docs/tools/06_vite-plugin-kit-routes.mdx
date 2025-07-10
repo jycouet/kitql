@@ -81,6 +81,29 @@ import { Video } from 'accessible-astro-components'
 <a href={route('/site/[id]', { id: 123, limit: 3 })}>Go to site</a>
 ```
 
+As we can't guess `search_params` from the route, you must explicitly specify them like this:
+
+```ts {11-13}
+// vite.config.ts
+import { kitRoutes } from 'vite-plugin-kit-routes'
+
+import type { KIT_ROUTES } from '$lib/ROUTES.js'
+
+export default defineConfig({
+	plugins: [
+		kitRoutes<KIT_ROUTES>({
+			PAGES: {
+				'/site/[id]': {
+					explicit_search_params: {
+						limit: { type: 'number' },
+					},
+				},
+			},
+		}),
+	],
+})
+```
+
 ### Actions
 
 ```svelte

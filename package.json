@@ -18,8 +18,11 @@
     "@changesets/cli": "catalog:lib-author-helper",
     "@vitest/coverage-v8": "catalog:testing",
     "esbuild": "catalog:tooling",
-    "prettier": "catalog:linting",
-    "rimraf": "catalog:tooling",    
+    "prettier": "catalog:linting",   
+    "rimraf": "catalog:tooling",
     "vitest": "catalog:testing"
+  },
+  "engines": {
+    "node": ">=22.11.0"
   }
 }
