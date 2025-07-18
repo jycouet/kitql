@@ -7,8 +7,8 @@ settings:
 catalogs:
   docs:
     '@astrojs/starlight':
-      specifier: 0.34.1
-      version: 0.34.1
+      specifier: 0.35.1
+      version: 0.35.1
     accessible-astro-components:
       specifier: 4.1.0
       version: 4.1.0
@@ -229,7 +229,7 @@ importers:
     dependencies:
       '@astrojs/starlight':
         specifier: catalog:docs
-        version: 0.34.1(astro@5.11.0(@types/node@22.13.9)(jiti@1.21.7)(lightningcss@1.28.2)(rollup@4.41.1)(sass@1.85.1)(terser@5.37.0)(tsx@4.20.3)(typescript@5.8.2)(yaml@2.8.0))
+        version: 0.35.1(astro@5.11.0(@types/node@22.13.9)(jiti@1.21.7)(lightningcss@1.28.2)(rollup@4.41.1)(sass@1.85.1)(terser@5.37.0)(tsx@4.20.3)(typescript@5.8.2)(yaml@2.8.0))
       '@kitql/eslint-config':
         specifier: workspace:*
         version: link:../packages/eslint-config
@@ -730,8 +730,8 @@ packages:
   '@astrojs/sitemap@3.3.1':
     resolution: {integrity: sha512-GRnDUCTviBSNfXJ0Jmur+1/C+z3g36jy79VyYggfe1uNyEYSTcmAfTTCmbytrRvJRNyJJnSfB/77Gnm9PiXRRg==}
 
-  '@astrojs/starlight@0.34.1':
-    resolution: {integrity: sha512-FmgS3R4SfLX8hmXoxNG5w1YicAs29Ix8A1cqczHEB4zJzIZVrvPiTEaQffJztqXTWERZtSZhHsckyDWImOPzJA==}
+  '@astrojs/starlight@0.35.1':
+    resolution: {integrity: sha512-/hshlAayMd3B+E+h8wY6JWT1lNmX/K1+ugiZPirW5XFo5QUcNMk/Bsa4oHgg+TFoU6kbxPtijo0VppATfD9XuA==}
     peerDependencies:
       astro: ^5.5.0
 
@@ -5243,7 +5243,7 @@ snapshots:
       stream-replace-string: 2.0.0
       zod: 3.24.2
 
-  '@astrojs/starlight@0.34.1(astro@5.11.0(@types/node@22.13.9)(jiti@1.21.7)(lightningcss@1.28.2)(rollup@4.41.1)(sass@1.85.1)(terser@5.37.0)(tsx@4.20.3)(typescript@5.8.2)(yaml@2.8.0))':
+  '@astrojs/starlight@0.35.1(astro@5.11.0(@types/node@22.13.9)(jiti@1.21.7)(lightningcss@1.28.2)(rollup@4.41.1)(sass@1.85.1)(terser@5.37.0)(tsx@4.20.3)(typescript@5.8.2)(yaml@2.8.0))':
     dependencies:
       '@astrojs/markdown-remark': 6.3.2
       '@astrojs/mdx': 4.2.5(astro@5.11.0(@types/node@22.13.9)(jiti@1.21.7)(lightningcss@1.28.2)(rollup@4.41.1)(sass@1.85.1)(terser@5.37.0)(tsx@4.20.3)(typescript@5.8.2)(yaml@2.8.0))
@@ -5670,8 +5670,8 @@ snapshots:
       hast-util-to-html: 9.0.5
       hast-util-to-text: 4.0.2
       hastscript: 9.0.1
-      postcss: 8.5.3
-      postcss-nested: 6.2.0(postcss@8.5.3)
+      postcss: 8.5.6
+      postcss-nested: 6.2.0(postcss@8.5.6)
       unist-util-visit: 5.0.0
       unist-util-visit-parents: 6.0.1
 
@@ -9214,9 +9214,9 @@ snapshots:
       postcss: 8.5.3
       ts-node: 10.9.2(@types/node@22.13.9)(typescript@5.8.2)
 
-  postcss-nested@6.2.0(postcss@8.5.3):
+  postcss-nested@6.2.0(postcss@8.5.6):
     dependencies:
-      postcss: 8.5.3
+      postcss: 8.5.6
       postcss-selector-parser: 6.1.2
 
   postcss-safe-parser@7.0.1(postcss@8.5.3):
