@@ -9,6 +9,16 @@ import { Aside } from '@astrojs/starlight/components'
 	_**KitQL** itself is not a library, it's "nothing" but a collection of standalone libraries._
 </Aside>
 
+<Aside type="note">
+`vite-plugin-kit-routes` will be deprecated when SvelteKit will have it in natively.
+
+With `@sveltejs/kit@2.26`, the first step is in with the new
+[resolve](https://svelte.dev/docs/kit/$app-paths#resolve) function. Check it out 🎉
+
+_You might not need this plugin at all!_
+
+</Aside>
+
 `vite-plugin-kit-routes` automatically updates route references in SvelteKit projects, crucial for
 large applications where manual tracking of route changes is error-prone. It simplifies development
 by ensuring all route links are consistent and up-to-date, saving time and preventing broken links.
