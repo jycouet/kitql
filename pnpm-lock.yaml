@@ -117,8 +117,8 @@ catalogs:
       specifier: 5.36.16
       version: 5.36.16
     svelte-check:
-      specifier: 4.2.1
-      version: 4.2.1
+      specifier: 4.3.0
+      version: 4.3.0
   svelte-dep:
     svelte:
       specifier: ^5.0.0
@@ -356,7 +356,7 @@ importers:
         version: 5.36.16
       svelte-check:
         specifier: catalog:svelte
-        version: 4.2.1(picomatch@4.0.2)(svelte@5.36.16)(typescript@5.8.2)
+        version: 4.3.0(picomatch@4.0.2)(svelte@5.36.16)(typescript@5.8.2)
       tslib:
         specifier: catalog:lib-author-helper
         version: 2.8.0
@@ -403,7 +403,7 @@ importers:
         version: 5.36.16
       svelte-check:
         specifier: catalog:svelte
-        version: 4.2.1(picomatch@4.0.2)(svelte@5.36.16)(typescript@5.8.2)
+        version: 4.3.0(picomatch@4.0.2)(svelte@5.36.16)(typescript@5.8.2)
       tslib:
         specifier: catalog:lib-author-helper
         version: 2.8.0
@@ -459,7 +459,7 @@ importers:
         version: 6.0.1(rollup@4.41.1)
       svelte-check:
         specifier: catalog:svelte
-        version: 4.2.1(picomatch@4.0.2)(svelte@5.33.14)(typescript@5.8.2)
+        version: 4.3.0(picomatch@4.0.2)(svelte@5.33.14)(typescript@5.8.2)
       tslib:
         specifier: catalog:lib-author-helper
         version: 2.8.0
@@ -505,7 +505,7 @@ importers:
         version: 5.36.16
       svelte-check:
         specifier: catalog:svelte
-        version: 4.2.1(picomatch@4.0.2)(svelte@5.36.16)(typescript@5.8.2)
+        version: 4.3.0(picomatch@4.0.2)(svelte@5.36.16)(typescript@5.8.2)
       typescript:
         specifier: catalog:tooling
         version: 5.8.2
@@ -555,7 +555,7 @@ importers:
         version: 5.36.16
       svelte-check:
         specifier: catalog:svelte
-        version: 4.2.1(picomatch@4.0.2)(svelte@5.36.16)(typescript@5.8.2)
+        version: 4.3.0(picomatch@4.0.2)(svelte@5.36.16)(typescript@5.8.2)
       tslib:
         specifier: catalog:lib-author-helper
         version: 2.8.0
@@ -611,7 +611,7 @@ importers:
         version: 5.36.16
       svelte-check:
         specifier: catalog:svelte
-        version: 4.2.1(picomatch@4.0.2)(svelte@5.36.16)(typescript@5.8.2)
+        version: 4.3.0(picomatch@4.0.2)(svelte@5.36.16)(typescript@5.8.2)
       tslib:
         specifier: catalog:lib-author-helper
         version: 2.8.0
@@ -661,7 +661,7 @@ importers:
         version: 5.36.16
       svelte-check:
         specifier: catalog:svelte
-        version: 4.2.1(picomatch@4.0.2)(svelte@5.36.16)(typescript@5.8.2)
+        version: 4.3.0(picomatch@4.0.2)(svelte@5.36.16)(typescript@5.8.2)
       tslib:
         specifier: catalog:lib-author-helper
         version: 2.8.0
@@ -4508,8 +4508,8 @@ packages:
     resolution: {integrity: sha512-ot0WnXS9fgdkgIcePe6RHNk1WA8+muPa6cSjeR3V8K27q9BB1rTE3R1p7Hv0z1ZyAc8s6Vvv8DIyWf681MAt0w==}
     engines: {node: '>= 0.4'}
 
-  svelte-check@4.2.1:
-    resolution: {integrity: sha512-e49SU1RStvQhoipkQ/aonDhHnG3qxHSBtNfBRb9pxVXoa+N7qybAo32KgA9wEb2PCYFNaDg7bZCdhLD1vHpdYA==}
+  svelte-check@4.3.0:
+    resolution: {integrity: sha512-Iz8dFXzBNAM7XlEIsUjUGQhbEE+Pvv9odb9+0+ITTgFWZBGeJRRYqHUUglwe2EkLD5LIsQaAc4IUJyvtKuOO5w==}
     engines: {node: '>= 18.0.0'}
     hasBin: true
     peerDependencies:
@@ -9836,11 +9836,11 @@ snapshots:
 
   supports-preserve-symlinks-flag@1.0.0: {}
 
-  svelte-check@4.2.1(picomatch@4.0.2)(svelte@5.33.14)(typescript@5.8.2):
+  svelte-check@4.3.0(picomatch@4.0.2)(svelte@5.33.14)(typescript@5.8.2):
     dependencies:
       '@jridgewell/trace-mapping': 0.3.25
       chokidar: 4.0.3
-      fdir: 6.4.5(picomatch@4.0.2)
+      fdir: 6.4.6(picomatch@4.0.2)
       picocolors: 1.1.1
       sade: 1.8.1
       svelte: 5.33.14
@@ -9848,11 +9848,11 @@ snapshots:
     transitivePeerDependencies:
       - picomatch
 
-  svelte-check@4.2.1(picomatch@4.0.2)(svelte@5.36.16)(typescript@5.8.2):
+  svelte-check@4.3.0(picomatch@4.0.2)(svelte@5.36.16)(typescript@5.8.2):
     dependencies:
       '@jridgewell/trace-mapping': 0.3.25
       chokidar: 4.0.3
-      fdir: 6.4.5(picomatch@4.0.2)
+      fdir: 6.4.6(picomatch@4.0.2)
       picocolors: 1.1.1
       sade: 1.8.1
       svelte: 5.36.16
