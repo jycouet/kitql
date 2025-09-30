@@ -26,7 +26,7 @@ jobs:
      ]
   steps:
    - name: 🎉 Checkout Repository
-     uses: actions/checkout@v4
+     uses: actions/checkout@v5
      with:
       # This makes Actions fetch all Git history so that Changesets can generate changelogs with the correct commits
       fetch-depth: 0
@@ -66,7 +66,7 @@ jobs:
    pull-requests: write
   steps:
    - name: Checkout repository
-     uses: actions/checkout@v4
+     uses: actions/checkout@v5
      with:
       fetch-depth: 0
    - name: Create Diff
