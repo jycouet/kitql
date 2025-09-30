@@ -7,8 +7,8 @@ settings:
 catalogs:
   docs:
     '@astrojs/starlight':
-      specifier: 0.35.1
-      version: 0.35.1
+      specifier: 0.36.0
+      version: 0.36.0
     accessible-astro-components:
       specifier: 4.1.0
       version: 4.1.0
@@ -229,7 +229,7 @@ importers:
     dependencies:
       '@astrojs/starlight':
         specifier: catalog:docs
-        version: 0.35.1(astro@5.12.3(@types/node@22.13.9)(jiti@1.21.7)(lightningcss@1.28.2)(rollup@4.41.1)(sass@1.85.1)(terser@5.37.0)(tsx@4.20.3)(typescript@5.9.2)(yaml@2.8.0))
+        version: 0.36.0(astro@5.12.3(@types/node@22.13.9)(jiti@1.21.7)(lightningcss@1.28.2)(rollup@4.41.1)(sass@1.85.1)(terser@5.37.0)(tsx@4.20.3)(typescript@5.9.2)(yaml@2.8.0))
       '@kitql/eslint-config':
         specifier: workspace:*
         version: link:../packages/eslint-config
@@ -730,8 +730,8 @@ packages:
   '@astrojs/sitemap@3.3.1':
     resolution: {integrity: sha512-GRnDUCTviBSNfXJ0Jmur+1/C+z3g36jy79VyYggfe1uNyEYSTcmAfTTCmbytrRvJRNyJJnSfB/77Gnm9PiXRRg==}
 
-  '@astrojs/starlight@0.35.1':
-    resolution: {integrity: sha512-/hshlAayMd3B+E+h8wY6JWT1lNmX/K1+ugiZPirW5XFo5QUcNMk/Bsa4oHgg+TFoU6kbxPtijo0VppATfD9XuA==}
+  '@astrojs/starlight@0.36.0':
+    resolution: {integrity: sha512-aVJVBfvFuE2avsMDhmRzn6I5GjDhUwIQFlu3qH9a1C0fNsPYDw2asxHQODAD7EfGiKGvvHCJgHb+9jbJ8lCfNQ==}
     peerDependencies:
       astro: ^5.5.0
 
@@ -5223,7 +5223,7 @@ snapshots:
       stream-replace-string: 2.0.0
       zod: 3.24.2
 
-  '@astrojs/starlight@0.35.1(astro@5.12.3(@types/node@22.13.9)(jiti@1.21.7)(lightningcss@1.28.2)(rollup@4.41.1)(sass@1.85.1)(terser@5.37.0)(tsx@4.20.3)(typescript@5.9.2)(yaml@2.8.0))':
+  '@astrojs/starlight@0.36.0(astro@5.12.3(@types/node@22.13.9)(jiti@1.21.7)(lightningcss@1.28.2)(rollup@4.41.1)(sass@1.85.1)(terser@5.37.0)(tsx@4.20.3)(typescript@5.9.2)(yaml@2.8.0))':
     dependencies:
       '@astrojs/markdown-remark': 6.3.3
       '@astrojs/mdx': 4.2.5(astro@5.12.3(@types/node@22.13.9)(jiti@1.21.7)(lightningcss@1.28.2)(rollup@4.41.1)(sass@1.85.1)(terser@5.37.0)(tsx@4.20.3)(typescript@5.9.2)(yaml@2.8.0))
