@@ -71,3 +71,5 @@ jobs:
       fetch-depth: 0
    - name: Create Diff
      uses: e18e/action-dependency-diff@v1
+     with:
+      dependency-threshold: '2'
