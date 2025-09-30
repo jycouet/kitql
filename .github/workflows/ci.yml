@@ -58,3 +58,16 @@ jobs:
 
    - name: 👌 Run Tests
      run: pnpm -F ${{ matrix.prj }} test:ci
+
+ diff_dependencies:
+  runs-on: ubuntu-latest
+  permissions:
+   contents: read
+   pull-requests: write
+  steps:
+   - name: Checkout repository
+     uses: actions/checkout@v4
+     with:
+      fetch-depth: 0
+   - name: Create Diff
+     uses: e18e/action-dependency-diff@v1
