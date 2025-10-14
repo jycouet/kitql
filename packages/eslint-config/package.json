@@ -29,10 +29,10 @@
 		"eslint-config"
 	],
 	"scripts": {
-		"format": "node ./cmd.js -f -d --verbose",
+		"format": "node ./cmd.js -f -d --verbose --ox",
 		"format:example": "kitql-lint --format",
 		"inspector": "npx @eslint/config-inspector",
-		"lint": "node ./cmd.js --verbose -p none",
+		"lint": "node ./cmd.js --verbose -p none --ox",
 		"lint:example": "kitql-lint"
 	},
 	"peerDependencies": {
@@ -58,6 +58,7 @@
 		"commander": "catalog:tooling",
 		"eslint": "catalog:linting",
 		"eslint-config-prettier": "catalog:linting",
+		"eslint-plugin-oxlint": "catalog:linting-oxc",
 		"eslint-plugin-pnpm": "catalog:linting",
 		"eslint-plugin-svelte": "catalog:linting",
 		"eslint-plugin-unused-imports": "catalog:linting",

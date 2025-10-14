@@ -273,21 +273,35 @@ async function getDiffFiles() {
 	}
 }
 
+async function lintRunOx() {
+	const cmdLint =
+		`oxlint --type-aware` +
+		// format or not
+		`${format ? ' --fix' : ''}` +
+		` ${glob}`
+
+	spinner.text = verbose ? 'lint ' + gray(`(${cmdLint}) `) : 'lint '
+
+	const result_lint = await customSpawn(cmdLint)
+
+	return result_lint
+}
+
 async function lintRun() {
-	let cmdLint =
+	if (using_ox) {
+		const result_lint = await lintRunOx()
+		if (typeof result_lint === 'object' && 'status' in result_lint && result_lint.status) {
+			return result_lint
+		}
+	}
+
+	const cmdLint =
 		preToUse +
 		`eslint --no-warn-ignored` +
 		// format or not
 		`${format ? ' --fix' : ''}` +
 		// exec
 		` ${glob}`
-	if (using_ox) {
-		cmdLint =
-			`oxlint --type-aware` +
-			// format or not
-			`${format ? ' --fix' : ''}` +
-			` ${glob}`
-	}
 
 	spinner.text = verbose ? 'lint ' + gray(`(${cmdLint}) `) : 'lint '
 
