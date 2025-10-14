@@ -1,69 +1,79 @@
 {
-  "name": "@kitql/eslint-config",
-  "version": "0.7.3",
-  "type": "module",
-  "description": "opinionated linting and formatting for projects",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/jycouet/kitql.git",
-    "directory": "packages/eslint-config",
-    "homepage": "https://github.com/jycouet/kitql/tree/main/packages/eslint-config"
-  },
-  "homepage": "https://www.kitql.dev/",
-  "funding": "https://github.com/sponsors/jycouet",
-  "license": "MIT",
-  "bin": {
-    "kitql-lint": "./cmd.js"
-  },
-  "main": "eslint.config.js",
-  "files": [
-    "cmd.js",
-    "helper/findFileOrUp.js",
-    ".prettierrc.js",
-    "eslint.config.js",
-    ".oxlintrc.json"
-  ],
-  "keywords": [
-    "cli",
-    "eslint",
-    "eslint-config"
-  ],
-  "scripts": {
-    "format": "node ./cmd.js -f -d --verbose",
-    "format:example": "kitql-lint --format",
-    "lint": "node ./cmd.js --verbose -p none",
-    "lint:example": "kitql-lint",
-    "inspector": "npx @eslint/config-inspector"
-  },
-  "peerDependencies": {
-    "prettier": "catalog:linting"
-  },
-  "dependencies": {
-    "@eslint/compat": "catalog:linting",
-    "@eslint/js": "catalog:linting",
-    "@kitql/helpers": "workspace:*",
-    "@theguild/prettier-config": "catalog:linting",
-    "@types/eslint": "catalog:linting",
-    "@typescript-eslint/parser": "catalog:linting",
-    "commander": "catalog:tooling",
-    "eslint": "catalog:linting",
-    "eslint-config-prettier": "catalog:linting",
-    "eslint-plugin-pnpm": "catalog:linting",
-    "eslint-plugin-svelte": "catalog:linting",
-    "eslint-plugin-unused-imports": "catalog:linting",
-    "globals": "catalog:linting",
-    "jsonc-eslint-parser": "catalog:linting",
-    "ora": "catalog:tooling",
-    "oxlint": "catalog:linting-oxc",
-    "oxlint-tsgolint": "catalog:linting-oxc",
-    "prettier": "catalog:linting",
-    "prettier-plugin-svelte": "catalog:linting",
-    "prettier-plugin-tailwindcss": "catalog:linting",
-    "typescript-eslint": "catalog:linting",
-    "yaml-eslint-parser": "catalog:linting"
-  },
-  "publishConfig": {
-    "access": "public"
-  },
-  "sideEffects": false
+	"name": "@kitql/eslint-config",
+	"version": "0.7.3",
+	"type": "module",
+	"description": "opinionated linting and formatting for projects",
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/jycouet/kitql.git",
+		"directory": "packages/eslint-config",
+		"homepage": "https://github.com/jycouet/kitql/tree/main/packages/eslint-config"
+	},
+	"homepage": "https://www.kitql.dev/",
+	"funding": "https://github.com/sponsors/jycouet",
+	"license": "MIT",
+	"bin": {
+		"kitql-lint": "./cmd.js"
+	},
+	"main": "eslint.config.js",
+	"files": [
+		".oxlintrc.json",
+		".prettierrc.js",
+		"cmd.js",
+		"eslint.config.js",
+		"helper/findFileOrUp.js"
+	],
+	"keywords": [
+		"cli",
+		"eslint",
+		"eslint-config"
+	],
+	"scripts": {
+		"format": "node ./cmd.js -f -d --verbose",
+		"format:example": "kitql-lint --format",
+		"inspector": "npx @eslint/config-inspector",
+		"lint": "node ./cmd.js --verbose -p none",
+		"lint:example": "kitql-lint"
+	},
+	"peerDependencies": {
+		"oxlint": "catalog:linting-oxc",
+		"oxlint-tsgolint": "catalog:linting-oxc",
+		"prettier": "catalog:linting"
+	},
+	"peerDependenciesMeta": {
+		"oxlint": {
+			"optional": true
+		},
+		"oxlint-tsgolint": {
+			"optional": true
+		}
+	},
+	"dependencies": {
+		"@eslint/compat": "catalog:linting",
+		"@eslint/js": "catalog:linting",
+		"@kitql/helpers": "workspace:*",
+		"@theguild/prettier-config": "catalog:linting",
+		"@types/eslint": "catalog:linting",
+		"@typescript-eslint/parser": "catalog:linting",
+		"commander": "catalog:tooling",
+		"eslint": "catalog:linting",
+		"eslint-config-prettier": "catalog:linting",
+		"eslint-plugin-pnpm": "catalog:linting",
+		"eslint-plugin-svelte": "catalog:linting",
+		"eslint-plugin-unused-imports": "catalog:linting",
+		"globals": "catalog:linting",
+		"jsonc-eslint-parser": "catalog:linting",
+		"ora": "catalog:tooling",
+		"oxlint": "catalog:linting-oxc",
+		"oxlint-tsgolint": "catalog:linting-oxc",
+		"prettier": "catalog:linting",
+		"prettier-plugin-svelte": "catalog:linting",
+		"prettier-plugin-tailwindcss": "catalog:linting",
+		"typescript-eslint": "catalog:linting",
+		"yaml-eslint-parser": "catalog:linting"
+	},
+	"publishConfig": {
+		"access": "public"
+	},
+	"sideEffects": false
 }

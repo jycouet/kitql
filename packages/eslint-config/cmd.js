@@ -84,7 +84,6 @@ async function customSpawn(/** @type {string} */ cmd) {
 		child.on('close', resolve)
 		child.on('error', reject)
 	})
-	
 
 	if (exitCode) {
 		// throw new Error(`subprocess error exit ${exitCode}, ${error}`)

@@ -130,7 +130,6 @@ export const transformStrip = async (
 				// @ts-ignore
 				const decorators: any[] = path.node.decorators || []
 				let foundDecorator = false
-				let decoratorName = ''
 
 				// Initialize functionName with a default value
 				let functionName = '???'
@@ -153,7 +152,7 @@ export const transformStrip = async (
 
 						if (matchingConfig) {
 							foundDecorator = true
-							decoratorName = name
+							_decoratorName = name
 
 							// Push both the decorator name and the associated function name
 							decorators_wrapped.push({
