@@ -18,24 +18,25 @@ const spinner = ora({
 spinner.start()
 
 program.addOption(new Option('-f, --format', 'format'))
-program.addOption(new Option('-g, --glob <type>', 'file/dir/glob (. by default)', '.'))
-program.addOption(new Option('--eslint-only', 'only run eslint', false))
-program.addOption(new Option('--prettier-only', 'only run prettier', false))
-program.addOption(new Option('--verbose', 'add more logs', false))
+program.addOption(new Option('-g, --glob <type>', 'file/dir/glob (. by default)').default('.'))
+program.addOption(new Option('--lint-only', 'only run lint').default(false))
+program.addOption(new Option('--format-only', 'only run format').default(false))
+program.addOption(new Option('--verbose', 'add more logs').default(false))
+program.addOption(new Option('--ox', 'using oxc tooling').default(false))
 program.addOption(
-	new Option('-d, --diff-only', 'only check files changed against base branch', false),
+	new Option('-d, --diff-only', 'only check files changed against base branch').default(false),
 )
 program.addOption(
-	new Option('--base-branch <type>', 'base branch to compare against (default: main)', 'main'),
+	new Option('--base-branch <type>', 'base branch to compare against (default: main)').default(
+		'main',
+	),
 )
 program.addOption(
 	new Option(
 		'-p, --prefix <type>',
 		'prefix by with "pnpm" or "npm" or "none" ("none" by default)',
-		'none',
-	),
+	).default('none'),
 )
-
 program.parse(process.argv)
 const options_cli = program.opts()
 
@@ -46,10 +47,11 @@ const format = options_cli.format ?? false
 let glob = options_cli.glob ?? '.'
 const verbose = options_cli.verbose ?? false
 const pre = options_cli.prefix ?? 'none'
-const eslintOnly = options_cli.eslintOnly ?? false
-const prettierOnly = options_cli.prettierOnly ?? false
+const lintOnly = options_cli.lintOnly ?? false
+const formatOnly = options_cli.formatOnly ?? false
 const diffOnly = options_cli.diffOnly ?? false
 const baseBranch = options_cli.baseBranch ?? 'main'
+const using_ox = options_cli.ox ?? false
 
 let preToUse = ''
 if (pre === 'npm') {
@@ -60,7 +62,7 @@ if (pre === 'npm') {
 	preToUse = ''
 }
 
-async function customSpawn(cmd) {
+async function customSpawn(/** @type {string} */ cmd) {
 	const child = spawn(cmd, {
 		shell: true,
 		cwd: process.cwd(),
@@ -80,6 +82,7 @@ async function customSpawn(cmd) {
 	// }
 	const exitCode = await new Promise((resolve, reject) => {
 		child.on('close', resolve)
+		child.on('error', reject)
 	})
 
 	if (exitCode) {
@@ -120,7 +123,7 @@ async function getDiffFiles() {
 			return null
 		}
 	} catch (error) {
-		spinner.warn(`Error getting git root: ${error.message}`)
+		if (error instanceof Error) spinner.warn(`Error getting git root: ${error.message}`)
 		return null
 	}
 
@@ -224,7 +227,7 @@ async function getDiffFiles() {
 						spinner.warn(`Could not get changed files: ${error}`)
 						return null
 					}
-				} catch (fallbackError) {
+				} catch {
 					spinner.warn(`Could not get changed files: ${error}`)
 					return null
 				}
@@ -265,13 +268,34 @@ async function getDiffFiles() {
 		// Format the files for the command line, wrapping each in quotes and joining with spaces
 		return files.length > 0 ? files.map((f) => `'${f}'`).join(' ') : null
 	} catch (error) {
-		spinner.warn(`Error getting changed files: ${error.message}`)
+		if (error instanceof Error) spinner.warn(`Error getting changed files: ${error.message}`)
 		return null
 	}
 }
 
-async function eslintRun() {
-	const cmdEsLint =
+async function lintRunOx() {
+	const cmdLint =
+		`oxlint --type-aware` +
+		// format or not
+		`${format ? ' --fix' : ''}` +
+		` ${glob}`
+
+	spinner.text = verbose ? 'lint ' + gray(`(${cmdLint}) `) : 'lint '
+
+	const result_lint = await customSpawn(cmdLint)
+
+	return result_lint
+}
+
+async function lintRun() {
+	if (using_ox) {
+		const result_lint = await lintRunOx()
+		if (typeof result_lint === 'object' && 'status' in result_lint && result_lint.status) {
+			return result_lint
+		}
+	}
+
+	const cmdLint =
 		preToUse +
 		`eslint --no-warn-ignored` +
 		// format or not
@@ -279,15 +303,15 @@ async function eslintRun() {
 		// exec
 		` ${glob}`
 
-	spinner.text = verbose ? 'eslint ' + gray(`(${cmdEsLint})`) : 'eslint'
+	spinner.text = verbose ? 'lint ' + gray(`(${cmdLint}) `) : 'lint '
 
-	const result_eslint = await customSpawn(cmdEsLint)
+	const result_lint = await customSpawn(cmdLint)
 
-	return result_eslint
+	return result_lint
 }
 
-async function prettierRun() {
-	const cmdPrettier =
+async function formatRun() {
+	const cmdFormat =
 		preToUse +
 		`prettier` +
 		` --list-different` +
@@ -300,15 +324,20 @@ async function prettierRun() {
 		// exec
 		` ${glob}`
 
-	spinner.text = verbose ? 'prettier ' + gray(`(${cmdPrettier})`) : 'prettier'
+	spinner.text = verbose ? 'format ' + gray(`(${cmdFormat}) `) : 'format '
 
-	const result_prettier = await customSpawn(cmdPrettier)
+	const result_format = await customSpawn(cmdFormat)
 
-	return result_prettier
+	return result_format
 }
 
+/** @type {string[]} */
 const took = []
 
+/**
+ * @param {string} text
+ * @param {number} time
+ */
 const display = (text, time) => {
 	return `${gray(text)} ${green((time / 1000).toFixed(3))}${gray('s')}`
 }
@@ -329,27 +358,27 @@ if (diffOnly) {
 	}
 }
 
-if (!prettierOnly && glob) {
-	const esLintStart = performance.now()
-	const eslintCode = await eslintRun()
-	const esLintTook = performance.now() - esLintStart
-	took.push(display('eslint', esLintTook))
-	if (eslintCode.status) {
+if (!formatOnly && glob) {
+	const lintStart = performance.now()
+	const lintCode = await lintRun()
+	const lintTook = performance.now() - lintStart
+	took.push(display('lint', lintTook))
+	if (typeof lintCode === 'object' && 'status' in lintCode && lintCode.status) {
 		spinner.prefixText = bgRedBright(` kitql-lint `)
-		spinner.fail(red(`eslint failed, check logs above. ${displayTook()}`))
-		process.exit(eslintCode.status)
+		spinner.fail(red(`lint failed, check logs above. ${displayTook()}`))
+		process.exit(lintCode.status)
 	}
 }
 
-if (!eslintOnly && glob) {
-	const prettierStart = performance.now()
-	const prettierCode = await prettierRun()
-	const prettierTook = performance.now() - prettierStart
-	took.push(display('prettier', prettierTook))
-	if (prettierCode.status) {
+if (!lintOnly && glob) {
+	const formatStart = performance.now()
+	const formatCode = await formatRun()
+	const formatTook = performance.now() - formatStart
+	took.push(display('format', formatTook))
+	if (typeof formatCode === 'object' && 'status' in formatCode && formatCode.status) {
 		spinner.prefixText = bgRedBright(` kitql-lint `)
-		spinner.fail(red(`prettier failed, check logs above. ${displayTook()}`))
-		process.exit(prettierCode.status)
+		spinner.fail(red(`format failed, check logs above. ${displayTook()}`))
+		process.exit(formatCode.status)
 	}
 }
 

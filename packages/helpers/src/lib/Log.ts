@@ -63,10 +63,10 @@ export class Log {
 		}
 
 		if (table.length === 0 || (table.length === 1 && table[0] === '')) {
-			return colorProcess(...[...msgs.flatMap((c) => c)])
+			return colorProcess(...msgs.flatMap((c) => c))
 		}
 
-		return colorProcess(...[table.join(''), ...msgs.flatMap((c) => c)])
+		return colorProcess(table.join(''), ...msgs.flatMap((c) => c))
 	}
 
 	/**
