@@ -17,10 +17,11 @@
   },
   "main": "eslint.config.js",
   "files": [
-    ".prettierrc.js",
     "cmd.js",
+    "helper/findFileOrUp.js",
+    ".prettierrc.js",
     "eslint.config.js",
-    "helper/findFileOrUp.js"
+    ".oxlintrc.json"
   ],
   "keywords": [
     "cli",
@@ -53,6 +54,8 @@
     "globals": "catalog:linting",
     "jsonc-eslint-parser": "catalog:linting",
     "ora": "catalog:tooling",
+    "oxlint": "catalog:linting-oxc",
+    "oxlint-tsgolint": "catalog:linting-oxc",
     "prettier": "catalog:linting",
     "prettier-plugin-svelte": "catalog:linting",
     "prettier-plugin-tailwindcss": "catalog:linting",

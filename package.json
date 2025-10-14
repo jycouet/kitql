@@ -9,8 +9,8 @@
     "release:version": "npm run changeset version",
     "release": "npm run build && changeset publish --verbose",
     "reset": "git clean -xdf",
-    "lint": "kitql-lint",
-    "format": "kitql-lint --format",
+    "lint": "kitql-lint --ox",
+    "format": "kitql-lint --ox --format",
     "up-dep": "pnpm -r up --latest"
   },
   "devDependencies": {
