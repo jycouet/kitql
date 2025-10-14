@@ -25,8 +25,8 @@
     "check:watch": "svelte-check --tsconfig ./tsconfig.json --watch",
     "test": "vitest",
     "test:ci": "vitest run --coverage",
-    "lint": "kitql-lint --ox",
-    "format": "kitql-lint --ox --format"
+    "lint": "kitql-lint --oxt",
+    "format": "kitql-lint --oxt --format"
   },
   "devDependencies": {
     "@kitql/eslint-config": "workspace:*",

@@ -23,6 +23,7 @@ program.addOption(new Option('--lint-only', 'only run lint').default(false))
 program.addOption(new Option('--format-only', 'only run format').default(false))
 program.addOption(new Option('--verbose', 'add more logs').default(false))
 program.addOption(new Option('--ox', 'using oxc tooling').default(false))
+program.addOption(new Option('--oxt', 'using oxc & type aware').default(false))
 program.addOption(
 	new Option('-d, --diff-only', 'only check files changed against base branch').default(false),
 )
@@ -52,6 +53,7 @@ const formatOnly = options_cli.formatOnly ?? false
 const diffOnly = options_cli.diffOnly ?? false
 const baseBranch = options_cli.baseBranch ?? 'main'
 const using_ox = options_cli.ox ?? false
+const using_oxt = options_cli.oxt ?? false
 
 let preToUse = ''
 if (pre === 'npm') {
@@ -275,7 +277,8 @@ async function getDiffFiles() {
 
 async function lintRunOx() {
 	const cmdLint =
-		`oxlint --type-aware` +
+		`oxlint` +
+		`${using_oxt ? ' --type-aware' : ''}` +
 		// format or not
 		`${format ? ' --fix' : ''}` +
 		` ${glob}`
@@ -288,7 +291,7 @@ async function lintRunOx() {
 }
 
 async function lintRun() {
-	if (using_ox) {
+	if (using_ox || using_oxt) {
 		const result_lint = await lintRunOx()
 		if (typeof result_lint === 'object' && 'status' in result_lint && result_lint.status) {
 			return result_lint
