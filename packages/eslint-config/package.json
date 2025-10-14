@@ -29,10 +29,10 @@
 		"eslint-config"
 	],
 	"scripts": {
-		"format": "node ./cmd.js -f -d --verbose --ox",
+		"format": "node ./cmd.js -f -d --verbose --oxt",
 		"format:example": "kitql-lint --format",
 		"inspector": "npx @eslint/config-inspector",
-		"lint": "node ./cmd.js --verbose -p none --ox",
+		"lint": "node ./cmd.js --verbose -p none --oxt",
 		"lint:example": "kitql-lint"
 	},
 	"peerDependencies": {
