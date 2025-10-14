@@ -18,22 +18,23 @@ const spinner = ora({
 spinner.start()
 
 program.addOption(new Option('-f, --format', 'format'))
-program.addOption(new Option('-g, --glob <type>', 'file/dir/glob (. by default)', '.'))
-program.addOption(new Option('--eslint-only', 'only run eslint', false))
-program.addOption(new Option('--prettier-only', 'only run prettier', false))
-program.addOption(new Option('--verbose', 'add more logs', false))
-program.addOption(
-	new Option('-d, --diff-only', 'only check files changed against base branch', false),
-)
-program.addOption(
-	new Option('--base-branch <type>', 'base branch to compare against (default: main)', 'main'),
-)
+program.addOption(new Option('-g, --glob <type>', 'file/dir/glob (. by default)').default('.'))
+program.addOption(new Option('--eslint-only', 'only run eslint').default(false))
+program.addOption(new Option('--prettier-only', 'only run prettier').default(false))
+program.addOption(new Option('--verbose', 'add more logs').default(false))
+;(program.addOption(
+	new Option('-d, --diff-only', 'only check files changed against base branch').default(false),
+),
+	program.addOption(
+		new Option('--base-branch <type>', 'base branch to compare against (default: main)').default(
+			'main',
+		),
+	))
 program.addOption(
 	new Option(
 		'-p, --prefix <type>',
 		'prefix by with "pnpm" or "npm" or "none" ("none" by default)',
-		'none',
-	),
+	).default('none'),
 )
 
 program.parse(process.argv)
@@ -60,7 +61,7 @@ if (pre === 'npm') {
 	preToUse = ''
 }
 
-async function customSpawn(cmd) {
+async function customSpawn(/** @type {string} */ cmd) {
 	const child = spawn(cmd, {
 		shell: true,
 		cwd: process.cwd(),
@@ -120,7 +121,7 @@ async function getDiffFiles() {
 			return null
 		}
 	} catch (error) {
-		spinner.warn(`Error getting git root: ${error.message}`)
+		if (error instanceof Error) spinner.warn(`Error getting git root: ${error.message}`)
 		return null
 	}
 
@@ -265,7 +266,7 @@ async function getDiffFiles() {
 		// Format the files for the command line, wrapping each in quotes and joining with spaces
 		return files.length > 0 ? files.map((f) => `'${f}'`).join(' ') : null
 	} catch (error) {
-		spinner.warn(`Error getting changed files: ${error.message}`)
+		if (error instanceof Error) spinner.warn(`Error getting changed files: ${error.message}`)
 		return null
 	}
 }
@@ -307,8 +308,13 @@ async function prettierRun() {
 	return result_prettier
 }
 
+/** @type {string[]} */
 const took = []
 
+/**
+ * @param {string} text
+ * @param {number} time
+ */
 const display = (text, time) => {
 	return `${gray(text)} ${green((time / 1000).toFixed(3))}${gray('s')}`
 }
@@ -334,7 +340,7 @@ if (!prettierOnly && glob) {
 	const eslintCode = await eslintRun()
 	const esLintTook = performance.now() - esLintStart
 	took.push(display('eslint', esLintTook))
-	if (eslintCode.status) {
+	if (typeof eslintCode === 'object' && 'status' in eslintCode && eslintCode.status) {
 		spinner.prefixText = bgRedBright(` kitql-lint `)
 		spinner.fail(red(`eslint failed, check logs above. ${displayTook()}`))
 		process.exit(eslintCode.status)
@@ -346,7 +352,7 @@ if (!eslintOnly && glob) {
 	const prettierCode = await prettierRun()
 	const prettierTook = performance.now() - prettierStart
 	took.push(display('prettier', prettierTook))
-	if (prettierCode.status) {
+	if (typeof prettierCode === 'object' && 'status' in prettierCode && prettierCode.status) {
 		spinner.prefixText = bgRedBright(` kitql-lint `)
 		spinner.fail(red(`prettier failed, check logs above. ${displayTook()}`))
 		process.exit(prettierCode.status)
