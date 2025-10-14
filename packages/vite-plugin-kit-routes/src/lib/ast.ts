@@ -32,9 +32,9 @@ export const getMethodsOfServerFiles = (pathFile: string) => {
 					if (
 						declaration.id &&
 						declaration.id.name &&
-						!JSON.stringify(declaration.id.name).startsWith('_')
+						!String(declaration.id.name).startsWith('_')
 					) {
-						exportedNames.push(JSON.stringify(declaration.id.name))
+						exportedNames.push(String(declaration.id.name))
 					}
 				}
 
@@ -43,7 +43,7 @@ export const getMethodsOfServerFiles = (pathFile: string) => {
 				if (specifiers) {
 					specifiers.forEach((specifier) => {
 						if (specifier.exported.name) {
-							exportedNames.push(JSON.stringify(specifier.exported.name))
+							exportedNames.push(String(specifier.exported.name))
 						}
 					})
 				}
