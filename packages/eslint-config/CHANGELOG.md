@@ -1,5 +1,19 @@
 # eslint-config-kitql
 
+## 0.8.0-next.0
+
+### Minor Changes
+
+- [#1099](https://github.com/jycouet/kitql/pull/1099)
+  [`8dfa8c6`](https://github.com/jycouet/kitql/commit/8dfa8c6c3957cd1a9fb51d77d02ffc9751aa33b8)
+  Thanks [@jycouet](https://github.com/jycouet)! - starting the transition to `oxc` (adding a flag
+  `--ox`)
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @kitql/helpers@0.8.13
+
 ## 0.7.3
 
 ### Patch Changes
