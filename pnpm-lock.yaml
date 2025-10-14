@@ -222,6 +222,12 @@ importers:
       esbuild:
         specifier: catalog:tooling
         version: 0.25.0
+      oxlint:
+        specifier: catalog:linting-oxc
+        version: 1.23.0(oxlint-tsgolint@0.2.0)
+      oxlint-tsgolint:
+        specifier: catalog:linting-oxc
+        version: 0.2.0
       prettier:
         specifier: catalog:linting
         version: 3.6.1

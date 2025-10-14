@@ -1,6 +1,12 @@
 {
 	"$schema": "./node_modules/oxlint/configuration_schema.json",
 	"rules": {
-		"no-unused-vars": ["error", { "caughtErrors": "none", "argsIgnorePattern": "^_" }]
+		"no-unused-vars": ["error", { "caughtErrors": "none", "argsIgnorePattern": "^_", "varsIgnorePattern": "^_" }],
+		"no-console": [
+			"error",
+			{
+				"allow": ["info", "warn", "error", "time", "timeEnd", "dir"]
+			}
+		]
 	}
 }

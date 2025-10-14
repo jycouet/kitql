@@ -80,9 +80,11 @@ async function customSpawn(/** @type {string} */ cmd) {
 	//   console.error('stderr chunk: ' + chunk)
 	//   error += chunk
 	// }
-	const exitCode = await new Promise((resolve, _) => {
+	const exitCode = await new Promise((resolve, reject) => {
 		child.on('close', resolve)
+		child.on('error', reject)
 	})
+	
 
 	if (exitCode) {
 		// throw new Error(`subprocess error exit ${exitCode}, ${error}`)
@@ -288,7 +290,7 @@ async function lintRun() {
 			` ${glob}`
 	}
 
-	spinner.text = verbose ? 'lint ' + gray(`(${cmdLint})`) : 'lint'
+	spinner.text = verbose ? 'lint ' + gray(`(${cmdLint}) `) : 'lint '
 
 	const result_lint = await customSpawn(cmdLint)
 
@@ -309,7 +311,7 @@ async function formatRun() {
 		// exec
 		` ${glob}`
 
-	spinner.text = verbose ? 'format ' + gray(`(${cmdFormat})`) : 'format'
+	spinner.text = verbose ? 'format ' + gray(`(${cmdFormat}) `) : 'format '
 
 	const result_format = await customSpawn(cmdFormat)
 
