@@ -1,4 +1,10 @@
 {
 	"$schema": "./node_modules/oxlint/configuration_schema.json",
-	"extends": ["./packages/eslint-config/.oxlintrc.json"]
+	"extends": ["./packages/eslint-config/.oxlintrc.json"],
+	"plugins": ["unicorn", "typescript", "oxc"],
+	"jsPlugins": ["eslint-plugin-svelte"],
+	"categories": {},
+	"rules": {},
+	"globals": {},
+	"ignorePatterns": []
 }

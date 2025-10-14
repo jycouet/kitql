@@ -29,8 +29,12 @@ export const getMethodsOfServerFiles = (pathFile: string) => {
 
 				// Check for function declarations
 				if (declaration?.type === 'FunctionDeclaration') {
-					if (declaration.id && declaration.id.name && !String(declaration.id.name).startsWith('_')) {
-						exportedNames.push(String(declaration.id.name))
+					if (
+						declaration.id &&
+						declaration.id.name &&
+						!JSON.stringify(declaration.id.name).startsWith('_')
+					) {
+						exportedNames.push(JSON.stringify(declaration.id.name))
 					}
 				}
 
@@ -39,7 +43,7 @@ export const getMethodsOfServerFiles = (pathFile: string) => {
 				if (specifiers) {
 					specifiers.forEach((specifier) => {
 						if (specifier.exported.name) {
-							exportedNames.push(String(specifier.exported.name))
+							exportedNames.push(JSON.stringify(specifier.exported.name))
 						}
 					})
 				}
