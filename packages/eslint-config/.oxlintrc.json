@@ -1,5 +1,7 @@
 {
 	"$schema": "./node_modules/oxlint/configuration_schema.json",
+	"plugins": ["unicorn", "typescript", "oxc"],
+	"jsPlugins": ["eslint-plugin-svelte", "eslint-config-prettier", "eslint-plugin-unused-imports"],
 	"rules": {
 		"no-unused-vars": [
 			"error",
@@ -11,6 +13,6 @@
 				"allow": ["info", "warn", "error", "time", "timeEnd", "dir"]
 			}
 		],
-		 "@typescript-eslint/no-redundant-type-constituents": "off"
+		"@typescript-eslint/no-redundant-type-constituents": "off"
 	}
 }
