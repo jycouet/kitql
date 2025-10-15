@@ -39,7 +39,7 @@ jobs:
       run_install: false
 
    - name: 🛠️ node setup
-     uses: actions/setup-node@v4
+     uses: actions/setup-node@v6
      with:
       node-version: 24.10.0
       cache: pnpm
