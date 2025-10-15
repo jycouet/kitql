@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { enhance } from '$app/forms'
-	import { page } from '$app/stores'
+	import { page } from '$app/state'
 
 	import { route } from '$lib/ROUTES.js'
 
@@ -10,15 +10,15 @@
 
 	let { form }: Props = $props()
 
-	const siteId = $page.params.siteId
-	const contractId = $page.params.contractId
+	const siteId = page.params.siteId!
+	const contractId = page.params.contractId!
 
 	// 🤞 before, hardcoded string, error prone
 	// const action =  `/en/site_contract/${siteId}-${contractId}?/send`
 
 	// ✅ after, typechecked route, no more errors
 	const action = route('send /site_contract/[siteId]-[contractId]', {
-		lang: $page.params.lang,
+		lang: page.params.lang,
 		siteId,
 		contractId,
 		extra: 'A',

@@ -10,7 +10,7 @@
 
 	let { form }: Props = $props()
 
-	const id = $page.params.id
+	const id = $page.params.id!
 
 	const action = route('default /contract/[id]', {
 		lang: $page.params.lang,
