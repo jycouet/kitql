@@ -1,5 +1,40 @@
 # eslint-config-kitql
 
+## 0.8.0-next.1
+
+### Patch Changes
+
+- [#1101](https://github.com/jycouet/kitql/pull/1101)
+  [`a1df92f`](https://github.com/jycouet/kitql/commit/a1df92f80185e0ddd562951cf5be5e434fa9ba89)
+  Thanks [@jycouet](https://github.com/jycouet)! - `--oxt` for type-aware
+
+- Updated dependencies []:
+  - @kitql/helpers@0.8.13
+
+## 0.8.0-next.0
+
+### Minor Changes
+
+- [#1099](https://github.com/jycouet/kitql/pull/1099)
+  [`8dfa8c6`](https://github.com/jycouet/kitql/commit/8dfa8c6c3957cd1a9fb51d77d02ffc9751aa33b8)
+  Thanks [@jycouet](https://github.com/jycouet)! - starting the transition to `oxc` (adding a flag
+  `--ox`)
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @kitql/helpers@0.8.13
+
+## 0.7.3
+
+### Patch Changes
+
+- [`6267502`](https://github.com/jycouet/kitql/commit/62675020a4148fcea7a80e65d98ce063a7fcc63a)
+  Thanks [@jycouet](https://github.com/jycouet)! - follow deps bumps
+
+- Updated dependencies []:
+  - @kitql/helpers@0.8.13
+
 ## 0.7.2
 
 ### Patch Changes

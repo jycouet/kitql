@@ -26,7 +26,7 @@ jobs:
      ]
   steps:
    - name: 🎉 Checkout Repository
-     uses: actions/checkout@v4
+     uses: actions/checkout@v5
      with:
       # This makes Actions fetch all Git history so that Changesets can generate changelogs with the correct commits
       fetch-depth: 0
@@ -41,7 +41,7 @@ jobs:
    - name: 🛠️ node setup
      uses: actions/setup-node@v4
      with:
-      node-version: 24.2.0
+      node-version: 24.10.0
       cache: pnpm
 
    - name: 🧑‍💻 install
@@ -58,3 +58,18 @@ jobs:
 
    - name: 👌 Run Tests
      run: pnpm -F ${{ matrix.prj }} test:ci
+
+ diff_dependencies:
+  runs-on: ubuntu-latest
+  permissions:
+   contents: read
+   pull-requests: write
+  steps:
+   - name: Checkout repository
+     uses: actions/checkout@v5
+     with:
+      fetch-depth: 0
+   - name: Create Diff
+     uses: e18e/action-dependency-diff@v1
+     with:
+      duplicate-threshold: '3'

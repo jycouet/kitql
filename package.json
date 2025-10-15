@@ -1,16 +1,16 @@
 {
   "name": "kitql",
   "version": "0.0.1",
+  "type": "module",
   "author": "jycouet <jycouet@gmail.com>",
   "license": "MIT",
-  "type": "module",
   "scripts": {
     "build": "pnpm -F \"!docs\" build",
     "release:version": "npm run changeset version",
     "release": "npm run build && changeset publish --verbose",
     "reset": "git clean -xdf",
-    "lint": "kitql-lint",
-    "format": "kitql-lint --format",
+    "lint": "kitql-lint --oxt",
+    "format": "kitql-lint --oxt --format",
     "up-dep": "pnpm -r up --latest"
   },
   "devDependencies": {
@@ -18,11 +18,10 @@
     "@changesets/cli": "catalog:lib-author-helper",
     "@vitest/coverage-v8": "catalog:testing",
     "esbuild": "catalog:tooling",
-    "prettier": "catalog:linting",   
+    "oxlint": "catalog:linting-oxc",
+    "oxlint-tsgolint": "catalog:linting-oxc",
+    "prettier": "catalog:linting",
     "rimraf": "catalog:tooling",
     "vitest": "catalog:testing"
-  },
-  "engines": {
-    "node": ">=22.12.0"
   }
 }

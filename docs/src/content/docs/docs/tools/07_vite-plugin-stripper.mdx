@@ -23,7 +23,7 @@ import { stripper } from 'vite-plugin-stripper'
 export default defineConfig({
 	plugins: [
 		// To strip `@BackendMethod` from your browser bundle
-		stripper({ strip: ['BackendMethod'] }),
+		stripper({ strip: [{ decorator: 'BackendMethod' }] }),
 		sveltekit(),
 	],
 })
