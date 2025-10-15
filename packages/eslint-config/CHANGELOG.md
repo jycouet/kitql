@@ -1,5 +1,15 @@
 # eslint-config-kitql
 
+## 0.8.0-next.2
+
+### Patch Changes
+
+- [`ebb6e62`](https://github.com/jycouet/kitql/commit/ebb6e62a218f88b522b9b5b143dba71d6792575c)
+  Thanks [@jycouet](https://github.com/jycouet)! - bump all eslint deps
+
+- Updated dependencies []:
+  - @kitql/helpers@0.8.13
+
 ## 0.8.0-next.1
 
 ### Patch Changes
