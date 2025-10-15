@@ -14,7 +14,7 @@
 		on:change={() => {
 			goto(
 				route('/[u+d83e][u+dd2a]/[emoji]/[u+2b50]', {
-					emoji: page.params.emoji,
+					emoji: page.params.emoji!,
 				}),
 			)
 		}}
