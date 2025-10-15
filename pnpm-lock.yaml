@@ -85,8 +85,8 @@ catalogs:
       specifier: 3.12.4
       version: 3.12.4
     eslint-plugin-unused-imports:
-      specifier: 4.1.4
-      version: 4.1.4
+      specifier: 4.2.0
+      version: 4.2.0
     globals:
       specifier: 16.4.0
       version: 16.4.0
@@ -308,7 +308,7 @@ importers:
         version: 3.12.4(eslint@9.37.0(jiti@1.21.7))(svelte@5.40.0)(ts-node@10.9.2(@types/node@22.13.9)(typescript@5.9.2))
       eslint-plugin-unused-imports:
         specifier: catalog:linting
-        version: 4.1.4(@typescript-eslint/eslint-plugin@8.46.1(@typescript-eslint/parser@8.46.1(eslint@9.37.0(jiti@1.21.7))(typescript@5.9.2))(eslint@9.37.0(jiti@1.21.7))(typescript@5.9.2))(eslint@9.37.0(jiti@1.21.7))
+        version: 4.2.0(@typescript-eslint/eslint-plugin@8.46.1(@typescript-eslint/parser@8.46.1(eslint@9.37.0(jiti@1.21.7))(typescript@5.9.2))(eslint@9.37.0(jiti@1.21.7))(typescript@5.9.2))(eslint@9.37.0(jiti@1.21.7))
       globals:
         specifier: catalog:linting
         version: 16.4.0
@@ -2765,8 +2765,8 @@ packages:
       svelte:
         optional: true
 
-  eslint-plugin-unused-imports@4.1.4:
-    resolution: {integrity: sha512-YptD6IzQjDardkl0POxnnRBhU1OEePMV0nd6siHaRBbd+lyh6NAhFEobiznKU7kTsSsDeSD62Pe7kAM1b7dAZQ==}
+  eslint-plugin-unused-imports@4.2.0:
+    resolution: {integrity: sha512-hLbJ2/wnjKq4kGA9AUaExVFIbNzyxYdVo49QZmKCnhk5pc9wcYRbfgLHvWJ8tnsdcseGhoUAddm9gn/lt+d74w==}
     peerDependencies:
       '@typescript-eslint/eslint-plugin': ^8.0.0-0 || ^7.0.0 || ^6.0.0 || ^5.0.0
       eslint: ^9.0.0 || ^8.0.0
@@ -7551,7 +7551,7 @@ snapshots:
     transitivePeerDependencies:
       - ts-node
 
-  eslint-plugin-unused-imports@4.1.4(@typescript-eslint/eslint-plugin@8.46.1(@typescript-eslint/parser@8.46.1(eslint@9.37.0(jiti@1.21.7))(typescript@5.9.2))(eslint@9.37.0(jiti@1.21.7))(typescript@5.9.2))(eslint@9.37.0(jiti@1.21.7)):
+  eslint-plugin-unused-imports@4.2.0(@typescript-eslint/eslint-plugin@8.46.1(@typescript-eslint/parser@8.46.1(eslint@9.37.0(jiti@1.21.7))(typescript@5.9.2))(eslint@9.37.0(jiti@1.21.7))(typescript@5.9.2))(eslint@9.37.0(jiti@1.21.7)):
     dependencies:
       eslint: 9.37.0(jiti@1.21.7)
     optionalDependencies:
