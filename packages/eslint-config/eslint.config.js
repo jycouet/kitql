@@ -174,8 +174,14 @@ const othersRules = () => {
 }
 
 /**
+ * @typedef {Object} OxlintConfig
+ * @property {boolean} [enable] - Whether to enable oxlint
+ */
+
+/**
  * @typedef {Object} KitqlOptions
  * @property {PnpmCatalogsConfig} [pnpmCatalogs] - Configuration object for pnpm catalogs
+ * @property {OxlintConfig} [oxlint] - Configuration object for oxlint
  */
 
 /**
@@ -186,15 +192,24 @@ export const kitql = (options = {}) => {
 	const pnpmCatalogsConfig = options?.pnpmCatalogs ?? { enable: false }
 	const pnpmCatalogsEnabled = pnpmCatalogsConfig.enable !== false
 
-	const pathOxlintrc = findFileOrUp('.oxlintrc.json') ?? './.oxlintrc.json'
-
-	return [
-		//
+	const arr = [
+		// default rules
 		rulePrettierIgnore({ pnpmCatalogsEnabled }),
 		...othersRules(),
-		...(pnpmCatalogsEnabled ? rulePnpmCatalogs(pnpmCatalogsConfig) : []),
-		...oxlint.buildFromOxlintConfigFile(pathOxlintrc),
 	]
+
+	if (pnpmCatalogsEnabled) {
+		arr.push(...rulePnpmCatalogs(pnpmCatalogsConfig))
+	}
+
+	const oxlintConfig = options?.oxlint ?? { enable: false }
+	const oxlintEnabled = oxlintConfig.enable !== false
+	if (oxlintEnabled) {
+		const pathOxlintrc = findFileOrUp('.oxlintrc.json') ?? './.oxlintrc.json'
+		arr.push(...oxlint.buildFromOxlintConfigFile(pathOxlintrc))
+	}
+
+	return arr
 }
 
 /** @type {import('eslint').Linter.Config[]} */
