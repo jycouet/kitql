@@ -4,6 +4,7 @@
  * Keeping the dependency to the package anyway.
  */
 // @ts-nocheck
+/* oxlint-disable */
 
 const { hasOwnProperty } = Object.prototype
 

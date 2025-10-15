@@ -1,6 +1,7 @@
 import { includeIgnoreFile } from '@eslint/compat'
 import js from '@eslint/js'
 import prettier from 'eslint-config-prettier'
+import oxlint from 'eslint-plugin-oxlint'
 import pluginPnpm from 'eslint-plugin-pnpm'
 import svelte from 'eslint-plugin-svelte'
 import unusedImports from 'eslint-plugin-unused-imports'
@@ -89,7 +90,7 @@ const othersRules = () => {
 		},
 		...ts.configs.recommended,
 		...svelte.configs.recommended,
-		prettier,
+		{ name: 'eslint/prettier', ...prettier },
 		...svelte.configs.prettier,
 		{
 			name: '@kitql:languages',
@@ -168,16 +169,6 @@ const othersRules = () => {
 	]
 }
 
-/** @type {import('eslint').Linter.Config[]} */
-const config = [
-	//
-	rulePrettierIgnore({ pnpmCatalogsEnabled: true }),
-	...othersRules(),
-	...rulePnpmCatalogs(),
-]
-
-export default config
-
 /**
  * @typedef {Object} KitqlOptions
  * @property {PnpmCatalogsConfig} [pnpmCatalogs] - Configuration object for pnpm catalogs
@@ -191,10 +182,18 @@ export const kitql = (options = {}) => {
 	const pnpmCatalogsConfig = options?.pnpmCatalogs ?? { enable: false }
 	const pnpmCatalogsEnabled = pnpmCatalogsConfig.enable !== false
 
+	const pathOxlintrc = findFileOrUp('.oxlintrc.json') ?? './.oxlintrc.json'
+
 	return [
 		//
 		rulePrettierIgnore({ pnpmCatalogsEnabled }),
 		...othersRules(),
 		...(pnpmCatalogsEnabled ? rulePnpmCatalogs(pnpmCatalogsConfig) : []),
+		...oxlint.buildFromOxlintConfigFile(pathOxlintrc),
 	]
 }
+
+/** @type {import('eslint').Linter.Config[]} */
+const config = kitql({ pnpmCatalogs: { enable: true } })
+
+export default config

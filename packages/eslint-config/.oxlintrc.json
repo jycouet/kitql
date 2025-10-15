@@ -1,0 +1,19 @@
+{
+	"$schema": "./node_modules/oxlint/configuration_schema.json",
+	"plugins": ["unicorn", "typescript", "oxc"],
+	"jsPlugins": ["eslint-plugin-svelte", "eslint-plugin-unused-imports"],
+	"rules": {
+		"no-unused-vars": [
+			"error",
+			{ "caughtErrors": "none", "argsIgnorePattern": "^_", "varsIgnorePattern": "^_" }
+		],
+		"no-console": [
+			"error",
+			{
+				"allow": ["info", "warn", "error", "time", "timeEnd", "dir"]
+			}
+		],
+		"@typescript-eslint/no-redundant-type-constituents": "off",
+		"no-base-to-string": "off"
+	}
+}
