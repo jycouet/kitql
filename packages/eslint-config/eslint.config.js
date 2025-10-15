@@ -164,6 +164,10 @@ const othersRules = () => {
 				'svelte/no-inner-declarations': 'off',
 
 				'svelte/require-each-key': 'warn',
+
+				// Link to: https://github.com/sveltejs/eslint-plugin-svelte/issues/1353
+				// and      https://github.com/sveltejs/eslint-plugin-svelte/issues/1352
+				'svelte/no-navigation-without-resolve': 'off',
 			},
 		},
 	]
