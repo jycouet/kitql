@@ -9,7 +9,7 @@ import { Aside } from '@astrojs/starlight/components'
 	_**KitQL** itself is not a library, it's "nothing" but a collection of standalone libraries._
 </Aside>
 
-To have linting & formating in your project, you need 20 dep, files, ... and it's a pain to maintain
+To have linting & formatting in your project, you need 20 dep, files, ... and it's a pain to maintain
 in each project.
 
 Here the idea is to reduce as much as possible the config on your end. _(Of course, you can still
@@ -18,16 +18,23 @@ tune things)_
 ## Installation
 
 ```sh
-npm i -D @kitql/eslint-config
+npm i -D @kitql/eslint-config eslint prettier
 ```
 
-add this to your `.npmrc`
+You need to install the peer dependencies you want to use (by default: `eslint`, `prettier`).
+
+_You can add `oxlint` & `tsgolint` to your project if you want to use them._
+
+For prettier dependencies of @kitql/eslint-config, you can add this to your `.npmrc`:
 
 ```txt
-public-hoist-pattern[]=*eslint*
 public-hoist-pattern[]=*prettier*
-public-hoist-pattern[]=*globals*
 ```
+
+<Aside type="tip">
+	HELP WANTED: What's the next step for this? (as `public-hoist-pattern` will be removed in the
+	future)
+</Aside>
 
 ### eslint config
 

@@ -32,7 +32,7 @@
 		"format"
 	],
 	"scripts": {
-		"format": "node ./cmd.js -f -d --verbose",
+		"format": "node ./cmd.js -f -t eslint,prettier,oxlint",
 		"format:example": "kitql-lint --format",
 		"inspector": "npx @eslint/config-inspector",
 		"lint": "node ./cmd.js --verbose -p none",
@@ -42,20 +42,26 @@
 		"eslint": "catalog:linting",
 		"oxlint": "catalog:linting-oxc",
 		"oxlint-tsgolint": "catalog:linting-oxc",
-		"prettier": "catalog:formating"
+		"prettier": "catalog:formatting"
 	},
 	"peerDependenciesMeta": {
+		"eslint": {
+			"optional": true
+		},
 		"oxlint": {
 			"optional": true
 		},
 		"oxlint-tsgolint": {
+			"optional": true
+		},
+		"prettier": {
 			"optional": true
 		}
 	},
 	"dependencies": {
 		"@eslint/compat": "catalog:linting",
 		"@eslint/js": "catalog:linting",
-		"@ianvs/prettier-plugin-sort-imports": "^4.7.0",
+		"@ianvs/prettier-plugin-sort-imports": "catalog:formatting",
 		"@kitql/helpers": "workspace:*",
 		"@types/eslint": "catalog:linting",
 		"@typescript-eslint/parser": "catalog:linting",
@@ -68,9 +74,9 @@
 		"globals": "catalog:linting",
 		"jsonc-eslint-parser": "catalog:linting",
 		"ora": "catalog:tooling",
-		"prettier-plugin-sh": "catalog:formating",
-		"prettier-plugin-svelte": "catalog:formating",
-		"prettier-plugin-tailwindcss": "catalog:formating",
+		"prettier-plugin-sh": "catalog:formatting",
+		"prettier-plugin-svelte": "catalog:formatting",
+		"prettier-plugin-tailwindcss": "catalog:formatting",
 		"typescript-eslint": "catalog:linting",
 		"yaml-eslint-parser": "catalog:linting"
 	},
