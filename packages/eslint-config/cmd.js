@@ -279,7 +279,7 @@ async function lintRunOx() {
 		`${format ? ' --fix' : ''}` +
 		` ${glob}`
 
-	spinner.text = verbose ? 'lint ' + gray(`(${cmdLint}) `) : 'lint '
+	spinner.text = 'linting ' + gray(`(${verbose ? cmdLint : 'oxc'}) `)
 
 	const result_lint = await customSpawn(cmdLint)
 
@@ -303,7 +303,7 @@ async function lintRun() {
 			// exec
 			` ${glob}`
 
-		spinner.text = verbose ? 'lint ' + gray(`(${cmdLint}) `) : 'lint '
+		spinner.text = 'linting ' + gray(`(${verbose ? cmdLint : 'eslint'}) `)
 
 		const result_lint = await customSpawn(cmdLint)
 
@@ -327,7 +327,7 @@ async function formatRun() {
 		// exec
 		` ${glob}`
 
-	spinner.text = verbose ? 'format ' + gray(`(${cmdFormat}) `) : 'format '
+	spinner.text = 'formating ' + gray(`(${verbose ? cmdFormat : 'prettier'}) `)
 
 	const result_format = await customSpawn(cmdFormat)
 
