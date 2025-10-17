@@ -1,5 +1,14 @@
 # eslint-config-kitql
 
+## 0.8.0-next.4
+
+### Patch Changes
+
+- [#1126](https://github.com/jycouet/kitql/pull/1126) [`b2dbbb2`](https://github.com/jycouet/kitql/commit/b2dbbb2800fa20d03c470d7d2116c92f29d01526) Thanks [@jycouet](https://github.com/jycouet)! - improve logging
+
+- Updated dependencies []:
+  - @kitql/helpers@0.8.13
+
 ## 0.8.0-next.3
 
 ### Patch Changes
