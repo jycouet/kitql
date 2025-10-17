@@ -9,8 +9,8 @@ describe('getRelativePackagePath', () => {
 	})
 
 	it('should get package path with / and in root', async () => {
-		const path = getRelativePackagePath('@theguild/prettier-config')
-		expect(path).toMatchInlineSnapshot(`"../../node_modules/@theguild/prettier-config"`)
+		const path = getRelativePackagePath('@sveltejs/kit')
+		expect(path).toMatchInlineSnapshot(`"node_modules/@sveltejs/kit"`)
 	})
 
 	it('should get null as the package doesn t exist', async () => {
