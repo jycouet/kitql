@@ -9,7 +9,7 @@ const config = {
 		adapter: adapter(),
 		csrf: {
 			// checkOrigin: false,
-			trustedOrigins: ['*']
+			trustedOrigins: ['*'],
 		},
 	},
 }
