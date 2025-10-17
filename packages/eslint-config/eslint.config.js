@@ -213,6 +213,6 @@ export const kitql = (options = {}) => {
 }
 
 /** @type {import('eslint').Linter.Config[]} */
-const config = kitql({ pnpmCatalogs: { enable: true } })
+const config = kitql()
 
 export default config

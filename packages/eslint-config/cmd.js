@@ -9,7 +9,10 @@ import { bgBlueBright, bgGreen, bgRedBright, gray, green, red } from '@kitql/hel
 
 import { findFileOrUp } from './helper/findFileOrUp.js'
 
-// df
+/** @type {('eslint' | 'prettier' | 'oxlint' | 'tsgolint')[]} */
+const TOOLS_ALL = ['eslint', 'prettier', 'oxlint', 'tsgolint']
+const TOOLS_DEFAULT = TOOLS_ALL.slice(0, 2)
+
 const spinner = ora({
 	// hideCursor: true,
 	prefixText: bgBlueBright(` kitql-lint `),
@@ -18,25 +21,21 @@ const spinner = ora({
 spinner.start()
 
 program.addOption(new Option('-f, --format', 'format'))
-program.addOption(new Option('-g, --glob <type>', 'file/dir/glob (. by default)').default('.'))
-program.addOption(new Option('--lint-only', 'only run lint').default(false))
-program.addOption(new Option('--format-only', 'only run format').default(false))
-program.addOption(new Option('--verbose', 'add more logs').default(false))
-program.addOption(new Option('--ox', 'using oxc tooling').default(false))
-program.addOption(new Option('--oxt', 'using oxc & type aware').default(false))
+program.addOption(new Option('-g, --glob <type>', 'file/dir/glob').default('.'))
+program.addOption(
+	new Option('-t, --tools <type>', 'tools to use (eslint, prettier, oxlint, tsgolint)').default(
+		TOOLS_DEFAULT.join(','),
+	),
+)
+program.addOption(new Option('-v, --verbose', 'add more logs').default(false))
 program.addOption(
 	new Option('-d, --diff-only', 'only check files changed against base branch').default(false),
 )
 program.addOption(
-	new Option('--base-branch <type>', 'base branch to compare against (default: main)').default(
-		'main',
-	),
+	new Option('-b, --base-branch <type>', 'base branch to compare against').default('main'),
 )
 program.addOption(
-	new Option(
-		'-p, --prefix <type>',
-		'prefix by with "pnpm" or "npm" or "none" ("none" by default)',
-	).default('none'),
+	new Option('-p, --prefix <type>', 'prefix by with "pnpm" or "npm" or "none"').default('none'),
 )
 program.parse(process.argv)
 const options_cli = program.opts()
@@ -44,16 +43,13 @@ const options_cli = program.opts()
 const pathPrettierIgnore = findFileOrUp('.prettierignore')
 const pathPrettier_js = findFileOrUp('.prettierrc.js')
 
-const format = options_cli.format ?? false
-let glob = options_cli.glob ?? '.'
-const verbose = options_cli.verbose ?? false
-const pre = options_cli.prefix ?? 'none'
-const lintOnly = options_cli.lintOnly ?? false
-const formatOnly = options_cli.formatOnly ?? false
-const diffOnly = options_cli.diffOnly ?? false
-const baseBranch = options_cli.baseBranch ?? 'main'
-const using_ox = options_cli.ox ?? false
-const using_oxt = options_cli.oxt ?? false
+const format = /** @type {boolean} */ (options_cli.format ?? false)
+let glob = /** @type {string} */ (options_cli.glob ?? '.')
+const verbose = /** @type {boolean} */ (options_cli.verbose ?? false)
+const pre = /** @type {string} */ (options_cli.prefix ?? 'none')
+const tools = /** @type {typeof TOOLS_ALL} */ (options_cli.tools.split(',') ?? TOOLS_DEFAULT)
+const diffOnly = /** @type {boolean} */ (options_cli.diffOnly ?? false)
+const baseBranch = /** @type {string} */ (options_cli.baseBranch ?? 'main')
 
 let preToUse = ''
 if (pre === 'npm') {
@@ -278,7 +274,7 @@ async function getDiffFiles() {
 async function lintRunOx() {
 	const cmdLint =
 		`oxlint` +
-		`${using_oxt ? ' --type-aware' : ''}` +
+		`${tools.includes('tsgolint') ? ' --type-aware' : ''}` +
 		// format or not
 		`${format ? ' --fix' : ''}` +
 		` ${glob}`
@@ -291,26 +287,30 @@ async function lintRunOx() {
 }
 
 async function lintRun() {
-	if (using_ox || using_oxt) {
+	if (tools.includes('oxlint')) {
 		const result_lint = await lintRunOx()
 		if (typeof result_lint === 'object' && 'status' in result_lint && result_lint.status) {
 			return result_lint
 		}
 	}
 
-	const cmdLint =
-		preToUse +
-		`eslint --no-warn-ignored` +
-		// format or not
-		`${format ? ' --fix' : ''}` +
-		// exec
-		` ${glob}`
+	if (tools.includes('eslint')) {
+		const cmdLint =
+			preToUse +
+			`eslint --no-warn-ignored` +
+			// format or not
+			`${format ? ' --fix' : ''}` +
+			// exec
+			` ${glob}`
 
-	spinner.text = verbose ? 'lint ' + gray(`(${cmdLint}) `) : 'lint '
+		spinner.text = verbose ? 'lint ' + gray(`(${cmdLint}) `) : 'lint '
 
-	const result_lint = await customSpawn(cmdLint)
+		const result_lint = await customSpawn(cmdLint)
 
-	return result_lint
+		return result_lint
+	}
+
+	return ''
 }
 
 async function formatRun() {
@@ -361,7 +361,7 @@ if (diffOnly) {
 	}
 }
 
-if (!formatOnly && glob) {
+if ((tools.includes('eslint') || tools.includes('oxlint')) && glob) {
 	const lintStart = performance.now()
 	const lintCode = await lintRun()
 	const lintTook = performance.now() - lintStart
@@ -373,7 +373,7 @@ if (!formatOnly && glob) {
 	}
 }
 
-if (!lintOnly && glob) {
+if (tools.includes('prettier') && glob) {
 	const formatStart = performance.now()
 	const formatCode = await formatRun()
 	const formatTook = performance.now() - formatStart

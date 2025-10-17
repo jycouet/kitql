@@ -9,7 +9,7 @@ import { Aside } from '@astrojs/starlight/components'
 	_**KitQL** itself is not a library, it's "nothing" but a collection of standalone libraries._
 </Aside>
 
-To have eslint & prettier in your project, you need 20 dep, files, ... and it's a pain to maintain
+To have linting & formating in your project, you need 20 dep, files, ... and it's a pain to maintain
 in each project.
 
 Here the idea is to reduce as much as possible the config on your end. _(Of course, you can still
@@ -95,7 +95,7 @@ yarn.lock
 // package.json
 scripts: {
   "//// ---- BEST PRACTICES ---- ////": "",
-  "format": "kitql-lint -f",
   "lint": "kitql-lint",
+  "format": "kitql-lint -f",
 }
 ```
