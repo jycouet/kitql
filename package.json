@@ -9,8 +9,8 @@
     "release:version": "npm run changeset version",
     "release": "npm run build && changeset publish --verbose",
     "reset": "git clean -xdf",
-    "lint": "kitql-lint --oxt",
-    "format": "kitql-lint --oxt --format",
+    "lint": "kitql-lint",
+    "format": "kitql-lint --format",
     "up-dep": "pnpm -r up --latest"
   },
   "devDependencies": {
@@ -20,7 +20,7 @@
     "esbuild": "catalog:tooling",
     "oxlint": "catalog:linting-oxc",
     "oxlint-tsgolint": "catalog:linting-oxc",
-    "prettier": "catalog:linting",
+    "prettier": "catalog:formating",
     "rimraf": "catalog:tooling",
     "vitest": "catalog:testing"
   }

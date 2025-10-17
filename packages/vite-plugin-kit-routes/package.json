@@ -26,8 +26,8 @@
     "check:watch": "svelte-check --tsconfig ./tsconfig.json --watch",
     "test": "vitest",
     "test:ci": "vitest run --coverage",
-    "lint": "kitql-lint --oxt",
-    "format": "kitql-lint --oxt --format"
+    "lint": "kitql-lint",
+    "format": "kitql-lint --format"
   },
   "bin": {
     "kit-routes": "./esm/bin.js"

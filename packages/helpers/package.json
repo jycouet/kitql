@@ -30,8 +30,8 @@
     "check:watch": "svelte-check --tsconfig ./tsconfig.json --watch",
     "test": "TZ=UTC vitest",
     "test:ci": "TZ=UTC vitest run --coverage",
-    "lint": "kitql-lint --oxt -p pnpm",
-    "format": "kitql-lint --oxt --format"
+    "lint": "kitql-lint -p pnpm",
+    "format": "kitql-lint --format"
   },
   "devDependencies": {
     "@sveltejs/adapter-auto": "catalog:sveltekit",

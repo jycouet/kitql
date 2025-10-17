@@ -1,14 +1,14 @@
-import prettierConfig from '@theguild/prettier-config'
-
 const config = {
-	...prettierConfig,
 	tabWidth: 1,
 	useTabs: true,
 	singleQuote: true,
+	trailingComma: 'all',
 	semi: false,
 	arrowParens: 'always',
+	printWidth: 100,
 	plugins: [
-		...prettierConfig.plugins,
+		'@ianvs/prettier-plugin-sort-imports',
+		'prettier-plugin-sh',
 		'prettier-plugin-svelte',
 		'prettier-plugin-tailwindcss', // MUST come last
 	],
@@ -31,15 +31,15 @@ const config = {
 		'',
 		'^[./]', // inside
 	],
-	overrides: [
-		{
-			files: ['README.md', 'packages/**/README.md'],
-			options: {
-				useTabs: false,
-				tabWidth: 2,
-			},
-		},
-	],
+	// overrides: [
+	// 	{
+	// 		files: ['README.md', 'packages/**/README.md'],
+	// 		options: {
+	// 			useTabs: false,
+	// 			tabWidth: 2,
+	// 		},
+	// 	},
+	// ],
 }
 export default config
 
