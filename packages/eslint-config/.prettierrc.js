@@ -1,11 +1,11 @@
-
-
 const config = {
 	tabWidth: 1,
 	useTabs: true,
 	singleQuote: true,
+	trailingComma: 'all',
 	semi: false,
 	arrowParens: 'always',
+	printWidth: 100,
 	plugins: [
 		'@ianvs/prettier-plugin-sort-imports',
 		'prettier-plugin-sh',
@@ -31,15 +31,15 @@ const config = {
 		'',
 		'^[./]', // inside
 	],
-	overrides: [
-		{
-			files: ['README.md', 'packages/**/README.md'],
-			options: {
-				useTabs: false,
-				tabWidth: 2,
-			},
-		},
-	],
+	// overrides: [
+	// 	{
+	// 		files: ['README.md', 'packages/**/README.md'],
+	// 		options: {
+	// 			useTabs: false,
+	// 			tabWidth: 2,
+	// 		},
+	// 	},
+	// ],
 }
 export default config
 
