@@ -45,17 +45,14 @@ const diffOnly = /** @type {boolean} */ (options_cli.diffOnly ?? false)
 const baseBranch = /** @type {string} */ (options_cli.baseBranch ?? 'main')
 
 const spinner = ora({
-	// hideCursor: true,
 	prefixText: bgBlueBright(` kitql-lint `),
-	// text: 'check config',
 })
 
 function updateSpinnerText(/** @type {string} */ msg) {
 	spinner.text = msg
 	spinner.start()
 }
-const action = format ? 'formatting' : 'checking'
-updateSpinnerText(action)
+updateSpinnerText('Action: ' + green(format ? 'formatting' : 'linting'))
 
 let preToUse = ''
 if (pre === 'npm') {
@@ -285,7 +282,7 @@ async function runOxc(/** @type {string} */ name) {
 		`${format ? ' --fix' : ''}` +
 		` ${glob}`
 
-	updateSpinnerText(`${action} ` + gray(`(${verbose ? cmdLint : name}) `))
+	updateSpinnerText(gray(`${verbose ? cmdLint : name} `))
 
 	const result_lint = await customSpawn(cmdLint)
 
@@ -301,7 +298,7 @@ async function runEslint() {
 		// exec
 		` ${glob}`
 
-	updateSpinnerText(`${action} ` + gray(`(${verbose ? cmd : 'eslint'}) `))
+	updateSpinnerText(gray(`${verbose ? cmd : 'eslint'} `))
 
 	const result_lint = await customSpawn(cmd)
 
@@ -322,7 +319,7 @@ async function runPrettier() {
 		// exec
 		` ${glob}`
 
-	updateSpinnerText(`${action} ` + gray(`(${verbose ? cmdFormat : 'prettier'}) `))
+	updateSpinnerText(gray(`${verbose ? cmdFormat : 'prettier'} `))
 
 	const result_format = await customSpawn(cmdFormat)
 
