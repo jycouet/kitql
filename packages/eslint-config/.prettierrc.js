@@ -1,14 +1,14 @@
-import prettierConfig from '@theguild/prettier-config'
+
 
 const config = {
-	...prettierConfig,
 	tabWidth: 1,
 	useTabs: true,
 	singleQuote: true,
 	semi: false,
 	arrowParens: 'always',
 	plugins: [
-		...prettierConfig.plugins,
+		'@ianvs/prettier-plugin-sort-imports',
+		'prettier-plugin-sh',
 		'prettier-plugin-svelte',
 		'prettier-plugin-tailwindcss', // MUST come last
 	],
