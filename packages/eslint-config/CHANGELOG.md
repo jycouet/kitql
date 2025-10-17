@@ -1,5 +1,17 @@
 # eslint-config-kitql
 
+## 0.8.0-next.3
+
+### Patch Changes
+
+- [#1125](https://github.com/jycouet/kitql/pull/1125) [`3187486`](https://github.com/jycouet/kitql/commit/318748616aff38d2d752d90c052b77866f0e371d) Thanks [@jycouet](https://github.com/jycouet)! - - add new flag `--tools` to specify the tools to use (`eslint`, `prettier`, `oxlint`, `tsgolint`) (default: `eslint`, `prettier`)
+  - [BREAKING] remove `--lint-only` & `--format-only` flags, use `--tools` instead
+
+- [`dd04428`](https://github.com/jycouet/kitql/commit/dd04428ebd73e7c36405722791b053fcef233388) Thanks [@jycouet](https://github.com/jycouet)! - in eslint rules, you can enable oxlint conf with `oxlint.enable`
+
+- Updated dependencies []:
+  - @kitql/helpers@0.8.13
+
 ## 0.8.0-next.2
 
 ### Patch Changes
