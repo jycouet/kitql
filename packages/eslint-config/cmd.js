@@ -13,13 +13,6 @@ import { findFileOrUp } from './helper/findFileOrUp.js'
 const TOOLS_ALL = ['eslint', 'prettier', 'oxlint', 'tsgolint']
 const TOOLS_DEFAULT = TOOLS_ALL.slice(0, 2)
 
-const spinner = ora({
-	// hideCursor: true,
-	prefixText: bgBlueBright(` kitql-lint `),
-	text: 'check config',
-})
-spinner.start()
-
 program.addOption(new Option('-f, --format', 'format'))
 program.addOption(new Option('-g, --glob <type>', 'file/dir/glob').default('.'))
 program.addOption(
@@ -50,6 +43,19 @@ const pre = /** @type {string} */ (options_cli.prefix ?? 'none')
 const tools = /** @type {typeof TOOLS_ALL} */ (options_cli.tools.split(',') ?? TOOLS_DEFAULT)
 const diffOnly = /** @type {boolean} */ (options_cli.diffOnly ?? false)
 const baseBranch = /** @type {string} */ (options_cli.baseBranch ?? 'main')
+
+const spinner = ora({
+	// hideCursor: true,
+	prefixText: bgBlueBright(` kitql-lint `),
+	// text: 'check config',
+})
+
+function updateSpinnerText(/** @type {string} */ msg) {
+	spinner.text = msg
+	spinner.start()
+}
+const action = format ? 'formatting' : 'checking'
+updateSpinnerText(action)
 
 let preToUse = ''
 if (pre === 'npm') {
@@ -92,9 +98,9 @@ async function customSpawn(/** @type {string} */ cmd) {
 
 let filesLength = -1
 async function getDiffFiles() {
-	spinner.text = verbose
-		? 'git diff ' + gray(`(getting changed files against ${baseBranch})`)
-		: 'git diff'
+	updateSpinnerText(
+		verbose ? 'git diff ' + gray(`(getting changed files against ${baseBranch})`) : 'git diff',
+	)
 
 	// First, get the git repository root
 	let gitRootPath = ''
@@ -271,7 +277,7 @@ async function getDiffFiles() {
 	}
 }
 
-async function lintRunOx() {
+async function runOxc(/** @type {string} */ name) {
 	const cmdLint =
 		`oxlint` +
 		`${tools.includes('tsgolint') ? ' --type-aware' : ''}` +
@@ -279,41 +285,30 @@ async function lintRunOx() {
 		`${format ? ' --fix' : ''}` +
 		` ${glob}`
 
-	spinner.text = 'linting ' + gray(`(${verbose ? cmdLint : 'oxc'}) `)
+	updateSpinnerText(`${action} ` + gray(`(${verbose ? cmdLint : name}) `))
 
 	const result_lint = await customSpawn(cmdLint)
 
 	return result_lint
 }
 
-async function lintRun() {
-	if (tools.includes('oxlint')) {
-		const result_lint = await lintRunOx()
-		if (typeof result_lint === 'object' && 'status' in result_lint && result_lint.status) {
-			return result_lint
-		}
-	}
+async function runEslint() {
+	const cmd =
+		preToUse +
+		`eslint --no-warn-ignored` +
+		// format or not
+		`${format ? ' --fix' : ''}` +
+		// exec
+		` ${glob}`
 
-	if (tools.includes('eslint')) {
-		const cmdLint =
-			preToUse +
-			`eslint --no-warn-ignored` +
-			// format or not
-			`${format ? ' --fix' : ''}` +
-			// exec
-			` ${glob}`
+	updateSpinnerText(`${action} ` + gray(`(${verbose ? cmd : 'eslint'}) `))
 
-		spinner.text = 'linting ' + gray(`(${verbose ? cmdLint : 'eslint'}) `)
+	const result_lint = await customSpawn(cmd)
 
-		const result_lint = await customSpawn(cmdLint)
-
-		return result_lint
-	}
-
-	return ''
+	return result_lint
 }
 
-async function formatRun() {
+async function runPrettier() {
 	const cmdFormat =
 		preToUse +
 		`prettier` +
@@ -327,7 +322,7 @@ async function formatRun() {
 		// exec
 		` ${glob}`
 
-	spinner.text = 'formating ' + gray(`(${verbose ? cmdFormat : 'prettier'}) `)
+	updateSpinnerText(`${action} ` + gray(`(${verbose ? cmdFormat : 'prettier'}) `))
 
 	const result_format = await customSpawn(cmdFormat)
 
@@ -348,7 +343,6 @@ const displayTook = () => `${gray('(')}${took.join(gray(', '))}${gray(')')}`
 
 // If changed-only flag is set, get the list of changed files
 if (diffOnly) {
-	spinner.text = 'Checking for changed files'
 	const changedFilesStart = performance.now()
 	const changedFiles = await getDiffFiles()
 	const changedFilesTook = performance.now() - changedFilesStart
@@ -361,27 +355,41 @@ if (diffOnly) {
 	}
 }
 
-if ((tools.includes('eslint') || tools.includes('oxlint')) && glob) {
-	const lintStart = performance.now()
-	const lintCode = await lintRun()
-	const lintTook = performance.now() - lintStart
-	took.push(display('lint', lintTook))
-	if (typeof lintCode === 'object' && 'status' in lintCode && lintCode.status) {
+// yes, when we have tsgolint, we need to run oxlint too...
+if ((tools.includes('oxlint') || tools.includes('tsgolint')) && glob) {
+	const start = performance.now()
+	const name = tools.includes('tsgolint') ? 'oxlint (+type)' : 'oxlint'
+	const code = await runOxc(name)
+	const stepTook = performance.now() - start
+	took.push(display(name, stepTook))
+	if (typeof code === 'object' && 'status' in code && code.status) {
 		spinner.prefixText = bgRedBright(` kitql-lint `)
 		spinner.fail(red(`lint failed, check logs above. ${displayTook()}`))
-		process.exit(lintCode.status)
+		process.exit(code.status)
+	}
+}
+
+if (tools.includes('eslint') && glob) {
+	const start = performance.now()
+	const code = await runEslint()
+	const stepTook = performance.now() - start
+	took.push(display('eslint', stepTook))
+	if (typeof code === 'object' && 'status' in code && code.status) {
+		spinner.prefixText = bgRedBright(` kitql-lint `)
+		spinner.fail(red(`lint failed, check logs above. ${displayTook()}`))
+		process.exit(code.status)
 	}
 }
 
 if (tools.includes('prettier') && glob) {
-	const formatStart = performance.now()
-	const formatCode = await formatRun()
-	const formatTook = performance.now() - formatStart
-	took.push(display('format', formatTook))
-	if (typeof formatCode === 'object' && 'status' in formatCode && formatCode.status) {
+	const start = performance.now()
+	const code = await runPrettier()
+	const stepTook = performance.now() - start
+	took.push(display('prettier', stepTook))
+	if (typeof code === 'object' && 'status' in code && code.status) {
 		spinner.prefixText = bgRedBright(` kitql-lint `)
 		spinner.fail(red(`format failed, check logs above. ${displayTook()}`))
-		process.exit(formatCode.status)
+		process.exit(code.status)
 	}
 }
 
