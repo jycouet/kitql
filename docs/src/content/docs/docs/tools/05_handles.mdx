@@ -45,7 +45,8 @@ const config = {
 		// ... other kit options
 		// disable sveltekit built-in CSRF blocking - this is replaced by `handleCsrf`
 		csrf: {
-			checkOrigin: false,
+			// checkOrigin: false, // old way
+			trustedOrigins: ['*']
 		},
 	},
 }
