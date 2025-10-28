@@ -189,7 +189,7 @@ catalogs:
       specifier: 0.25.0
       version: 0.25.0
     esrap:
-      specifier: 2.1.1
+      specifier: https://pkg.pr.new/sveltejs/esrap@85
       version: 2.1.1
     ora:
       specifier: 9.0.0
@@ -466,7 +466,7 @@ importers:
         version: link:../helpers/dist
       esrap:
         specifier: catalog:tooling
-        version: 2.1.1
+        version: https://pkg.pr.new/sveltejs/esrap@85
       oxc-parser:
         specifier: catalog:tooling
         version: 0.95.0
@@ -503,7 +503,7 @@ importers:
         version: 6.0.1(rollup@4.41.1)
       svelte-check:
         specifier: catalog:svelte
-        version: 4.3.0(picomatch@4.0.3)(svelte@5.40.0)(typescript@5.9.2)
+        version: 4.3.0(picomatch@4.0.2)(svelte@5.40.0)(typescript@5.9.2)
       tslib:
         specifier: catalog:lib-author-helper
         version: 2.8.0
@@ -2865,6 +2865,10 @@ packages:
 
   esrap@2.1.1:
     resolution: {integrity: sha512-ebTT9B6lOtZGMgJ3o5r12wBacHctG7oEWazIda8UlPfA3HD/Wrv8FdXoVo73vzdpwCxNyXjPauyN2bbJzMkB9A==}
+
+  esrap@https://pkg.pr.new/sveltejs/esrap@85:
+    resolution: {tarball: https://pkg.pr.new/sveltejs/esrap@85}
+    version: 2.1.1
 
   esrecurse@4.3.0:
     resolution: {integrity: sha512-KmfKL3b6G+RXvP8N1vr3Tq1kL/oCFgn2NYXEtqP8/L3pKapUA4G8cFVaoF3SU323CD4XypR/ffioHmkti6/Tag==}
@@ -7758,6 +7762,10 @@ snapshots:
       estraverse: 5.3.0
 
   esrap@2.1.1:
+    dependencies:
+      '@jridgewell/sourcemap-codec': 1.5.5
+
+  esrap@https://pkg.pr.new/sveltejs/esrap@85:
     dependencies:
       '@jridgewell/sourcemap-codec': 1.5.5
 
