@@ -13,8 +13,8 @@ catalogs:
       specifier: 5.0.1
       version: 5.0.1
     astro:
-      specifier: 5.14.5
-      version: 5.14.5
+      specifier: 5.15.5
+      version: 5.15.5
     astro-icon:
       specifier: 1.1.5
       version: 1.1.5
@@ -249,7 +249,7 @@ importers:
     dependencies:
       '@astrojs/starlight':
         specifier: catalog:docs
-        version: 0.36.0(astro@5.14.5(@types/node@22.13.9)(jiti@1.21.7)(lightningcss@1.28.2)(rollup@4.41.1)(sass@1.85.1)(terser@5.37.0)(tsx@4.20.3)(typescript@5.9.2)(yaml@2.8.1))
+        version: 0.36.0(astro@5.15.5(@types/node@22.13.9)(jiti@1.21.7)(lightningcss@1.28.2)(rollup@4.41.1)(sass@1.85.1)(terser@5.37.0)(tsx@4.20.3)(typescript@5.9.2)(yaml@2.8.1))
       '@kitql/eslint-config':
         specifier: workspace:*
         version: link:../packages/eslint-config
@@ -258,7 +258,7 @@ importers:
         version: 5.0.1
       astro:
         specifier: catalog:docs
-        version: 5.14.5(@types/node@22.13.9)(jiti@1.21.7)(lightningcss@1.28.2)(rollup@4.41.1)(sass@1.85.1)(terser@5.37.0)(tsx@4.20.3)(typescript@5.9.2)(yaml@2.8.1)
+        version: 5.15.5(@types/node@22.13.9)(jiti@1.21.7)(lightningcss@1.28.2)(rollup@4.41.1)(sass@1.85.1)(terser@5.37.0)(tsx@4.20.3)(typescript@5.9.2)(yaml@2.8.1)
       astro-icon:
         specifier: catalog:docs
         version: 1.1.5
@@ -2163,8 +2163,8 @@ packages:
   astro-icon@1.1.5:
     resolution: {integrity: sha512-CJYS5nWOw9jz4RpGWmzNQY7D0y2ZZacH7atL2K9DeJXJVaz7/5WrxeyIxO8KASk1jCM96Q4LjRx/F3R+InjJrw==}
 
-  astro@5.14.5:
-    resolution: {integrity: sha512-EHt7y3+nHYyKzBats1AL3N4Pyrvqyr+zXBC7njUa9Tfe+gsiHlunaw+lXitTT/DDVwO2R/f/qVG7Xc6rl0b2KQ==}
+  astro@5.15.5:
+    resolution: {integrity: sha512-A56u4H6gFHEb0yRHcGTOADBb7jmEwfDjQpkqVV/Z+ZWlu6mYuwCrIcOUtZjNno0chrRKmOeZWDofW23ql18y3w==}
     engines: {node: 18.20.8 || ^20.3.0 || >=22.0.0, npm: '>=9.6.5', pnpm: '>=7.1.0'}
     hasBin: true
 
@@ -2507,9 +2507,6 @@ packages:
   dequal@2.0.3:
     resolution: {integrity: sha512-0je+qPKHEMohvfRTCEo3CrPG6cAzAYgmzKyxRiYSSDkS6eGJdyVJm7WaYA5ECaAD9wLB2T4EEeymA5aFVcYXCA==}
     engines: {node: '>=6'}
-
-  destr@2.0.3:
-    resolution: {integrity: sha512-2N3BOUU4gYMpTP24s5rF5iP7BDr7uNTCs4ozw3kf/eKfvWSIu93GEBi5m427YoyJoeOzQ5smuu4nNAPGb8idSQ==}
 
   destr@2.0.5:
     resolution: {integrity: sha512-ugFTXCtDZunbzasqBxrK93Ik/DRYsO6S/fedkWEMKqt04xZ4csmnmwGDBAb07QWNaGMAmnTIemsYZCksjATwsA==}
@@ -3791,9 +3788,6 @@ packages:
   node-addon-api@7.1.1:
     resolution: {integrity: sha512-5m3bsyrjFWE1xf7nz7YXdN4udnVtXK6/Yfgn5qnahL6bCkf2yKt4k3nuTKAtT4r3IG8JNR2ncsIMdZuAzJjHQQ==}
 
-  node-fetch-native@1.6.6:
-    resolution: {integrity: sha512-8Mc2HhqPdlIfedsuZoc3yioPuzp6b+L5jRCRY1QzuWZh2EGJVQrGppC6V6cF0bLdbW0+O2YpqCA25aF/1lvipQ==}
-
   node-fetch-native@1.6.7:
     resolution: {integrity: sha512-g9yhqoedzIUm0nTnTqAQvueMPVOuIY16bqgAJJC8XOOubYFNwz6IER9qs0Gq2Xd0+CecCKFjtdDTMA4u4xG06Q==}
 
@@ -4466,6 +4460,7 @@ packages:
   sitemap@8.0.0:
     resolution: {integrity: sha512-+AbdxhM9kJsHtruUF39bwS/B0Fytw6Fr1o4ZAIAEqA6cke2xcoO2GleBw9Zw7nRzILVEgz7zBM5GiTJjie1G9A==}
     engines: {node: '>=14.0.0', npm: '>=6.0.0'}
+    deprecated: 'SECURITY: Multiple vulnerabilities fixed in 8.0.1 (XML injection, path traversal, command injection, protocol injection). Upgrade immediately: npm install sitemap@8.0.1'
     hasBin: true
 
   slash@3.0.0:
@@ -4914,8 +4909,8 @@ packages:
     engines: {node: ^18.0.0 || ^20.0.0 || >=22.0.0}
     hasBin: true
 
-  vite@6.3.7:
-    resolution: {integrity: sha512-mQYaKepA0NGMBsz8Xktt3tJUG5ELE2iT7IJ+ssXI6nxVdE2sFc/d/6w/JByqMLvWg8hNKHpPgzjgOkrhpKFnrA==}
+  vite@6.4.1:
+    resolution: {integrity: sha512-+Oxm7q9hDoLMyJOYfUYBuHQo+dkAloi33apOPP56pzj+vsdJDzr+j1NISE5pyaAuKL4A3UD34qd0lx5+kfKp2g==}
     engines: {node: ^18.0.0 || ^20.0.0 || >=22.0.0}
     hasBin: true
     peerDependencies:
@@ -5317,12 +5312,12 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@astrojs/mdx@4.2.5(astro@5.14.5(@types/node@22.13.9)(jiti@1.21.7)(lightningcss@1.28.2)(rollup@4.41.1)(sass@1.85.1)(terser@5.37.0)(tsx@4.20.3)(typescript@5.9.2)(yaml@2.8.1))':
+  '@astrojs/mdx@4.2.5(astro@5.15.5(@types/node@22.13.9)(jiti@1.21.7)(lightningcss@1.28.2)(rollup@4.41.1)(sass@1.85.1)(terser@5.37.0)(tsx@4.20.3)(typescript@5.9.2)(yaml@2.8.1))':
     dependencies:
       '@astrojs/markdown-remark': 6.3.1
       '@mdx-js/mdx': 3.1.0(acorn@8.15.0)
       acorn: 8.15.0
-      astro: 5.14.5(@types/node@22.13.9)(jiti@1.21.7)(lightningcss@1.28.2)(rollup@4.41.1)(sass@1.85.1)(terser@5.37.0)(tsx@4.20.3)(typescript@5.9.2)(yaml@2.8.1)
+      astro: 5.15.5(@types/node@22.13.9)(jiti@1.21.7)(lightningcss@1.28.2)(rollup@4.41.1)(sass@1.85.1)(terser@5.37.0)(tsx@4.20.3)(typescript@5.9.2)(yaml@2.8.1)
       es-module-lexer: 1.7.0
       estree-util-visit: 2.0.0
       hast-util-to-html: 9.0.5
@@ -5350,17 +5345,17 @@ snapshots:
       stream-replace-string: 2.0.0
       zod: 3.24.2
 
-  '@astrojs/starlight@0.36.0(astro@5.14.5(@types/node@22.13.9)(jiti@1.21.7)(lightningcss@1.28.2)(rollup@4.41.1)(sass@1.85.1)(terser@5.37.0)(tsx@4.20.3)(typescript@5.9.2)(yaml@2.8.1))':
+  '@astrojs/starlight@0.36.0(astro@5.15.5(@types/node@22.13.9)(jiti@1.21.7)(lightningcss@1.28.2)(rollup@4.41.1)(sass@1.85.1)(terser@5.37.0)(tsx@4.20.3)(typescript@5.9.2)(yaml@2.8.1))':
     dependencies:
       '@astrojs/markdown-remark': 6.3.3
-      '@astrojs/mdx': 4.2.5(astro@5.14.5(@types/node@22.13.9)(jiti@1.21.7)(lightningcss@1.28.2)(rollup@4.41.1)(sass@1.85.1)(terser@5.37.0)(tsx@4.20.3)(typescript@5.9.2)(yaml@2.8.1))
+      '@astrojs/mdx': 4.2.5(astro@5.15.5(@types/node@22.13.9)(jiti@1.21.7)(lightningcss@1.28.2)(rollup@4.41.1)(sass@1.85.1)(terser@5.37.0)(tsx@4.20.3)(typescript@5.9.2)(yaml@2.8.1))
       '@astrojs/sitemap': 3.3.1
       '@pagefind/default-ui': 1.3.0
       '@types/hast': 3.0.4
       '@types/js-yaml': 4.0.9
       '@types/mdast': 4.0.4
-      astro: 5.14.5(@types/node@22.13.9)(jiti@1.21.7)(lightningcss@1.28.2)(rollup@4.41.1)(sass@1.85.1)(terser@5.37.0)(tsx@4.20.3)(typescript@5.9.2)(yaml@2.8.1)
-      astro-expressive-code: 0.41.2(astro@5.14.5(@types/node@22.13.9)(jiti@1.21.7)(lightningcss@1.28.2)(rollup@4.41.1)(sass@1.85.1)(terser@5.37.0)(tsx@4.20.3)(typescript@5.9.2)(yaml@2.8.1))
+      astro: 5.15.5(@types/node@22.13.9)(jiti@1.21.7)(lightningcss@1.28.2)(rollup@4.41.1)(sass@1.85.1)(terser@5.37.0)(tsx@4.20.3)(typescript@5.9.2)(yaml@2.8.1)
+      astro-expressive-code: 0.41.2(astro@5.15.5(@types/node@22.13.9)(jiti@1.21.7)(lightningcss@1.28.2)(rollup@4.41.1)(sass@1.85.1)(terser@5.37.0)(tsx@4.20.3)(typescript@5.9.2)(yaml@2.8.1))
       bcp-47: 2.1.0
       hast-util-from-html: 2.0.3
       hast-util-select: 6.0.4
@@ -5793,7 +5788,7 @@ snapshots:
   '@expressive-code/plugin-shiki@0.41.2':
     dependencies:
       '@expressive-code/core': 0.41.2
-      shiki: 3.2.2
+      shiki: 3.13.0
 
   '@expressive-code/plugin-text-markers@0.41.2':
     dependencies:
@@ -6848,9 +6843,9 @@ snapshots:
 
   astring@1.9.0: {}
 
-  astro-expressive-code@0.41.2(astro@5.14.5(@types/node@22.13.9)(jiti@1.21.7)(lightningcss@1.28.2)(rollup@4.41.1)(sass@1.85.1)(terser@5.37.0)(tsx@4.20.3)(typescript@5.9.2)(yaml@2.8.1)):
+  astro-expressive-code@0.41.2(astro@5.15.5(@types/node@22.13.9)(jiti@1.21.7)(lightningcss@1.28.2)(rollup@4.41.1)(sass@1.85.1)(terser@5.37.0)(tsx@4.20.3)(typescript@5.9.2)(yaml@2.8.1)):
     dependencies:
-      astro: 5.14.5(@types/node@22.13.9)(jiti@1.21.7)(lightningcss@1.28.2)(rollup@4.41.1)(sass@1.85.1)(terser@5.37.0)(tsx@4.20.3)(typescript@5.9.2)(yaml@2.8.1)
+      astro: 5.15.5(@types/node@22.13.9)(jiti@1.21.7)(lightningcss@1.28.2)(rollup@4.41.1)(sass@1.85.1)(terser@5.37.0)(tsx@4.20.3)(typescript@5.9.2)(yaml@2.8.1)
       rehype-expressive-code: 0.41.2
 
   astro-icon@1.1.5:
@@ -6862,7 +6857,7 @@ snapshots:
       - debug
       - supports-color
 
-  astro@5.14.5(@types/node@22.13.9)(jiti@1.21.7)(lightningcss@1.28.2)(rollup@4.41.1)(sass@1.85.1)(terser@5.37.0)(tsx@4.20.3)(typescript@5.9.2)(yaml@2.8.1):
+  astro@5.15.5(@types/node@22.13.9)(jiti@1.21.7)(lightningcss@1.28.2)(rollup@4.41.1)(sass@1.85.1)(terser@5.37.0)(tsx@4.20.3)(typescript@5.9.2)(yaml@2.8.1):
     dependencies:
       '@astrojs/compiler': 2.12.2
       '@astrojs/internal-helpers': 0.7.4
@@ -6896,7 +6891,6 @@ snapshots:
       http-cache-semantics: 4.2.0
       import-meta-resolve: 4.2.0
       js-yaml: 4.1.0
-      kleur: 4.1.5
       magic-string: 0.30.19
       magicast: 0.3.5
       mrmime: 2.0.1
@@ -6904,6 +6898,7 @@ snapshots:
       p-limit: 6.2.0
       p-queue: 8.1.0
       package-manager-detector: 1.4.1
+      picocolors: 1.1.1
       picomatch: 4.0.3
       prompts: 2.4.2
       rehype: 13.0.2
@@ -6911,15 +6906,15 @@ snapshots:
       shiki: 3.13.0
       smol-toml: 1.4.2
       tinyexec: 1.0.1
-      tinyglobby: 0.2.14
+      tinyglobby: 0.2.15
       tsconfck: 3.1.6(typescript@5.9.2)
       ultrahtml: 1.6.0
       unifont: 0.6.0
       unist-util-visit: 5.0.0
       unstorage: 1.17.1
       vfile: 6.0.3
-      vite: 6.3.7(@types/node@22.13.9)(jiti@1.21.7)(lightningcss@1.28.2)(sass@1.85.1)(terser@5.37.0)(tsx@4.20.3)(yaml@2.8.1)
-      vitefu: 1.1.1(vite@6.3.7(@types/node@22.13.9)(jiti@1.21.7)(lightningcss@1.28.2)(sass@1.85.1)(terser@5.37.0)(tsx@4.20.3)(yaml@2.8.1))
+      vite: 6.4.1(@types/node@22.13.9)(jiti@1.21.7)(lightningcss@1.28.2)(sass@1.85.1)(terser@5.37.0)(tsx@4.20.3)(yaml@2.8.1)
+      vitefu: 1.1.1(vite@6.4.1(@types/node@22.13.9)(jiti@1.21.7)(lightningcss@1.28.2)(sass@1.85.1)(terser@5.37.0)(tsx@4.20.3)(yaml@2.8.1))
       xxhash-wasm: 1.1.0
       yargs-parser: 21.1.1
       yocto-spinner: 0.2.3
@@ -7287,8 +7282,6 @@ snapshots:
   delayed-stream@1.0.0: {}
 
   dequal@2.0.3: {}
-
-  destr@2.0.3: {}
 
   destr@2.0.5: {}
 
@@ -9011,8 +9004,6 @@ snapshots:
   node-addon-api@7.1.1:
     optional: true
 
-  node-fetch-native@1.6.6: {}
-
   node-fetch-native@1.6.7: {}
 
   node-fetch@2.7.0:
@@ -9043,9 +9034,9 @@ snapshots:
 
   ofetch@1.4.1:
     dependencies:
-      destr: 2.0.3
-      node-fetch-native: 1.6.6
-      ufo: 1.5.4
+      destr: 2.0.5
+      node-fetch-native: 1.6.7
+      ufo: 1.6.1
 
   ohash@2.0.11: {}
 
@@ -10254,14 +10245,14 @@ snapshots:
       - tsx
       - yaml
 
-  vite@6.3.7(@types/node@22.13.9)(jiti@1.21.7)(lightningcss@1.28.2)(sass@1.85.1)(terser@5.37.0)(tsx@4.20.3)(yaml@2.8.1):
+  vite@6.4.1(@types/node@22.13.9)(jiti@1.21.7)(lightningcss@1.28.2)(sass@1.85.1)(terser@5.37.0)(tsx@4.20.3)(yaml@2.8.1):
     dependencies:
       esbuild: 0.25.0
-      fdir: 6.4.6(picomatch@4.0.3)
+      fdir: 6.5.0(picomatch@4.0.3)
       picomatch: 4.0.3
       postcss: 8.5.6
       rollup: 4.41.1
-      tinyglobby: 0.2.14
+      tinyglobby: 0.2.15
     optionalDependencies:
       '@types/node': 22.13.9
       fsevents: 2.3.3
@@ -10290,9 +10281,9 @@ snapshots:
       tsx: 4.20.3
       yaml: 2.8.1
 
-  vitefu@1.1.1(vite@6.3.7(@types/node@22.13.9)(jiti@1.21.7)(lightningcss@1.28.2)(sass@1.85.1)(terser@5.37.0)(tsx@4.20.3)(yaml@2.8.1)):
+  vitefu@1.1.1(vite@6.4.1(@types/node@22.13.9)(jiti@1.21.7)(lightningcss@1.28.2)(sass@1.85.1)(terser@5.37.0)(tsx@4.20.3)(yaml@2.8.1)):
     optionalDependencies:
-      vite: 6.3.7(@types/node@22.13.9)(jiti@1.21.7)(lightningcss@1.28.2)(sass@1.85.1)(terser@5.37.0)(tsx@4.20.3)(yaml@2.8.1)
+      vite: 6.4.1(@types/node@22.13.9)(jiti@1.21.7)(lightningcss@1.28.2)(sass@1.85.1)(terser@5.37.0)(tsx@4.20.3)(yaml@2.8.1)
 
   vitefu@1.1.1(vite@7.0.2(@types/node@22.13.9)(jiti@1.21.7)(lightningcss@1.28.2)(sass@1.85.1)(terser@5.37.0)(tsx@4.20.3)(yaml@2.8.1)):
     optionalDependencies:
