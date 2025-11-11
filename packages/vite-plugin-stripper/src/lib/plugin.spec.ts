@@ -256,7 +256,7 @@ describe('Plugin build output', () => {
 				// The Entity decorator and class structure should be there
 				expect(outputContent).toContain('Entity')
 				expect(outputContent).toContain('User')
-				expect(outputContent).toContain('Fields.uuid')
+				expect(outputContent).toContain('Fields.id')
 				expect(outputContent).toContain('Fields.string')
 
 				// The BackendMethod decorator should be there
