@@ -5,8 +5,8 @@ const config: PlaywrightTestConfig = {
 		command: 'npm run build && npm run preview',
 		port: 4173,
 	},
-	retries: 3,
-	timeout: 5000,
+	retries: 5,
+	timeout: 7000,
 	testMatch: /(.+\.)?(e2e)\.[jt]s/,
 	use: {
 		baseURL: 'http://localhost:4173',

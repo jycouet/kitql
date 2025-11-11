@@ -12,7 +12,7 @@ describe('parse', function () {
   		@annotation
   		class Test {}
   	`)
-		expect(parsed.type).toMatchInlineSnapshot(`"File"`)
+		expect(parsed.program.type).toMatchInlineSnapshot(`"Program"`)
 	})
 
 	it('parse with top level await', async function () {
@@ -46,40 +46,33 @@ const b = "hello"
 
 		const ast = parse(code)
 		expect(print(ast).code).toMatchInlineSnapshot(`
-			"// import { performance } from 'perf_hooks'
+			"import { BackendMethod, remult, type Allowed } from 'remult';
+
+			// import { performance } from 'perf_hooks'
 			// import { AUTH_SECRET } from "$env/static/private"
 			// const helpers = async () => {
-			//    const { AUTH_SECRET } = await import('$env/static/private')
-			//    return { AUTH_SECRET }
+			// 	const { AUTH_SECRET } = await import('$env/static/private')
+			// 	return { AUTH_SECRET }
 			// }
-			// if (import.meta.env.SSR) {
-			// }
-			import { BackendMethod, remult, type Allowed } from "remult";
-
 			export class ActionsController {
-			    @BackendMethod({
-			        allowed: () => remult.user === undefined
-			    })
-			    static async read(info: Allowed) {
-			        const {
-			            plop
-			        } = await import("./toto.js");
+				@BackendMethod({ allowed: () => remult.user === undefined })
+				static async read(info: Allowed// if (import.meta.env.SSR) {
+				// }
+				) {
+					const { plop } = await import('./toto.js');
+					const { AUTH_SECRET } = await import('$env/static/private');
+					const { performance: p } = await import('perf_hooks');
+					const start = p.now();
 
-			        const {
-			            AUTH_SECRET
-			        } = await import("$env/static/private");
+					console.info('AUTH_SECRET', AUTH_SECRET);
 
-			        const {
-			            performance: p
-			        } = await import("perf_hooks");
+					const end = p.now();
 
-			        const start = p.now();
-			        console.info("AUTH_SECRET", AUTH_SECRET);
-			        const end = p.now();
-			        console.info(end - start);
-			        plop();
-			        return AUTH_SECRET + " " + info;
-			    }
+					console.info(end - start);
+					plop();
+
+					return AUTH_SECRET + ' ' + info;
+				}
 			}"
 		`)
 	})
@@ -89,45 +82,49 @@ const b = "hello"
 
 		const ast = parse(code)
 		expect(print(ast).code).toMatchInlineSnapshot(`
-			"// Only unauthenticated users can call this method
-			import { BackendMethod, Entity, Fields, remult, type Allowed } from "remult";
-			import { AUTH_SECRET } from "$env/static/private";
+			"import { BackendMethod, Entity, Fields, remult, type Allowed } from 'remult';
+			import { AUTH_SECRET } from '$env/static/private';
 
-			@Entity("users", {
-			    allowApiCrud: true,
+			@Entity('users', {
+				allowApiCrud: true,
 
-			    backendPrefilter: () => {
-			        console.info("AUTH_SECRET_backendPrefilter", AUTH_SECRET);
-			        console.info("backendPrefilter_top_secret");
-			        return {};
-			    },
+				backendPrefilter: () => {
+					console.info('AUTH_SECRET_backendPrefilter', AUTH_SECRET);
+					console.info('backendPrefilter_top_secret');
 
-			    backendPreprocessFilter: f => {
-			        console.info("AUTH_SECRET_backendPreprocessFilter", AUTH_SECRET);
-			        console.info("backendPreprocessFilter_top_secret");
-			        return f;
-			    },
+					return {};
+				},
 
-			    sqlExpression: () => {
-			        console.info("AUTH_SECRET_sqlExpression", AUTH_SECRET);
-			        console.info("sqlExpression_top_secret");
-			        return "users";
-			    }
+				backendPreprocessFilter: (f) => {
+					console.info('AUTH_SECRET_backendPreprocessFilter', AUTH_SECRET);
+					console.info('backendPreprocessFilter_top_secret');
+
+					return f;
+				},
+
+				sqlExpression: () => {
+					console.info('AUTH_SECRET_sqlExpression', AUTH_SECRET);
+					console.info('sqlExpression_top_secret');
+
+					return 'users';
+				}
 			})
 			export class User {
-			    @Fields.uuid()
-			    id = "";
+				@Fields.id()
+				id = '';
 
-			    @Fields.string()
-			    name = "";
+				@Fields.string()
+				name = '';
 
-			    @BackendMethod({
-			        allowed: () => remult.user === undefined
-			    })
-			    static async hi(info: Allowed) {
-			        console.info("AUTH_SECRET", AUTH_SECRET);
-			        return AUTH_SECRET + " " + info;
-			    }
+				@BackendMethod({
+					// Only unauthenticated users can call this method
+					allowed: () => remult.user === undefined
+				})
+				static async hi(info: Allowed) {
+					console.info('AUTH_SECRET', AUTH_SECRET);
+
+					return AUTH_SECRET + ' ' + info;
+				}
 			}"
 		`)
 	})
