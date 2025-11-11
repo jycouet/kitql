@@ -110,7 +110,7 @@ const b = "hello"
 				}
 			})
 			class User {
-				@Fields.uuid()
+				@Fields.id()
 				id = '';
 
 				@Fields.string()

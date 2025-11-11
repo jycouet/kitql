@@ -30,8 +30,8 @@ describe('package', () => {
 			{
 			  "code": "let ObjectId = null;
 
-			export @Entity('tasks', { allowApiCrud: true })
-			class Task {
+			@Entity('tasks', { allowApiCrud: true })
+			export class Task {
 				@Fields.string({
 					valueConverter: {
 						fromDb: (x) => x?.toString(),
@@ -80,8 +80,8 @@ describe('package', () => {
 			  "code": "let ObjectId = null;
 			let demo = null;
 
-			export @Entity('tasks', { allowApiCrud: true })
-			class Task {
+			@Entity('tasks', { allowApiCrud: true })
+			export class Task {
 				@Fields.string({
 					valueConverter: {
 						fromDb: (x) => x?.toString(),

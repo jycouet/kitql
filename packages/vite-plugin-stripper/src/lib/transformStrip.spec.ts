@@ -244,7 +244,7 @@ export class TasksController {
   
   @Entity<Ent>()
   export class Ent {
-    @Fields.uuid()
+    @Fields.id()
     id!: string;
   }
   
@@ -276,7 +276,7 @@ export class TasksController {
 
 			@Entity<Ent>()
 			export class Ent {
-				@Fields.uuid()
+				@Fields.id()
 				id: string;
 			}
 
@@ -290,12 +290,10 @@ export class TasksController {
 
 			export class EntController {
 				@BackendMethod({ allowed: false })
-				static async init(hello: string
+				static async init(hello: string// Do a lot of things here
 				) {
 					if (import.meta.env.SSR) {
 						const client = getInfo();
-
-						// Do a lot of things here
 					}
 				}
 			}",
@@ -313,7 +311,7 @@ export class TasksController {
       allowApiCrud: Allow.authenticated,
     })
     export class User2 {
-      @Fields.uuid()
+      @Fields.id()
       id = ''
     
       @Fields.string({
@@ -334,9 +332,9 @@ export class TasksController {
 			{
 			  "code": "import { Allow, BackendMethod, Entity, Fields, Validators } from 'remult';
 
-			export @Entity<User>('userstest', { allowApiCrud: Allow.authenticated })
-			class User2 {
-				@Fields.uuid()
+			@Entity<User>('userstest', { allowApiCrud: Allow.authenticated })
+			export class User2 {
+				@Fields.id()
 				id = '';
 
 				@Fields.string({ validate: [Validators.required, Validators.uniqueOnBackend] })
@@ -363,7 +361,7 @@ export class TasksController {
       allowApiCrud: Allow.authenticated,
     })
     export class User2 {
-      @Fields.uuid()
+      @Fields.id()
       id = ''
     
       @Fields.string({})
@@ -382,9 +380,9 @@ export class TasksController {
 			{
 			  "code": "import { Allow, BackendMethod, Entity, Fields, Validators } from 'remult';
 
-			export @Entity<User>('userstest', { allowApiCrud: Allow.authenticated })
-			class User2 {
-				@Fields.uuid()
+			@Entity<User>('userstest', { allowApiCrud: Allow.authenticated })
+			export class User2 {
+				@Fields.id()
 				id = '';
 
 				@Fields.string({})
@@ -411,7 +409,7 @@ export class TasksController {
       allowApiCrud: Allow.authenticated,
     })
     export class User2 {
-      @Fields.uuid()
+      @Fields.id()
       id = ''
     
       @Fields.string({})
@@ -430,9 +428,9 @@ export class TasksController {
 			{
 			  "code": "import { Allow, BackendMethod, Entity, Fields, Validators } from 'remult';
 
-			export @Entity<User>('userstest', { allowApiCrud: Allow.authenticated })
-			class User2 {
-				@Fields.uuid()
+			@Entity<User>('userstest', { allowApiCrud: Allow.authenticated })
+			export class User2 {
+				@Fields.id()
 				id = '';
 
 				@Fields.string({})
@@ -459,7 +457,7 @@ export class TasksController {
       allowApiCrud: Allow.authenticated,
     })
     export class User2 {
-      @Fields.uuid()
+      @Fields.id()
       id = ''
     
       @Fields.string({
@@ -480,9 +478,9 @@ export class TasksController {
 			{
 			  "code": "import { Allow, BackendMethod, Entity, Fields, Validators } from 'remult';
 
-			export @Entity<User>('userstest', { allowApiCrud: Allow.authenticated })
-			class User2 {
-				@Fields.uuid()
+			@Entity<User>('userstest', { allowApiCrud: Allow.authenticated })
+			export class User2 {
+				@Fields.id()
 				id = '';
 
 				@Fields.string({ validate: [Validators.required, Validators.uniqueOnBackend] })
@@ -559,7 +557,7 @@ import { BackendMethod, Entity, Fields, remult, type Allowed } from "remult";
   }
 })
 export class User {
-	@Fields.uuid()
+	@Fields.id()
 	id = ''
 
 	@Fields.string()
@@ -588,7 +586,7 @@ export class User {
 
 			import { BackendMethod, Entity, Fields, remult, type Allowed } from "remult";
 
-			export @Entity('users', {
+			@Entity('users', {
 				backendPrefilter: async () => {
 					if (import.meta.env.SSR) {
 						console.log('backendPrefilter');
@@ -597,8 +595,8 @@ export class User {
 					}
 				}
 			})
-			class User {
-				@Fields.uuid()
+			export class User {
+				@Fields.id()
 				id = '';
 
 				@Fields.string()
@@ -635,7 +633,7 @@ import { BackendMethod, Entity, Fields, remult, type Allowed } from "remult";
   }
 })
 export class User {
-	@Fields.uuid()
+	@Fields.id()
 	id = ''
 
 	@Fields.string()
@@ -672,15 +670,15 @@ export class User {
 
 			import { BackendMethod, Entity, Fields, remult, type Allowed } from "remult";
 
-			export @Entity('users', {
+			@Entity('users', {
 				backendPrefilter: () => {
 					console.log('backendPrefilter');
 
 					return {};
 				}
 			})
-			class User {
-				@Fields.uuid()
+			export class User {
+				@Fields.id()
 				id = '';
 
 				@Fields.string()
