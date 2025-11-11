@@ -274,8 +274,8 @@ export class TasksController {
 			import { stry0 } from '@kitql/helper';
 			import { BackendMethod, Entity, Fields, remult } from 'remult';
 
-			export @Entity<Ent>()
-			class Ent {
+			@Entity<Ent>()
+			export class Ent {
 				@Fields.uuid()
 				id: string;
 			}
@@ -290,10 +290,12 @@ export class TasksController {
 
 			export class EntController {
 				@BackendMethod({ allowed: false })
-				static async init(hello: string// Do a lot of things here
+				static async init(hello: string
 				) {
 					if (import.meta.env.SSR) {
 						const client = getInfo();
+
+						// Do a lot of things here
 					}
 				}
 			}",
