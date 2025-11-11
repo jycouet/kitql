@@ -1,5 +1,5 @@
 import { cyan, red, yellow } from '@kitql/helpers'
-import { parse, read, visit } from '@kitql/internals'
+import { parse, read, walk } from '@kitql/internals'
 
 import { log, routes_path } from './plugin.js'
 
@@ -10,7 +10,7 @@ export const getMethodsOfServerFiles = (pathFile: string) => {
 	const exportedNames: string[] = []
 	try {
 		const codeParsed = parse(code)
-		visit(codeParsed, {
+		walk(codeParsed, {
 			visitExportNamedDeclaration(path) {
 				const declaration = path.node.declaration
 

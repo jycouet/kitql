@@ -1,7 +1,7 @@
 import { print as esrap_print } from 'esrap'
 import ts from 'esrap/languages/ts'
 import { parseSync } from 'oxc-parser'
-import type { ParseResult } from 'oxc-parser'
+import type { ParseResult, Statement } from 'oxc-parser'
 import { walk } from 'oxc-walker'
 
 import { oxcCommentsToEsrapComments } from './oxcCommentsToEsrapComments.js'
@@ -9,6 +9,7 @@ import { oxcCommentsToEsrapComments } from './oxcCommentsToEsrapComments.js'
 export { walk }
 export type KitQLParseResult = ParseResult & { code: string }
 export type ParseOptions = { filename?: string; lang?: 'ts' }
+export type { Statement }
 
 export function parse(code_ast: string | null | KitQLParseResult, options?: ParseOptions) {
 	if (code_ast === null || typeof code_ast === 'string') {
