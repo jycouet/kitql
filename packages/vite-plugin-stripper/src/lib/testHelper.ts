@@ -1,17 +1,14 @@
 import type { KitQLParseResult } from '@kitql/internals'
 import { print } from '@kitql/internals'
 
-export const toInfoCode = (input: {
-	sourceText_or_ast: string | KitQLParseResult
-	info: string[]
-}) => {
-	if (typeof input.sourceText_or_ast === 'string') {
+export const toInfoCode = (input: { code_ast: string | KitQLParseResult; info: string[] }) => {
+	if (typeof input.code_ast === 'string') {
 		return {
 			info: input.info,
-			code: input.sourceText_or_ast,
+			code: input.code_ast,
 		}
 	}
-	const { code } = print(input.sourceText_or_ast)
+	const { code } = print(input.code_ast)
 	return {
 		info: input.info,
 		code,

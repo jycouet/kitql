@@ -2,12 +2,12 @@ import { parse, walk } from '@kitql/internals'
 import type { KitQLParseResult, ParseOptions } from '@kitql/internals'
 
 export const nullifyImports = async (
-	sourceText_or_ast: string | KitQLParseResult,
+	code_ast: string | KitQLParseResult,
 	packages_to_strip: string[],
 	opts?: ParseOptions,
 ) => {
 	try {
-		const ast = parse(sourceText_or_ast, opts)
+		const ast = parse(code_ast, opts)
 
 		const nullifyed: string[] = []
 
@@ -83,10 +83,10 @@ export const nullifyImports = async (
 		})
 
 		return {
-			sourceText_or_ast: ast,
+			code_ast: ast,
 			ast,
 			info: nullifyed,
 		}
 	} catch (error) {}
-	return { sourceText_or_ast, ast: null, info: [] }
+	return { code_ast, ast: null, info: [] }
 }

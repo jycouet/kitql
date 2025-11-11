@@ -7,14 +7,14 @@ export type StripConfig = {
 }
 
 export const transformStrip = async (
-	sourceText_or_ast: string | KitQLParseResult,
+	code_ast: string | KitQLParseResult,
 	decorators_config: StripConfig[],
 	opts?: ParseOptions,
 ) => {
 	try {
-		const ast = parse(sourceText_or_ast, opts)
+		const ast = parse(code_ast, opts)
 		if (ast.errors.length > 0) {
-			return { sourceText_or_ast, ast: null, info: [] }
+			return { code_ast, ast: null, info: [] }
 		}
 
 		let currentClassName = '' // Variable to hold the current class name
@@ -257,7 +257,7 @@ export const transformStrip = async (
 		)
 
 		return {
-			sourceText_or_ast: ast,
+			code_ast: ast,
 			ast,
 			info,
 		}
@@ -265,5 +265,5 @@ export const transformStrip = async (
 		// if anything happens, just return the original code
 		console.error('Error in transformDecorator:', error)
 	}
-	return { sourceText_or_ast, ast: null, info: [] }
+	return { code_ast, ast: null, info: [] }
 }

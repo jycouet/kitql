@@ -575,7 +575,7 @@ export class User {
 `
 
 		const ast_1 = await nullifyImports(code, ['$env/static/private'])
-		const transformed = await transformStrip(ast_1.sourceText_or_ast, [
+		const transformed = await transformStrip(ast_1.code_ast, [
 			{ decorator: 'BackendMethod' },
 			{ decorator: 'Entity', args_1: [{ fn: 'backendPrefilter' }] },
 		])
@@ -651,7 +651,7 @@ export class User {
 `
 
 		const ast_1 = await nullifyImports(code, ['$env/static/private'])
-		const transformed = await transformStrip(ast_1.sourceText_or_ast, [
+		const transformed = await transformStrip(ast_1.code_ast, [
 			{ decorator: 'BackendMethod' },
 			{
 				decorator: 'Entity',
