@@ -85,7 +85,7 @@ const b = "hello"
 			"import { BackendMethod, Entity, Fields, remult, type Allowed } from 'remult';
 			import { AUTH_SECRET } from '$env/static/private';
 
-			export @Entity('users', {
+			@Entity('users', {
 				allowApiCrud: true,
 
 				backendPrefilter: () => {
@@ -109,7 +109,7 @@ const b = "hello"
 					return 'users';
 				}
 			})
-			class User {
+			export class User {
 				@Fields.id()
 				id = '';
 
