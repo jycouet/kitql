@@ -128,22 +128,26 @@ export function stripper(options?: ViteStripperOptions): PluginOption {
 					let code_ast: string | KitQLParseResult = code
 
 					if (options && options?.nullify && options.nullify.length > 0) {
-						const { info, code_ast: transformed } = await nullifyImports(code_ast, options.nullify)
+						const { info, ast: transformed } = await nullifyImports(code_ast, options.nullify)
 
 						// Update the code for later transforms & return it
-						code_ast = transformed
+						if (transformed !== null) {
+							code_ast = transformed
+						}
 						allInfos.push(...info)
 					}
 
 					if (options && options?.strip && options.strip.length > 0) {
-						const { info, code_ast: transformed } = await transformStrip(code_ast, options.strip)
+						const { info, ast: transformed } = await transformStrip(code_ast, options.strip)
 
 						// Update the code for later transforms & return it
-						code_ast = transformed
+						if (transformed !== null) {
+							code_ast = transformed
+						}
 						allInfos.push(...info)
 					}
 
-					if (allInfos.length > 0 && typeof code_ast !== 'string') {
+					if (allInfos.length > 0 && typeof code_ast !== 'string' && code_ast !== null) {
 						const toRet = print(code_ast)
 
 						if (options?.debug) {
