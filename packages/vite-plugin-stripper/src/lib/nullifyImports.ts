@@ -44,7 +44,7 @@ export const nullifyImports = async (
 								}
 								return null
 							})
-							.filter((node): node is Statement => node !== null) // Remove null values and assert type
+							.filter((node): node is any => node !== null) // Remove null values and assert type
 
 						if (replacementNodes.length > 0) {
 							// Replace the node in the parent's body
