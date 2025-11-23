@@ -1,5 +1,16 @@
 # @kitql/internals
 
+## 0.11.0-next.0
+
+### Minor Changes
+
+- [#1136](https://github.com/jycouet/kitql/pull/1136) [`6beba92`](https://github.com/jycouet/kitql/commit/6beba921bc4a46feb9985f219cd73fb6c3848d6a) Thanks [@jycouet](https://github.com/jycouet)! - rmv `babel` & `recast` in favor of `oxc`
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @kitql/helpers@0.8.13
+
 ## 0.10.5
 
 ### Patch Changes
