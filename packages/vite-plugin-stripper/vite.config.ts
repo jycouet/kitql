@@ -21,7 +21,6 @@ export default defineConfig(() => ({
 	plugins: [
 		stripper({
 			debug: true,
-			log_on_throw_is_not_a_new_class: true,
 			// decorators: ['BackendMethod'],
 			// hard: true,
 			nullify: ['$env/static/private', 'oslo/password'],

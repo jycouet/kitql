@@ -21,7 +21,7 @@ import { AUTH_SECRET } from '$env/static/private'
 	},
 })
 export class User {
-	@Fields.uuid()
+	@Fields.id()
 	id = ''
 
 	@Fields.string()
