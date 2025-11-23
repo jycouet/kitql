@@ -82,7 +82,10 @@ const rulePnpmCatalogs = (options = {}) => {
 	]
 }
 
-const othersRules = () => {
+/**
+ * @param {{svelteConfig?: import('@sveltejs/kit').Config}} options
+ */
+const othersRules = ({ svelteConfig } = {}) => {
 	return [
 		{
 			name: 'eslint/defaults/recommended',
@@ -109,6 +112,7 @@ const othersRules = () => {
 					projectService: true,
 					extraFileExtensions: ['.svelte'],
 					parser: ts.parser,
+					svelteConfig,
 				},
 			},
 		},
@@ -182,6 +186,7 @@ const othersRules = () => {
  * @typedef {Object} KitqlOptions
  * @property {PnpmCatalogsConfig} [pnpmCatalogs] - Configuration object for pnpm catalogs
  * @property {OxlintConfig} [oxlint] - Configuration object for oxlint
+ * @property {import('@sveltejs/kit').Config} [svelteConfig] - Configuration object for svelte
  */
 
 /**
@@ -189,13 +194,14 @@ const othersRules = () => {
  * @returns {import('eslint').Linter.Config[]}
  */
 export const kitql = (options = {}) => {
+	const svelteConfig = options?.svelteConfig ?? {}
 	const pnpmCatalogsConfig = options?.pnpmCatalogs ?? { enable: false }
 	const pnpmCatalogsEnabled = pnpmCatalogsConfig.enable !== false
 
 	const arr = [
 		// default rules
 		rulePrettierIgnore({ pnpmCatalogsEnabled }),
-		...othersRules(),
+		...othersRules({ svelteConfig }),
 	]
 
 	if (pnpmCatalogsEnabled) {
