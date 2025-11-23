@@ -1,14 +1,12 @@
 import { describe, expect, test } from 'vitest'
-
-import '@testing-library/jest-dom/vitest'
-
-import { render, screen } from '@testing-library/svelte'
+import { render } from 'vitest-browser-svelte'
+import { page } from 'vitest/browser'
 
 import Layout from './+layout.svelte'
 
 describe('/+layout.svelte', () => {
 	test('should render h1', () => {
 		render(Layout)
-		expect(screen.getByRole('heading', { level: 1 })).toBeInTheDocument()
+		expect(page.getByRole('heading', { level: 1 })).toBeInTheDocument()
 	})
 })
