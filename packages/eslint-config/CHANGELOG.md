@@ -1,5 +1,14 @@
 # eslint-config-kitql
 
+## 0.8.0-next.5
+
+### Patch Changes
+
+- [#1153](https://github.com/jycouet/kitql/pull/1153) [`c53e710`](https://github.com/jycouet/kitql/commit/c53e710040b6076b8d52f23183b8703b4d55b846) Thanks [@jycouet](https://github.com/jycouet)! - feat(eslint): add `svelteConfig` in `options`
+
+- Updated dependencies []:
+  - @kitql/helpers@0.8.13
+
 ## 0.8.0-next.4
 
 ### Patch Changes
