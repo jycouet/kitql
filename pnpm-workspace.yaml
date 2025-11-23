@@ -24,12 +24,11 @@ catalogs:
 
  testing:
   # unit
-  'vitest': '3.2.4'
-  '@vitest/ui': 3.2.4
-  '@vitest/coverage-v8': '3.2.4'
-  '@testing-library/jest-dom': '6.9.1'
-  '@testing-library/svelte': '5.2.4'
-  'jsdom': '27.2.0'
+  'vitest': '4.0.13'
+  '@vitest/ui': 4.0.13
+  '@vitest/coverage-v8': '4.0.13'
+  '@vitest/browser-playwright': '4.0.13'
+  vitest-browser-svelte: 2.0.1
   # e2e
   '@playwright/test': '1.56.0'
 
@@ -99,3 +98,5 @@ catalogs:
   astro-icon: 1.1.5
   sharp: 0.34.1
   prettier-plugin-astro: 0.14.1
+ conflicts_testing_h2_0_1:
+  vitest-browser-svelte: ^2.0.1

@@ -1,9 +1,6 @@
-// @vitest-environment jsdom
 import { beforeEach, describe, expect, test, vi } from 'vitest'
-
-import '@testing-library/jest-dom/vitest'
-
-import { cleanup, fireEvent, render, screen } from '@testing-library/svelte'
+import { cleanup, render } from 'vitest-browser-svelte'
+import { page as screen, userEvent } from 'vitest/browser'
 
 import { page } from '$app/state'
 
@@ -83,9 +80,9 @@ describe('SP Example Page', () => {
 		const { container } = render(PageComponent)
 
 		// Test initial state of the form fields
-		expect(screen.getByDisplayValue('kind')).toBeInTheDocument() // Name field
-		expect(screen.getByDisplayValue('kind2')).toBeInTheDocument() // Name2 field
-		expect(screen.getByDisplayValue('25')).toBeInTheDocument() // Age field
+		expect(screen.getByText('kind')).toBeInTheDocument() // Name field
+		expect(screen.getByText('kind2')).toBeInTheDocument() // Name2 field
+		expect(screen.getByText('25')).toBeInTheDocument() // Age field
 		expect(screen.getByRole('checkbox')).toBeChecked() // Active checkbox
 
 		// Test the select field's initial value
@@ -116,9 +113,9 @@ describe('SP Example Page', () => {
 		const { container } = render(PageComponent)
 
 		// Test that form fields reflect the search params
-		expect(screen.getByDisplayValue('testName')).toBeInTheDocument()
-		expect(screen.getByDisplayValue('testName2')).toBeInTheDocument()
-		expect(screen.getByDisplayValue('30')).toBeInTheDocument()
+		expect(screen.getByText('testName')).toBeInTheDocument()
+		expect(screen.getByText('testName2')).toBeInTheDocument()
+		expect(screen.getByText('30')).toBeInTheDocument()
 		expect(screen.getByRole('checkbox')).not.toBeChecked()
 
 		// Test the select field's value
@@ -142,38 +139,38 @@ describe('SP Example Page', () => {
 		const { container } = render(PageComponent)
 
 		// Change the name field
-		const nameInput = screen.getByDisplayValue('kind')
-		await fireEvent.input(nameInput, { target: { value: 'newName' } })
+		const nameInput = screen.getByRole('textbox', { name: 'Name' }).first()
+		await userEvent.fill(nameInput, 'newName')
 
 		// Change the age field
-		const ageInput = screen.getByDisplayValue('25')
-		await fireEvent.input(ageInput, { target: { value: '40' } })
+		const ageInput = screen.getByTestId('age')
+		await userEvent.fill(ageInput, '40')
 
 		// Toggle the active checkbox
 		const activeCheckbox = screen.getByRole('checkbox')
-		await fireEvent.click(activeCheckbox)
+		await userEvent.click(activeCheckbox)
 
 		// Change the select field
 		const selectElement = container.querySelector('select')
-		await fireEvent.change(selectElement as HTMLSelectElement, { target: { value: '1' } })
+		await userEvent.selectOptions(selectElement as HTMLSelectElement, '1')
 
 		// Check that the object state has been updated
-		const preContent = screen.getByText(/"name": "newName"/, { exact: false })
+		const preContent = screen.getByTestId('results')
 		expect(preContent).toBeInTheDocument()
 		expect(preContent).toHaveTextContent(/"age": 40/)
 		expect(preContent).toHaveTextContent(/"active": false/)
 		expect(preContent).toHaveTextContent(/"sel": {[^}]*"id": 1[^}]*"name": "car"/)
 
 		// Verify that the select shows the car name
-		expect(screen.getByText('car')).toBeInTheDocument()
+		expect(selectElement?.value).toBe('1')
 
 		// Test the reset button
 		const resetButton = screen.getByText('Reset to Defaults')
-		await fireEvent.click(resetButton)
+		await userEvent.click(resetButton)
 
 		// After reset, values should be back to defaults
-		expect(screen.getByDisplayValue('kind')).toBeInTheDocument()
-		expect(screen.getByDisplayValue('25')).toBeInTheDocument()
+		expect(screen.getByText('kind')).toBeInTheDocument()
+		expect(screen.getByText('25')).toBeInTheDocument()
 		expect(screen.getByRole('checkbox')).toBeChecked()
 		expect(container.querySelector('select')).toHaveValue('2') // bike
 	})

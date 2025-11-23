@@ -102,6 +102,7 @@
 					<span class="label-text">Age</span>
 				</label>
 				<input
+					data-testid="age"
 					type="number"
 					bind:value={sp.obj.age}
 					min="0"
@@ -134,7 +135,7 @@
 	<div class="card bg-base-200 shadow-xl">
 		<div class="card-body">
 			<h2 class="card-title">Current Values</h2>
-			<pre class="bg-base-300 whitespace-pre-wrap rounded-lg p-4"><code>
+			<pre data-testid="results" class="bg-base-300 whitespace-pre-wrap rounded-lg p-4"><code>
 {JSON.stringify(sp.computing, null, 2)}
 {JSON.stringify(sp.obj, null, 2)}
 			</code></pre>
