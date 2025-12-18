@@ -7,23 +7,16 @@ on:
 
 jobs:
  release:
+  # prevents this action from running on forks
+  if: github.repository == 'jycouet/kitql'
+  permissions:
+    contents: write # to create release (changesets/action)
+    id-token: write # OpenID Connect token needed for provenance
+    pull-requests: write # to create pull request (changesets/action)
   name: Release
   runs-on: ubuntu-latest
   timeout-minutes: 5
-  environment: Publishing
   steps:
-   - name: Creating .npmrc
-     run: |
-      cat << EOF > "$HOME/.npmrc"
-        email=$NPM_EMAIL
-        name=$NPM_NAME
-        //registry.npmjs.org/:_authToken=$NPM_TOKEN
-      EOF
-     env:
-      NPM_EMAIL: ${{ secrets.NPM_EMAIL }}
-      NPM_NAME: ${{ secrets.NPM_NAME }}
-      NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-
    - name: Checkout Repo
      uses: actions/checkout@v6
      with:
@@ -46,4 +39,5 @@ jobs:
       title: ':package: RELEASE: preparing next version'
      env:
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+      NPM_CONFIG_PROVENANCE: true
+      
