@@ -1,5 +1,18 @@
 # vite-plugin-stripper
 
+## 0.10.0-next.0
+
+### Minor Changes
+
+- [#1136](https://github.com/jycouet/kitql/pull/1136) [`6beba92`](https://github.com/jycouet/kitql/commit/6beba921bc4a46feb9985f219cd73fb6c3848d6a) Thanks [@jycouet](https://github.com/jycouet)! - remove option `log_on_throw_is_not_a_new_class` (ping me if you want support of it again!)
+
+### Patch Changes
+
+- Updated dependencies [[`6beba92`](https://github.com/jycouet/kitql/commit/6beba921bc4a46feb9985f219cd73fb6c3848d6a)]:
+  - @kitql/internals@0.11.0-next.0
+  - @kitql/helpers@0.8.13
+  - vite-plugin-watch-and-run@1.7.5
+
 ## 0.9.2
 
 ### Patch Changes
