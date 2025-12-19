@@ -18,6 +18,7 @@ catalogs:
   'commander': '14.0.0'
   'ora': '9.0.0'
   'tsx': '4.21.0'
+  picospinner: 3.0.0
 
  vite:
   'vite': '^7.0.0'
@@ -33,6 +34,7 @@ catalogs:
   '@playwright/test': '1.57.0'
 
  linting:
+  '@e18e/eslint-plugin': ^0.1.1
   '@eslint/compat': '1.4.0'
   '@eslint/js': '9.39.1'
   '@types/eslint': '9.6.1'
@@ -56,7 +58,7 @@ catalogs:
 
  linting-oxc:
   oxlint: 1.34.0
-  oxlint-tsgolint: 0.9.1
+  oxlint-tsgolint: 0.10.0
   eslint-plugin-oxlint: 1.34.0
 
  lib-author-helper:
@@ -98,5 +100,3 @@ catalogs:
   astro-icon: 1.1.5
   sharp: 0.34.1
   prettier-plugin-astro: 0.14.1
- conflicts_testing_h2_0_1:
-  vitest-browser-svelte: ^2.0.1

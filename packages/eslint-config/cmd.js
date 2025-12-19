@@ -3,7 +3,7 @@ import { spawn } from 'node:child_process'
 import fs from 'node:fs'
 import path from 'node:path'
 import { Option, program } from 'commander'
-import ora from 'ora'
+import { Spinner } from 'picospinner'
 
 import { bgBlueBright, bgGreen, bgRedBright, gray, green, red } from '@kitql/helpers'
 
@@ -44,15 +44,9 @@ const tools = /** @type {typeof TOOLS_ALL} */ (options_cli.tools.split(',') ?? T
 const diffOnly = /** @type {boolean} */ (options_cli.diffOnly ?? false)
 const baseBranch = /** @type {string} */ (options_cli.baseBranch ?? 'main')
 
-const spinner = ora({
-	prefixText: bgBlueBright(` kitql-lint `),
-})
-
-function updateSpinnerText(/** @type {string} */ msg) {
-	spinner.text = msg
-	spinner.start()
-}
-updateSpinnerText('Action: ' + green(format ? 'formatting' : 'linting'))
+const spinner = new Spinner({ symbolFormatter: (msg) => bgBlueBright(` kitql-lint `) + ' ' + msg })
+spinner.start()
+spinner.setText('Action: ' + green(format ? 'formatting' : 'linting'))
 
 let preToUse = ''
 if (pre === 'npm') {
@@ -95,7 +89,7 @@ async function customSpawn(/** @type {string} */ cmd) {
 
 let filesLength = -1
 async function getDiffFiles() {
-	updateSpinnerText(
+	spinner.setText(
 		verbose ? 'git diff ' + gray(`(getting changed files against ${baseBranch})`) : 'git diff',
 	)
 
@@ -282,7 +276,7 @@ async function runOxc(/** @type {string} */ name) {
 		`${format ? ' --fix' : ''}` +
 		` ${glob}`
 
-	updateSpinnerText(gray(`${verbose ? cmdLint : name} `))
+	spinner.setText(gray(`${verbose ? cmdLint : name} `))
 
 	const result_lint = await customSpawn(cmdLint)
 
@@ -298,7 +292,7 @@ async function runEslint() {
 		// exec
 		` ${glob}`
 
-	updateSpinnerText(gray(`${verbose ? cmd : 'eslint'} `))
+	spinner.setText(gray(`${verbose ? cmd : 'eslint'} `))
 
 	const result_lint = await customSpawn(cmd)
 
@@ -319,7 +313,7 @@ async function runPrettier() {
 		// exec
 		` ${glob}`
 
-	updateSpinnerText(gray(`${verbose ? cmdFormat : 'prettier'} `))
+	spinner.setText(gray(`${verbose ? cmdFormat : 'prettier'} `))
 
 	const result_format = await customSpawn(cmdFormat)
 
@@ -360,8 +354,10 @@ if ((tools.includes('oxlint') || tools.includes('tsgolint')) && glob) {
 	const stepTook = performance.now() - start
 	took.push(display(name, stepTook))
 	if (typeof code === 'object' && 'status' in code && code.status) {
-		spinner.prefixText = bgRedBright(` kitql-lint `)
-		spinner.fail(red(`lint failed, check logs above. ${displayTook()}`))
+		spinner.fail({
+			symbolFormatter: (msg) => bgRedBright(` kitql-lint `) + ' ' + msg,
+			text: red(`lint failed, check logs above. ${displayTook()}`),
+		})
 		process.exit(code.status)
 	}
 }
@@ -372,8 +368,10 @@ if (tools.includes('eslint') && glob) {
 	const stepTook = performance.now() - start
 	took.push(display('eslint', stepTook))
 	if (typeof code === 'object' && 'status' in code && code.status) {
-		spinner.prefixText = bgRedBright(` kitql-lint `)
-		spinner.fail(red(`lint failed, check logs above. ${displayTook()}`))
+		spinner.fail({
+			symbolFormatter: (msg) => bgRedBright(` kitql-lint `) + ' ' + msg,
+			text: red(`lint failed, check logs above. ${displayTook()}`),
+		})
 		process.exit(code.status)
 	}
 }
@@ -384,15 +382,18 @@ if (tools.includes('prettier') && glob) {
 	const stepTook = performance.now() - start
 	took.push(display('prettier', stepTook))
 	if (typeof code === 'object' && 'status' in code && code.status) {
-		spinner.prefixText = bgRedBright(` kitql-lint `)
-		spinner.fail(red(`format failed, check logs above. ${displayTook()}`))
+		spinner.fail({
+			symbolFormatter: (msg) => bgRedBright(` kitql-lint `) + ' ' + msg,
+			text: red(`format failed, check logs above. ${displayTook()}`),
+		})
 		process.exit(code.status)
 	}
 }
 
-spinner.prefixText = bgGreen(` kitql-lint `)
-spinner.succeed(
-	`All good, ` +
+spinner.succeed({
+	symbolFormatter: (msg) => bgGreen(` kitql-lint `) + ' ' + msg,
+	text:
+		`All good, ` +
 		`${
 			glob === ''
 				? 'nothing to do!'
@@ -401,6 +402,6 @@ spinner.succeed(
 					: 'your files looks great!'
 		} ` +
 		displayTook(),
-)
+})
 spinner.stop()
 process.exit(0)

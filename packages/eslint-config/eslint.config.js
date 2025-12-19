@@ -1,3 +1,4 @@
+import e18e from '@e18e/eslint-plugin'
 import { includeIgnoreFile } from '@eslint/compat'
 import js from '@eslint/js'
 import prettier from 'eslint-config-prettier'
@@ -95,6 +96,7 @@ const othersRules = ({ svelteConfig } = {}) => {
 		...svelte.configs.recommended,
 		{ name: 'eslint/prettier', ...prettier },
 		...svelte.configs.prettier,
+		e18e?.configs?.recommended,
 		{
 			name: '@kitql:languages',
 			languageOptions: {

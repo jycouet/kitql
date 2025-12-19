@@ -31,6 +31,7 @@ export function extractHtmlElementAttr_Text(pathFile: string, elements: ElementA
 	function getLineAndColumn(index: number): { line: number; column: number } {
 		const lines = source.substring(0, index).split('\n')
 		const line = lines.length
+		// eslint-disable-next-line e18e/prefer-array-at
 		const column = lines[lines.length - 1].length + 1 // +1 for 1-based index
 		return { line, column }
 	}
