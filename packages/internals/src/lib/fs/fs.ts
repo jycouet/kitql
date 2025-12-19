@@ -59,6 +59,7 @@ export function getFilesUnder(rootFolder: string) {
  */
 export function getRelativePackagePath(packageName: string) {
 	for (let i = 0; i < 6; i++) {
+		// eslint-disable-next-line e18e/prefer-array-fill
 		const path = posix.join(...Array.from({ length: i }, () => '..'), 'node_modules', packageName)
 		if (existsSync(path)) {
 			return path
