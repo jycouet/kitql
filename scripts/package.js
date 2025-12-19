@@ -176,7 +176,7 @@ function listFiles(dir) {
 		items.forEach((item) => {
 			const fullPath = path.join(dir, item)
 			if (fs.statSync(fullPath).isDirectory()) {
-				files = files.concat(listFiles(fullPath))
+				files = [...files, ...listFiles(fullPath)]
 			} else {
 				files.push(fullPath)
 			}
