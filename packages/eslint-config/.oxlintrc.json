@@ -1,7 +1,7 @@
 {
 	"$schema": "./node_modules/oxlint/configuration_schema.json",
 	"plugins": ["unicorn", "typescript", "oxc"],
-	"jsPlugins": ["eslint-plugin-svelte", "eslint-plugin-unused-imports"],
+	"jsPlugins": ["eslint-plugin-svelte"],
 	"rules": {
 		"no-unused-vars": [
 			"error",

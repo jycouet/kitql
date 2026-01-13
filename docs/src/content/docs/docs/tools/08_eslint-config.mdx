@@ -42,8 +42,8 @@ public-hoist-pattern[]=*prettier*
 // eslint.config.js
 import { kitql } from '@kitql/eslint-config'
 
-/** @type { import("eslint").Linter.Config[] } */
-export default [
+/** @type { import('eslint').Linter.Config[]} */
+const config = [
 	...kitql(),
 	{
 		name: 'app:rules',
@@ -52,6 +52,8 @@ export default [
 		},
 	},
 ]
+
+export default config
 ```
 
 You can check your config running this [tool](https://github.com/eslint/config-inspector)

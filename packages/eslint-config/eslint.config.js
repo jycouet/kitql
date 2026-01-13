@@ -5,7 +5,6 @@ import prettier from 'eslint-config-prettier'
 import oxlint from 'eslint-plugin-oxlint'
 import pluginPnpm from 'eslint-plugin-pnpm'
 import svelte from 'eslint-plugin-svelte'
-import unusedImports from 'eslint-plugin-unused-imports'
 import globals from 'globals'
 import * as jsoncParser from 'jsonc-eslint-parser'
 import ts from 'typescript-eslint'
@@ -124,24 +123,19 @@ const othersRules = ({ svelteConfig } = {}) => {
 		},
 		{
 			name: '@kitql:unused-imports',
-			plugins: {
-				'unused-imports': unusedImports,
-			},
 			rules: {
 				'no-unused-vars': 'off',
-				'@typescript-eslint/no-unused-vars': 'off',
+				'@typescript-eslint/no-unused-vars': [
+					'error',
+					{
+						args: 'none',
+						caughtErrors: 'none',
+						enableAutofixRemoval: {
+							imports: true,
+						},
+					},
+				],
 
-				'unused-imports/no-unused-imports': 'error',
-				'unused-imports/no-unused-vars': 'off',
-				// 'unused-imports/no-unused-vars': [
-				//   'warn',
-				//   {
-				//     vars: 'all',
-				//     varsIgnorePattern: '^_',
-				//     args: 'after-used',
-				//     argsIgnorePattern: '^_',
-				//   },
-				// ],
 				'no-empty': ['error', { allowEmptyCatch: true }],
 			},
 		},
