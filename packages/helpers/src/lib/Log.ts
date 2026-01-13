@@ -116,4 +116,20 @@ export class Log {
 		console.error(...built.flatMap((c) => c))
 		return built
 	}
+
+	/**
+	 * console.info with animated loading spinner... one day!
+	 */
+	loadingStart(...msgs: any[]) {
+		const built = this.buildStr(false, false, 0, msgs)
+		console.info(...built.flatMap((c) => c))
+		return built
+	}
+
+	/**
+	 * Stop the loading animation and show final message
+	 */
+	loadingStop(type: 'success' | 'error', ...msgs: any[]) {
+		type === 'success' ? this.success(...msgs) : this.error(...msgs)
+	}
 }

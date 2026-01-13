@@ -91,10 +91,6 @@ export type ViteStripperOptions = {
 export function stripper(options?: ViteStripperOptions): PluginOption {
 	const log = new Log('stripper')
 
-	const getProjectPath = () => {
-		return process.cwd() + '/src'
-	}
-
 	const plugins: PluginOption = [
 		{
 			name: 'vite-plugin-stripper',

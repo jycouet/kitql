@@ -100,9 +100,6 @@ catalogs:
     eslint-plugin-svelte:
       specifier: 3.14.0
       version: 3.14.0
-    eslint-plugin-unused-imports:
-      specifier: 4.3.0
-      version: 4.3.0
     globals:
       specifier: 17.0.0
       version: 17.0.0
@@ -194,9 +191,6 @@ catalogs:
     oxc-walker:
       specifier: 0.6.0
       version: 0.6.0
-    picospinner:
-      specifier: 3.0.0
-      version: 3.0.0
     tsx:
       specifier: 4.21.0
       version: 4.21.0
@@ -307,9 +301,6 @@ importers:
       eslint-plugin-svelte:
         specifier: catalog:linting
         version: 3.14.0(eslint@9.39.1(jiti@1.21.7))(svelte@5.46.0)(ts-node@10.9.2(@types/node@22.13.9)(typescript@5.9.2))
-      eslint-plugin-unused-imports:
-        specifier: catalog:linting
-        version: 4.3.0(@typescript-eslint/eslint-plugin@8.53.0(@typescript-eslint/parser@8.53.0(eslint@9.39.1(jiti@1.21.7))(typescript@5.9.2))(eslint@9.39.1(jiti@1.21.7))(typescript@5.9.2))(eslint@9.39.1(jiti@1.21.7))
       globals:
         specifier: catalog:linting
         version: 17.0.0
@@ -322,9 +313,6 @@ importers:
       oxlint-tsgolint:
         specifier: catalog:linting-oxc
         version: 0.11.0
-      picospinner:
-        specifier: catalog:tooling
-        version: 3.0.0
       prettier:
         specifier: catalog:formatting
         version: 3.6.1
@@ -2906,15 +2894,6 @@ packages:
       svelte:
         optional: true
 
-  eslint-plugin-unused-imports@4.3.0:
-    resolution: {integrity: sha512-ZFBmXMGBYfHttdRtOG9nFFpmUvMtbHSjsKrS20vdWdbfiVYsO3yA2SGYy9i9XmZJDfMGBflZGBCm70SEnFQtOA==}
-    peerDependencies:
-      '@typescript-eslint/eslint-plugin': ^8.0.0-0 || ^7.0.0 || ^6.0.0 || ^5.0.0
-      eslint: ^9.0.0 || ^8.0.0
-    peerDependenciesMeta:
-      '@typescript-eslint/eslint-plugin':
-        optional: true
-
   eslint-scope@8.4.0:
     resolution: {integrity: sha512-sNXOfKCn74rt8RICKMvJS7XKV/Xk9kA7DyJr8mJik3S7Cwgy3qlkkmyS2uQB3jiJg6VNdZd/pDBJu0nvG2NlTg==}
     engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
@@ -4095,10 +4074,6 @@ packages:
   picomatch@4.0.3:
     resolution: {integrity: sha512-5gTmgEY/sqK6gFXLIsQNH19lWb4ebPDLA4SdLP7dsWkIXHWlG66oPuVvXSGFPppYZz8ZDZq0dYYrbHfBCVUb1Q==}
     engines: {node: '>=12'}
-
-  picospinner@3.0.0:
-    resolution: {integrity: sha512-lGA1TNsmy2bxvRsTI2cV01kfTwKzZjnZSDmF9llYNyMHMrU4sP87lQ5taiIKm88L3cbswjl008nwyGc3WpNvzg==}
-    engines: {node: '>=18.0.0'}
 
   pify@4.0.1:
     resolution: {integrity: sha512-uB80kBFb/tfd68bVleG9T5GGsGPjJrLAUpR5PZIrhBnIaRTQRjqdJSsIKkOP6OAIFbj7GOrcudc5pNjZ+geV2g==}
@@ -7613,12 +7588,6 @@ snapshots:
     transitivePeerDependencies:
       - ts-node
 
-  eslint-plugin-unused-imports@4.3.0(@typescript-eslint/eslint-plugin@8.53.0(@typescript-eslint/parser@8.53.0(eslint@9.39.1(jiti@1.21.7))(typescript@5.9.2))(eslint@9.39.1(jiti@1.21.7))(typescript@5.9.2))(eslint@9.39.1(jiti@1.21.7)):
-    dependencies:
-      eslint: 9.39.1(jiti@1.21.7)
-    optionalDependencies:
-      '@typescript-eslint/eslint-plugin': 8.53.0(@typescript-eslint/parser@8.53.0(eslint@9.39.1(jiti@1.21.7))(typescript@5.9.2))(eslint@9.39.1(jiti@1.21.7))(typescript@5.9.2)
-
   eslint-scope@8.4.0:
     dependencies:
       esrecurse: 4.3.0
@@ -9270,8 +9239,6 @@ snapshots:
   picomatch@2.3.1: {}
 
   picomatch@4.0.3: {}
-
-  picospinner@3.0.0: {}
 
   pify@4.0.1: {}
 

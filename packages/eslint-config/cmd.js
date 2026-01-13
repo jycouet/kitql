@@ -3,9 +3,8 @@ import { spawn } from 'node:child_process'
 import fs from 'node:fs'
 import path from 'node:path'
 import { Option, program } from 'commander'
-import { Spinner } from 'picospinner'
 
-import { bgBlueBright, bgGreen, bgRedBright, gray, green, red } from '@kitql/helpers'
+import { gray, green, Log } from '@kitql/helpers'
 
 import { findFileOrUp } from './helper/findFileOrUp.js'
 
@@ -44,9 +43,11 @@ const tools = /** @type {typeof TOOLS_ALL} */ (options_cli.tools.split(',') ?? T
 const diffOnly = /** @type {boolean} */ (options_cli.diffOnly ?? false)
 const baseBranch = /** @type {string} */ (options_cli.baseBranch ?? 'main')
 
-const spinner = new Spinner({ symbolFormatter: (msg) => bgBlueBright(` kitql-lint `) + ' ' + msg })
-spinner.start()
-spinner.setText('Action: ' + green(format ? 'formatting' : 'linting'))
+const log = new Log('kitql-lint')
+// const spinner = new Spinner({ symbolFormatter: (msg) => bgBlueBright(` kitql-lint `) + ' ' + msg })
+// spinner.start()
+// spinner.setText('Action: ' + green(format ? 'formatting' : 'linting'))
+log.info('Action: ' + green(format ? 'formatting' : 'linting'))
 
 let preToUse = ''
 if (pre === 'npm') {
@@ -89,7 +90,7 @@ async function customSpawn(/** @type {string} */ cmd) {
 
 let filesLength = -1
 async function getDiffFiles() {
-	spinner.setText(
+	log.info(
 		verbose ? 'git diff ' + gray(`(getting changed files against ${baseBranch})`) : 'git diff',
 	)
 
@@ -114,11 +115,11 @@ async function getDiffFiles() {
 		if (gitRootExitCode === 0) {
 			gitRootPath = rootData.trim()
 		} else {
-			spinner.warn('Could not determine git repository root')
+			log.error('Could not determine git repository root')
 			return null
 		}
 	} catch (error) {
-		if (error instanceof Error) spinner.warn(`Error getting git root: ${error.message}`)
+		if (error instanceof Error) log.error(`Error getting git root: ${error.message}`)
 		return null
 	}
 
@@ -142,7 +143,7 @@ async function getDiffFiles() {
 			if (branchExitCode === 0) {
 				validBranch = branch
 				if (verbose && branch !== baseBranch) {
-					spinner.info(`Using '${branch}' as base branch instead of '${baseBranch}'`)
+					log.info(`Using '${branch}' as base branch instead of '${baseBranch}'`)
 				}
 				break
 			}
@@ -158,14 +159,14 @@ async function getDiffFiles() {
 				// In CI, we can try to get all staged and unstaged changes
 				validBranch = 'HEAD'
 				if (verbose) {
-					spinner.info('In CI environment, checking all changes')
+					log.info('In CI environment, checking all changes')
 				}
 			} catch (error) {
-				spinner.warn(`Could not find a valid base branch to compare against`)
+				log.error(`Could not find a valid base branch to compare against`)
 				return null
 			}
 		} else {
-			spinner.warn(`Could not find a valid base branch to compare against`)
+			log.error(`Could not find a valid base branch to compare against`)
 			return null
 		}
 	}
@@ -216,18 +217,18 @@ async function getDiffFiles() {
 					if (fallbackExitCode === 0 && fallbackData.trim()) {
 						data = fallbackData
 						if (verbose) {
-							spinner.info('Using fallback method to get changed files in CI')
+							log.info('Using fallback method to get changed files in CI')
 						}
 					} else {
-						spinner.warn(`Could not get changed files: ${error}`)
+						log.error(`Could not get changed files: ${error}`)
 						return null
 					}
 				} catch {
-					spinner.warn(`Could not get changed files: ${error}`)
+					log.error(`Could not get changed files: ${error}`)
 					return null
 				}
 			} else {
-				spinner.warn(`Could not get changed files: ${error}`)
+				log.error(`Could not get changed files: ${error}`)
 				return null
 			}
 		}
@@ -257,13 +258,13 @@ async function getDiffFiles() {
 
 		filesLength = files.length
 		if (verbose) {
-			spinner.info(`Found ${filesLength} changed files at or below current directory`)
+			log.info(`Found ${filesLength} changed files at or below current directory`)
 		}
 
 		// Format the files for the command line, wrapping each in quotes and joining with spaces
 		return files.length > 0 ? files.map((f) => `'${f}'`).join(' ') : null
 	} catch (error) {
-		if (error instanceof Error) spinner.warn(`Error getting changed files: ${error.message}`)
+		if (error instanceof Error) log.error(`Error getting changed files: ${error.message}`)
 		return null
 	}
 }
@@ -276,7 +277,7 @@ async function runOxc(/** @type {string} */ name) {
 		`${format ? ' --fix' : ''}` +
 		` ${glob}`
 
-	spinner.setText(gray(`${verbose ? cmdLint : name} `))
+	log.info(gray(`${verbose ? cmdLint : name} `))
 
 	const result_lint = await customSpawn(cmdLint)
 
@@ -292,8 +293,7 @@ async function runEslint() {
 		// exec
 		` ${glob}`
 
-	spinner.setText(gray(`${verbose ? cmd : 'eslint'} `))
-
+	log.info(gray(`${verbose ? cmd : 'eslint'} `))
 	const result_lint = await customSpawn(cmd)
 
 	return result_lint
@@ -313,7 +313,7 @@ async function runPrettier() {
 		// exec
 		` ${glob}`
 
-	spinner.setText(gray(`${verbose ? cmdFormat : 'prettier'} `))
+	log.info(gray(`${verbose ? cmdFormat : 'prettier'} `))
 
 	const result_format = await customSpawn(cmdFormat)
 
@@ -354,11 +354,8 @@ if ((tools.includes('oxlint') || tools.includes('tsgolint')) && glob) {
 	const stepTook = performance.now() - start
 	took.push(display(name, stepTook))
 	if (typeof code === 'object' && 'status' in code && code.status) {
-		spinner.fail({
-			symbolFormatter: (msg) => bgRedBright(` kitql-lint `) + ' ' + msg,
-			text: red(`lint failed, check logs above. ${displayTook()}`),
-		})
-		process.exit(code.status)
+		log.error(`lint failed, check logs above. ${displayTook()}`)
+		process.exit(Number(code.status))
 	}
 }
 
@@ -368,11 +365,8 @@ if (tools.includes('eslint') && glob) {
 	const stepTook = performance.now() - start
 	took.push(display('eslint', stepTook))
 	if (typeof code === 'object' && 'status' in code && code.status) {
-		spinner.fail({
-			symbolFormatter: (msg) => bgRedBright(` kitql-lint `) + ' ' + msg,
-			text: red(`lint failed, check logs above. ${displayTook()}`),
-		})
-		process.exit(code.status)
+		log.error(`lint failed, check logs above. ${displayTook()}`)
+		process.exit(Number(code.status))
 	}
 }
 
@@ -382,18 +376,13 @@ if (tools.includes('prettier') && glob) {
 	const stepTook = performance.now() - start
 	took.push(display('prettier', stepTook))
 	if (typeof code === 'object' && 'status' in code && code.status) {
-		spinner.fail({
-			symbolFormatter: (msg) => bgRedBright(` kitql-lint `) + ' ' + msg,
-			text: red(`format failed, check logs above. ${displayTook()}`),
-		})
-		process.exit(code.status)
+		log.error(`format failed, check logs above. ${displayTook()}`)
+		process.exit(Number(code.status))
 	}
 }
 
-spinner.succeed({
-	symbolFormatter: (msg) => bgGreen(` kitql-lint `) + ' ' + msg,
-	text:
-		`All good, ` +
+log.success(
+	`All good, ` +
 		`${
 			glob === ''
 				? 'nothing to do!'
@@ -402,6 +391,5 @@ spinner.succeed({
 					: 'your files looks great!'
 		} ` +
 		displayTook(),
-})
-spinner.stop()
+)
 process.exit(0)

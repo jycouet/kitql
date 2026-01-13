@@ -1,3 +1,6 @@
 import kitql from '@kitql/eslint-config'
 
-export default [...kitql]
+/** @type {import('eslint').Linter.Config[]} */
+const config = [...kitql]
+
+export default config

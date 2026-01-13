@@ -16,11 +16,13 @@
 		"kitql-lint": "./cmd.js"
 	},
 	"main": "eslint.config.js",
+	"types": "eslint.config.d.ts",
 	"files": [
 		".oxlintrc.json",
 		".prettierrc.js",
 		"cmd.js",
 		"eslint.config.js",
+		"eslint.config.d.ts",
 		"helper/findFileOrUp.js"
 	],
 	"keywords": [
@@ -71,10 +73,8 @@
 		"eslint-plugin-oxlint": "catalog:linting-oxc",
 		"eslint-plugin-pnpm": "catalog:linting",
 		"eslint-plugin-svelte": "catalog:linting",
-		"eslint-plugin-unused-imports": "catalog:linting",
 		"globals": "catalog:linting",
 		"jsonc-eslint-parser": "catalog:linting",
-		"picospinner": "catalog:tooling",
 		"prettier-plugin-sh": "catalog:formatting",
 		"prettier-plugin-svelte": "catalog:formatting",
 		"prettier-plugin-tailwindcss": "catalog:formatting",
