@@ -99,7 +99,7 @@ export const load = async () => {
   ${yellow('yellow')}
   ${yellowBright('yellowBright')}
 `
-	// logSQL.info(_msg)
+	logSQL.info(_msg)
 
 	return {}
 }

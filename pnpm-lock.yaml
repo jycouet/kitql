@@ -191,9 +191,6 @@ catalogs:
     oxc-walker:
       specifier: 0.6.0
       version: 0.6.0
-    picospinner:
-      specifier: 3.0.0
-      version: 3.0.0
     tsx:
       specifier: 4.21.0
       version: 4.21.0
@@ -316,9 +313,6 @@ importers:
       oxlint-tsgolint:
         specifier: catalog:linting-oxc
         version: 0.11.0
-      picospinner:
-        specifier: catalog:tooling
-        version: 3.0.0
       prettier:
         specifier: catalog:formatting
         version: 3.6.1
@@ -4080,10 +4074,6 @@ packages:
   picomatch@4.0.3:
     resolution: {integrity: sha512-5gTmgEY/sqK6gFXLIsQNH19lWb4ebPDLA4SdLP7dsWkIXHWlG66oPuVvXSGFPppYZz8ZDZq0dYYrbHfBCVUb1Q==}
     engines: {node: '>=12'}
-
-  picospinner@3.0.0:
-    resolution: {integrity: sha512-lGA1TNsmy2bxvRsTI2cV01kfTwKzZjnZSDmF9llYNyMHMrU4sP87lQ5taiIKm88L3cbswjl008nwyGc3WpNvzg==}
-    engines: {node: '>=18.0.0'}
 
   pify@4.0.1:
     resolution: {integrity: sha512-uB80kBFb/tfd68bVleG9T5GGsGPjJrLAUpR5PZIrhBnIaRTQRjqdJSsIKkOP6OAIFbj7GOrcudc5pNjZ+geV2g==}
@@ -9249,8 +9239,6 @@ snapshots:
   picomatch@2.3.1: {}
 
   picomatch@4.0.3: {}
-
-  picospinner@3.0.0: {}
 
   pify@4.0.1: {}
 
