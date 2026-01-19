@@ -189,8 +189,8 @@ catalogs:
       specifier: 0.108.0
       version: 0.108.0
     oxc-walker:
-      specifier: 0.6.0
-      version: 0.6.0
+      specifier: 0.7.0
+      version: 0.7.0
     tsx:
       specifier: 4.21.0
       version: 4.21.0
@@ -448,7 +448,7 @@ importers:
         version: 0.108.0
       oxc-walker:
         specifier: catalog:tooling
-        version: 0.6.0(oxc-parser@0.108.0)
+        version: 0.7.0(oxc-parser@0.108.0)
       svelte:
         specifier: catalog:svelte-dep
         version: 5.46.0
@@ -2940,7 +2940,7 @@ packages:
     resolution: {integrity: sha512-GiYWG34AN/4CUyaWAgunGt0Rxvr1PTMlGC0vvEov/uOQYWne2bpN03Um+k8jT+q3op33mKouP2zeJ6OlM+qeUg==}
 
   esrap@https://pkg.pr.new/sveltejs/esrap@87:
-    resolution: {integrity: sha512-/7B6z01CTa9sYMsCREUCwzWPda7WCS2/g8tELUKshdfe3l50iWy7pr9E3m5QOlW9Qh5acXIxf72AWkI+YpkVig==, tarball: https://pkg.pr.new/sveltejs/esrap@87}
+    resolution: {tarball: https://pkg.pr.new/sveltejs/esrap@87}
     version: 2.1.2
 
   esrecurse@4.3.0:
@@ -3940,8 +3940,8 @@ packages:
     resolution: {integrity: sha512-eM0GUxQgVZXZxB364HRlakUH8rBxh5E6dN+RiiCLtOk84WgLFbhydULyd2DUJYxguvcbjWUmmKgVDyvVCeplDA==}
     engines: {node: ^20.19.0 || >=22.12.0}
 
-  oxc-walker@0.6.0:
-    resolution: {integrity: sha512-BA3hlxq5+Sgzp7TCQF52XDXCK5mwoIZuIuxv/+JuuTzOs2RXkLqWZgZ69d8pJDDjnL7wiREZTWHBzFp/UWH88Q==}
+  oxc-walker@0.7.0:
+    resolution: {integrity: sha512-54B4KUhrzbzc4sKvKwVYm7E2PgeROpGba0/2nlNZMqfDyca+yOor5IMb4WLGBatGDT0nkzYdYuzylg7n3YfB7A==}
     peerDependencies:
       oxc-parser: '>=0.98.0'
 
@@ -4631,6 +4631,7 @@ packages:
   tar@6.2.1:
     resolution: {integrity: sha512-DZ4yORTwrbTj/7MZYq2w+/ZFdI6OZ/f9SFHR+71gIVUZhOQPHzVCLpvRnPgyaMpfWxxk/4ONva3GQSyNIKRv6A==}
     engines: {node: '>=10'}
+    deprecated: Old versions of tar are not supported, and contain widely publicized security vulnerabilities, which have been fixed in the current version. Please update. Support for old versions may be purchased (at exhorbitant rates) by contacting i@izs.me
 
   term-size@2.2.1:
     resolution: {integrity: sha512-wK0Ri4fOGjv/XPy8SBHZChl8CM7uMc5VML7SqiQ0zG7+J5Vr+RMQDoHa2CNT6KHUnTGIXH34UDMkPzAUyapBZg==}
@@ -9095,7 +9096,7 @@ snapshots:
       '@oxc-parser/binding-win32-ia32-msvc': 0.108.0
       '@oxc-parser/binding-win32-x64-msvc': 0.108.0
 
-  oxc-walker@0.6.0(oxc-parser@0.108.0):
+  oxc-walker@0.7.0(oxc-parser@0.108.0):
     dependencies:
       magic-regexp: 0.10.0
       oxc-parser: 0.108.0
