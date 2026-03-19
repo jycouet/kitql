@@ -11,10 +11,7 @@ describe('picomatch', () => {
 
 	it('2', async () => {
 		expect(
-			picomatch.isMatch(
-				'/home/asbPath/site/[id]/one/[hello]/+page.server.ts',
-				'**/(+page.server.ts)',
-			),
+			picomatch.isMatch('/home/asbPath/site/[id]/one/[hello]/+page.server.ts', '**/(+page.server.ts)'),
 		).toBe(true)
 	})
 
