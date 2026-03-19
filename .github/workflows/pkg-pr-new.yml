@@ -9,6 +9,8 @@ jobs:
   steps:
    - name: 🎉 Checkout Repository
      uses: actions/checkout@v6
+     with:
+      fetch-depth: 0
 
    - name: 🪛 pnpm setup
      uses: pnpm/action-setup@v4
@@ -28,5 +30,15 @@ jobs:
    - name: 🚧 Build all Packages
      run: pnpm -r build
 
+   - name: 📦 Resolve changed packages from changesets
+     id: changed
+     run: |
+      NEW_CHANGESETS=$(git diff --name-only --diff-filter=A origin/${{ github.base_ref }}...HEAD -- '.changeset/*.md' | grep -v README.md)
+      PKGS=$(echo "$NEW_CHANGESETS" | xargs grep -h "^'" 2>/dev/null | sed "s/': .*$//" | sed "s/^'//" | sort -u | while read pkg; do
+        dir=$(pnpm -F "$pkg" exec pwd 2>/dev/null) && echo -n " '.${dir#$PWD}'"
+      done)
+      echo "packages=$PKGS" >> "$GITHUB_OUTPUT"
+
    - name: 📦 Publish Preview
-     run: npx pkg-pr-new publish --pnpm './packages/*'
+     if: steps.changed.outputs.packages != ''
+     run: npx pkg-pr-new publish --pnpm ${{ steps.changed.outputs.packages }}
