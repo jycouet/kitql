@@ -1,0 +1,44 @@
+name: Publish Preview Packages
+
+on:
+ pull_request:
+
+jobs:
+ preview:
+  runs-on: ubuntu-latest
+  steps:
+   - name: 🎉 Checkout Repository
+     uses: actions/checkout@v6
+     with:
+      fetch-depth: 0
+
+   - name: 🪛 pnpm setup
+     uses: pnpm/action-setup@v4
+     with:
+      version: 10.5.2
+      run_install: false
+
+   - name: 🛠️ node setup
+     uses: actions/setup-node@v6
+     with:
+      node-version: 24.14.0
+      cache: pnpm
+
+   - name: 🧑‍💻 install
+     run: pnpm i
+
+   - name: 🚧 Build all Packages
+     run: pnpm -r build
+
+   - name: 📦 Resolve changed packages from changesets
+     id: changed
+     run: |
+      NEW_CHANGESETS=$(git diff --name-only --diff-filter=A origin/${{ github.base_ref }}...HEAD -- '.changeset/*.md' | grep -v README.md)
+      PKGS=$(echo "$NEW_CHANGESETS" | xargs grep -h "^'" 2>/dev/null | sed "s/': .*$//" | sed "s/^'//" | sort -u | while read pkg; do
+        dir=$(pnpm -F "$pkg" exec pwd 2>/dev/null) && echo -n " '.${dir#$PWD}'"
+      done)
+      echo "packages=$PKGS" >> "$GITHUB_OUTPUT"
+
+   - name: 📦 Publish Preview
+     if: steps.changed.outputs.packages != ''
+     run: npx pkg-pr-new publish --pnpm ${{ steps.changed.outputs.packages }}

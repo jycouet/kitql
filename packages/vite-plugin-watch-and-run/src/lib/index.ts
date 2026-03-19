@@ -1,5 +1,5 @@
 import { spawn } from 'child_process'
-import micromatch from 'micromatch'
+import picomatch from 'picomatch'
 import type { PluginOption, ViteDevServer } from 'vite'
 
 import { cyan, green, Log, magenta, red } from '@kitql/helpers'
@@ -137,7 +137,7 @@ async function shouldRun(
 		if (info.watchFile) {
 			isPathMatching = await info.watchFile(absolutePath)
 		} else if (info.watch) {
-			isPathMatching = micromatch.isMatch(absolutePath, info.watch)
+			isPathMatching = picomatch.isMatch(absolutePath, info.watch)
 		}
 
 		const isWatchKindWithoutPath = kindWithoutPath.includes(watchKind as KindWithoutPath)
@@ -256,9 +256,17 @@ export const watchAndRun = (
 			const watchAndRunConf = checkConf(params)
 
 			// watch files outside of Vite root directory
+			// chokidar no longer supports globs, so we extract the base path(s)
 			for (const conf of watchAndRunConf) {
 				if (conf.watch) {
-					server.watcher.add(conf.watch)
+					const watches = Array.isArray(conf.watch) ? conf.watch : [conf.watch]
+					for (const w of watches) {
+						const { base } = picomatch.scan(w)
+						// Empty base means `**/*` style patterns — already watched by Vite
+						if (base) {
+							server.watcher.add(base)
+						}
+					}
 				}
 			}
 
