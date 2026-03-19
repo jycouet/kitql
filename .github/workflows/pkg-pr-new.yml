@@ -18,12 +18,6 @@ jobs:
       version: 10.5.2
       run_install: false
 
-   - name: 🛠️ node setup
-     uses: actions/setup-node@v6
-     with:
-      node-version: 24.14.0
-      cache: pnpm
-
    - name: 📦 Resolve changed packages from changesets
      id: changed
      run: |
@@ -32,6 +26,13 @@ jobs:
         dir=$(pnpm -F "$pkg" exec pwd 2>/dev/null) && echo -n " '.${dir#$PWD}'"
       done)
       echo "packages=$PKGS" >> "$GITHUB_OUTPUT"
+
+   - name: 🛠️ node setup
+     if: steps.changed.outputs.packages != ''
+     uses: actions/setup-node@v6
+     with:
+      node-version: 24.14.0
+      cache: pnpm
 
    - name: 🧑‍💻 install
      if: steps.changed.outputs.packages != ''
