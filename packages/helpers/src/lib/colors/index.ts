@@ -29,8 +29,11 @@ const colorBrowser = (style: Style, str: string) => {
 	return `${START1}${style}${START2}${str}${END}`
 }
 
+const kitqlTagsRegex = /\$\$KitQL_(.*?)_KitQL\$\$/g
+
 function extractKitQLTags(str: string) {
-	const regex = /\$\$KitQL_(.*?)_KitQL\$\$/g
+	const regex = kitqlTagsRegex
+	regex.lastIndex = 0
 	let match
 	const results = []
 

@@ -17,12 +17,12 @@ export function oxcCommentsToEsrapComments(code, oxc_ast, oxc_comments) {
 
 		let value = comment.value
 		// Normalize indentation for block comments with newlines (same as acorn)
-		if (comment.type === 'Block' && /\n/.test(value)) {
+		if (comment.type === 'Block' && value.includes('\n')) {
 			let a = comment.start
 			while (a > 0 && code[a - 1] !== '\n') a -= 1
 
 			let b = a
-			while (/[ \t]/.test(code[b])) b += 1
+			while (code[b] === ' ' || code[b] === '\t') b += 1
 
 			const indentation = code.slice(a, b)
 			value = value.replace(new RegExp(`^${indentation}`, 'gm'), '')

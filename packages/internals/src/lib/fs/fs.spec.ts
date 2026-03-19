@@ -136,6 +136,6 @@ describe('findFileOrUp', () => {
 	it('should find a file absolute', async () => {
 		const res = findFileOrUp('package.json', { absolute: true })
 		expect(res).not.toBe('package.json')
-		expect(res).match(/package.json$/)
+		expect(res?.endsWith('package.json')).toBe(true)
 	})
 })
