@@ -47,8 +47,8 @@ jobs:
    - name: 🧑‍💻 install
      run: pnpm i
 
-   - name: 🚧 Build all Packages
-     run: pnpm -r build
+   - name: 🚧 Build package (and workspace deps)
+     run: pnpm -F "${{ matrix.prj }}..." build
 
    - name: 🧹 Lint
      run: pnpm -F ${{ matrix.prj }} lint
