@@ -6,6 +6,8 @@ import { print, type KitQLParseResult } from '@kitql/internals'
 import { nullifyImports } from './nullifyImports.js'
 import { transformStrip, type StripConfig } from './transformStrip.js'
 
+const tsFileFilter = /\.ts$/
+
 export type ViteStripperOptions = {
 	/**
 	 * for example: `['BackendMethod']`
@@ -102,7 +104,7 @@ export function stripper(options?: ViteStripperOptions): PluginOption {
 
 			transform: {
 				filter: {
-					id: /\.ts$/,
+					id: tsFileFilter,
 				},
 				async handler(code, id, option) {
 					// Don't transform server-side code
