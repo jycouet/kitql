@@ -1,5 +1,11 @@
 # @kitql/vite-plugin-watch-and-run
 
+## 1.8.0-next.1
+
+### Minor Changes
+
+- [#1193](https://github.com/jycouet/kitql/pull/1193) [`b925b6c`](https://github.com/jycouet/kitql/commit/b925b6c50f432c11b81ea43cd020d66edaf0e863) Thanks [@jycouet](https://github.com/jycouet)! - fix glob support by extracting base paths for chokidar and replacing micromatch with picomatch
+
 ## 1.7.6-next.0
 
 ### Patch Changes
