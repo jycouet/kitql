@@ -33,7 +33,7 @@ jobs:
    - name: 📦 Resolve changed packages from changesets
      id: changed
      run: |
-      NEW_CHANGESETS=$(git diff --name-only --diff-filter=A origin/${{ github.base_ref }}...HEAD -- '.changeset/*.md' | grep -v README.md)
+      NEW_CHANGESETS=$(git diff --name-only --diff-filter=A origin/${{ github.base_ref }}...HEAD -- '.changeset/*.md' | grep -v README.md || true)
       PKGS=$(echo "$NEW_CHANGESETS" | xargs grep -h "^'" 2>/dev/null | sed "s/': .*$//" | sed "s/^'//" | sort -u | while read pkg; do
         dir=$(pnpm -F "$pkg" exec pwd 2>/dev/null) && echo -n " '.${dir#$PWD}'"
       done)
