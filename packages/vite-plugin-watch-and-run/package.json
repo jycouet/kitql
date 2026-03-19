@@ -34,7 +34,6 @@
     "@sveltejs/kit": "catalog:sveltekit",
     "@sveltejs/package": "catalog:sveltekit",
     "@sveltejs/vite-plugin-svelte": "catalog:sveltekit",
-    "@types/micromatch": "catalog:lib-dep-publish",
     "@typescript/native-preview": "catalog:tooling",
     "publint": "catalog:lib-author-helper",
     "svelte": "catalog:svelte",
@@ -45,7 +44,7 @@
   },
   "dependencies": {
     "@kitql/helpers": "workspace:*",
-    "micromatch": "catalog:lib-dep-publish"
+    "picomatch": "catalog:lib-dep-publish"
   },
   "sideEffects": false,
   "publishConfig": {

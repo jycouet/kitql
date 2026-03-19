@@ -102,7 +102,8 @@ describe('configureServer', () => {
 		const pl = p as any
 		await pl.configureServer(mockServer)
 
-		expect(mockServer.watcher.add).toHaveBeenCalledWith(watchPattern)
+		// ** patterns have no base dir, Vite already watches the project root
+		expect(mockServer.watcher.add).not.toHaveBeenCalled()
 	})
 
 	it('should set up watchers for all kindWithPath events', async () => {
@@ -154,7 +155,8 @@ describe('configureServer', () => {
 		const pl = p as any
 		await pl.configureServer(mockServer)
 
-		expect(mockServer.watcher.add).toHaveBeenCalledWith(watchPatterns)
+		// ** patterns have no base dir, Vite already watches the project root
+		expect(mockServer.watcher.add).not.toHaveBeenCalled()
 	})
 
 	it('should not add watcher if no watch pattern is provided', async () => {
@@ -188,10 +190,9 @@ describe('configureServer', () => {
 		const pl = p as any
 		await pl.configureServer(mockServer)
 
-		// Should add both watch pattern arrays
-		expect(mockServer.watcher.add).toHaveBeenCalledTimes(2)
-		expect(mockServer.watcher.add).toHaveBeenNthCalledWith(1, watchPatterns)
-		expect(mockServer.watcher.add).toHaveBeenNthCalledWith(2, ['**/*.css', '**/*.scss'])
+		// Only src/**/*.json has a base path, ** patterns are skipped
+		expect(mockServer.watcher.add).toHaveBeenCalledTimes(1)
+		expect(mockServer.watcher.add).toHaveBeenCalledWith('src')
 
 		// Verify all watchers are still set up
 		expect(mockServer.watcher.on).toHaveBeenCalledWith('add', expect.any(Function))
@@ -217,12 +218,46 @@ describe('configureServer', () => {
 		const pl = p as any
 		await pl.configureServer(mockServer)
 
-		// Verify that external patterns are added to the watcher
-		expect(mockServer.watcher.add).toHaveBeenCalledWith(watchPatterns)
+		// Base paths are extracted from globs for chokidar
+		expect(mockServer.watcher.add).toHaveBeenCalledTimes(4)
+		expect(mockServer.watcher.add).toHaveBeenCalledWith('../../shared')
+		expect(mockServer.watcher.add).toHaveBeenCalledWith('../sibling-project')
+		expect(mockServer.watcher.add).toHaveBeenCalledWith('/absolute/path')
+		expect(mockServer.watcher.add).toHaveBeenCalledWith('src')
 
 		// Verify watchers are set up for file events
 		expect(mockServer.watcher.on).toHaveBeenCalledWith('add', expect.any(Function))
 		expect(mockServer.watcher.on).toHaveBeenCalledWith('change', expect.any(Function))
 		expect(mockServer.watcher.on).toHaveBeenCalledWith('unlink', expect.any(Function))
+	})
+
+	it('should extract base path from glob with directory prefix', async () => {
+		const p = watchAndRun([
+			{
+				watch: 'src/**/*.(gql|graphql)',
+				run: 'npm run gen',
+			},
+		])
+
+		const pl = p as any
+		await pl.configureServer(mockServer)
+
+		expect(mockServer.watcher.add).toHaveBeenCalledWith('src')
+	})
+
+	it('should extract base paths individually from array of globs', async () => {
+		const p = watchAndRun([
+			{
+				watch: ['src/**/*.gql', 'lib/**/*.graphql'],
+				run: 'npm run gen',
+			},
+		])
+
+		const pl = p as any
+		await pl.configureServer(mockServer)
+
+		expect(mockServer.watcher.add).toHaveBeenCalledTimes(2)
+		expect(mockServer.watcher.add).toHaveBeenNthCalledWith(1, 'src')
+		expect(mockServer.watcher.add).toHaveBeenNthCalledWith(2, 'lib')
 	})
 })
