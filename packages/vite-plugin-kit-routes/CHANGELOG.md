@@ -1,5 +1,12 @@
 # vite-plugin-kit-routes
 
+## 1.0.3-next.2
+
+### Patch Changes
+
+- Updated dependencies [[`b925b6c`](https://github.com/jycouet/kitql/commit/b925b6c50f432c11b81ea43cd020d66edaf0e863)]:
+  - vite-plugin-watch-and-run@1.8.0-next.1
+
 ## 1.0.3-next.1
 
 ### Patch Changes
