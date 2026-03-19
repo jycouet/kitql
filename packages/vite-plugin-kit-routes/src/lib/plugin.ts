@@ -9,6 +9,14 @@ import { dirname, getFilesUnder, read, write } from '@kitql/internals'
 import { getActionsOfServerPages, getMethodsOfServerFiles } from './ast.js'
 import { appendSp, format, paramType, routeFn } from './format.js'
 
+const groupsInPathRegex = /\/\([^)]*\)/g
+const groupsRegex = /\([^)]*\)/g
+const optionalInPathRegex = /\/\[\[.*?\]\]/g
+const optionalRegex = /\[\[.*?\]\]/g
+const layoutInfoRegex = /@[^.]*\./
+const paramPatternRegex = /\[+([^\]]+)]+/g
+const trailingNewlineRegex = /\n$/
+
 export type RouteMappings = {
 	PAGES: Record<string, string>
 	SERVERS: Record<string, string>
@@ -315,9 +323,9 @@ export function routes_path(routes_path = 'src/routes') {
 export function rmvGroups(key: string) {
 	const toRet = key
 		// rmv /(groups)
-		.replace(/\/\([^)]*\)/g, '')
+		.replace(groupsInPathRegex, '')
 		// rmv (groups)
-		.replace(/\([^)]*\)/g, '')
+		.replace(groupsRegex, '')
 
 	return toRet
 }
@@ -325,9 +333,9 @@ export function rmvGroups(key: string) {
 export function rmvOptional(key: string) {
 	const toRet = key
 		// rmv /[[Optional]]
-		.replace(/\/\[\[.*?\]\]/g, '')
+		.replace(optionalInPathRegex, '')
 		// rmv [[Optional]]
-		.replace(/\[\[.*?\]\]/g, '')
+		.replace(optionalRegex, '')
 	return toRet
 }
 
@@ -402,7 +410,7 @@ const getMetadata = (files: string[], type: KindOfObject, o: Options, withAppend
 	files = files.map((c) => c.replaceAll('\\', '/'))
 
 	// remove the layout info
-	files = files.map((c) => c.replace(/@[^.]*\./, '.'))
+	files = files.map((c) => c.replace(layoutInfoRegex, '.'))
 
 	const toRet = files
 		.filter((file) => lookFor.some((l) => file.endsWith(l)))
@@ -791,13 +799,13 @@ function getSpValue(rawValue: string, param: ExplicitSearchParam) {
 
 export function extractParamsFromPath(path: string, o: Options): Param[] {
 	const options = getDefaultOption(o)
-	const paramPattern = /\[+([^\]]+)]+/g
+	paramPatternRegex.lastIndex = 0
 	let params: Param[] = []
 
 	const relToParams = posix.relative(dirname(options.generated_file_path), options.path_params)
 
 	let match
-	while ((match = paramPattern.exec(path)) !== null) {
+	while ((match = paramPatternRegex.exec(path)) !== null) {
 		// Check if it's surrounded by double brackets indicating an optional parameter
 		const isOptional = match[0].startsWith('[[')
 		const isArray = match[0].includes('...')
@@ -1172,7 +1180,7 @@ ${objTypes
 			// report errors
 			if (shouldLog('errors', options)) {
 				child.stderr.on('error', (data) => {
-					const msg = data.toString().replace(/\n$/, '')
+					const msg = data.toString().replace(trailingNewlineRegex, '')
 					if (msg.includes('DEP0040') && msg.includes('punycode')) {
 						// silent error
 					} else {
