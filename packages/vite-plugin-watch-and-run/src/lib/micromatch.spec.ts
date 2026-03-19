@@ -1,26 +1,23 @@
-// micromatch.isMatch(absolutePath, info.watch)
-import micromatch from 'micromatch'
+// picomatch.isMatch(absolutePath, info.watch)
+import picomatch from 'picomatch'
 import { describe, expect, it } from 'vitest'
 
-describe('micromatch', () => {
+describe('picomatch', () => {
 	it('1', async () => {
 		expect(
-			micromatch.isMatch('/home/asbPath/site/[id]/one/[hello]/+page.server.ts', '**/+page.server.ts'),
+			picomatch.isMatch('/home/asbPath/site/[id]/one/[hello]/+page.server.ts', '**/+page.server.ts'),
 		).toBe(true)
 	})
 
 	it('2', async () => {
 		expect(
-			micromatch.isMatch(
-				'/home/asbPath/site/[id]/one/[hello]/+page.server.ts',
-				'**/(+page.server.ts)',
-			),
+			picomatch.isMatch('/home/asbPath/site/[id]/one/[hello]/+page.server.ts', '**/(+page.server.ts)'),
 		).toBe(true)
 	})
 
 	it('3', async () => {
 		expect(
-			micromatch.isMatch('/home/asbPath/site/[id]/one/[hello]/+page.server.ts', [
+			picomatch.isMatch('/home/asbPath/site/[id]/one/[hello]/+page.server.ts', [
 				'**/+page.server.ts',
 				'**/+page.svelte',
 			]),
@@ -29,13 +26,13 @@ describe('micromatch', () => {
 
 	it('4', async () => {
 		expect(
-			micromatch.isMatch('/home/asbPath/site/[id]/one/[hello]/+page.server.ts', ['**/+page.svelte']),
+			picomatch.isMatch('/home/asbPath/site/[id]/one/[hello]/+page.server.ts', ['**/+page.svelte']),
 		).toBe(false)
 	})
 
 	it('5', async () => {
 		expect(
-			micromatch.isMatch('/home/asbPath/site/[id]/one/[hello]/+page.svelte', [
+			picomatch.isMatch('/home/asbPath/site/[id]/one/[hello]/+page.svelte', [
 				'**/+page.server.ts',
 				'**/+page.svelte',
 			]),
@@ -44,7 +41,7 @@ describe('micromatch', () => {
 
 	it('5', async () => {
 		expect(
-			micromatch.isMatch('/home/asbPath/site/[id]/one/[hello]/+page.svelteNOT', [
+			picomatch.isMatch('/home/asbPath/site/[id]/one/[hello]/+page.svelteNOT', [
 				'**/+page.server.ts',
 				'**/+page.svelte',
 			]),
