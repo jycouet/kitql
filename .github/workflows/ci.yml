@@ -33,7 +33,7 @@ jobs:
       submodules: recursive
 
    - name: 🪛 pnpm setup
-     uses: pnpm/action-setup@v4
+     uses: pnpm/action-setup@v5
      with:
       version: 10.5.2
       run_install: false
@@ -41,7 +41,7 @@ jobs:
    - name: 🛠️ node setup
      uses: actions/setup-node@v6
      with:
-      node-version: 24.12.0
+      node-version: 24.14.0
       cache: pnpm
 
    - name: 🧑‍💻 install
