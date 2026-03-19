@@ -24,12 +24,6 @@ jobs:
       node-version: 24.14.0
       cache: pnpm
 
-   - name: 🧑‍💻 install
-     run: pnpm i
-
-   - name: 🚧 Build all Packages
-     run: pnpm -r build
-
    - name: 📦 Resolve changed packages from changesets
      id: changed
      run: |
@@ -38,6 +32,14 @@ jobs:
         dir=$(pnpm -F "$pkg" exec pwd 2>/dev/null) && echo -n " '.${dir#$PWD}'"
       done)
       echo "packages=$PKGS" >> "$GITHUB_OUTPUT"
+
+   - name: 🧑‍💻 install
+     if: steps.changed.outputs.packages != ''
+     run: pnpm i
+
+   - name: 🚧 Build all Packages
+     if: steps.changed.outputs.packages != ''
+     run: pnpm -r build
 
    - name: 📦 Publish Preview
      if: steps.changed.outputs.packages != ''
