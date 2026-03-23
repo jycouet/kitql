@@ -71,8 +71,8 @@ catalogs:
       version: 1.1.2
   linting:
     '@e18e/eslint-plugin':
-      specifier: ^0.2.0
-      version: 0.2.0
+      specifier: ^0.3.0
+      version: 0.3.0
     '@eslint/compat':
       specifier: 2.0.3
       version: 2.0.3
@@ -261,7 +261,7 @@ importers:
     dependencies:
       '@e18e/eslint-plugin':
         specifier: catalog:linting
-        version: 0.2.0(eslint@9.39.1(jiti@1.21.7))(oxlint@1.56.0(oxlint-tsgolint@0.17.0))
+        version: 0.3.0(eslint@9.39.1(jiti@1.21.7))(oxlint@1.56.0(oxlint-tsgolint@0.17.0))
       '@eslint/compat':
         specifier: catalog:linting
         version: 2.0.3(eslint@9.39.1(jiti@1.21.7))
@@ -908,11 +908,11 @@ packages:
     resolution: {integrity: sha512-WyOx8cJQ+FQus4Mm4uPIZA64gbk3Wxh0so5Lcii0aJifqwoVOlfFtorjLE0Hen4OYyHZMXDWqMmaQemBhgxFRQ==}
     engines: {node: '>=14'}
 
-  '@e18e/eslint-plugin@0.2.0':
-    resolution: {integrity: sha512-mXgODVwhuDjTJ+UT+XSvmMmCidtGKfrV5nMIv1UtpWex2pYLsIM3RSpT8HWIMAebS9qANbXPKlSX4BE7ZvuCgA==}
+  '@e18e/eslint-plugin@0.3.0':
+    resolution: {integrity: sha512-hHgfpxsrZ2UYHcicA+tGZnmk19uJTaye9VH79O+XS8R4ona2Hx3xjhXghclNW58uXMk3xXlbYEOMr8thsoBmWg==}
     peerDependencies:
       eslint: ^9.0.0 || ^10.0.0
-      oxlint: ^1.41.0
+      oxlint: ^1.55.0
     peerDependenciesMeta:
       eslint:
         optional: true
@@ -3140,8 +3140,10 @@ packages:
     peerDependencies:
       eslint: '>=7.0.0'
 
-  eslint-plugin-depend@1.4.0:
-    resolution: {integrity: sha512-MQs+m4nHSfgAO9bJDsBzqw0ofK/AOA0vfeY/6ahofqcUMLeM6/D1sTYs21fOhc17kNU/gn58YCtj20XaAssh2A==}
+  eslint-plugin-depend@1.5.0:
+    resolution: {integrity: sha512-i3UeLYmclf1Icp35+6W7CR4Bp2PIpDgBuf/mpmXK5UeLkZlvYJ21VuQKKHHAIBKRTPivPGX/gZl5JGno1o9Y0A==}
+    peerDependencies:
+      eslint: '>=8.40.0'
 
   eslint-plugin-oxlint@1.56.0:
     resolution: {integrity: sha512-s47/OjE4cfQ+CD4eA38g+5axvwuyswY5H6acCdVGIvowYuLVJ6zrR7N260XfVVLRuyjjPO9L77qNYwSbmRNyuw==}
@@ -5812,9 +5814,9 @@ snapshots:
 
   '@ctrl/tinycolor@4.1.0': {}
 
-  '@e18e/eslint-plugin@0.2.0(eslint@9.39.1(jiti@1.21.7))(oxlint@1.56.0(oxlint-tsgolint@0.17.0))':
+  '@e18e/eslint-plugin@0.3.0(eslint@9.39.1(jiti@1.21.7))(oxlint@1.56.0(oxlint-tsgolint@0.17.0))':
     dependencies:
-      eslint-plugin-depend: 1.4.0
+      eslint-plugin-depend: 1.5.0(eslint@9.39.1(jiti@1.21.7))
     optionalDependencies:
       eslint: 9.39.1(jiti@1.21.7)
       oxlint: 1.56.0(oxlint-tsgolint@0.17.0)
@@ -7854,9 +7856,10 @@ snapshots:
     dependencies:
       eslint: 9.39.1(jiti@1.21.7)
 
-  eslint-plugin-depend@1.4.0:
+  eslint-plugin-depend@1.5.0(eslint@9.39.1(jiti@1.21.7)):
     dependencies:
       empathic: 2.0.0
+      eslint: 9.39.1(jiti@1.21.7)
       module-replacements: 2.10.1
       semver: 7.7.4
 
