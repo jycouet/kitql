@@ -2,7 +2,8 @@
   "name": "vite-plugin-watch-and-run",
   "description": "vite-plugin that will watch some files and run a package.json script on change",
   "keywords": [
-    "vite"
+    "vite",
+    "vite-plugin"
   ],
   "version": "1.8.0-next.1",
   "license": "MIT",
@@ -27,6 +28,9 @@
     "test:ci": "vitest run --coverage",
     "lint": "kitql-lint",
     "format": "kitql-lint --format"
+  },
+  "peerDependencies": {
+    "vite": "^5.0.0 || ^6.0.0 || ^7.0.0 || ^8.0.0"
   },
   "devDependencies": {
     "@kitql/eslint-config": "workspace:*",
