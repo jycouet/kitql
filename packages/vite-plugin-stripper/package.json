@@ -29,6 +29,9 @@
     "lint": "kitql-lint",
     "format": "kitql-lint --format"
   },
+  "peerDependencies": {
+    "vite": "^5.0.0 || ^6.0.0 || ^7.0.0 || ^8.0.0"
+  },
   "devDependencies": {
     "@kitql/eslint-config": "workspace:*",
     "@sveltejs/adapter-auto": "catalog:sveltekit",
