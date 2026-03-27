@@ -1,5 +1,18 @@
 # @kitql/internals
 
+## 0.11.0
+
+### Minor Changes
+
+- [#1136](https://github.com/jycouet/kitql/pull/1136) [`6beba92`](https://github.com/jycouet/kitql/commit/6beba921bc4a46feb9985f219cd73fb6c3848d6a) Thanks [@jycouet](https://github.com/jycouet)! - rmv `babel` & `recast` in favor of `oxc`
+
+### Patch Changes
+
+- [#1181](https://github.com/jycouet/kitql/pull/1181) [`e89ca16`](https://github.com/jycouet/kitql/commit/e89ca1621950d61cfc54b75a12b6174ef975aa34) Thanks [@jycouet](https://github.com/jycouet)! - chore(remove): `eslint-plugin-unused-imports`, managed by https://github.com/typescript-eslint/typescript-eslint/releases/tag/v8.53.0
+
+- Updated dependencies []:
+  - @kitql/helpers@0.8.13
+
 ## 0.11.0-next.1
 
 ### Patch Changes
