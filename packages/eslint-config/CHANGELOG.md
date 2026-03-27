@@ -1,5 +1,16 @@
 # eslint-config-kitql
 
+## 1.0.0-next.8
+
+### Major Changes
+
+- [#1226](https://github.com/jycouet/kitql/pull/1226) [`559b320`](https://github.com/jycouet/kitql/commit/559b320bf16b12bfceaba7cc9e7b1937aa8ff988) Thanks [@renovate](https://github.com/apps/renovate)! - update eslint to v10
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @kitql/helpers@0.8.13
+
 ## 0.8.0-next.7
 
 ### Patch Changes
