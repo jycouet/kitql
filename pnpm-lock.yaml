@@ -167,8 +167,8 @@ catalogs:
       specifier: 4.0.18
       version: 4.0.18
     vitest-browser-svelte:
-      specifier: 2.0.1
-      version: 2.0.1
+      specifier: 2.1.0
+      version: 2.1.0
   tooling:
     '@typescript/native-preview':
       specifier: 7.0.0-dev.20260319.1
@@ -525,7 +525,7 @@ importers:
         version: 4.0.18(@types/node@24.12.0)(@vitest/browser-playwright@4.0.18)(@vitest/ui@4.0.18)(jiti@1.21.7)(jsdom@27.2.0(postcss@8.5.6))(lightningcss@1.28.2)(sass@1.85.1)(terser@5.37.0)(tsx@4.21.0)(yaml@2.8.2)
       vitest-browser-svelte:
         specifier: catalog:testing
-        version: 2.0.1(svelte@5.46.0)(vitest@4.0.18)
+        version: 2.1.0(svelte@5.46.0)(vitest@4.0.18)
     publishDirectory: dist
 
   packages/vite-plugin-kit-routes:
@@ -2349,6 +2349,12 @@ packages:
     peerDependencies:
       svelte: ^5.0.0
       vite: ^6.3.0 || ^7.0.0
+
+  '@testing-library/svelte-core@1.0.0':
+    resolution: {integrity: sha512-VkUePoLV6oOYwSUvX6ShA8KLnJqZiYMIbP2JW2t0GLWLkJxKGvuH5qrrZBV/X7cXFnLGuFQEC7RheYiZOW68KQ==}
+    engines: {node: '>=16'}
+    peerDependencies:
+      svelte: ^3 || ^4 || ^5 || ^5.0.0-next.0
 
   '@trysound/sax@0.2.0':
     resolution: {integrity: sha512-L7z9BgrNEcYyUYtF+HaEfiS5ebkh9jXqbszz7pC0hRBPaatV0XjSD3+eHrpqFemQfgwiFF0QPIarnIihIDn7OA==}
@@ -5233,8 +5239,8 @@ packages:
       vite:
         optional: true
 
-  vitest-browser-svelte@2.0.1:
-    resolution: {integrity: sha512-z7GFio7vxaOolY+xwPUMEKuwL4KcPzB8+bepA9F0Phqag/TJ4j7IAGSwm4Y/FBh7KznsP+7aEIllMay0qDpFXw==}
+  vitest-browser-svelte@2.1.0:
+    resolution: {integrity: sha512-Uqcqn9gKhYoNOn5uGOQHSPIEGHgIz25zPP6R63LQ5+yEVHfDXdOKBMba9pBlPIgp31AxYbV9h43j9+W+5M5y+A==}
     peerDependencies:
       svelte: ^3 || ^4 || ^5 || ^5.0.0-next.0
       vitest: ^4.0.0
@@ -6874,6 +6880,10 @@ snapshots:
       vitefu: 1.1.1(vite@7.3.1(@types/node@24.12.0)(jiti@1.21.7)(lightningcss@1.28.2)(sass@1.85.1)(terser@5.37.0)(tsx@4.21.0)(yaml@2.8.2))
     transitivePeerDependencies:
       - supports-color
+
+  '@testing-library/svelte-core@1.0.0(svelte@5.46.0)':
+    dependencies:
+      svelte: 5.46.0
 
   '@trysound/sax@0.2.0': {}
 
@@ -10485,8 +10495,10 @@ snapshots:
     optionalDependencies:
       vite: 7.3.1(@types/node@24.12.0)(jiti@1.21.7)(lightningcss@1.28.2)(sass@1.85.1)(terser@5.37.0)(tsx@4.21.0)(yaml@2.8.2)
 
-  vitest-browser-svelte@2.0.1(svelte@5.46.0)(vitest@4.0.18):
+  vitest-browser-svelte@2.1.0(svelte@5.46.0)(vitest@4.0.18):
     dependencies:
+      '@playwright/test': 1.58.2
+      '@testing-library/svelte-core': 1.0.0(svelte@5.46.0)
       svelte: 5.46.0
       vitest: 4.0.18(@types/node@24.12.0)(@vitest/browser-playwright@4.0.18)(@vitest/ui@4.0.18)(jiti@1.21.7)(jsdom@27.2.0(postcss@8.5.6))(lightningcss@1.28.2)(sass@1.85.1)(terser@5.37.0)(tsx@4.21.0)(yaml@2.8.2)
 
