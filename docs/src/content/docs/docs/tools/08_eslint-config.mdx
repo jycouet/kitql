@@ -25,16 +25,9 @@ You need to install the peer dependencies you want to use (by default: `eslint`,
 
 _You can add `oxlint` & `tsgolint` to your project if you want to use them._
 
-For prettier dependencies of @kitql/eslint-config, you can add this to your `.npmrc`:
-
-```txt
-public-hoist-pattern[]=*prettier*
-```
-
-<Aside type="tip">
-	HELP WANTED: What's the next step for this? (as `public-hoist-pattern` will be removed in the
-	future)
-</Aside>
+That's it: no `public-hoist-pattern` and no need to list every eslint/prettier plugin in your own
+`package.json`. `@kitql/eslint-config` ships them all as its own dependencies and resolves them
+internally.
 
 ### eslint config
 

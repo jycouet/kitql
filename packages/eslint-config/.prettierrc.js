@@ -1,3 +1,7 @@
+import { createRequire } from 'node:module'
+
+const require = createRequire(import.meta.url)
+
 const config = {
 	tabWidth: 1,
 	useTabs: true,
@@ -7,10 +11,10 @@ const config = {
 	arrowParens: 'always',
 	printWidth: 100,
 	plugins: [
-		'@ianvs/prettier-plugin-sort-imports',
-		'prettier-plugin-sh',
-		'prettier-plugin-svelte',
-		'prettier-plugin-tailwindcss', // MUST come last
+		require.resolve('@ianvs/prettier-plugin-sort-imports'),
+		require.resolve('prettier-plugin-sh'),
+		require.resolve('prettier-plugin-svelte'),
+		require.resolve('prettier-plugin-tailwindcss'), // MUST come last
 	],
 	importOrderParserPlugins: ['typescript', 'decorators-legacy'],
 	importOrder: [
