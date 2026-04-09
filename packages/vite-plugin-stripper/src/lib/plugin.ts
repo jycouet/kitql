@@ -8,23 +8,41 @@ import { transformStrip, type StripConfig } from './transformStrip.js'
 
 const tsFileFilter = /\.ts$/
 
+/**
+ * Default `strip` config tuned for [remult](https://remult.dev/):
+ * wraps `@BackendMethod` method bodies and the server-only callbacks
+ * (`backendPrefilter`, `backendPreprocessFilter`, `sqlExpression`, `saved`)
+ * inside `@Entity(...)` options in `if (import.meta.env.SSR) { ... }`.
+ *
+ * Spread it (or extend it) when you call `stripper`:
+ * ```ts
+ * stripper({ strip: [...defaultStripConfig, { decorator: 'MyCustom' }] })
+ * ```
+ */
+export const defaultStripConfig: StripConfig[] = [
+	{ decorator: 'BackendMethod' },
+	{
+		decorator: 'Entity',
+		args_1: [
+			{ fn: 'backendPrefilter' },
+			{ fn: 'backendPreprocessFilter' },
+			{ fn: 'sqlExpression' },
+			{ fn: 'saved' },
+			{ fn: 'deleted' },
+		],
+	},
+]
+
 export type ViteStripperOptions = {
 	/**
-	 * for example: `['BackendMethod']`
-	 * @deprecated, you should use `strip` instead
-	 */
-	decorators?: string[]
-
-	/**
-	 * If true, will empty almost all the file if a decorator is found. (experimental!)
-	 * @deprecated, you should use `strip` instead
-	 */
-	hard?: boolean
-
-	/**
-	 * Wrap the code in an if(import.meta.env.SSR) condition if it's belongs a match of the config.
+	 * Wrap matching method bodies in `if (import.meta.env.SSR) { ... }` so they
+	 * get tree-shaken from the client bundle.
 	 *
-	 * @example Advanced format
+	 * If omitted, {@link defaultStripConfig} is used (remult-friendly defaults:
+	 * `@BackendMethod`, plus `backendPrefilter`/`backendPreprocessFilter`/
+	 * `sqlExpression`/`saved` inside `@Entity(...)`).
+	 *
+	 * @example Custom config
 	 * ```ts
 	 *	strip: [
 	 *		{ decorator: 'BackendMethod' },
@@ -74,24 +92,26 @@ export type ViteStripperOptions = {
 
 /**
  * Add this vite plugin in your vite.config.ts as first one.
- * 
- * It should look like this:
+ *
+ * Calling `stripper()` with no options applies {@link defaultStripConfig}
+ * (a remult-friendly default).
+ *
  * ```ts
-	import { sveltekit } from "@sveltejs/kit/vite";
-	import { defineConfig } from "vite";
-	import { stripper } from "vite-plugin-stripper";   // 👈
-  
-	export default defineConfig({
-		plugins: [
-			stripper({ decorators: ['BackendMethod'] }),  // 👈
-			sveltekit()
-		],
-	});
+ * import { sveltekit } from '@sveltejs/kit/vite'
+ * import { defineConfig } from 'vite'
+ * import { stripper } from 'vite-plugin-stripper'
+ *
+ * export default defineConfig({
+ *   plugins: [
+ *     stripper(), // 👈 uses defaultStripConfig
+ *     sveltekit(),
+ *   ],
+ * })
  * ```
- * 
  */
 export function stripper(options?: ViteStripperOptions): PluginOption {
 	const log = new Log('stripper')
+	const stripConfig = options?.strip ?? defaultStripConfig
 
 	const plugins: PluginOption = [
 		{
@@ -135,8 +155,8 @@ export function stripper(options?: ViteStripperOptions): PluginOption {
 						allInfos.push(...info)
 					}
 
-					if (options && options?.strip && options.strip.length > 0) {
-						const { info, ast: transformed } = await transformStrip(code_ast, options.strip)
+					if (stripConfig.length > 0) {
+						const { info, ast: transformed } = await transformStrip(code_ast, stripConfig)
 
 						// Update the code for later transforms & return it
 						if (transformed !== null) {
@@ -151,11 +171,11 @@ export function stripper(options?: ViteStripperOptions): PluginOption {
 						if (options?.debug) {
 							log.info(
 								`${gray('File:')} ${yellow(id)}\n` +
-									`${green('-----')}\n` +
-									`${toRet.code}` +
-									`\n${green(':::::')}\n` +
-									`${allInfos.join('\n')}` +
-									`\n${green('-----')}\n`,
+								`${green('-----')}\n` +
+								`${toRet.code}` +
+								`\n${green(':::::')}\n` +
+								`${allInfos.join('\n')}` +
+								`\n${green('-----')}\n`,
 							)
 						}
 

@@ -35,7 +35,6 @@ describe('package', () => {
 				@Fields.string({
 					valueConverter: {
 						fromDb: (x) => x?.toString(),
-
 						toDb: (x) => {
 							const r = new ObjectId(x);
 
@@ -85,7 +84,6 @@ describe('package', () => {
 				@Fields.string({
 					valueConverter: {
 						fromDb: (x) => x?.toString(),
-
 						toDb: (x) => {
 							const r = new ObjectId(x);
 							const u = demo;

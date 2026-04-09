@@ -12,7 +12,34 @@ import { Aside } from '@astrojs/starlight/components'
 The first need was to remove `@BackendMethod` from your browser bundle for
 [remult](https://remult.dev/).
 
-## Examples
+## How it works
+
+Vite already gives you `import.meta.env.SSR` - a constant that's `true` on
+the server and `false` in the client bundle. Wrapping a block in
+`if (import.meta.env.SSR) { ... }` lets the client tree-shaker drop the
+whole block at build time:
+
+```ts
+function readSecret() {
+	if (import.meta.env.SSR) {
+		// stripped from the client bundle
+		return process.env.AUTH_SECRET
+	}
+}
+```
+
+`vite-plugin-stripper` automates that wrapping for decorator-based code
+(like remult's `@BackendMethod` and `@Entity` server-only callbacks) so
+you don't have to sprinkle `if (import.meta.env.SSR)` by hand on every
+method.
+
+## Installation
+
+```sh
+npm i -D vite-plugin-stripper
+```
+
+## Quick start
 
 ```ts
 // vite.config.ts
@@ -22,20 +49,53 @@ import { stripper } from 'vite-plugin-stripper'
 
 export default defineConfig({
 	plugins: [
-		// To strip `@BackendMethod` from your browser bundle
-		stripper({ strip: [{ decorator: 'BackendMethod' }] }),
+		stripper(), // 👈 uses the default config
 		sveltekit(),
 	],
 })
 ```
 
-## Installation
+Calling `stripper()` with no arguments applies `defaultStripConfig`, which
+covers the common remult setup:
 
-```sh
-npm i -D vite-plugin-stripper
+```ts
+// equivalent to: stripper()
+import { defaultStripConfig, stripper } from 'vite-plugin-stripper'
+
+stripper({ strip: defaultStripConfig })
 ```
 
-## Advanced configuration
+`defaultStripConfig` is:
+
+```ts
+[
+	{ decorator: 'BackendMethod' },
+	{
+		decorator: 'Entity',
+		args_1: [
+			{ fn: 'backendPrefilter' },
+			{ fn: 'backendPreprocessFilter' },
+			{ fn: 'sqlExpression' },
+			{ fn: 'saved' },
+		],
+	},
+]
+```
+
+## Extending the default
+
+```ts
+import { defaultStripConfig, stripper } from 'vite-plugin-stripper'
+
+stripper({
+	strip: [
+		...defaultStripConfig,
+		{ decorator: 'MyCustomServerOnly' },
+	],
+})
+```
+
+## Custom configuration
 
 ```ts
 stripper({
@@ -45,14 +105,25 @@ stripper({
 			decorator: 'Entity',
 			args_1: [
 				{ fn: 'backendPrefilter' },
-				{ fn: 'backendPreprocessFilter' },
 				{ fn: 'sqlExpression' },
-				// {
-				// 	fn: 'saved',
-				// 	excludeEntityKeys: ['users']
-				// }
+				{
+					fn: 'saved',
+					// keep `saved` for these specific entities, strip it everywhere else
+					excludeEntityKeys: ['users'],
+				},
 			],
 		},
 	],
+})
+```
+
+## Nullify imports
+
+You can also drop entire imports from the client bundle (`import { X } from 'pkg'`
+becomes `let X = null`):
+
+```ts
+stripper({
+	nullify: ['mongodb', '$env/static/private'],
 })
 ```

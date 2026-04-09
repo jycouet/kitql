@@ -8,7 +8,7 @@ export {
 	findFileOrUp,
 } from './fs/fs.js'
 
-export type { KitQLParseResult, ParseOptions, Statement } from './ast/ast.js'
+export type { Decorator, KitQLParseResult, ParseOptions, Statement } from './ast/ast.js'
 export { walk, parse, print } from './ast/ast.js'
 
 export { extractHtmlElementAttr_Text } from './ast/astHtml.js'
