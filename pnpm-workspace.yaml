@@ -12,7 +12,7 @@ catalogs:
  tooling:
   '@typescript/native-preview': 7.0.0-dev.20260319.1
   esrap: https://pkg.pr.new/sveltejs/esrap@87
-  oxc-parser: 0.121.0
+  oxc-parser: 0.124.0
   oxc-walker: 0.7.0
   'typescript': '5.9.2'
   'esbuild': '0.27.0'
@@ -30,22 +30,22 @@ catalogs:
   '@vitest/ui': 4.0.18
   '@vitest/coverage-v8': '4.0.18'
   '@vitest/browser-playwright': '4.0.18'
-  vitest-browser-svelte: 2.0.1
+  vitest-browser-svelte: 2.1.0
   # e2e
   '@playwright/test': '1.58.2'
 
  linting:
-  '@e18e/eslint-plugin': ^0.2.0
-  '@eslint/compat': '1.4.0'
-  '@eslint/js': '9.39.1'
+  '@e18e/eslint-plugin': ^0.3.0
+  '@eslint/compat': '2.0.3'
+  '@eslint/js': '10.0.1'
   '@types/eslint': '9.6.1'
-  '@typescript-eslint/parser': '8.53.0'
-  'eslint': '9.39.1'
+  '@typescript-eslint/parser': '8.57.1'
+  'eslint': '10.1.0'
   'eslint-config-prettier': '10.1.5'
   'eslint-plugin-pnpm': '1.6.0'
-  'eslint-plugin-svelte': '3.14.0'
+  'eslint-plugin-svelte': '3.16.0'
   'globals': '17.4.0'
-  'typescript-eslint': '8.53.0'
+  'typescript-eslint': '8.57.1'
   jsonc-eslint-parser: 3.1.0
   yaml-eslint-parser: 2.0.0
 
@@ -57,13 +57,13 @@ catalogs:
   'prettier-plugin-tailwindcss': '^0.7.0'
 
  linting-oxc:
-  oxlint: 1.56.0
-  oxlint-tsgolint: 0.17.0
-  eslint-plugin-oxlint: 1.56.0
+  oxlint: 1.57.0
+  oxlint-tsgolint: 0.18.1
+  eslint-plugin-oxlint: 1.57.0
 
  lib-author-helper:
   '@changesets/changelog-github': '0.6.0'
-  '@changesets/cli': '2.29.7'
+  '@changesets/cli': '2.30.0'
   'publint': '0.3.1'
   'tslib': '2.8.0'
   'rollup-plugin-visualizer': '6.0.1'
@@ -82,7 +82,7 @@ catalogs:
   '@sveltejs/adapter-node': '5.5.0'
 
  svelte:
-  'svelte': '5.46.0'
+  'svelte': '5.55.0'
   'svelte-check': '4.4.5'
 
  svelte-dep:
@@ -95,7 +95,7 @@ catalogs:
  docs:
   '@astrojs/starlight': 0.38.1
   accessible-astro-components: 5.2.0
-  astro: 6.0.7
+  astro: 6.1.1
   astro-icon: 1.1.5
   sharp: 0.34.1
   prettier-plugin-astro: 0.14.1

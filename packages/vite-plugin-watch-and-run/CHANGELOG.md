@@ -1,5 +1,24 @@
 # @kitql/vite-plugin-watch-and-run
 
+## 1.8.0
+
+### Minor Changes
+
+- [#1193](https://github.com/jycouet/kitql/pull/1193) [`b925b6c`](https://github.com/jycouet/kitql/commit/b925b6c50f432c11b81ea43cd020d66edaf0e863) Thanks [@jycouet](https://github.com/jycouet)! - fix glob support by extracting base paths for chokidar and replacing micromatch with picomatch
+
+### Patch Changes
+
+- [#1181](https://github.com/jycouet/kitql/pull/1181) [`e89ca16`](https://github.com/jycouet/kitql/commit/e89ca1621950d61cfc54b75a12b6174ef975aa34) Thanks [@jycouet](https://github.com/jycouet)! - chore(remove): `eslint-plugin-unused-imports`, managed by https://github.com/typescript-eslint/typescript-eslint/releases/tag/v8.53.0
+
+- Updated dependencies []:
+  - @kitql/helpers@0.8.13
+
+## 1.8.0-next.1
+
+### Minor Changes
+
+- [#1193](https://github.com/jycouet/kitql/pull/1193) [`b925b6c`](https://github.com/jycouet/kitql/commit/b925b6c50f432c11b81ea43cd020d66edaf0e863) Thanks [@jycouet](https://github.com/jycouet)! - fix glob support by extracting base paths for chokidar and replacing micromatch with picomatch
+
 ## 1.7.6-next.0
 
 ### Patch Changes

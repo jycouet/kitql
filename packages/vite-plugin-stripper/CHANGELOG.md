@@ -1,5 +1,27 @@
 # vite-plugin-stripper
 
+## 0.10.0
+
+### Minor Changes
+
+- [#1136](https://github.com/jycouet/kitql/pull/1136) [`6beba92`](https://github.com/jycouet/kitql/commit/6beba921bc4a46feb9985f219cd73fb6c3848d6a) Thanks [@jycouet](https://github.com/jycouet)! - remove option `log_on_throw_is_not_a_new_class` (ping me if you want support of it again!)
+
+### Patch Changes
+
+- [#1181](https://github.com/jycouet/kitql/pull/1181) [`e89ca16`](https://github.com/jycouet/kitql/commit/e89ca1621950d61cfc54b75a12b6174ef975aa34) Thanks [@jycouet](https://github.com/jycouet)! - chore(remove): `eslint-plugin-unused-imports`, managed by https://github.com/typescript-eslint/typescript-eslint/releases/tag/v8.53.0
+
+- Updated dependencies [[`e89ca16`](https://github.com/jycouet/kitql/commit/e89ca1621950d61cfc54b75a12b6174ef975aa34), [`b925b6c`](https://github.com/jycouet/kitql/commit/b925b6c50f432c11b81ea43cd020d66edaf0e863), [`6beba92`](https://github.com/jycouet/kitql/commit/6beba921bc4a46feb9985f219cd73fb6c3848d6a)]:
+  - vite-plugin-watch-and-run@1.8.0
+  - @kitql/internals@0.11.0
+  - @kitql/helpers@0.8.13
+
+## 0.10.0-next.2
+
+### Patch Changes
+
+- Updated dependencies [[`b925b6c`](https://github.com/jycouet/kitql/commit/b925b6c50f432c11b81ea43cd020d66edaf0e863)]:
+  - vite-plugin-watch-and-run@1.8.0-next.1
+
 ## 0.10.0-next.1
 
 ### Patch Changes

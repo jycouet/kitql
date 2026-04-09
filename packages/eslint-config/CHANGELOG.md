@@ -1,5 +1,42 @@
 # eslint-config-kitql
 
+## 0.8.0
+
+### Minor Changes
+
+- [#1226](https://github.com/jycouet/kitql/pull/1226) [`559b320`](https://github.com/jycouet/kitql/commit/559b320bf16b12bfceaba7cc9e7b1937aa8ff988) Thanks [@renovate](https://github.com/apps/renovate)! - [BREAKING]: update eslint to v10
+
+### Patch Changes
+
+- [`ebb6e62`](https://github.com/jycouet/kitql/commit/ebb6e62a218f88b522b9b5b143dba71d6792575c) Thanks [@jycouet](https://github.com/jycouet)! - bump all eslint deps
+
+- [#1153](https://github.com/jycouet/kitql/pull/1153) [`c53e710`](https://github.com/jycouet/kitql/commit/c53e710040b6076b8d52f23183b8703b4d55b846) Thanks [@jycouet](https://github.com/jycouet)! - feat(eslint): add `svelteConfig` in `options`
+
+- [#1181](https://github.com/jycouet/kitql/pull/1181) [`e89ca16`](https://github.com/jycouet/kitql/commit/e89ca1621950d61cfc54b75a12b6174ef975aa34) Thanks [@jycouet](https://github.com/jycouet)! - chore(remove): `eslint-plugin-unused-imports`, managed by https://github.com/typescript-eslint/typescript-eslint/releases/tag/v8.53.0
+
+- [#1125](https://github.com/jycouet/kitql/pull/1125) [`3187486`](https://github.com/jycouet/kitql/commit/318748616aff38d2d752d90c052b77866f0e371d) Thanks [@jycouet](https://github.com/jycouet)! - - add new flag `--tools` to specify the tools to use (`eslint`, `prettier`, `oxlint`, `tsgolint`) (default: `eslint`, `prettier`)
+  - [BREAKING] remove `--lint-only` & `--format-only` flags, use `--tools` instead
+
+- [#1179](https://github.com/jycouet/kitql/pull/1179) [`82a2bdb`](https://github.com/jycouet/kitql/commit/82a2bdb77e2e9592930f7b62cfffce6c89e63dbe) Thanks [@jycouet](https://github.com/jycouet)! - bump deps
+
+- [#1126](https://github.com/jycouet/kitql/pull/1126) [`b2dbbb2`](https://github.com/jycouet/kitql/commit/b2dbbb2800fa20d03c470d7d2116c92f29d01526) Thanks [@jycouet](https://github.com/jycouet)! - improve logging
+
+- [`dd04428`](https://github.com/jycouet/kitql/commit/dd04428ebd73e7c36405722791b053fcef233388) Thanks [@jycouet](https://github.com/jycouet)! - in eslint rules, you can enable oxlint conf with `oxlint.enable`
+
+- Updated dependencies []:
+  - @kitql/helpers@0.8.13
+
+## 1.0.0-next.8
+
+### Major Changes
+
+- [#1226](https://github.com/jycouet/kitql/pull/1226) [`559b320`](https://github.com/jycouet/kitql/commit/559b320bf16b12bfceaba7cc9e7b1937aa8ff988) Thanks [@renovate](https://github.com/apps/renovate)! - update eslint to v10
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @kitql/helpers@0.8.13
+
 ## 0.8.0-next.7
 
 ### Patch Changes
