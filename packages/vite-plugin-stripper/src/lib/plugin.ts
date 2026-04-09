@@ -171,11 +171,11 @@ export function stripper(options?: ViteStripperOptions): PluginOption {
 						if (options?.debug) {
 							log.info(
 								`${gray('File:')} ${yellow(id)}\n` +
-								`${green('-----')}\n` +
-								`${toRet.code}` +
-								`\n${green(':::::')}\n` +
-								`${allInfos.join('\n')}` +
-								`\n${green('-----')}\n`,
+									`${green('-----')}\n` +
+									`${toRet.code}` +
+									`\n${green(':::::')}\n` +
+									`${allInfos.join('\n')}` +
+									`\n${green('-----')}\n`,
 							)
 						}
 

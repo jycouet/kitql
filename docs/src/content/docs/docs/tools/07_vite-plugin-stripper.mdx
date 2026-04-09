@@ -68,7 +68,7 @@ stripper({ strip: defaultStripConfig })
 `defaultStripConfig` is:
 
 ```ts
-[
+;[
 	{ decorator: 'BackendMethod' },
 	{
 		decorator: 'Entity',
@@ -88,10 +88,7 @@ stripper({ strip: defaultStripConfig })
 import { defaultStripConfig, stripper } from 'vite-plugin-stripper'
 
 stripper({
-	strip: [
-		...defaultStripConfig,
-		{ decorator: 'MyCustomServerOnly' },
-	],
+	strip: [...defaultStripConfig, { decorator: 'MyCustomServerOnly' }],
 })
 ```
 
