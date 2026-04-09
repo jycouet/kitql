@@ -1,5 +1,8 @@
+import { Log } from '@kitql/helpers'
 import { parse, walk } from '@kitql/internals'
 import type { KitQLParseResult, ParseOptions } from '@kitql/internals'
+
+const log = new Log('stripper:nullifyImports')
 
 export const nullifyImports = async (
 	code_ast: string | KitQLParseResult,
@@ -87,6 +90,8 @@ export const nullifyImports = async (
 			ast,
 			info: nullifyed,
 		}
-	} catch (error) {}
+	} catch (error) {
+		log.error('failed to nullify imports, returning original code', error)
+	}
 	return { code_ast, ast: null, info: [] }
 }

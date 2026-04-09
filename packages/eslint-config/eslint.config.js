@@ -122,6 +122,13 @@ const othersRules = ({ svelteConfig } = {}) => {
 			ignores: ['build/', '.svelte-kit/', 'dist/', '**/build/', '**/.svelte-kit/', '**/dist/'],
 		},
 		{
+			name: '@kitql:tests',
+			files: ['**/*.test.ts', '**/*.test.js', '**/*.spec.ts', '**/*.spec.js'],
+			rules: {
+				'e18e/prefer-static-regex': 'off',
+			},
+		},
+		{
 			name: '@kitql:unused-imports',
 			rules: {
 				'no-unused-vars': 'off',

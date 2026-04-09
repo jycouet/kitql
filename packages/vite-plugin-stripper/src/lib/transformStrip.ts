@@ -1,4 +1,13 @@
-import { parse, walk, type KitQLParseResult, type ParseOptions } from '@kitql/internals'
+import { Log } from '@kitql/helpers'
+import {
+	parse,
+	walk,
+	type Decorator,
+	type KitQLParseResult,
+	type ParseOptions,
+} from '@kitql/internals'
+
+const log = new Log('stripper:transformStrip')
 
 // Define the type for the decorator config
 export type StripConfig = {
@@ -27,34 +36,30 @@ export const transformStrip = async (
 			enter(node) {
 				if (node.type === 'ClassDeclaration') {
 					const className = node.id?.name || ''
-					const decorators: any[] = node.decorators || []
+					const decorators: Decorator[] = node.decorators ?? []
 
 					decorators.forEach((decorator) => {
-						if (!decorator.expression.callee) return
+						const call = decorator.expression
+						if (call.type !== 'CallExpression' || call.callee.type !== 'Identifier') return
 
-						const decoratorName = decorator.expression.callee.name
+						const decoratorName = call.callee.name
 						// Find matching config for this decorator
 						const config = decorators_config.find((c) => c.decorator === decoratorName)
 
 						// If this is an Entity-like decorator, store the entity name
-						if (config && decorator.expression.arguments && decorator.expression.arguments.length >= 1) {
-							const entityNameArg = decorator.expression.arguments[0]
-							if (entityNameArg && entityNameArg.value) {
+						if (config && call.arguments.length >= 1) {
+							const entityNameArg = call.arguments[0]
+							if (entityNameArg && 'value' in entityNameArg && typeof entityNameArg.value === 'string') {
 								entityNameMap.set(className, entityNameArg.value)
 							}
 						}
 
-						if (
-							config &&
-							config.args_1 &&
-							decorator.expression.arguments &&
-							decorator.expression.arguments.length >= 2
-						) {
+						if (config && config.args_1 && call.arguments.length >= 2) {
 							// Check if the second argument (options) has any of the specified function names
-							const options = decorator.expression.arguments[1]
-							if (options && options.properties) {
+							const options = call.arguments[1]
+							if (options && 'properties' in options && Array.isArray(options.properties)) {
 								const hasSpecialFilter = options.properties.some((prop: any) =>
-									config.args_1?.some((c) => c.fn === prop.key.name),
+									config.args_1?.some((c) => c.fn === prop.key?.name),
 								)
 
 								if (hasSpecialFilter) {
@@ -138,7 +143,7 @@ export const transformStrip = async (
 					currentClassName = node.id?.name || ''
 				}
 				if (node.type === 'MethodDefinition') {
-					const decorators: any[] = node.decorators || []
+					const decorators: Decorator[] = node.decorators ?? []
 					let foundDecorator = false
 
 					// Initialize functionName with a default value
@@ -151,20 +156,21 @@ export const transformStrip = async (
 
 					// Check if any of the decorators match our list
 					decorators.forEach((decorator) => {
-						if (decorator.expression.callee) {
-							const name = decorator.expression.callee.name
-							const matchingConfig = decorators_config.find((c) => c.decorator === name)
+						const call = decorator.expression
+						if (call.type !== 'CallExpression' || call.callee.type !== 'Identifier') return
 
-							if (matchingConfig) {
-								foundDecorator = true
+						const name = call.callee.name
+						const matchingConfig = decorators_config.find((c) => c.decorator === name)
 
-								// Push both the decorator name and the associated function name
-								decorators_wrapped.push({
-									className: currentClassName,
-									decorator: name,
-									functionName,
-								})
-							}
+						if (matchingConfig) {
+							foundDecorator = true
+
+							// Push both the decorator name and the associated function name
+							decorators_wrapped.push({
+								className: currentClassName,
+								decorator: name,
+								functionName,
+							})
 						}
 					})
 
@@ -262,8 +268,7 @@ export const transformStrip = async (
 			info,
 		}
 	} catch (error) {
-		// if anything happens, just return the original code
-		console.error('Error in transformDecorator:', error)
+		log.error('failed to strip decorators, returning original code', error)
 	}
 	return { code_ast, ast: null, info: [] }
 }
