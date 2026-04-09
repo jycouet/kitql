@@ -1,5 +1,14 @@
 # eslint-config-kitql
 
+## 0.8.1
+
+### Patch Changes
+
+- [#1242](https://github.com/jycouet/kitql/pull/1242) [`7958d4f`](https://github.com/jycouet/kitql/commit/7958d4f3d30a1fa7f6a983790a95cb82b7c9e235) Thanks [@jycouet](https://github.com/jycouet)! - bump deps (eslint v10, typescript-eslint, oxlint, oxlint-tsgolint, prettier-plugin-tailwindcss)
+
+- Updated dependencies []:
+  - @kitql/helpers@0.8.13
+
 ## 0.8.0
 
 ### Minor Changes
