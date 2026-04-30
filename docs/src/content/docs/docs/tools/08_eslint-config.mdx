@@ -174,10 +174,15 @@ kitql-lint
 # add oxlint (with type-aware rules)
 kitql-lint -t eslint,prettier,oxlint,tsgolint
 
-# fastest path - prettier kept for .svelte, no eslint
-# (you lose svelte-specific & pnpm-catalog rules though)
-kitql-lint -t oxlint,oxfmt,prettier
+# full oxc 🦀 - oxlint + tsgolint + oxfmt, prettier kept only for .svelte
+kitql-lint -t oxlint,tsgolint,oxfmt,prettier
+
+# pure oxc - no prettier at all (you lose .svelte formatting)
+kitql-lint -t oxlint,tsgolint,oxfmt
 ```
 
 When `oxfmt` is in the tool set, `prettier` is auto-restricted to `**/*.svelte` (oxfmt can't parse
 svelte yet); `oxfmt` handles every other file type. Same logic in any mode.
+
+If you go full oxc, you also lose ESLint-only rules: `eslint-plugin-svelte` (no `.svelte` linting)
+and `eslint-plugin-pnpm` (no catalog enforcement on `package.json` / `pnpm-workspace.yaml`).
