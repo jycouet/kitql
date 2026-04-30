@@ -7,17 +7,24 @@ import { Option, program } from 'commander'
 import { gray, green, Log } from '@kitql/helpers'
 
 import { findFileOrUp } from './helper/findFileOrUp.js'
+import {
+	buildEslintCmd,
+	buildOxfmtCmd,
+	buildOxlintCmd,
+	buildPrettierCmd,
+} from './src/buildCommands.js'
 
-/** @type {('eslint' | 'prettier' | 'oxlint' | 'tsgolint')[]} */
-const TOOLS_ALL = ['eslint', 'prettier', 'oxlint', 'tsgolint']
-const TOOLS_DEFAULT = TOOLS_ALL.slice(0, 2)
+/** @type {('eslint' | 'prettier' | 'oxlint' | 'tsgolint' | 'oxfmt')[]} */
+const TOOLS_ALL = ['eslint', 'prettier', 'oxlint', 'tsgolint', 'oxfmt']
+const TOOLS_DEFAULT = ['eslint', 'prettier']
 
 program.addOption(new Option('-f, --format', 'format'))
 program.addOption(new Option('-g, --glob <type>', 'file/dir/glob').default('.'))
 program.addOption(
-	new Option('-t, --tools <type>', 'tools to use (eslint, prettier, oxlint, tsgolint)').default(
-		TOOLS_DEFAULT.join(','),
-	),
+	new Option(
+		'-t, --tools <type>',
+		'tools to use (eslint, prettier, oxlint, tsgolint, oxfmt)',
+	).default(TOOLS_DEFAULT.join(',')),
 )
 program.addOption(new Option('-v, --verbose', 'add more logs').default(false))
 program.addOption(
@@ -34,12 +41,18 @@ const options_cli = program.opts()
 
 const pathPrettierIgnore = findFileOrUp('.prettierignore')
 const pathPrettier_js = findFileOrUp('.prettierrc.js')
+const pathOxfmtrc = findFileOrUp('.oxfmtrc.json')
 
 const format = /** @type {boolean} */ (options_cli.format ?? false)
 let glob = /** @type {string} */ (options_cli.glob ?? '.')
 const verbose = /** @type {boolean} */ (options_cli.verbose ?? false)
 const pre = /** @type {string} */ (options_cli.prefix ?? 'none')
 const tools = /** @type {typeof TOOLS_ALL} */ (options_cli.tools.split(',') ?? TOOLS_DEFAULT)
+const unknown = tools.filter((t) => !TOOLS_ALL.includes(t))
+if (unknown.length > 0) {
+	console.error(`Unknown tool(s): ${unknown.join(', ')}. Supported: ${TOOLS_ALL.join(', ')}`)
+	process.exit(2)
+}
 const diffOnly = /** @type {boolean} */ (options_cli.diffOnly ?? false)
 const baseBranch = /** @type {string} */ (options_cli.baseBranch ?? 'main')
 
@@ -269,55 +282,41 @@ async function getDiffFiles() {
 	}
 }
 
+function buildOpts() {
+	return {
+		tools,
+		format,
+		glob,
+		pre: preToUse,
+		pathPrettierIgnore,
+		pathPrettier_js,
+		pathOxfmtrc,
+	}
+}
+
 async function runOxc(/** @type {string} */ name) {
-	const cmdLint =
-		`oxlint` +
-		`${tools.includes('tsgolint') ? ' --type-aware' : ''}` +
-		// format or not
-		`${format ? ' --fix' : ''}` +
-		` ${glob}`
-
+	const cmdLint = buildOxlintCmd(buildOpts())
 	log.info(gray(`${verbose ? cmdLint : name} `))
-
-	const result_lint = await customSpawn(cmdLint)
-
-	return result_lint
+	return customSpawn(cmdLint)
 }
 
 async function runEslint() {
-	const cmd =
-		preToUse +
-		`eslint --no-warn-ignored` +
-		// format or not
-		`${format ? ' --fix' : ''}` +
-		// exec
-		` ${glob}`
-
+	const cmd = buildEslintCmd(buildOpts())
 	log.info(gray(`${verbose ? cmd : 'eslint'} `))
-	const result_lint = await customSpawn(cmd)
-
-	return result_lint
+	return customSpawn(cmd)
 }
 
 async function runPrettier() {
-	const cmdFormat =
-		preToUse +
-		`prettier` +
-		` --list-different` +
-		// ignore?
-		` --ignore-path ${pathPrettierIgnore}` +
-		// config
-		` --config ${pathPrettier_js}` +
-		// format or not
-		`${format ? ' --write' : ''}` +
-		// exec
-		` ${glob}`
+	const cmd = buildPrettierCmd(buildOpts())
+	const svelteOnly = tools.includes('oxfmt')
+	log.info(gray(`${verbose ? cmd : svelteOnly ? 'prettier (svelte)' : 'prettier'} `))
+	return customSpawn(cmd)
+}
 
-	log.info(gray(`${verbose ? cmdFormat : 'prettier'} `))
-
-	const result_format = await customSpawn(cmdFormat)
-
-	return result_format
+async function runOxfmt() {
+	const cmd = buildOxfmtCmd(buildOpts())
+	log.info(gray(`${verbose ? cmd : 'oxfmt'} `))
+	return customSpawn(cmd)
 }
 
 /** @type {string[]} */
@@ -370,11 +369,22 @@ if (tools.includes('eslint') && glob) {
 	}
 }
 
+if (tools.includes('oxfmt') && glob) {
+	const start = performance.now()
+	const code = await runOxfmt()
+	const stepTook = performance.now() - start
+	took.push(display('oxfmt', stepTook))
+	if (typeof code === 'object' && 'status' in code && code.status) {
+		log.error(`format failed, check logs above. ${displayTook()}`)
+		process.exit(Number(code.status))
+	}
+}
+
 if (tools.includes('prettier') && glob) {
 	const start = performance.now()
 	const code = await runPrettier()
 	const stepTook = performance.now() - start
-	took.push(display('prettier', stepTook))
+	took.push(display(tools.includes('oxfmt') ? 'prettier (svelte)' : 'prettier', stepTook))
 	if (typeof code === 'object' && 'status' in code && code.status) {
 		log.error(`format failed, check logs above. ${displayTook()}`)
 		process.exit(Number(code.status))
