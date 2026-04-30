@@ -1,0 +1,33 @@
+{
+	"$schema": "./node_modules/oxfmt/configuration_schema.json",
+	"tabWidth": 1,
+	"useTabs": true,
+	"singleQuote": true,
+	"trailingComma": "all",
+	"semi": false,
+	"arrowParens": "always",
+	"printWidth": 100,
+	"sortPackageJson": false,
+	"sortImports": {
+		"groups": [
+			"builtin",
+			{ "newlinesBetween": false },
+			"external",
+			"kitql",
+			"sveltekit",
+			"aliases",
+			["parent", "sibling", "index"],
+			"unknown"
+		],
+		"customGroups": [
+			{ "groupName": "kitql", "elementNamePattern": ["@kitql/**"] },
+			{
+				"groupName": "sveltekit",
+				"elementNamePattern": ["$env", "$env/**", "$app", "$app/**"]
+			},
+			{ "groupName": "aliases", "elementNamePattern": ["$*", "$*/**"] }
+		],
+		"newlinesBetween": true
+	},
+	"ignorePatterns": []
+}

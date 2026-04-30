@@ -18,12 +18,14 @@
 	"main": "eslint.config.js",
 	"types": "eslint.config.d.ts",
 	"files": [
+		".oxfmtrc.json",
 		".oxlintrc.json",
 		".prettierrc.js",
 		"cmd.js",
 		"eslint.config.js",
 		"eslint.config.d.ts",
-		"helper/findFileOrUp.js"
+		"helper/findFileOrUp.js",
+		"src/buildCommands.js"
 	],
 	"keywords": [
 		"cli",
@@ -38,16 +40,22 @@
 		"format:example": "kitql-lint --format",
 		"inspector": "npx @eslint/config-inspector",
 		"lint": "node ./cmd.js --verbose -p none",
-		"lint:example": "kitql-lint"
+		"lint:example": "kitql-lint",
+		"test": "vitest",
+		"test:ci": "vitest run --coverage"
 	},
 	"peerDependencies": {
 		"eslint": "catalog:linting",
+		"oxfmt": "catalog:linting-oxc",
 		"oxlint": "catalog:linting-oxc",
 		"oxlint-tsgolint": "catalog:linting-oxc",
 		"prettier": "catalog:formatting"
 	},
 	"peerDependenciesMeta": {
 		"eslint": {
+			"optional": true
+		},
+		"oxfmt": {
 			"optional": true
 		},
 		"oxlint": {
@@ -59,6 +67,10 @@
 		"prettier": {
 			"optional": true
 		}
+	},
+	"devDependencies": {
+		"@vitest/coverage-v8": "catalog:testing",
+		"vitest": "catalog:testing"
 	},
 	"dependencies": {
 		"@e18e/eslint-plugin": "catalog:linting",
