@@ -27,10 +27,19 @@ npm install @kitql/eslint-config --D
 By default `kitql-lint` runs `eslint` + `prettier`. Pick others with `-t`:
 
 ```bash
-kitql-lint                                        # eslint + prettier (default)
-kitql-lint -t eslint,prettier,oxlint,tsgolint     # add oxlint + type-aware
-kitql-lint -t oxlint,tsgolint,oxfmt,prettier      # full oxc 🦀; prettier kept for .svelte
-kitql-lint -t oxlint,tsgolint,oxfmt               # pure oxc; no .svelte formatting
+kitql-lint                                            # eslint + prettier (default)
+kitql-lint -t eslint,prettier,oxlint,tsgolint         # add oxlint + type-aware
+kitql-lint -t oxlint,tsgolint,oxfmt,eslint,prettier   # 🦀 svelte + full oxc (recommended)
+kitql-lint -t oxlint,tsgolint,oxfmt                   # 🦀 pure oxc (no .svelte support)
+```
+
+For the svelte combo, enable oxlint integration in eslint to avoid duplicate work on `.ts/.js`:
+
+```js
+// eslint.config.js
+import { kitql } from '@kitql/eslint-config'
+
+export default [...kitql({ oxlint: { enable: true } })]
 ```
 
 When `oxfmt` is in the tool set, `prettier` auto-restricts to `**/*.svelte` (oxfmt can't parse

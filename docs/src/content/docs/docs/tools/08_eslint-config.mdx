@@ -174,15 +174,27 @@ kitql-lint
 # add oxlint (with type-aware rules)
 kitql-lint -t eslint,prettier,oxlint,tsgolint
 
-# full oxc 🦀 - oxlint + tsgolint + oxfmt, prettier kept only for .svelte
-kitql-lint -t oxlint,tsgolint,oxfmt,prettier
+# 🦀 svelte + full oxc - the recommended combo for kitql / sveltekit projects.
+# oxc handles all the fast paths; eslint + prettier stay around for svelte.
+kitql-lint -t oxlint,tsgolint,oxfmt,eslint,prettier
 
-# pure oxc - no prettier at all (you lose .svelte formatting)
+# 🦀 pure oxc - no eslint, no prettier.
+# you lose: .svelte linting & formatting, pnpm catalog rules.
 kitql-lint -t oxlint,tsgolint,oxfmt
 ```
 
 When `oxfmt` is in the tool set, `prettier` is auto-restricted to `**/*.svelte` (oxfmt can't parse
 svelte yet); `oxfmt` handles every other file type. Same logic in any mode.
 
-If you go full oxc, you also lose ESLint-only rules: `eslint-plugin-svelte` (no `.svelte` linting)
-and `eslint-plugin-pnpm` (no catalog enforcement on `package.json` / `pnpm-workspace.yaml`).
+In the recommended svelte combo, you'll have oxlint and eslint both linting `.ts/.js` files. To
+avoid duplicate work, enable the oxlint integration in your eslint config:
+
+```js
+// eslint.config.js
+import { kitql } from '@kitql/eslint-config'
+
+export default [...kitql({ oxlint: { enable: true } })]
+```
+
+That disables in eslint every rule oxlint already covers - you only pay for the svelte/pnpm rules
+that oxlint can't replace yet.
