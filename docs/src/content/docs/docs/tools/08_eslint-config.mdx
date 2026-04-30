@@ -23,7 +23,15 @@ npm i -D @kitql/eslint-config eslint prettier
 
 You need to install the peer dependencies you want to use (by default: `eslint`, `prettier`).
 
-_You can add `oxlint` & `tsgolint` to your project if you want to use them._
+`@kitql/eslint-config` ships four optional tools - install only what you want to use:
+
+| Tool     | What it does                                            | Install                    |
+| -------- | ------------------------------------------------------- | -------------------------- |
+| eslint   | Linter (svelte rules, pnpm catalog rules, custom rules) | `npm i -D eslint`          |
+| prettier | Formatter (works on every file type, incl. `.svelte`)   | `npm i -D prettier`        |
+| oxlint   | Faster linter (Rust); covers most JS/TS rules           | `npm i -D oxlint`          |
+| tsgolint | Type-aware lint rules for oxlint                        | `npm i -D oxlint-tsgolint` |
+| oxfmt    | Faster formatter (Rust); doesn't speak `.svelte` yet    | `npm i -D oxfmt`           |
 
 That's it: no `public-hoist-pattern` and no need to list every eslint/prettier plugin in your own
 `package.json`. `@kitql/eslint-config` ships them all as its own dependencies and resolves them
@@ -67,6 +75,59 @@ export default {
 }
 ```
 
+### oxlint config
+
+```jsonc
+// .oxlintrc.json
+{
+	"$schema": "./node_modules/oxlint/configuration_schema.json",
+	"extends": ["./node_modules/@kitql/eslint-config/.oxlintrc.json"],
+	"rules": {
+		// Some custom things?
+	},
+}
+```
+
+The shipped config enables `@e18e/eslint-plugin` + `eslint-plugin-depend` for modern-JS suggestions
+(prefer `Array.at`, `Date.now`, `URL.canParse`, …) and the `correctness` category at error level.
+
+### oxfmt config
+
+```jsonc
+// .oxfmtrc.json
+{
+	"$schema": "./node_modules/oxfmt/configuration_schema.json",
+	"tabWidth": 1,
+	"useTabs": true,
+	"singleQuote": true,
+	"trailingComma": "all",
+	"semi": false,
+	"arrowParens": "always",
+	"printWidth": 100,
+	"sortImports": {
+		"groups": [
+			"builtin",
+			{ "newlinesBetween": false },
+			"external",
+			"kitql",
+			"sveltekit",
+			"aliases",
+			["parent", "sibling", "index"],
+			"unknown",
+		],
+		"customGroups": [
+			{ "groupName": "kitql", "elementNamePattern": ["@kitql/**"] },
+			{ "groupName": "sveltekit", "elementNamePattern": ["$env", "$env/**", "$app", "$app/**"] },
+			{ "groupName": "aliases", "elementNamePattern": ["$*", "$*/**"] },
+		],
+		"newlinesBetween": true,
+	},
+}
+```
+
+oxfmt config has no `extends` (yet), so the file above is what `@kitql/eslint-config` ships as
+defaults - copy it, tweak as needed.
+
 ### ignore things with
 
 ```bash
@@ -101,3 +162,22 @@ scripts: {
   "format": "kitql-lint -f",
 }
 ```
+
+### Picking which tools run
+
+By default, `kitql-lint` runs `eslint` + `prettier`. Use `--tools` (`-t`) to change that:
+
+```bash
+# default - eslint + prettier
+kitql-lint
+
+# add oxlint (with type-aware rules)
+kitql-lint -t eslint,prettier,oxlint,tsgolint
+
+# fastest path - prettier kept for .svelte, no eslint
+# (you lose svelte-specific & pnpm-catalog rules though)
+kitql-lint -t oxlint,oxfmt,prettier
+```
+
+When `oxfmt` is in the tool set, `prettier` is auto-restricted to `**/*.svelte` (oxfmt can't parse
+svelte yet); `oxfmt` handles every other file type. Same logic in any mode.
