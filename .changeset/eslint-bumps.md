@@ -2,4 +2,4 @@
 '@kitql/eslint-config': patch
 ---
 
-bump deps (eslint v10, typescript-eslint, oxlint, oxlint-tsgolint, prettier-plugin-tailwindcss)
+bump deps (eslint v10, typescript-eslint, oxlint, oxlint-tsgolint, prettier-plugin-tailwindcss, @e18e/eslint-plugin, globals)
