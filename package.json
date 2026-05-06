@@ -7,7 +7,7 @@
   "scripts": {
     "build": "pnpm -F \"!docs\" build",
     "release:version": "npm run changeset version",
-    "release": "npm run build && changeset publish --verbose",
+    "release": "npm run build && changeset publish",
     "reset": "git clean -xdf",
     "lint": "kitql-lint",
     "format": "kitql-lint --format",
