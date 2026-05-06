@@ -1,5 +1,14 @@
 # @kitql/internals
 
+## 0.11.1
+
+### Patch Changes
+
+- [`45dd6ef`](https://github.com/jycouet/kitql/commit/45dd6efb5f84b4be43f4ed1ea8ab9878552021f9) Thanks [@jycouet](https://github.com/jycouet)! - bump deps (esrap, oxc-parser)
+
+- Updated dependencies []:
+  - @kitql/helpers@0.8.13
+
 ## 0.11.0
 
 ### Minor Changes
