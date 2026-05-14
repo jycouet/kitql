@@ -1,5 +1,12 @@
 # @kitql/handles
 
+## 0.3.2
+
+### Patch Changes
+
+- Updated dependencies [[`cbf01ac`](https://github.com/jycouet/kitql/commit/cbf01ac59ee816c60837c4e2c90c2cdf37d0448b)]:
+  - @kitql/helpers@0.8.14
+
 ## 0.3.1
 
 ### Patch Changes

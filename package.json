@@ -4,10 +4,11 @@
   "type": "module",
   "author": "jycouet <jycouet@gmail.com>",
   "license": "MIT",
+  "packageManager": "pnpm@10.5.2",
   "scripts": {
     "build": "pnpm -F \"!docs\" build",
     "release:version": "npm run changeset version",
-    "release": "npm run build && changeset publish --verbose",
+    "release": "npm run build && changeset publish",
     "reset": "git clean -xdf",
     "lint": "kitql-lint",
     "format": "kitql-lint --format",
@@ -16,6 +17,7 @@
   "devDependencies": {
     "@changesets/changelog-github": "catalog:lib-author-helper",
     "@changesets/cli": "catalog:lib-author-helper",
+    "@kitql/eslint-config": "workspace:*",
     "@vitest/coverage-v8": "catalog:testing",
     "esbuild": "catalog:tooling",
     "eslint": "catalog:linting",
