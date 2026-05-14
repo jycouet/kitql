@@ -1,5 +1,14 @@
 # @kitql/internals
 
+## 0.11.2
+
+### Patch Changes
+
+- [#1268](https://github.com/jycouet/kitql/pull/1268) [`cbf01ac`](https://github.com/jycouet/kitql/commit/cbf01ac59ee816c60837c4e2c90c2cdf37d0448b) Thanks [@jycouet](https://github.com/jycouet)! - break the `@kitql/helpers` <-> `@kitql/eslint-config` workspace dependency cycle, and make sure `esrap` ships as a pinned version (no `pkg.pr.new` url)
+
+- Updated dependencies [[`cbf01ac`](https://github.com/jycouet/kitql/commit/cbf01ac59ee816c60837c4e2c90c2cdf37d0448b)]:
+  - @kitql/helpers@0.8.14
+
 ## 0.11.1
 
 ### Patch Changes
