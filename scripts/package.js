@@ -73,6 +73,15 @@ try {
 		format: 'cjs',
 		outdir: 'dist/cjs',
 	})
+
+	// esbuild (transform mode) doesn't rewrite `.ts` import specifiers to `.js`.
+	// Fix relative requires in the emitted CJS (no-op for packages using the `.js` convention).
+	for (const file of listFiles(path.join(packageDirPath, 'dist/cjs'))) {
+		if (!file.endsWith('.js')) continue
+		const content = fs.readFileSync(file, 'utf-8')
+		const rewritten = content.replace(/(require\("\.{1,2}\/[^"]+)\.ts"\)/g, '$1.js")')
+		if (rewritten !== content) fs.writeFileSync(file, rewritten)
+	}
 } catch (error) {
 	console.error(`cjs error`, error)
 }

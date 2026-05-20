@@ -1,14 +1,13 @@
 #!/usr/bin/env node
 import path from 'node:path'
-import { Command } from 'commander'
 
 import { cyan, gray, green, Log, red } from '@kitql/helpers'
+import { parseCli } from '@kitql/helpers/server'
 import { getRelativePackagePath, read } from '@kitql/internals'
 
-import { evaluateNode, getExportsFromFile } from './ast.js'
-import { run } from './plugin.js'
+import { evaluateNode, getExportsFromFile } from './ast.ts'
+import { run } from './plugin.ts'
 
-const program = new Command()
 const log = new Log('kit-routes')
 
 async function loadConfigFromFile(
@@ -89,27 +88,50 @@ try {
 	}
 } catch (error) {}
 
-program.name('kit-routes').description('CLI for kit-routes plugin').version(version)
+const { values, positionals, help } = parseCli({
+	name: 'kit-routes',
+	description: 'CLI for kit-routes plugin',
+	version,
+	allowPositionals: true,
+	options: {
+		config: {
+			type: 'string',
+			short: 'c',
+			description: 'Path to config file (default: vite.config.ts)',
+		},
+	},
+})
 
-program
-	.command('sync')
-	.description('Sync routes configuration')
-	.option('-c, --config <path>', 'Path to config file (default: vite.config.ts)')
-	.action(async (options) => {
-		const config = await loadConfig(options.config)
-		if (!config) {
-			log.info('')
-			if (exportName) {
-				log.info(`  Config object should look like this:
+if (values.version) {
+	log.info(version)
+	process.exit(0)
+}
+
+if (values.help || positionals[0] !== 'sync') {
+	log.info(help)
+	log.info('')
+	log.info('Commands:')
+	log.info('  sync  Sync routes configuration')
+	process.exit(values.help ? 0 : 1)
+}
+
+sync(values.config as string | undefined)
+
+async function sync(configPath?: string) {
+	const config = await loadConfig(configPath)
+	if (!config) {
+		log.info('')
+		if (exportName) {
+			log.info(`  Config object should look like this:
 
                ${green(`import { kitRoutes, type Options } from 'vite-plugin-kit-routes'
-               
+
                export const ${exportName}: Options = {
                  // ...
                }`)}
 `)
-			} else {
-				log.info(`  Config object should look like this:
+		} else {
+			log.info(`  Config object should look like this:
 
                ${green(`import { kitRoutes, type Options } from 'vite-plugin-kit-routes'
 	
@@ -117,20 +139,18 @@ program
                  // ...
                } satisfies Options`)}
 `)
-			}
-			log.info('')
-			log.info('You can specify a custom config file using --config with the following format:')
-			log.info('  --config ./path/to/config.ts#named_export')
-			log.info('  If no named export is specified, it will use the default export')
-			log.info('')
-
-			process.exit(1)
 		}
+		log.info('')
+		log.info('You can specify a custom config file using --config with the following format:')
+		log.info('  --config ./path/to/config.ts#named_export')
+		log.info('  If no named export is specified, it will use the default export')
+		log.info('')
 
-		const success = await run(true, config)
-		if (!success) {
-			process.exit(1)
-		}
-	})
+		process.exit(1)
+	}
 
-program.parse()
+	const success = await run(true, config)
+	if (!success) {
+		process.exit(1)
+	}
+}
