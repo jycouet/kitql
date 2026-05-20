@@ -1,9 +1,6 @@
 onlyBuiltDependencies:
  - esbuild
 
-patchedDependencies:
- '@sveltejs/package': patches/@sveltejs__package.patch
-
 packages:
  - 'packages/*'
  - 'docs'
