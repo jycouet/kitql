@@ -5,8 +5,8 @@ import { cyan, gray, green, Log, red } from '@kitql/helpers'
 import { parseCli } from '@kitql/helpers/server'
 import { getRelativePackagePath, read } from '@kitql/internals'
 
-import { evaluateNode, getExportsFromFile } from './ast.js'
-import { run } from './plugin.js'
+import { evaluateNode, getExportsFromFile } from './ast.ts'
+import { run } from './plugin.ts'
 
 const log = new Log('kit-routes')
 
