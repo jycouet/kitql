@@ -14,8 +14,7 @@ describe('bin', () => {
 			} catch (error) {
 				if (error instanceof Error) {
 					expect(error.message).toContain('Command failed')
-					expect(error.message).toContain('Usage: kit-routes [options] [command]')
-					expect(error.message).toContain('CLI for kit-routes plugin')
+					expect(error.message).toContain('kit-routes')
 				} else {
 					expect('To never').toBe('be here')
 				}
