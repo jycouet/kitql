@@ -29,8 +29,8 @@ catalogs:
       specifier: ^4.7.0
       version: 4.7.0
     prettier:
-      specifier: ^3.6.1
-      version: 3.6.1
+      specifier: ^3.8.3
+      version: 3.8.3
     prettier-plugin-sh:
       specifier: ^0.18.0
       version: 0.18.0
@@ -234,7 +234,7 @@ importers:
         version: 0.22.1
       prettier:
         specifier: catalog:formatting
-        version: 3.6.1
+        version: 3.8.3
       vitest:
         specifier: catalog:testing
         version: 4.1.4(@types/node@24.12.0)(@vitest/browser-playwright@4.1.4)(@vitest/coverage-v8@4.1.4)(@vitest/ui@4.1.4)(vite@8.0.10(@types/node@24.12.0)(esbuild@0.28.0)(tsx@4.21.0)(yaml@2.8.2))
@@ -279,7 +279,7 @@ importers:
         version: 10.0.1(eslint@10.3.0)
       '@ianvs/prettier-plugin-sort-imports':
         specifier: catalog:formatting
-        version: 4.7.0(prettier@3.6.1)
+        version: 4.7.0(prettier@3.8.3)
       '@kitql/helpers':
         specifier: workspace:*
         version: link:../helpers/dist
@@ -321,16 +321,16 @@ importers:
         version: 0.22.1
       prettier:
         specifier: catalog:formatting
-        version: 3.6.1
+        version: 3.8.3
       prettier-plugin-sh:
         specifier: catalog:formatting
-        version: 0.18.0(prettier@3.6.1)
+        version: 0.18.0(prettier@3.8.3)
       prettier-plugin-svelte:
         specifier: catalog:formatting
-        version: 3.4.0(prettier@3.6.1)(svelte@5.55.0)
+        version: 3.4.0(prettier@3.8.3)(svelte@5.55.0)
       prettier-plugin-tailwindcss:
         specifier: catalog:formatting
-        version: 0.8.0(@ianvs/prettier-plugin-sort-imports@4.7.0(prettier@3.6.1))(prettier-plugin-astro@0.14.1)(prettier-plugin-svelte@3.4.0(prettier@3.6.1)(svelte@5.55.0))(prettier@3.6.1)
+        version: 0.8.0(@ianvs/prettier-plugin-sort-imports@4.7.0(prettier@3.8.3))(prettier-plugin-astro@0.14.1)(prettier-plugin-svelte@3.4.0(prettier@3.8.3)(svelte@5.55.0))(prettier@3.8.3)
       typescript-eslint:
         specifier: catalog:linting
         version: 8.59.3(eslint@10.3.0)(typescript@5.9.2)
@@ -4298,6 +4298,11 @@ packages:
     engines: {node: '>=14'}
     hasBin: true
 
+  prettier@3.8.3:
+    resolution: {integrity: sha512-7igPTM53cGHMW8xWuVTydi2KO233VFiTNyF5hLJqpilHfmn8C8gPf+PS7dUT64YcXFbiMGZxS9pCSxL/Dxm/Jw==}
+    engines: {node: '>=14'}
+    hasBin: true
+
   prismjs@1.30.0:
     resolution: {integrity: sha512-DEvV2ZF2r2/63V+tK8hQvrR2ZGn10srHbXviTlcv7Kpzw8jWiNTqbVgjO3IY8RxrrOUF8VPMQQFysYYYv0YZxw==}
     engines: {node: '>=6'}
@@ -5798,13 +5803,13 @@ snapshots:
 
   '@humanwhocodes/retry@0.4.2': {}
 
-  '@ianvs/prettier-plugin-sort-imports@4.7.0(prettier@3.6.1)':
+  '@ianvs/prettier-plugin-sort-imports@4.7.0(prettier@3.8.3)':
     dependencies:
       '@babel/generator': 7.26.2
       '@babel/parser': 7.28.5
       '@babel/traverse': 7.25.9
       '@babel/types': 7.28.5
-      prettier: 3.6.1
+      prettier: 3.8.3
       semver: 7.7.3
     transitivePeerDependencies:
       - supports-color
@@ -9131,28 +9136,30 @@ snapshots:
       prettier: 3.6.1
       sass-formatter: 0.7.9
 
-  prettier-plugin-sh@0.18.0(prettier@3.6.1):
+  prettier-plugin-sh@0.18.0(prettier@3.8.3):
     dependencies:
       '@reteps/dockerfmt': 0.3.6
-      prettier: 3.6.1
+      prettier: 3.8.3
       sh-syntax: 0.5.8
 
-  prettier-plugin-svelte@3.4.0(prettier@3.6.1)(svelte@5.55.0):
+  prettier-plugin-svelte@3.4.0(prettier@3.8.3)(svelte@5.55.0):
     dependencies:
-      prettier: 3.6.1
+      prettier: 3.8.3
       svelte: 5.55.0
 
-  prettier-plugin-tailwindcss@0.8.0(@ianvs/prettier-plugin-sort-imports@4.7.0(prettier@3.6.1))(prettier-plugin-astro@0.14.1)(prettier-plugin-svelte@3.4.0(prettier@3.6.1)(svelte@5.55.0))(prettier@3.6.1):
+  prettier-plugin-tailwindcss@0.8.0(@ianvs/prettier-plugin-sort-imports@4.7.0(prettier@3.8.3))(prettier-plugin-astro@0.14.1)(prettier-plugin-svelte@3.4.0(prettier@3.8.3)(svelte@5.55.0))(prettier@3.8.3):
     dependencies:
-      prettier: 3.6.1
+      prettier: 3.8.3
     optionalDependencies:
-      '@ianvs/prettier-plugin-sort-imports': 4.7.0(prettier@3.6.1)
+      '@ianvs/prettier-plugin-sort-imports': 4.7.0(prettier@3.8.3)
       prettier-plugin-astro: 0.14.1
-      prettier-plugin-svelte: 3.4.0(prettier@3.6.1)(svelte@5.55.0)
+      prettier-plugin-svelte: 3.4.0(prettier@3.8.3)(svelte@5.55.0)
 
   prettier@2.8.8: {}
 
   prettier@3.6.1: {}
+
+  prettier@3.8.3: {}
 
   prismjs@1.30.0: {}
 
