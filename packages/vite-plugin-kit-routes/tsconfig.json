@@ -11,7 +11,9 @@
 		"strict": true,
 		"moduleResolution": "NodeNext",
 		"noUnusedLocals": true,
-		"module": "NodeNext"
+		"module": "NodeNext",
+		"allowImportingTsExtensions": true,
+		"rewriteRelativeImportExtensions": true
 	},
 	"exclude": ["vite.config.ts", "src/test/vite.config.noexport.ts"]
 }

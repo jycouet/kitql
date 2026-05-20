@@ -12,13 +12,11 @@ catalogs:
  tooling:
   '@typescript/native-preview': 7.0.0-dev.20260319.1
   esrap: 2.2.6
-  oxc-parser: 0.130.0
-  oxc-walker: 0.7.0
+  oxc-parser: 0.132.0
+  oxc-walker: 1.0.0
   'typescript': '6.0.2'
   'esbuild': '0.28.0'
-  'commander': '14.0.0'
   'ora': '9.4.0'
-  'tsx': '4.21.0'
 
  vite:
   # Pin exact Vite so SvelteKit + Vitest share one install (avoids duplicate Rollup types in svelte-check).
@@ -32,16 +30,16 @@ catalogs:
   '@vitest/browser-playwright': '4.1.4'
   vitest-browser-svelte: 2.1.0
   # e2e
-  '@playwright/test': '1.59.1'
+  '@playwright/test': '1.60.0'
 
  linting:
-  '@e18e/eslint-plugin': ^0.4.0
+  '@e18e/eslint-plugin': ^0.5.0
   '@eslint/compat': '2.1.0'
   '@eslint/js': '10.0.1'
   '@types/eslint': '9.6.1'
   '@typescript-eslint/parser': '8.59.3'
   '@typescript-eslint/types': '8.59.3'
-  'eslint': '10.3.0'
+  'eslint': '10.4.0'
   'eslint-config-prettier': '10.1.5'
   'eslint-plugin-pnpm': '1.6.0'
   'eslint-plugin-svelte': '3.17.1'
@@ -76,7 +74,7 @@ catalogs:
   'picomatch': '4.0.3'
 
  sveltekit:
-  '@sveltejs/kit': '2.59.1'
+  '@sveltejs/kit': '2.60.1'
   '@sveltejs/package': '2.5.4'
   '@sveltejs/vite-plugin-svelte': '7.1.2'
   '@sveltejs/adapter-auto': '7.0.0'
@@ -91,7 +89,7 @@ catalogs:
   'svelte': '^5.0.0'
 
  remult:
-  'remult': '3.3.7'
+  'remult': '3.3.10'
 
  docs:
   '@astrojs/starlight': 0.39.2
