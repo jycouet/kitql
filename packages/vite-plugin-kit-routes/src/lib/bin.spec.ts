@@ -14,8 +14,10 @@ describe('bin', () => {
 			} catch (error) {
 				if (error instanceof Error) {
 					expect(error.message).toContain('Command failed')
-					expect(error.message).toContain('Usage: kit-routes [options] [command]')
-					expect(error.message).toContain('CLI for kit-routes plugin')
+					const out = (error as any).stdout?.toString() ?? ''
+					expect(out).toContain('CLI for kit-routes plugin')
+					expect(out).toContain('Commands:')
+					expect(out).toContain('sync  Sync routes configuration')
 				} else {
 					expect('To never').toBe('be here')
 				}

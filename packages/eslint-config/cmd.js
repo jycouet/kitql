@@ -2,9 +2,9 @@
 import { spawn } from 'node:child_process'
 import fs from 'node:fs'
 import path from 'node:path'
-import { Option, program } from 'commander'
 
 import { gray, green, Log } from '@kitql/helpers'
+import { parseCli } from '@kitql/helpers/server'
 
 import { findFileOrUp } from './helper/findFileOrUp.js'
 
@@ -12,25 +12,43 @@ import { findFileOrUp } from './helper/findFileOrUp.js'
 const TOOLS_ALL = ['eslint', 'prettier', 'oxlint', 'tsgolint']
 const TOOLS_DEFAULT = TOOLS_ALL.slice(0, 2)
 
-program.addOption(new Option('-f, --format', 'format'))
-program.addOption(new Option('-g, --glob <type>', 'file/dir/glob').default('.'))
-program.addOption(
-	new Option('-t, --tools <type>', 'tools to use (eslint, prettier, oxlint, tsgolint)').default(
-		TOOLS_DEFAULT.join(','),
-	),
-)
-program.addOption(new Option('-v, --verbose', 'add more logs').default(false))
-program.addOption(
-	new Option('-d, --diff-only', 'only check files changed against base branch').default(false),
-)
-program.addOption(
-	new Option('-b, --base-branch <type>', 'base branch to compare against').default('main'),
-)
-program.addOption(
-	new Option('-p, --prefix <type>', 'prefix by with "pnpm" or "npm" or "none"').default('none'),
-)
-program.parse(process.argv)
-const options_cli = program.opts()
+const { values: options_cli, help } = parseCli({
+	name: 'kitql-lint',
+	options: {
+		format: { type: 'boolean', short: 'f', description: 'format' },
+		glob: { type: 'string', short: 'g', default: '.', description: 'file/dir/glob' },
+		tools: {
+			type: 'string',
+			short: 't',
+			default: TOOLS_DEFAULT.join(','),
+			description: 'tools to use (eslint, prettier, oxlint, tsgolint)',
+		},
+		verbose: { type: 'boolean', short: 'v', default: false, description: 'add more logs' },
+		'diff-only': {
+			type: 'boolean',
+			short: 'd',
+			default: false,
+			description: 'only check files changed against base branch',
+		},
+		'base-branch': {
+			type: 'string',
+			short: 'b',
+			default: 'main',
+			description: 'base branch to compare against',
+		},
+		prefix: {
+			type: 'string',
+			short: 'p',
+			default: 'none',
+			description: 'prefix by with "pnpm" or "npm" or "none"',
+		},
+	},
+})
+
+if (options_cli.help) {
+	console.info(help)
+	process.exit(0)
+}
 
 const pathPrettierIgnore = findFileOrUp('.prettierignore')
 const pathPrettier_js = findFileOrUp('.prettierrc.js')
@@ -39,9 +57,11 @@ const format = /** @type {boolean} */ (options_cli.format ?? false)
 let glob = /** @type {string} */ (options_cli.glob ?? '.')
 const verbose = /** @type {boolean} */ (options_cli.verbose ?? false)
 const pre = /** @type {string} */ (options_cli.prefix ?? 'none')
-const tools = /** @type {typeof TOOLS_ALL} */ (options_cli.tools.split(',') ?? TOOLS_DEFAULT)
-const diffOnly = /** @type {boolean} */ (options_cli.diffOnly ?? false)
-const baseBranch = /** @type {string} */ (options_cli.baseBranch ?? 'main')
+const tools = /** @type {typeof TOOLS_ALL} */ (
+	String(options_cli.tools ?? TOOLS_DEFAULT.join(',')).split(',')
+)
+const diffOnly = /** @type {boolean} */ (options_cli['diff-only'] ?? false)
+const baseBranch = /** @type {string} */ (options_cli['base-branch'] ?? 'main')
 
 const log = new Log('kitql-lint')
 // const spinner = new Spinner({ symbolFormatter: (msg) => bgBlueBright(` kitql-lint `) + ' ' + msg })

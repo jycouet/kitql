@@ -176,9 +176,6 @@ catalogs:
     '@typescript/native-preview':
       specifier: 7.0.0-dev.20260319.1
       version: 7.0.0-dev.20260319.1
-    commander:
-      specifier: 14.0.0
-      version: 14.0.0
     esbuild:
       specifier: 0.28.0
       version: 0.28.0
@@ -286,9 +283,6 @@ importers:
       '@typescript-eslint/parser':
         specifier: catalog:linting
         version: 8.59.3(eslint@10.4.0)(typescript@5.9.2)
-      commander:
-        specifier: catalog:tooling
-        version: 14.0.0
       eslint:
         specifier: catalog:linting
         version: 10.4.0
@@ -542,9 +536,6 @@ importers:
       '@kitql/internals':
         specifier: workspace:*
         version: link:../internals/dist
-      commander:
-        specifier: catalog:tooling
-        version: 14.0.0
       vite-plugin-watch-and-run:
         specifier: workspace:*
         version: link:../vite-plugin-watch-and-run/dist
@@ -2710,10 +2701,6 @@ packages:
   commander@11.1.0:
     resolution: {integrity: sha512-yPVavfyCcRhmorC7rWlkHn15b4wDVgVmBA7kV4QVBsF7kv/9TKJAbAXVTxvTnwP8HHKjRCJDClKbciiYS7p0DQ==}
     engines: {node: '>=16'}
-
-  commander@14.0.0:
-    resolution: {integrity: sha512-2uM9rYjPvyq39NwLRqaiLtWHyDC1FvryJDa2ATTVims5YAS4PupsEQsDvP14FqhFr0P49CYDugi59xaxJlTXRA==}
-    engines: {node: '>=20'}
 
   commander@7.2.0:
     resolution: {integrity: sha512-QrWXB+ZQSVPmIWIhtEO9H+gwHaMGYiF5ChvoJ+K9ZGHG/sVsa6yiesAD1GC/x46sET00Xlwo1u49RVVVzvcSkw==}
@@ -7187,8 +7174,6 @@ snapshots:
   comma-separated-tokens@2.0.3: {}
 
   commander@11.1.0: {}
-
-  commander@14.0.0: {}
 
   commander@7.2.0: {}
 
