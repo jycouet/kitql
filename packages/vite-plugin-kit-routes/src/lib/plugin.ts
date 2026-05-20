@@ -642,7 +642,7 @@ export function buildMetadata(
 
 	const params = []
 
-	let isAllOptional = paramsFromPath.filter((c) => !c.optional).length === 0
+	let isAllOptional = !paramsFromPath.some((c) => !c.optional)
 	const paramsReq = paramsFromPath.filter((c) => !c.optional)
 
 	if (customConf.hash) {
@@ -661,7 +661,7 @@ export function buildMetadata(
 	// custom search Param?
 	const explicit_search_params_to_function: [param: string, val: string][] = []
 	if (customConf.explicit_search_params) {
-		let someParamsHaveDefault = paramsFromPath.filter((c) => c.default !== undefined).length > 0
+		let someParamsHaveDefault = paramsFromPath.some((c) => c.default !== undefined)
 
 		Object.entries(customConf.explicit_search_params).forEach((sp) => {
 			const param = {
@@ -1136,7 +1136,7 @@ ${objTypes
 		return `  ${c.type}${arrayToRecord(
 			c.files.map((d) => {
 				return `'${d.keyToUse}': ${
-					d.paramsFromPath.filter((e) => e.fromPath === true).length === 0
+					!d.paramsFromPath.some((e) => e.fromPath === true)
 						? 'never'
 						: d.paramsFromPath
 								.filter((e) => e.fromPath === true)
