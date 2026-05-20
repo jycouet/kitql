@@ -6,8 +6,8 @@ import { watchAndRun } from 'vite-plugin-watch-and-run'
 import { cyan, gray, green, italic, Log, red, stry0, yellow } from '@kitql/helpers'
 import { dirname, getFilesUnder, read, write } from '@kitql/internals'
 
-import { getActionsOfServerPages, getMethodsOfServerFiles } from './ast.js'
-import { appendSp, format, paramType, routeFn } from './format.js'
+import { getActionsOfServerPages, getMethodsOfServerFiles } from './ast.ts'
+import { appendSp, format, paramType, routeFn } from './format.ts'
 
 const groupsInPathRegex = /\/\([^)]*\)/g
 const groupsRegex = /\([^)]*\)/g
