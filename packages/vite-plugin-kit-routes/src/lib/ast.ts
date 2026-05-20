@@ -1,7 +1,7 @@
 import { cyan, red, yellow } from '@kitql/helpers'
 import { parse, read, walk } from '@kitql/internals'
 
-import { log, routes_path } from './plugin.js'
+import { log, routes_path } from './plugin.ts'
 
 export const getMethodsOfServerFiles = (pathFile: string) => {
 	const fullPath = `${routes_path()}${pathFile}/${'+server.ts'}`

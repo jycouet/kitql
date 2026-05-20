@@ -191,9 +191,6 @@ catalogs:
     oxc-walker:
       specifier: 0.7.0
       version: 0.7.0
-    tsx:
-      specifier: 4.22.3
-      version: 4.22.3
   vite:
     vite:
       specifier: 8.0.10
@@ -582,9 +579,6 @@ importers:
       tslib:
         specifier: catalog:lib-author-helper
         version: 2.8.0
-      tsx:
-        specifier: catalog:tooling
-        version: 4.22.3
       vite:
         specifier: catalog:vite
         version: 8.0.10(@types/node@24.12.0)(esbuild@0.28.0)(tsx@4.22.3)(yaml@2.8.2)
@@ -9795,6 +9789,7 @@ snapshots:
       esbuild: 0.28.0
     optionalDependencies:
       fsevents: 2.3.3
+    optional: true
 
   type-check@0.4.0:
     dependencies:
