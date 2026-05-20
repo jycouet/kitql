@@ -47,6 +47,10 @@ fs.writeFileSync(
 					svelte: './esm/index.js',
 					default: './esm/index.js',
 				},
+				// preserve per-package subpath exports (e.g. "./server"), drop the standard "."
+				...Object.fromEntries(
+					Object.entries(pkg.exports ?? {}).filter(([key]) => key !== '.'),
+				),
 			},
 			engines: {
 				node: pkg?.engines?.node ?? '>=18', // let's have the same default as SvelteKit

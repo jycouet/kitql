@@ -68,6 +68,11 @@
       "require": "./cjs/index.js",
       "svelte": "./esm/index.js",
       "default": "./esm/index.js"
+    },
+    "./server": {
+      "types": "./esm/server/index.d.ts",
+      "require": "./cjs/server/index.js",
+      "default": "./esm/server/index.js"
     }
   },
   "engines": {
