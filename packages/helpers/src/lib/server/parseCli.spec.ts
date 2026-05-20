@@ -70,4 +70,27 @@ describe('parseCli', () => {
 		})
 		expect(values.version).toBe(true)
 	})
+
+	it('does not bind -h to help when a custom option already uses -h', () => {
+		const { values } = parseCli({
+			options: { host: { type: 'string', short: 'h' } },
+			args: ['-h', 'localhost'],
+		})
+		expect(values.host).toBe('localhost')
+	})
+
+	it('throws on unknown flags (strict mode)', () => {
+		expect(() =>
+			parseCli({ options: { format: { type: 'boolean', short: 'f' } }, args: ['--nope'] }),
+		).toThrow()
+	})
+
+	it('renders a <value> placeholder for string options in help', () => {
+		const { help } = parseCli({
+			name: 'demo',
+			options: { glob: { type: 'string', short: 'g', description: 'a glob' } },
+			args: [],
+		})
+		expect(help).toContain('--glob <value>')
+	})
 })

@@ -24,18 +24,25 @@ export interface CliResult {
 }
 
 /**
- * Thin wrapper over node:util parseArgs.
- * - Applies defaults itself (node:util `default` is not available across all Node >=18).
- * - Auto-registers `help` (-h) and, when a version is set, `version`, so strict mode
- *   does not throw on those flags. Does NOT print or exit - the caller decides.
+ * Thin wrapper over node:util parseArgs (requires Node >=18.3).
+ * - Applies defaults itself (node:util's own `default` requires Node >=18.11)
+ *   for broader compatibility.
+ * - Auto-registers `help` (-h, when `-h` is free) and, when a version is set,
+ *   `version`, so strict mode does not throw on those flags. Does NOT print or
+ *   exit - the caller decides.
  */
 export function parseCli(config: CliConfig): CliResult {
 	const parseOptions: Record<string, { type: 'boolean' | 'string'; short?: string }> = {}
 	for (const [name, opt] of Object.entries(config.options)) {
 		parseOptions[name] = { type: opt.type, ...(opt.short ? { short: opt.short } : {}) }
 	}
+	const usedShorts = new Set(
+		Object.values(config.options)
+			.map((opt) => opt.short)
+			.filter(Boolean),
+	)
 	if (!parseOptions.help) {
-		parseOptions.help = { type: 'boolean', short: 'h' }
+		parseOptions.help = usedShorts.has('h') ? { type: 'boolean' } : { type: 'boolean', short: 'h' }
 	}
 	if (config.version && !parseOptions.version) {
 		parseOptions.version = { type: 'boolean' }
@@ -71,7 +78,8 @@ function buildHelp(config: CliConfig): string {
 	lines.push('Options:')
 	const entries = Object.entries(config.options)
 	for (const [name, opt] of entries) {
-		const flags = [opt.short ? `-${opt.short}` : null, `--${name}`].filter(Boolean).join(', ')
+		const long = opt.type === 'string' ? `--${name} <value>` : `--${name}`
+		const flags = [opt.short ? `-${opt.short}` : null, long].filter(Boolean).join(', ')
 		const def = opt.default !== undefined ? ` (default: ${String(opt.default)})` : ''
 		lines.push(`  ${flags}${opt.description ? `  ${opt.description}` : ''}${def}`)
 	}
