@@ -1,5 +1,11 @@
 # @kitql/helpers
 
+## 0.8.15
+
+### Patch Changes
+
+- [#1279](https://github.com/jycouet/kitql/pull/1279) [`a07200f`](https://github.com/jycouet/kitql/commit/a07200fddc1341819be999d6b2670cecd1d882bc) Thanks [@jycouet](https://github.com/jycouet)! - Replace `commander` with a built-in `node:util` CLI parser. `@kitql/helpers` now exposes a `parseCli` helper via the new `@kitql/helpers/server` export; the `kitql-lint` and `kit-routes` CLIs use it and no longer depend on `commander`.
+
 ## 0.8.14
 
 ### Patch Changes
