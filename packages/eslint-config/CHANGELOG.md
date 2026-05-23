@@ -1,5 +1,16 @@
 # eslint-config-kitql
 
+## 0.9.0
+
+### Minor Changes
+
+- [#1253](https://github.com/jycouet/kitql/pull/1253) [`66e5138`](https://github.com/jycouet/kitql/commit/66e51380d1db9b37829f93e4e7fa31c4268bc8b0) Thanks [@jycouet](https://github.com/jycouet)! - add oxfmt support and richer oxlint ruleset
+  - new `oxfmt` tool option for `kitql-lint` (when enabled, prettier auto-restricts to `.svelte` files since oxfmt can't parse them yet)
+  - ship default `.oxfmtrc.json` with sortImports groups (kitql, sveltekit, aliases)
+  - expand `.oxlintrc.json`: `@e18e/eslint-plugin` + `eslint-plugin-depend`, `correctness` category at error level, explicit e18e/\* rules, `@typescript-eslint/prefer-find` / `prefer-readonly` / `prefer-regexp-exec`, TS file overrides (`no-var`, `prefer-const`, `prefer-rest-params`, `prefer-spread`)
+  - new eslint option `kitql({ oxlint: { enable: true } })` to integrate `eslint-plugin-oxlint` and skip rules already covered by oxlint
+  - fix: `runOxc` now respects `--prefix` (so `-p pnpm` applies to oxlint too)
+
 ## 0.8.4
 
 ### Patch Changes
