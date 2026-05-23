@@ -57,6 +57,9 @@ jobs:
    - name: 🧹 Lint
      run: pnpm -F ${{ matrix.prj }} run --if-present lint
 
+   - name: 🧪 Lint (oxc)
+     run: pnpm -F ${{ matrix.prj }} run --if-present lint:oxc
+
    - name: 💪 Check
      run: pnpm -F ${{ matrix.prj }} run --if-present check
 

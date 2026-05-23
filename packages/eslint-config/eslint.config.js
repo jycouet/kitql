@@ -119,7 +119,15 @@ const othersRules = ({ svelteConfig } = {}) => {
 		},
 		{
 			name: '@kitql:ignores',
-			ignores: ['build/', '.svelte-kit/', 'dist/', '**/build/', '**/.svelte-kit/', '**/dist/'],
+			ignores: [
+				'build/',
+				'.svelte-kit/',
+				'dist/',
+				'**/build/',
+				'**/.svelte-kit/',
+				'**/dist/',
+				'**/test/fixtures/**',
+			],
 		},
 		{
 			name: '@kitql:tests',

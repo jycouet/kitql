@@ -13,6 +13,7 @@ packages:
 minimumReleaseAge: 1440
 minimumReleaseAgeExclude:
  - remult
+ - '@sveltejs/*'
 
 catalogs:
  tooling:
@@ -65,6 +66,7 @@ catalogs:
   oxlint: 1.66.0
   oxlint-tsgolint: 0.23.0
   eslint-plugin-oxlint: 1.66.0
+  oxfmt: 0.51.0
 
  lib-author-helper:
   '@changesets/changelog-github': '0.7.0'

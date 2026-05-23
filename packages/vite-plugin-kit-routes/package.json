@@ -28,6 +28,7 @@
     "test": "vitest",
     "test:ci": "vitest run --coverage",
     "lint": "kitql-lint",
+    "lint:oxc": "kitql-lint -t oxlint,oxfmt,prettier",
     "format": "kitql-lint --format"
   },
   "bin": {

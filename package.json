@@ -11,6 +11,7 @@
     "release": "npm run build && changeset publish",
     "reset": "git clean -xdf",
     "lint": "kitql-lint",
+    "lint:oxc": "kitql-lint -t oxlint,oxfmt,prettier",
     "format": "kitql-lint --format",
     "up-dep": "pnpm -r up --latest"
   },
@@ -21,6 +22,7 @@
     "@vitest/coverage-v8": "catalog:testing",
     "esbuild": "catalog:tooling",
     "eslint": "catalog:linting",
+    "oxfmt": "catalog:linting-oxc",
     "oxlint": "catalog:linting-oxc",
     "oxlint-tsgolint": "catalog:linting-oxc",
     "prettier": "catalog:formatting",
