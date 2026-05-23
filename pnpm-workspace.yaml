@@ -1,12 +1,18 @@
-onlyBuiltDependencies:
- - esbuild
-
-patchedDependencies:
- '@sveltejs/package': patches/@sveltejs__package.patch
+# Approve install scripts explicitly (pnpm 11 allowBuilds replaces onlyBuiltDependencies).
+allowBuilds:
+ esbuild: true
+ sharp: false
 
 packages:
  - 'packages/*'
  - 'docs'
+
+# Supply-chain cooldown: skip versions published less than a day ago (mitigates a
+# compromised-release window). Closely-tracked publishers are excluded so they still
+# update immediately.
+minimumReleaseAge: 1440
+minimumReleaseAgeExclude:
+ - remult
 
 catalogs:
  tooling:
@@ -49,16 +55,16 @@ catalogs:
   yaml-eslint-parser: 2.0.0
 
  formatting:
-  'prettier': '^3.6.1'
+  'prettier': '^3.8.3'
   '@ianvs/prettier-plugin-sort-imports': '^4.7.0'
   'prettier-plugin-sh': '^0.18.0'
-  'prettier-plugin-svelte': '^3.4.0'
-  'prettier-plugin-tailwindcss': '^0.7.2'
+  'prettier-plugin-svelte': '^4.0.0'
+  'prettier-plugin-tailwindcss': '^0.8.0'
 
  linting-oxc:
-  oxlint: 1.64.0
-  oxlint-tsgolint: 0.22.1
-  eslint-plugin-oxlint: 1.64.0
+  oxlint: 1.66.0
+  oxlint-tsgolint: 0.23.0
+  eslint-plugin-oxlint: 1.66.0
   oxfmt: 0.51.0
 
  lib-author-helper:
@@ -75,7 +81,7 @@ catalogs:
   'picomatch': '4.0.3'
 
  sveltekit:
-  '@sveltejs/kit': '2.59.1'
+  '@sveltejs/kit': '2.61.0'
   '@sveltejs/package': '2.5.4'
   '@sveltejs/vite-plugin-svelte': '7.1.2'
   '@sveltejs/adapter-auto': '7.0.0'

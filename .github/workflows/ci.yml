@@ -39,13 +39,13 @@ jobs:
    - name: 🪛 pnpm setup
      uses: pnpm/action-setup@v6
      with:
-      version: 10.5.2
+      version: 11.2.2
       run_install: false
 
    - name: 🛠️ node setup
      uses: actions/setup-node@v6
      with:
-      node-version: 24.15.0
+      node-version: 24.16.0
       cache: pnpm
 
    - name: 🧑‍💻 install
@@ -55,13 +55,13 @@ jobs:
      run: pnpm -F "${{ matrix.prj }}..." build
 
    - name: 🧹 Lint
-     run: pnpm -F ${{ matrix.prj }} lint
+     run: pnpm -F ${{ matrix.prj }} run --if-present lint
 
    - name: 💪 Check
-     run: pnpm -F ${{ matrix.prj }} check
+     run: pnpm -F ${{ matrix.prj }} run --if-present check
 
    - name: 👌 Run Tests
-     run: pnpm -F ${{ matrix.prj }} test:ci
+     run: pnpm -F ${{ matrix.prj }} run --if-present test:ci
 
  diff_dependencies:
   runs-on: ubuntu-latest
