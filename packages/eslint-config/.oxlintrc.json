@@ -1,7 +1,7 @@
 {
 	"$schema": "./node_modules/oxlint/configuration_schema.json",
 	"plugins": ["unicorn", "typescript", "oxc"],
-	"jsPlugins": ["@e18e/eslint-plugin", "eslint-plugin-depend", "eslint-plugin-svelte"],
+	"jsPlugins": ["@e18e/eslint-plugin", "eslint-plugin-svelte"],
 	"ignorePatterns": ["**/test/fixtures/**"],
 	"categories": {
 		"correctness": "error"
@@ -37,7 +37,6 @@
 		"e18e/prefer-regex-test": "error",
 		"e18e/prefer-array-some": "error",
 		"e18e/prefer-static-regex": "error",
-		"depend/ban-dependencies": "error",
 
 		"@typescript-eslint/prefer-find": "error",
 		"@typescript-eslint/prefer-readonly": "error",
