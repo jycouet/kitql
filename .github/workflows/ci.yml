@@ -55,13 +55,13 @@ jobs:
      run: pnpm -F "${{ matrix.prj }}..." build
 
    - name: 🧹 Lint
-     run: pnpm -F ${{ matrix.prj }} lint
+     run: pnpm -F ${{ matrix.prj }} run --if-present lint
 
    - name: 💪 Check
-     run: pnpm -F ${{ matrix.prj }} check
+     run: pnpm -F ${{ matrix.prj }} run --if-present check
 
    - name: 👌 Run Tests
-     run: pnpm -F ${{ matrix.prj }} test:ci
+     run: pnpm -F ${{ matrix.prj }} run --if-present test:ci
 
  diff_dependencies:
   runs-on: ubuntu-latest
