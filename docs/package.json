@@ -5,6 +5,7 @@
   "scripts": {
     "dev": "astro dev",
     "lint": "kitql-lint",
+    "lint:oxc": "kitql-lint -t oxlint,oxfmt,prettier",
     "format": "kitql-lint --format",
     "start": "astro dev",
     "build": "astro build",

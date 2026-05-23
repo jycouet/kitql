@@ -40,6 +40,7 @@
 		"format:example": "kitql-lint --format",
 		"inspector": "npx @eslint/config-inspector",
 		"lint": "node ./cmd.js --verbose -p none",
+		"lint:oxc": "node ./cmd.js -p none -t oxlint,oxfmt,prettier",
 		"lint:example": "kitql-lint",
 		"test": "vitest",
 		"test:ci": "vitest run --coverage"
