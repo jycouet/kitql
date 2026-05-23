@@ -1,9 +1,18 @@
-onlyBuiltDependencies:
- - esbuild
+# Approve install scripts explicitly (pnpm 11 allowBuilds replaces onlyBuiltDependencies).
+allowBuilds:
+ esbuild: true
+ sharp: false
 
 packages:
  - 'packages/*'
  - 'docs'
+
+# Supply-chain cooldown: skip versions published less than a day ago (mitigates a
+# compromised-release window). Closely-tracked publishers are excluded so they still
+# update immediately.
+minimumReleaseAge: 1440
+minimumReleaseAgeExclude:
+ - remult
 
 catalogs:
  tooling:
