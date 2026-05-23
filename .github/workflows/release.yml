@@ -27,7 +27,7 @@ jobs:
      name: setup env
      with:
       nodeVersion: 24
-      pnpmVersion: 10.5.2
+      pnpmVersion: 11.2.2
 
    - name: Create Release Pull Request or Publish to npm
      id: changesets
