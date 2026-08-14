@@ -134,8 +134,8 @@ catalogs:
       specifier: 5.55.0
       version: 5.55.0
     svelte-check:
-      specifier: 4.4.5
-      version: 4.4.5
+      specifier: 4.7.6
+      version: 4.7.6
   svelte-dep:
     svelte:
       specifier: ^5.0.0
@@ -384,7 +384,7 @@ importers:
         version: 5.55.0
       svelte-check:
         specifier: catalog:svelte
-        version: 4.4.5(picomatch@4.0.4)(svelte@5.55.0)(typescript@5.9.2)
+        version: 4.7.6(picomatch@4.0.4)(svelte@5.55.0)(typescript@5.9.2)
       tslib:
         specifier: catalog:lib-author-helper
         version: 2.8.0
@@ -428,7 +428,7 @@ importers:
         version: 5.55.0
       svelte-check:
         specifier: catalog:svelte
-        version: 4.4.5(picomatch@4.0.4)(svelte@5.55.0)(typescript@5.9.2)
+        version: 4.7.6(picomatch@4.0.4)(svelte@5.55.0)(typescript@5.9.2)
       tslib:
         specifier: catalog:lib-author-helper
         version: 2.8.0
@@ -487,7 +487,7 @@ importers:
         version: 7.0.1(rolldown@1.0.0-rc.17)(rollup@4.59.0)
       svelte-check:
         specifier: catalog:svelte
-        version: 4.4.5(picomatch@4.0.4)(svelte@5.46.0(@typescript-eslint/types@8.59.3))(typescript@5.9.2)
+        version: 4.7.6(picomatch@4.0.4)(svelte@5.46.0(@typescript-eslint/types@8.59.3))(typescript@5.9.2)
       tslib:
         specifier: catalog:lib-author-helper
         version: 2.8.0
@@ -527,7 +527,7 @@ importers:
         version: 5.55.0
       svelte-check:
         specifier: catalog:svelte
-        version: 4.4.5(picomatch@4.0.4)(svelte@5.55.0)(typescript@5.9.2)
+        version: 4.7.6(picomatch@4.0.4)(svelte@5.55.0)(typescript@5.9.2)
       vite:
         specifier: catalog:vite
         version: 8.0.10(@types/node@24.12.0)(esbuild@0.28.0)(yaml@2.8.2)
@@ -577,7 +577,7 @@ importers:
         version: 5.55.0
       svelte-check:
         specifier: catalog:svelte
-        version: 4.4.5(picomatch@4.0.4)(svelte@5.55.0)(typescript@5.9.2)
+        version: 4.7.6(picomatch@4.0.4)(svelte@5.55.0)(typescript@5.9.2)
       tslib:
         specifier: catalog:lib-author-helper
         version: 2.8.0
@@ -630,7 +630,7 @@ importers:
         version: 5.55.0
       svelte-check:
         specifier: catalog:svelte
-        version: 4.4.5(picomatch@4.0.4)(svelte@5.55.0)(typescript@5.9.2)
+        version: 4.7.6(picomatch@4.0.4)(svelte@5.55.0)(typescript@5.9.2)
       tslib:
         specifier: catalog:lib-author-helper
         version: 2.8.0
@@ -680,7 +680,7 @@ importers:
         version: 5.55.0
       svelte-check:
         specifier: catalog:svelte
-        version: 4.4.5(picomatch@4.0.3)(svelte@5.55.0)(typescript@5.9.2)
+        version: 4.7.6(picomatch@4.0.3)(svelte@5.55.0)(typescript@5.9.2)
       tslib:
         specifier: catalog:lib-author-helper
         version: 2.8.0
@@ -2409,6 +2409,10 @@ packages:
         optional: true
       typescript:
         optional: true
+
+  '@sveltejs/load-config@0.2.3':
+    resolution: {integrity: sha512-VT3qmUb8pRV2QrZjd8iAmtg8lf4W0TIjZbvXtz5MKei/q96teWZgGJyyidJzOjzZzvdq616eSRVeMYIQChUTAQ==}
+    engines: {node: '>= 18.0.0'}
 
   '@sveltejs/package@2.5.4':
     resolution: {integrity: sha512-8+1hccAt0M3PPkHVPKH54Wc+cc1PNxRqCrICZiv/hEEto8KwbQVRghxNgTB4htIPyle+4CIB8RayTQH5zRQh9A==}
@@ -4835,13 +4839,13 @@ packages:
     resolution: {integrity: sha512-ot0WnXS9fgdkgIcePe6RHNk1WA8+muPa6cSjeR3V8K27q9BB1rTE3R1p7Hv0z1ZyAc8s6Vvv8DIyWf681MAt0w==}
     engines: {node: '>= 0.4'}
 
-  svelte-check@4.4.5:
-    resolution: {integrity: sha512-1bSwIRCvvmSHrlK52fOlZmVtUZgil43jNL/2H18pRpa+eQjzGt6e3zayxhp1S7GajPFKNM/2PMCG+DZFHlG9fw==}
+  svelte-check@4.7.6:
+    resolution: {integrity: sha512-t2scM//ZuVbSY/T2w6FSBw1v9s2NEmh/g+sy1lqtosW5ylBV5AF4wFb1Ts9Kf3MbfPDUDJDZ9L436YT0SPTdvw==}
     engines: {node: '>= 18.0.0'}
     hasBin: true
     peerDependencies:
       svelte: ^4.0.0 || ^5.0.0-next.0
-      typescript: '>=5.0.0'
+      typescript: ^5.0.0 || ^6.0.0
 
   svelte-eslint-parser@1.4.0:
     resolution: {integrity: sha512-fjPzOfipR5S7gQ/JvI9r2H8y9gMGXO3JtmrylHLLyahEMquXI0lrebcjT+9/hNgDej0H7abTyox5HpHmW1PSWA==}
@@ -6794,6 +6798,8 @@ snapshots:
       vite: 8.0.10(@types/node@24.12.0)(esbuild@0.28.0)(yaml@2.8.2)
     optionalDependencies:
       typescript: 5.9.2
+
+  '@sveltejs/load-config@0.2.3': {}
 
   '@sveltejs/package@2.5.4(svelte@5.46.0(@typescript-eslint/types@8.59.3))(typescript@5.9.2)':
     dependencies:
@@ -9919,9 +9925,10 @@ snapshots:
 
   supports-preserve-symlinks-flag@1.0.0: {}
 
-  svelte-check@4.4.5(picomatch@4.0.3)(svelte@5.55.0)(typescript@5.9.2):
+  svelte-check@4.7.6(picomatch@4.0.3)(svelte@5.55.0)(typescript@5.9.2):
     dependencies:
       '@jridgewell/trace-mapping': 0.3.31
+      '@sveltejs/load-config': 0.2.3
       chokidar: 4.0.3
       fdir: 6.5.0(picomatch@4.0.3)
       picocolors: 1.1.1
@@ -9931,9 +9938,10 @@ snapshots:
     transitivePeerDependencies:
       - picomatch
 
-  svelte-check@4.4.5(picomatch@4.0.4)(svelte@5.46.0(@typescript-eslint/types@8.59.3))(typescript@5.9.2):
+  svelte-check@4.7.6(picomatch@4.0.4)(svelte@5.46.0(@typescript-eslint/types@8.59.3))(typescript@5.9.2):
     dependencies:
       '@jridgewell/trace-mapping': 0.3.31
+      '@sveltejs/load-config': 0.2.3
       chokidar: 4.0.3
       fdir: 6.5.0(picomatch@4.0.4)
       picocolors: 1.1.1
@@ -9943,9 +9951,10 @@ snapshots:
     transitivePeerDependencies:
       - picomatch
 
-  svelte-check@4.4.5(picomatch@4.0.4)(svelte@5.55.0)(typescript@5.9.2):
+  svelte-check@4.7.6(picomatch@4.0.4)(svelte@5.55.0)(typescript@5.9.2):
     dependencies:
       '@jridgewell/trace-mapping': 0.3.31
+      '@sveltejs/load-config': 0.2.3
       chokidar: 4.0.3
       fdir: 6.5.0(picomatch@4.0.4)
       picocolors: 1.1.1
