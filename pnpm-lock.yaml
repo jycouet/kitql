@@ -10,8 +10,8 @@ catalogs:
       specifier: 0.39.2
       version: 0.39.2
     accessible-astro-components:
-      specifier: 5.2.0
-      version: 5.2.0
+      specifier: 5.7.1
+      version: 5.7.1
     astro:
       specifier: 6.3.3
       version: 6.3.3
@@ -244,7 +244,7 @@ importers:
         version: link:../packages/eslint-config
       accessible-astro-components:
         specifier: catalog:docs
-        version: 5.2.0
+        version: 5.7.1(astro@6.3.3(@types/node@24.12.0)(lightningcss@1.32.0)(rollup@4.59.0)(yaml@2.8.2))
       astro:
         specifier: catalog:docs
         version: 6.3.3(@types/node@24.12.0)(lightningcss@1.32.0)(rollup@4.59.0)(yaml@2.8.2)
@@ -2684,8 +2684,11 @@ packages:
   '@vitest/utils@4.1.4':
     resolution: {integrity: sha512-13QMT+eysM5uVGa1rG4kegGYNp6cnQcsTc67ELFbhNLQO+vgsygtYJx2khvdt4gVQqSSpC/KT5FZZxUpP3Oatw==}
 
-  accessible-astro-components@5.2.0:
-    resolution: {integrity: sha512-l40PPeXR9Tc3cQQEKTmVF9hSxhVRgGI2ZsAJapngcEwEmsAr2COHXdW09VhxcINrsqflEuES6phDjsfVihCxBQ==}
+  accessible-astro-components@5.7.1:
+    resolution: {integrity: sha512-X3FR+k6YOcQQ3a4ti5h4U0TyjB1irDYOA+1NdKniOsBb4abptQ6C+0bQbE7Wa8lC22HyVS2shVoJD82mfX/QMg==}
+    engines: {node: ^18.20.8 || ^20.3.0 || >=22.0.0}
+    peerDependencies:
+      astro: ^5.0.0 || ^6.0.0 || ^7.0.0
 
   acorn-jsx@5.3.2:
     resolution: {integrity: sha512-rq9s+JNhf0IChjtDXxllJ7g41oZk5SlXtp0LHwyA5cejwn7vKmKp4pPri6YEePv2PU65sAsegbXtIinmDFDXgQ==}
@@ -7159,7 +7162,9 @@ snapshots:
       convert-source-map: 2.0.0
       tinyrainbow: 3.1.0
 
-  accessible-astro-components@5.2.0: {}
+  accessible-astro-components@5.7.1(astro@6.3.3(@types/node@24.12.0)(lightningcss@1.32.0)(rollup@4.59.0)(yaml@2.8.2)):
+    dependencies:
+      astro: 6.3.3(@types/node@24.12.0)(lightningcss@1.32.0)(rollup@4.59.0)(yaml@2.8.2)
 
   acorn-jsx@5.3.2(acorn@8.16.0):
     dependencies:
