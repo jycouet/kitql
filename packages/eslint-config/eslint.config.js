@@ -183,6 +183,17 @@ const othersRules = ({ svelteConfig } = {}) => {
 				// Link to: https://github.com/sveltejs/eslint-plugin-svelte/issues/1353
 				// and      https://github.com/sveltejs/eslint-plugin-svelte/issues/1352
 				'svelte/no-navigation-without-resolve': 'off',
+
+				// `!import.meta.env.SSR` guards leave server-only code (and its imports) in the client bundle.
+				'no-restricted-syntax': [
+					'error',
+					{
+						selector:
+							"UnaryExpression[operator='!'] > MemberExpression[property.name='SSR'][object.type='MemberExpression'][object.property.name='env'][object.object.type='MetaProperty']",
+						message:
+							'Do not use `!import.meta.env.SSR`. Wrap the body in `if (import.meta.env.SSR) { ... } throw new Error(...)` so Vite can tree-shake server-only code from the client bundle.',
+					},
+				],
 			},
 		},
 	]
