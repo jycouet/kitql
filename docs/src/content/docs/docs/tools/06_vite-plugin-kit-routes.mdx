@@ -226,16 +226,16 @@ Add the plugin like this:
 ```js
 // vite.config.js
 import { sveltekit } from '@sveltejs/kit/vite'
+import { defineConfig } from 'vite'
 import { kitRoutes } from 'vite-plugin-kit-routes'
 
-/** @type {import('vite').UserConfig} */
-export default config = {
+export default defineConfig({
 	plugins: [
 		sveltekit(),
 		// ✅ Add the plugin
 		kitRoutes(),
 	],
-}
+})
 ```
 
 It will generate a file `./src/lib/ROUTES.ts` at the start of your dev server & any update of any of

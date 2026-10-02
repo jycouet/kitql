@@ -19,16 +19,16 @@ npm i -D vite-plugin-kit-routes
 
 ```js
 import { sveltekit } from '@sveltejs/kit/vite'
+import { defineConfig } from 'vite'
 import { kitRoutes } from 'vite-plugin-kit-routes'
 
-/** @type {import('vite').UserConfig} */
-export default config = {
+export default defineConfig({
   plugins: [
     sveltekit(),
     // ✅ Add the plugin
     kitRoutes(),
   ],
-}
+})
 ```
 
 ## Use
