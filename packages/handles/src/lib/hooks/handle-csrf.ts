@@ -1,5 +1,6 @@
-import { error, type Handle } from '@sveltejs/kit'
+import { error } from '@sveltejs/kit'
 
+import type { Handle } from '$lib/hooks/types.js'
 import { isOriginAllowed, type AllowedOrigin } from '$lib/utils/origins.js'
 import { getMatchingOptionForURL, type OptionsByPath } from '$lib/utils/paths.js'
 

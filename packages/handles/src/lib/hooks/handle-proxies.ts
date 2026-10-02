@@ -1,7 +1,8 @@
-import { error, type Handle, type RequestEvent } from '@sveltejs/kit'
+import { error, type RequestEvent } from '@sveltejs/kit'
 
 import { Log } from '@kitql/helpers'
 
+import type { Handle } from '$lib/hooks/types.js'
 import type { OptionsByStringPath } from '$lib/utils/paths.js'
 
 type MaybePromise<T> = T | Promise<T>

@@ -1,5 +1,4 @@
-import type { Handle } from '@sveltejs/kit'
-
+import type { Handle } from '$lib/hooks/types.js'
 import { cors, type CorsOptions } from '$lib/utils/cors.js'
 import { getMatchingOptionForURL, type OptionsByPath } from '$lib/utils/paths.js'
 

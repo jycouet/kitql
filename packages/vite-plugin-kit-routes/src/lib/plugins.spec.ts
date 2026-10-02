@@ -125,6 +125,25 @@ describe('extractParamsFromPath', () => {
       ]
     `)
 	})
+
+	it('get matcher kit 3 (single params file)', async () => {
+		expect(
+			extractParamsFromPath('/[tmp=ab]', {
+				path_params: 'src/test/params',
+			}),
+		).toMatchInlineSnapshot(`
+			[
+			  {
+			    "fromPath": true,
+			    "isArray": false,
+			    "matcher": "ab",
+			    "name": "tmp",
+			    "optional": false,
+			    "type": "import('@sveltejs/kit/params').MatcherParam<(typeof import('../test/params.ts').params)['ab']>",
+			  },
+			]
+		`)
+	})
 })
 
 describe('formatKey', () => {
@@ -1112,7 +1131,8 @@ describe('run()', async () => {
 
 		const content = read(generated_file_path) ?? ''
 
-		expect(content.includes('import { base } from')).toBe(true)
+		expect(content.includes('import { resolve } from')).toBe(true)
+		expect(content.includes('const base = ')).toBe(true)
 		expect(content.includes('$app/paths')).toBe(true)
 		expect(content.includes('${base}')).toBe(true)
 	})
