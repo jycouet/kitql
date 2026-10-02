@@ -1,5 +1,11 @@
 # @kitql/handles
 
+## 0.4.0
+
+### Minor Changes
+
+- [#1309](https://github.com/jycouet/kitql/pull/1309) [`d5df31c`](https://github.com/jycouet/kitql/commit/d5df31cea8513d1f6b00147ccf7522daa72d1534) Thanks [@jycouet](https://github.com/jycouet)! - Allow SvelteKit 3 as peer. kit-routes: `path_base` now uses `resolve` from `$app/paths` and needs Kit >= 2.26, matcher types support the single `defineParams` file of Kit 3.
+
 ## 0.3.3
 
 ### Patch Changes

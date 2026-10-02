@@ -1,5 +1,11 @@
 # @kitql/internals
 
+## 0.11.4
+
+### Patch Changes
+
+- [#1311](https://github.com/jycouet/kitql/pull/1311) [`ba5e5d0`](https://github.com/jycouet/kitql/commit/ba5e5d05b01f1128b873166fbdd4f2377bc524d2) Thanks [@jycouet](https://github.com/jycouet)! - `svelte` is now a peer dependency (was a dependency), avoiding a duplicate svelte copy in consumer apps.
+
 ## 0.11.3
 
 ### Patch Changes

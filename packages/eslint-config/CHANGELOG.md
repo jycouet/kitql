@@ -1,5 +1,13 @@
 # eslint-config-kitql
 
+## 0.9.1
+
+### Patch Changes
+
+- [#1310](https://github.com/jycouet/kitql/pull/1310) [`0bedea8`](https://github.com/jycouet/kitql/commit/0bedea871d20b527ff0a5eecf502c78d652ee206) Thanks [@jycouet](https://github.com/jycouet)! - `kitql-lint` only looks up config files (`.prettierrc.js`, `.oxfmtrc.json`, `.prettierignore`) for the selected tools, so no more noisy `"<file>" not found` logs for unused tools.
+
+- [#1300](https://github.com/jycouet/kitql/pull/1300) [`a001ab1`](https://github.com/jycouet/kitql/commit/a001ab1994d9f994331536ef3bb2899c608e097f) Thanks [@jycouet](https://github.com/jycouet)! - New rule: ban `!import.meta.env.SSR`. Wrap server-only code in `if (import.meta.env.SSR) { ... } throw new Error(...)` instead, so Vite drops it (and its imports) from the client bundle.
+
 ## 0.9.0
 
 ### Minor Changes
