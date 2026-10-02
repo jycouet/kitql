@@ -4,4 +4,4 @@
 '@kitql/sveltekit': minor
 ---
 
-Allow SvelteKit 3 as peer. kit-routes: `path_base` now uses `resolve` from `$app/paths` (Kit >= 2.26), and matcher types support the single `defineParams` file of Kit 3.
+Allow SvelteKit 3 as peer. kit-routes: `path_base` now uses `resolve` from `$app/paths` and needs Kit >= 2.26, matcher types support the single `defineParams` file of Kit 3.
