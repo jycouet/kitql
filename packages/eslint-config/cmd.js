@@ -56,10 +56,6 @@ if (options_cli.help) {
 	process.exit(0)
 }
 
-const pathPrettierIgnore = findFileOrUp('.prettierignore')
-const pathPrettier_js = findFileOrUp('.prettierrc.js')
-const pathOxfmtrc = findFileOrUp('.oxfmtrc.json')
-
 const format = /** @type {boolean} */ (options_cli.format ?? false)
 let glob = /** @type {string} */ (options_cli.glob ?? '.')
 const verbose = /** @type {boolean} */ (options_cli.verbose ?? false)
@@ -72,6 +68,13 @@ if (unknown.length > 0) {
 	console.error(`Unknown tool(s): ${unknown.join(', ')}. Supported: ${TOOLS_ALL.join(', ')}`)
 	process.exit(2)
 }
+// Only probe configs of selected tools: findFileOrUp logs when a file is missing
+const usePrettier = tools.includes('prettier')
+const useOxfmt = tools.includes('oxfmt')
+const pathPrettierIgnore = usePrettier || useOxfmt ? findFileOrUp('.prettierignore') : null
+const pathPrettier_js = usePrettier ? findFileOrUp('.prettierrc.js') : null
+const pathOxfmtrc = useOxfmt ? findFileOrUp('.oxfmtrc.json') : null
+
 const diffOnly = /** @type {boolean} */ (options_cli['diff-only'] ?? false)
 const baseBranch = /** @type {string} */ (options_cli['base-branch'] ?? 'main')
 
