@@ -447,12 +447,15 @@ export class SP<T extends Record<string, any>> {
 		// Don't do the goto if the search params haven't changed!
 		if (strSearch === window.location.search) return
 
-		goto(`${window.location.pathname}${strSearch}`, {
+		// Kit 2 reads `keepFocus`/`noScroll`, Kit 3 reads `reset`
+		const gotoOpts = {
 			keepFocus: true,
-			replaceState: true,
 			noScroll: true,
+			reset: false,
+			replaceState: true,
 			...this.options.gotoOpts,
-		})
+		}
+		goto(`${window.location.pathname}${strSearch}`, gotoOpts)
 
 		// Reset computing flag after URL update is complete
 		this.computing = false
