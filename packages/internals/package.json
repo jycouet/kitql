@@ -30,6 +30,9 @@
     "lint:oxc": "kitql-lint -t oxlint,oxfmt,prettier",
     "format": "kitql-lint --format"
   },
+  "peerDependencies": {
+    "svelte": "catalog:svelte-dep"
+  },
   "devDependencies": {
     "@kitql/eslint-config": "workspace:*",
     "@sveltejs/adapter-auto": "catalog:sveltekit",
@@ -43,14 +46,14 @@
     "svelte-check": "catalog:svelte",
     "tslib": "catalog:lib-author-helper",
     "vite": "catalog:vite",
-    "vitest": "catalog:testing"
+    "vitest": "catalog:testing",
+    "svelte": "catalog:svelte"
   },
   "dependencies": {
     "@kitql/helpers": "workspace:*",
     "esrap": "catalog:tooling",
     "oxc-parser": "catalog:tooling",
-    "oxc-walker": "catalog:tooling",
-    "svelte": "catalog:svelte-dep"
+    "oxc-walker": "catalog:tooling"
   },
   "sideEffects": false,
   "publishConfig": {
