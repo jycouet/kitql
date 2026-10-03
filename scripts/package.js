@@ -18,7 +18,7 @@ const packageDirPath = process.cwd()
 const packageJsonPath = path.join(packageDirPath, 'package.json')
 const pkg = JSON.parse(fs.readFileSync(packageJsonPath, 'utf-8'))
 
-// replace dep with workspace version
+// replace dep with workspace version, as a range so apps can share one copy
 const packagesPath = path.join(packageDirPath, '..')
 const packages = fs.readdirSync(packagesPath)
 for (let i = 0; i < packages.length; i++) {
@@ -26,7 +26,7 @@ for (let i = 0; i < packages.length; i++) {
 		fs.readFileSync(path.join(packageDirPath, '..', packages[i], 'package.json'), 'utf-8'),
 	)
 	if (pkg?.dependencies?.[currentPkg.name]) {
-		pkg.dependencies[currentPkg.name] = currentPkg.version
+		pkg.dependencies[currentPkg.name] = `^${currentPkg.version}`
 	}
 }
 

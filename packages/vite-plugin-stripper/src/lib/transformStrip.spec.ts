@@ -277,7 +277,7 @@ export class TasksController {
 			@Entity<Ent>()
 			export class Ent {
 				@Fields.id()
-				id: string;
+				id!: string;
 			}
 
 			const getInfo = () => {

@@ -63,9 +63,18 @@ catalogs:
     esm-env:
       specifier: ^1.2.2
       version: 1.2.2
+    esrap:
+      specifier: ^2.2.6
+      version: 2.4.0
+    oxc-parser:
+      specifier: ^0.151.0
+      version: 0.151.0
+    oxc-walker:
+      specifier: ^1.0.0
+      version: 1.0.0
     picomatch:
-      specifier: 4.0.3
-      version: 4.0.3
+      specifier: ^4.0.3
+      version: 4.0.4
     vary:
       specifier: ^1.1.2
       version: 1.1.2
@@ -178,15 +187,6 @@ catalogs:
     esbuild:
       specifier: 0.28.0
       version: 0.28.0
-    esrap:
-      specifier: 2.2.6
-      version: 2.2.6
-    oxc-parser:
-      specifier: 0.151.0
-      version: 0.151.0
-    oxc-walker:
-      specifier: 1.0.0
-      version: 1.0.0
   vite:
     vite:
       specifier: 8.0.10
@@ -272,7 +272,7 @@ importers:
         specifier: catalog:formatting
         version: 4.7.0(prettier@3.8.3)
       '@kitql/helpers':
-        specifier: workspace:*
+        specifier: workspace:^
         version: link:../helpers/dist
       '@types/eslint':
         specifier: catalog:linting
@@ -442,13 +442,13 @@ importers:
         specifier: workspace:*
         version: link:../helpers/dist
       esrap:
-        specifier: catalog:tooling
-        version: 2.2.6(@typescript-eslint/types@8.71.0)
+        specifier: catalog:lib-dep-publish
+        version: 2.4.0(@typescript-eslint/types@8.71.0)
       oxc-parser:
-        specifier: catalog:tooling
+        specifier: catalog:lib-dep-publish
         version: 0.151.0
       oxc-walker:
-        specifier: catalog:tooling
+        specifier: catalog:lib-dep-publish
         version: 1.0.0(oxc-parser@0.151.0)
     devDependencies:
       '@kitql/eslint-config':
@@ -645,7 +645,7 @@ importers:
         version: link:../helpers/dist
       picomatch:
         specifier: catalog:lib-dep-publish
-        version: 4.0.3
+        version: 4.0.4
     devDependencies:
       '@kitql/eslint-config':
         specifier: workspace:*
@@ -676,7 +676,7 @@ importers:
         version: 5.57.1(@typescript-eslint/types@8.71.0)
       svelte-check:
         specifier: catalog:svelte
-        version: 4.7.6(picomatch@4.0.3)(svelte@5.57.1(@typescript-eslint/types@8.71.0))(typescript@5.9.2)
+        version: 4.7.6(picomatch@4.0.4)(svelte@5.57.1(@typescript-eslint/types@8.71.0))(typescript@5.9.2)
       tslib:
         specifier: catalog:lib-author-helper
         version: 2.8.0
@@ -3180,14 +3180,6 @@ packages:
   esquery@1.7.0:
     resolution: {integrity: sha512-Ap6G0WQwcU/LHsvLwON1fAQX9Zp0A2Y6Y/cJBl9r/JbW90Zyg4/zbG6zzKa2OTALELarYHmKu0GhpM5EO+7T0g==}
     engines: {node: '>=0.10'}
-
-  esrap@2.2.6:
-    resolution: {integrity: sha512-WN0clHt0a4mzC780UBVVBpsj4vSSjOFNRd2WjYtduB9HeKxm1sjHMNUwLEHVjI3FdCQD/Hurgz9ftbKEzP79Ow==}
-    peerDependencies:
-      '@typescript-eslint/types': ^8.2.0
-    peerDependenciesMeta:
-      '@typescript-eslint/types':
-        optional: true
 
   esrap@2.4.0:
     resolution: {integrity: sha512-CQPcneEHw/czj32uwQC52nYnax8H4SXt25FCM+LIwGZ49cMIxpOj3bP8wmzcI+Z0HIy5KkClaPhRLfCySzwHPA==}
@@ -6011,7 +6003,7 @@ snapshots:
   '@jridgewell/gen-mapping@0.3.5':
     dependencies:
       '@jridgewell/set-array': 1.2.1
-      '@jridgewell/sourcemap-codec': 1.5.5
+      '@jridgewell/sourcemap-codec': 1.6.0
       '@jridgewell/trace-mapping': 0.3.31
 
   '@jridgewell/remapping@2.3.5':
@@ -7571,15 +7563,9 @@ snapshots:
     dependencies:
       estraverse: 5.3.0
 
-  esrap@2.2.6(@typescript-eslint/types@8.71.0):
-    dependencies:
-      '@jridgewell/sourcemap-codec': 1.5.5
-    optionalDependencies:
-      '@typescript-eslint/types': 8.71.0
-
   esrap@2.4.0(@typescript-eslint/types@8.71.0):
     dependencies:
-      '@jridgewell/sourcemap-codec': 1.5.5
+      '@jridgewell/sourcemap-codec': 1.6.0
     optionalDependencies:
       '@typescript-eslint/types': 8.71.0
 
@@ -7658,10 +7644,6 @@ snapshots:
   fastq@1.15.0:
     dependencies:
       reusify: 1.0.4
-
-  fdir@6.5.0(picomatch@4.0.3):
-    optionalDependencies:
-      picomatch: 4.0.3
 
   fdir@6.5.0(picomatch@4.0.4):
     optionalDependencies:
@@ -9536,19 +9518,6 @@ snapshots:
 
   supports-preserve-symlinks-flag@1.0.0: {}
 
-  svelte-check@4.7.6(picomatch@4.0.3)(svelte@5.57.1(@typescript-eslint/types@8.71.0))(typescript@5.9.2):
-    dependencies:
-      '@jridgewell/trace-mapping': 0.3.31
-      '@sveltejs/load-config': 0.2.3
-      chokidar: 4.0.3
-      fdir: 6.5.0(picomatch@4.0.3)
-      picocolors: 1.1.1
-      sade: 1.8.1
-      svelte: 5.57.1(@typescript-eslint/types@8.71.0)
-      typescript: 5.9.2
-    transitivePeerDependencies:
-      - picomatch
-
   svelte-check@4.7.6(picomatch@4.0.4)(svelte@5.57.1(@typescript-eslint/types@8.71.0))(typescript@5.9.2):
     dependencies:
       '@jridgewell/trace-mapping': 0.3.31
@@ -9625,8 +9594,8 @@ snapshots:
 
   tinyglobby@0.2.15:
     dependencies:
-      fdir: 6.5.0(picomatch@4.0.3)
-      picomatch: 4.0.3
+      fdir: 6.5.0(picomatch@4.0.4)
+      picomatch: 4.0.4
 
   tinyglobby@0.2.16:
     dependencies:
