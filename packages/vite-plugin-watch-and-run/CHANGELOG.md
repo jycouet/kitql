@@ -1,5 +1,13 @@
 # @kitql/vite-plugin-watch-and-run
 
+## 1.8.3
+
+### Patch Changes
+
+- [#1316](https://github.com/jycouet/kitql/pull/1316) [`c5e4eae`](https://github.com/jycouet/kitql/commit/c5e4eae2c5e4602f1bc42adfb2fe43e26cbe998a) Thanks [@jycouet](https://github.com/jycouet)! - `@kitql/*` dependencies are published as a `^` range instead of an exact version, so an app using several kitql packages (directly or through firstly) installs a single copy of each.
+
+- [#1316](https://github.com/jycouet/kitql/pull/1316) [`c5e4eae`](https://github.com/jycouet/kitql/commit/c5e4eae2c5e4602f1bc42adfb2fe43e26cbe998a) Thanks [@jycouet](https://github.com/jycouet)! - `esrap`, `oxc-parser`, `oxc-walker` (internals) and `picomatch` (watch-and-run) are `^` ranges instead of exact pins, so they dedupe with the app's own copies (e.g. svelte's `esrap`). `esrap` moves to `^2.4.0` for its TypeScript printer fixes (decorators, `override`, abstract methods).
+
 ## 1.8.2
 
 ### Patch Changes
