@@ -1,5 +1,15 @@
 # vite-plugin-stripper
 
+## 0.10.6
+
+### Patch Changes
+
+- [#1316](https://github.com/jycouet/kitql/pull/1316) [`c5e4eae`](https://github.com/jycouet/kitql/commit/c5e4eae2c5e4602f1bc42adfb2fe43e26cbe998a) Thanks [@jycouet](https://github.com/jycouet)! - `@kitql/*` dependencies are published as a `^` range instead of an exact version, so an app using several kitql packages (directly or through firstly) installs a single copy of each.
+
+- Updated dependencies [[`c5e4eae`](https://github.com/jycouet/kitql/commit/c5e4eae2c5e4602f1bc42adfb2fe43e26cbe998a), [`c5e4eae`](https://github.com/jycouet/kitql/commit/c5e4eae2c5e4602f1bc42adfb2fe43e26cbe998a)]:
+  - @kitql/internals@0.11.5
+  - vite-plugin-watch-and-run@1.8.3
+
 ## 0.10.5
 
 ### Patch Changes
