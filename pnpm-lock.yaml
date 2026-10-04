@@ -51,8 +51,8 @@ catalogs:
       specifier: 0.3.1
       version: 0.3.1
     rollup-plugin-visualizer:
-      specifier: 7.0.1
-      version: 7.0.1
+      specifier: 7.1.1
+      version: 7.1.1
     tslib:
       specifier: 2.8.0
       version: 2.8.0
@@ -418,13 +418,13 @@ importers:
         version: 0.3.1
       rollup-plugin-visualizer:
         specifier: catalog:lib-author-helper
-        version: 7.0.1(rolldown@1.0.0-rc.17)(rollup@4.59.0)
+        version: 7.1.1(rolldown@1.0.0-rc.17)(rollup@4.59.0)
       svelte:
         specifier: catalog:svelte
         version: 5.57.1(@typescript-eslint/types@8.71.0)
       svelte-check:
         specifier: catalog:svelte
-        version: 4.7.6(picomatch@4.0.4)(svelte@5.57.1(@typescript-eslint/types@8.71.0))(typescript@5.9.2)
+        version: 4.7.6(picomatch@4.0.7)(svelte@5.57.1(@typescript-eslint/types@8.71.0))(typescript@5.9.2)
       tslib:
         specifier: catalog:lib-author-helper
         version: 2.8.0
@@ -477,13 +477,13 @@ importers:
         version: 0.3.1
       rollup-plugin-visualizer:
         specifier: catalog:lib-author-helper
-        version: 7.0.1(rolldown@1.0.0-rc.17)(rollup@4.59.0)
+        version: 7.1.1(rolldown@1.0.0-rc.17)(rollup@4.59.0)
       svelte:
         specifier: catalog:svelte
         version: 5.57.1(@typescript-eslint/types@8.71.0)
       svelte-check:
         specifier: catalog:svelte
-        version: 4.7.6(picomatch@4.0.4)(svelte@5.57.1(@typescript-eslint/types@8.71.0))(typescript@5.9.2)
+        version: 4.7.6(picomatch@4.0.7)(svelte@5.57.1(@typescript-eslint/types@8.71.0))(typescript@5.9.2)
       tslib:
         specifier: catalog:lib-author-helper
         version: 2.8.0
@@ -523,7 +523,7 @@ importers:
         version: 5.57.1(@typescript-eslint/types@8.71.0)
       svelte-check:
         specifier: catalog:svelte
-        version: 4.7.6(picomatch@4.0.4)(svelte@5.57.1(@typescript-eslint/types@8.71.0))(typescript@5.9.2)
+        version: 4.7.6(picomatch@4.0.7)(svelte@5.57.1(@typescript-eslint/types@8.71.0))(typescript@5.9.2)
       vite:
         specifier: catalog:vite
         version: 8.0.10(@types/node@24.12.0)(esbuild@0.28.0)(yaml@2.9.1)
@@ -573,7 +573,7 @@ importers:
         version: 5.57.1(@typescript-eslint/types@8.71.0)
       svelte-check:
         specifier: catalog:svelte
-        version: 4.7.6(picomatch@4.0.4)(svelte@5.57.1(@typescript-eslint/types@8.71.0))(typescript@5.9.2)
+        version: 4.7.6(picomatch@4.0.7)(svelte@5.57.1(@typescript-eslint/types@8.71.0))(typescript@5.9.2)
       tslib:
         specifier: catalog:lib-author-helper
         version: 2.8.0
@@ -626,7 +626,7 @@ importers:
         version: 5.57.1(@typescript-eslint/types@8.71.0)
       svelte-check:
         specifier: catalog:svelte
-        version: 4.7.6(picomatch@4.0.4)(svelte@5.57.1(@typescript-eslint/types@8.71.0))(typescript@5.9.2)
+        version: 4.7.6(picomatch@4.0.7)(svelte@5.57.1(@typescript-eslint/types@8.71.0))(typescript@5.9.2)
       tslib:
         specifier: catalog:lib-author-helper
         version: 2.8.0
@@ -4173,6 +4173,10 @@ packages:
     resolution: {integrity: sha512-QP88BAKvMam/3NxH6vj2o21R6MjxZUAd6nlwAS/pnGvN9IVLocLHxGYIzFhg6fUQ+5th6P4dv4eW9jX3DSIj7A==}
     engines: {node: '>=12'}
 
+  picomatch@4.0.7:
+    resolution: {integrity: sha512-qcJu88Q2IWqJsDD529JKMdwGm/dvInW4HvQnRwiH9JtihJvzGOscDtHE3x1pBKeUOTysQ8kVmLnJ2kJu7yhcGA==}
+    engines: {node: '>=12'}
+
   pify@4.0.1:
     resolution: {integrity: sha512-uB80kBFb/tfd68bVleG9T5GGsGPjJrLAUpR5PZIrhBnIaRTQRjqdJSsIKkOP6OAIFbj7GOrcudc5pNjZ+geV2g==}
     engines: {node: '>=6'}
@@ -4491,8 +4495,8 @@ packages:
     engines: {node: ^20.19.0 || >=22.12.0}
     hasBin: true
 
-  rollup-plugin-visualizer@7.0.1:
-    resolution: {integrity: sha512-UJUT4+1Ho4OcWmPYU3sYXgUqI8B8Ayfe06MX7y0qCJ1K8aGoKtR/NDd/2nZqM7ADkrzny+I99Ul7GgyoiVNAgg==}
+  rollup-plugin-visualizer@7.1.1:
+    resolution: {integrity: sha512-ThaGiHTU8XW02OkK80TrTHATraJmM9OAduU4otal+7gyXLpYEtmGBLfx5kW+EHvvLwn03YGW2NnwKUIqsYlJAA==}
     engines: {node: '>=22'}
     hasBin: true
     peerDependencies:
@@ -4618,6 +4622,10 @@ packages:
     resolution: {integrity: sha512-i5uvt8C3ikiWeNZSVZNWcfZPItFQOsYTUAOkcUPGd8DqDy1uOUikjt5dG+uRlwyvR108Fb9DOd4GvXfT0N2/uQ==}
     engines: {node: '>= 12'}
 
+  source-map@0.8.0:
+    resolution: {integrity: sha512-d8EqvL+k/SOXCreS/SUzg2ciyHqBBLcN/yuRjFsbvVhHTE2pgei7oAhmPM7kWFbkX6OSMQfUq4KbkF3au9lhYQ==}
+    engines: {node: '>= 12'}
+
   space-separated-tokens@2.0.2:
     resolution: {integrity: sha512-PEGlAwrG8yXGXRjW32fGbg66JAlOAwbObuqVoJpv/mRgoWDQfgH1wDPvtzWyUSNAXBGSk8h755YDbbcEy3SH2Q==}
 
@@ -4639,6 +4647,10 @@ packages:
   string-width@7.2.0:
     resolution: {integrity: sha512-tsaTIkKW9b4N+AEj+SVA+WhJzV7/zMhcSu78mLKWSk7cXMOSHsBKFWUs0fWwq8QyK3MgJBQRX6Gbi4kYbdvGkQ==}
     engines: {node: '>=18'}
+
+  string-width@8.3.0:
+    resolution: {integrity: sha512-ZbmZM0JCihQN91dWnxoipT2KOEyHqEyfRXUyjuRhW8b/xnqPDoq4gWEVApTVa9db2wN8mmoikgFBbjh71+cGeQ==}
+    engines: {node: '>=20'}
 
   stringify-entities@4.0.4:
     resolution: {integrity: sha512-IwfBptatlO+QCJUo19AqvrPNqlVMpW9YEL2LIVY+Rpv2qsjCGxaDLNRgeGsQWJhfItebuJhsGSLjaBbNSQ+ieg==}
@@ -5159,8 +5171,8 @@ packages:
     resolution: {integrity: sha512-rwu/ClNdSMpkSrUb+d6BRsSkLUq1fmfsY6TOpYzTwvwkg1/NRG85KBy3kq++A8LKQwX6lsu+aWad+2khvuXrqw==}
     engines: {node: ^20.19.0 || ^22.12.0 || >=23}
 
-  yargs@18.0.0:
-    resolution: {integrity: sha512-4UEqdc2RYGHZc7Doyqkrqiln3p9X2DZVxaGbwhn2pi7MrRagKaOcIKe8L3OxYcbhXLgLFUS3zAYuQjKBQgmuNg==}
+  yargs@18.2.0:
+    resolution: {integrity: sha512-9OpKOLeaoNFecEp7P6iYbzze/5CqWoH7N3SMs/6y1XF4nMvFMspEGZzJ6uFi9MmQwXhyzqYoSEKO3tvA3Z/o2w==}
     engines: {node: ^20.19.0 || ^22.12.0 || >=23}
 
   yocto-queue@0.1.0:
@@ -7638,6 +7650,10 @@ snapshots:
     optionalDependencies:
       picomatch: 4.0.4
 
+  fdir@6.5.0(picomatch@4.0.7):
+    optionalDependencies:
+      picomatch: 4.0.7
+
   fflate@0.8.2: {}
 
   fflate@0.8.3: {}
@@ -8937,6 +8953,8 @@ snapshots:
 
   picomatch@4.0.4: {}
 
+  picomatch@4.0.7: {}
+
   pify@4.0.1: {}
 
   playwright-core@1.60.0: {}
@@ -9271,12 +9289,12 @@ snapshots:
       '@rolldown/binding-win32-arm64-msvc': 1.0.0-rc.17
       '@rolldown/binding-win32-x64-msvc': 1.0.0-rc.17
 
-  rollup-plugin-visualizer@7.0.1(rolldown@1.0.0-rc.17)(rollup@4.59.0):
+  rollup-plugin-visualizer@7.1.1(rolldown@1.0.0-rc.17)(rollup@4.59.0):
     dependencies:
       open: 11.0.0
-      picomatch: 4.0.3
-      source-map: 0.7.6
-      yargs: 18.0.0
+      picomatch: 4.0.7
+      source-map: 0.8.0
+      yargs: 18.2.0
     optionalDependencies:
       rolldown: 1.0.0-rc.17
       rollup: 4.59.0
@@ -9447,6 +9465,8 @@ snapshots:
 
   source-map@0.7.6: {}
 
+  source-map@0.8.0: {}
+
   space-separated-tokens@2.0.2: {}
 
   spawndamnit@3.0.1:
@@ -9465,6 +9485,11 @@ snapshots:
   string-width@7.2.0:
     dependencies:
       emoji-regex: 10.6.0
+      get-east-asian-width: 1.5.0
+      strip-ansi: 7.2.0
+
+  string-width@8.3.0:
+    dependencies:
       get-east-asian-width: 1.5.0
       strip-ansi: 7.2.0
 
@@ -9507,6 +9532,19 @@ snapshots:
       '@sveltejs/load-config': 0.2.3
       chokidar: 4.0.3
       fdir: 6.5.0(picomatch@4.0.4)
+      picocolors: 1.1.1
+      sade: 1.8.1
+      svelte: 5.57.1(@typescript-eslint/types@8.71.0)
+      typescript: 5.9.2
+    transitivePeerDependencies:
+      - picomatch
+
+  svelte-check@4.7.6(picomatch@4.0.7)(svelte@5.57.1(@typescript-eslint/types@8.71.0))(typescript@5.9.2):
+    dependencies:
+      '@jridgewell/trace-mapping': 0.3.31
+      '@sveltejs/load-config': 0.2.3
+      chokidar: 4.0.3
+      fdir: 6.5.0(picomatch@4.0.7)
       picocolors: 1.1.1
       sade: 1.8.1
       svelte: 5.57.1(@typescript-eslint/types@8.71.0)
@@ -9880,12 +9918,12 @@ snapshots:
 
   yargs-parser@22.0.0: {}
 
-  yargs@18.0.0:
+  yargs@18.2.0:
     dependencies:
       cliui: 9.0.1
       escalade: 3.1.2
       get-caller-file: 2.0.5
-      string-width: 7.2.0
+      string-width: 8.3.0
       y18n: 5.0.8
       yargs-parser: 22.0.0
 
