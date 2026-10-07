@@ -1,5 +1,11 @@
 # eslint-config-kitql
 
+## 0.9.3
+
+### Patch Changes
+
+- [#1333](https://github.com/jycouet/kitql/pull/1333) [`d8d6686`](https://github.com/jycouet/kitql/commit/d8d6686eae1e94b95220d5e69de633cb48df24e5) Thanks [@jycouet](https://github.com/jycouet)! - `kitql-lint -d` skips changed paths that are not files (e.g. a symlink to a directory), so eslint no longer fails the run on them.
+
 ## 0.9.2
 
 ### Patch Changes
