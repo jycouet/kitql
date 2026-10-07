@@ -283,8 +283,12 @@ async function getDiffFiles() {
 				// Convert the absolute path to a path relative to the current working directory
 				const relativePath = path.relative(cwd, absolutePath)
 
-				// Check if the file exists and is at or below the current directory
-				if (fs.existsSync(relativePath) && !relativePath.startsWith('..')) {
+				// Only real files at or below cwd: git lists a symlink as one path, and a symlinked
+				// directory handed to eslint fails the whole run ("all files ... are ignored").
+				if (
+					!relativePath.startsWith('..') &&
+					fs.statSync(relativePath, { throwIfNoEntry: false })?.isFile()
+				) {
 					return relativePath
 				}
 				return null
