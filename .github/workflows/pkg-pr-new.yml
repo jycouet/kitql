@@ -29,7 +29,7 @@ jobs:
 
    - name: 🛠️ node setup
      if: steps.changed.outputs.packages != ''
-     uses: actions/setup-node@v6
+     uses: actions/setup-node@v7
      with:
       node-version: 24.21.0
       cache: pnpm
