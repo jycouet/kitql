@@ -115,7 +115,7 @@ if (values.help || positionals[0] !== 'sync') {
 	process.exit(values.help ? 0 : 1)
 }
 
-sync(values.config as string | undefined)
+void sync(values.config as string | undefined)
 
 async function sync(configPath?: string) {
 	const config = await loadConfig(configPath)

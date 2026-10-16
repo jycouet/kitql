@@ -9,10 +9,10 @@ import {
 } from './colors/index.js'
 
 export class Log {
-	private toolName: string
-	private levelsToShow: null | number
-	private withDate: null | 'dateTime' | 'time'
-	private prefixEmoji: string
+	private readonly toolName: string
+	private readonly levelsToShow: null | number
+	private readonly withDate: null | 'dateTime' | 'time'
+	private readonly prefixEmoji: string
 
 	constructor(
 		toolName: string,

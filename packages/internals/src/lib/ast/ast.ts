@@ -18,7 +18,7 @@ export function parse(code_ast: string | null | KitQLParseResult, options?: Pars
 			lang: options?.lang ?? 'ts',
 		})
 
-		return { ...parsed, code: code_ast ?? '' } as KitQLParseResult
+		return Object.assign(parsed, { code: code_ast ?? '' }) as KitQLParseResult
 	}
 
 	return code_ast
