@@ -1,14 +1,13 @@
 import { describe, expect, it } from 'vitest'
 
-import { buildEslintCmd, buildOxfmtCmd, buildOxlintCmd, buildPrettierCmd } from './buildCommands.js'
+import { buildEslintCmd, buildOxfmtCmd, buildOxlintCmd } from './buildCommands.js'
 
 const base = {
-	tools: ['eslint', 'prettier'],
+	tools: ['eslint', 'oxfmt'],
 	format: false,
 	glob: '.',
 	pre: '',
 	pathPrettierIgnore: '../../.prettierignore',
-	pathPrettier_js: '../../.prettierrc.js',
 	pathOxfmtrc: '../../.oxfmtrc.json',
 }
 
@@ -41,25 +40,6 @@ describe('buildEslintCmd', () => {
 
 	it('uses prefix', () => {
 		expect(buildEslintCmd({ ...base, pre: 'pnpm ' })).toBe('pnpm eslint --no-warn-ignored .')
-	})
-})
-
-describe('buildPrettierCmd', () => {
-	it('formats whatever glob is passed', () => {
-		const cmd = buildPrettierCmd(base)
-		expect(cmd).toContain('prettier --list-different')
-		expect(cmd).toMatch(/ \.$/)
-	})
-
-	it('keeps the glob even when oxfmt is also selected', () => {
-		const glob = "'src/foo.ts' 'src/bar.svelte'"
-		const cmd = buildPrettierCmd({ ...base, tools: ['oxfmt', 'prettier'], glob })
-		expect(cmd).toMatch(new RegExp(` ${glob}$`))
-	})
-
-	it('format mode adds --write', () => {
-		const cmd = buildPrettierCmd({ ...base, format: true })
-		expect(cmd).toContain('--write')
 	})
 })
 

@@ -10,7 +10,6 @@
  * @property {string} glob - target glob/files
  * @property {string} [pre] - prefix to prepend to commands ('', 'pnpm ', 'npm exec ')
  * @property {string} [pathPrettierIgnore]
- * @property {string} [pathPrettier_js]
  * @property {string} [pathOxfmtrc]
  */
 
@@ -34,22 +33,6 @@ export function buildOxlintCmd(opts) {
 export function buildEslintCmd(opts) {
 	const { format, glob, pre = '' } = opts
 	return pre + `eslint --no-warn-ignored` + `${format ? ' --fix' : ''}` + ` ${glob}`
-}
-
-/**
- * @param {BuildOptions} opts
- */
-export function buildPrettierCmd(opts) {
-	const { format, glob, pre = '', pathPrettierIgnore, pathPrettier_js } = opts
-	return (
-		pre +
-		`prettier` +
-		` --list-different` +
-		` --ignore-path ${pathPrettierIgnore}` +
-		` --config ${pathPrettier_js}` +
-		`${format ? ' --write' : ''}` +
-		` ${glob}`
-	)
 }
 
 /**

@@ -1,6 +1,6 @@
 ---
 title: 💄 @kitql/eslint-config
-description: Simplified eslint & prettier configuration for your projects
+description: Simplified eslint & oxfmt configuration for your projects
 ---
 
 import { Aside } from '@astrojs/starlight/components'
@@ -23,7 +23,7 @@ npm i -D @kitql/eslint-config eslint oxfmt
 
 You need to install the peer dependencies you want to use (by default: `eslint`, `oxfmt`).
 
-`@kitql/eslint-config` ships four optional tools - install only what you want to use:
+`@kitql/eslint-config` ships optional tools - install only what you want to use:
 
 | Tool     | What it does                                            | Install                    |
 | -------- | ------------------------------------------------------- | -------------------------- |
@@ -31,7 +31,6 @@ You need to install the peer dependencies you want to use (by default: `eslint`,
 | oxfmt    | Formatter (Rust); every file type, incl. `.svelte`      | `npm i -D oxfmt`           |
 | oxlint   | Faster linter (Rust); covers most JS/TS rules           | `npm i -D oxlint`          |
 | tsgolint | Type-aware lint rules for oxlint                        | `npm i -D oxlint-tsgolint` |
-| prettier | Formatter (legacy); plugins are optional peers          | see below                  |
 
 That's it: no `public-hoist-pattern` and no need to list every eslint plugin in your own
 `package.json`. `@kitql/eslint-config` ships them as its own dependencies and resolves them
@@ -61,24 +60,6 @@ You can check your config running this [tool](https://github.com/eslint/config-i
 
 ```bash
 npx @eslint/config-inspector
-```
-
-### prettier config (only with `-t prettier`)
-
-Prettier and its plugins are optional peers, install them yourself:
-
-```sh
-npm i -D prettier @ianvs/prettier-plugin-sort-imports prettier-plugin-sh prettier-plugin-svelte prettier-plugin-tailwindcss
-```
-
-```js
-// .prettierrc.js
-import { kitql } from '@kitql/eslint-config/.prettierrc.js'
-
-export default {
-	...kitql(),
-	// Some custom things?
-}
 ```
 
 ### oxlint config
@@ -137,7 +118,19 @@ oxfmt config has no `extends` (yet), so the file above is what `@kitql/eslint-co
 defaults - copy it, tweak as needed. `svelte: true` needs `svelte` installed; point
 `sortTailwindcss.stylesheet` at your css entry for tailwind v4 custom classes.
 
+Tweak it in your app: edit your copy. Common ones:
+
+- extra import groups: add a `customGroups` entry (glob on the import source) and place its
+  `groupName` in `groups`, e.g. `{ "groupName": "remult", "elementNamePattern": ["remult", "remult/**"] }`
+- tailwind v4 custom classes: `"sortTailwindcss": { "stylesheet": "./src/app.css" }` (relative to
+  the config file)
+- per-file options: `overrides`
+
+All options: `node_modules/oxfmt/configuration_schema.json` (autocompleted via `$schema`).
+
 ### ignore things with
+
+`.prettierignore` is read by oxfmt and by the eslint config (the name stays for compatibility).
 
 ```bash
 # .prettierignore
@@ -188,8 +181,6 @@ kitql-lint -t oxlint,tsgolint,oxfmt,eslint
 # you lose: .svelte linting, pnpm catalog rules.
 kitql-lint -t oxlint,tsgolint,oxfmt
 
-# previous default
-kitql-lint -t eslint,prettier
 ```
 
 In the recommended combo, you'll have oxlint and eslint both linting `.ts/.js` files. To

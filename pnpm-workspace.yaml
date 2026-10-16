@@ -42,7 +42,7 @@ catalogs:
   '@types/eslint': '9.6.1'
   '@typescript-eslint/parser': '8.71.0'
   '@typescript-eslint/types': '8.71.0'
-  'eslint': '10.12.0'
+  'eslint': '^10.12.0'
   'eslint-config-prettier': '10.1.5'
   'eslint-plugin-pnpm': '1.9.1'
   'eslint-plugin-svelte': '3.23.0'
@@ -51,18 +51,11 @@ catalogs:
   jsonc-eslint-parser: 3.3.0
   yaml-eslint-parser: 2.0.0
 
- formatting:
-  'prettier': '^3.8.3'
-  '@ianvs/prettier-plugin-sort-imports': '^4.7.0'
-  'prettier-plugin-sh': '^0.20.0'
-  'prettier-plugin-svelte': '^4.0.0'
-  'prettier-plugin-tailwindcss': '^0.8.0'
-
  linting-oxc:
-  oxlint: 1.85.0
-  oxlint-tsgolint: 0.25.0
+  oxlint: ^1.85.0
+  oxlint-tsgolint: ^0.25.0
   eslint-plugin-oxlint: 1.85.0
-  oxfmt: 0.71.0
+  oxfmt: ^0.71.0
 
  lib-author-helper:
   '@changesets/changelog-github': '0.7.0'
@@ -105,4 +98,3 @@ catalogs:
   astro: 6.4.8
   astro-icon: 1.2.0
   sharp: 0.35.5
-  prettier-plugin-astro: 0.14.1
