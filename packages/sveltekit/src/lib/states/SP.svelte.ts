@@ -36,7 +36,7 @@ export class SP<T extends Record<string, any>> {
 	computing = $state(false)
 
 	// Store debounced toURL functions for each parameter
-	private debouncedToURL: Record<string, (...args: any[]) => void> = {}
+	private readonly debouncedToURL: Record<string, (...args: any[]) => void> = {}
 
 	// Shared debounce mechanism for all parameters
 	private sharedDebouncePending = $state(false)
@@ -44,7 +44,7 @@ export class SP<T extends Record<string, any>> {
 	private longestDebounceTime = $state(0)
 
 	// This will be called after all individual debounces have completed
-	private finalizeDebounce = () => {
+	private readonly finalizeDebounce = () => {
 		// Only proceed if all tracked debounces have completed
 		if (Object.values(this.activeDebounces).some((active) => active)) {
 			return
@@ -63,7 +63,7 @@ export class SP<T extends Record<string, any>> {
 	}
 
 	// Created proxy object for direct param access
-	private _obj: T & {
+	private readonly _obj: T & {
 		computed: T
 		rawStr: Record<keyof T, string | undefined>
 	} = {} as T & {
@@ -85,10 +85,10 @@ export class SP<T extends Record<string, any>> {
 	}
 
 	// Config for each param, with defaults applied
-	private config: { [K in keyof T]: ParamDefinition<T[K]> }
+	private readonly config: { [K in keyof T]: ParamDefinition<T[K]> }
 
 	// Maps from URL key to object key
-	private keyMap: Record<string, string> = {}
+	private readonly keyMap: Record<string, string> = {}
 
 	/**
 	 * Create a new SearchParams instance
@@ -96,8 +96,8 @@ export class SP<T extends Record<string, any>> {
 	 * @param options Object containing parameter definitions and configuration
 	 */
 	constructor(
-		private defaults: T,
-		private options: {
+		private readonly defaults: T,
+		private readonly options: {
 			config?: Partial<{ [K in keyof T]: Partial<ParamDefinition<T[K]>> }>
 			gotoOpts?: Parameters<typeof goto>[1]
 		} = {},
@@ -455,7 +455,7 @@ export class SP<T extends Record<string, any>> {
 			replaceState: true,
 			...this.options.gotoOpts,
 		}
-		goto(`${window.location.pathname}${strSearch}`, gotoOpts)
+		void goto(`${window.location.pathname}${strSearch}`, gotoOpts)
 
 		// Reset computing flag after URL update is complete
 		this.computing = false

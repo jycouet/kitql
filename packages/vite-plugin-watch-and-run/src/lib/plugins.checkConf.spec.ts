@@ -16,7 +16,7 @@ describe('vite-plugin-watch-and-run', () => {
 	it('Should throw an error as no watch', async () => {
 		const p = watchAndRun([{} as any])
 		try {
-			await p.getCheckedConf()
+			p.getCheckedConf()
 		} catch (error: any) {
 			expect(error.message).toEqual('plugin watch-and-run, `watch` or `watchFile` is missing.')
 		}

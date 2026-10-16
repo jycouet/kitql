@@ -28,7 +28,7 @@
     "test": "vitest",
     "test:ci": "vitest run --coverage",
     "lint": "kitql-lint",
-    "lint:full": "kitql-lint -t eslint,oxlint,oxfmt",
+    "lint:full": "kitql-lint -t eslint,oxlint,tsgolint,oxfmt",
     "format": "kitql-lint --format"
   },
   "bin": {

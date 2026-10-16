@@ -31,7 +31,7 @@
     "test": "TZ=UTC vitest",
     "test:ci": "TZ=UTC vitest run --coverage",
     "lint": "kitql-lint -p pnpm",
-    "lint:full": "kitql-lint -p pnpm -t eslint,oxlint,oxfmt",
+    "lint:full": "kitql-lint -p pnpm -t eslint,oxlint,tsgolint,oxfmt",
     "format": "kitql-lint --format"
   },
   "devDependencies": {
