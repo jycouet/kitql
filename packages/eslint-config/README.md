@@ -67,18 +67,42 @@ export default [...kitql()]
 
 ### oxfmt config
 
-`.oxfmtrc.json` - copy from
-[`@kitql/eslint-config/.oxfmtrc.json`](./.oxfmtrc.json) (oxfmt has no `extends` yet).
+oxfmt has no `extends`, so pick one of these two.
 
-Tweak it in your app: edit your copy. Common ones:
+**`oxfmt.config.ts`** (recommended): import the shipped config, override what you need, and get
+kitql updates for free.
 
-- extra import groups: add a `customGroups` entry (glob on the import source) and place its
-  `groupName` in `groups`, e.g. `{ "groupName": "remult", "elementNamePattern": ["remult", "remult/**"] }`
-- tailwind v4 custom classes: `"sortTailwindcss": { "stylesheet": "./src/app.css" }` (relative to
-  the config file)
-- per-file options: `overrides`
+```ts
+// oxfmt.config.ts
+import kitql from '@kitql/eslint-config/.oxfmtrc.json' with { type: 'json' }
 
-All options: `node_modules/oxfmt/configuration_schema.json` (autocompleted via `$schema`).
+const { groups, customGroups } = kitql.sortImports
+const at = groups.indexOf('aliases')
+
+export default {
+	...kitql,
+	// tailwind v4 custom classes (path relative to this file)
+	sortTailwindcss: { stylesheet: './src/app.css' },
+	sortImports: {
+		...kitql.sortImports,
+		// one more import group, just before the `$*` aliases
+		groups: [...groups.slice(0, at), 'my-lib', ...groups.slice(at)],
+		// first match wins, so it goes before kitql's catch-all groups
+		customGroups: [{ groupName: 'my-lib', elementNamePattern: ['@my-org/**'] }, ...customGroups],
+	},
+}
+```
+
+The spread is shallow: spread `kitql.sortImports` again when you change a key inside it. No
+`defineConfig`: the json import widens strings and fails its types.
+
+**`.oxfmtrc.json`**: copy
+[`@kitql/eslint-config/.oxfmtrc.json`](https://github.com/jycouet/kitql/blob/main/packages/eslint-config/.oxfmtrc.json)
+and edit your copy (no kitql updates).
+
+`kitql-lint` uses `oxfmt.config.ts` first, then `.oxfmtrc.json`. The oxc VS Code extension finds
+both. `svelte: true` needs `svelte` installed. Other tweaks: per-file `overrides`. All options:
+`node_modules/oxfmt/configuration_schema.json`.
 
 ### ignore things with
 

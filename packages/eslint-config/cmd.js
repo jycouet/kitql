@@ -68,7 +68,7 @@ if (unknown.length > 0) {
 // Only probe configs of selected tools: findFileOrUp logs when a file is missing
 const useOxfmt = tools.includes('oxfmt')
 const pathPrettierIgnore = useOxfmt ? findFileOrUp('.prettierignore') : null
-const pathOxfmtrc = useOxfmt ? findFileOrUp('.oxfmtrc.json') : null
+const pathOxfmtrc = useOxfmt ? findFileOrUp(['oxfmt.config.ts', '.oxfmtrc.json']) : null
 
 const diffOnly = /** @type {boolean} */ (options_cli['diff-only'] ?? false)
 const baseBranch = /** @type {string} */ (options_cli['base-branch'] ?? 'main')
