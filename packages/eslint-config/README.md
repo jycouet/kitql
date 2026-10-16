@@ -20,17 +20,17 @@ npm install @kitql/eslint-config --D
 | Tool      | What it does                                              |
 | --------- | --------------------------------------------------------- |
 | eslint    | Linter (svelte rules, pnpm catalog rules, custom rules)   |
-| prettier  | Formatter (every file type, incl. `.svelte`)              |
+| oxfmt     | Formatter (Rust); every file type, incl. `.svelte`        |
 | oxlint    | Faster linter (Rust); covers most JS/TS rules             |
-| oxfmt     | Faster formatter (Rust); doesn't speak `.svelte` yet      |
+| prettier  | Formatter (legacy); install its plugins yourself          |
 
-By default `kitql-lint` runs `eslint` + `prettier`. Pick others with `-t`:
+By default `kitql-lint` runs `eslint` + `oxfmt`. Pick others with `-t`:
 
 ```bash
-kitql-lint                                            # eslint + prettier (default)
-kitql-lint -t eslint,prettier,oxlint,tsgolint         # add oxlint + type-aware
-kitql-lint -t oxlint,tsgolint,oxfmt,eslint,prettier   # 🦀 svelte + full oxc (recommended)
-kitql-lint -t oxlint,tsgolint,oxfmt                   # 🦀 pure oxc (no .svelte support)
+kitql-lint                                  # eslint + oxfmt (default)
+kitql-lint -t oxlint,tsgolint,oxfmt,eslint  # 🦀 add oxlint + type-aware (recommended)
+kitql-lint -t oxlint,tsgolint,oxfmt         # 🦀 pure oxc (no .svelte linting)
+kitql-lint -t eslint,prettier               # previous default
 ```
 
 For the svelte combo, enable oxlint integration in eslint to avoid duplicate work on `.ts/.js`:
@@ -42,8 +42,7 @@ import { kitql } from '@kitql/eslint-config'
 export default [...kitql({ oxlint: { enable: true } })]
 ```
 
-When `oxfmt` is in the tool set, `prettier` auto-restricts to `**/*.svelte` (oxfmt can't parse
-svelte yet); `oxfmt` handles every other file type.
+oxfmt formats `.svelte` (needs `svelte` installed) and sorts imports + tailwind classes.
 
 ### eslint config
 
@@ -55,7 +54,13 @@ import { kitql } from '@kitql/eslint-config'
 export default [...kitql()]
 ```
 
-### prettier config
+### prettier config (only with `-t prettier`)
+
+Prettier and its plugins are optional peers now:
+
+```bash
+npm i -D prettier @ianvs/prettier-plugin-sort-imports prettier-plugin-sh prettier-plugin-svelte prettier-plugin-tailwindcss
+```
 
 `.prettierrc.js`
 

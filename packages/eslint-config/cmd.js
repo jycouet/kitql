@@ -16,7 +16,7 @@ import {
 
 /** @type {('eslint' | 'prettier' | 'oxlint' | 'tsgolint' | 'oxfmt')[]} */
 const TOOLS_ALL = ['eslint', 'prettier', 'oxlint', 'tsgolint', 'oxfmt']
-const TOOLS_DEFAULT = ['eslint', 'prettier']
+const TOOLS_DEFAULT = ['eslint', 'oxfmt']
 
 const { values: options_cli, help } = parseCli({
 	name: 'kitql-lint',
@@ -334,8 +334,7 @@ async function runEslint() {
 
 async function runPrettier() {
 	const cmd = buildPrettierCmd(buildOpts())
-	const svelteOnly = tools.includes('oxfmt')
-	log.info(gray(`${verbose ? cmd : svelteOnly ? 'prettier (svelte)' : 'prettier'} `))
+	log.info(gray(`${verbose ? cmd : 'prettier'} `))
 	return customSpawn(cmd)
 }
 
@@ -410,7 +409,7 @@ if (tools.includes('prettier') && glob) {
 	const start = performance.now()
 	const code = await runPrettier()
 	const stepTook = performance.now() - start
-	took.push(display(tools.includes('oxfmt') ? 'prettier (svelte)' : 'prettier', stepTook))
+	took.push(display('prettier', stepTook))
 	if (typeof code === 'object' && 'status' in code && code.status) {
 		log.error(`format failed, check logs above. ${displayTook()}`)
 		process.exit(Number(code.status))

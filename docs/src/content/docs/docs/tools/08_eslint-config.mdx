@@ -18,23 +18,23 @@ tune things)_
 ## Installation
 
 ```sh
-npm i -D @kitql/eslint-config eslint prettier
+npm i -D @kitql/eslint-config eslint oxfmt
 ```
 
-You need to install the peer dependencies you want to use (by default: `eslint`, `prettier`).
+You need to install the peer dependencies you want to use (by default: `eslint`, `oxfmt`).
 
 `@kitql/eslint-config` ships four optional tools - install only what you want to use:
 
 | Tool     | What it does                                            | Install                    |
 | -------- | ------------------------------------------------------- | -------------------------- |
 | eslint   | Linter (svelte rules, pnpm catalog rules, custom rules) | `npm i -D eslint`          |
-| prettier | Formatter (works on every file type, incl. `.svelte`)   | `npm i -D prettier`        |
+| oxfmt    | Formatter (Rust); every file type, incl. `.svelte`      | `npm i -D oxfmt`           |
 | oxlint   | Faster linter (Rust); covers most JS/TS rules           | `npm i -D oxlint`          |
 | tsgolint | Type-aware lint rules for oxlint                        | `npm i -D oxlint-tsgolint` |
-| oxfmt    | Faster formatter (Rust); doesn't speak `.svelte` yet    | `npm i -D oxfmt`           |
+| prettier | Formatter (legacy); plugins are optional peers          | see below                  |
 
-That's it: no `public-hoist-pattern` and no need to list every eslint/prettier plugin in your own
-`package.json`. `@kitql/eslint-config` ships them all as its own dependencies and resolves them
+That's it: no `public-hoist-pattern` and no need to list every eslint plugin in your own
+`package.json`. `@kitql/eslint-config` ships them as its own dependencies and resolves them
 internally.
 
 ### eslint config
@@ -63,7 +63,13 @@ You can check your config running this [tool](https://github.com/eslint/config-i
 npx @eslint/config-inspector
 ```
 
-### prettier config
+### prettier config (only with `-t prettier`)
+
+Prettier and its plugins are optional peers, install them yourself:
+
+```sh
+npm i -D prettier @ianvs/prettier-plugin-sort-imports prettier-plugin-sh prettier-plugin-svelte prettier-plugin-tailwindcss
+```
 
 ```js
 // .prettierrc.js
@@ -104,6 +110,8 @@ The shipped config enables `@e18e/eslint-plugin` + `eslint-plugin-depend` for mo
 	"semi": false,
 	"arrowParens": "always",
 	"printWidth": 100,
+	"svelte": true,
+	"sortTailwindcss": true,
 	"sortImports": {
 		"groups": [
 			"builtin",
@@ -126,7 +134,8 @@ The shipped config enables `@e18e/eslint-plugin` + `eslint-plugin-depend` for mo
 ```
 
 oxfmt config has no `extends` (yet), so the file above is what `@kitql/eslint-config` ships as
-defaults - copy it, tweak as needed.
+defaults - copy it, tweak as needed. `svelte: true` needs `svelte` installed; point
+`sortTailwindcss.stylesheet` at your css entry for tailwind v4 custom classes.
 
 ### ignore things with
 
@@ -165,28 +174,25 @@ scripts: {
 
 ### Picking which tools run
 
-By default, `kitql-lint` runs `eslint` + `prettier`. Use `--tools` (`-t`) to change that:
+By default, `kitql-lint` runs `eslint` + `oxfmt`. Use `--tools` (`-t`) to change that:
 
 ```bash
-# default - eslint + prettier
+# default - eslint + oxfmt
 kitql-lint
 
-# add oxlint (with type-aware rules)
-kitql-lint -t eslint,prettier,oxlint,tsgolint
+# 🦀 add oxlint (with type-aware rules) - the recommended combo for kitql / sveltekit projects.
+# eslint stays around for svelte + pnpm catalog rules.
+kitql-lint -t oxlint,tsgolint,oxfmt,eslint
 
-# 🦀 svelte + full oxc - the recommended combo for kitql / sveltekit projects.
-# oxc handles all the fast paths; eslint + prettier stay around for svelte.
-kitql-lint -t oxlint,tsgolint,oxfmt,eslint,prettier
-
-# 🦀 pure oxc - no eslint, no prettier.
-# you lose: .svelte linting & formatting, pnpm catalog rules.
+# 🦀 pure oxc - no eslint.
+# you lose: .svelte linting, pnpm catalog rules.
 kitql-lint -t oxlint,tsgolint,oxfmt
+
+# previous default
+kitql-lint -t eslint,prettier
 ```
 
-When `oxfmt` is in the tool set, `prettier` is auto-restricted to `**/*.svelte` (oxfmt can't parse
-svelte yet); `oxfmt` handles every other file type. Same logic in any mode.
-
-In the recommended svelte combo, you'll have oxlint and eslint both linting `.ts/.js` files. To
+In the recommended combo, you'll have oxlint and eslint both linting `.ts/.js` files. To
 avoid duplicate work, enable the oxlint integration in your eslint config:
 
 ```js

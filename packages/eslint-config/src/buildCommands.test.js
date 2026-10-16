@@ -45,28 +45,16 @@ describe('buildEslintCmd', () => {
 })
 
 describe('buildPrettierCmd', () => {
-	it('without oxfmt: formats whatever glob is passed', () => {
+	it('formats whatever glob is passed', () => {
 		const cmd = buildPrettierCmd(base)
 		expect(cmd).toContain('prettier --list-different')
-		expect(cmd).not.toContain('--no-error-on-unmatched-pattern')
 		expect(cmd).toMatch(/ \.$/)
 	})
 
-	it('with oxfmt: always targets only **/*.svelte (regardless of glob)', () => {
-		const cmd = buildPrettierCmd({ ...base, tools: ['oxfmt', 'prettier'] })
-		expect(cmd).toContain("'**/*.svelte'")
-		expect(cmd).toContain('--no-error-on-unmatched-pattern')
-	})
-
-	it('with oxfmt: ignores any custom glob (svelte rule wins)', () => {
-		const cmd = buildPrettierCmd({
-			...base,
-			tools: ['oxfmt', 'prettier'],
-			glob: "'src/foo.ts' 'src/bar.svelte' 'src/baz.json'",
-		})
-		expect(cmd).toContain("'**/*.svelte'")
-		expect(cmd).not.toContain('foo.ts')
-		expect(cmd).not.toContain('baz.json')
+	it('keeps the glob even when oxfmt is also selected', () => {
+		const glob = "'src/foo.ts' 'src/bar.svelte'"
+		const cmd = buildPrettierCmd({ ...base, tools: ['oxfmt', 'prettier'], glob })
+		expect(cmd).toMatch(new RegExp(` ${glob}$`))
 	})
 
 	it('format mode adds --write', () => {

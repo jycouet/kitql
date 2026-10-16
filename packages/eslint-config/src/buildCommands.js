@@ -40,21 +40,15 @@ export function buildEslintCmd(opts) {
  * @param {BuildOptions} opts
  */
 export function buildPrettierCmd(opts) {
-	const { tools, format, glob, pre = '', pathPrettierIgnore, pathPrettier_js } = opts
-	// When oxfmt is in the tool set, oxfmt formats every file type it supports
-	// and prettier only handles .svelte (oxfmt can't parse it yet) - regardless of mode.
-	const svelteOnly = tools.includes('oxfmt')
-	const target = svelteOnly ? `'**/*.svelte'` : glob
-
+	const { format, glob, pre = '', pathPrettierIgnore, pathPrettier_js } = opts
 	return (
 		pre +
 		`prettier` +
 		` --list-different` +
 		` --ignore-path ${pathPrettierIgnore}` +
 		` --config ${pathPrettier_js}` +
-		`${svelteOnly ? ' --no-error-on-unmatched-pattern' : ''}` +
 		`${format ? ' --write' : ''}` +
-		` ${target}`
+		` ${glob}`
 	)
 }
 
