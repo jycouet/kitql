@@ -20,7 +20,6 @@
 	"files": [
 		".oxfmtrc.json",
 		".oxlintrc.json",
-		".prettierrc.js",
 		"cmd.js",
 		"eslint.config.js",
 		"eslint.config.d.ts",
@@ -36,11 +35,11 @@
 		"format"
 	],
 	"scripts": {
-		"format": "node ./cmd.js -f -t eslint,prettier,oxlint",
+		"format": "node ./cmd.js -f -t eslint,oxfmt,oxlint",
 		"format:example": "kitql-lint --format",
 		"inspector": "npx @eslint/config-inspector",
 		"lint": "node ./cmd.js --verbose -p none",
-		"lint:oxc": "node ./cmd.js -p none -t oxlint,oxfmt,prettier",
+		"lint:full": "node ./cmd.js -p none -t eslint,oxlint,oxfmt",
 		"lint:example": "kitql-lint",
 		"test": "vitest",
 		"test:ci": "vitest run --coverage"
@@ -49,8 +48,7 @@
 		"eslint": "catalog:linting",
 		"oxfmt": "catalog:linting-oxc",
 		"oxlint": "catalog:linting-oxc",
-		"oxlint-tsgolint": "catalog:linting-oxc",
-		"prettier": "catalog:formatting"
+		"oxlint-tsgolint": "catalog:linting-oxc"
 	},
 	"peerDependenciesMeta": {
 		"eslint": {
@@ -64,9 +62,6 @@
 		},
 		"oxlint-tsgolint": {
 			"optional": true
-		},
-		"prettier": {
-			"optional": true
 		}
 	},
 	"devDependencies": {
@@ -77,7 +72,6 @@
 		"@e18e/eslint-plugin": "catalog:linting",
 		"@eslint/compat": "catalog:linting",
 		"@eslint/js": "catalog:linting",
-		"@ianvs/prettier-plugin-sort-imports": "catalog:formatting",
 		"@kitql/helpers": "workspace:^",
 		"@types/eslint": "catalog:linting",
 		"@typescript-eslint/parser": "catalog:linting",
@@ -87,9 +81,6 @@
 		"eslint-plugin-svelte": "catalog:linting",
 		"globals": "catalog:linting",
 		"jsonc-eslint-parser": "catalog:linting",
-		"prettier-plugin-sh": "catalog:formatting",
-		"prettier-plugin-svelte": "catalog:formatting",
-		"prettier-plugin-tailwindcss": "catalog:formatting",
 		"typescript-eslint": "catalog:linting",
 		"yaml-eslint-parser": "catalog:linting"
 	},

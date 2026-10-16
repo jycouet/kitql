@@ -10,7 +10,6 @@
  * @property {string} glob - target glob/files
  * @property {string} [pre] - prefix to prepend to commands ('', 'pnpm ', 'npm exec ')
  * @property {string} [pathPrettierIgnore]
- * @property {string} [pathPrettier_js]
  * @property {string} [pathOxfmtrc]
  */
 
@@ -34,28 +33,6 @@ export function buildOxlintCmd(opts) {
 export function buildEslintCmd(opts) {
 	const { format, glob, pre = '' } = opts
 	return pre + `eslint --no-warn-ignored` + `${format ? ' --fix' : ''}` + ` ${glob}`
-}
-
-/**
- * @param {BuildOptions} opts
- */
-export function buildPrettierCmd(opts) {
-	const { tools, format, glob, pre = '', pathPrettierIgnore, pathPrettier_js } = opts
-	// When oxfmt is in the tool set, oxfmt formats every file type it supports
-	// and prettier only handles .svelte (oxfmt can't parse it yet) - regardless of mode.
-	const svelteOnly = tools.includes('oxfmt')
-	const target = svelteOnly ? `'**/*.svelte'` : glob
-
-	return (
-		pre +
-		`prettier` +
-		` --list-different` +
-		` --ignore-path ${pathPrettierIgnore}` +
-		` --config ${pathPrettier_js}` +
-		`${svelteOnly ? ' --no-error-on-unmatched-pattern' : ''}` +
-		`${format ? ' --write' : ''}` +
-		` ${target}`
-	)
 }
 
 /**

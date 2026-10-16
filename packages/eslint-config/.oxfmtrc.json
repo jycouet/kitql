@@ -8,24 +8,38 @@
 	"arrowParens": "always",
 	"printWidth": 100,
 	"sortPackageJson": false,
+	"svelte": true,
+	"sortTailwindcss": true,
 	"sortImports": {
 		"groups": [
 			"builtin",
 			{ "newlinesBetween": false },
 			"external",
+			"remult",
+			{ "newlinesBetween": false },
+			"firstly",
+			{ "newlinesBetween": false },
 			"kitql",
-			"sveltekit",
+			"env",
+			{ "newlinesBetween": false },
+			"app",
+			"firstly-aliases",
+			{ "newlinesBetween": false },
 			"aliases",
 			["parent", "sibling", "index"],
 			"unknown"
 		],
 		"customGroups": [
+			{ "groupName": "remult", "elementNamePattern": ["remult", "remult/**"] },
+			{ "groupName": "firstly", "elementNamePattern": ["firstly", "firstly/**"] },
 			{ "groupName": "kitql", "elementNamePattern": ["@kitql/**"] },
+			{ "groupName": "env", "elementNamePattern": ["$env", "$env/**"] },
+			{ "groupName": "app", "elementNamePattern": ["$app", "$app/**"] },
 			{
-				"groupName": "sveltekit",
-				"elementNamePattern": ["$env", "$env/**", "$app", "$app/**"]
+				"groupName": "firstly-aliases",
+				"elementNamePattern": ["$server", "$server/**", "$modules", "$modules/**"]
 			},
-			{ "groupName": "aliases", "elementNamePattern": ["$*", "$*/**"] }
+			{ "groupName": "aliases", "elementNamePattern": ["$*", "$*/**", "#*", "#*/**"] }
 		],
 		"newlinesBetween": true
 	},

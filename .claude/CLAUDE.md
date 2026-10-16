@@ -46,7 +46,7 @@ pnpm monorepo (`packages/*` + `docs`). Versions are centralized in `pnpm-workspa
   |-> vite-plugin-watch-and-run  (+ picomatch)
   |     |-> vite-plugin-stripper (+ @kitql/internals)
   |     |-> vite-plugin-kit-routes (+ @kitql/internals, commander)
-  |-> @kitql/eslint-config (kitql-lint CLI - eslint + prettier + oxlint)
+  |-> @kitql/eslint-config (kitql-lint CLI - eslint + oxfmt + oxlint)
 ```
 
 ### Build system
@@ -61,7 +61,7 @@ Changesets-based: `pnpm release:version` to version, `pnpm release` to build + p
 
 ### Linting
 
-`kitql-lint` CLI (from `@kitql/eslint-config`) wraps eslint, prettier, oxlint, and tsgolint. Root `eslint.config.js` imports from the eslint-config package directly.
+`kitql-lint` CLI (from `@kitql/eslint-config`) wraps eslint, oxfmt, oxlint, and tsgolint. Root `eslint.config.js` imports from the eslint-config package directly.
 
 ### Key conventions
 

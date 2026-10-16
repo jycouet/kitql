@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "astro dev",
     "lint": "kitql-lint",
-    "lint:oxc": "kitql-lint -t oxlint,oxfmt,prettier",
+    "lint:full": "kitql-lint -t eslint,oxlint,oxfmt",
     "format": "kitql-lint --format",
     "start": "astro dev",
     "build": "astro build",
@@ -19,8 +19,5 @@
     "astro": "catalog:docs",
     "astro-icon": "catalog:docs",
     "sharp": "catalog:docs"
-  },
-  "devDependencies": {
-    "prettier-plugin-astro": "catalog:docs"
   }
 }

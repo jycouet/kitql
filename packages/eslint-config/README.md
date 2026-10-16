@@ -15,22 +15,21 @@ npm install @kitql/eslint-config --D
 
 ### tools
 
-`kitql-lint` orchestrates four optional tools - install only what you want to use:
+`kitql-lint` orchestrates optional tools - install only what you want to use:
 
 | Tool      | What it does                                              |
 | --------- | --------------------------------------------------------- |
 | eslint    | Linter (svelte rules, pnpm catalog rules, custom rules)   |
-| prettier  | Formatter (every file type, incl. `.svelte`)              |
+| oxfmt     | Formatter (Rust); every file type, incl. `.svelte`        |
 | oxlint    | Faster linter (Rust); covers most JS/TS rules             |
-| oxfmt     | Faster formatter (Rust); doesn't speak `.svelte` yet      |
+| tsgolint  | Type-aware lint rules for oxlint                          |
 
-By default `kitql-lint` runs `eslint` + `prettier`. Pick others with `-t`:
+By default `kitql-lint` runs `eslint` + `oxfmt`. Pick others with `-t`:
 
 ```bash
-kitql-lint                                            # eslint + prettier (default)
-kitql-lint -t eslint,prettier,oxlint,tsgolint         # add oxlint + type-aware
-kitql-lint -t oxlint,tsgolint,oxfmt,eslint,prettier   # 🦀 svelte + full oxc (recommended)
-kitql-lint -t oxlint,tsgolint,oxfmt                   # 🦀 pure oxc (no .svelte support)
+kitql-lint                                  # eslint + oxfmt (default)
+kitql-lint -t oxlint,tsgolint,oxfmt,eslint  # 🦀 add oxlint + type-aware (recommended)
+kitql-lint -t oxlint,tsgolint,oxfmt         # 🦀 pure oxc (no .svelte linting)
 ```
 
 For the svelte combo, enable oxlint integration in eslint to avoid duplicate work on `.ts/.js`:
@@ -42,8 +41,7 @@ import { kitql } from '@kitql/eslint-config'
 export default [...kitql({ oxlint: { enable: true } })]
 ```
 
-When `oxfmt` is in the tool set, `prettier` auto-restricts to `**/*.svelte` (oxfmt can't parse
-svelte yet); `oxfmt` handles every other file type.
+oxfmt formats `.svelte` (needs `svelte` installed) and sorts imports + tailwind classes.
 
 ### eslint config
 
@@ -53,19 +51,6 @@ svelte yet); `oxfmt` handles every other file type.
 import { kitql } from '@kitql/eslint-config'
 
 export default [...kitql()]
-```
-
-### prettier config
-
-`.prettierrc.js`
-
-```js
-import { kitql } from '@kitql/eslint-config/.prettierrc.js'
-
-export default {
-  ...kitql(),
-  // Some custom things?
-}
 ```
 
 ### oxlint config
@@ -82,12 +67,46 @@ export default {
 
 ### oxfmt config
 
-`.oxfmtrc.json` - copy from
-[`@kitql/eslint-config/.oxfmtrc.json`](./.oxfmtrc.json) (oxfmt has no `extends` yet).
+oxfmt has no `extends`, so pick one of these two.
+
+**`oxfmt.config.ts`** (recommended): import the shipped config, override what you need, and get
+kitql updates for free.
+
+```ts
+// oxfmt.config.ts
+import kitql from '@kitql/eslint-config/.oxfmtrc.json' with { type: 'json' }
+
+const { groups, customGroups } = kitql.sortImports
+const at = groups.indexOf('aliases')
+
+export default {
+	...kitql,
+	// tailwind v4 custom classes (path relative to this file)
+	sortTailwindcss: { stylesheet: './src/app.css' },
+	sortImports: {
+		...kitql.sortImports,
+		// one more import group, just before the `$*` aliases
+		groups: [...groups.slice(0, at), 'my-lib', ...groups.slice(at)],
+		// first match wins, so it goes before kitql's catch-all groups
+		customGroups: [{ groupName: 'my-lib', elementNamePattern: ['@my-org/**'] }, ...customGroups],
+	},
+}
+```
+
+The spread is shallow: spread `kitql.sortImports` again when you change a key inside it. No
+`defineConfig`: the json import widens strings and fails its types.
+
+**`.oxfmtrc.json`**: copy
+[`@kitql/eslint-config/.oxfmtrc.json`](https://github.com/jycouet/kitql/blob/main/packages/eslint-config/.oxfmtrc.json)
+and edit your copy (no kitql updates).
+
+`kitql-lint` uses `oxfmt.config.ts` first, then `.oxfmtrc.json`. The oxc VS Code extension finds
+both. `svelte: true` needs `svelte` installed. Other tweaks: per-file `overrides`. All options:
+`node_modules/oxfmt/configuration_schema.json`.
 
 ### ignore things with
 
-`.prettierignore`
+`.prettierignore` (read by oxfmt and by the eslint config; the name stays for compatibility)
 
 ```bash
 .DS_Store

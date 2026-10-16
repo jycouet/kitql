@@ -73,7 +73,7 @@ export default defineConfig({
 							link: '/docs/tools/07_vite-plugin-stripper',
 						},
 						{
-							label: 'eslint-config & prettier',
+							label: 'eslint-config & oxfmt',
 							link: '/docs/tools/08_eslint-config',
 						},
 					],
