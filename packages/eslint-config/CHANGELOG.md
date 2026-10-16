@@ -1,5 +1,15 @@
 # eslint-config-kitql
 
+## 0.10.0
+
+### Minor Changes
+
+- [#1337](https://github.com/jycouet/kitql/pull/1337) [`0e05290`](https://github.com/jycouet/kitql/commit/0e05290a1c116509e22f6a8ec35967f7ec5d5de6) Thanks [@jycouet](https://github.com/jycouet)! - BREAKING: prettier is dropped, `kitql-lint` formats with `oxfmt` (every file type, incl. `.svelte`) and defaults to `eslint` + `oxfmt`. The shipped `.oxfmtrc.json` enables `svelte` and `sortTailwindcss`, and groups `remult`, `firstly` imports like the old prettier config. `kitql-lint` reads `oxfmt.config.ts` first, then `.oxfmtrc.json`. Peer dependencies are `^` ranges instead of exact versions.
+
+### Patch Changes
+
+- [#1339](https://github.com/jycouet/kitql/pull/1339) [`58b5887`](https://github.com/jycouet/kitql/commit/58b5887e28fc703adea760780e09eb352c851cbc) Thanks [@jycouet](https://github.com/jycouet)! - Turn off `unbound-method` in test files (`expect(mock.fn)` false positives).
+
 ## 0.9.3
 
 ### Patch Changes
@@ -80,6 +90,7 @@
 - [#1181](https://github.com/jycouet/kitql/pull/1181) [`e89ca16`](https://github.com/jycouet/kitql/commit/e89ca1621950d61cfc54b75a12b6174ef975aa34) Thanks [@jycouet](https://github.com/jycouet)! - chore(remove): `eslint-plugin-unused-imports`, managed by https://github.com/typescript-eslint/typescript-eslint/releases/tag/v8.53.0
 
 - [#1125](https://github.com/jycouet/kitql/pull/1125) [`3187486`](https://github.com/jycouet/kitql/commit/318748616aff38d2d752d90c052b77866f0e371d) Thanks [@jycouet](https://github.com/jycouet)! - - add new flag `--tools` to specify the tools to use (`eslint`, `prettier`, `oxlint`, `tsgolint`) (default: `eslint`, `prettier`)
+
   - [BREAKING] remove `--lint-only` & `--format-only` flags, use `--tools` instead
 
 - [#1179](https://github.com/jycouet/kitql/pull/1179) [`82a2bdb`](https://github.com/jycouet/kitql/commit/82a2bdb77e2e9592930f7b62cfffce6c89e63dbe) Thanks [@jycouet](https://github.com/jycouet)! - bump deps
@@ -143,6 +154,7 @@
 ### Patch Changes
 
 - [#1125](https://github.com/jycouet/kitql/pull/1125) [`3187486`](https://github.com/jycouet/kitql/commit/318748616aff38d2d752d90c052b77866f0e371d) Thanks [@jycouet](https://github.com/jycouet)! - - add new flag `--tools` to specify the tools to use (`eslint`, `prettier`, `oxlint`, `tsgolint`) (default: `eslint`, `prettier`)
+
   - [BREAKING] remove `--lint-only` & `--format-only` flags, use `--tools` instead
 
 - [`dd04428`](https://github.com/jycouet/kitql/commit/dd04428ebd73e7c36405722791b053fcef233388) Thanks [@jycouet](https://github.com/jycouet)! - in eslint rules, you can enable oxlint conf with `oxlint.enable`
