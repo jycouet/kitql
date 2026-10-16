@@ -11,7 +11,7 @@
     "release": "npm run build && changeset publish",
     "reset": "git clean -xdf",
     "lint": "kitql-lint",
-    "lint:oxc": "kitql-lint -t oxlint,oxfmt",
+    "lint:full": "kitql-lint -t eslint,oxlint,oxfmt",
     "format": "kitql-lint --format",
     "up-dep": "pnpm -r up --latest"
   },
