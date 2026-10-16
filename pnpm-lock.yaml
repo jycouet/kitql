@@ -104,8 +104,8 @@ catalogs:
       version: 2.1.0
   linting-oxc:
     eslint-plugin-oxlint:
-      specifier: 1.85.0
-      version: 1.85.0
+      specifier: 1.88.0
+      version: 1.88.0
     oxfmt:
       specifier: ^0.73.0
       version: 0.73.0
@@ -262,7 +262,7 @@ importers:
         version: 10.1.5(eslint@10.12.0)
       eslint-plugin-oxlint:
         specifier: catalog:linting-oxc
-        version: 1.85.0(oxlint@1.85.0(oxlint-tsgolint@0.25.0))
+        version: 1.88.0(oxlint@1.85.0(oxlint-tsgolint@0.25.0))
       eslint-plugin-pnpm:
         specifier: catalog:linting
         version: 1.9.1(eslint@10.12.0)
@@ -3178,10 +3178,10 @@ packages:
       '@eslint/json':
         optional: true
 
-  eslint-plugin-oxlint@1.85.0:
-    resolution: {integrity: sha512-ea+6IH4JRVX1le3C6KLNZ181qhCQwGPDO5kTzAZ8OM3joF4656G0RN8OOXaly78L2RAFuREYQEUIlwOjy0YG8A==}
+  eslint-plugin-oxlint@1.88.0:
+    resolution: {integrity: sha512-5njQn7i07e3mTMzoj4acolSZZXqnd3H1S3JcV8lUJfpavoB2UvRKNiq9fZXYFLY4iHvsckUK2yQxnJn44ImjnA==}
     peerDependencies:
-      oxlint: ~1.85.0
+      oxlint: ~1.88.0
 
   eslint-plugin-pnpm@1.9.1:
     resolution: {integrity: sha512-8++1Egww2cqc9Wylmt7P+xXNMQVCosAZ4m4W4Gc0V5lGea8HFByHTRvUI+ZvvpO8fLXGg2O4MQc90EhuI3mMdQ==}
@@ -7461,7 +7461,7 @@ snapshots:
       esquery: 1.7.0
       jsonc-eslint-parser: 3.3.0
 
-  eslint-plugin-oxlint@1.85.0(oxlint@1.85.0(oxlint-tsgolint@0.25.0)):
+  eslint-plugin-oxlint@1.88.0(oxlint@1.85.0(oxlint-tsgolint@0.25.0)):
     dependencies:
       jsonc-parser: 3.3.1
       oxlint: 1.85.0(oxlint-tsgolint@0.25.0)
