@@ -1,7 +1,45 @@
 import path from 'node:path'
 import { describe, expect, it } from 'vitest'
 
-import { buildContext, parseGitInfo } from './paths.js'
+import { buildContext, parseGitInfo, repoFromRemote } from './paths.js'
+
+describe('repoFromRemote', () => {
+	it('ssh, https, with or without .git', () => {
+		expect(repoFromRemote('git@github.com:jycouet/kimbia.app.git')).toBe('kimbia.app')
+		expect(repoFromRemote('https://github.com/jycouet/kitql.git')).toBe('kitql')
+		expect(repoFromRemote('https://github.com/jycouet/kitql/')).toBe('kitql')
+		expect(repoFromRemote('ssh://git@host:22/team/my-app')).toBe('my-app')
+		expect(repoFromRemote('C:\\repos\\local')).toBe('local')
+		expect(repoFromRemote('../local.git')).toBe('local')
+	})
+})
+
+describe('yved layout (`<project>/main/` checkouts)', () => {
+	const remoteUrl = 'git@github.com:jycouet/kimbia.app.git'
+
+	it('main checkout with a .git dir', () => {
+		const ctx = buildContext({
+			commonDir: '/y/kimbia.app/main/.git',
+			gitDir: '/y/kimbia.app/main/.git',
+			remoteUrl,
+		})
+		expect(ctx.db).toBe('kimbia_app_main')
+	})
+
+	it('worktree next to a .bare dir', () => {
+		const ctx = buildContext({
+			commonDir: '/y/kimbia.app/.bare',
+			gitDir: '/y/kimbia.app/.bare/worktrees/wt-05',
+			remoteUrl,
+		})
+		expect(ctx.db).toBe('kimbia_app_wt_05')
+		expect(ctx.dataDir).toBe(path.join('/y/kimbia.app/.bare', 'kitql-postgres', 'data'))
+	})
+
+	it('no remote: falls back to the folder', () => {
+		expect(parseGitInfo({ commonDir: '/y/kitql/.git', gitDir: '/y/kitql/.git' }).repo).toBe('kitql')
+	})
+})
 
 describe('parseGitInfo', () => {
 	it('main worktree', () => {

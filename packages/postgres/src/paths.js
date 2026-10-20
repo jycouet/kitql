@@ -6,16 +6,18 @@ import { dbName } from './naming.js'
 const TRAILING_SEPARATORS = /[\\/]+$/
 const GIT_SUFFIX = /\.git$/
 const NEW_LINE = /\r?\n/
+const REMOTE_NAME = /([^/:\\]+?)(?:\.git)?[/\\]*$/
 
 /**
  * @typedef {object} GitInfo
  * @property {string} commonDir `git rev-parse --git-common-dir` (absolute), shared by all worktrees
  * @property {string} gitDir `git rev-parse --git-dir` (absolute), per worktree
+ * @property {string} [remoteUrl] `git config remote.origin.url`, if any
  */
 
 /**
  * @typedef {object} Context
- * @property {string} repo repo name (folder of the main worktree)
+ * @property {string} repo repo name (origin remote, or folder of the main worktree)
  * @property {string} worktree worktree name (`main` for the main worktree)
  * @property {string} db database of the current worktree
  * @property {string} home folder holding everything of the repo server
@@ -31,7 +33,16 @@ function same(p) {
 }
 
 /**
+ * Repo name of a remote url: `git@github.com:jycouet/kimbia.app.git` -> `kimbia.app`
+ * @param {string} url
+ */
+export function repoFromRemote(url) {
+	return REMOTE_NAME.exec(url.trim())?.[1] ?? ''
+}
+
+/**
  * Repo & worktree names out of git dirs.
+ * - repo: the origin remote name when there is one (checkout folders are often just `main/`)
  * - main worktree: `<repo>/.git` -> repo `<repo>`, worktree `main`
  * - linked worktree: git dir `<repo>/.git/worktrees/<name>` -> worktree `<name>` (git keeps it unique)
  * - bare repo: `<repo>.git` -> repo `<repo>`
@@ -40,9 +51,10 @@ function same(p) {
 export function parseGitInfo(git) {
 	const commonBase = path.basename(git.commonDir)
 	const repo =
-		commonBase === '.git'
+		(git.remoteUrl && repoFromRemote(git.remoteUrl)) ||
+		(commonBase === '.git'
 			? path.basename(path.dirname(git.commonDir))
-			: commonBase.replace(GIT_SUFFIX, '')
+			: commonBase.replace(GIT_SUFFIX, ''))
 	const worktree = same(git.gitDir) === same(git.commonDir) ? 'main' : path.basename(git.gitDir)
 	return { repo, worktree }
 }
@@ -92,7 +104,15 @@ export function readGitInfo(cwd) {
 		)
 	}
 	const [commonDir, gitDir] = res.stdout.trim().split(NEW_LINE)
-	return { commonDir: path.resolve(cwd, commonDir), gitDir: path.resolve(cwd, gitDir) }
+	const remote = spawnSync('git', ['config', '--get', 'remote.origin.url'], {
+		cwd,
+		encoding: 'utf-8',
+	})
+	return {
+		commonDir: path.resolve(cwd, commonDir),
+		gitDir: path.resolve(cwd, gitDir),
+		remoteUrl: remote.status === 0 ? remote.stdout.trim() : undefined,
+	}
 }
 
 /**

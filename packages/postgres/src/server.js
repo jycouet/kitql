@@ -185,9 +185,10 @@ export class Server {
 			'UTF8',
 			'--no-instructions',
 		]
-		if (major >= 17) {
-			// same collation behavior on every OS
-			args.push('--locale-provider=builtin', '--builtin-locale=C.UTF-8', '--locale=C')
+		if (major >= 15) {
+			// ICU (bundled): same human sort order on every OS, like the usual en_US.UTF-8 of
+			// servers (`a A b B e é Z`), where C.UTF-8 gives `A B Z a b e é`
+			args.push('--locale-provider=icu', '--icu-locale=en-US', '--locale=C')
 		} else {
 			args.push('--no-locale')
 		}
