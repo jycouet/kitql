@@ -26,21 +26,35 @@ npm install @kitql/postgres -D
 kitql-pg up              # start the repo server (foreground, Ctrl+C stops it)
 kitql-pg up --port 5433  # another project? pick another port (remembered)
 kitql-pg init            # create this worktree's db (idempotent, timezone UTC)
+kitql-pg init --tz Europe/Paris  # change the db timezone (kept on next init / clone)
 kitql-pg url             # postgres://postgres:postgres@localhost:5432/myapp_main
 kitql-pg ls              # list databases (* = this worktree)
 kitql-pg clone main      # this worktree's db = copy of the `main` worktree db
-kitql-pg dump [file]     # pg_dump -Fc (default: <db>.dump)
-kitql-pg restore <file>  # .dump (pg_restore) or .sql (psql)
+kitql-pg dump [file]     # pg_dump -Fc zstd (default: <db>.dump)
+kitql-pg restore <file>  # .dump (pg_restore) or .sql (psql), all or nothing
 kitql-pg drop            # drop this worktree's db
 kitql-pg psql -- -c "select 1"
 kitql-pg stop            # if the `up` terminal was killed
 ```
 
 Options: `-d, --db <name>` targets another database, `-p, --port <port>` (on `up`, remembered),
-`-f, --force` replaces an existing db on `clone` and closes open connections (`clone`, `drop`).
+`--tz <zone>` (on `init`), `-f, --force` replaces an existing db on `clone` and closes open
+connections (`clone`, `drop`).
 
-`clone` uses `CREATE DATABASE x TEMPLATE y`: it is instant, but nobody can be connected to the
+`clone` uses `CREATE DATABASE x TEMPLATE y STRATEGY FILE_COPY`: nobody can be connected to the
 source. Stop your dev server / psql first, or use `--force`.
+
+## Speed
+
+The server is tuned for dev (`wal_level = minimal`, `synchronous_commit = off`, bigger WAL and
+`maintenance_work_mem`; `fsync` stays on, so no corruption risk). On Windows, for a 680 MB
+database (3M rows, 4 indexes, 1 FK):
+
+| Command   | Time | Plain PostgreSQL defaults |
+| --------- | ---- | ------------------------- |
+| `dump`    | 6s   | 24s (gzip)                |
+| `restore` | 22s  | 36s                       |
+| `clone`   | 7s   | 22s                       |
 
 ## Binaries
 

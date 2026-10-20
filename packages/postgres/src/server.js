@@ -204,6 +204,14 @@ export class Server {
 				"unix_socket_directories = ''",
 				"timezone = 'UTC'",
 				"log_timezone = 'UTC'",
+				// dev server tuning (fsync stays on: no corruption risk). A 700 MB restore goes
+				// from 36s to 21s, a clone from 22s to 6s.
+				'wal_level = minimal # no WAL for tables loaded in the transaction that created them',
+				'max_wal_senders = 0',
+				'max_wal_size = 4GB',
+				"checkpoint_timeout = '30min'",
+				'maintenance_work_mem = 512MB # index builds',
+				'synchronous_commit = off # may lose the last ms of commits on a crash, never corrupts',
 				'',
 			].join('\n'),
 		)
@@ -264,20 +272,53 @@ export class Server {
 		)
 	}
 
-	/** @param {string} db */
-	setUtc(db) {
-		this.sql(`ALTER DATABASE ${quoteIdent(db)} SET timezone TO 'UTC'`)
+	/**
+	 * Default timezone of a database (postgres validates the name)
+	 * @param {string} db
+	 * @param {string} tz e.g. `UTC`, `Europe/Paris`
+	 */
+	setTimezone(db, tz) {
+		this.sql(`ALTER DATABASE ${quoteIdent(db)} SET timezone TO ${quoteLiteral(tz)}`)
 	}
 
 	/** @param {string} db */
-	create(db) {
-		if (this.exists(db)) {
-			this.setUtc(db)
-			return false
+	timezone(db) {
+		return this.sql('SHOW timezone', db)[0]?.[0] ?? '?'
+	}
+
+	/**
+	 * Create the database if needed. A new one gets `tz` (default UTC), an existing one keeps its
+	 * timezone unless `tz` is given.
+	 * @param {string} db
+	 * @param {string} [tz]
+	 */
+	create(db, tz) {
+		const created = !this.exists(db)
+		if (created) {
+			this.sql(`CREATE DATABASE ${quoteIdent(db)}`)
 		}
-		this.sql(`CREATE DATABASE ${quoteIdent(db)}`)
-		this.setUtc(db)
-		return true
+		if (created || tz) {
+			this.setTimezone(db, tz ?? 'UTC')
+		}
+		return created
+	}
+
+	/**
+	 * Per-database settings (timezone...) are not copied by TEMPLATE: copy them
+	 * @param {string} from
+	 * @param {string} to
+	 */
+	copySettings(from, to) {
+		const settings = this.sql(
+			`SELECT unnest(setconfig) FROM pg_db_role_setting ` +
+				`WHERE setrole = 0 AND setdatabase = (SELECT oid FROM pg_database WHERE datname = ${quoteLiteral(from)})`,
+		)
+		for (const [setting] of settings) {
+			const eq = setting.indexOf('=')
+			this.sql(
+				`ALTER DATABASE ${quoteIdent(to)} SET ${quoteIdent(setting.slice(0, eq))} TO ${quoteLiteral(setting.slice(eq + 1))}`,
+			)
+		}
 	}
 
 	/**
@@ -336,7 +377,12 @@ export class Server {
 		}
 
 		try {
-			this.sql(`CREATE DATABASE ${quoteIdent(to)} TEMPLATE ${quoteIdent(source)}`)
+			// FILE_COPY copies the files instead of WAL-logging every page (4x faster on big dbs).
+			// PG < 15 (KITQL_PG_BIN) only has this strategy, without the keyword.
+			const v15 = Number(this.sql('SHOW server_version_num')[0]?.[0]) >= 150000
+			this.sql(
+				`CREATE DATABASE ${quoteIdent(to)} TEMPLATE ${quoteIdent(source)}${v15 ? ' STRATEGY FILE_COPY' : ''}`,
+			)
 		} catch (e) {
 			if (BUSY.test(/** @type {Error} */ (e).message)) {
 				throw new PgError(
@@ -345,8 +391,7 @@ export class Server {
 			}
 			throw e
 		}
-		// per-database settings are not copied by TEMPLATE
-		this.setUtc(to)
+		this.copySettings(source, to)
 		return source
 	}
 

@@ -26,11 +26,15 @@ kitql-pg up      # start the server in the foreground (Ctrl+C stops it cleanly)
 kitql-pg init    # in another terminal: create this worktree's database
 ```
 
-`init` is idempotent, sets the database timezone to UTC and prints the url to put in your `.env`:
+`up` tells you when it is up and running, and `init` prints the url to put in your `.env`:
 
 ```sh
-DATABASE_URL=postgres://postgres:postgres@localhost:5432/myapp_main
+✔ myapp server up and running (PostgreSQL 18.6, port 5432, ~/code/myapp/.git/kitql-postgres/data)
+  DATABASE_URL=postgres://postgres:postgres@localhost:5432/myapp_main
 ```
+
+`init` is idempotent and sets the database timezone to UTC. Want another one?
+`kitql-pg init --tz Europe/Paris`: it is kept by the next `init` and copied by `clone`.
 
 | Command          | What it does                                                         |
 | ---------------- | -------------------------------------------------------------------- |
@@ -40,18 +44,31 @@ DATABASE_URL=postgres://postgres:postgres@localhost:5432/myapp_main
 | `clone <from>`   | replace the worktree database by a copy of `<from>` (db or worktree) |
 | `drop`           | drop the worktree database                                           |
 | `ls`             | list databases (`*` = current worktree)                              |
-| `dump [file]`    | `pg_dump -Fc` (default file: `<db>.dump`)                            |
+| `dump [file]`    | `pg_dump -Fc -Z zstd` (default file: `<db>.dump`)                    |
 | `restore <file>` | restore a `.dump` (pg_restore) or `.sql` (psql) in the worktree db   |
 | `psql [-- args]` | open psql on the worktree database                                   |
 | `url`            | print the connection url                                             |
 
 Options: `-d, --db <name>` to target another database, `-p, --port <port>` (on `up`, remembered
-for the repo), `-f, --force`.
+for the repo), `--tz <zone>` (on `init`), `-f, --force`.
 
 <Aside type="tip">
-	`clone` uses `CREATE DATABASE x TEMPLATE y`: instant, even for big databases. The source must have
-	no open connection: stop your dev server / psql, or use `--force` to close them.
+	`clone` uses `CREATE DATABASE x TEMPLATE y STRATEGY FILE_COPY`: the source must have no open
+	connection. Stop your dev server / psql, or use `--force` to close them.
 </Aside>
+
+## Speed
+
+The server is tuned for dev (`wal_level = minimal`, `synchronous_commit = off`, bigger WAL and
+`maintenance_work_mem`; `fsync` stays on, so no corruption risk), `dump` uses zstd and `restore`
+runs in a single transaction (all or nothing). On Windows, for a 680 MB database (3M rows,
+4 indexes, 1 FK):
+
+| Command   | Time | Plain PostgreSQL defaults |
+| --------- | ---- | ------------------------- |
+| `dump`    | 6s   | 24s (gzip)                |
+| `restore` | 22s  | 36s                       |
+| `clone`   | 7s   | 22s                       |
 
 ## Several projects
 

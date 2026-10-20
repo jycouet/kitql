@@ -9,23 +9,37 @@ import { findBinDir } from './src/binaries.js'
 import { resolveContext } from './src/paths.js'
 import { follow, log, PgError, Server } from './src/server.js'
 
-/** @param {Server} pg */
-async function up(pg) {
+/**
+ * "up and running" + what to put in your .env
+ * @param {Server} pg
+ * @param {string} db
+ * @param {string} state
+ */
+function ready(pg, db, state) {
+	const version = pg.sql('SHOW server_version')[0]?.[0]
+	log.success(
+		`${cyan(pg.ctx.repo)} server ${state} ${gray(`(PostgreSQL ${version}, port ${pg.port}, ${pg.ctx.dataDir})`)}`,
+	)
+	if (pg.exists(db)) {
+		printUrl(pg, db)
+	} else {
+		log.info(`${cyan(db)} does not exist yet, create it with: ${cyan('kitql-pg init')}`)
+	}
+}
+
+/**
+ * @param {Server} pg
+ * @param {string} db
+ */
+async function up(pg, db) {
 	const created = pg.ensureCluster()
 	if (pg.isRunning()) {
-		log.info(
-			`The ${cyan(pg.ctx.repo)} server is already running on port ${cyan(pg.port)} (started elsewhere).`,
-		)
+		ready(pg, db, 'already running (started elsewhere)')
 		return 0
 	}
 	pg.start()
-	log.success(
-		`${created ? 'Created and started' : 'Started'} the ${cyan(pg.ctx.repo)} server on port ${cyan(pg.port)} ` +
-			gray(`(${pg.ctx.dataDir})`),
-	)
-	log.info(
-		`Create this worktree's database with ${cyan('kitql-pg init')}  ${gray('Ctrl+C to stop')}`,
-	)
+	ready(pg, db, created ? 'created, up and running' : 'up and running')
+	log.info(gray('Ctrl+C to stop'))
 
 	return await new Promise((resolve) => {
 		let stopping = false
@@ -68,6 +82,11 @@ function printUrl(pg, db) {
 	console.info(`  ${gray('DATABASE_URL=')}${green(pg.url(db))}`)
 }
 
+/** @param {number} start */
+function elapsed(start) {
+	return `in ${((Date.now() - start) / 1000).toFixed(1)}s`
+}
+
 async function main() {
 	const opts = parseArgs(process.argv.slice(2))
 	if (!opts.command) {
@@ -85,10 +104,11 @@ async function main() {
 		pg.setPort(opts.port)
 	}
 	const db = opts.db ?? ctx.db
+	const start = Date.now()
 
 	switch (opts.command) {
 		case 'up':
-			return up(pg)
+			return up(pg, db)
 
 		case 'stop':
 			if (!pg.isRunning()) {
@@ -107,8 +127,10 @@ async function main() {
 
 		case 'init': {
 			pg.requireRunning()
-			const created = pg.create(db)
-			log.success(`${created ? 'Created' : 'Already there:'} ${cyan(db)} ${gray('(timezone UTC)')}`)
+			const created = pg.create(db, opts.tz)
+			log.success(
+				`${created ? 'Created' : 'Already there:'} ${cyan(db)} ${gray(`(timezone ${pg.timezone(db)})`)}`,
+			)
 			printUrl(pg, db)
 			return 0
 		}
@@ -116,7 +138,9 @@ async function main() {
 		case 'clone': {
 			pg.requireRunning()
 			const source = pg.clone(opts.args[0], db, opts.force)
-			log.success(`Cloned ${cyan(source)} into ${cyan(db)}`)
+			log.success(
+				`Cloned ${cyan(source)} into ${cyan(db)} ${gray(`(timezone ${pg.timezone(db)}) ${elapsed(start)}`)}`,
+			)
 			printUrl(pg, db)
 			return 0
 		}
@@ -152,11 +176,13 @@ async function main() {
 				throw new PgError(`"${db}" does not exist (kitql-pg init?)`)
 			}
 			const file = path.resolve(opts.args[0] ?? `${db}.dump`)
-			const code = await pg.interactive('pg_dump', ['-Fc', '-f', file, ...pg.conn(db)])
+			// zstd (PG 16+): 4x faster than the default gzip, and smaller
+			const zstd = pg.binaryMajor() >= 16 ? ['-Z', 'zstd'] : []
+			const code = await pg.interactive('pg_dump', ['-Fc', ...zstd, '-f', file, ...pg.conn(db)])
 			if (code !== 0) {
 				throw new PgError(`pg_dump failed (exit ${code})`)
 			}
-			log.success(`Dumped ${cyan(db)} to ${cyan(file)}`)
+			log.success(`Dumped ${cyan(db)} to ${cyan(file)} ${gray(elapsed(start))}`)
 			return 0
 		}
 
@@ -175,6 +201,8 @@ async function main() {
 			const code =
 				magic.toString() === 'PGDMP'
 					? await pg.interactive('pg_restore', [
+							// all or nothing, and no WAL for the data (wal_level = minimal)
+							'--single-transaction',
 							'--clean',
 							'--if-exists',
 							'--no-owner',
@@ -185,6 +213,7 @@ async function main() {
 					: await pg.interactive('psql', [
 							'-X',
 							'-q',
+							'--single-transaction',
 							'-v',
 							'ON_ERROR_STOP=1',
 							...pg.conn(db),
@@ -194,7 +223,7 @@ async function main() {
 			if (code !== 0) {
 				throw new PgError(`Restore of ${file} into "${db}" failed (exit ${code})`)
 			}
-			log.success(`Restored ${cyan(file)} into ${cyan(db)}`)
+			log.success(`Restored ${cyan(file)} into ${cyan(db)} ${gray(elapsed(start))}`)
 			return 0
 		}
 

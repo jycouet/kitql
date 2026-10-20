@@ -44,6 +44,10 @@ const cliConfig = {
 			short: 'p',
 			description: `server port, remembered per repo (default: ${DEFAULT_PORT})`,
 		},
+		tz: {
+			type: /** @type {const} */ ('string'),
+			description: 'timezone of the database, on init (default: UTC, then kept)',
+		},
 		force: {
 			type: /** @type {const} */ ('boolean'),
 			short: 'f',
@@ -60,6 +64,7 @@ const cliConfig = {
  * @property {string | undefined} db
  * @property {number | undefined} port
  * @property {boolean} force
+ * @property {string | undefined} tz
  * @property {string} help
  */
 
@@ -78,7 +83,15 @@ export function parseArgs(argv) {
 	const [command, ...args] = positionals
 
 	if (values.help || !command) {
-		return { command: null, args: [], db: undefined, port: undefined, force: false, help }
+		return {
+			command: null,
+			args: [],
+			db: undefined,
+			port: undefined,
+			force: false,
+			tz: undefined,
+			help,
+		}
 	}
 	if (!(command in COMMANDS)) {
 		throw new Error(`Unknown command "${command}". Run "kitql-pg --help".`)
@@ -106,6 +119,7 @@ export function parseArgs(argv) {
 		db: /** @type {string | undefined} */ (values.db),
 		port,
 		force: Boolean(values.force),
+		tz: /** @type {string | undefined} */ (values.tz),
 		help,
 	}
 }
