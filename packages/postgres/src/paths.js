@@ -13,6 +13,7 @@ const REMOTE_NAME = /([^/:\\]+?)(?:\.git)?[/\\]*$/
  * @property {string} commonDir `git rev-parse --git-common-dir` (absolute), shared by all worktrees
  * @property {string} gitDir `git rev-parse --git-dir` (absolute), per worktree
  * @property {string} [remoteUrl] `git config remote.origin.url`, if any
+ * @property {string} [toplevel] root of the current checkout
  */
 
 /**
@@ -24,6 +25,7 @@ const REMOTE_NAME = /([^/:\\]+?)(?:\.git)?[/\\]*$/
  * @property {string} dataDir postgres data directory (PGDATA)
  * @property {string} logFile server log
  * @property {string} stateFile kitql-pg settings (port, ...)
+ * @property {string | undefined} root root of the current checkout (holds the package.json config)
  */
 
 /** @param {string} p */
@@ -80,6 +82,7 @@ export function buildContext(git, env = {}) {
 		dataDir: path.join(home, 'data'),
 		logFile: path.join(home, 'postgres.log'),
 		stateFile: path.join(home, 'state.json'),
+		root: git.toplevel,
 	}
 }
 
@@ -104,14 +107,17 @@ export function readGitInfo(cwd) {
 		)
 	}
 	const [commonDir, gitDir] = res.stdout.trim().split(NEW_LINE)
-	const remote = spawnSync('git', ['config', '--get', 'remote.origin.url'], {
-		cwd,
-		encoding: 'utf-8',
-	})
+	/** @param {string[]} args */
+	const optional = (args) => {
+		const r = spawnSync('git', args, { cwd, encoding: 'utf-8' })
+		return r.status === 0 ? r.stdout.trim() : undefined
+	}
 	return {
 		commonDir: path.resolve(cwd, commonDir),
 		gitDir: path.resolve(cwd, gitDir),
-		remoteUrl: remote.status === 0 ? remote.stdout.trim() : undefined,
+		remoteUrl: optional(['config', '--get', 'remote.origin.url']),
+		// fails outside of a checkout (inside .git, bare repo)
+		toplevel: optional(['rev-parse', '--show-toplevel']),
 	}
 }
 

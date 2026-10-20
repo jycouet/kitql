@@ -72,13 +72,21 @@ runs in a single transaction (all or nothing). On Windows, for a 680 MB database
 
 ## Several projects
 
-Each repo has its own server, data and port. Give the second project another port once, it is
-remembered:
+Each repo has its own server, data and port. Commit the port of the project in its
+`package.json`, so the whole team (and every worktree) uses the same one:
+
+```json
+{
+	"kitql-pg": { "port": 5435 }
+}
+```
 
 ```sh
-cd ~/code/app-a && kitql-pg up              # 5432
-cd ~/code/app-b && kitql-pg up --port 5433  # 5433, at the same time
+cd ~/code/app-a && kitql-pg up   # 5432 (default)
+cd ~/code/app-b && kitql-pg up   # 5435, at the same time
 ```
+
+`kitql-pg up --port 5440` overrides it on your machine only (remembered).
 
 ## Binaries
 

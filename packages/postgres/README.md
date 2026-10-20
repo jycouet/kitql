@@ -24,7 +24,7 @@ npm install @kitql/postgres -D
 
 ```bash
 kitql-pg up              # start the repo server (foreground, Ctrl+C stops it)
-kitql-pg up --port 5433  # another project? pick another port (remembered)
+kitql-pg up --port 5433  # local port override (remembered); commit it with package.json "kitql-pg": { "port": 5433 }
 kitql-pg init            # create this worktree's db (idempotent, timezone UTC)
 kitql-pg init --tz Europe/Paris  # change the db timezone (kept on next init / clone)
 kitql-pg url             # postgres://postgres:postgres@localhost:5432/myapp_main

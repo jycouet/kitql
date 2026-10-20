@@ -6,6 +6,7 @@ import { bold, cyan, gray, green, yellow } from '@kitql/helpers'
 
 import { parseArgs } from './src/args.js'
 import { findBinDir } from './src/binaries.js'
+import { readConfig } from './src/config.js'
 import { resolveContext } from './src/paths.js'
 import { follow, log, PgError, Server } from './src/server.js'
 
@@ -95,8 +96,10 @@ async function main() {
 	}
 
 	const ctx = resolveContext(process.cwd(), process.env)
-	const { binDir } = await findBinDir()
-	const pg = new Server(binDir, ctx)
+	const config = ctx.root ? readConfig(ctx.root) : {}
+	// url only needs the port: no binaries, so install scripts can use it
+	const binDir = opts.command === 'url' ? '' : (await findBinDir()).binDir
+	const pg = new Server(binDir, ctx, config)
 	if (opts.port && opts.port !== pg.port) {
 		if (opts.command !== 'up') {
 			throw new PgError(`--port is set by "kitql-pg up" (current: ${pg.port}).`)

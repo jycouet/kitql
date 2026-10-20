@@ -25,19 +25,21 @@ export class Server {
 	/**
 	 * @param {string} binDir
 	 * @param {import('./paths.js').Context} ctx
+	 * @param {import('./config.js').Config} [config] committed in package.json
 	 */
-	constructor(binDir, ctx) {
+	constructor(binDir, ctx, config = {}) {
 		this.binDir = binDir
 		this.ctx = ctx
-		this.port = this.readState().port
+		// local `up --port` > package.json "kitql-pg".port > 5432
+		this.port = this.readState().port ?? config.port ?? DEFAULT_PORT
 	}
 
-	/** @returns {{ port: number }} */
+	/** @returns {{ port?: number }} */
 	readState() {
 		try {
-			return { port: DEFAULT_PORT, ...JSON.parse(fs.readFileSync(this.ctx.stateFile, 'utf-8')) }
+			return JSON.parse(fs.readFileSync(this.ctx.stateFile, 'utf-8'))
 		} catch {
-			return { port: DEFAULT_PORT }
+			return {}
 		}
 	}
 
