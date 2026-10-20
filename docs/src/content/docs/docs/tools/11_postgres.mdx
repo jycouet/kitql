@@ -22,8 +22,8 @@ npm i -D @kitql/postgres
 ## Usage
 
 ```sh
-kitql-postgres up      # start the server in the foreground (Ctrl+C stops it cleanly)
-kitql-postgres init    # in another terminal: create this worktree's database
+kitql-pg up      # start the server in the foreground (Ctrl+C stops it cleanly)
+kitql-pg init    # in another terminal: create this worktree's database
 ```
 
 `init` is idempotent, sets the database timezone to UTC and prints the url to put in your `.env`:
@@ -53,13 +53,23 @@ for the repo), `-f, --force`.
 	no open connection: stop your dev server / psql, or use `--force` to close them.
 </Aside>
 
+## Several projects
+
+Each repo has its own server, data and port. Give the second project another port once, it is
+remembered:
+
+```sh
+cd ~/code/app-a && kitql-pg up              # 5432
+cd ~/code/app-b && kitql-pg up --port 5433  # 5433, at the same time
+```
+
 ## Binaries
 
-PostgreSQL comes from
-[theseus-rs/postgresql-binaries](https://github.com/theseus-rs/postgresql-binaries), shipped the
-esbuild way: one `@kitql/postgres-<os>-<cpu>` package per platform (`win32-x64`, `linux-x64`,
-`linux-arm64`, `darwin-arm64`, `darwin-x64`) as `optionalDependencies`. Your package manager only
-installs the one matching your machine, and nothing is downloaded at install or run time.
+On first use, `kitql-pg` downloads PostgreSQL 18.6 from
+[theseus-rs/postgresql-binaries](https://github.com/theseus-rs/postgresql-binaries) for your
+platform (`win32-x64`, `linux-x64`, `linux-arm64`, `darwin-arm64`, `darwin-x64`), checks its
+pinned sha256 and keeps it in a per-user cache shared by all your projects (only the binaries are
+shared). After that first run, everything works offline.
 
 To use another PostgreSQL (the system one, another version...), point `KITQL_PG_BIN` to its `bin`
-folder. `KITQL_PG_HOME` moves the data folder.
+folder. `KITQL_PG_CACHE` moves the binaries cache, `KITQL_PG_HOME` the data folder.

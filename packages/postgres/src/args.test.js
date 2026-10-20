@@ -19,7 +19,7 @@ describe('parseArgs', () => {
 	})
 
 	it('clone needs a source', () => {
-		expect(() => parseArgs(['clone'])).toThrow('Missing argument: kitql-postgres clone <from>')
+		expect(() => parseArgs(['clone'])).toThrow('Missing argument: kitql-pg clone <from>')
 		expect(parseArgs(['clone', 'main', '-f'])).toMatchObject({
 			command: 'clone',
 			args: ['main'],
@@ -49,6 +49,6 @@ describe('parseArgs', () => {
 
 	it('unknown command / option', () => {
 		expect(() => parseArgs(['start'])).toThrow('Unknown command "start"')
-		expect(() => parseArgs(['init', '--nope'])).toThrow('kitql-postgres --help')
+		expect(() => parseArgs(['init', '--nope'])).toThrow('kitql-pg --help')
 	})
 })

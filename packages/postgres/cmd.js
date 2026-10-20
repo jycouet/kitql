@@ -5,7 +5,7 @@ import path from 'node:path'
 import { bold, cyan, gray, green, yellow } from '@kitql/helpers'
 
 import { parseArgs } from './src/args.js'
-import { ensureExecutable, findBinDir } from './src/binaries.js'
+import { findBinDir } from './src/binaries.js'
 import { resolveContext } from './src/paths.js'
 import { follow, log, PgError, Server } from './src/server.js'
 
@@ -24,7 +24,7 @@ async function up(pg) {
 			gray(`(${pg.ctx.dataDir})`),
 	)
 	log.info(
-		`Create this worktree's database with ${cyan('kitql-postgres init')}  ${gray('Ctrl+C to stop')}`,
+		`Create this worktree's database with ${cyan('kitql-pg init')}  ${gray('Ctrl+C to stop')}`,
 	)
 
 	return await new Promise((resolve) => {
@@ -76,12 +76,11 @@ async function main() {
 	}
 
 	const ctx = resolveContext(process.cwd(), process.env)
-	const { binDir } = findBinDir()
-	ensureExecutable(binDir)
+	const { binDir } = await findBinDir()
 	const pg = new Server(binDir, ctx)
 	if (opts.port && opts.port !== pg.port) {
 		if (opts.command !== 'up') {
-			throw new PgError(`--port is set by "kitql-postgres up" (current: ${pg.port}).`)
+			throw new PgError(`--port is set by "kitql-pg up" (current: ${pg.port}).`)
 		}
 		pg.setPort(opts.port)
 	}
@@ -150,7 +149,7 @@ async function main() {
 		case 'dump': {
 			pg.requireRunning()
 			if (!pg.exists(db)) {
-				throw new PgError(`"${db}" does not exist (kitql-postgres init?)`)
+				throw new PgError(`"${db}" does not exist (kitql-pg init?)`)
 			}
 			const file = path.resolve(opts.args[0] ?? `${db}.dump`)
 			const code = await pg.interactive('pg_dump', ['-Fc', '-f', file, ...pg.conn(db)])

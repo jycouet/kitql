@@ -21,7 +21,7 @@ const NEW_LINE = /\r?\n/
  * @property {string} home folder holding everything of the repo server
  * @property {string} dataDir postgres data directory (PGDATA)
  * @property {string} logFile server log
- * @property {string} stateFile kitql-postgres settings (port, ...)
+ * @property {string} stateFile kitql-pg settings (port, ...)
  */
 
 /** @param {string} p */
@@ -88,7 +88,7 @@ export function readGitInfo(cwd) {
 	if (res.status !== 0) {
 		throw new Error(
 			`not inside a git repository (${cwd}).\n` +
-				`kitql-postgres keeps one server per repo, run it from a git checkout.`,
+				`kitql-pg keeps one server per repo, run it from a git checkout.`,
 		)
 	}
 	const [commonDir, gitDir] = res.stdout.trim().split(NEW_LINE)

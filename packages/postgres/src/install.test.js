@@ -1,5 +1,9 @@
+import fs from 'node:fs'
+import os from 'node:os'
+import path from 'node:path'
 import { describe, expect, it } from 'vitest'
 
+import { extract } from './install.js'
 import { keep } from './strip.js'
 import { readTar } from './tar.js'
 
@@ -82,5 +86,25 @@ describe('readTar', () => {
 		expect(entries[1].data.toString()).toBe('hello')
 		expect(entries[1].mode).toBe(0o755)
 		expect(entries[2].linkPath).toBe('libpq.so.5')
+	})
+})
+
+describe('extract', () => {
+	it('strips the top folder, drops unwanted files and copies links', () => {
+		const tar = Buffer.concat([
+			entry('pg/', '5'),
+			entry('pg/bin/psql', '0', 'psql!'),
+			entry('pg/include/x.h', '0', 'header'),
+			entry('pg/lib/libpq.so.5.18', '0', 'lib!'),
+			entry('pg/lib/libpq.so.5', '2', '', 'libpq.so.5.18'),
+			entry('pg/lib/libpq.so', '2', '', 'libpq.so.5'),
+			Buffer.alloc(1024),
+		])
+		const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'kitql-pg-'))
+		extract(readTar(tar), dir)
+		expect(fs.readFileSync(path.join(dir, 'bin', 'psql'), 'utf-8')).toBe('psql!')
+		expect(fs.readFileSync(path.join(dir, 'lib', 'libpq.so'), 'utf-8')).toBe('lib!')
+		expect(fs.readFileSync(path.join(dir, 'lib', 'libpq.so.5'), 'utf-8')).toBe('lib!')
+		expect(fs.existsSync(path.join(dir, 'include'))).toBe(false)
 	})
 })

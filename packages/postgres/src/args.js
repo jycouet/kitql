@@ -23,11 +23,11 @@ export const COMMANDS = /** @type {const} */ ({
 /** @typedef {keyof typeof COMMANDS} Command */
 
 const cliConfig = {
-	name: 'kitql-postgres',
+	name: 'kitql-pg',
 	description: [
 		'Local PostgreSQL: one server per repo, one database per worktree.',
 		'',
-		'Usage: kitql-postgres <command> [options]',
+		'Usage: kitql-pg <command> [options]',
 		'',
 		'Commands:',
 		...Object.values(COMMANDS).map(([usage, desc]) => `  ${usage.padEnd(16)}${desc}`),
@@ -72,7 +72,7 @@ export function parseArgs(argv) {
 	try {
 		parsed = parseCli({ ...cliConfig, args: argv })
 	} catch (e) {
-		throw new Error(`${/** @type {Error} */ (e).message}\nRun "kitql-postgres --help".`, { cause: e })
+		throw new Error(`${/** @type {Error} */ (e).message}\nRun "kitql-pg --help".`, { cause: e })
 	}
 	const { values, positionals, help } = parsed
 	const [command, ...args] = positionals
@@ -81,15 +81,15 @@ export function parseArgs(argv) {
 		return { command: null, args: [], db: undefined, port: undefined, force: false, help }
 	}
 	if (!(command in COMMANDS)) {
-		throw new Error(`Unknown command "${command}". Run "kitql-postgres --help".`)
+		throw new Error(`Unknown command "${command}". Run "kitql-pg --help".`)
 	}
 	const cmd = /** @type {Command} */ (command)
 	const [usage, , required] = COMMANDS[cmd]
 	if (args.length < required) {
-		throw new Error(`Missing argument: kitql-postgres ${usage}`)
+		throw new Error(`Missing argument: kitql-pg ${usage}`)
 	}
 	if (cmd !== 'psql' && args.length > (usage.includes('[') || required ? 1 : 0)) {
-		throw new Error(`Too many arguments: kitql-postgres ${usage}`)
+		throw new Error(`Too many arguments: kitql-pg ${usage}`)
 	}
 
 	let port

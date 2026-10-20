@@ -13,7 +13,7 @@
 	"funding": "https://github.com/sponsors/jycouet",
 	"license": "MIT",
 	"bin": {
-		"kitql-postgres": "./cmd.js"
+		"kitql-pg": "./cmd.js"
 	},
 	"files": [
 		"cmd.js",
@@ -29,7 +29,6 @@
 		"devbox"
 	],
 	"scripts": {
-		"platforms": "node ./scripts/platforms.js",
 		"lint": "kitql-lint -p pnpm",
 		"lint:full": "kitql-lint -p pnpm -t eslint,oxlint,tsgolint,oxfmt",
 		"format": "kitql-lint --format",
@@ -38,13 +37,6 @@
 	},
 	"dependencies": {
 		"@kitql/helpers": "workspace:^"
-	},
-	"optionalDependencies": {
-		"@kitql/postgres-darwin-arm64": "catalog:postgres",
-		"@kitql/postgres-darwin-x64": "catalog:postgres",
-		"@kitql/postgres-linux-arm64": "catalog:postgres",
-		"@kitql/postgres-linux-x64": "catalog:postgres",
-		"@kitql/postgres-win32-x64": "catalog:postgres"
 	},
 	"devDependencies": {
 		"@vitest/coverage-v8": "catalog:testing",

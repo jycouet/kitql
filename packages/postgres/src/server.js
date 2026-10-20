@@ -8,11 +8,11 @@ import { DEFAULT_PORT } from './args.js'
 import { toolPath } from './binaries.js'
 import { dbName, PROTECTED_DBS, quoteIdent, quoteLiteral } from './naming.js'
 
-export const log = new Log('kitql-postgres')
+export const log = new Log('kitql-pg')
 
 const USER = 'postgres'
 const HOST = 'localhost'
-const CONF_MARKER = '# --- kitql-postgres ---'
+const CONF_MARKER = '# --- kitql-pg ---'
 const NEW_LINE = /\r?\n/
 const VERSION = /(\d+)(?:\.\d+)?/
 const BUSY = /being accessed by other users/
@@ -140,11 +140,11 @@ export class Server {
 
 	requireRunning() {
 		if (!fs.existsSync(path.join(this.ctx.dataDir, 'PG_VERSION'))) {
-			throw new PgError(`No server yet for "${this.ctx.repo}". Start it with: kitql-postgres up`)
+			throw new PgError(`No server yet for "${this.ctx.repo}". Start it with: kitql-pg up`)
 		}
 		if (!this.isRunning()) {
 			throw new PgError(
-				`The "${this.ctx.repo}" server is not running. Start it with: kitql-postgres up (from any worktree)`,
+				`The "${this.ctx.repo}" server is not running. Start it with: kitql-pg up (from any worktree)`,
 			)
 		}
 	}
@@ -293,14 +293,14 @@ export class Server {
 			return candidate
 		}
 		throw new PgError(
-			`No database "${nameOrWorktree}" (nor "${candidate}"). See them with: kitql-postgres ls`,
+			`No database "${nameOrWorktree}" (nor "${candidate}"). See them with: kitql-pg ls`,
 		)
 	}
 
 	/** @param {string} db */
 	assertNotProtected(db) {
 		if (PROTECTED_DBS.includes(db)) {
-			throw new PgError(`"${db}" is a system database, kitql-postgres will not touch it.`)
+			throw new PgError(`"${db}" is a system database, kitql-pg will not touch it.`)
 		}
 	}
 
