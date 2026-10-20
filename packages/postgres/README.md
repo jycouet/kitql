@@ -6,9 +6,11 @@
 Local PostgreSQL for dev, as a dev dependency: no system install, no docker, no devbox. Works on
 Windows, Linux (incl. WSL) and macOS, offline after the first run.
 
-- **One server per repo**: data in the main worktree (`.git/kitql-postgres`), on its own port.
-  Run as many projects side by side as you want (5432, 5433, ...).
-- **One database per worktree**: `<repo>_<worktree>`, created on first `init`.
+- **One server per repo**, on its own port (committed in `package.json`, see below): data in the
+  main worktree (`.git/kitql-postgres`). Run as many projects side by side as you want.
+- **Worktrees share main's database** (`<repo>`) by default. When one needs its own
+  (migration, destructive test...), `kitql-pg clone main` gives it `<repo>_<worktree>`, and points
+  its `.env` to it.
 
 ## 📖 Read the doc
 
@@ -20,26 +22,34 @@ Windows, Linux (incl. WSL) and macOS, offline after the first run.
 npm install @kitql/postgres -D
 ```
 
+```jsonc
+// package.json: the port of this project, for the whole team (default: 5432)
+"kitql-pg": { "port": 5435 }
+```
+
 ## Usage
 
 ```bash
-kitql-pg up              # start the repo server (foreground, Ctrl+C stops it)
-kitql-pg up --port 5433  # local port override (remembered); commit it with package.json "kitql-pg": { "port": 5433 }
-kitql-pg init            # create this worktree's db (idempotent, timezone UTC)
-kitql-pg init --tz Europe/Paris  # change the db timezone (kept on next init / clone)
-kitql-pg url             # postgres://postgres:postgres@localhost:5432/myapp_main
-kitql-pg ls              # list databases (* = this worktree)
-kitql-pg clone main      # this worktree's db = copy of the `main` worktree db
-kitql-pg dump [file]     # pg_dump -Fc zstd (default: <db>.dump)
+kitql-pg up              # start the repo server (foreground, Ctrl+C stops it), from any worktree
+kitql-pg init            # create main's db (idempotent, timezone UTC; --tz Europe/Paris)
+kitql-pg url             # postgres://postgres:postgres@localhost:5435/myapp
+kitql-pg ls              # list databases (* = the one this worktree uses)
 kitql-pg restore <file>  # .dump (pg_restore) or .sql (psql), all or nothing
-kitql-pg drop            # drop this worktree's db
+kitql-pg dump [file]     # pg_dump -Fc zstd (default: <db>.dump)
 kitql-pg psql -- -c "select 1"
 kitql-pg stop            # if the `up` terminal was killed
+
+# in a worktree that needs its own db
+kitql-pg clone main      # myapp_<worktree> = copy of main's db, .env DATABASE_URL updated
+kitql-pg restore <file> --own  # or: its own db from a dump
+kitql-pg drop            # drop it, back to main's db (.env updated)
 ```
 
-Options: `-d, --db <name>` targets another database, `-p, --port <port>` (on `up`, remembered),
-`--tz <zone>` (on `init`), `-f, --force` replaces an existing db on `clone` and closes open
-connections (`clone`, `drop`).
+Every command targets the database the worktree uses: its own one if it exists, else main's.
+`-d, --db <name>` targets another one, `-o, --own` the worktree's own one. Other options:
+`-p, --port <port>` (on `up`: local override of the package.json port, remembered), `--tz <zone>`
+(on `init`), `-f, --force` replaces an existing db on `clone` and closes open connections
+(`clone`, `drop`).
 
 `clone` uses `CREATE DATABASE x TEMPLATE y STRATEGY FILE_COPY`: nobody can be connected to the
 source. Stop your dev server / psql first, or use `--force`.

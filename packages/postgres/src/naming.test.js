@@ -18,17 +18,18 @@ describe('sanitize', () => {
 })
 
 describe('dbName', () => {
-	it('joins repo and worktree', () => {
-		expect(dbName('kitql', 'feat-kitql-postgres')).toBe('kitql_feat_kitql_postgres')
-		expect(dbName('kitql', 'main')).toBe('kitql_main')
+	it("main's db is the repo, a worktree's own db is repo_worktree", () => {
+		expect(dbName('kimbia.app')).toBe('kimbia_app')
+		expect(dbName('kimbia.app', 'wt-05')).toBe('kimbia_app_wt_05')
 	})
 
 	it('never starts with a digit', () => {
-		expect(dbName('2024-app', 'main')).toBe('db_2024_app_main')
+		expect(dbName('2024-app')).toBe('db_2024_app')
 	})
 
 	it('falls back on empty parts', () => {
-		expect(dbName('***', '')).toBe('repo_main')
+		expect(dbName('***')).toBe('repo')
+		expect(dbName('***', '')).toBe('repo_wt')
 	})
 
 	it('stays unique and short for long names', () => {

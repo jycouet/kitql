@@ -42,6 +42,12 @@ describe('parseArgs', () => {
 		})
 	})
 
+	it('own', () => {
+		expect(parseArgs(['restore', 'x.dump', '--own'])).toMatchObject({ own: true, args: ['x.dump'] })
+		expect(parseArgs(['init', '-o']).own).toBe(true)
+		expect(parseArgs(['init']).own).toBe(false)
+	})
+
 	it('port', () => {
 		expect(parseArgs(['up', '-p', '5433']).port).toBe(5433)
 		expect(() => parseArgs(['up', '--port', 'abc'])).toThrow('Invalid port')

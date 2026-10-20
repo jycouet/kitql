@@ -20,7 +20,9 @@ const REMOTE_NAME = /([^/:\\]+?)(?:\.git)?[/\\]*$/
  * @typedef {object} Context
  * @property {string} repo repo name (origin remote, or folder of the main worktree)
  * @property {string} worktree worktree name (`main` for the main worktree)
- * @property {string} db database of the current worktree
+ * @property {string} mainDb main's database (`<repo>`), used by every worktree by default
+ * @property {string | undefined} ownDb the worktree's own database (`<repo>_<worktree>`), if it
+ *   exists the worktree uses it. undefined in the main worktree
  * @property {string} home folder holding everything of the repo server
  * @property {string} dataDir postgres data directory (PGDATA)
  * @property {string} logFile server log
@@ -57,8 +59,9 @@ export function parseGitInfo(git) {
 		(commonBase === '.git'
 			? path.basename(path.dirname(git.commonDir))
 			: commonBase.replace(GIT_SUFFIX, ''))
-	const worktree = same(git.gitDir) === same(git.commonDir) ? 'main' : path.basename(git.gitDir)
-	return { repo, worktree }
+	const isMain = same(git.gitDir) === same(git.commonDir)
+	const worktree = isMain ? 'main' : path.basename(git.gitDir)
+	return { repo, worktree, isMain }
 }
 
 /**
@@ -70,14 +73,15 @@ export function parseGitInfo(git) {
  * @returns {Context}
  */
 export function buildContext(git, env = {}) {
-	const { repo, worktree } = parseGitInfo(git)
+	const { repo, worktree, isMain } = parseGitInfo(git)
 	const home = env.KITQL_PG_HOME
 		? path.resolve(env.KITQL_PG_HOME)
 		: path.join(git.commonDir, 'kitql-postgres')
 	return {
 		repo,
 		worktree,
-		db: dbName(repo, worktree),
+		mainDb: dbName(repo),
+		ownDb: isMain ? undefined : dbName(repo, worktree),
 		home,
 		dataDir: path.join(home, 'data'),
 		logFile: path.join(home, 'postgres.log'),

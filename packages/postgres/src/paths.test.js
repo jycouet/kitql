@@ -23,7 +23,8 @@ describe('yved layout (`<project>/main/` checkouts)', () => {
 			gitDir: '/y/kimbia.app/main/.git',
 			remoteUrl,
 		})
-		expect(ctx.db).toBe('kimbia_app_main')
+		expect(ctx.mainDb).toBe('kimbia_app')
+		expect(ctx.ownDb).toBe(undefined)
 	})
 
 	it('worktree next to a .bare dir', () => {
@@ -32,7 +33,8 @@ describe('yved layout (`<project>/main/` checkouts)', () => {
 			gitDir: '/y/kimbia.app/.bare/worktrees/wt-05',
 			remoteUrl,
 		})
-		expect(ctx.db).toBe('kimbia_app_wt_05')
+		expect(ctx.mainDb).toBe('kimbia_app')
+		expect(ctx.ownDb).toBe('kimbia_app_wt_05')
 		expect(ctx.dataDir).toBe(path.join('/y/kimbia.app/.bare', 'kitql-postgres', 'data'))
 	})
 
@@ -46,6 +48,7 @@ describe('parseGitInfo', () => {
 		expect(parseGitInfo({ commonDir: '/dev/kitql/.git', gitDir: '/dev/kitql/.git' })).toEqual({
 			repo: 'kitql',
 			worktree: 'main',
+			isMain: true,
 		})
 	})
 
@@ -61,13 +64,13 @@ describe('parseGitInfo', () => {
 				commonDir: '/dev/kitql/.git',
 				gitDir: '/dev/kitql/.git/worktrees/feat-kitql-postgres',
 			}),
-		).toEqual({ repo: 'kitql', worktree: 'feat-kitql-postgres' })
+		).toEqual({ repo: 'kitql', worktree: 'feat-kitql-postgres', isMain: false })
 	})
 
 	it('bare repo', () => {
 		expect(
 			parseGitInfo({ commonDir: '/dev/kitql.git', gitDir: '/dev/kitql.git/worktrees/fix' }),
-		).toEqual({ repo: 'kitql', worktree: 'fix' })
+		).toEqual({ repo: 'kitql', worktree: 'fix', isMain: false })
 	})
 })
 
@@ -76,7 +79,8 @@ describe('buildContext', () => {
 
 	it('stores everything in the git common dir', () => {
 		const ctx = buildContext(git)
-		expect(ctx.db).toBe('kitql_fix_1')
+		expect(ctx.mainDb).toBe('kitql')
+		expect(ctx.ownDb).toBe('kitql_fix_1')
 		expect(ctx.home).toBe(path.join('/dev/kitql/.git', 'kitql-postgres'))
 		expect(ctx.dataDir).toBe(path.join(ctx.home, 'data'))
 		expect(ctx.stateFile).toBe(path.join(ctx.home, 'state.json'))
@@ -85,7 +89,8 @@ describe('buildContext', () => {
 	it('every worktree shares the same server', () => {
 		const main = buildContext({ commonDir: git.commonDir, gitDir: git.commonDir })
 		expect(main.dataDir).toBe(buildContext(git).dataDir)
-		expect(main.db).toBe('kitql_main')
+		expect(main.mainDb).toBe('kitql')
+		expect(main.ownDb).toBe(undefined)
 	})
 
 	it('KITQL_PG_HOME overrides the location', () => {

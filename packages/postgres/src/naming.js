@@ -20,13 +20,16 @@ export function sanitize(name) {
 }
 
 /**
- * Database name of a worktree: `<repo>_<worktree>`, sanitized.
+ * Database name, sanitized: `<repo>` for main's db (shared by default), `<repo>_<worktree>` for
+ * a worktree's own db.
  * Always a valid unquoted identifier, max 63 chars (long names keep a hash suffix to stay unique).
  * @param {string} repo
- * @param {string} worktree
+ * @param {string} [worktree] omit for main's db
  */
 export function dbName(repo, worktree) {
-	let name = `${sanitize(repo) || 'repo'}_${sanitize(worktree) || 'main'}`
+	const base = sanitize(repo) || 'repo'
+	const wt = worktree === undefined ? '' : sanitize(worktree) || 'wt'
+	let name = wt ? `${base}_${wt}` : base
 	if (STARTS_WITH_DIGIT.test(name)) {
 		name = `db_${name}`
 	}

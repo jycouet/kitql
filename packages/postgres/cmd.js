@@ -7,8 +7,67 @@ import { bold, cyan, gray, green, yellow } from '@kitql/helpers'
 import { parseArgs } from './src/args.js'
 import { findBinDir } from './src/binaries.js'
 import { readConfig } from './src/config.js'
+import { syncEnvFile } from './src/env.js'
 import { resolveContext } from './src/paths.js'
 import { follow, log, PgError, Server } from './src/server.js'
+
+/**
+ * The database this worktree works with: `--db`, `--own`, else its own db if it exists, else
+ * main's (shared by every worktree)
+ * @param {Server} pg
+ * @param {import('./src/args.js').ParsedArgs} opts
+ */
+function currentDb(pg, opts) {
+	const { ctx } = pg
+	if (opts.db) {
+		return opts.db
+	}
+	if (opts.own) {
+		return ownDb(ctx)
+	}
+	// without binaries (url from install scripts) or server, a worktree uses main's db
+	if (ctx.ownDb && pg.binDir && pg.isRunning() && pg.exists(ctx.ownDb)) {
+		return ctx.ownDb
+	}
+	return ctx.mainDb
+}
+
+/** @param {import('./src/paths.js').Context} ctx */
+function ownDb(ctx) {
+	if (!ctx.ownDb) {
+		throw new PgError(`This is the main checkout: its db is ${ctx.mainDb}, there is no "own" db.`)
+	}
+	return ctx.ownDb
+}
+
+/**
+ * `kimbia_app (main's db)`
+ * @param {import('./src/paths.js').Context} ctx
+ * @param {string} db
+ */
+function label(ctx, db) {
+	if (db === ctx.mainDb) {
+		return `${cyan(db)} ${gray("(main's db)")}`
+	}
+	if (db === ctx.ownDb) {
+		return `${cyan(db)} ${gray("(this worktree's own db)")}`
+	}
+	return cyan(db)
+}
+
+/**
+ * Point the checkout .env DATABASE_URL to `db` (only a url of this server)
+ * @param {Server} pg
+ * @param {string} db
+ */
+function syncEnv(pg, db) {
+	const res = syncEnvFile(pg.ctx.root, pg.port, db)
+	if (res) {
+		log.info(`.env DATABASE_URL: ${res.from} -> ${cyan(db)} ${yellow('(restart your dev server)')}`)
+	} else {
+		printUrl(pg, db)
+	}
+}
 
 /**
  * "up and running" + what to put in your .env
@@ -22,9 +81,10 @@ function ready(pg, db, state) {
 		`${cyan(pg.ctx.repo)} server ${state} ${gray(`(PostgreSQL ${version}, port ${pg.port}, ${pg.ctx.dataDir})`)}`,
 	)
 	if (pg.exists(db)) {
+		log.info(`Database: ${label(pg.ctx, db)}`)
 		printUrl(pg, db)
 	} else {
-		log.info(`${cyan(db)} does not exist yet, create it with: ${cyan('kitql-pg init')}`)
+		log.info(`${label(pg.ctx, db)} does not exist yet, create it with: ${cyan('kitql-pg init')}`)
 	}
 }
 
@@ -106,12 +166,11 @@ async function main() {
 		}
 		pg.setPort(opts.port)
 	}
-	const db = opts.db ?? ctx.db
 	const start = Date.now()
 
 	switch (opts.command) {
 		case 'up':
-			return up(pg, db)
+			return up(pg, currentDb(pg, opts))
 
 		case 'stop':
 			if (!pg.isRunning()) {
@@ -125,48 +184,70 @@ async function main() {
 			return 0
 
 		case 'url':
-			console.info(pg.url(db))
+			console.info(pg.url(currentDb(pg, opts)))
 			return 0
 
 		case 'init': {
 			pg.requireRunning()
+			const db = currentDb(pg, opts)
 			const created = pg.create(db, opts.tz)
 			log.success(
-				`${created ? 'Created' : 'Already there:'} ${cyan(db)} ${gray(`(timezone ${pg.timezone(db)})`)}`,
+				`${created ? 'Created' : 'Already there:'} ${label(ctx, db)} ${gray(`(timezone ${pg.timezone(db)})`)}`,
 			)
-			printUrl(pg, db)
+			if (db === ctx.ownDb) {
+				syncEnv(pg, db)
+			} else {
+				printUrl(pg, db)
+			}
 			return 0
 		}
 
 		case 'clone': {
 			pg.requireRunning()
+			const db = opts.db ?? ctx.ownDb ?? ctx.mainDb
 			const source = pg.clone(opts.args[0], db, opts.force)
 			log.success(
-				`Cloned ${cyan(source)} into ${cyan(db)} ${gray(`(timezone ${pg.timezone(db)}) ${elapsed(start)}`)}`,
+				`Cloned ${label(ctx, source)} into ${label(ctx, db)} ${gray(`(timezone ${pg.timezone(db)}) ${elapsed(start)}`)}`,
 			)
-			printUrl(pg, db)
+			if (db === ctx.ownDb) {
+				syncEnv(pg, db)
+			} else {
+				printUrl(pg, db)
+			}
 			return 0
 		}
 
-		case 'drop':
+		case 'drop': {
 			pg.requireRunning()
-			if (pg.drop(db, opts.force)) {
-				log.success(`Dropped ${cyan(db)}`)
-			} else {
-				log.info(`${cyan(db)} does not exist`)
+			const db = opts.db ?? ctx.ownDb ?? ctx.mainDb
+			if (!pg.drop(db, opts.force)) {
+				log.info(
+					db === ctx.ownDb
+						? `This worktree has no own db, it uses ${label(ctx, ctx.mainDb)}. Nothing to drop.`
+						: `${cyan(db)} does not exist`,
+				)
+				return 0
+			}
+			log.success(`Dropped ${label(ctx, db)}`)
+			if (db === ctx.ownDb) {
+				syncEnv(pg, ctx.mainDb)
 			}
 			return 0
+		}
 
 		case 'ls': {
 			pg.requireRunning()
+			const db = currentDb(pg, opts)
 			const dbs = pg.list()
 			const width = Math.max(...dbs.map((d) => d.name.length))
 			console.info(gray(`  ${ctx.repo} server on port ${pg.port} (${ctx.dataDir})`))
 			for (const d of dbs) {
 				const current = d.name === db
 				const name = d.name.padEnd(width)
+				const tag = d.name === ctx.mainDb ? gray("  main's") : ''
 				console.info(
 					`${current ? green('*') : ' '} ${current ? bold(name) : name}  ${d.size.padStart(8)}` +
+						tag +
 						(d.conns ? yellow(`  ${d.conns} connection(s)`) : ''),
 				)
 			}
@@ -175,6 +256,7 @@ async function main() {
 
 		case 'dump': {
 			pg.requireRunning()
+			const db = currentDb(pg, opts)
 			if (!pg.exists(db)) {
 				throw new PgError(`"${db}" does not exist (kitql-pg init?)`)
 			}
@@ -185,7 +267,7 @@ async function main() {
 			if (code !== 0) {
 				throw new PgError(`pg_dump failed (exit ${code})`)
 			}
-			log.success(`Dumped ${cyan(db)} to ${cyan(file)} ${gray(elapsed(start))}`)
+			log.success(`Dumped ${label(ctx, db)} to ${cyan(file)} ${gray(elapsed(start))}`)
 			return 0
 		}
 
@@ -194,6 +276,14 @@ async function main() {
 			const file = path.resolve(opts.args[0])
 			if (!fs.existsSync(file)) {
 				throw new PgError(`File not found: ${file}`)
+			}
+			const db = currentDb(pg, opts)
+			if (!opts.db && !opts.own && ctx.ownDb && db === ctx.mainDb) {
+				throw new PgError(
+					`This worktree uses main's db (${ctx.mainDb}), shared by every worktree. Restore into:\n` +
+						`  - this worktree's own db: kitql-pg restore <file> --own\n` +
+						`  - main's db, for everyone: kitql-pg restore <file> --db ${ctx.mainDb}`,
+				)
 			}
 			pg.assertNotProtected(db)
 			pg.create(db)
@@ -226,13 +316,16 @@ async function main() {
 			if (code !== 0) {
 				throw new PgError(`Restore of ${file} into "${db}" failed (exit ${code})`)
 			}
-			log.success(`Restored ${cyan(file)} into ${cyan(db)} ${gray(elapsed(start))}`)
+			log.success(`Restored ${cyan(file)} into ${label(ctx, db)} ${gray(elapsed(start))}`)
+			if (db === ctx.ownDb) {
+				syncEnv(pg, db)
+			}
 			return 0
 		}
 
 		case 'psql':
 			pg.requireRunning()
-			return pg.interactive('psql', [...pg.conn(db), ...opts.args])
+			return pg.interactive('psql', [...pg.conn(currentDb(pg, opts)), ...opts.args])
 	}
 }
 

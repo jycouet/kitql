@@ -325,14 +325,15 @@ export class Server {
 	}
 
 	/**
-	 * Database name from a db name or a worktree name of the repo
+	 * Database name from a db name, `main`, or a worktree name of the repo
 	 * @param {string} nameOrWorktree
 	 */
 	resolveDb(nameOrWorktree) {
 		if (this.exists(nameOrWorktree)) {
 			return nameOrWorktree
 		}
-		const candidate = dbName(this.ctx.repo, nameOrWorktree)
+		const candidate =
+			nameOrWorktree === 'main' ? this.ctx.mainDb : dbName(this.ctx.repo, nameOrWorktree)
 		if (this.exists(candidate)) {
 			return candidate
 		}

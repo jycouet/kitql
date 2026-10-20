@@ -6,18 +6,14 @@ export const DEFAULT_PORT = 5432
 export const COMMANDS = /** @type {const} */ ({
 	up: ['up', 'start the repo server in the foreground (Ctrl+C stops it)', 0],
 	stop: ['stop', 'stop the repo server (if `up` was killed)', 0],
-	init: ['init', 'create the worktree database (idempotent, timezone UTC)', 0],
-	clone: [
-		'clone <from>',
-		'replace the worktree database by a copy of <from> (db or worktree name)',
-		1,
-	],
-	drop: ['drop', 'drop the worktree database', 0],
+	init: ['init', 'create the database if needed (idempotent, timezone UTC)', 0],
+	clone: ['clone <from>', 'give this worktree its own db, a copy of <from> (main, worktree, db)', 1],
+	drop: ['drop', "drop this worktree's own db (it goes back to main's)", 0],
 	ls: ['ls', 'list databases of the server', 0],
-	dump: ['dump [file]', 'pg_dump the worktree database (default: <db>.dump)', 0],
-	restore: ['restore <file>', 'restore a dump (.dump or .sql) into the worktree database', 1],
-	psql: ['psql [-- args]', 'open psql on the worktree database', 0],
-	url: ['url', 'print the connection url of the worktree database', 0],
+	dump: ['dump [file]', 'pg_dump the database (default: <db>.dump)', 0],
+	restore: ['restore <file>', 'restore a dump (.dump or .sql), all or nothing', 1],
+	psql: ['psql [-- args]', 'open psql on the database', 0],
+	url: ['url', 'print the connection url of the database', 0],
 })
 
 /** @typedef {keyof typeof COMMANDS} Command */
@@ -25,7 +21,7 @@ export const COMMANDS = /** @type {const} */ ({
 const cliConfig = {
 	name: 'kitql-pg',
 	description: [
-		'Local PostgreSQL: one server per repo, one database per worktree.',
+		"Local PostgreSQL: one server per repo. Worktrees use main's database, or their own one.",
 		'',
 		'Usage: kitql-pg <command> [options]',
 		'',
@@ -37,7 +33,13 @@ const cliConfig = {
 		db: {
 			type: /** @type {const} */ ('string'),
 			short: 'd',
-			description: 'target database (default: the worktree one)',
+			description: "target database (default: the worktree's own db if any, else main's)",
+		},
+		own: {
+			type: /** @type {const} */ ('boolean'),
+			short: 'o',
+			default: false,
+			description: "target this worktree's own db (init / restore create it)",
 		},
 		port: {
 			type: /** @type {const} */ ('string'),
@@ -64,6 +66,7 @@ const cliConfig = {
  * @property {string | undefined} db
  * @property {number | undefined} port
  * @property {boolean} force
+ * @property {boolean} own
  * @property {string | undefined} tz
  * @property {string} help
  */
@@ -89,6 +92,7 @@ export function parseArgs(argv) {
 			db: undefined,
 			port: undefined,
 			force: false,
+			own: false,
 			tz: undefined,
 			help,
 		}
@@ -119,6 +123,7 @@ export function parseArgs(argv) {
 		db: /** @type {string | undefined} */ (values.db),
 		port,
 		force: Boolean(values.force),
+		own: Boolean(values.own),
 		tz: /** @type {string | undefined} */ (values.tz),
 		help,
 	}
