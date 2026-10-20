@@ -5,6 +5,13 @@
   "author": "jycouet <jycouet@gmail.com>",
   "license": "MIT",
   "packageManager": "pnpm@11.2.2",
+  "devEngines": {
+    "runtime": {
+      "name": "node",
+      "version": "24.22.0",
+      "onFail": "download"
+    }
+  },
   "scripts": {
     "build": "pnpm -F \"!docs\" build",
     "release:version": "npm run changeset version",
