@@ -263,7 +263,7 @@ export class Server {
 	connections(db) {
 		return this.sql(
 			`SELECT pid, coalesce(nullif(application_name, ''), '?') FROM pg_stat_activity ` +
-				`WHERE datname = ${quoteLiteral(db)} AND pid <> pg_backend_pid()`,
+				`WHERE datname = ${quoteLiteral(db)} AND pid <> pg_backend_pid() AND backend_type = 'client backend'`,
 		).map(([pid, app]) => ({ pid: Number(pid), app }))
 	}
 
@@ -271,7 +271,7 @@ export class Server {
 	terminate(db) {
 		this.sql(
 			`SELECT pg_terminate_backend(pid) FROM pg_stat_activity ` +
-				`WHERE datname = ${quoteLiteral(db)} AND pid <> pg_backend_pid()`,
+				`WHERE datname = ${quoteLiteral(db)} AND pid <> pg_backend_pid() AND backend_type = 'client backend'`,
 		)
 	}
 
@@ -422,7 +422,7 @@ export class Server {
 	list() {
 		return this.sql(
 			`SELECT d.datname, pg_size_pretty(pg_database_size(d.datname)), ` +
-				`(SELECT count(*) FROM pg_stat_activity a WHERE a.datname = d.datname AND a.pid <> pg_backend_pid()) ` +
+				`(SELECT count(*) FROM pg_stat_activity a WHERE a.datname = d.datname AND a.pid <> pg_backend_pid() AND a.backend_type = 'client backend') ` +
 				`FROM pg_database d WHERE NOT d.datistemplate ORDER BY 1`,
 		).map(([name, size, conns]) => ({ name, size, conns: Number(conns) }))
 	}

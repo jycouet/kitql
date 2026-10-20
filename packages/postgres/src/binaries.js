@@ -37,13 +37,18 @@ export function cacheRoot(opts = {}) {
 }
 
 /**
- * Where are the PostgreSQL binaries?
- * 1. `KITQL_PG_BIN` env (a `bin` folder of any PostgreSQL install)
- * 2. the per-user cache, downloaded on first use (then it works offline)
- * @param {{ env?: Record<string, string | undefined>, platform?: string, arch?: string }} [opts]
- * @returns {Promise<{ binDir: string, source: string }>}
+ * @typedef {object} BinOptions
+ * @property {Record<string, string | undefined>} [env]
+ * @property {string} [platform]
+ * @property {string} [arch]
  */
-export async function findBinDir(opts = {}) {
+
+/**
+ * Binaries already there (`KITQL_PG_BIN` or the cache), without downloading
+ * @param {BinOptions} [opts]
+ * @returns {{ binDir: string, source: string } | { missing: { target: import('./platforms.js').Target, dir: string } }}
+ */
+function locate(opts = {}) {
 	const env = opts.env ?? process.env
 	const platform = opts.platform ?? process.platform
 	const arch = opts.arch ?? process.arch
@@ -66,7 +71,32 @@ export async function findBinDir(opts = {}) {
 	const target = /** @type {import('./platforms.js').Target} */ (key)
 	const dir = path.join(cacheRoot({ env, platform }), `${PG_VERSION}-${key}`)
 	if (!fs.existsSync(path.join(dir, '.complete'))) {
-		await install({ version: PG_VERSION, target, dir })
+		return { missing: { target, dir } }
 	}
 	return { binDir: path.join(dir, 'bin'), source: dir }
+}
+
+/**
+ * Where are the PostgreSQL binaries?
+ * 1. `KITQL_PG_BIN` env (a `bin` folder of any PostgreSQL install)
+ * 2. the per-user cache, downloaded on first use (then it works offline)
+ * @param {BinOptions} [opts]
+ * @returns {Promise<{ binDir: string, source: string }>}
+ */
+export async function findBinDir(opts = {}) {
+	const found = locate(opts)
+	if ('missing' in found) {
+		await install({ version: PG_VERSION, ...found.missing })
+		return { binDir: path.join(found.missing.dir, 'bin'), source: found.missing.dir }
+	}
+	return found
+}
+
+/**
+ * The binaries if they are already there, never downloads (for quick commands like `url`)
+ * @param {BinOptions} [opts]
+ */
+export function installedBinDir(opts = {}) {
+	const found = locate(opts)
+	return 'missing' in found ? undefined : found.binDir
 }

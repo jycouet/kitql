@@ -5,7 +5,7 @@ import path from 'node:path'
 import { bold, cyan, gray, green, yellow } from '@kitql/helpers'
 
 import { parseArgs } from './src/args.js'
-import { findBinDir } from './src/binaries.js'
+import { findBinDir, installedBinDir } from './src/binaries.js'
 import { readConfig } from './src/config.js'
 import { syncEnvFile } from './src/env.js'
 import { resolveContext } from './src/paths.js'
@@ -157,8 +157,8 @@ async function main() {
 
 	const ctx = resolveContext(process.cwd(), process.env)
 	const config = ctx.root ? readConfig(ctx.root) : {}
-	// url only needs the port: no binaries, so install scripts can use it
-	const binDir = opts.command === 'url' ? '' : (await findBinDir()).binDir
+	// url never downloads (install scripts use it): without binaries, it gives main's db
+	const binDir = opts.command === 'url' ? (installedBinDir() ?? '') : (await findBinDir()).binDir
 	const pg = new Server(binDir, ctx, config)
 	if (opts.port && opts.port !== pg.port) {
 		if (opts.command !== 'up') {
