@@ -1,0 +1,65 @@
+---
+title: 🐘 @kitql/postgres
+description: Local PostgreSQL for dev, one server per repo, one database per worktree
+---
+
+import { Aside } from '@astrojs/starlight/components'
+
+A local PostgreSQL server as a **dev dependency**: no system install, no docker, no devbox. It works
+offline once in your package manager store, on Windows, Linux (incl. WSL) and macOS.
+
+- **One server per repo**: its data lives in the main worktree (`.git/kitql-postgres`), so every
+  git worktree reuses the same server, on a fixed port.
+- **One database per worktree**: named `<repo>_<worktree>`, every command targets the current
+  worktree's database by default.
+
+## Installation
+
+```sh
+npm i -D @kitql/postgres
+```
+
+## Usage
+
+```sh
+kitql-postgres up      # start the server in the foreground (Ctrl+C stops it cleanly)
+kitql-postgres init    # in another terminal: create this worktree's database
+```
+
+`init` is idempotent, sets the database timezone to UTC and prints the url to put in your `.env`:
+
+```sh
+DATABASE_URL=postgres://postgres:postgres@localhost:5432/myapp_main
+```
+
+| Command          | What it does                                                         |
+| ---------------- | -------------------------------------------------------------------- |
+| `up`             | create the cluster if needed and start it (foreground)               |
+| `stop`           | stop the server (when the `up` terminal was killed)                  |
+| `init`           | create the worktree database (idempotent, timezone UTC)              |
+| `clone <from>`   | replace the worktree database by a copy of `<from>` (db or worktree) |
+| `drop`           | drop the worktree database                                           |
+| `ls`             | list databases (`*` = current worktree)                              |
+| `dump [file]`    | `pg_dump -Fc` (default file: `<db>.dump`)                            |
+| `restore <file>` | restore a `.dump` (pg_restore) or `.sql` (psql) in the worktree db   |
+| `psql [-- args]` | open psql on the worktree database                                   |
+| `url`            | print the connection url                                             |
+
+Options: `-d, --db <name>` to target another database, `-p, --port <port>` (on `up`, remembered
+for the repo), `-f, --force`.
+
+<Aside type="tip">
+	`clone` uses `CREATE DATABASE x TEMPLATE y`: instant, even for big databases. The source must have
+	no open connection: stop your dev server / psql, or use `--force` to close them.
+</Aside>
+
+## Binaries
+
+PostgreSQL comes from
+[theseus-rs/postgresql-binaries](https://github.com/theseus-rs/postgresql-binaries), shipped the
+esbuild way: one `@kitql/postgres-<os>-<cpu>` package per platform (`win32-x64`, `linux-x64`,
+`linux-arm64`, `darwin-arm64`, `darwin-x64`) as `optionalDependencies`. Your package manager only
+installs the one matching your machine, and nothing is downloaded at install or run time.
+
+To use another PostgreSQL (the system one, another version...), point `KITQL_PG_BIN` to its `bin`
+folder. `KITQL_PG_HOME` moves the data folder.

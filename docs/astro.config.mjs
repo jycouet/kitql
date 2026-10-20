@@ -76,6 +76,10 @@ export default defineConfig({
 							label: 'eslint-config & oxfmt',
 							link: '/docs/tools/08_eslint-config',
 						},
+						{
+							label: 'postgres',
+							link: '/docs/tools/11_postgres',
+						},
 					],
 				},
 			],

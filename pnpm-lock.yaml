@@ -176,6 +176,13 @@ catalogs:
       specifier: 8.3.4
       version: 8.3.4
 
+overrides:
+  '@kitql/postgres-darwin-arm64': link:./packages/postgres/platforms/darwin-arm64
+  '@kitql/postgres-darwin-x64': link:./packages/postgres/platforms/darwin-x64
+  '@kitql/postgres-linux-arm64': link:./packages/postgres/platforms/linux-arm64
+  '@kitql/postgres-linux-x64': link:./packages/postgres/platforms/linux-x64
+  '@kitql/postgres-win32-x64': link:./packages/postgres/platforms/win32-x64
+
 importers:
 
   .:
@@ -459,6 +466,35 @@ importers:
         specifier: catalog:testing
         version: 4.1.4(@types/node@24.12.0)(@vitest/browser-playwright@4.1.4)(@vitest/coverage-v8@4.1.4)(@vitest/ui@4.1.4)(vite@8.3.4(@types/node@24.12.0)(esbuild@0.28.0)(yaml@2.9.1))
     publishDirectory: dist
+
+  packages/postgres:
+    dependencies:
+      '@kitql/helpers':
+        specifier: workspace:^
+        version: link:../helpers/dist
+    devDependencies:
+      '@vitest/coverage-v8':
+        specifier: catalog:testing
+        version: 4.1.4(@vitest/browser@4.1.4)(vitest@4.1.4)
+      vitest:
+        specifier: catalog:testing
+        version: 4.1.4(@types/node@24.12.0)(@vitest/browser-playwright@4.1.4)(@vitest/coverage-v8@4.1.4)(@vitest/ui@4.1.4)(vite@8.3.4(@types/node@24.12.0)(esbuild@0.28.0)(yaml@2.9.1))
+    optionalDependencies:
+      '@kitql/postgres-darwin-arm64':
+        specifier: link:platforms/darwin-arm64
+        version: link:platforms/darwin-arm64
+      '@kitql/postgres-darwin-x64':
+        specifier: link:platforms/darwin-x64
+        version: link:platforms/darwin-x64
+      '@kitql/postgres-linux-arm64':
+        specifier: link:platforms/linux-arm64
+        version: link:platforms/linux-arm64
+      '@kitql/postgres-linux-x64':
+        specifier: link:platforms/linux-x64
+        version: link:platforms/linux-x64
+      '@kitql/postgres-win32-x64':
+        specifier: link:platforms/win32-x64
+        version: link:platforms/win32-x64
 
   packages/sveltekit:
     devDependencies:
