@@ -99,16 +99,21 @@ function template(binDir) {
 	if (fs.existsSync(path.join(dir, 'PG_VERSION'))) {
 		return dir
 	}
-	const home = fs.mkdtempSync(path.join(os.tmpdir(), PREFIX))
+	// built next to `dir`: a rename across filesystems (/tmp -> ~/.cache) fails with EXDEV
+	fs.mkdirSync(path.dirname(dir), { recursive: true })
+	const home = fs.mkdtempSync(`${dir}-`)
 	const pg = testServer(binDir, home)
 	pg.ensureCluster({ conf: TEST_CONF, quiet: true })
-	fs.mkdirSync(path.dirname(dir), { recursive: true })
 	try {
 		fs.renameSync(pg.ctx.dataDir, dir)
-	} catch {
+	} catch (e) {
+		if (!fs.existsSync(path.join(dir, 'PG_VERSION'))) {
+			throw e
+		}
 		// another run made it first
+	} finally {
+		fs.rmSync(home, { recursive: true, force: true })
 	}
-	fs.rmSync(home, { recursive: true, force: true })
 	return dir
 }
 
@@ -126,6 +131,8 @@ export async function startTestServer() {
 	const pg = testServer(binDir, home)
 	pg.port = await freePort()
 	fs.cpSync(template(binDir), pg.ctx.dataDir, { recursive: true })
+	// the copy is created with the umask (0755): postgres refuses to start on more than 0750
+	fs.chmodSync(pg.ctx.dataDir, 0o700)
 	pg.start()
 
 	let stopped = false
