@@ -1,5 +1,11 @@
 # @kitql/postgres
 
+## 0.2.0
+
+### Minor Changes
+
+- [#1353](https://github.com/jycouet/kitql/pull/1353) [`edd90b6`](https://github.com/jycouet/kitql/commit/edd90b68309bec84a85549ad82c1e0328d7929b3) Thanks [@jycouet](https://github.com/jycouet)! - `startTestServer()` from `@kitql/postgres/test`: a throwaway server for a test run (temp data dir, free port, `fsync = off`), started from a cached template cluster.
+
 ## 0.1.0
 
 ### Minor Changes
