@@ -7,7 +7,7 @@ import { gray, green, Log } from '@kitql/helpers'
 import { parseCli } from '@kitql/helpers/server'
 
 import { findFileOrUp } from './helper/findFileOrUp.js'
-import { buildEslintCmd, buildOxfmtCmd, buildOxlintCmd } from './src/buildCommands.js'
+import { buildEslintCmd, buildOxfmtCmd, buildOxlintCmd, quoteFiles } from './src/buildCommands.js'
 
 /** @type {('eslint' | 'oxlint' | 'tsgolint' | 'oxfmt')[]} */
 const TOOLS_ALL = ['eslint', 'oxlint', 'tsgolint', 'oxfmt']
@@ -295,8 +295,7 @@ async function getDiffFiles() {
 			log.info(`Found ${filesLength} changed files at or below current directory`)
 		}
 
-		// Format the files for the command line, wrapping each in quotes and joining with spaces
-		return files.length > 0 ? files.map((f) => `'${f}'`).join(' ') : null
+		return files.length > 0 ? quoteFiles(files) : null
 	} catch (error) {
 		if (error instanceof Error) log.error(`Error getting changed files: ${error.message}`)
 		return null
