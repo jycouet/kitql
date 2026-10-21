@@ -12,6 +12,8 @@ import { defineConfig } from 'astro/config'
 // https://astro.build/config
 export default defineConfig({
 	vite: {},
+	// astro 6.4 leaves gfm undefined, so mdx skips remark-gfm (no tables)
+	markdown: { gfm: true },
 	site: 'https://kitql.dev',
 	integrations: [
 		starlight({
