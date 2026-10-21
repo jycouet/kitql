@@ -30,6 +30,20 @@ for (let i = 0; i < packages.length; i++) {
 	}
 }
 
+// resolve `catalog:` specs here: pnpm on Windows doesn't see the workspace catalogs from dist/ (publint's pack fails)
+const catalogs = JSON.parse(execSync('pnpm config get catalogs', { encoding: 'utf-8' }))
+for (const field of ['dependencies', 'peerDependencies', 'optionalDependencies']) {
+	for (const [name, spec] of Object.entries(pkg[field] ?? {})) {
+		if (!spec.startsWith('catalog:')) continue
+		const version = catalogs[spec.slice('catalog:'.length) || 'default']?.[name]
+		if (!version) {
+			console.error(`No catalog entry for "${name}": "${spec}"`)
+			exit(1)
+		}
+		pkg[field][name] = version
+	}
+}
+
 // adjust pkg json however you like ...
 delete pkg.publishConfig
 delete pkg.scripts
