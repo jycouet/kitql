@@ -30,6 +30,20 @@ for (let i = 0; i < packages.length; i++) {
 	}
 }
 
+// resolve `catalog:` specs here: pnpm on Windows doesn't see the workspace catalogs from dist/ (publint's pack fails)
+const catalogs = JSON.parse(execSync('pnpm config get catalogs', { encoding: 'utf-8' }))
+for (const field of ['dependencies', 'peerDependencies', 'optionalDependencies']) {
+	for (const [name, spec] of Object.entries(pkg[field] ?? {})) {
+		if (!spec.startsWith('catalog:')) continue
+		const version = catalogs[spec.slice('catalog:'.length) || 'default']?.[name]
+		if (!version) {
+			console.error(`No catalog entry for "${name}": "${spec}"`)
+			exit(1)
+		}
+		pkg[field][name] = version
+	}
+}
+
 // adjust pkg json however you like ...
 delete pkg.publishConfig
 delete pkg.scripts
@@ -42,7 +56,7 @@ pkg.scripts = {
 }
 
 // let's move dist to another layer of dist!
-execSync(`rm -rf ${path.join(packageDirPath, tmpFolder)}`)
+fs.rmSync(path.join(packageDirPath, tmpFolder), { recursive: true, force: true })
 fs.mkdirSync(path.join(packageDirPath, tmpFolder))
 fs.writeFileSync(path.join(packageDirPath, tmpFolder, 'package.json'), JSON.stringify(pkg, null, 2))
 copy(path.join(packageDirPath, 'dist'), path.join(packageDirPath, tmpFolder, 'esm'), {}, [])
@@ -61,7 +75,7 @@ for (const item of toCopy) {
 	fs.writeFileSync(to, fs.readFileSync(from, 'utf-8'))
 }
 
-execSync(`rm -rf ${path.join(packageDirPath, 'dist')}`)
+fs.rmSync(path.join(packageDirPath, 'dist'), { recursive: true, force: true })
 fs.renameSync(path.join(packageDirPath, tmpFolder), path.join(packageDirPath, 'dist'))
 
 // now cjs
