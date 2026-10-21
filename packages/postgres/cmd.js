@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 import fs from 'node:fs'
+import os from 'node:os'
 import path from 'node:path'
 
 import { bold, cyan, gray, green, yellow } from '@kitql/helpers'
@@ -9,6 +10,7 @@ import { findBinDir, installedBinDir } from './src/binaries.js'
 import { syncEnvFile, syncEnvOrigin, webUrl } from './src/env.js'
 import { dbName } from './src/naming.js'
 import { resolveContext } from './src/paths.js'
+import { skipMissingExtensions } from './src/restore.js'
 import { follow, log, PgError, Server } from './src/server.js'
 import { isListening, webPorts } from './src/web.js'
 
@@ -31,6 +33,30 @@ function currentDb(pg, opts) {
 		return ctx.ownDb
 	}
 	return ctx.mainDb
+}
+
+/**
+ * Skip extensions this server doesn't ship (e.g. uuid-ossp), else the whole restore fails.
+ * Returns a `pg_restore -L` list file, or undefined when nothing is skipped.
+ * @param {Server} pg
+ * @param {string} file
+ */
+function extensionFilter(pg, file) {
+	const res = pg.exec('pg_restore', ['-l', file])
+	if (res.status !== 0) {
+		throw new PgError(`pg_restore -l failed: ${res.stderr.trim()}`)
+	}
+	const available = pg.sql('SELECT name FROM pg_available_extensions').map(([name]) => name)
+	const { list, skipped } = skipMissingExtensions(res.stdout, available)
+	if (skipped.length === 0) {
+		return undefined
+	}
+	for (const ext of skipped) {
+		log.info(yellow(`Skipping extension "${ext}": not available here, objects using it will fail`))
+	}
+	const listFile = path.join(os.tmpdir(), `kitql-pg-restore-${process.pid}.list`)
+	fs.writeFileSync(listFile, list)
+	return listFile
 }
 
 /** @param {import('./src/paths.js').Context} ctx */
@@ -395,28 +421,32 @@ async function main() {
 			const magic = Buffer.alloc(5)
 			fs.readSync(fd, magic, 0, 5, 0)
 			fs.closeSync(fd)
-			const code =
-				magic.toString() === 'PGDMP'
-					? await pg.interactive('pg_restore', [
+			const custom = magic.toString() === 'PGDMP'
+			const listFile = custom ? extensionFilter(pg, file) : undefined
+			const code = custom
+				? await pg
+						.interactive('pg_restore', [
 							// all or nothing, and no WAL for the data (wal_level = minimal)
 							'--single-transaction',
 							'--clean',
 							'--if-exists',
 							'--no-owner',
 							'--no-acl',
+							...(listFile ? ['-L', listFile] : []),
 							...pg.conn(db),
 							file,
 						])
-					: await pg.interactive('psql', [
-							'-X',
-							'-q',
-							'--single-transaction',
-							'-v',
-							'ON_ERROR_STOP=1',
-							...pg.conn(db),
-							'-f',
-							file,
-						])
+						.finally(() => listFile && fs.rmSync(listFile, { force: true }))
+				: await pg.interactive('psql', [
+						'-X',
+						'-q',
+						'--single-transaction',
+						'-v',
+						'ON_ERROR_STOP=1',
+						...pg.conn(db),
+						'-f',
+						file,
+					])
 			if (code !== 0) {
 				throw new PgError(`Restore of ${file} into "${db}" failed (exit ${code})`)
 			}
