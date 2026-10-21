@@ -460,6 +460,19 @@ importers:
         version: 4.1.4(@types/node@24.12.0)(@vitest/browser-playwright@4.1.4)(@vitest/coverage-v8@4.1.4)(@vitest/ui@4.1.4)(vite@8.3.4(@types/node@24.12.0)(esbuild@0.28.0)(yaml@2.9.1))
     publishDirectory: dist
 
+  packages/postgres:
+    dependencies:
+      '@kitql/helpers':
+        specifier: workspace:^
+        version: link:../helpers/dist
+    devDependencies:
+      '@vitest/coverage-v8':
+        specifier: catalog:testing
+        version: 4.1.4(@vitest/browser@4.1.4)(vitest@4.1.4)
+      vitest:
+        specifier: catalog:testing
+        version: 4.1.4(@types/node@24.12.0)(@vitest/browser-playwright@4.1.4)(@vitest/coverage-v8@4.1.4)(@vitest/ui@4.1.4)(vite@8.3.4(@types/node@24.12.0)(esbuild@0.28.0)(yaml@2.9.1))
+
   packages/sveltekit:
     devDependencies:
       '@sveltejs/adapter-node':

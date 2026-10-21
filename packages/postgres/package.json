@@ -1,0 +1,52 @@
+{
+	"name": "@kitql/postgres",
+	"version": "0.0.0",
+	"type": "module",
+	"description": "local PostgreSQL for dev: one server per repo, one database per worktree, no system install",
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/jycouet/kitql.git",
+		"directory": "packages/postgres",
+		"homepage": "https://github.com/jycouet/kitql/tree/main/packages/postgres"
+	},
+	"homepage": "https://www.kitql.dev/",
+	"funding": "https://github.com/sponsors/jycouet",
+	"license": "MIT",
+	"bin": {
+		"kitql-pg": "./cmd.js"
+	},
+	"files": [
+		"cmd.js",
+		"src/*.js",
+		"!src/*.test.js"
+	],
+	"keywords": [
+		"cli",
+		"postgres",
+		"postgresql",
+		"database",
+		"worktree",
+		"devbox"
+	],
+	"scripts": {
+		"lint": "kitql-lint -p pnpm",
+		"lint:full": "kitql-lint -p pnpm -t eslint,oxlint,tsgolint,oxfmt",
+		"format": "kitql-lint --format",
+		"test": "vitest",
+		"test:ci": "vitest run --coverage"
+	},
+	"dependencies": {
+		"@kitql/helpers": "workspace:^"
+	},
+	"devDependencies": {
+		"@vitest/coverage-v8": "catalog:testing",
+		"vitest": "catalog:testing"
+	},
+	"engines": {
+		"node": ">=20"
+	},
+	"publishConfig": {
+		"access": "public"
+	},
+	"sideEffects": false
+}

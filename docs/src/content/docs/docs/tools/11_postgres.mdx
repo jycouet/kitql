@@ -1,0 +1,150 @@
+---
+title: 🐘 @kitql/postgres
+description: Local PostgreSQL for dev, one server per repo, worktrees on main's database or their own
+---
+
+import { Aside } from '@astrojs/starlight/components'
+
+A local PostgreSQL server as a **dev dependency**: no system install, no docker, no devbox. It works
+offline after the first run, on Windows, Linux (incl. WSL) and macOS.
+
+- **One server per repo**, on its own port: its data lives in the main worktree
+  (`.git/kitql-postgres`), so every git worktree reuses the same server.
+- **Worktrees share main's database** (named after the repo) by default. A worktree that needs its
+  own (migration, destructive test...) gets `<repo>_<worktree>` with one command.
+
+## Installation
+
+```sh
+npm i -D @kitql/postgres
+```
+
+Give the project its port in `package.json`, for the whole team (default: 5432):
+
+```json
+{
+	"kitql-pg": { "port": 5435 }
+}
+```
+
+Main's database is named after the `origin` remote (`my.app` → `my_app`), or the folder without a
+remote. To choose it: `"kitql-pg": { "port": 5435, "db": "my_app" }`. A worktree's own database is
+then `my_app_<worktree>`.
+
+## Usage
+
+```sh
+kitql-pg up      # start the server in the foreground (Ctrl+C stops it cleanly)
+kitql-pg init    # in another terminal: create main's database
+```
+
+`up` tells you when it is up and running, and which url to put in your `.env`:
+
+```sh
+✔ myapp server up and running (PostgreSQL 18.6, port 5435, ~/code/myapp/.git/kitql-postgres/data)
+  Database: myapp (main's db)
+  DATABASE_URL=postgres://postgres:postgres@localhost:5435/myapp
+```
+
+`init` is idempotent and sets the database timezone to UTC. Want another one?
+`kitql-pg init --tz Europe/Paris`: it is kept by the next `init` and copied by `clone`.
+
+| Command          | What it does                                                            |
+| ---------------- | ----------------------------------------------------------------------- |
+| `up`             | create the cluster if needed and start it (foreground)                  |
+| `stop`           | stop the server (when the `up` terminal was killed)                     |
+| `init`           | create the database (idempotent, timezone UTC)                          |
+| `clone <from>`   | give the worktree its own db, a copy of `<from>` (`main`, worktree, db) |
+| `drop`           | drop the worktree's own db, it goes back to main's                      |
+| `ls`             | list databases (`*` = the one this worktree uses)                       |
+| `dump [file]`    | `pg_dump -Fc -Z zstd` (default file: `<db>.dump`)                       |
+| `restore <file>` | restore a `.dump` (pg_restore) or `.sql` (psql), all or nothing         |
+| `psql [-- args]` | open psql on the database                                               |
+| `url`            | print the connection url                                                |
+| `status`         | web port, db, links, logs of the worktree and the others (`--json`)     |
+
+Options: `-d, --db <name>` to target another database, `-o, --own` the worktree's own one,
+`-p, --port <port>` (on `up`: local override of the package.json port, remembered), `--tz <zone>`
+(on `init`), `-f, --force`.
+
+## Worktrees
+
+Every worktree uses main's database, nothing to do. When a worktree is about to write to it
+(migration, backfill, destructive test...), give it its own:
+
+```sh
+kitql-pg clone main           # myapp_<worktree>, a copy of main's db
+kitql-pg restore <file> --own # or: from a dump
+kitql-pg drop                 # done: drop it, back to main's db
+```
+
+The worktree then uses its own database for every command, and its `.env` `DATABASE_URL` is
+updated (only a url pointing at this server): restart your dev server.
+
+<Aside type="tip">
+	`clone` uses `CREATE DATABASE x TEMPLATE y STRATEGY FILE_COPY`: the source must have no open
+	connection. Stop your dev server / psql, or use `--force` to close them.
+</Aside>
+
+### Dev server ports
+
+Running several worktrees at once? Give main's dev server port, and the links worth opening:
+
+```json
+{
+	"kitql-pg": { "port": 5435, "web": 5173, "links": ["/?login-as=admin"] }
+}
+```
+
+Each worktree gets its own port (main: `5173`, the others the next free ones, kept), written by
+`status` and `up` in its `.env` `ORIGIN` (only a localhost one). Your dev server must read its port
+there. `kitql-pg status` then tells what the worktree uses, and what the others run:
+
+```sh
+myapp · feat-gps ~/code/myapp-feat-gps
+  web    http://localhost:5175  not running
+  db     myapp_feat_gps (this worktree's own db) on port 5435  running
+         DATABASE_URL=postgres://postgres:postgres@localhost:5435/myapp_feat_gps
+  link   http://localhost:5175/?login-as=admin
+  logs   db: ~/code/myapp/.git/kitql-postgres/postgres.log
+  worktrees (web port, db on port 5435):
+    main      :5173  running      myapp
+    fix-a     :5174  running      myapp
+  * feat-gps  :5175  not running  myapp_feat_gps
+```
+
+`kitql-pg status --json` gives the same for scripts and AI agents.
+
+## Speed
+
+The server is tuned for dev (`wal_level = minimal`, `synchronous_commit = off`, bigger WAL and
+`maintenance_work_mem`; `fsync` stays on, so no corruption risk), `dump` uses zstd and `restore`
+runs in a single transaction (all or nothing). On Windows, for a 680 MB database (3M rows,
+4 indexes, 1 FK):
+
+| Command   | Time | Plain PostgreSQL defaults |
+| --------- | ---- | ------------------------- |
+| `dump`    | 6s   | 24s (gzip)                |
+| `restore` | 22s  | 36s                       |
+| `clone`   | 7s   | 22s                       |
+
+## Several projects
+
+Each repo has its own server, data and port (`package.json` `"kitql-pg": { "port": ... }`), so they run
+side by side:
+
+```sh
+cd ~/code/app-a && kitql-pg up   # 5432 (default)
+cd ~/code/app-b && kitql-pg up   # 5435, at the same time
+```
+
+## Binaries
+
+On first use, `kitql-pg` downloads PostgreSQL 18.6 from
+[theseus-rs/postgresql-binaries](https://github.com/theseus-rs/postgresql-binaries) for your
+platform (`win32-x64`, `linux-x64`, `linux-arm64`, `darwin-arm64`, `darwin-x64`), checks its
+pinned sha256 and keeps it in a per-user cache shared by all your projects (only the binaries are
+shared). After that first run, everything works offline.
+
+To use another PostgreSQL (the system one, another version...), point `KITQL_PG_BIN` to its `bin`
+folder. `KITQL_PG_CACHE` moves the binaries cache, `KITQL_PG_HOME` the data folder.
