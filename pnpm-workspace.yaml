@@ -98,3 +98,6 @@ catalogs:
   astro: 6.4.8
   astro-icon: 1.2.0
   sharp: 0.35.5
+
+# Run package.json scripts with pnpm's portable shell (`rm -rf` works on Windows too).
+shellEmulator: true
