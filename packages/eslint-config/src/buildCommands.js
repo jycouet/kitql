@@ -3,6 +3,8 @@
  * Extracted so they can be unit-tested without spawning processes.
  */
 
+const REGEX_POSIX_DQUOTE_SPECIAL = /["$`\\]/g
+
 /**
  * @typedef {Object} BuildOptions
  * @property {string[]} tools - selected tools
@@ -49,4 +51,17 @@ export function buildOxfmtCmd(opts) {
 		` --no-error-on-unmatched-pattern` +
 		` ${glob}`
 	)
+}
+
+/**
+ * Double quotes: cmd.exe (spawn's shell on Windows) keeps single quotes literally.
+ * @param {string[]} files
+ * @param {string} [platform]
+ */
+export function quoteFiles(files, platform = process.platform) {
+	return files
+		.map((f) =>
+			platform === 'win32' ? `"${f}"` : `"${f.replace(REGEX_POSIX_DQUOTE_SPECIAL, '\\$&')}"`,
+		)
+		.join(' ')
 }

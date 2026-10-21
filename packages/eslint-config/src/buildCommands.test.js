@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 
-import { buildEslintCmd, buildOxfmtCmd, buildOxlintCmd } from './buildCommands.js'
+import { buildEslintCmd, buildOxfmtCmd, buildOxlintCmd, quoteFiles } from './buildCommands.js'
 
 const base = {
 	tools: ['eslint', 'oxfmt'],
@@ -70,5 +70,17 @@ describe('buildOxfmtCmd', () => {
 		const cmd = buildOxfmtCmd({ ...base, pathPrettierIgnore: undefined, pathOxfmtrc: undefined })
 		expect(cmd).not.toContain('--ignore-path')
 		expect(cmd).not.toContain('--config')
+	})
+})
+
+describe('quoteFiles', () => {
+	it('uses double quotes on win32 (cmd.exe keeps single quotes)', () => {
+		expect(quoteFiles(['package.json', String.raw`src\a b.js`], 'win32')).toBe(
+			String.raw`"package.json" "src\a b.js"`,
+		)
+	})
+
+	it('escapes shell specials on posix', () => {
+		expect(quoteFiles(['a b.js', 'x"$`\\.js'], 'linux')).toBe('"a b.js" "x\\"\\$\\`\\\\.js"')
 	})
 })
