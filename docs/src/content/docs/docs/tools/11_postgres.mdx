@@ -57,6 +57,7 @@ kitql-pg init    # in another terminal: create main's database
 | `restore <file>` | restore a `.dump` (pg_restore) or `.sql` (psql), all or nothing         |
 | `psql [-- args]` | open psql on the database                                               |
 | `url`            | print the connection url                                                |
+| `status`         | web port, db, links, logs of the worktree and the others (`--json`)     |
 
 Options: `-d, --db <name>` to target another database, `-o, --own` the worktree's own one,
 `-p, --port <port>` (on `up`: local override of the package.json port, remembered), `--tz <zone>`
@@ -80,6 +81,35 @@ updated (only a url pointing at this server): restart your dev server.
 	`clone` uses `CREATE DATABASE x TEMPLATE y STRATEGY FILE_COPY`: the source must have no open
 	connection. Stop your dev server / psql, or use `--force` to close them.
 </Aside>
+
+### Dev server ports
+
+Running several worktrees at once? Give main's dev server port, and the links worth opening:
+
+```json
+{
+	"kitql-pg": { "port": 5435, "web": 5173, "links": ["/?login-as=admin"] }
+}
+```
+
+Each worktree gets its own port (main: `5173`, the others the next free ones, kept), written by
+`status` and `up` in its `.env` `ORIGIN` (only a localhost one). Your dev server must read its port
+there. `kitql-pg status` then tells what the worktree uses, and what the others run:
+
+```sh
+myapp · feat-gps ~/code/myapp-feat-gps
+  web    http://localhost:5175  not running
+  db     myapp_feat_gps (this worktree's own db) on port 5435  running
+         DATABASE_URL=postgres://postgres:postgres@localhost:5435/myapp_feat_gps
+  link   http://localhost:5175/?login-as=admin
+  logs   db: ~/code/myapp/.git/kitql-postgres/postgres.log
+  worktrees (web port, db on port 5435):
+    main      :5173  running      myapp
+    fix-a     :5174  running      myapp
+  * feat-gps  :5175  not running  myapp_feat_gps
+```
+
+`kitql-pg status --json` gives the same for scripts and AI agents.
 
 ## Speed
 

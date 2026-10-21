@@ -23,6 +23,7 @@ const REMOTE_NAME = /([^/:\\]+?)(?:\.git)?[/\\]*$/
  * @property {string} mainDb main's database (`<repo>`), used by every worktree by default
  * @property {string | undefined} ownDb the worktree's own database (`<repo>_<worktree>`), if it
  *   exists the worktree uses it. undefined in the main worktree
+ * @property {string} commonDir git common dir (absolute), shared by all worktrees
  * @property {string} home folder holding everything of the repo server
  * @property {string} dataDir postgres data directory (PGDATA)
  * @property {string} logFile server log
@@ -82,6 +83,7 @@ export function buildContext(git, env = {}) {
 		worktree,
 		mainDb: dbName(repo),
 		ownDb: isMain ? undefined : dbName(repo, worktree),
+		commonDir: git.commonDir,
 		home,
 		dataDir: path.join(home, 'data'),
 		logFile: path.join(home, 'postgres.log'),
@@ -116,12 +118,14 @@ export function readGitInfo(cwd) {
 		const r = spawnSync('git', args, { cwd, encoding: 'utf-8' })
 		return r.status === 0 ? r.stdout.trim() : undefined
 	}
+	// git prints `C:/x` on Windows
+	const resolved = (/** @type {string | undefined} */ p) => p && path.resolve(p)
 	return {
 		commonDir: path.resolve(cwd, commonDir),
 		gitDir: path.resolve(cwd, gitDir),
 		remoteUrl: optional(['config', '--get', 'remote.origin.url']),
 		// fails outside of a checkout (inside .git, bare repo)
-		toplevel: optional(['rev-parse', '--show-toplevel']),
+		toplevel: resolved(optional(['rev-parse', '--show-toplevel'])),
 	}
 }
 

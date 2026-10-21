@@ -24,7 +24,8 @@ npm install @kitql/postgres -D
 
 ```jsonc
 // package.json: the port of this project, for the whole team (default: 5432)
-"kitql-pg": { "port": 5435 }
+// optional: "web", main's dev server port (worktrees get the next ones), "links" shown by status
+"kitql-pg": { "port": 5435, "web": 5173, "links": ["/?login-as=admin"] }
 ```
 
 ## Usage
@@ -33,6 +34,7 @@ npm install @kitql/postgres -D
 kitql-pg up              # start the repo server (foreground, Ctrl+C stops it), from any worktree
 kitql-pg init            # create main's db (idempotent, timezone UTC; --tz Europe/Paris)
 kitql-pg url             # postgres://postgres:postgres@localhost:5435/myapp
+kitql-pg status [--json] # web port, db, links, logs of this worktree, and the other worktrees
 kitql-pg ls              # list databases (* = the one this worktree uses)
 kitql-pg restore <file>  # .dump (pg_restore) or .sql (psql), all or nothing
 kitql-pg dump [file]     # pg_dump -Fc zstd (default: <db>.dump)
@@ -53,6 +55,10 @@ Every command targets the database the worktree uses: its own one if it exists, 
 
 `clone` uses `CREATE DATABASE x TEMPLATE y STRATEGY FILE_COPY`: nobody can be connected to the
 source. Stop your dev server / psql first, or use `--force`.
+
+With `"web"` set, every worktree gets its own dev server port (main: `web`, the others the next free
+ones, kept). `status` and `up` write it in the worktree `.env` `ORIGIN` (only a localhost one): the
+dev server must read its port there.
 
 ## Speed
 

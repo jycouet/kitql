@@ -7,9 +7,11 @@ import { bold, cyan, gray, green, yellow } from '@kitql/helpers'
 import { parseArgs } from './src/args.js'
 import { findBinDir, installedBinDir } from './src/binaries.js'
 import { readConfig } from './src/config.js'
-import { syncEnvFile } from './src/env.js'
+import { syncEnvFile, syncEnvOrigin, webUrl } from './src/env.js'
+import { dbName } from './src/naming.js'
 import { resolveContext } from './src/paths.js'
 import { follow, log, PgError, Server } from './src/server.js'
+import { isListening, webPorts } from './src/web.js'
 
 /**
  * The database this worktree works with: `--db`, `--own`, else its own db if it exists, else
@@ -136,6 +138,103 @@ async function up(pg, db) {
 }
 
 /**
+ * Web ports of the worktrees (package.json "kitql-pg".web), this one synced to the .env ORIGIN
+ * @param {import('./src/paths.js').Context} ctx
+ * @param {import('./src/config.js').Config} config
+ * @param {boolean} [quiet]
+ */
+function syncWeb(ctx, config, quiet = false) {
+	if (!config.web) {
+		return undefined
+	}
+	const web = webPorts(ctx, config.web)
+	const res = syncEnvOrigin(ctx.root, web.ports[ctx.worktree])
+	if (res && !quiet) {
+		log.info(`.env ORIGIN: ${res.from} -> ${cyan(res.to)} ${yellow('(restart your dev server)')}`)
+	}
+	return { ...web, envChanged: Boolean(res) }
+}
+
+/**
+ * Everything this worktree uses, and the other worktrees
+ * @param {Server} pg
+ * @param {import('./src/args.js').ParsedArgs} opts
+ * @param {import('./src/config.js').Config} config
+ */
+async function status(pg, opts, config) {
+	const { ctx } = pg
+	const web = syncWeb(ctx, config, opts.json)
+	const running = Boolean(pg.binDir) && pg.isRunning()
+	const dbs = new Set(running ? pg.list().map((d) => d.name) : [])
+	const db = currentDb(pg, opts)
+	const port = web?.ports[ctx.worktree]
+	const url = port ? webUrl(ctx.root, port) : undefined
+	const worktrees = await Promise.all(
+		(web?.worktrees ?? []).map(async (w) => {
+			const own = w.name === 'main' ? undefined : dbName(ctx.repo, w.name)
+			const p = web?.ports[w.name] ?? 0
+			return {
+				worktree: w.name,
+				current: w.name === ctx.worktree,
+				path: w.path,
+				web: { port: p, url: webUrl(w.path, p), running: await isListening(p) },
+				db: w.name === ctx.worktree ? db : own && dbs.has(own) ? own : ctx.mainDb,
+			}
+		}),
+	)
+	const data = {
+		repo: ctx.repo,
+		worktree: ctx.worktree,
+		path: ctx.root,
+		web: port ? { port, url, running: await isListening(port), envChanged: web?.envChanged } : null,
+		db: {
+			port: pg.port,
+			name: db,
+			own: db === ctx.ownDb,
+			exists: dbs.has(db),
+			running,
+			url: pg.url(db),
+		},
+		links: url ? (config.links ?? []).map((l) => url + l) : [],
+		logs: { db: ctx.logFile },
+		worktrees,
+	}
+	if (opts.json) {
+		console.info(JSON.stringify(data, null, 2))
+		return 0
+	}
+
+	const state = (/** @type {boolean} */ on) => (on ? green('running') : gray('not running'))
+	console.info(`${bold(ctx.repo)} ${gray('·')} ${cyan(ctx.worktree)} ${gray(ctx.root ?? '')}`)
+	if (data.web) {
+		console.info(`  web    ${green(data.web.url)}  ${state(data.web.running)}`)
+	} else {
+		console.info(gray(`  web    set a port in package.json "kitql-pg": { "web": 5173 }`))
+	}
+	console.info(
+		`  db     ${label(ctx, db)} on port ${pg.port}  ${state(running)}` +
+			(running && !data.db.exists ? yellow('  missing (kitql-pg init)') : ''),
+	)
+	console.info(`         ${gray('DATABASE_URL=')}${green(data.db.url)}`)
+	for (const link of data.links) {
+		console.info(`  link   ${link}`)
+	}
+	console.info(`  logs   db: ${ctx.logFile}`)
+	if (worktrees.length > 1) {
+		console.info(gray(`  worktrees (web port, db on port ${pg.port}):`))
+		const width = Math.max(...worktrees.map((w) => w.worktree.length))
+		for (const w of worktrees) {
+			const name = w.worktree.padEnd(width)
+			console.info(
+				`  ${w.current ? green('*') : ' '} ${w.current ? bold(name) : name}  :${w.web.port}  ` +
+					`${w.web.running ? green('running    ') : gray('not running')}  ${w.db}`,
+			)
+		}
+	}
+	return 0
+}
+
+/**
  * @param {Server} pg
  * @param {string} db
  */
@@ -157,8 +256,11 @@ async function main() {
 
 	const ctx = resolveContext(process.cwd(), process.env)
 	const config = ctx.root ? readConfig(ctx.root) : {}
-	// url never downloads (install scripts use it): without binaries, it gives main's db
-	const binDir = opts.command === 'url' ? (installedBinDir() ?? '') : (await findBinDir()).binDir
+	// url & status never download (install scripts, agents): without binaries, main's db
+	const binDir =
+		opts.command === 'url' || opts.command === 'status'
+			? (installedBinDir() ?? '')
+			: (await findBinDir()).binDir
 	const pg = new Server(binDir, ctx, config)
 	if (opts.port && opts.port !== pg.port) {
 		if (opts.command !== 'up') {
@@ -170,7 +272,11 @@ async function main() {
 
 	switch (opts.command) {
 		case 'up':
+			syncWeb(ctx, config)
 			return up(pg, currentDb(pg, opts))
+
+		case 'status':
+			return status(pg, opts, config)
 
 		case 'stop':
 			if (!pg.isRunning()) {

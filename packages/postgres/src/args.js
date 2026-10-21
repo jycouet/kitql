@@ -14,6 +14,7 @@ export const COMMANDS = /** @type {const} */ ({
 	restore: ['restore <file>', 'restore a dump (.dump or .sql), all or nothing', 1],
 	psql: ['psql [-- args]', 'open psql on the database', 0],
 	url: ['url', 'print the connection url of the database', 0],
+	status: ['status', 'what this worktree uses (web port, db, links, logs) and the others', 0],
 })
 
 /** @typedef {keyof typeof COMMANDS} Command */
@@ -56,6 +57,11 @@ const cliConfig = {
 			default: false,
 			description: 'clone over an existing db / close open connections',
 		},
+		json: {
+			type: /** @type {const} */ ('boolean'),
+			default: false,
+			description: 'status as JSON (for scripts and agents)',
+		},
 	},
 }
 
@@ -68,6 +74,7 @@ const cliConfig = {
  * @property {boolean} force
  * @property {boolean} own
  * @property {string | undefined} tz
+ * @property {boolean} json
  * @property {string} help
  */
 
@@ -94,6 +101,7 @@ export function parseArgs(argv) {
 			force: false,
 			own: false,
 			tz: undefined,
+			json: false,
 			help,
 		}
 	}
@@ -125,6 +133,7 @@ export function parseArgs(argv) {
 		force: Boolean(values.force),
 		own: Boolean(values.own),
 		tz: /** @type {string | undefined} */ (values.tz),
+		json: Boolean(values.json),
 		help,
 	}
 }

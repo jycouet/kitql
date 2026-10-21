@@ -23,6 +23,15 @@ describe('parseConfig', () => {
 		expect(parseConfig({ port: 5435 })).toEqual({ port: 5435 })
 	})
 
+	it('web & links', () => {
+		expect(parseConfig({ web: 7777, links: ['/?login-as=admin'] })).toEqual({
+			web: 7777,
+			links: ['/?login-as=admin'],
+		})
+		expect(() => parseConfig({ web: '7777' })).toThrow('"kitql-pg".web must be a port number')
+		expect(() => parseConfig({ links: ['login'] })).toThrow('must be paths')
+	})
+
 	it('invalid', () => {
 		expect(() => parseConfig('5435')).toThrow('must be an object')
 		expect(() => parseConfig({ port: '5435' })).toThrow('must be a port number')
