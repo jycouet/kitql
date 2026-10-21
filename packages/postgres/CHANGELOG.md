@@ -1,5 +1,11 @@
 # @kitql/postgres
 
+## 0.2.1
+
+### Patch Changes
+
+- [#1355](https://github.com/jycouet/kitql/pull/1355) [`1166354`](https://github.com/jycouet/kitql/commit/11663540d83567c50f57137ad997ff8fb6576435) Thanks [@jycouet](https://github.com/jycouet)! - `startTestServer()` on Linux / macOS: data dir set to 0700 (postgres refused 0755), template cluster built next to the cache (no cross-filesystem rename).
+
 ## 0.2.0
 
 ### Minor Changes
