@@ -15,9 +15,17 @@
 	"bin": {
 		"kitql-pg": "./cmd.js"
 	},
+	"exports": {
+		"./test": {
+			"types": "./src/test.d.ts",
+			"default": "./src/test.js"
+		},
+		"./package.json": "./package.json"
+	},
 	"files": [
 		"cmd.js",
 		"src/*.js",
+		"src/test.d.ts",
 		"!src/*.test.js"
 	],
 	"keywords": [

@@ -160,8 +160,11 @@ export class Server {
 		return major
 	}
 
-	/** initdb the repo cluster when needed */
-	ensureCluster() {
+	/**
+	 * initdb the repo cluster when needed
+	 * @param {{ conf?: string[], quiet?: boolean }} [opts] `conf`: extra postgresql.conf lines
+	 */
+	ensureCluster({ conf = [], quiet = false } = {}) {
 		const major = this.binaryMajor()
 		const versionFile = path.join(this.ctx.dataDir, 'PG_VERSION')
 		if (fs.existsSync(versionFile)) {
@@ -175,7 +178,9 @@ export class Server {
 			return false
 		}
 
-		log.info(`Creating the ${cyan(this.ctx.repo)} cluster in ${gray(this.ctx.dataDir)}`)
+		if (!quiet) {
+			log.info(`Creating the ${cyan(this.ctx.repo)} cluster in ${gray(this.ctx.dataDir)}`)
+		}
 		fs.mkdirSync(this.ctx.home, { recursive: true })
 		const args = [
 			'-D',
@@ -215,6 +220,7 @@ export class Server {
 				"checkpoint_timeout = '30min'",
 				'maintenance_work_mem = 512MB # index builds',
 				'synchronous_commit = off # may lose the last ms of commits on a crash, never corrupts',
+				...conf,
 				'',
 			].join('\n'),
 		)
