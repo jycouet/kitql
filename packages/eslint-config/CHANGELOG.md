@@ -1,5 +1,13 @@
 # eslint-config-kitql
 
+## 0.10.1
+
+### Patch Changes
+
+- [#1357](https://github.com/jycouet/kitql/pull/1357) [`906366e`](https://github.com/jycouet/kitql/commit/906366e5c54a9e8678da72003382a10706bcc9c2) Thanks [@jycouet](https://github.com/jycouet)! - Use `^` ranges for dependencies (and bump them) so apps can dedupe
+
+- [#1358](https://github.com/jycouet/kitql/pull/1358) [`3279238`](https://github.com/jycouet/kitql/commit/3279238e69841d0cd8212dfe2cdd44b31bda26a4) Thanks [@jycouet](https://github.com/jycouet)! - fix `kitql-lint -d` on Windows (double-quote diff files)
+
 ## 0.10.0
 
 ### Minor Changes

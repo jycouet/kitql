@@ -1,5 +1,11 @@
 # @kitql/postgres
 
+## 0.2.2
+
+### Patch Changes
+
+- [#1361](https://github.com/jycouet/kitql/pull/1361) [`44a2b2e`](https://github.com/jycouet/kitql/commit/44a2b2e8a1b0db770b85813d336f5b664eb7eda6) Thanks [@jycouet](https://github.com/jycouet)! - `restore` of a `.dump` skips extensions the bundled PostgreSQL doesn't ship (e.g. `uuid-ossp`), with a warning
+
 ## 0.2.1
 
 ### Patch Changes

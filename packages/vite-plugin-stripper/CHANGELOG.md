@@ -1,5 +1,11 @@
 # vite-plugin-stripper
 
+## 0.10.7
+
+### Patch Changes
+
+- [#1357](https://github.com/jycouet/kitql/pull/1357) [`906366e`](https://github.com/jycouet/kitql/commit/906366e5c54a9e8678da72003382a10706bcc9c2) Thanks [@jycouet](https://github.com/jycouet)! - Use `^` ranges for dependencies (and bump them) so apps can dedupe
+
 ## 0.10.6
 
 ### Patch Changes
@@ -181,20 +187,20 @@
   favor of using the new `strip` config!
   ```ts
   strip: [
-  	{ decorator: 'BackendMethod' },
-  	{
-  		decorator: 'Entity',
-  		args_1: [
-  			{ fn: 'backendPrefilter' },
-  			{ fn: 'backendPreprocessFilter' },
-  			{ fn: 'sqlExpression' },
-  			// {
-  			// 	fn: 'saved',
-  			// 	excludeEntityKeys: ['users']
-  			// }
-  		],
-  	},
-  ]
+    { decorator: "BackendMethod" },
+    {
+      decorator: "Entity",
+      args_1: [
+        { fn: "backendPrefilter" },
+        { fn: "backendPreprocessFilter" },
+        { fn: "sqlExpression" },
+        // {
+        // 	fn: 'saved',
+        // 	excludeEntityKeys: ['users']
+        // }
+      ],
+    },
+  ];
   ```
 
 ### Patch Changes
@@ -223,20 +229,20 @@
   favor of using the new `strip` config!
   ```ts
   strip: [
-  	{ decorator: 'BackendMethod' },
-  	{
-  		decorator: 'Entity',
-  		args_1: [
-  			{ fn: 'backendPrefilter' },
-  			{ fn: 'backendPreprocessFilter' },
-  			{ fn: 'sqlExpression' },
-  			// {
-  			// 	fn: 'saved',
-  			// 	excludeEntityKeys: ['users']
-  			// }
-  		],
-  	},
-  ]
+    { decorator: "BackendMethod" },
+    {
+      decorator: "Entity",
+      args_1: [
+        { fn: "backendPrefilter" },
+        { fn: "backendPreprocessFilter" },
+        { fn: "sqlExpression" },
+        // {
+        // 	fn: 'saved',
+        // 	excludeEntityKeys: ['users']
+        // }
+      ],
+    },
+  ];
   ```
 
 ### Patch Changes
