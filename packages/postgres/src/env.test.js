@@ -14,7 +14,7 @@ describe('setEnvOrigin', () => {
 
 	it('never touches a remote ORIGIN, no change when already there', () => {
 		for (const env of [
-			'ORIGIN=https://kimbia.app',
+			'ORIGIN=https://my.app',
 			'ORIGIN=http://localhost:7779',
 			'X_ORIGIN=http://localhost:1',
 		]) {
@@ -26,12 +26,12 @@ describe('setEnvOrigin', () => {
 describe('setEnvDatabase', () => {
 	it('switches the db of a url of this server, keeps the rest', () => {
 		const env =
-			"A=1\nDATABASE_URL='postgres://postgres:example@127.0.0.1:5435/kimbia_app?sslmode=disable'\nB=2\n"
-		const res = setEnvDatabase(env, 5435, 'kimbia_app_wt_05')
+			"A=1\nDATABASE_URL='postgres://postgres:example@127.0.0.1:5435/my_app?sslmode=disable'\nB=2\n"
+		const res = setEnvDatabase(env, 5435, 'my_app_wt_05')
 		expect(res.content).toBe(
-			"A=1\nDATABASE_URL='postgres://postgres:example@127.0.0.1:5435/kimbia_app_wt_05?sslmode=disable'\nB=2\n",
+			"A=1\nDATABASE_URL='postgres://postgres:example@127.0.0.1:5435/my_app_wt_05?sslmode=disable'\nB=2\n",
 		)
-		expect(res).toMatchObject({ from: 'kimbia_app', to: 'kimbia_app_wt_05' })
+		expect(res).toMatchObject({ from: 'my_app', to: 'my_app_wt_05' })
 	})
 
 	it('unquoted, localhost, default port', () => {

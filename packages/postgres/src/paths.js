@@ -38,7 +38,7 @@ function same(p) {
 }
 
 /**
- * Repo name of a remote url: `git@github.com:jycouet/kimbia.app.git` -> `kimbia.app`
+ * Repo name of a remote url: `git@github.com:jycouet/my.app.git` -> `my.app`
  * @param {string} url
  */
 export function repoFromRemote(url) {

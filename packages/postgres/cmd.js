@@ -43,7 +43,7 @@ function ownDb(ctx) {
 }
 
 /**
- * `kimbia_app (main's db)`
+ * `my_app (main's db)`
  * @param {import('./src/paths.js').Context} ctx
  * @param {string} db
  */

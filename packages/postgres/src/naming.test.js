@@ -19,8 +19,8 @@ describe('sanitize', () => {
 
 describe('dbName', () => {
 	it("main's db is the repo, a worktree's own db is repo_worktree", () => {
-		expect(dbName('kimbia.app')).toBe('kimbia_app')
-		expect(dbName('kimbia.app', 'wt-05')).toBe('kimbia_app_wt_05')
+		expect(dbName('my.app')).toBe('my_app')
+		expect(dbName('my.app', 'wt-05')).toBe('my_app_wt_05')
 	})
 
 	it('never starts with a digit', () => {
