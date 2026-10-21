@@ -6,7 +6,6 @@ import { bold, cyan, gray, green, yellow } from '@kitql/helpers'
 
 import { parseArgs } from './src/args.js'
 import { findBinDir, installedBinDir } from './src/binaries.js'
-import { readConfig } from './src/config.js'
 import { syncEnvFile, syncEnvOrigin, webUrl } from './src/env.js'
 import { dbName } from './src/naming.js'
 import { resolveContext } from './src/paths.js'
@@ -171,7 +170,7 @@ async function status(pg, opts, config) {
 	const url = port ? webUrl(ctx.root, port) : undefined
 	const worktrees = await Promise.all(
 		(web?.worktrees ?? []).map(async (w) => {
-			const own = w.name === 'main' ? undefined : dbName(ctx.repo, w.name)
+			const own = w.name === 'main' ? undefined : dbName(ctx.mainDb, w.name)
 			const p = web?.ports[w.name] ?? 0
 			return {
 				worktree: w.name,
@@ -254,8 +253,7 @@ async function main() {
 		return 0
 	}
 
-	const ctx = resolveContext(process.cwd(), process.env)
-	const config = ctx.root ? readConfig(ctx.root) : {}
+	const { ctx, config } = resolveContext(process.cwd(), process.env)
 	// url & status never download (install scripts, agents): without binaries, main's db
 	const binDir =
 		opts.command === 'url' || opts.command === 'status'

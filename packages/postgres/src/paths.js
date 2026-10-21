@@ -1,6 +1,7 @@
 import { spawnSync } from 'node:child_process'
 import path from 'node:path'
 
+import { readConfig } from './config.js'
 import { dbName } from './naming.js'
 
 const TRAILING_SEPARATORS = /[\\/]+$/
@@ -71,18 +72,20 @@ export function parseGitInfo(git) {
  * `KITQL_PG_HOME` overrides the location.
  * @param {GitInfo} git
  * @param {Record<string, string | undefined>} [env]
+ * @param {string} [db] main's db from package.json, else named after the repo
  * @returns {Context}
  */
-export function buildContext(git, env = {}) {
+export function buildContext(git, env = {}, db) {
 	const { repo, worktree, isMain } = parseGitInfo(git)
 	const home = env.KITQL_PG_HOME
 		? path.resolve(env.KITQL_PG_HOME)
 		: path.join(git.commonDir, 'kitql-postgres')
+	const mainDb = dbName(db ?? repo)
 	return {
 		repo,
 		worktree,
-		mainDb: dbName(repo),
-		ownDb: isMain ? undefined : dbName(repo, worktree),
+		mainDb,
+		ownDb: isMain ? undefined : dbName(mainDb, worktree),
 		commonDir: git.commonDir,
 		home,
 		dataDir: path.join(home, 'data'),
@@ -130,9 +133,12 @@ export function readGitInfo(cwd) {
 }
 
 /**
+ * Where we are, and the package.json config of this checkout
  * @param {string} cwd
  * @param {Record<string, string | undefined>} env
  */
 export function resolveContext(cwd, env) {
-	return buildContext(readGitInfo(cwd), env)
+	const git = readGitInfo(cwd)
+	const config = git.toplevel ? readConfig(git.toplevel) : {}
+	return { ctx: buildContext(git, env, config.db), config }
 }

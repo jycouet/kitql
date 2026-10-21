@@ -23,6 +23,12 @@ describe('parseConfig', () => {
 		expect(parseConfig({ port: 5435 })).toEqual({ port: 5435 })
 	})
 
+	it('db', () => {
+		expect(parseConfig({ db: 'my_app' })).toEqual({ db: 'my_app' })
+		expect(() => parseConfig({ db: 'My-App' })).toThrow('lowercase identifier')
+		expect(() => parseConfig({ db: '' })).toThrow('lowercase identifier')
+	})
+
 	it('web & links', () => {
 		expect(parseConfig({ web: 7777, links: ['/?login-as=admin'] })).toEqual({
 			web: 7777,

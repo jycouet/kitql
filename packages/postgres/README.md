@@ -24,6 +24,7 @@ npm install @kitql/postgres -D
 
 ```jsonc
 // package.json: the port of this project, for the whole team (default: 5432)
+// optional: "db", main's database (default: named after the origin remote, `my.app` -> `my_app`)
 // optional: "web", main's dev server port (worktrees get the next ones), "links" shown by status
 "kitql-pg": { "port": 5435, "web": 5173, "links": ["/?login-as=admin"] }
 ```

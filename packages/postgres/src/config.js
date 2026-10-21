@@ -1,9 +1,12 @@
 import fs from 'node:fs'
 import path from 'node:path'
 
+import { dbName } from './naming.js'
+
 /**
  * @typedef {object} Config
  * @property {number} [port] server port of the repo, committed for the whole team
+ * @property {string} [db] main's db (default: named after the repo), worktrees get `<db>_<worktree>`
  * @property {number} [web] dev server port of main, the other worktrees get the next ones
  * @property {string[]} [links] dev server paths worth opening (`/?login-as=admin`), shown by status
  */
@@ -33,11 +36,19 @@ export function parseConfig(raw) {
 	if (typeof raw !== 'object' || Array.isArray(raw)) {
 		throw new Error(`package.json "kitql-pg" must be an object, like { "port": 5435 }`)
 	}
-	const { port, web, links } = /** @type {Record<string, unknown>} */ (raw)
+	const { port, db, web, links } = /** @type {Record<string, unknown>} */ (raw)
 	/** @type {Config} */
 	const config = {}
 	if (port !== undefined) {
 		config.port = portOf(port, 'port')
+	}
+	if (db !== undefined) {
+		if (typeof db !== 'string' || !db || dbName(db) !== db) {
+			throw new Error(
+				`package.json "kitql-pg".db must be a lowercase identifier, like "my_app", got ${JSON.stringify(db)}`,
+			)
+		}
+		config.db = db
 	}
 	if (web !== undefined) {
 		config.web = portOf(web, 'web')

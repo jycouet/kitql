@@ -27,6 +27,10 @@ Give the project its port in `package.json`, for the whole team (default: 5432):
 }
 ```
 
+Main's database is named after the `origin` remote (`my.app` → `my_app`), or the folder without a
+remote. To choose it: `"kitql-pg": { "port": 5435, "db": "my_app" }`. A worktree's own database is
+then `my_app_<worktree>`.
+
 ## Usage
 
 ```sh

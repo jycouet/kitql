@@ -86,6 +86,12 @@ describe('buildContext', () => {
 		expect(ctx.stateFile).toBe(path.join(ctx.home, 'state.json'))
 	})
 
+	it('db name from package.json', () => {
+		const ctx = buildContext(git, {}, 'shop')
+		expect(ctx.mainDb).toBe('shop')
+		expect(ctx.ownDb).toBe('shop_fix_1')
+	})
+
 	it('every worktree shares the same server', () => {
 		const main = buildContext({ commonDir: git.commonDir, gitDir: git.commonDir })
 		expect(main.dataDir).toBe(buildContext(git).dataDir)
