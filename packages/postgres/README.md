@@ -57,6 +57,9 @@ Every command targets the database the worktree uses: its own one if it exists, 
 `clone` uses `CREATE DATABASE x TEMPLATE y STRATEGY FILE_COPY`: nobody can be connected to the
 source. Stop your dev server / psql first, or use `--force`.
 
+`restore` of a `.dump` skips (with a warning) the extensions this PostgreSQL doesn't ship (e.g.
+`uuid-ossp` on Windows). Objects that use them still fail the restore. `.sql` dumps run as is.
+
 With `"web"` set, every worktree gets its own dev server port (main: `web`, the others the next free
 ones, kept). `status` and `up` write it in the worktree `.env` `ORIGIN` (only a localhost one): the
 dev server must read its port there.
