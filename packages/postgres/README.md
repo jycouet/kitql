@@ -61,6 +61,27 @@ With `"web"` set, every worktree gets its own dev server port (main: `web`, the 
 ones, kept). `status` and `up` write it in the worktree `.env` `ORIGIN` (only a localhost one): the
 dev server must read its port there.
 
+## Tests
+
+`startTestServer()` starts a throwaway server for a test run: same binaries, a temp data dir, a
+free port, no durability (`fsync = off`). The first run makes a template cluster (~4s on Windows),
+the next ones copy it (~0.6s). `stop()` deletes everything, and a run killed before stopping is
+cleaned up by the next one.
+
+```ts
+// vitest config: test.globalSetup: ['./postgres.globalSetup.ts']
+import { startTestServer } from '@kitql/postgres/test'
+
+export default async function setup() {
+	const server = await startTestServer()
+	process.env.TEST_DATABASE_URL = server.url() // workers inherit it
+	return () => server.stop()
+}
+```
+
+Each worker / test file then creates its own database on it
+(`CREATE DATABASE x STRATEGY FILE_COPY`).
+
 ## Speed
 
 The server is tuned for dev (`wal_level = minimal`, `synchronous_commit = off`, bigger WAL and
