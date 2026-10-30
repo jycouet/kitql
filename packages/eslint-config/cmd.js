@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-import { spawn } from 'node:child_process'
+import { spawn, spawnSync } from 'node:child_process'
 import fs from 'node:fs'
 import path from 'node:path'
 
@@ -7,7 +7,13 @@ import { gray, green, Log } from '@kitql/helpers'
 import { parseCli } from '@kitql/helpers/server'
 
 import { findFileOrUp } from './helper/findFileOrUp.js'
-import { buildEslintCmd, buildOxfmtCmd, buildOxlintCmd, quoteFiles } from './src/buildCommands.js'
+import {
+	baseCandidates,
+	buildEslintCmd,
+	buildOxfmtCmd,
+	buildOxlintCmd,
+	chunkFiles,
+} from './src/buildCommands.js'
 
 /** @type {('eslint' | 'oxlint' | 'tsgolint' | 'oxfmt')[]} */
 const TOOLS_ALL = ['eslint', 'oxlint', 'tsgolint', 'oxfmt']
@@ -34,8 +40,7 @@ const { values: options_cli, help } = parseCli({
 		'base-branch': {
 			type: 'string',
 			short: 'b',
-			default: 'main',
-			description: 'base branch to compare against',
+			description: 'base to compare against (default: origin/main, else main)',
 		},
 		prefix: {
 			type: 'string',
@@ -52,7 +57,7 @@ if (options_cli.help) {
 }
 
 const format = /** @type {boolean} */ (options_cli.format ?? false)
-let glob = /** @type {string} */ (options_cli.glob ?? '.')
+const glob = /** @type {string} */ (options_cli.glob ?? '.')
 const verbose = /** @type {boolean} */ (options_cli.verbose ?? false)
 const pre = /** @type {string} */ (options_cli.prefix ?? 'none')
 const tools = /** @type {typeof TOOLS_ALL} */ (
@@ -71,7 +76,7 @@ const pathPrettierIgnore = useOxfmt ? findFileOrUp('.prettierignore') : null
 const pathOxfmtrc = useOxfmt ? findFileOrUp(['oxfmt.config.ts', '.oxfmtrc.json']) : null
 
 const diffOnly = /** @type {boolean} */ (options_cli['diff-only'] ?? false)
-const baseBranch = /** @type {string} */ (options_cli['base-branch'] ?? 'main')
+const baseBranch = /** @type {string | undefined} */ (options_cli['base-branch'])
 
 const log = new Log('kitql-lint')
 // const spinner = new Spinner({ symbolFormatter: (msg) => bgBlueBright(` kitql-lint `) + ' ' + msg })
@@ -107,7 +112,8 @@ async function customSpawn(/** @type {string} */ cmd) {
 	//   error += chunk
 	// }
 	const exitCode = await new Promise((resolve, reject) => {
-		child.on('close', resolve)
+		// code is null when killed by a signal: that is a failure too
+		child.on('close', (code) => resolve(code ?? 1))
 		child.on('error', reject)
 	})
 
@@ -118,10 +124,18 @@ async function customSpawn(/** @type {string} */ cmd) {
 	return data
 }
 
+/** Run without a shell, so refs need no quoting. */
+function git(/** @type {string[]} */ ...args) {
+	const { status, stdout } = spawnSync('git', args, { cwd: process.cwd(), encoding: 'utf8' })
+	return status === 0 ? stdout.trim() : null
+}
+
 let filesLength = -1
 async function getDiffFiles() {
 	log.info(
-		verbose ? 'git diff ' + gray(`(getting changed files against ${baseBranch})`) : 'git diff',
+		verbose
+			? 'git diff ' + gray(`(getting changed files against ${baseBranch ?? 'origin/main'})`)
+			: 'git diff',
 	)
 
 	// First, get the git repository root
@@ -143,7 +157,7 @@ async function getDiffFiles() {
 		})
 
 		if (gitRootExitCode === 0) {
-			gitRootPath = rootData.trim()
+			gitRootPath = fs.realpathSync.native(rootData.trim())
 		} else {
 			log.error('Could not determine git repository root')
 			return null
@@ -154,32 +168,10 @@ async function getDiffFiles() {
 	}
 
 	// Try to find the best base branch to compare against
-	const possibleBranches = [baseBranch, 'main', 'HEAD~1']
-	let validBranch = null
-
-	for (const branch of possibleBranches) {
-		try {
-			// Check if the branch exists
-			const checkBranchCmd = `git rev-parse --verify ${branch}`
-			const checkBranchChild = spawn(checkBranchCmd, {
-				shell: true,
-				cwd: process.cwd(),
-			})
-
-			const branchExitCode = await new Promise((resolve) => {
-				checkBranchChild.on('close', resolve)
-			})
-
-			if (branchExitCode === 0) {
-				validBranch = branch
-				if (verbose && branch !== baseBranch) {
-					log.info(`Using '${branch}' as base branch instead of '${baseBranch}'`)
-				}
-				break
-			}
-		} catch (error) {
-			// Continue to next branch
-		}
+	const possibleBranches = baseCandidates(baseBranch)
+	let validBranch = possibleBranches.find((branch) => git('rev-parse', '--verify', branch) !== null)
+	if (verbose && validBranch && validBranch !== possibleBranches[0]) {
+		log.info(`Using '${validBranch}' as base branch instead of '${possibleBranches[0]}'`)
 	}
 
 	if (!validBranch) {
@@ -202,11 +194,12 @@ async function getDiffFiles() {
 	}
 
 	// Now get the changed files
-	const cmd = `git diff --name-only --diff-filter=ACMR ${validBranch}`
+	// Fork point, so upstream commits are not reported as ours. Shallow clones have none: diff directly.
+	const diffBase = git('merge-base', validBranch, 'HEAD') ?? validBranch
 
 	try {
-		const child = spawn(cmd, {
-			shell: true,
+		// Against the working tree, not `...`: uncommitted changes count
+		const child = spawn('git', ['diff', '--name-only', '-z', '--diff-filter=ACMR', diffBase], {
 			cwd: process.cwd(),
 		})
 
@@ -229,7 +222,7 @@ async function getDiffFiles() {
 			if (process.env.CI) {
 				try {
 					// In CI, we can try to get all tracked files that have changes
-					const fallbackCmd = 'git ls-files --modified --others --exclude-standard'
+					const fallbackCmd = 'git ls-files -z --modified --others --exclude-standard'
 					const fallbackChild = spawn(fallbackCmd, {
 						shell: true,
 						cwd: process.cwd(),
@@ -263,13 +256,13 @@ async function getDiffFiles() {
 			}
 		}
 
-		// Get the current working directory
-		const cwd = process.cwd()
+		// native: an 8.3 cwd would look outside the long path git reports
+		const cwd = fs.realpathSync.native(process.cwd())
 
 		// Process the files to make them relative to the current working directory
 		const files = data
-			.trim()
-			.split('\n')
+			// -z: git would otherwise escape non-ASCII paths
+			.split('\0')
 			.filter(Boolean)
 			.map((file) => {
 				// Convert the git path (relative to git root) to an absolute path
@@ -295,44 +288,41 @@ async function getDiffFiles() {
 			log.info(`Found ${filesLength} changed files at or below current directory`)
 		}
 
-		return files.length > 0 ? quoteFiles(files) : null
+		return chunkFiles(files)
 	} catch (error) {
 		if (error instanceof Error) log.error(`Error getting changed files: ${error.message}`)
 		return null
 	}
 }
 
-function buildOpts() {
-	return {
-		tools,
-		format,
-		glob,
-		pre: preToUse,
-		pathPrettierIgnore,
-		pathOxfmtrc,
+/**
+ * Every target runs, so one failing chunk does not hide the others' reports.
+ * @param {string} name
+ * @param {(opts: import('./src/buildCommands.js').BuildOptions) => string} buildCmd
+ */
+async function runTargets(name, buildCmd) {
+	let failure
+	for (const target of targets) {
+		const cmd = buildCmd({
+			tools,
+			format,
+			glob: target,
+			pre: preToUse,
+			pathPrettierIgnore: pathPrettierIgnore ?? undefined,
+			pathOxfmtrc: pathOxfmtrc ?? undefined,
+			allowUnmatched: diffOnly,
+		})
+		log.info(gray(`${verbose ? cmd : name} `))
+		const result = await customSpawn(cmd)
+		if (typeof result === 'object') failure ??= result
 	}
-}
-
-async function runOxc(/** @type {string} */ name) {
-	const cmdLint = buildOxlintCmd(buildOpts())
-	log.info(gray(`${verbose ? cmdLint : name} `))
-	return customSpawn(cmdLint)
-}
-
-async function runEslint() {
-	const cmd = buildEslintCmd(buildOpts())
-	log.info(gray(`${verbose ? cmd : 'eslint'} `))
-	return customSpawn(cmd)
-}
-
-async function runOxfmt() {
-	const cmd = buildOxfmtCmd(buildOpts())
-	log.info(gray(`${verbose ? cmd : 'oxfmt'} `))
-	return customSpawn(cmd)
+	return failure
 }
 
 /** @type {string[]} */
 const took = []
+
+let targets = glob ? [glob] : []
 
 /**
  * @param {string} text
@@ -346,47 +336,41 @@ const displayTook = () => `${gray('(')}${took.join(gray(', '))}${gray(')')}`
 // If changed-only flag is set, get the list of changed files
 if (diffOnly) {
 	const changedFilesStart = performance.now()
-	const changedFiles = await getDiffFiles()
+	targets = (await getDiffFiles()) ?? []
 	const changedFilesTook = performance.now() - changedFilesStart
 	took.push(display('diff', changedFilesTook))
-
-	if (changedFiles) {
-		glob = changedFiles
-	} else {
-		glob = ''
-	}
 }
 
 // yes, when we have tsgolint, we need to run oxlint too...
-if ((tools.includes('oxlint') || tools.includes('tsgolint')) && glob) {
+if ((tools.includes('oxlint') || tools.includes('tsgolint')) && targets.length > 0) {
 	const start = performance.now()
 	const name = tools.includes('tsgolint') ? 'oxlint (+type)' : 'oxlint'
-	const code = await runOxc(name)
+	const code = await runTargets(name, buildOxlintCmd)
 	const stepTook = performance.now() - start
 	took.push(display(name, stepTook))
-	if (typeof code === 'object' && 'status' in code && code.status) {
+	if (code) {
 		log.error(`lint failed, check logs above. ${displayTook()}`)
 		process.exit(Number(code.status))
 	}
 }
 
-if (tools.includes('eslint') && glob) {
+if (tools.includes('eslint') && targets.length > 0) {
 	const start = performance.now()
-	const code = await runEslint()
+	const code = await runTargets('eslint', buildEslintCmd)
 	const stepTook = performance.now() - start
 	took.push(display('eslint', stepTook))
-	if (typeof code === 'object' && 'status' in code && code.status) {
+	if (code) {
 		log.error(`lint failed, check logs above. ${displayTook()}`)
 		process.exit(Number(code.status))
 	}
 }
 
-if (tools.includes('oxfmt') && glob) {
+if (tools.includes('oxfmt') && targets.length > 0) {
 	const start = performance.now()
-	const code = await runOxfmt()
+	const code = await runTargets('oxfmt', buildOxfmtCmd)
 	const stepTook = performance.now() - start
 	took.push(display('oxfmt', stepTook))
-	if (typeof code === 'object' && 'status' in code && code.status) {
+	if (code) {
 		log.error(`format failed, check logs above. ${displayTook()}`)
 		process.exit(Number(code.status))
 	}
@@ -395,7 +379,7 @@ if (tools.includes('oxfmt') && glob) {
 log.success(
 	`All good, ` +
 		`${
-			glob === ''
+			targets.length === 0
 				? 'nothing to do!'
 				: filesLength !== -1
 					? `your ${filesLength === 1 ? 'single file' : `${filesLength} files`} looks great!`

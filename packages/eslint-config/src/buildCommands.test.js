@@ -1,6 +1,13 @@
 import { describe, expect, it } from 'vitest'
 
-import { buildEslintCmd, buildOxfmtCmd, buildOxlintCmd, quoteFiles } from './buildCommands.js'
+import {
+	baseCandidates,
+	buildEslintCmd,
+	buildOxfmtCmd,
+	buildOxlintCmd,
+	chunkFiles,
+	quoteFiles,
+} from './buildCommands.js'
 
 const base = {
 	tools: ['eslint', 'oxfmt'],
@@ -26,6 +33,12 @@ describe('buildOxlintCmd', () => {
 
 	it('uses prefix', () => {
 		expect(buildOxlintCmd({ ...base, pre: 'pnpm ' })).toBe('pnpm oxlint .')
+	})
+
+	it('allowUnmatched tolerates a list without lintable files', () => {
+		expect(buildOxlintCmd({ ...base, allowUnmatched: true })).toBe(
+			'oxlint --no-error-on-unmatched-pattern .',
+		)
 	})
 })
 
@@ -82,5 +95,44 @@ describe('quoteFiles', () => {
 
 	it('escapes shell specials on posix', () => {
 		expect(quoteFiles(['a b.js', 'x"$`\\.js'], 'linux')).toBe('"a b.js" "x\\"\\$\\`\\\\.js"')
+	})
+})
+
+describe('chunkFiles', () => {
+	const files = Array.from({ length: 3000 }, (_, i) => `src/routes/some/path/file-${i}.ts`)
+
+	it('keeps every file, in order', () => {
+		const chunks = chunkFiles(files, 'win32')
+		expect(chunks.join(' ')).toBe(quoteFiles(files, 'win32'))
+	})
+
+	it('stays under the cmd.exe limit, shim included', () => {
+		const chunks = chunkFiles(files, 'win32')
+		expect(chunks.length).toBeGreaterThan(1)
+		for (const chunk of chunks) expect(chunk.length).toBeLessThanOrEqual(6000)
+	})
+
+	it('allows far more on posix', () => {
+		expect(chunkFiles(files, 'linux').length).toBeLessThan(chunkFiles(files, 'win32').length)
+	})
+
+	it('returns one chunk for a short list', () => {
+		expect(chunkFiles(['a.ts', 'b.ts'], 'win32')).toEqual(['"a.ts" "b.ts"'])
+	})
+
+	it('gives an oversized path its own chunk', () => {
+		const long = 'a'.repeat(7000)
+		expect(chunkFiles(['a.ts', long, 'b.ts'], 'win32')).toEqual(['"a.ts"', `"${long}"`, '"b.ts"'])
+	})
+})
+
+describe('baseCandidates', () => {
+	it('default prefers the remote-tracking ref', () => {
+		expect(baseCandidates()).toEqual(['refs/remotes/origin/main', 'main', 'HEAD~1'])
+	})
+
+	it('explicit base comes first, as given', () => {
+		expect(baseCandidates('main')[0]).toBe('main')
+		expect(baseCandidates('origin/dev')[0]).toBe('origin/dev')
 	})
 })
