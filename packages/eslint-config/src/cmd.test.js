@@ -3,7 +3,7 @@ import fs from 'node:fs'
 import os from 'node:os'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
-import { afterEach, beforeEach, describe, expect, it } from 'vitest'
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 
 const CMD = fileURLToPath(new URL('../cmd.js', import.meta.url))
 
@@ -32,10 +32,14 @@ const commitFile = (/** @type {string} */ file, content = '') => {
 	git('commit', '-qm', file)
 }
 
-const run = (/** @type {string[]} */ args, /** @type {Record<string, string>} */ env = {}) => {
+const run = (
+	/** @type {string[]} */ args,
+	/** @type {Record<string, string>} */ env = {},
+	cwd = repo,
+) => {
 	const pathKey = Object.keys(process.env).find((k) => k.toUpperCase() === 'PATH') ?? 'PATH'
 	return spawnSync(process.execPath, [CMD, '-d', ...args], {
-		cwd: repo,
+		cwd,
 		encoding: 'utf8',
 		env: {
 			...process.env,
@@ -96,6 +100,9 @@ beforeEach(() => {
 afterEach(() => {
 	fs.rmSync(dir, { recursive: true, force: true })
 })
+
+// Each case spawns the CLI, up to 3 tools per chunk: slow on Windows
+vi.setConfig({ testTimeout: 60_000 })
 
 describe('kitql-lint -d base', () => {
 	/** main stale locally, origin/main ahead with upstream.ts, feature forked from origin/main. */
@@ -179,6 +186,22 @@ describe('kitql-lint -d files', () => {
 		commitFile(file)
 		expect(run(['-t', 'oxlint,tsgolint']).status).toBe(0)
 		expect(received('oxlint')).toEqual([file])
+	})
+
+	it('keeps non-ASCII paths', () => {
+		git('checkout', '-qb', 'feature')
+		commitFile('src/café.ts')
+		expect(run([]).status).toBe(0)
+		expect(received('eslint')).toEqual(['src/café.ts'])
+	})
+
+	it('keeps files when cwd is spelled differently than git reports it', () => {
+		const short = path.join(os.tmpdir(), path.basename(dir), 'repo')
+		if (short === repo) return // os.tmpdir() has no 8.3 segment here
+		git('checkout', '-qb', 'feature')
+		commitFile('mine.ts')
+		expect(run([], {}, short).status).toBe(0)
+		expect(received('eslint')).toEqual(['mine.ts'])
 	})
 
 	it('tolerates oxlint chunks without lintable files', () => {

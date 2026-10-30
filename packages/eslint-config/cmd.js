@@ -157,7 +157,7 @@ async function getDiffFiles() {
 		})
 
 		if (gitRootExitCode === 0) {
-			gitRootPath = rootData.trim()
+			gitRootPath = fs.realpathSync.native(rootData.trim())
 		} else {
 			log.error('Could not determine git repository root')
 			return null
@@ -199,7 +199,7 @@ async function getDiffFiles() {
 
 	try {
 		// Against the working tree, not `...`: uncommitted changes count
-		const child = spawn('git', ['diff', '--name-only', '--diff-filter=ACMR', diffBase], {
+		const child = spawn('git', ['diff', '--name-only', '-z', '--diff-filter=ACMR', diffBase], {
 			cwd: process.cwd(),
 		})
 
@@ -222,7 +222,7 @@ async function getDiffFiles() {
 			if (process.env.CI) {
 				try {
 					// In CI, we can try to get all tracked files that have changes
-					const fallbackCmd = 'git ls-files --modified --others --exclude-standard'
+					const fallbackCmd = 'git ls-files -z --modified --others --exclude-standard'
 					const fallbackChild = spawn(fallbackCmd, {
 						shell: true,
 						cwd: process.cwd(),
@@ -256,13 +256,13 @@ async function getDiffFiles() {
 			}
 		}
 
-		// Get the current working directory
-		const cwd = process.cwd()
+		// native: an 8.3 cwd would look outside the long path git reports
+		const cwd = fs.realpathSync.native(process.cwd())
 
 		// Process the files to make them relative to the current working directory
 		const files = data
-			.trim()
-			.split('\n')
+			// -z: git would otherwise escape non-ASCII paths
+			.split('\0')
 			.filter(Boolean)
 			.map((file) => {
 				// Convert the git path (relative to git root) to an absolute path
