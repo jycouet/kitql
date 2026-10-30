@@ -1,5 +1,11 @@
 # eslint-config-kitql
 
+## 0.10.2
+
+### Patch Changes
+
+- [#1362](https://github.com/jycouet/kitql/pull/1362) [`b62eb37`](https://github.com/jycouet/kitql/commit/b62eb37b424befabbb3b21bb11e3f1268fdf6322) Thanks [@jycouet](https://github.com/jycouet)! - fix `kitql-lint -d`: compare to the merge-base with `origin/main`, chunk long file lists, keep non-ASCII paths and 8.3 cwd
+
 ## 0.10.1
 
 ### Patch Changes
