@@ -190,7 +190,7 @@ describe('kitql-lint -d files', () => {
 
 	describe('more paths than a command line holds', () => {
 		const dirName = 'src/routes/(group)/[handle=handle]/a-rather-long-directory-name'
-		const many = Array.from({ length: 900 }, (_, i) => `${dirName}/file-${i}.ts`)
+		const many = Array.from({ length: 1500 }, (_, i) => `${dirName}/file-${i}.ts`)
 
 		beforeEach(() => {
 			git('checkout', '-qb', 'feature')
@@ -214,7 +214,7 @@ describe('kitql-lint -d files', () => {
 
 		it('fails when only the last chunk fails', () => {
 			const { status } = run(['-t', 'oxfmt'], {
-				FAKE_FAIL: path.normalize(`${dirName}/file-899.ts`),
+				FAKE_FAIL: path.normalize(`${dirName}/file-1499.ts`),
 			})
 			expect(status).toBe(3)
 		})
