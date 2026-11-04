@@ -9,10 +9,16 @@ import { parseArgs } from './src/args.js'
 import { findBinDir, installedBinDir } from './src/binaries.js'
 import { syncEnvFile, syncEnvOrigin, webUrl } from './src/env.js'
 import { dbName } from './src/naming.js'
-import { resolveContext } from './src/paths.js'
+import { appContext, resolveContext } from './src/paths.js'
 import { skipMissingExtensions } from './src/restore.js'
 import { follow, log, PgError, Server } from './src/server.js'
-import { isListening, webPorts } from './src/web.js'
+import { isListening, reservedPorts, webPorts } from './src/web.js'
+
+/**
+ * Apps of the repo when run from its root, each with its own db: no db is "current" there
+ * @type {import('./src/config.js').App[]}
+ */
+let rootApps = []
 
 /**
  * The database this worktree works with: `--db`, `--own`, else its own db if it exists, else
@@ -24,6 +30,11 @@ function currentDb(pg, opts) {
 	const { ctx } = pg
 	if (opts.db) {
 		return opts.db
+	}
+	if (rootApps.length && !ctx.app) {
+		throw new PgError(
+			`Each app has its own db: run from its folder (${rootApps.map((a) => a.dir).join(', ')}), or pass --db.`,
+		)
 	}
 	if (opts.own) {
 		return ownDb(ctx)
@@ -99,7 +110,7 @@ function syncEnv(pg, db) {
 /**
  * "up and running" + what to put in your .env
  * @param {Server} pg
- * @param {string} db
+ * @param {string | undefined} db undefined at the root of a repo with apps
  * @param {string} state
  */
 function ready(pg, db, state) {
@@ -107,7 +118,9 @@ function ready(pg, db, state) {
 	log.success(
 		`${cyan(pg.ctx.repo)} server ${state} ${gray(`(PostgreSQL ${version}, port ${pg.port}, ${pg.ctx.dataDir})`)}`,
 	)
-	if (pg.exists(db)) {
+	if (!db) {
+		log.info(`Apps: ${rootApps.map((a) => cyan(a.dir)).join(', ')} ${gray('(kitql-pg status)')}`)
+	} else if (pg.exists(db)) {
 		log.info(`Database: ${label(pg.ctx, db)}`)
 		printUrl(pg, db)
 	} else {
@@ -117,7 +130,7 @@ function ready(pg, db, state) {
 
 /**
  * @param {Server} pg
- * @param {string} db
+ * @param {string | undefined} db
  */
 async function up(pg, db) {
 	const created = pg.ensureCluster()
@@ -166,13 +179,14 @@ async function up(pg, db) {
  * Web ports of the worktrees (package.json "kitql-pg".web), this one synced to the .env ORIGIN
  * @param {import('./src/paths.js').Context} ctx
  * @param {import('./src/config.js').Config} config
+ * @param {import('./src/config.js').App[]} apps of the repo
  * @param {boolean} [quiet]
  */
-function syncWeb(ctx, config, quiet = false) {
+function syncWeb(ctx, config, apps, quiet = false) {
 	if (!config.web) {
 		return undefined
 	}
-	const web = webPorts(ctx, config.web)
+	const web = webPorts(ctx, config.web, reservedPorts(ctx, apps))
 	const res = syncEnvOrigin(ctx.root, web.ports[ctx.worktree])
 	if (res && !quiet) {
 		log.info(`.env ORIGIN: ${res.from} -> ${cyan(res.to)} ${yellow('(restart your dev server)')}`)
@@ -181,14 +195,41 @@ function syncWeb(ctx, config, quiet = false) {
 }
 
 /**
- * Everything this worktree uses, and the other worktrees
+ * Everything this worktree uses (each app's, at the root of a repo with apps)
  * @param {Server} pg
  * @param {import('./src/args.js').ParsedArgs} opts
  * @param {import('./src/config.js').Config} config
+ * @param {import('./src/config.js').App[]} apps of the repo
  */
-async function status(pg, opts, config) {
+async function status(pg, opts, config, apps) {
+	if (!rootApps.length) {
+		const data = await statusOf(pg, opts, config, apps)
+		if (opts.json) {
+			console.info(JSON.stringify(data, null, 2))
+		}
+		return 0
+	}
+	const all = []
+	for (const app of rootApps) {
+		const appPg = new Server(pg.binDir, appContext(pg.ctx, app), config)
+		all.push(await statusOf(appPg, opts, { ...config, ...app.config }, apps))
+	}
+	if (opts.json) {
+		console.info(JSON.stringify({ repo: pg.ctx.repo, worktree: pg.ctx.worktree, apps: all }, null, 2))
+	}
+	return 0
+}
+
+/**
+ * Everything this worktree uses, and the other worktrees. Printed, unless --json
+ * @param {Server} pg
+ * @param {import('./src/args.js').ParsedArgs} opts
+ * @param {import('./src/config.js').Config} config
+ * @param {import('./src/config.js').App[]} apps of the repo
+ */
+async function statusOf(pg, opts, config, apps) {
 	const { ctx } = pg
-	const web = syncWeb(ctx, config, opts.json)
+	const web = syncWeb(ctx, config, apps, opts.json)
 	const running = Boolean(pg.binDir) && pg.isRunning()
 	const dbs = new Set(running ? pg.list().map((d) => d.name) : [])
 	const db = currentDb(pg, opts)
@@ -209,6 +250,7 @@ async function status(pg, opts, config) {
 	)
 	const data = {
 		repo: ctx.repo,
+		app: ctx.app,
 		worktree: ctx.worktree,
 		path: ctx.root,
 		web: port ? { port, url, running: await isListening(port), envChanged: web?.envChanged } : null,
@@ -225,12 +267,12 @@ async function status(pg, opts, config) {
 		worktrees,
 	}
 	if (opts.json) {
-		console.info(JSON.stringify(data, null, 2))
-		return 0
+		return data
 	}
 
 	const state = (/** @type {boolean} */ on) => (on ? green('running') : gray('not running'))
-	console.info(`${bold(ctx.repo)} ${gray('·')} ${cyan(ctx.worktree)} ${gray(ctx.root ?? '')}`)
+	const title = ctx.app ? `${ctx.repo}/${ctx.app}` : ctx.repo
+	console.info(`${bold(title)} ${gray('·')} ${cyan(ctx.worktree)} ${gray(ctx.root ?? '')}`)
 	if (data.web) {
 		console.info(`  web    ${green(data.web.url)}  ${state(data.web.running)}`)
 	} else {
@@ -256,7 +298,7 @@ async function status(pg, opts, config) {
 			)
 		}
 	}
-	return 0
+	return data
 }
 
 /**
@@ -279,7 +321,10 @@ async function main() {
 		return 0
 	}
 
-	const { ctx, config } = resolveContext(process.cwd(), process.env)
+	const { ctx, config, apps } = resolveContext(process.cwd(), process.env)
+	if (!ctx.app && !config.db) {
+		rootApps = apps
+	}
 	// url & status never download (install scripts, agents): without binaries, main's db
 	const binDir =
 		opts.command === 'url' || opts.command === 'status'
@@ -296,11 +341,11 @@ async function main() {
 
 	switch (opts.command) {
 		case 'up':
-			syncWeb(ctx, config)
-			return up(pg, currentDb(pg, opts))
+			syncWeb(ctx, config, apps)
+			return up(pg, rootApps.length && !opts.db ? undefined : currentDb(pg, opts))
 
 		case 'status':
-			return status(pg, opts, config)
+			return status(pg, opts, config, apps)
 
 		case 'stop':
 			if (!pg.isRunning()) {
@@ -334,7 +379,7 @@ async function main() {
 
 		case 'clone': {
 			pg.requireRunning()
-			const db = opts.db ?? ctx.ownDb ?? ctx.mainDb
+			const db = opts.db ?? (rootApps.length ? currentDb(pg, opts) : (ctx.ownDb ?? ctx.mainDb))
 			const source = pg.clone(opts.args[0], db, opts.force)
 			log.success(
 				`Cloned ${label(ctx, source)} into ${label(ctx, db)} ${gray(`(timezone ${pg.timezone(db)}) ${elapsed(start)}`)}`,
@@ -349,7 +394,7 @@ async function main() {
 
 		case 'drop': {
 			pg.requireRunning()
-			const db = opts.db ?? ctx.ownDb ?? ctx.mainDb
+			const db = opts.db ?? (rootApps.length ? currentDb(pg, opts) : (ctx.ownDb ?? ctx.mainDb))
 			if (!pg.drop(db, opts.force)) {
 				log.info(
 					db === ctx.ownDb
@@ -367,14 +412,15 @@ async function main() {
 
 		case 'ls': {
 			pg.requireRunning()
-			const db = currentDb(pg, opts)
+			const db = rootApps.length ? opts.db : currentDb(pg, opts)
 			const dbs = pg.list()
 			const width = Math.max(...dbs.map((d) => d.name.length))
+			const mains = rootApps.length ? rootApps.map((app) => appContext(ctx, app).mainDb) : [ctx.mainDb]
 			console.info(gray(`  ${ctx.repo} server on port ${pg.port} (${ctx.dataDir})`))
 			for (const d of dbs) {
 				const current = d.name === db
 				const name = d.name.padEnd(width)
-				const tag = d.name === ctx.mainDb ? gray("  main's") : ''
+				const tag = mains.includes(d.name) ? gray("  main's") : ''
 				console.info(
 					`${current ? green('*') : ' '} ${current ? bold(name) : name}  ${d.size.padStart(8)}` +
 						tag +

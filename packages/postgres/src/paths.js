@@ -1,7 +1,7 @@
 import { spawnSync } from 'node:child_process'
 import path from 'node:path'
 
-import { readConfig } from './config.js'
+import { appOf, findApps, readConfig } from './config.js'
 import { dbName } from './naming.js'
 
 const TRAILING_SEPARATORS = /[\\/]+$/
@@ -29,7 +29,9 @@ const REMOTE_NAME = /([^/:\\]+?)(?:\.git)?[/\\]*$/
  * @property {string} dataDir postgres data directory (PGDATA)
  * @property {string} logFile server log
  * @property {string} stateFile kitql-pg settings (port, ...)
- * @property {string | undefined} root root of the current checkout (holds the package.json config)
+ * @property {string | undefined} root folder of the package.json config and .env: the checkout,
+ *   or the app in it
+ * @property {string} [app] app folder from the checkout root (`apps/capa`), for a monorepo app
  */
 
 /** @param {string} p */
@@ -80,7 +82,7 @@ export function buildContext(git, env = {}, db) {
 	const home = env.KITQL_PG_HOME
 		? path.resolve(env.KITQL_PG_HOME)
 		: path.join(git.commonDir, 'kitql-postgres')
-	const mainDb = dbName(db ?? repo)
+	const mainDb = db ?? dbName(repo)
 	return {
 		repo,
 		worktree,
@@ -133,12 +135,36 @@ export function readGitInfo(cwd) {
 }
 
 /**
- * Where we are, and the package.json config of this checkout
+ * Context of an app of the checkout: its db, .env and web ports
+ * @param {Context} ctx context of the checkout
+ * @param {import('./config.js').App} app
+ * @returns {Context}
+ */
+export function appContext(ctx, app) {
+	const mainDb = app.config.db ?? dbName(ctx.repo, app.name)
+	return {
+		...ctx,
+		mainDb,
+		ownDb: ctx.ownDb && dbName(mainDb, ctx.worktree),
+		root: ctx.root && path.join(ctx.root, app.dir),
+		app: app.dir,
+	}
+}
+
+/**
+ * Where we are, and the package.json config of this checkout (merged with the app's, run from
+ * an app folder)
  * @param {string} cwd
  * @param {Record<string, string | undefined>} env
  */
 export function resolveContext(cwd, env) {
 	const git = readGitInfo(cwd)
-	const config = git.toplevel ? readConfig(git.toplevel) : {}
-	return { ctx: buildContext(git, env, config.db), config }
+	const base = git.toplevel ? readConfig(git.toplevel) : {}
+	const apps = git.toplevel ? findApps(git.toplevel) : []
+	const ctx = buildContext(git, env, base.db)
+	const app = git.toplevel ? appOf(apps, git.toplevel, cwd) : undefined
+	if (!app) {
+		return { ctx, config: base, apps }
+	}
+	return { ctx: appContext(ctx, app), config: { ...base, ...app.config }, apps }
 }

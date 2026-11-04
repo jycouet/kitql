@@ -38,6 +38,14 @@ describe('assignWebPorts', () => {
 		})
 	})
 
+	it('skips the ports of the other apps', () => {
+		expect(assignWebPorts({ main: 3177, a: 3179 }, ['main', 'a', 'b'], 3177, [3179, 3180])).toEqual({
+			main: 3177,
+			a: 3178,
+			b: 3181,
+		})
+	})
+
 	it('a new base moves main, drops ports at or below it', () => {
 		expect(assignWebPorts({ main: 7777, a: 7778 }, ['main', 'a'], 8000)).toEqual({
 			main: 8000,
@@ -66,6 +74,15 @@ describe('listWorktrees / webPorts', () => {
 			'fix-b': 5175,
 		})
 		expect(webPorts(ctx, 5173).ports['fix-b']).toBe(5175)
+	})
+
+	it('an app: its own file, worktree paths into the app', () => {
+		const { root, commonDir } = tmpRepo(['feat-a'])
+		const ctx = { ...buildContext({ commonDir, gitDir: commonDir }), app: 'apps/capa' }
+		const web = webPorts(ctx, 3179, [3177, 3178])
+		expect(web.ports).toEqual({ main: 3179, 'feat-a': 3180 })
+		expect(web.worktrees[1].path).toBe(path.join(root, 'feat-a', 'apps/capa'))
+		expect(fs.existsSync(path.join(ctx.home, 'web.apps_capa.json'))).toBe(true)
 	})
 })
 

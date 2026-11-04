@@ -2,6 +2,8 @@ import fs from 'node:fs'
 import net from 'node:net'
 import path from 'node:path'
 
+import { sanitize } from './naming.js'
+
 /**
  * @typedef {object} Worktree
  * @property {string} name `main`, or the git worktree name
@@ -39,19 +41,21 @@ export function listWorktrees(commonDir) {
  * @param {Record<string, number>} given worktree -> port
  * @param {string[]} worktrees
  * @param {number} base
+ * @param {Iterable<number>} [reserved] ports of the other apps of the repo
  * @returns {Record<string, number>}
  */
-export function assignWebPorts(given, worktrees, base) {
+export function assignWebPorts(given, worktrees, base, reserved = []) {
+	const others = new Set(reserved)
 	/** @type {Record<string, number>} */
 	const ports = {}
 	for (const name of worktrees) {
 		if (name === 'main') {
 			ports[name] = base
-		} else if (given[name] > base) {
+		} else if (given[name] > base && !others.has(given[name])) {
 			ports[name] = given[name]
 		}
 	}
-	const taken = new Set(Object.values(ports))
+	const taken = new Set([...others, ...Object.values(ports)])
 	let next = base + 1
 	for (const name of worktrees) {
 		if (ports[name] === undefined) {
@@ -66,30 +70,65 @@ export function assignWebPorts(given, worktrees, base) {
 }
 
 /**
- * Web ports of the repo worktrees, stored next to the server data
+ * Where the web ports of the checkout, or of an app, are stored
+ * @param {string} home
+ * @param {string} [app]
+ */
+function portsFile(home, app) {
+	return path.join(home, app ? `web.${sanitize(app)}.json` : 'web.json')
+}
+
+/**
+ * @param {string} home
+ * @param {string} [app]
+ * @returns {Record<string, number>}
+ */
+function readPorts(home, app) {
+	try {
+		return JSON.parse(fs.readFileSync(portsFile(home, app), 'utf-8'))
+	} catch {
+		return {}
+	}
+}
+
+/**
+ * Web ports taken by the other apps of the repo: their base and their worktrees'
+ * @param {import('./paths.js').Context} ctx
+ * @param {import('./config.js').App[]} apps
+ */
+export function reservedPorts(ctx, apps) {
+	return apps
+		.filter((a) => a.dir !== ctx.app && a.config.web)
+		.flatMap((a) => [
+			/** @type {number} */ (a.config.web),
+			...Object.values(readPorts(ctx.home, a.dir)),
+		])
+}
+
+/**
+ * Web ports of the repo worktrees (of the app, in a monorepo), stored next to the server data
  * @param {import('./paths.js').Context} ctx
  * @param {number} base package.json "kitql-pg".web
+ * @param {Iterable<number>} [reserved] ports of the other apps
  */
-export function webPorts(ctx, base) {
-	const file = path.join(ctx.home, 'web.json')
-	/** @type {Record<string, number>} */
-	let given = {}
-	try {
-		given = JSON.parse(fs.readFileSync(file, 'utf-8'))
-	} catch {
-		// first time
-	}
+export function webPorts(ctx, base, reserved) {
+	const file = portsFile(ctx.home, ctx.app)
+	const given = readPorts(ctx.home, ctx.app)
 	const worktrees = listWorktrees(ctx.commonDir)
 	const names = worktrees.map((w) => w.name)
 	if (!names.includes(ctx.worktree)) {
 		names.push(ctx.worktree)
 	}
-	const ports = assignWebPorts(given, names, base)
+	const ports = assignWebPorts(given, names, base, reserved)
 	if (JSON.stringify(ports) !== JSON.stringify(given)) {
 		fs.mkdirSync(ctx.home, { recursive: true })
 		fs.writeFileSync(file, JSON.stringify(ports, null, 2) + '\n')
 	}
-	return { ports, worktrees }
+	const app = ctx.app
+	return {
+		ports,
+		worktrees: app ? worktrees.map((w) => ({ ...w, path: path.join(w.path, app) })) : worktrees,
+	}
 }
 
 /**

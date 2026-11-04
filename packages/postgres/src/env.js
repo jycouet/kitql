@@ -4,6 +4,8 @@ import path from 'node:path'
 const DATABASE_URL_LINE = /^(\s*DATABASE_URL\s*=\s*)(['"]?)(postgres(?:ql)?:\/\/[^'"\s]+)\2(.*)$/m
 const ORIGIN_LINE = /^(\s*ORIGIN\s*=\s*)(['"]?)(https?:\/\/[^'"\s]+)\2(.*)$/m
 const LOCAL_HOSTS = ['localhost', '127.0.0.1', '[::1]']
+// vite / SvelteKit: .env.local wins over .env
+const ENV_FILES = ['.env.local', '.env']
 
 /**
  * Point the `DATABASE_URL` of a .env content to another database of this server.
@@ -72,25 +74,33 @@ export function setEnvOrigin(content, port) {
 }
 
 /**
- * Edit the `.env` file of a checkout, if any
+ * The env files of a checkout, `.env.local` first
+ * @param {string | undefined} root
+ */
+function envFiles(root) {
+	return root ? ENV_FILES.map((f) => path.join(root, f)).filter((f) => fs.existsSync(f)) : []
+}
+
+/**
+ * Edit the env files of a checkout, if any
  * @param {string | undefined} root
  * @param {(content: string) => { content: string, from?: string, to?: string }} edit
  */
 function editEnvFile(root, edit) {
-	const file = root && path.join(root, '.env')
-	if (!file || !fs.existsSync(file)) {
-		return undefined
+	/** @type {{ file: string, from?: string, to: string } | undefined} */
+	let first
+	for (const file of envFiles(root)) {
+		const { content, from, to } = edit(fs.readFileSync(file, 'utf-8'))
+		if (to) {
+			fs.writeFileSync(file, content)
+			first ??= { file, from, to }
+		}
 	}
-	const { content, from, to } = edit(fs.readFileSync(file, 'utf-8'))
-	if (!to) {
-		return undefined
-	}
-	fs.writeFileSync(file, content)
-	return { file, from, to }
+	return first
 }
 
 /**
- * `setEnvDatabase` on the `.env` file of a checkout
+ * `setEnvDatabase` on the env files of a checkout
  * @param {string | undefined} root
  * @param {number} port
  * @param {string} db
@@ -100,7 +110,7 @@ export function syncEnvFile(root, port, db) {
 }
 
 /**
- * `setEnvOrigin` on the `.env` file of a checkout
+ * `setEnvOrigin` on the env files of a checkout
  * @param {string | undefined} root
  * @param {number} port
  */
@@ -109,13 +119,14 @@ export function syncEnvOrigin(root, port) {
 }
 
 /**
- * Dev server url of a checkout: its .env ORIGIN on `port`, else localhost
+ * Dev server url of a checkout: its env ORIGIN on `port`, else localhost
  * @param {string | undefined} root
  * @param {number} port
  */
 export function webUrl(root, port) {
-	const file = root && path.join(root, '.env')
-	const origin = file && fs.existsSync(file) ? envOrigin(fs.readFileSync(file, 'utf-8')) : undefined
+	const origin = envFiles(root)
+		.map((f) => envOrigin(fs.readFileSync(f, 'utf-8')))
+		.find(Boolean)
 	if (!origin) {
 		return `http://localhost:${port}`
 	}
