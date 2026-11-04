@@ -1,5 +1,11 @@
 # @kitql/postgres
 
+## 0.3.0
+
+### Minor Changes
+
+- [#1364](https://github.com/jycouet/kitql/pull/1364) [`ddf4892`](https://github.com/jycouet/kitql/commit/ddf4892f6c0c067e4550f6cec306e6fbab899a2b) Thanks [@jycouet](https://github.com/jycouet)! - Monorepo apps: a `kitql-pg` field in an app's package.json gives it its own db, web ports and `.env`. `.env.local` is synced too, `db` accepts dashes. `clone <worktree>` finds its db when `db` is set.
+
 ## 0.2.2
 
 ### Patch Changes
