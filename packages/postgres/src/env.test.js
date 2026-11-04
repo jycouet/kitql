@@ -1,6 +1,9 @@
+import fs from 'node:fs'
+import os from 'node:os'
+import path from 'node:path'
 import { describe, expect, it } from 'vitest'
 
-import { setEnvDatabase, setEnvOrigin } from './env.js'
+import { setEnvDatabase, setEnvOrigin, syncEnvFile, webUrl } from './env.js'
 
 describe('setEnvOrigin', () => {
 	it('moves a local ORIGIN to the port, keeps the rest', () => {
@@ -53,5 +56,19 @@ describe('setEnvDatabase', () => {
 	it('no change when already there', () => {
 		const env = 'DATABASE_URL=postgres://u@localhost:5435/app'
 		expect(setEnvDatabase(env, 5435, 'app')).toEqual({ content: env })
+	})
+})
+
+describe('env files', () => {
+	it('.env.local and .env, .env.local wins for the url', () => {
+		const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'kitql-pg-env-'))
+		fs.writeFileSync(
+			path.join(dir, '.env.local'),
+			'DATABASE_URL=postgres://u:p@127.0.0.1:5433/a\nORIGIN=http://127.0.0.1:3179\n',
+		)
+		fs.writeFileSync(path.join(dir, '.env'), 'DATABASE_URL=postgres://u:p@localhost:5433/a\n')
+		expect(syncEnvFile(dir, 5433, 'b')?.file).toBe(path.join(dir, '.env.local'))
+		expect(fs.readFileSync(path.join(dir, '.env'), 'utf-8')).toContain('5433/b')
+		expect(webUrl(dir, 3180)).toBe('http://127.0.0.1:3180')
 	})
 })

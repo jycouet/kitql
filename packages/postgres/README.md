@@ -62,7 +62,21 @@ source. Stop your dev server / psql first, or use `--force`.
 
 With `"web"` set, every worktree gets its own dev server port (main: `web`, the others the next free
 ones, kept). `status` and `up` write it in the worktree `.env` `ORIGIN` (only a localhost one): the
-dev server must read its port there.
+dev server must read its port there. `.env.local` is updated too, and wins for the url.
+
+### Monorepo: one db per app
+
+The root `package.json` keeps the server `port`. Each app with its own db sets `db`, `web`, `links`
+in its own `package.json` (one or two folders deep), its `.env` lives in its folder:
+
+```jsonc
+// apps/capa/package.json
+"kitql-pg": { "db": "my-capa", "web": 3179 }
+```
+
+Run from an app folder, commands target its db (worktrees: `<db>_<worktree>`). From the root,
+`status` lists every app, and db commands need an app folder or `--db`. Web ports never overlap
+between apps.
 
 ## Tests
 

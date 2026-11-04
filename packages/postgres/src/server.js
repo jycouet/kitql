@@ -339,7 +339,7 @@ export class Server {
 			return nameOrWorktree
 		}
 		const candidate =
-			nameOrWorktree === 'main' ? this.ctx.mainDb : dbName(this.ctx.repo, nameOrWorktree)
+			nameOrWorktree === 'main' ? this.ctx.mainDb : dbName(this.ctx.mainDb, nameOrWorktree)
 		if (this.exists(candidate)) {
 			return candidate
 		}
