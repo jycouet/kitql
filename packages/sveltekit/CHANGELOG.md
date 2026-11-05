@@ -1,5 +1,11 @@
 # @kitql/sveltekit
 
+## 0.1.1
+
+### Patch Changes
+
+- [#1368](https://github.com/jycouet/kitql/pull/1368) [`4841082`](https://github.com/jycouet/kitql/commit/48410823abda2dd8efe252f57a5cde4fe80c8185) Thanks [@jycouet](https://github.com/jycouet)! - Deprecated (README). For Svelte helpers, use firstly.
+
 ## 0.1.0
 
 ### Minor Changes
