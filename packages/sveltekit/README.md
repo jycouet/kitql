@@ -1,6 +1,6 @@
 # ⚡ KitQL - Svelte
 
-> **Deprecated**: use `SP` from `firstly/svelte` ([firstly](https://github.com/jycouet/firstly)).
+> **Deprecated**. For Svelte helpers, use [firstly](https://github.com/jycouet/firstly).
 
 [![](https://img.shields.io/npm/v/@kitql/sveltekit?color=&logo=npm)](https://www.npmjs.com/package/@kitql/sveltekit)
 [![](https://img.shields.io/npm/dm/@kitql/sveltekit?&logo=npm)](https://www.npmjs.com/package/@kitql/sveltekit)
