@@ -14,7 +14,7 @@
   },
   "scripts": {
     "build": "pnpm -F \"!docs\" build",
-    "release:version": "npm run changeset version",
+    "release:version": "changeset version",
     "release": "npm run build && changeset publish",
     "reset": "git clean -xdf",
     "lint": "kitql-lint",
