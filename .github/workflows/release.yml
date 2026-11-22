@@ -18,7 +18,7 @@ jobs:
   timeout-minutes: 5
   steps:
    - name: Checkout Repo
-     uses: actions/checkout@v6
+     uses: actions/checkout@v7
      with:
       # This makes Actions fetch all Git history so that Changesets can generate changelogs with the correct commits
       fetch-depth: 0
@@ -31,12 +31,14 @@ jobs:
 
    - name: Create Release Pull Request or Publish to npm
      id: changesets
-     uses: changesets/action@v1
+     uses: changesets/action@v2.1.2
      with:
       # This expects you to have a script called release which does a build for your packages and calls changeset publish
-      publish: pnpm release
-      commit: ':package: RELEASE: new version'
-      title: ':package: RELEASE: preparing next version'
+      publish-script: pnpm release
+      commit-message: ':package: RELEASE: new version'
+      pr-title: ':package: RELEASE: preparing next version'
+      github-token: ${{ secrets.GITHUB_TOKEN }}
      env:
+      # read by @changesets/changelog-github
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       NPM_CONFIG_PROVENANCE: true
