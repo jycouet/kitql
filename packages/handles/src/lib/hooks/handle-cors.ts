@@ -1,6 +1,6 @@
-import type { Handle } from '$lib/hooks/types.js'
-import { cors, type CorsOptions } from '$lib/utils/cors.js'
-import { getMatchingOptionForURL, type OptionsByPath } from '$lib/utils/paths.js'
+import { cors, type CorsOptions } from '../utils/cors.js'
+import { getMatchingOptionForURL, type OptionsByPath } from '../utils/paths.js'
+import type { Handle } from './types.js'
 
 /**
  * Creates a handler which adds CORS headers to responses for requests matching a given path in

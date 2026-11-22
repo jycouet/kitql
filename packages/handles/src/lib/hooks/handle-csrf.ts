@@ -1,8 +1,8 @@
 import { error } from '@sveltejs/kit'
 
-import type { Handle } from '$lib/hooks/types.js'
-import { isOriginAllowed, type AllowedOrigin } from '$lib/utils/origins.js'
-import { getMatchingOptionForURL, type OptionsByPath } from '$lib/utils/paths.js'
+import { isOriginAllowed, type AllowedOrigin } from '../utils/origins.js'
+import { getMatchingOptionForURL, type OptionsByPath } from '../utils/paths.js'
+import type { Handle } from './types.js'
 
 /**
  * Defines an `AllowedOrigin` specification to limit the origins from which the form submissions are

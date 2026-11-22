@@ -60,7 +60,7 @@ const b = "hello"
 				// }
 				) {
 					const { plop } = await import('./toto.js');
-					const { AUTH_SECRET } = await import('$env/static/private');
+					const { AUTH_SECRET } = await import('$app/env/private');
 					const { performance: p } = await import('perf_hooks');
 					const start = p.now();
 
@@ -83,7 +83,7 @@ const b = "hello"
 		const ast = parse(code)
 		expect(print(ast).code).toMatchInlineSnapshot(`
 			"import { BackendMethod, Entity, Fields, remult, type Allowed } from 'remult';
-			import { AUTH_SECRET } from '$env/static/private';
+			import { AUTH_SECRET } from '$app/env/private';
 
 			@Entity('users', {
 				allowApiCrud: true,
