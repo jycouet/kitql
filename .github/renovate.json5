@@ -1,4 +1,10 @@
 {
 	$schema: 'https://docs.renovatebot.com/renovate-schema.json',
 	extends: ['github>jycouet/jycouet//shared-config/renovate/default.json5'],
+	packageRules: [
+		{
+			matchPackageNames: ['pnpm'],
+			allowedVersions: '<12',
+		},
+	],
 }
