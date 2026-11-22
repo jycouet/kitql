@@ -23,7 +23,7 @@ export default defineConfig(() => ({
 			debug: true,
 			// decorators: ['BackendMethod'],
 			// hard: true,
-			nullify: ['$env/static/private', 'oslo/password'],
+			nullify: ['oslo/password'],
 			strip: [
 				{ decorator: 'BackendMethod' },
 				{
