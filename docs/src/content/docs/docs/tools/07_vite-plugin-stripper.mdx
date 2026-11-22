@@ -116,11 +116,15 @@ stripper({
 
 ## Nullify imports
 
-You can also drop entire imports from the client bundle (`import { X } from 'pkg'`
-becomes `let X = null`):
+Imports from these modules become `let X = null` in the client bundle:
+
+- `$app/env/private` (SvelteKit 3)
+- `$env/static/private` and `$env/dynamic/private` (SvelteKit 2)
+
+This always happens (exported as `privateEnvModules`). Add your own with `nullify`:
 
 ```ts
 stripper({
-	nullify: ['mongodb', '$env/static/private'],
+	nullify: ['mongodb'],
 })
 ```

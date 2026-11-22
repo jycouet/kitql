@@ -20,34 +20,22 @@ export const nullifyImports = async (
 					const packageName = node.source.value
 					if (packages_to_strip.includes(String(packageName))) {
 						const specifiers = node.specifiers
-						const replacementNodes = specifiers
-							.map((specifier: any) => {
-								if (specifier.type === 'ImportSpecifier') {
-									nullifyed.push(
-										`Nullify '${String(specifier.imported.name)}' from '${String(packageName)}'`,
-									)
-									// Create a variable declaration that sets the import to null
-									return {
-										type: 'VariableDeclaration',
-										kind: 'let',
-										declarations: [
-											{
-												type: 'VariableDeclarator',
-												id: {
-													type: 'Identifier',
-													name: String(specifier.imported.name),
-												},
-												init: {
-													type: 'Literal',
-													value: null,
-												},
-											},
-										],
-									}
-								}
-								return null
-							})
-							.filter((node): node is any => node !== null) // Remove null values and assert type
+						const replacementNodes = specifiers.map((specifier: any): any => {
+							// `local` keeps `import { A as B }`, `import * as B` and `import B` bound to `B`
+							const name = String(specifier.local.name)
+							nullifyed.push(`Nullify '${name}' from '${String(packageName)}'`)
+							return {
+								type: 'VariableDeclaration',
+								kind: 'let',
+								declarations: [
+									{
+										type: 'VariableDeclarator',
+										id: { type: 'Identifier', name },
+										init: { type: 'Literal', value: null },
+									},
+								],
+							}
+						})
 
 						if (replacementNodes.length > 0) {
 							// Replace the node in the parent's body

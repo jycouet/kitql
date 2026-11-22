@@ -99,4 +99,32 @@ describe('package', () => {
 			}
 		`)
 	})
+
+	it('aliased, namespace & default specifiers', async () => {
+		const code = `import { A as B } from '$app/env/private'
+import * as env from '$env/dynamic/private'
+import def from 'mongodb'
+console.log(B, env, def)`
+
+		const transformed = await nullifyImports(code, [
+			'$app/env/private',
+			'$env/dynamic/private',
+			'mongodb',
+		])
+
+		expect(toInfoCode(transformed)).toMatchInlineSnapshot(`
+			{
+			  "code": "let B = null;
+			let env = null;
+			let def = null;
+
+			console.log(B, env, def);",
+			  "info": [
+			    "Nullify 'B' from '$app/env/private'",
+			    "Nullify 'env' from '$env/dynamic/private'",
+			    "Nullify 'def' from 'mongodb'",
+			  ],
+			}
+		`)
+	})
 })

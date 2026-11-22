@@ -103,14 +103,15 @@ describe('Plugin build output', () => {
 				],
 				resolve: {
 					alias: {
-						'$env/static/private': '${join(tempDir, 'src', 'env-mock.js')}'
+						'$env/static/private': ${JSON.stringify(join(tempDir, 'src', 'env-mock.js'))},
+						'$app/env/private': ${JSON.stringify(join(tempDir, 'src', 'env-mock.js'))}
 					}
 				}
 			});
 		`,
 		)
 
-		// Create a mock for $env/static/private
+		// Mock for private env modules
 		const envMockFile = join(tempDir, 'src', 'env-mock.js')
 		writeFileSync(envMockFile, `export const AUTH_SECRET = 'FAKE_SECRET_FOR_TEST';`)
 
@@ -143,7 +144,8 @@ describe('Plugin build output', () => {
 				expects: (outputContent: string) => {
 					expect(outputContent).not.toContain('import.meta.env.SSR')
 					expect(outputContent).toContain('SECRET_123')
-					expect(outputContent).toContain('FAKE_SECRET_FOR_TEST')
+					// private env is always nullified
+					expect(outputContent).not.toContain('FAKE_SECRET_FOR_TEST')
 					expect(outputContent).toContain('This should only run on the server')
 				},
 			},
@@ -201,6 +203,17 @@ describe('Plugin build output', () => {
 		})
 	})
 
+	it('kit 3 $app/env/private nullified by default', async () => {
+		const code = `
+		import { AUTH_SECRET as SECRET } from '$app/env/private';
+		console.log('client side', SECRET);`
+
+		const { outputContent } = await setupTestEnvironment(code, {})
+
+		expect(outputContent).toContain('client side')
+		expect(outputContent).not.toContain('FAKE_SECRET_FOR_TEST')
+	})
+
 	describe('Entity + BackendMethod, methods', async () => {
 		;[
 			{
@@ -248,7 +261,6 @@ describe('Plugin build output', () => {
 				const { outputContent } = await setupTestEnvironment(code, {
 					strip: input.strip,
 					// debug: true,
-					nullify: ['$env/static/private'],
 				})
 
 				input.expects(outputContent)

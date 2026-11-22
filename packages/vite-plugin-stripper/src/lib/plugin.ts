@@ -33,6 +33,12 @@ export const defaultStripConfig: StripConfig[] = [
 	},
 ]
 
+/**
+ * Private env modules of SvelteKit 2 (`$env/*`) and 3 (`$app/env/private`).
+ * Always nullified: SvelteKit refuses to load them in client code.
+ */
+export const privateEnvModules = ['$env/static/private', '$env/dynamic/private', '$app/env/private']
+
 export type ViteStripperOptions = {
 	/**
 	 * Wrap matching method bodies in `if (import.meta.env.SSR) { ... }` so they
@@ -61,19 +67,19 @@ export type ViteStripperOptions = {
 	strip?: StripConfig[]
 
 	/**
-	 * For example if you set `nullify: ['mongodb']`
+	 * Extra packages to nullify, on top of {@link privateEnvModules} (always nullified).
 	 *
-	 * @example 1
+	 * @example 1 (built-in)
 	 * ```ts
 	 * // This line
-	 * import { AUTH_SECRET, AUTH_SECRET_NOT_USED } from '$env/static/private'
+	 * import { AUTH_SECRET, AUTH_SECRET_NOT_USED } from '$app/env/private'
 	 *
 	 * // We become
 	 * let AUTH_SECRET = null;
 	 * let AUTH_SECRET_NOT_USED = null;
 	 * ```
 	 *
-	 * @example 2
+	 * @example 2 `nullify: ['mongodb']`
 	 * ```ts
 	 * // This line
 	 * import { ObjectId } from 'mongodb'
@@ -112,6 +118,7 @@ export type ViteStripperOptions = {
 export function stripper(options?: ViteStripperOptions): PluginOption {
 	const log = new Log('stripper')
 	const stripConfig = options?.strip ?? defaultStripConfig
+	const nullify = [...privateEnvModules, ...(options?.nullify ?? [])]
 
 	const plugins: PluginOption = [
 		{
@@ -143,17 +150,10 @@ export function stripper(options?: ViteStripperOptions): PluginOption {
 					}
 
 					const allInfos: string[] = []
-					let code_ast: string | KitQLParseResult = code
-
-					if (options && options?.nullify && options.nullify.length > 0) {
-						const { info, ast: transformed } = await nullifyImports(code_ast, options.nullify)
-
-						// Update the code for later transforms & return it
-						if (transformed !== null) {
-							code_ast = transformed
-						}
-						allInfos.push(...info)
-					}
+					const nullified = await nullifyImports(code, nullify)
+					// Update the code for later transforms & return it
+					let code_ast: string | KitQLParseResult = nullified.ast ?? code
+					allInfos.push(...nullified.info)
 
 					if (stripConfig.length > 0) {
 						const { info, ast: transformed } = await transformStrip(code_ast, stripConfig)
