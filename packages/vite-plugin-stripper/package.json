@@ -17,7 +17,7 @@
     "homepage": "https://github.com/jycouet/kitql/tree/main/packages/vite-plugin-stripper#readme"
   },
   "scripts": {
-    "prepare": "svelte-kit sync",
+    "prepare": "svelte-kit sync || echo ''",
     "dev": "vite dev",
     "build": "vite build && svelte-package && node ../../scripts/package.js",
     "preview": "vite preview",

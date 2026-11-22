@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { page } from '$app/stores'
+	import { page } from '$app/state'
 
 	import { route } from '$lib/ROUTES.js'
 
@@ -35,21 +35,21 @@
 
 <h1>
 	<img width={40} height={40} alt="logo" src="/favicon.png" />
-	vite-plugin-kit-routes <em>({$page.params.lang ?? 'lang??'})</em>
+	vite-plugin-kit-routes <em>({page.params.lang ?? 'lang??'})</em>
 </h1>
-<pre>{JSON.stringify($page.route.id, null, 2)}</pre>
+<pre>{JSON.stringify(page.route.id, null, 2)}</pre>
 <hr />
 
 <ul>
 	<li><a href={route('/')}>Home</a></li>
 	<li>
-		<a href={route('/site', { lang: $page.params.lang })}>Sites</a> |
-		<a href={route('/site', { lang: $page.params.lang, limit: 2 })}>Sites (with Search Param)</a>
+		<a href={route('/site', { lang: page.params.lang })}>Sites</a> |
+		<a href={route('/site', { lang: page.params.lang, limit: 2 })}>Sites (with Search Param)</a>
 	</li>
 	<li>
 		<a
 			href={route('/site/[id]', {
-				lang: getLang($page.params.lang),
+				lang: getLang(page.params.lang),
 				id: 'Paris',
 				'da-sh': 'coucou',
 			})}>Site Paris</a
@@ -58,15 +58,15 @@
 	<li>
 		<!-- 🤞 before, hardcoded string, error prone -->
 		<a
-			href="{$page.params.lang
-				? `/${$page.params.lang}`
+			href="{page.params.lang
+				? `/${page.params.lang}`
 				: ''}/site_contract/{siteId}-{contractId}?limit={3}">Go to site & Contrat</a
 		>
 		|
 		<!-- ✅ after, typechecked route, no more errors -->
 		<a
 			href={route('/site_contract/[siteId]-[contractId]', {
-				lang: $page.params.lang,
+				lang: page.params.lang,
 				siteId,
 				contractId,
 				limit: 3,
@@ -74,17 +74,17 @@
 		>
 	</li>
 	<li>
-		<a href={route('/match/[id=int]', { lang: $page.params.lang, id: 1 })}>match int 1</a> |
-		<a href={route('/match/[id=ab]', { lang: $page.params.lang, id: 'a' })}>match int a</a>
+		<a href={route('/match/[id=int]', { lang: page.params.lang, id: 1 })}>match int 1</a> |
+		<a href={route('/match/[id=ab]', { lang: page.params.lang, id: 'a' })}>match int a</a>
 		<!--
       We can't do this because the type is not good
-      <a href={PAGES.match_id_int({ lang: $page.params.lang, id: 'c' })}>match int c (expect 404)</a> -->
+      <a href={PAGES.match_id_int({ lang: page.params.lang, id: 'c' })}>match int c (expect 404)</a> -->
 	</li>
 	<li>
-		<a href={route('/gp/one', { lang: $page.params.lang })}>gp One</a>
+		<a href={route('/gp/one', { lang: page.params.lang })}>gp One</a>
 	</li>
 	<li>
-		<a href={route('/gp/two', { lang: $page.params.lang })}>gp Two</a>
+		<a href={route('/gp/two', { lang: page.params.lang })}>gp Two</a>
 	</li>
 	<li>
 		<a href={route('/a/[...rest]/z', { rest: ['SWAGER', 'GRAPHIQL'] })}>Rest SWAGER GRAPHIQL</a>

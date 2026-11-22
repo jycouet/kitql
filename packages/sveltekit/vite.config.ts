@@ -1,9 +1,18 @@
+import adapter from '@sveltejs/adapter-node'
 import { sveltekit } from '@sveltejs/kit/vite'
+import { vitePreprocess } from '@sveltejs/vite-plugin-svelte'
 import { playwright } from '@vitest/browser-playwright'
 import { defineConfig } from 'vitest/config'
 
 export default defineConfig({
-	plugins: [sveltekit()],
+	plugins: [
+		sveltekit({
+			adapter: adapter(),
+			alias: { $lib: 'src/lib' },
+			preprocess: vitePreprocess(),
+			compilerOptions: { runes: true },
+		}),
+	],
 
 	test: {
 		expect: { requireAssertions: true },

@@ -1,7 +1,7 @@
 <script lang="ts">
-	import { page } from '$app/stores'
+	import { page } from '$app/state'
 
-	let raw = $derived($page.url.searchParams.getAll('ids'))
+	let raw = $derived(page.url.searchParams.getAll('ids'))
 	let parsed = $derived(raw.map((id) => parseInt(id, 10)))
 </script>
 

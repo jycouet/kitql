@@ -17,10 +17,10 @@
     "homepage": "https://github.com/jycouet/kitql/tree/main/packages/vite-plugin-kit-routes#readme"
   },
   "scripts": {
-    "prepare": "svelte-kit sync",
+    "prepare": "svelte-kit sync || echo ''",
     "dev": "vite dev",
     "dev-bin": "node ./src/lib/bin.ts",
-    "build": "vite build && svelte-package && rm -rf src/params/ab.d.ts && rm -rf src/test/*.d.ts && pnpm check && node ../../scripts/package.js",
+    "build": "vite build && svelte-package && pnpm check && node ../../scripts/package.js",
     "preview": "vite preview",
     "package": "svelte-package && publint",
     "check": "svelte-check --tsconfig ./tsconfig.json",
