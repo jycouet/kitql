@@ -159,8 +159,8 @@ catalogs:
       specifier: 4.1.4
       version: 4.1.4
     vitest-browser-svelte:
-      specifier: 2.2.1
-      version: 2.2.1
+      specifier: 3.1.0
+      version: 3.1.0
   tooling:
     '@typescript/native-preview':
       specifier: 7.0.0-dev.20260319.1
@@ -510,7 +510,7 @@ importers:
         version: 4.1.4(@types/node@24.12.0)(@vitest/browser-playwright@4.1.4)(@vitest/coverage-v8@4.1.4)(@vitest/ui@4.1.4)(vite@8.3.8(@types/node@24.12.0)(esbuild@0.28.0)(yaml@2.9.1))
       vitest-browser-svelte:
         specifier: catalog:testing
-        version: 2.2.1(svelte@5.59.1(@typescript-eslint/types@8.73.0))(vitest@4.1.4)
+        version: 3.1.0(svelte@5.59.1(@typescript-eslint/types@8.73.0))(vitest@4.1.4)
     publishDirectory: dist
 
   packages/vite-plugin-kit-routes:
@@ -4616,11 +4616,11 @@ packages:
       vite:
         optional: true
 
-  vitest-browser-svelte@2.2.1:
-    resolution: {integrity: sha512-dVjmXuk58eLSloA41Lvz5ALMqWVzK7Gk5TvY5KWFbI8VoEO1nJF1/M498NwJRbxlnjaEZrASd02h+NDS/T9mBA==}
+  vitest-browser-svelte@3.1.0:
+    resolution: {integrity: sha512-+EBXSed6NArmzOC2DY4v9sI5n9TMIyfkMnewbXNQ7sR5IckQTCx7g1BbLdkH7kzm/tkgG/eEbRYlMWSbVfBtWA==}
     peerDependencies:
       svelte: ^3 || ^4 || ^5 || ^5.0.0-next.0
-      vitest: ^4.0.0
+      vitest: ^4.0.0 || ^5.0.0
 
   vitest@4.1.4:
     resolution: {integrity: sha512-tFuJqTxKb8AvfyqMfnavXdzfy3h3sWZRWwfluGbkeR7n0HUev+FmNgZ8SDrRBTVrVCjgH5cA21qGbCffMNtWvg==}
@@ -8439,7 +8439,7 @@ snapshots:
     optionalDependencies:
       vite: 8.3.8(@types/node@24.12.0)(esbuild@0.28.0)(yaml@2.9.1)
 
-  vitest-browser-svelte@2.2.1(svelte@5.59.1(@typescript-eslint/types@8.73.0))(vitest@4.1.4):
+  vitest-browser-svelte@3.1.0(svelte@5.59.1(@typescript-eslint/types@8.73.0))(vitest@4.1.4):
     dependencies:
       '@testing-library/svelte-core': 1.1.3(svelte@5.59.1(@typescript-eslint/types@8.73.0))
       svelte: 5.59.1(@typescript-eslint/types@8.73.0)
