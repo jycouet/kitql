@@ -1,4 +1,4 @@
-import { beforeEach, describe, expect, it, vi } from 'vitest'
+import { describe, expect, it, vi } from 'vitest'
 
 import {
 	bgBlack,
@@ -45,13 +45,11 @@ import {
 } from './colors/index.js'
 import { Log } from './Log.js'
 
-describe('kitql - helper - Log', () => {
-	beforeEach(() => {
-		vi.mock('esm-env', () => ({
-			BROWSER: true,
-		}))
-	})
+vi.mock('esm-env', () => ({
+	BROWSER: true,
+}))
 
+describe('kitql - helper - Log', () => {
 	it('with all colors browser', () => {
 		const log = new Log('tool name')
 

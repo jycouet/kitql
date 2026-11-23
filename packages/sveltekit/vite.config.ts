@@ -16,6 +16,8 @@ export default defineConfig({
 						enabled: true,
 						provider: playwright(),
 						instances: [{ browser: 'chromium', headless: true }],
+						// vitest 5 defaults to exact; tests rely on substring matching
+						locators: { exact: false },
 					},
 					include: ['src/**/*.svelte.{test,spec}.{js,ts}'],
 					exclude: ['src/lib/server/**'],
