@@ -144,6 +144,25 @@ describe('extractParamsFromPath', () => {
 			]
 		`)
 	})
+
+	it('get matcher kit 3 (helper file named like a matcher)', async () => {
+		expect(
+			extractParamsFromPath('/[tmp=ab]', {
+				path_params: 'src/test/params_helper',
+			}),
+		).toMatchInlineSnapshot(`
+			[
+			  {
+			    "fromPath": true,
+			    "isArray": false,
+			    "matcher": "ab",
+			    "name": "tmp",
+			    "optional": false,
+			    "type": "import('@sveltejs/kit/params').MatcherParam<(typeof import('../test/params_helper/index.ts').params)['ab']>",
+			  },
+			]
+		`)
+	})
 })
 
 describe('formatKey', () => {

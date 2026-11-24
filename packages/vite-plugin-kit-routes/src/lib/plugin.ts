@@ -1,5 +1,4 @@
 import { spawn } from 'child_process'
-import { existsSync } from 'fs'
 import { posix } from 'path'
 import type { PluginOption } from 'vite'
 import { watchAndRun } from 'vite-plugin-watch-and-run'
@@ -17,6 +16,7 @@ const optionalRegex = /\[\[.*?\]\]/g
 const layoutInfoRegex = /@[^.]*\./
 const paramPatternRegex = /\[+([^\]]+)]+/g
 const trailingNewlineRegex = /\n$/
+const paramsExportRegex = /export\s+const\s+params\b|defineParams\(/
 
 // `base` is gone from `$app/paths` in Kit 3, `resolve` works on Kit >=2.26 and 3
 const pathBaseImport = `
@@ -815,17 +815,14 @@ function matcherType(
 		type: `ExtractParamType<typeof import('${relToParams}/${name}.ts').match>`,
 		needExtractParamType: true,
 	}
-	if (existsSync(`${pathParams}/${name}.ts`) || existsSync(`${pathParams}/${name}.js`)) {
-		return legacy
-	}
-
-	// Kit 3: a single `defineParams` entry replaces one file per matcher
+	// Kit 3: a single `defineParams` entry replaces one file per matcher. Checked first: helper
+	// files next to it may be named like a matcher. Content check: a Kit 2 matcher can be `index`.
 	const entry = [
 		`${pathParams}.ts`,
 		`${pathParams}.js`,
 		`${pathParams}/index.ts`,
 		`${pathParams}/index.js`,
-	].find((p) => existsSync(p))
+	].find((p) => paramsExportRegex.test(read(p) ?? ''))
 	if (!entry) {
 		return legacy
 	}
