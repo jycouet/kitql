@@ -1,5 +1,5 @@
 import { existsSync, mkdirSync, readdirSync, readFileSync, statSync, writeFileSync } from 'fs'
-import { dirname, join, posix, relative, resolve } from 'path'
+import { dirname, join, posix, relative, resolve, sep } from 'path'
 
 import { Log, red } from '@kitql/helpers'
 
@@ -32,25 +32,25 @@ export function write(pathFile: string, data: string[]) {
 export function getFilesUnder(rootFolder: string) {
 	const files: string[] = []
 
-	function traverseDirectory(dir: string, relDir: string) {
+	function traverseDirectory(dir: string) {
 		try {
-			const entries = readdirSync(dir, { withFileTypes: true })
-				// Listing order is OS-specific (Linux sorts, Windows does not): same output everywhere
-				.sort((a, b) => (a.name < b.name ? -1 : a.name > b.name ? 1 : 0))
+			// readdir order is OS-dependent (Windows ignores case), sort by code unit like libuv does on Unix
+			const entries = readdirSync(dir, { withFileTypes: true }).sort((a, b) =>
+				a.name < b.name ? -1 : a.name > b.name ? 1 : 0,
+			)
 
 			for (const entry of entries) {
-				// `/` on every OS, like the sort
-				const relPath = relDir ? `${relDir}/${entry.name}` : entry.name
+				const fullPath = join(dir, entry.name)
 				if (entry.isDirectory()) {
-					traverseDirectory(join(dir, entry.name), relPath)
+					traverseDirectory(fullPath)
 				} else {
-					files.push(relPath)
+					files.push(relative(rootFolder, fullPath).split(sep).join('/'))
 				}
 			}
 		} catch (error) {}
 	}
 
-	traverseDirectory(rootFolder, '')
+	traverseDirectory(rootFolder)
 	return files
 }
 

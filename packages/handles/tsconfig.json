@@ -1,5 +1,5 @@
 {
-	"extends": "./.svelte-kit/tsconfig.json",
+	"extends": "$app/tsconfig",
 	"compilerOptions": {
 		"esModuleInterop": true,
 		"forceConsistentCasingInFileNames": true,
@@ -9,5 +9,6 @@
 		"moduleResolution": "NodeNext",
 		"module": "NodeNext",
 		"strict": true
-	}
+	},
+	"include": ["src", "test", "*"]
 }

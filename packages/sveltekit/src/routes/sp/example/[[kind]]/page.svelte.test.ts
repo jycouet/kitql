@@ -68,14 +68,14 @@ describe('SP Example Page', () => {
 		// Reset mock values
 		Object.assign(page.params, {})
 		// Use the setter to update searchParams
-		;(page.url as MockURL).searchParamsObj = new URLSearchParams()
+		;(page.url as unknown as MockURL).searchParamsObj = new URLSearchParams()
 	})
 
 	test('1. Arriving on the page without any search params shows default state', async () => {
 		// Set up page mock with no search params
 		Object.assign(page.params, { kind: 'undef' })
 		// Use the setter to update searchParams
-		;(page.url as MockURL).searchParamsObj = new URLSearchParams()
+		;(page.url as unknown as MockURL).searchParamsObj = new URLSearchParams()
 
 		const { container } = await render(PageComponent)
 
@@ -108,7 +108,7 @@ describe('SP Example Page', () => {
 
 		Object.assign(page.params, { kind: 'k1' })
 		// Use the setter to update searchParams
-		;(page.url as MockURL).searchParamsObj = searchParams
+		;(page.url as unknown as MockURL).searchParamsObj = searchParams
 
 		const { container } = await render(PageComponent)
 
@@ -134,7 +134,7 @@ describe('SP Example Page', () => {
 		// Start with default state
 		Object.assign(page.params, { kind: 'undef' })
 		// Use the setter to update searchParams
-		;(page.url as MockURL).searchParamsObj = new URLSearchParams()
+		;(page.url as unknown as MockURL).searchParamsObj = new URLSearchParams()
 
 		const { container } = await render(PageComponent)
 

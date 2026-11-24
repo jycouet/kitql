@@ -162,7 +162,8 @@ test.describe('custom requestHook behavior', () => {
 		})
 		expect(response.status()).toBe(418)
 		const body = await response.json()
-		expect(body).toStrictEqual({
+		// Kit 3 also adds `status` to the body
+		expect(body).toMatchObject({
 			message: 'Custom teapot-related error message',
 			isTeapot: true,
 		})

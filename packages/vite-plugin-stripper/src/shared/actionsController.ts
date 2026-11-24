@@ -13,7 +13,7 @@ export class ActionsController {
 	static async read(info: Allowed) {
 		// if (import.meta.env.SSR) {
 		const { plop } = await import('./toto.js')
-		const { AUTH_SECRET } = await import('$env/static/private')
+		const { AUTH_SECRET } = await import('$app/env/private')
 		const { performance: p } = await import('perf_hooks')
 		const start = p.now()
 		console.info('AUTH_SECRET', AUTH_SECRET)
