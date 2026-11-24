@@ -32,23 +32,25 @@ export function write(pathFile: string, data: string[]) {
 export function getFilesUnder(rootFolder: string) {
 	const files: string[] = []
 
-	function traverseDirectory(dir: string) {
+	function traverseDirectory(dir: string, relDir: string) {
 		try {
 			const entries = readdirSync(dir, { withFileTypes: true })
+				// Listing order is OS-specific (Linux sorts, Windows does not): same output everywhere
+				.sort((a, b) => (a.name < b.name ? -1 : a.name > b.name ? 1 : 0))
 
 			for (const entry of entries) {
-				const fullPath = join(dir, entry.name)
+				// `/` on every OS, like the sort
+				const relPath = relDir ? `${relDir}/${entry.name}` : entry.name
 				if (entry.isDirectory()) {
-					traverseDirectory(fullPath)
+					traverseDirectory(join(dir, entry.name), relPath)
 				} else {
-					const relativePath = relative(rootFolder, fullPath)
-					files.push(relativePath)
+					files.push(relPath)
 				}
 			}
 		} catch (error) {}
 	}
 
-	traverseDirectory(rootFolder)
+	traverseDirectory(rootFolder, '')
 	return files
 }
 
