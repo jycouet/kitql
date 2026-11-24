@@ -3,7 +3,7 @@
  * In the local timezone (UTC if server is in UTC!)
  */
 export function dateCompact(date?: Date): string {
-	const dtToUse = date ? date : new Date()
+	const dtToUse = date ? new Date(date.getTime()) : new Date()
 	dtToUse.setMinutes(dtToUse.getMinutes() - dtToUse.getTimezoneOffset())
 	const isoStr = dtToUse.toISOString()
 
