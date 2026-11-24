@@ -5,8 +5,8 @@ import { page } from 'vitest/browser'
 import Layout from './+layout.svelte'
 
 describe('/+layout.svelte', () => {
-	test('should render h1', () => {
-		render(Layout)
+	test('should render h1', async () => {
+		await render(Layout)
 		expect(page.getByRole('heading', { level: 1 })).toBeInTheDocument()
 	})
 })

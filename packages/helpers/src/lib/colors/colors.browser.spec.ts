@@ -1,14 +1,12 @@
-import { beforeEach, describe, expect, it, vi } from 'vitest'
+import { describe, expect, it, vi } from 'vitest'
 
 import { color, colorProcess, red } from './index.js'
 
-describe('browser', () => {
-	beforeEach(() => {
-		vi.mock('esm-env', () => ({
-			BROWSER: true,
-		}))
-	})
+vi.mock('esm-env', () => ({
+	BROWSER: true,
+}))
 
+describe('browser', () => {
 	it('color in browser', () => {
 		import.meta.env.SSR = false
 

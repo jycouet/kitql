@@ -42,11 +42,12 @@ pnpm monorepo (`packages/*` + `docs`). Versions are centralized in `pnpm-workspa
 @kitql/helpers          (zero deps - foundation layer)
   |-> @kitql/internals  (+ oxc-parser, oxc-walker, esrap for AST)
   |-> @kitql/handles    (+ esm-env, vary - SvelteKit hooks)
-  |-> @kitql/sveltekit  (SvelteKit utilities)
+  |-> @kitql/sveltekit  (deprecated, points to firstly)
   |-> vite-plugin-watch-and-run  (+ picomatch)
   |     |-> vite-plugin-stripper (+ @kitql/internals)
-  |     |-> vite-plugin-kit-routes (+ @kitql/internals, commander)
+  |     |-> vite-plugin-kit-routes (+ @kitql/internals)
   |-> @kitql/eslint-config (kitql-lint CLI - eslint + oxfmt + oxlint)
+  |-> @kitql/postgres   (kitql-pg CLI - local Postgres, one db per worktree)
 ```
 
 ### Build system
@@ -59,6 +60,8 @@ Each package ships ESM + CJS + Svelte + TypeScript types. `publishConfig.directo
 
 Changesets-based: `pnpm release:version` to version, `pnpm release` to build + publish. CI auto-creates release PRs on push to main.
 
+npm auth is trusted publishing (OIDC, `id-token: write`), no `NPM_TOKEN`. `changesets/action` v2 requires `@changesets/cli` v3: bump them together and check action input names against its changelog.
+
 ### Linting
 
 `kitql-lint` CLI (from `@kitql/eslint-config`) wraps eslint, oxfmt, oxlint, and tsgolint. Root `eslint.config.js` imports from the eslint-config package directly.
@@ -67,5 +70,5 @@ Changesets-based: `pnpm release:version` to version, `pnpm release` to build + p
 
 - `@kitql/helpers` must remain zero-dependency
 - `all-in` package is deprecated (private, do not modify)
-- `@sveltejs/package` has a custom patch in `/patches/`
+- Published packages support SvelteKit 2 and 3 (`svelte-dep` catalog); the repo itself builds and tests on one Kit version only
 - CI matrix tests each package independently (lint, check, test:ci)

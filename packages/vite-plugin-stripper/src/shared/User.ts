@@ -1,6 +1,6 @@
 import { BackendMethod, Entity, Fields, remult, type Allowed } from 'remult'
 
-import { AUTH_SECRET } from '$env/static/private'
+import { AUTH_SECRET } from '$app/env/private'
 
 @Entity('users', {
 	allowApiCrud: true,

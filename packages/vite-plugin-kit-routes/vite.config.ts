@@ -1,4 +1,6 @@
+import adapter from '@sveltejs/adapter-auto'
 import { sveltekit } from '@sveltejs/kit/vite'
+import { vitePreprocess } from '@sveltejs/vite-plugin-svelte'
 import { defineConfig } from 'vitest/config'
 
 import type { KIT_ROUTES } from '$lib/ROUTES.js'
@@ -160,7 +162,13 @@ export const _kitRoutesConfig: Options<KIT_ROUTES> = {
 
 export default defineConfig({
 	plugins: [
-		sveltekit(),
+		sveltekit({
+			adapter: adapter(),
+			alias: { $lib: 'src/lib' },
+			preprocess: vitePreprocess(),
+			// paths: { base: '/yop' },
+			// router: { type: 'hash' },
+		}),
 		// demo
 		kitRoutes<KIT_ROUTES>(_kitRoutesConfig),
 	],
