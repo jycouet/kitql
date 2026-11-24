@@ -19,19 +19,19 @@ catalogs:
   '@typescript/native-preview': 7.0.0-dev.20260319.1
   'typescript': '6.0.2'
   'esbuild': '0.28.0'
-  'ora': '9.4.0'
+  'ora': '10.0.0'
 
  vite:
   # Pin exact Vite so SvelteKit + Vitest share one install (avoids duplicate Rollup types in svelte-check).
-  'vite': '8.3.4'
+  'vite': '8.3.8'
 
  testing:
   # unit
-  'vitest': '4.1.4'
-  '@vitest/ui': 4.1.4
-  '@vitest/coverage-v8': '4.1.4'
-  '@vitest/browser-playwright': '4.1.4'
-  vitest-browser-svelte: 2.2.1
+  'vitest': '5.1.1'
+  '@vitest/ui': 5.1.1
+  '@vitest/coverage-v8': '5.1.1'
+  '@vitest/browser-playwright': '5.1.1'
+  vitest-browser-svelte: 3.1.0
   # e2e
   '@playwright/test': '1.65.1'
 
@@ -62,7 +62,7 @@ catalogs:
   '@changesets/changelog-github': '1.0.1'
   '@changesets/cli': '3.0.3'
   'publint': '0.3.1'
-  'tslib': '2.8.0'
+  'tslib': '2.9.1'
   'rollup-plugin-visualizer': '7.1.1'
 
  # Ranges, not pins: published as-is, so apps can share one copy with their other deps.
@@ -76,14 +76,14 @@ catalogs:
   'oxc-walker': '^1.1.1'
 
  sveltekit:
-  '@sveltejs/kit': '2.70.3'
+  '@sveltejs/kit': '3.4.0'
   '@sveltejs/package': '3.0.3'
   '@sveltejs/vite-plugin-svelte': '7.3.1'
-  '@sveltejs/adapter-auto': '8.0.0'
-  '@sveltejs/adapter-node': '5.5.0'
+  '@sveltejs/adapter-auto': '9.0.0'
+  '@sveltejs/adapter-node': '6.0.5'
 
  svelte:
-  'svelte': '5.57.1'
+  'svelte': '5.59.1'
   'svelte-check': '4.7.6'
 
  svelte-dep:
@@ -94,9 +94,9 @@ catalogs:
   'remult': '3.3.18'
 
  docs:
-  '@astrojs/starlight': 0.39.2
+  '@astrojs/starlight': 0.43.1
   accessible-astro-components: 5.8.0
-  astro: 6.4.8
+  astro: 7.4.13
   astro-icon: 1.2.0
   sharp: 0.35.5
 

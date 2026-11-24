@@ -1,7 +1,5 @@
-import type { ParamMatcher } from '@sveltejs/kit'
-
 const intRegex = /^\d+$/
 
-export const match: ParamMatcher = (param) => {
+export const match = (param: string): boolean => {
 	return intRegex.test(param)
 }

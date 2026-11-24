@@ -1,5 +1,5 @@
 import { existsSync, mkdirSync, readdirSync, readFileSync, statSync, writeFileSync } from 'fs'
-import { dirname, join, posix, relative, resolve } from 'path'
+import { dirname, join, posix, relative, resolve, sep } from 'path'
 
 import { Log, red } from '@kitql/helpers'
 
@@ -34,15 +34,17 @@ export function getFilesUnder(rootFolder: string) {
 
 	function traverseDirectory(dir: string) {
 		try {
-			const entries = readdirSync(dir, { withFileTypes: true })
+			// readdir order is OS-dependent (Windows ignores case), sort by code unit like libuv does on Unix
+			const entries = readdirSync(dir, { withFileTypes: true }).sort((a, b) =>
+				a.name < b.name ? -1 : a.name > b.name ? 1 : 0,
+			)
 
 			for (const entry of entries) {
 				const fullPath = join(dir, entry.name)
 				if (entry.isDirectory()) {
 					traverseDirectory(fullPath)
 				} else {
-					const relativePath = relative(rootFolder, fullPath)
-					files.push(relativePath)
+					files.push(relative(rootFolder, fullPath).split(sep).join('/'))
 				}
 			}
 		} catch (error) {}

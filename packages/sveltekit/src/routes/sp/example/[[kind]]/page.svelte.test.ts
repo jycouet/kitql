@@ -68,16 +68,16 @@ describe('SP Example Page', () => {
 		// Reset mock values
 		Object.assign(page.params, {})
 		// Use the setter to update searchParams
-		;(page.url as MockURL).searchParamsObj = new URLSearchParams()
+		;(page.url as unknown as MockURL).searchParamsObj = new URLSearchParams()
 	})
 
 	test('1. Arriving on the page without any search params shows default state', async () => {
 		// Set up page mock with no search params
 		Object.assign(page.params, { kind: 'undef' })
 		// Use the setter to update searchParams
-		;(page.url as MockURL).searchParamsObj = new URLSearchParams()
+		;(page.url as unknown as MockURL).searchParamsObj = new URLSearchParams()
 
-		const { container } = render(PageComponent)
+		const { container } = await render(PageComponent)
 
 		// Test initial state of the form fields
 		expect(screen.getByText('kind')).toBeInTheDocument() // Name field
@@ -92,9 +92,9 @@ describe('SP Example Page', () => {
 		// Check that the object state is showing correct values
 		const preContent = screen.getByText(/"name": "kind"/, { exact: false })
 		expect(preContent).toBeInTheDocument()
-		expect(preContent).toHaveTextContent(/"age": 25/)
-		expect(preContent).toHaveTextContent(/"active": true/)
-		expect(preContent).toHaveTextContent(/"sel": {[^}]*"id": 2/)
+		expect(preContent).toMatchTextContent(/"age": 25/)
+		expect(preContent).toMatchTextContent(/"active": true/)
+		expect(preContent).toMatchTextContent(/"sel": {[^}]*"id": 2/)
 	})
 
 	test('2. Arriving with search params populates the form fields correctly', async () => {
@@ -108,9 +108,9 @@ describe('SP Example Page', () => {
 
 		Object.assign(page.params, { kind: 'k1' })
 		// Use the setter to update searchParams
-		;(page.url as MockURL).searchParamsObj = searchParams
+		;(page.url as unknown as MockURL).searchParamsObj = searchParams
 
-		const { container } = render(PageComponent)
+		const { container } = await render(PageComponent)
 
 		// Test that form fields reflect the search params
 		expect(screen.getByText('testName')).toBeInTheDocument()
@@ -125,18 +125,18 @@ describe('SP Example Page', () => {
 		// Check that the object state is showing correct values
 		const preContent = screen.getByText(/"name": "testName"/, { exact: false })
 		expect(preContent).toBeInTheDocument()
-		expect(preContent).toHaveTextContent(/"age": 30/)
-		expect(preContent).toHaveTextContent(/"active": false/)
-		expect(preContent).toHaveTextContent(/"sel": {[^}]*"id": 1/)
+		expect(preContent).toMatchTextContent(/"age": 30/)
+		expect(preContent).toMatchTextContent(/"active": false/)
+		expect(preContent).toMatchTextContent(/"sel": {[^}]*"id": 1/)
 	})
 
 	test('3. Changing data updates the select and object state', async () => {
 		// Start with default state
 		Object.assign(page.params, { kind: 'undef' })
 		// Use the setter to update searchParams
-		;(page.url as MockURL).searchParamsObj = new URLSearchParams()
+		;(page.url as unknown as MockURL).searchParamsObj = new URLSearchParams()
 
-		const { container } = render(PageComponent)
+		const { container } = await render(PageComponent)
 
 		// Change the name field
 		const nameInput = screen.getByRole('textbox', { name: 'Name' }).first()
@@ -157,9 +157,9 @@ describe('SP Example Page', () => {
 		// Check that the object state has been updated
 		const preContent = screen.getByTestId('results')
 		expect(preContent).toBeInTheDocument()
-		expect(preContent).toHaveTextContent(/"age": 40/)
-		expect(preContent).toHaveTextContent(/"active": false/)
-		expect(preContent).toHaveTextContent(/"sel": {[^}]*"id": 1[^}]*"name": "car"/)
+		expect(preContent).toMatchTextContent(/"age": 40/)
+		expect(preContent).toMatchTextContent(/"active": false/)
+		expect(preContent).toMatchTextContent(/"sel": {[^}]*"id": 1[^}]*"name": "car"/)
 
 		// Verify that the select shows the car name
 		expect(selectElement?.value).toBe('1')
