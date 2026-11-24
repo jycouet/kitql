@@ -1,5 +1,5 @@
-import { error, redirect, type Handle } from '@sveltejs/kit'
-import { sequence } from '@sveltejs/kit/hooks'
+import { error, redirect } from '@sveltejs/kit'
+import { sequence, type Handle } from '@sveltejs/kit/hooks'
 
 import { handleCors } from '$lib/hooks/handle-cors.js'
 import { handleCsrf } from '$lib/hooks/handle-csrf.js'
@@ -20,7 +20,7 @@ export const handle = sequence(
 				to: 'http://eu.httpbin.org/',
 				requestHook: (event) => {
 					if (event.url.pathname.includes('test-redirect')) {
-						redirect(302, 'https://kitql.dev/')
+						redirect(302, 'https://kitql.dev/', { external: true })
 					}
 					if (event.url.pathname.includes('test-error')) {
 						error(418, { message: 'Custom teapot-related error message', isTeapot: true })

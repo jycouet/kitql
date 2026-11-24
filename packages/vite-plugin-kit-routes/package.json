@@ -17,7 +17,7 @@
     "homepage": "https://github.com/jycouet/kitql/tree/main/packages/vite-plugin-kit-routes#readme"
   },
   "scripts": {
-    "prepare": "svelte-kit sync",
+    "prepare": "svelte-kit sync || echo ''",
     "dev": "vite dev",
     "dev-bin": "node ./src/lib/bin.ts",
     "build": "vite build && svelte-package && pnpm check && node ../../scripts/package.js",

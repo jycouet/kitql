@@ -1,5 +1,5 @@
 {
-	"extends": "./.svelte-kit/tsconfig.json",
+	"extends": "$app/tsconfig",
 	"compilerOptions": {
 		"allowJs": true,
 		"checkJs": false,
@@ -15,5 +15,6 @@
 		"allowImportingTsExtensions": true,
 		"rewriteRelativeImportExtensions": true
 	},
+	"include": ["src", "test", "*"],
 	"exclude": ["vite.config.ts", "src/test/vite.config.noexport.ts"]
 }

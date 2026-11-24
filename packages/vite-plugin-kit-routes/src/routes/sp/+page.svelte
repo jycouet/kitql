@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { goto } from '$app/navigation'
-	import { page } from '$app/stores'
+	import { page } from '$app/state'
 
 	import { currentSp, route } from '$lib/ROUTES.js'
 
@@ -17,13 +17,13 @@
 		{ name: 'Brittney', tally: -98 },
 	]
 
-	let take = $state(Number($page.url.searchParams.get('take') ?? 10))
-	let skip = $state(Number($page.url.searchParams.get('skip') ?? 0))
-	let search = $state($page.url.searchParams.get('search') ?? '')
+	let take = $state(Number(page.url.searchParams.get('take') ?? 10))
+	let skip = $state(Number(page.url.searchParams.get('skip') ?? 0))
+	let search = $state(page.url.searchParams.get('search') ?? '')
 
 	const updateUrl = async () => {
 		const url = route('/sp', { ...currentSp(), search, skip, take })
-		await goto(url, { keepFocus: true })
+		await goto(url, { reset: false })
 	}
 </script>
 

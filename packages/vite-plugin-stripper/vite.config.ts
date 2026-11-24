@@ -1,4 +1,6 @@
+import adapter from '@sveltejs/adapter-auto'
 import { sveltekit } from '@sveltejs/kit/vite'
+import { vitePreprocess } from '@sveltejs/vite-plugin-svelte'
 import { defineConfig } from 'vite'
 
 import { stripper } from './src/lib/plugin.js'
@@ -36,7 +38,7 @@ export default defineConfig(() => ({
 				},
 			],
 		}),
-		sveltekit(),
+		sveltekit({ adapter: adapter(), preprocess: vitePreprocess() }),
 	],
 	test: {
 		include: ['src/**/*.{test,spec}.{js,ts}'],

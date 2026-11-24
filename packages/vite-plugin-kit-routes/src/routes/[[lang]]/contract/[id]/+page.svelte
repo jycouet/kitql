@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { enhance } from '$app/forms'
-	import { page } from '$app/stores'
+	import { page } from '$app/state'
 
 	import { route } from '$lib/ROUTES.js'
 
@@ -10,10 +10,10 @@
 
 	let { form }: Props = $props()
 
-	const id = $page.params.id!
+	const id = page.params.id!
 
 	const action = route('default /contract/[id]', {
-		lang: $page.params.lang,
+		lang: page.params.lang,
 		id,
 	})
 </script>

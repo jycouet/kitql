@@ -1,12 +1,14 @@
 import path from 'path'
+import adapter from '@sveltejs/adapter-auto'
 import { sveltekit } from '@sveltejs/kit/vite'
+import { vitePreprocess } from '@sveltejs/vite-plugin-svelte'
 import { defineConfig } from 'vite'
 
 import { watchAndRun } from './src/lib/index.js'
 
 export default defineConfig({
 	plugins: [
-		sveltekit(),
+		sveltekit({ adapter: adapter(), preprocess: vitePreprocess() }),
 		// demo
 		watchAndRun([
 			{
