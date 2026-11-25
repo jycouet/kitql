@@ -1,5 +1,13 @@
 # eslint-config-kitql
 
+## 0.10.3
+
+### Patch Changes
+
+- [#1374](https://github.com/jycouet/kitql/pull/1374) [`1b2665d`](https://github.com/jycouet/kitql/commit/1b2665d345a17d1984046a07f558e91f217aee6f) Thanks [@jycouet](https://github.com/jycouet)! - Bump eslint, typescript-eslint, eslint-plugin-svelte, globals, oxlint, oxlint-tsgolint, eslint-plugin-oxlint.
+- Updated dependencies [[`0eb1bb5`](https://github.com/jycouet/kitql/commit/0eb1bb55a3e323843d7e7ad01b54220f3b562181)]:
+  - @kitql/helpers@0.9.0
+
 ## 0.10.2
 
 ### Patch Changes

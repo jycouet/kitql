@@ -1,5 +1,13 @@
 # @kitql/helpers
 
+## 0.9.0
+
+### Minor Changes
+
+- [#1389](https://github.com/jycouet/kitql/pull/1389) [`0eb1bb5`](https://github.com/jycouet/kitql/commit/0eb1bb55a3e323843d7e7ad01b54220f3b562181) Thanks [@jycouet](https://github.com/jycouet)! - BREAKING: remove `midTrim`, use `strTrimMid` instead
+  
+  fix: `strTrimMid` never returns more than `len`, `dateCompact` no longer mutates its `Date` argument
+
 ## 0.8.15
 
 ### Patch Changes

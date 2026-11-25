@@ -1,5 +1,12 @@
 # @kitql/postgres
 
+## 0.3.1
+
+### Patch Changes
+
+- Updated dependencies [[`0eb1bb5`](https://github.com/jycouet/kitql/commit/0eb1bb55a3e323843d7e7ad01b54220f3b562181)]:
+  - @kitql/helpers@0.9.0
+
 ## 0.3.0
 
 ### Minor Changes

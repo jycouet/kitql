@@ -1,5 +1,13 @@
 # vite-plugin-kit-routes
 
+## 1.1.3
+
+### Patch Changes
+
+- [#1393](https://github.com/jycouet/kitql/pull/1393) [`960b6da`](https://github.com/jycouet/kitql/commit/960b6da4620f7cce414f737f43eaa8d056467536) Thanks [@jycouet](https://github.com/jycouet)! - fix: Kit 3 params entry is used when the file named like the matcher has no `match` export
+- Updated dependencies [[`0eb1bb5`](https://github.com/jycouet/kitql/commit/0eb1bb55a3e323843d7e7ad01b54220f3b562181)]:
+  - @kitql/helpers@0.9.0
+
 ## 1.1.2
 
 ### Patch Changes
