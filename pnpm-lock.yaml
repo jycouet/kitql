@@ -10,8 +10,8 @@ catalogs:
       specifier: 0.43.1
       version: 0.43.1
     accessible-astro-components:
-      specifier: 5.8.0
-      version: 5.8.0
+      specifier: 5.9.0
+      version: 5.9.0
     astro:
       specifier: 7.4.13
       version: 7.4.13
@@ -224,7 +224,7 @@ importers:
         version: link:../packages/eslint-config
       accessible-astro-components:
         specifier: catalog:docs
-        version: 5.8.0(astro@7.4.13(@types/node@24.12.0)(esbuild@0.28.0)(yaml@2.9.1))
+        version: 5.9.0(astro@7.4.13(@types/node@24.12.0)(esbuild@0.28.0)(yaml@2.9.1))
       astro:
         specifier: catalog:docs
         version: 7.4.13(@types/node@24.12.0)(esbuild@0.28.0)(yaml@2.9.1)
@@ -2546,8 +2546,8 @@ packages:
   '@vitest/utils@5.1.1':
     resolution: {integrity: sha512-CtwJP89ozg9RLHb70HM9jwzHnzZDaLTCovwr313CSRM6IkwNuIcORlZluW0zVNkmjJWBxPRLpvjnX6XhztjS2w==}
 
-  accessible-astro-components@5.8.0:
-    resolution: {integrity: sha512-TYGVy+u0pCRQJl4gp0r397YsNfM6R+ZTDj5sbatadFuxAdQ92qlhJg31S55nWUkFUre8zHoZvPIo4GWxCHVXTQ==}
+  accessible-astro-components@5.9.0:
+    resolution: {integrity: sha512-ZjoSAaQFhHzVSiM3zzcteg8r7KPeC0ASmkeQcHi8KiGwsnUtxA6KXI7nY8SUBed9kWulAtzCh53egzKGYNIlAw==}
     engines: {node: ^18.20.8 || ^20.3.0 || >=22.0.0}
     peerDependencies:
       astro: ^5.0.0 || ^6.0.0 || ^7.0.0
@@ -6013,7 +6013,7 @@ snapshots:
       convert-source-map: 2.0.0
       tinyrainbow: 3.2.0
 
-  accessible-astro-components@5.8.0(astro@7.4.13(@types/node@24.12.0)(esbuild@0.28.0)(yaml@2.9.1)):
+  accessible-astro-components@5.9.0(astro@7.4.13(@types/node@24.12.0)(esbuild@0.28.0)(yaml@2.9.1)):
     dependencies:
       astro: 7.4.13(@types/node@24.12.0)(esbuild@0.28.0)(yaml@2.9.1)
 
