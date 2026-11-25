@@ -1,5 +1,13 @@
 # @kitql/internals
 
+## 0.11.7
+
+### Patch Changes
+
+- [#1347](https://github.com/jycouet/kitql/pull/1347) [`4e646d7`](https://github.com/jycouet/kitql/commit/4e646d73163d9f80a410d4e9269a28960b9e7bc4) Thanks [@renovate](https://github.com/apps/renovate)! - fix: `getFilesUnder` returns the same order and `/` separators on every OS
+- Updated dependencies [[`0eb1bb5`](https://github.com/jycouet/kitql/commit/0eb1bb55a3e323843d7e7ad01b54220f3b562181)]:
+  - @kitql/helpers@0.9.0
+
 ## 0.11.6
 
 ### Patch Changes

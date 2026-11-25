@@ -1,5 +1,16 @@
 # vite-plugin-stripper
 
+## 0.11.0
+
+### Minor Changes
+
+- [#1371](https://github.com/jycouet/kitql/pull/1371) [`ce6c265`](https://github.com/jycouet/kitql/commit/ce6c265623f88868c84d0bc6e413b0afd2a4b17b) Thanks [@jycouet](https://github.com/jycouet)! - Always nullify private env imports (`$app/env/private`, `$env/static/private`, `$env/dynamic/private`). Nullify now keeps aliased, namespace and default imports.
+
+### Patch Changes
+
+- Updated dependencies [[`0eb1bb5`](https://github.com/jycouet/kitql/commit/0eb1bb55a3e323843d7e7ad01b54220f3b562181)]:
+  - @kitql/helpers@0.9.0
+
 ## 0.10.7
 
 ### Patch Changes
