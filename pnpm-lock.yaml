@@ -57,8 +57,8 @@ catalogs:
       specifier: ^4.0.7
       version: 4.0.7
     vary:
-      specifier: ^1.1.2
-      version: 1.1.2
+      specifier: ^2.0.0
+      version: 2.0.0
   linting:
     '@e18e/eslint-plugin':
       specifier: ^0.8.1
@@ -311,7 +311,7 @@ importers:
         version: 1.2.2
       vary:
         specifier: catalog:lib-dep-publish
-        version: 1.1.2
+        version: 2.0.0
     devDependencies:
       '@kitql/eslint-config':
         specifier: workspace:*
@@ -4254,9 +4254,9 @@ packages:
   util-deprecate@1.0.2:
     resolution: {integrity: sha512-EPD5q1uXyFxJpCrLnCc1nHnq3gOa6DZBocAIiI2TaSCA7VCJ1UJDMagCzIkXNsUYfD1daK//LTEQ8xiIbrHtcw==}
 
-  vary@1.1.2:
-    resolution: {integrity: sha512-BNGbWLfd0eUPabhkXUVm0j8uuvREyTh5ovRa/dyow/BqAbZJyC+5fU+IzQOzmAKzYqYRAISoRhdQr3eIZ/PXqg==}
-    engines: {node: '>= 0.8'}
+  vary@2.0.0:
+    resolution: {integrity: sha512-eidnohHJiCJMUqgGtNciKE6qhuH8wVVD9/7hc1dFzowuS5sQdRAK5CYAacGOwCNspnWWDKHyevFj7lp6CJWGvw==}
+    engines: {node: '>=22'}
 
   verkit@0.3.2:
     resolution: {integrity: sha512-zj/ob3UsvJGN0whEAKFp53REA5X66hvffVqoCtVQAakJKnKlH+/PcOfMoFwIG/o4rElqLv/ycAFlx8ZlXUorCg==}
@@ -7871,7 +7871,7 @@ snapshots:
 
   util-deprecate@1.0.2: {}
 
-  vary@1.1.2: {}
+  vary@2.0.0: {}
 
   verkit@0.3.2: {}
 
